@@ -10,9 +10,9 @@ import faradaysElectromagneticLab from '../faradaysElectromagneticLab.js';
 import { ScreenOptions } from '../../../joist/js/Screen.js';
 import FELColors from './FELColors.js';
 
-const SCREEN_OPTIONS: ScreenOptions = {
+const SCREEN_OPTIONS: Partial<ScreenOptions> = {
   backgroundColorProperty: FELColors.screenBackgroundColorProperty,
-  showUnselectedHomeScreenIconFrame: true,
+  showUnselectedHomeScreenIconFrame: true
 };
 
 const FELConstants = {
