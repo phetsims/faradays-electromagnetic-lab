@@ -23,7 +23,7 @@ simLauncher.launch( () => {
 
   const options: SimOptions = {
 
-    //TODO fill in credits, all of these fields are optional, see joist.CreditsNode
+    //TODO https://github.com/phetsims/faradays-electromagnetic-lab/issues/2 fill in credits
     credits: {
       leadDesign: '',
       softwareDevelopment: '',
