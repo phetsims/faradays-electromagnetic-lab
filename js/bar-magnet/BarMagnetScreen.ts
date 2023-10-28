@@ -6,7 +6,7 @@
  * @author Chris Malley (PixelZoom, Inc.)
  */
 
-import Screen from '../../../joist/js/Screen.js';
+import Screen, { ScreenOptions } from '../../../joist/js/Screen.js';
 import FELColors from '../common/FELColors.js';
 import faradaysElectromagneticLab from '../faradaysElectromagneticLab.js';
 import BarMagnetScreenView from './view/BarMagnetScreenView.js';
@@ -15,6 +15,8 @@ import BarMagnetModel from './model/BarMagnetModel.js';
 import { Rectangle } from '../../../scenery/js/imports.js';
 import ScreenIcon from '../../../joist/js/ScreenIcon.js';
 import Tandem from '../../../tandem/js/Tandem.js';
+import { combineOptions } from '../../../phet-core/js/optionize.js';
+import FELConstants from '../common/FELConstants.js';
 
 export default class BarMagnetScreen extends Screen<BarMagnetModel, BarMagnetScreenView> {
 
@@ -22,14 +24,12 @@ export default class BarMagnetScreen extends Screen<BarMagnetModel, BarMagnetScr
     super(
       () => new BarMagnetModel( tandem.createTandem( 'model' ) ),
       model => new BarMagnetScreenView( model, tandem.createTandem( 'view' ) ),
-      {
-        name: FaradaysElectromagneticLabStrings.screen.barMagnetStringProperty,
-        backgroundColorProperty: FELColors.screenBackgroundColorProperty,
-        homeScreenIcon: createHomeScreenIcon(),
-        showUnselectedHomeScreenIconFrame: true,
-        tandem: tandem
-      }
-    );
+      combineOptions<ScreenOptions>( {}, FELConstants.SCREEN_OPTIONS, {
+          name: FaradaysElectromagneticLabStrings.screen.barMagnetStringProperty,
+          homeScreenIcon: createHomeScreenIcon(),
+          tandem: tandem
+        }
+      ) );
   }
 }
 

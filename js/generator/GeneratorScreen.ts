@@ -6,7 +6,7 @@
  * @author Chris Malley (PixelZoom, Inc.)
  */
 
-import Screen from '../../../joist/js/Screen.js';
+import Screen, { ScreenOptions } from '../../../joist/js/Screen.js';
 import faradaysElectromagneticLab from '../faradaysElectromagneticLab.js';
 import GeneratorModel from './model/GeneratorModel.js';
 import GeneratorScreenView from './view/GeneratorScreenView.js';
@@ -15,6 +15,8 @@ import FELColors from '../common/FELColors.js';
 import ScreenIcon from '../../../joist/js/ScreenIcon.js';
 import { Rectangle } from '../../../scenery/js/imports.js';
 import Tandem from '../../../tandem/js/Tandem.js';
+import { combineOptions } from '../../../phet-core/js/optionize.js';
+import FELConstants from '../common/FELConstants.js';
 
 export default class GeneratorScreen extends Screen<GeneratorModel, GeneratorScreenView> {
 
@@ -22,14 +24,12 @@ export default class GeneratorScreen extends Screen<GeneratorModel, GeneratorScr
     super(
       () => new GeneratorModel( tandem.createTandem( 'model' ) ),
       model => new GeneratorScreenView( model, tandem.createTandem( 'view' ) ),
-      {
-        name: FaradaysElectromagneticLabStrings.screen.generatorStringProperty,
-        backgroundColorProperty: FELColors.screenBackgroundColorProperty,
-        homeScreenIcon: createHomeScreenIcon(),
-        showUnselectedHomeScreenIconFrame: true,
-        tandem: tandem
-      }
-    );
+      combineOptions<ScreenOptions>( {}, FELConstants.SCREEN_OPTIONS, {
+          name: FaradaysElectromagneticLabStrings.screen.generatorStringProperty,
+          homeScreenIcon: createHomeScreenIcon(),
+          tandem: tandem
+        }
+      ) );
   }
 }
 

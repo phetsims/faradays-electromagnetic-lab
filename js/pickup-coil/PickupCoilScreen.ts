@@ -6,7 +6,7 @@
  * @author Chris Malley (PixelZoom, Inc.)
  */
 
-import Screen from '../../../joist/js/Screen.js';
+import Screen, { ScreenOptions } from '../../../joist/js/Screen.js';
 import faradaysElectromagneticLab from '../faradaysElectromagneticLab.js';
 import PickupCoilModel from './model/PickupCoilModel.js';
 import PickupCoilScreenView from './view/PickupCoilScreenView.js';
@@ -15,6 +15,8 @@ import FELColors from '../common/FELColors.js';
 import ScreenIcon from '../../../joist/js/ScreenIcon.js';
 import { Rectangle } from '../../../scenery/js/imports.js';
 import Tandem from '../../../tandem/js/Tandem.js';
+import { combineOptions } from '../../../phet-core/js/optionize.js';
+import FELConstants from '../common/FELConstants.js';
 
 export default class PickupCoilScreen extends Screen<PickupCoilModel, PickupCoilScreenView> {
 
@@ -22,14 +24,12 @@ export default class PickupCoilScreen extends Screen<PickupCoilModel, PickupCoil
     super(
       () => new PickupCoilModel( tandem.createTandem( 'model' ) ),
       model => new PickupCoilScreenView( model, tandem.createTandem( 'view' ) ),
-      {
-        name: FaradaysElectromagneticLabStrings.screen.pickupCoilStringProperty,
-        backgroundColorProperty: FELColors.screenBackgroundColorProperty,
-        homeScreenIcon: createHomeScreenIcon(),
-        showUnselectedHomeScreenIconFrame: true,
-        tandem: tandem
-      }
-    );
+      combineOptions<ScreenOptions>( {}, FELConstants.SCREEN_OPTIONS, {
+          name: FaradaysElectromagneticLabStrings.screen.pickupCoilStringProperty,
+          homeScreenIcon: createHomeScreenIcon(),
+          tandem: tandem
+        }
+      ) );
   }
 }
 
