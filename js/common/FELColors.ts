@@ -21,7 +21,8 @@ const FELColors = {
 
   // Background color for screens in this sim
   screenBackgroundColorProperty: new ProfileColorProperty( faradaysElectromagneticLab, 'background', {
-    default: 'white'
+    default: 'black',
+    projector: 'white'
   } )
 };
 
