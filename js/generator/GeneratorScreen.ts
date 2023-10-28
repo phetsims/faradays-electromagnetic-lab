@@ -6,8 +6,7 @@
  * @author Chris Malley (PixelZoom, Inc.)
  */
 
-import Screen, { ScreenOptions } from '../../../joist/js/Screen.js';
-import optionize from '../../../phet-core/js/optionize.js';
+import Screen from '../../../joist/js/Screen.js';
 import faradaysElectromagneticLab from '../faradaysElectromagneticLab.js';
 import GeneratorModel from './model/GeneratorModel.js';
 import GeneratorScreenView from './view/GeneratorScreenView.js';
@@ -15,32 +14,21 @@ import FaradaysElectromagneticLabStrings from '../FaradaysElectromagneticLabStri
 import FELColors from '../common/FELColors.js';
 import ScreenIcon from '../../../joist/js/ScreenIcon.js';
 import { Rectangle } from '../../../scenery/js/imports.js';
-
-type SelfOptions = {
-  //TODO add options that are specific to GeneratorScreen here
-};
-
-type GeneratorScreenOptions = SelfOptions & ScreenOptions;
+import Tandem from '../../../tandem/js/Tandem.js';
 
 export default class GeneratorScreen extends Screen<GeneratorModel, GeneratorScreenView> {
 
-  public constructor( providedOptions: GeneratorScreenOptions ) {
-
-    const options = optionize<GeneratorScreenOptions, SelfOptions, ScreenOptions>()( {
-      name: FaradaysElectromagneticLabStrings.screen.generatorStringProperty,
-
-      //TODO add default values for optional SelfOptions here
-
-      //TODO add default values for optional ScreenOptions here
-      backgroundColorProperty: FELColors.screenBackgroundColorProperty,
-      homeScreenIcon: createHomeScreenIcon(),
-      showUnselectedHomeScreenIconFrame: true
-    }, providedOptions );
-
+  public constructor( tandem: Tandem ) {
     super(
-      () => new GeneratorModel( { tandem: options.tandem.createTandem( 'model' ) } ),
-      model => new GeneratorScreenView( model, { tandem: options.tandem.createTandem( 'view' ) } ),
-      options
+      () => new GeneratorModel( tandem.createTandem( 'model' ) ),
+      model => new GeneratorScreenView( model, tandem.createTandem( 'view' ) ),
+      {
+        name: FaradaysElectromagneticLabStrings.screen.generatorStringProperty,
+        backgroundColorProperty: FELColors.screenBackgroundColorProperty,
+        homeScreenIcon: createHomeScreenIcon(),
+        showUnselectedHomeScreenIconFrame: true,
+        tandem: tandem
+      }
     );
   }
 }

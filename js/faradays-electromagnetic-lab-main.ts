@@ -23,11 +23,11 @@ simLauncher.launch( () => {
   const titleStringProperty = FaradaysElectromagneticLabStrings[ 'faradays-electromagnetic-lab' ].titleStringProperty;
 
   const screens = [
-    new BarMagnetScreen( { tandem: Tandem.ROOT.createTandem( 'barMagnetScreen' ) } ),
-    new PickupCoilScreen( { tandem: Tandem.ROOT.createTandem( 'pickupCoilScreen' ) } ),
-    new ElectromagnetScreen( { tandem: Tandem.ROOT.createTandem( 'electromagnetScreen' ) } ),
-    new TransformerScreen( { tandem: Tandem.ROOT.createTandem( 'transformerScreen' ) } ),
-    new GeneratorScreen( { tandem: Tandem.ROOT.createTandem( 'generatorScreen' ) } )
+    new BarMagnetScreen( Tandem.ROOT.createTandem( 'barMagnetScreen' ) ),
+    new PickupCoilScreen( Tandem.ROOT.createTandem( 'pickupCoilScreen' ) ),
+    new ElectromagnetScreen( Tandem.ROOT.createTandem( 'electromagnetScreen' ) ),
+    new TransformerScreen( Tandem.ROOT.createTandem( 'transformerScreen' ) ),
+    new GeneratorScreen( Tandem.ROOT.createTandem( 'generatorScreen' ) )
   ];
 
   const options: SimOptions = {

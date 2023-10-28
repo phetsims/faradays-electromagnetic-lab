@@ -6,8 +6,7 @@
  * @author Chris Malley (PixelZoom, Inc.)
  */
 
-import Screen, { ScreenOptions } from '../../../joist/js/Screen.js';
-import optionize from '../../../phet-core/js/optionize.js';
+import Screen from '../../../joist/js/Screen.js';
 import faradaysElectromagneticLab from '../faradaysElectromagneticLab.js';
 import ElectromagnetModel from './model/ElectromagnetModel.js';
 import ElectromagnetScreenView from './view/ElectromagnetScreenView.js';
@@ -15,32 +14,21 @@ import FaradaysElectromagneticLabStrings from '../FaradaysElectromagneticLabStri
 import FELColors from '../common/FELColors.js';
 import ScreenIcon from '../../../joist/js/ScreenIcon.js';
 import { Rectangle } from '../../../scenery/js/imports.js';
-
-type SelfOptions = {
-  //TODO add options that are specific to ElectromagnetScreen here
-};
-
-type ElectromagnetScreenOptions = SelfOptions & ScreenOptions;
+import Tandem from '../../../tandem/js/Tandem.js';
 
 export default class ElectromagnetScreen extends Screen<ElectromagnetModel, ElectromagnetScreenView> {
 
-  public constructor( providedOptions: ElectromagnetScreenOptions ) {
-
-    const options = optionize<ElectromagnetScreenOptions, SelfOptions, ScreenOptions>()( {
-      name: FaradaysElectromagneticLabStrings.screen.electromagnetStringProperty,
-
-      //TODO add default values for optional SelfOptions here
-
-      //TODO add default values for optional ScreenOptions here
-      backgroundColorProperty: FELColors.screenBackgroundColorProperty,
-      homeScreenIcon: createHomeScreenIcon(),
-      showUnselectedHomeScreenIconFrame: true
-    }, providedOptions );
-
+  public constructor( tandem: Tandem ) {
     super(
-      () => new ElectromagnetModel( { tandem: options.tandem.createTandem( 'model' ) } ),
-      model => new ElectromagnetScreenView( model, { tandem: options.tandem.createTandem( 'view' ) } ),
-      options
+      () => new ElectromagnetModel( tandem.createTandem( 'model' ) ),
+      model => new ElectromagnetScreenView( model, tandem.createTandem( 'view' ) ),
+      {
+        name: FaradaysElectromagneticLabStrings.screen.electromagnetStringProperty,
+        backgroundColorProperty: FELColors.screenBackgroundColorProperty,
+        homeScreenIcon: createHomeScreenIcon(),
+        showUnselectedHomeScreenIconFrame: true,
+        tandem: tandem
+      }
     );
   }
 }

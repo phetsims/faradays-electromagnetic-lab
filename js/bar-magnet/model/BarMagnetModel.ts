@@ -7,19 +7,12 @@
  */
 
 import faradaysElectromagneticLab from '../../faradaysElectromagneticLab.js';
-import { PhetioObjectOptions } from '../../../../tandem/js/PhetioObject.js';
-import PickRequired from '../../../../phet-core/js/types/PickRequired.js';
 import TModel from '../../../../joist/js/TModel.js';
-
-type SelfOptions = {
-  //TODO add options that are specific to BarMagnetModel here
-};
-
-type BarMagnetModelOptions = SelfOptions & PickRequired<PhetioObjectOptions, 'tandem'>;
+import Tandem from '../../../../tandem/js/Tandem.js';
 
 export default class BarMagnetModel implements TModel {
 
-  public constructor( providedOptions: BarMagnetModelOptions ) {
+  public constructor( tandem: Tandem ) {
     //TODO
   }
 

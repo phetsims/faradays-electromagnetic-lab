@@ -6,50 +6,35 @@
  * @author Chris Malley (PixelZoom, Inc.)
  */
 
-import ScreenView, { ScreenViewOptions } from '../../../../joist/js/ScreenView.js';
+import ScreenView from '../../../../joist/js/ScreenView.js';
 import ResetAllButton from '../../../../scenery-phet/js/buttons/ResetAllButton.js';
 import FELConstants from '../../common/FELConstants.js';
 import faradaysElectromagneticLab from '../../faradaysElectromagneticLab.js';
 import ElectromagnetModel from '../model/ElectromagnetModel.js';
-import optionize from '../../../../phet-core/js/optionize.js';
-
-type SelfOptions = {
- //TODO add options that are specific to ElectromagnetScreenView here
-};
-
-type ElectromagnetScreenViewOptions = SelfOptions & ScreenViewOptions;
+import Tandem from '../../../../tandem/js/Tandem.js';
 
 export default class ElectromagnetScreenView extends ScreenView {
 
-  public constructor( model: ElectromagnetModel, providedOptions: ElectromagnetScreenViewOptions ) {
+  public constructor( model: ElectromagnetModel, tandem: Tandem ) {
 
-    const options = optionize<ElectromagnetScreenViewOptions, SelfOptions, ScreenViewOptions>()( {
-
-      //TODO add default values for optional SelfOptions here
-
-      //TODO add default values for optional ScreenViewOptions here
-    }, providedOptions );
-
-    super( options );
+    super( {
+      tandem: tandem
+    } );
 
     const resetAllButton = new ResetAllButton( {
       listener: () => {
-        this.interruptSubtreeInput(); // cancel interactions that may be in progress
         model.reset();
         this.reset();
       },
       right: this.layoutBounds.maxX - FELConstants.SCREEN_VIEW_X_MARGIN,
       bottom: this.layoutBounds.maxY - FELConstants.SCREEN_VIEW_Y_MARGIN,
-      tandem: options.tandem.createTandem( 'resetAllButton' )
+      tandem: tandem.createTandem( 'resetAllButton' )
     } );
     this.addChild( resetAllButton );
   }
 
-  /**
-   * Resets the view.
-   */
   public reset(): void {
-    //TODO
+    this.interruptSubtreeInput(); // cancel interactions that may be in progress
   }
 
   /**
