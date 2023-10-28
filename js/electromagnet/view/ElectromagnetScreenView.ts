@@ -26,11 +26,14 @@ export default class ElectromagnetScreenView extends ScreenView {
         model.reset();
         this.reset();
       },
-      right: this.layoutBounds.maxX - FELConstants.SCREEN_VIEW_X_MARGIN,
-      bottom: this.layoutBounds.maxY - FELConstants.SCREEN_VIEW_Y_MARGIN,
       tandem: tandem.createTandem( 'resetAllButton' )
     } );
     this.addChild( resetAllButton );
+
+    this.visibleBoundsProperty.link( visibleBounds => {
+      resetAllButton.right = visibleBounds.maxX - FELConstants.SCREEN_VIEW_X_MARGIN;
+      resetAllButton.bottom = visibleBounds.maxY - FELConstants.SCREEN_VIEW_Y_MARGIN;
+    } );
   }
 
   public reset(): void {
