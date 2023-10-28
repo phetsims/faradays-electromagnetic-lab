@@ -8,7 +8,7 @@
 
 import faradaysElectromagneticLab from '../faradaysElectromagneticLab.js';
 
-const FaradaysElectromagneticLabConstants = {
+const FELConstants = {
 
   SCREEN_VIEW_X_MARGIN: 15,
   SCREEN_VIEW_Y_MARGIN: 15
@@ -16,5 +16,5 @@ const FaradaysElectromagneticLabConstants = {
   //TODO
 };
 
-faradaysElectromagneticLab.register( 'FaradaysElectromagneticLabConstants', FaradaysElectromagneticLabConstants );
-export default FaradaysElectromagneticLabConstants;
+faradaysElectromagneticLab.register( 'FELConstants', FELConstants );
+export default FELConstants;

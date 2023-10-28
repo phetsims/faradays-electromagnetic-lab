@@ -12,14 +12,14 @@ import PickRequired from '../../../../phet-core/js/types/PickRequired.js';
 import TModel from '../../../../joist/js/TModel.js';
 
 type SelfOptions = {
-  //TODO add options that are specific to FaradaysElectromagneticLabModel here
+  //TODO add options that are specific to FELModel here
 };
 
-type FaradaysElectromagneticLabModelOptions = SelfOptions & PickRequired<PhetioObjectOptions, 'tandem'>;
+type FELModelOptions = SelfOptions & PickRequired<PhetioObjectOptions, 'tandem'>;
 
-export default class FaradaysElectromagneticLabModel implements TModel {
+export default class FELModel implements TModel {
 
-  public constructor( providedOptions: FaradaysElectromagneticLabModelOptions ) {
+  public constructor( providedOptions: FELModelOptions ) {
     //TODO
   }
 
@@ -39,4 +39,4 @@ export default class FaradaysElectromagneticLabModel implements TModel {
   }
 }
 
-faradaysElectromagneticLab.register( 'FaradaysElectromagneticLabModel', FaradaysElectromagneticLabModel );
+faradaysElectromagneticLab.register( 'FELModel', FELModel );

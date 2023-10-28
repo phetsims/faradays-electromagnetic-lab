@@ -8,22 +8,22 @@
 
 import ScreenView, { ScreenViewOptions } from '../../../../joist/js/ScreenView.js';
 import ResetAllButton from '../../../../scenery-phet/js/buttons/ResetAllButton.js';
-import FaradaysElectromagneticLabConstants from '../../common/FaradaysElectromagneticLabConstants.js';
+import FELConstants from '../../common/FELConstants.js';
 import faradaysElectromagneticLab from '../../faradaysElectromagneticLab.js';
-import FaradaysElectromagneticLabModel from '../model/FaradaysElectromagneticLabModel.js';
+import FELModel from '../model/FELModel.js';
 import optionize from '../../../../phet-core/js/optionize.js';
 
 type SelfOptions = {
- //TODO add options that are specific to FaradaysElectromagneticLabScreenView here
+ //TODO add options that are specific to FELScreenView here
 };
 
-type FaradaysElectromagneticLabScreenViewOptions = SelfOptions & ScreenViewOptions;
+type FELScreenViewOptions = SelfOptions & ScreenViewOptions;
 
-export default class FaradaysElectromagneticLabScreenView extends ScreenView {
+export default class FELScreenView extends ScreenView {
 
-  public constructor( model: FaradaysElectromagneticLabModel, providedOptions: FaradaysElectromagneticLabScreenViewOptions ) {
+  public constructor( model: FELModel, providedOptions: FELScreenViewOptions ) {
 
-    const options = optionize<FaradaysElectromagneticLabScreenViewOptions, SelfOptions, ScreenViewOptions>()( {
+    const options = optionize<FELScreenViewOptions, SelfOptions, ScreenViewOptions>()( {
 
       //TODO add default values for optional SelfOptions here
 
@@ -38,8 +38,8 @@ export default class FaradaysElectromagneticLabScreenView extends ScreenView {
         model.reset();
         this.reset();
       },
-      right: this.layoutBounds.maxX - FaradaysElectromagneticLabConstants.SCREEN_VIEW_X_MARGIN,
-      bottom: this.layoutBounds.maxY - FaradaysElectromagneticLabConstants.SCREEN_VIEW_Y_MARGIN,
+      right: this.layoutBounds.maxX - FELConstants.SCREEN_VIEW_X_MARGIN,
+      bottom: this.layoutBounds.maxY - FELConstants.SCREEN_VIEW_Y_MARGIN,
       tandem: options.tandem.createTandem( 'resetAllButton' )
     } );
     this.addChild( resetAllButton );
@@ -61,4 +61,4 @@ export default class FaradaysElectromagneticLabScreenView extends ScreenView {
   }
 }
 
-faradaysElectromagneticLab.register( 'FaradaysElectromagneticLabScreenView', FaradaysElectromagneticLabScreenView );
+faradaysElectromagneticLab.register( 'FELScreenView', FELScreenView );

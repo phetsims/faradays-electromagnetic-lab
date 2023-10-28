@@ -14,16 +14,16 @@ const SCHEMA_MAP = {
   //TODO add schemas for query parameters
 };
 
-const FaradaysElectromagneticLabQueryParameters = QueryStringMachine.getAll( SCHEMA_MAP );
+const FELQueryParameters = QueryStringMachine.getAll( SCHEMA_MAP );
 
 // The schema map is a read-only part of the public API, in case schema details (e.g. validValues) are needed elsewhere.
-FaradaysElectromagneticLabQueryParameters.SCHEMA_MAP = SCHEMA_MAP;
+FELQueryParameters.SCHEMA_MAP = SCHEMA_MAP;
 
-faradaysElectromagneticLab.register( 'FaradaysElectromagneticLabQueryParameters', FaradaysElectromagneticLabQueryParameters );
+faradaysElectromagneticLab.register( 'FELQueryParameters', FELQueryParameters );
 
 // Log query parameters
 logGlobal( 'phet.chipper.queryParameters' );
 logGlobal( 'phet.preloads.phetio.queryParameters' );
-logGlobal( 'phet.faradaysElectromagneticLab.FaradaysElectromagneticLabQueryParameters' );
+logGlobal( 'phet.faradaysElectromagneticLab.FELQueryParameters' );
 
-export default FaradaysElectromagneticLabQueryParameters;
+export default FELQueryParameters;

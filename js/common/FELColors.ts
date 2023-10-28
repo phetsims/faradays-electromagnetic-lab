@@ -17,7 +17,7 @@
 import { ProfileColorProperty } from '../../../scenery/js/imports.js';
 import faradaysElectromagneticLab from '../faradaysElectromagneticLab.js';
 
-const FaradaysElectromagneticLabColors = {
+const FELColors = {
 
   // Background color for screens in this sim
   screenBackgroundColorProperty: new ProfileColorProperty( faradaysElectromagneticLab, 'background', {
@@ -25,5 +25,5 @@ const FaradaysElectromagneticLabColors = {
   } )
 };
 
-faradaysElectromagneticLab.register( 'FaradaysElectromagneticLabColors', FaradaysElectromagneticLabColors );
-export default FaradaysElectromagneticLabColors;
+faradaysElectromagneticLab.register( 'FELColors', FELColors );
+export default FELColors;

@@ -9,16 +9,16 @@
 import Sim, { SimOptions } from '../../joist/js/Sim.js';
 import simLauncher from '../../joist/js/simLauncher.js';
 import Tandem from '../../tandem/js/Tandem.js';
-import FaradaysElectromagneticLabScreen from './faradays-electromagnetic-lab/FaradaysElectromagneticLabScreen.js';
+import FELScreen from './faradays-electromagnetic-lab/FELScreen.js';
 import FaradaysElectromagneticLabStrings from './FaradaysElectromagneticLabStrings.js';
-import './common/FaradaysElectromagneticLabQueryParameters.js';
+import './common/FELQueryParameters.js';
 
 simLauncher.launch( () => {
 
   const titleStringProperty = FaradaysElectromagneticLabStrings[ 'faradays-electromagnetic-lab' ].titleStringProperty;
 
   const screens = [
-    new FaradaysElectromagneticLabScreen( { tandem: Tandem.ROOT.createTandem( 'faradaysElectromagneticLabScreen' ) } )
+    new FELScreen( { tandem: Tandem.ROOT.createTandem( 'faradaysElectromagneticLabScreen' ) } )
   ];
 
   const options: SimOptions = {
