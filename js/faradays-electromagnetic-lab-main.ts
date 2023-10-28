@@ -16,6 +16,7 @@ import BarMagnetScreen from './bar-magnet/BarMagnetScreen.js';
 import ElectromagnetScreen from './electromagnet/ElectromagnetScreen.js';
 import TransformerScreen from './transformer/TransformerScreen.js';
 import GeneratorScreen from './generator/GeneratorScreen.js';
+import PreferencesModel from '../../joist/js/preferences/PreferencesModel.js';
 
 simLauncher.launch( () => {
 
@@ -41,7 +42,12 @@ simLauncher.launch( () => {
       graphicArts: '',
       soundDesign: '',
       thanks: ''
-    }
+    },
+    preferencesModel: new PreferencesModel( {
+      visualOptions: {
+        supportsProjectorMode: true
+      }
+    } )
   };
 
   const sim = new Sim( titleStringProperty, screens, options );
