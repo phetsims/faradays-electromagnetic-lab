@@ -1,7 +1,7 @@
 // Copyright 2023, University of Colorado Boulder
 
 /**
- * TODO Describe this class and its responsibilities.
+ * BarMagnetScreen is the 'Bar Magnet' screen.
  *
  * @author Chris Malley (PixelZoom, Inc.)
  */

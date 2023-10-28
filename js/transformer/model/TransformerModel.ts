@@ -1,7 +1,7 @@
 // Copyright 2023, University of Colorado Boulder
 
 /**
- * TODO Describe this class and its responsibilities.
+ * TransformerModel is the top-level model for the 'Transformer' screen.
  *
  * @author Chris Malley (PixelZoom, Inc.)
  */

@@ -1,7 +1,7 @@
 // Copyright 2023, University of Colorado Boulder
 
 /**
- * TODO Describe this class and its responsibilities.
+ * PickupCoilScreen is the 'Pickup Coil' screen.
  *
  * @author Chris Malley (PixelZoom, Inc.)
  */

@@ -1,7 +1,7 @@
 // Copyright 2023, University of Colorado Boulder
 
 /**
- * TODO Describe this class and its responsibilities.
+ * GeneratorModel is the top-level model for the 'Generator' screen.
  *
  * @author Chris Malley (PixelZoom, Inc.)
  */
