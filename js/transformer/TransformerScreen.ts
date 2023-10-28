@@ -30,7 +30,8 @@ export default class TransformerScreen extends Screen<TransformerModel, Transfor
       //TODO add default values for optional SelfOptions here
 
       //TODO add default values for optional ScreenOptions here
-      backgroundColorProperty: FELColors.screenBackgroundColorProperty
+      backgroundColorProperty: FELColors.screenBackgroundColorProperty,
+      showUnselectedHomeScreenIconFrame: true
     }, providedOptions );
 
     super(

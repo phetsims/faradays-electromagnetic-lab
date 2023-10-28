@@ -30,7 +30,8 @@ export default class PickupCoilScreen extends Screen<PickupCoilModel, PickupCoil
       //TODO add default values for optional SelfOptions here
 
       //TODO add default values for optional ScreenOptions here
-      backgroundColorProperty: FELColors.screenBackgroundColorProperty
+      backgroundColorProperty: FELColors.screenBackgroundColorProperty,
+      showUnselectedHomeScreenIconFrame: true
     }, providedOptions );
 
     super(
