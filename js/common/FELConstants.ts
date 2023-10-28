@@ -1,7 +1,7 @@
 // Copyright 2023, University of Colorado Boulder
 
 /**
- * Constants used throughout this simulation.
+ * FELConstants defines constants that are used throughout this simulation.
  *
  * @author Chris Malley (PixelZoom, Inc.)
  */

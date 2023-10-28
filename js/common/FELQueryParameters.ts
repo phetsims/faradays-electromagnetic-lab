@@ -1,7 +1,7 @@
 // Copyright 2023, University of Colorado Boulder
 
 /**
- * Defines query parameters that are specific to this simulation.
+ * FELQueryParameters defines the query parameters that are specific to this simulation.
  * Run with ?log to print query parameters and their values to the browser console at startup.
  *
  * @author Chris Malley (PixelZoom, Inc.)
