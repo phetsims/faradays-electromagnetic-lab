@@ -11,8 +11,31 @@ import logGlobal from '../../../phet-core/js/logGlobal.js';
 import faradaysElectromagneticLab from '../faradaysElectromagneticLab.js';
 
 const SCHEMA_MAP = {
-  //TODO add schemas for query parameters
-};
+
+  //----------------------------------------------------------------------------------------------------------------
+  // Public-facing query parameters
+  //----------------------------------------------------------------------------------------------------------------
+
+  //TODO
+
+  //----------------------------------------------------------------------------------------------------------------
+  // Internal query parameters
+  //----------------------------------------------------------------------------------------------------------------
+
+  // Spacing between needles in the magnetic field visualization
+  needleSpacing: {
+    type: 'number',
+    defaultValue: 40,
+    isValidValue: ( value: number ) => ( value > 0 )
+  },
+
+  // Length (tip to tip) of needles in the magnetic field visualization
+  needleLength: {
+    type: 'number',
+    defaultValue: 25,
+    isValidValue: ( value: number ) => ( value >= 20 && value <= 60 )
+  }
+} as const;
 
 const FELQueryParameters = QueryStringMachine.getAll( SCHEMA_MAP );
 
