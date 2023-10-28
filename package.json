@@ -1,0 +1,47 @@
+{
+  "name": "faradays-electromagnetic-lab",
+  "version": "1.0.0-dev.0",
+  "license": "GPL-3.0",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/phetsims/faradays-electromagnetic-lab.git"
+  },
+  "devDependencies": {
+    "grunt": "~1.5.3"
+  },
+  "phet": {
+    "requirejsNamespace": "FARADAYS_ELECTROMAGNETIC_LAB",
+    "simulation": true,
+    "runnable": true,
+    "supportedBrands": [
+      "phet",
+      "adapted-from-phet"
+    ],
+    "supportsOutputJS": true,
+    "simFeatures": {
+      "supportsDynamicLocale": true
+    }
+  },
+  "eslintConfig": {
+    "extends": "../chipper/eslint/sim_eslintrc.js",
+    "overrides": [
+      {
+        "files": [
+          "**/*.ts"
+        ],
+        "rules": {
+          "@typescript-eslint/no-explicit-any": "error",
+          "@typescript-eslint/ban-ts-comment": [
+            "error",
+            {
+              "ts-expect-error": true,
+              "ts-ignore": true,
+              "ts-check": true,
+              "ts-nocheck": true
+            }
+          ]
+        }
+      }
+    ]
+  }
+}
