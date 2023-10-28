@@ -24,6 +24,9 @@
   },
   "eslintConfig": {
     "extends": "../chipper/eslint/sim_eslintrc.js",
+    "rules": {
+      "todo-should-have-issue": "off"
+    },
     "overrides": [
       {
         "files": [
@@ -37,8 +40,7 @@
               "ts-expect-error": true,
               "ts-ignore": true,
               "ts-check": true,
-              "ts-nocheck": true,
-              "todo-should-have-issue": "off"
+              "ts-nocheck": true
             }
           ]
         }
