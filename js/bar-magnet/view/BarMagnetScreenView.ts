@@ -10,8 +10,8 @@ import ScreenView, { ScreenViewOptions } from '../../../../joist/js/ScreenView.j
 import ResetAllButton from '../../../../scenery-phet/js/buttons/ResetAllButton.js';
 import FELConstants from '../../common/FELConstants.js';
 import faradaysElectromagneticLab from '../../faradaysElectromagneticLab.js';
-import FELModel from '../model/PickupCoilModel.js';
 import optionize from '../../../../phet-core/js/optionize.js';
+import BarMagnetModel from '../model/BarMagnetModel.js';
 
 type SelfOptions = {
  //TODO add options that are specific to BarMagnetScreenView here
@@ -21,7 +21,7 @@ type BarMagnetScreenViewOptions = SelfOptions & ScreenViewOptions;
 
 export default class BarMagnetScreenView extends ScreenView {
 
-  public constructor( model: FELModel, providedOptions: BarMagnetScreenViewOptions ) {
+  public constructor( model: BarMagnetModel, providedOptions: BarMagnetScreenViewOptions ) {
 
     const options = optionize<BarMagnetScreenViewOptions, SelfOptions, ScreenViewOptions>()( {
 
