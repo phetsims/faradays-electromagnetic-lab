@@ -37,7 +37,8 @@
               "ts-expect-error": true,
               "ts-ignore": true,
               "ts-check": true,
-              "ts-nocheck": true
+              "ts-nocheck": true,
+              "todo-should-have-issue": "off"
             }
           ]
         }
