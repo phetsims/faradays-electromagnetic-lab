@@ -9,6 +9,19 @@
 import faradaysElectromagneticLab from '../faradaysElectromagneticLab.js';
 import { ScreenOptions } from '../../../joist/js/Screen.js';
 import FELColors from './FELColors.js';
+import { CreditsData } from '../../../joist/js/CreditsNode.js';
+
+//TODO https://github.com/phetsims/faradays-electromagnetic-lab/issues/2 fill in credits
+const CREDITS: CreditsData = {
+  leadDesign: '',
+    softwareDevelopment: '',
+    team: '',
+    contributors: '',
+    qualityAssurance: '',
+    graphicArts: '',
+    soundDesign: '',
+    thanks: ''
+};
 
 const SCREEN_OPTIONS: Partial<ScreenOptions> = {
   backgroundColorProperty: FELColors.screenBackgroundColorProperty,
@@ -16,6 +29,9 @@ const SCREEN_OPTIONS: Partial<ScreenOptions> = {
 };
 
 const FELConstants = {
+
+  // Sim
+  CREDITS: CREDITS,
 
   // Screen
   SCREEN_OPTIONS: SCREEN_OPTIONS,

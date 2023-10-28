@@ -17,6 +17,7 @@ import ElectromagnetScreen from './electromagnet/ElectromagnetScreen.js';
 import TransformerScreen from './transformer/TransformerScreen.js';
 import GeneratorScreen from './generator/GeneratorScreen.js';
 import PreferencesModel from '../../joist/js/preferences/PreferencesModel.js';
+import FELConstants from './common/FELConstants.js';
 
 simLauncher.launch( () => {
 
@@ -31,18 +32,7 @@ simLauncher.launch( () => {
   ];
 
   const options: SimOptions = {
-
-    //TODO https://github.com/phetsims/faradays-electromagnetic-lab/issues/2 fill in credits
-    credits: {
-      leadDesign: '',
-      softwareDevelopment: '',
-      team: '',
-      contributors: '',
-      qualityAssurance: '',
-      graphicArts: '',
-      soundDesign: '',
-      thanks: ''
-    },
+    credits: FELConstants.CREDITS,
     preferencesModel: new PreferencesModel( {
       visualOptions: {
         supportsProjectorMode: true
