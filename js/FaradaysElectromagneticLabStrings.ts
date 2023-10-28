@@ -13,7 +13,11 @@ type StringsType = {
     'titleStringProperty': LocalizedStringProperty;
   };
   'screen': {
-    'nameStringProperty': LocalizedStringProperty;
+    'barMagnetStringProperty': LocalizedStringProperty;
+    'pickupCoilStringProperty': LocalizedStringProperty;
+    'electromagnetStringProperty': LocalizedStringProperty;
+    'transformerStringProperty': LocalizedStringProperty;
+    'generatorStringProperty': LocalizedStringProperty;
   }
 };
 

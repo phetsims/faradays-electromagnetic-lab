@@ -10,20 +10,20 @@ import ScreenView, { ScreenViewOptions } from '../../../../joist/js/ScreenView.j
 import ResetAllButton from '../../../../scenery-phet/js/buttons/ResetAllButton.js';
 import FELConstants from '../../common/FELConstants.js';
 import faradaysElectromagneticLab from '../../faradaysElectromagneticLab.js';
-import FELModel from '../model/FELModel.js';
+import TransformerModel from '../model/TransformerModel.js';
 import optionize from '../../../../phet-core/js/optionize.js';
 
 type SelfOptions = {
- //TODO add options that are specific to FELScreenView here
+ //TODO add options that are specific to TransformerScreenView here
 };
 
-type FELScreenViewOptions = SelfOptions & ScreenViewOptions;
+type TransformerScreenViewOptions = SelfOptions & ScreenViewOptions;
 
-export default class FELScreenView extends ScreenView {
+export default class TransformerScreenView extends ScreenView {
 
-  public constructor( model: FELModel, providedOptions: FELScreenViewOptions ) {
+  public constructor( model: TransformerModel, providedOptions: TransformerScreenViewOptions ) {
 
-    const options = optionize<FELScreenViewOptions, SelfOptions, ScreenViewOptions>()( {
+    const options = optionize<TransformerScreenViewOptions, SelfOptions, ScreenViewOptions>()( {
 
       //TODO add default values for optional SelfOptions here
 
@@ -61,4 +61,4 @@ export default class FELScreenView extends ScreenView {
   }
 }
 
-faradaysElectromagneticLab.register( 'FELScreenView', FELScreenView );
+faradaysElectromagneticLab.register( 'TransformerScreenView', TransformerScreenView );

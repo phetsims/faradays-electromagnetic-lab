@@ -1,7 +1,7 @@
-Faradays Electromagnetic Lab
+Faraday's Electromagnetic Lab
 ================
 
-"Faradays Electromagnetic Lab" is an educational simulation in HTML5, by <a href="https://phet.colorado.edu/" target="_blank">PhET
+"Faraday's Electromagnetic Lab" is an educational simulation in HTML5, by <a href="https://phet.colorado.edu/" target="_blank">PhET
 Interactive Simulations</a>
 at the University of Colorado Boulder.
 

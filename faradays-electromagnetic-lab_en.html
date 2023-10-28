@@ -16,7 +16,7 @@
 
 
 <script type="text/javascript">
-  /*eslint-disable quotes, quote-props*/
+  /* eslint-disable quotes, quote-props */
 
   window.phet = window.phet || {};
   window.phet.chipper = window.phet.chipper || {};
@@ -36,7 +36,6 @@
         "requirejsNamespace": "FARADAYS_ELECTROMAGNETIC_LAB",
         "simulation": true,
         "runnable": true,
-        "readmeCreatedManually": true,
         "supportedBrands": [
           "phet",
           "adapted-from-phet"
@@ -44,10 +43,20 @@
         "supportsOutputJS": true,
         "simFeatures": {
           "supportsDynamicLocale": true
-        }
+        },
+        "screenNameKeys": [
+          "FARADAYS_ELECTROMAGNETIC_LAB/screen.barMagnet",
+          "FARADAYS_ELECTROMAGNETIC_LAB/screen.pickupCoil",
+          "FARADAYS_ELECTROMAGNETIC_LAB/screen.electromagnet",
+          "FARADAYS_ELECTROMAGNETIC_LAB/screen.transformer",
+          "FARADAYS_ELECTROMAGNETIC_LAB/screen.generator"
+        ]
       },
       "eslintConfig": {
         "extends": "../chipper/eslint/sim_eslintrc.js",
+        "rules": {
+          "todo-should-have-issue": "off"
+        },
         "overrides": [
           {
             "files": [
@@ -72,16 +81,16 @@
   window.phet.chipper.stringRepos =
     [
       {
+        "repo": "faradays-electromagnetic-lab",
+        "requirejsNamespace": "FARADAYS_ELECTROMAGNETIC_LAB"
+      },
+      {
         "repo": "joist",
         "requirejsNamespace": "JOIST"
       },
       {
         "repo": "scenery-phet",
         "requirejsNamespace": "SCENERY_PHET"
-      },
-      {
-        "repo": "faradays-electromagnetic-lab",
-        "requirejsNamespace": "FARADAYS_ELECTROMAGNETIC_LAB"
       },
       {
         "repo": "sun",
