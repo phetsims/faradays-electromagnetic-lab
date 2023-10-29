@@ -17,11 +17,13 @@ export default class GeneratorKeyboardHelpContent extends TwoColumnKeyboardHelpC
 
     // Sections in the left column.
     const leftSections: KeyboardHelpSection[] = [
-      //TODO
+      //TODO add help sections that are relevant to this screen
     ];
 
     // Sections in the right column.
     const rightSections = [
+
+      //TODO add help sections that are relevant to this screen
 
       // Basic Actions
       new BasicActionsKeyboardHelpSection( {
