@@ -17,6 +17,7 @@ import ScreenIcon from '../../../joist/js/ScreenIcon.js';
 import Tandem from '../../../tandem/js/Tandem.js';
 import { combineOptions } from '../../../phet-core/js/optionize.js';
 import FELConstants from '../common/FELConstants.js';
+import BarMagnetKeyboardHelpContent from './view/BarMagnetKeyboardHelpContent.js';
 
 export default class BarMagnetScreen extends Screen<BarMagnetModel, BarMagnetScreenView> {
 
@@ -27,6 +28,7 @@ export default class BarMagnetScreen extends Screen<BarMagnetModel, BarMagnetScr
       combineOptions<ScreenOptions>( {}, FELConstants.SCREEN_OPTIONS, {
           name: FaradaysElectromagneticLabStrings.screen.barMagnetStringProperty,
           homeScreenIcon: createHomeScreenIcon(),
+          createKeyboardHelpNode: () => new BarMagnetKeyboardHelpContent(),
           tandem: tandem
         }
       ) );

@@ -17,6 +17,7 @@ import { Rectangle } from '../../../scenery/js/imports.js';
 import Tandem from '../../../tandem/js/Tandem.js';
 import { combineOptions } from '../../../phet-core/js/optionize.js';
 import FELConstants from '../common/FELConstants.js';
+import PickupCoilKeyboardHelpContent from './view/PickupCoilKeyboardHelpContent.js';
 
 export default class PickupCoilScreen extends Screen<PickupCoilModel, PickupCoilScreenView> {
 
@@ -27,6 +28,7 @@ export default class PickupCoilScreen extends Screen<PickupCoilModel, PickupCoil
       combineOptions<ScreenOptions>( {}, FELConstants.SCREEN_OPTIONS, {
           name: FaradaysElectromagneticLabStrings.screen.pickupCoilStringProperty,
           homeScreenIcon: createHomeScreenIcon(),
+          createKeyboardHelpNode: () => new PickupCoilKeyboardHelpContent(),
           tandem: tandem
         }
       ) );

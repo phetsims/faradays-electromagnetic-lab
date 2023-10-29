@@ -17,6 +17,7 @@ import { Rectangle } from '../../../scenery/js/imports.js';
 import Tandem from '../../../tandem/js/Tandem.js';
 import { combineOptions } from '../../../phet-core/js/optionize.js';
 import FELConstants from '../common/FELConstants.js';
+import TransformerKeyboardHelpContent from './view/TransformerKeyboardHelpContent.js';
 
 export default class TransformerScreen extends Screen<TransformerModel, TransformerScreenView> {
 
@@ -27,6 +28,7 @@ export default class TransformerScreen extends Screen<TransformerModel, Transfor
       combineOptions<ScreenOptions>( {}, FELConstants.SCREEN_OPTIONS, {
           name: FaradaysElectromagneticLabStrings.screen.transformerStringProperty,
           homeScreenIcon: createHomeScreenIcon(),
+          createKeyboardHelpNode: () => new TransformerKeyboardHelpContent(),
           tandem: tandem
         }
       ) );
