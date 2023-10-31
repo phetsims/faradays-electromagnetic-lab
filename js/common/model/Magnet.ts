@@ -12,7 +12,6 @@ import Vector2 from '../../../../dot/js/Vector2.js';
 import Property from '../../../../axon/js/Property.js';
 import Vector2Property from '../../../../dot/js/Vector2Property.js';
 import NumberProperty from '../../../../axon/js/NumberProperty.js';
-import BooleanProperty from '../../../../axon/js/BooleanProperty.js';
 import RangeWithValue from '../../../../dot/js/RangeWithValue.js';
 import PickRequired from '../../../../phet-core/js/types/PickRequired.js';
 import optionize from '../../../../phet-core/js/optionize.js';
@@ -28,7 +27,6 @@ export default abstract class Magnet extends PhetioObject {
   public readonly positionProperty: Property<Vector2>; // unitless
   public readonly rotationProperty: Property<number>; // radians
   public readonly strengthProperty: NumberProperty; // gauss
-  public readonly enabledProperty: Property<boolean>; //TODO why do we have this?
 
   // reusable vector for transforming a position to the magnet's local coordinate frame
   private readonly scratchPosition: Vector2;
@@ -57,10 +55,6 @@ export default abstract class Magnet extends PhetioObject {
       tandem: options.tandem.createTandem( 'strengthProperty' )
     } );
 
-    this.enabledProperty = new BooleanProperty( true, {
-      tandem: options.tandem.createTandem( 'enabledProperty' )
-    } );
-
     this.scratchPosition = new Vector2( 0, 0 );
   }
 
@@ -68,7 +62,6 @@ export default abstract class Magnet extends PhetioObject {
     this.positionProperty.reset();
     this.rotationProperty.reset();
     this.strengthProperty.reset();
-    this.enabledProperty.reset();
   }
 
   /**
