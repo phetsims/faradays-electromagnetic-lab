@@ -20,7 +20,7 @@ export default abstract class Compass extends PhetioObject {
 
   public readonly positionProperty: Property<Vector2>; // unitless
   public readonly rotationProperty: Property<number>; // radians
-  public readonly enabledProperty: Property<boolean>; //TODO change to visibleProperty, no update when invisible
+  public readonly visibleProperty: Property<boolean>;
 
   private readonly magnet: Magnet;
   private readonly scratchVector: Vector2;
@@ -43,20 +43,20 @@ export default abstract class Compass extends PhetioObject {
       tandem: tandem.createTandem( 'rotationProperty' )
     } );
 
-    this.enabledProperty = new BooleanProperty( true, {
-      tandem: tandem.createTandem( 'enabledProperty' )
+    this.visibleProperty = new BooleanProperty( true, {
+      tandem: tandem.createTandem( 'visibleProperty' )
     } );
   }
 
   public reset(): void {
     this.positionProperty.reset();
     this.rotationProperty.reset();
-    this.enabledProperty.reset();
+    this.visibleProperty.reset();
   }
 
-  //TODO If the clock is paused, update immediately to match the field vector
+  //TODO If the clock is paused and the magnet moves, update immediately to match the field vector
   public step( dt: number ): void {
-    if ( this.enabledProperty.value ) {
+    if ( this.visibleProperty.value ) {
       this.magnet.getBField( this.positionProperty.value, this.scratchVector /* output */ );
       if ( this.scratchVector.magnitude !== 0 ) {
         this.setDirection( this.scratchVector, dt );
