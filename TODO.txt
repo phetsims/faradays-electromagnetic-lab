@@ -1,0 +1,4 @@
+
+Position transform in Magnet getBField
+
+Make compass follow B-field immediately when clock is paused
