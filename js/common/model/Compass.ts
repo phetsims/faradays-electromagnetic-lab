@@ -54,6 +54,7 @@ export default abstract class Compass extends PhetioObject {
     this.enabledProperty.reset();
   }
 
+  //TODO If the clock is paused, update immediately to match the field vector
   public step( dt: number ): void {
     if ( this.enabledProperty.value ) {
       this.magnet.getBField( this.positionProperty.value, this.scratchVector /* output */ );
