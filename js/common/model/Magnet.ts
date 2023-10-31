@@ -1,7 +1,7 @@
 // Copyright 2023, University of Colorado Boulder
 
 /**
- * Magnet is the abstract base class for all magnets in this simulation.
+ * Magnet is the abstract base class for magnet models.
  *
  * @author Chris Malley (PixelZoom, Inc.)
  */
@@ -30,6 +30,9 @@ export default abstract class Magnet extends PhetioObject {
   public readonly strengthProperty: NumberProperty; // gauss
   public readonly enabledProperty: Property<boolean>;
 
+  // reusable vector for transforming a position to the magnet's local coordinate frame
+  private readonly scratchPosition: Vector2;
+
   protected constructor( providedOptions: MagnetOptions ) {
 
     const options = optionize<MagnetOptions, SelfOptions, PhetioObjectOptions>()( {
@@ -57,6 +60,8 @@ export default abstract class Magnet extends PhetioObject {
     this.enabledProperty = new BooleanProperty( true, {
       tandem: options.tandem.createTandem( 'enabledProperty' )
     } );
+
+    this.scratchPosition = new Vector2( 0, 0 );
   }
 
   public reset(): void {
@@ -65,6 +70,47 @@ export default abstract class Magnet extends PhetioObject {
     this.strengthProperty.reset();
     this.enabledProperty.reset();
   }
+
+  /**
+   * Gets the B-field vector at the specified point in the global coordinate frame.
+   * If outputField is not provided, this method allocates a Vector2.
+   */
+  public getBField( position: Vector2, outputVector = new Vector2( 0, 0 ) ): Vector2 {
+
+    /*
+    * Our models are based a magnet located at the origin, with the north pole pointing down the positive x-axis.
+    * The point we receive is in global 2D space.
+    * So transform the point to the magnet's local coordinate system, adjusting for position and orientation.
+    */
+    //TODO This is the original Java code. How do we rewrite this to modify scratchPosition?
+    // _transform.setToIdentity();
+    // _transform.translate( -getX(), -getY() );
+    // _transform.rotate( -getDirection(), getX(), getY() );
+    // _transform.transform( p, _relativePoint /* output */ );
+
+    // Get strength in magnet's local coordinate frame.
+    this.getBFieldRelative( this.scratchPosition, outputVector );
+
+    // Adjust the field vector to match the magnet's direction.
+    outputVector.rotate( this.rotationProperty.value );
+
+    // Clamp magnitude to magnet strength.
+    //TODO: why do we need to do this?
+    const magnetStrength = this.strengthProperty.value;
+    const magnitude = outputVector.magnitude;
+    if ( magnitude > magnetStrength ) {
+      outputVector.setMagnitude( magnetStrength );
+    }
+    return outputVector;
+  }
+
+  /**
+   * Gets the B-field vector at a point in the magnet's local 2D coordinate frame.
+   * That is, the point is relative to the magnet's origin.
+   * In the magnet's local 2D coordinate frame, it is located at (0,0),
+   * and its north pole is pointing down the positive x-axis.
+   */
+  protected abstract getBFieldRelative( position: Vector2, outputVector: Vector2 ): Vector2;
 }
 
 faradaysElectromagneticLab.register( 'Magnet', Magnet );
