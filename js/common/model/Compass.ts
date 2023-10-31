@@ -20,7 +20,7 @@ export default abstract class Compass extends PhetioObject {
 
   public readonly positionProperty: Property<Vector2>; // unitless
   public readonly rotationProperty: Property<number>; // radians
-  public readonly enabledProperty: Property<boolean>;
+  public readonly enabledProperty: Property<boolean>; //TODO why do we have this?
 
   private readonly magnet: Magnet;
   private readonly scratchVector: Vector2;

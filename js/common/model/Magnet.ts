@@ -28,7 +28,7 @@ export default abstract class Magnet extends PhetioObject {
   public readonly positionProperty: Property<Vector2>; // unitless
   public readonly rotationProperty: Property<number>; // radians
   public readonly strengthProperty: NumberProperty; // gauss
-  public readonly enabledProperty: Property<boolean>;
+  public readonly enabledProperty: Property<boolean>; //TODO why do we have this?
 
   // reusable vector for transforming a position to the magnet's local coordinate frame
   private readonly scratchPosition: Vector2;
