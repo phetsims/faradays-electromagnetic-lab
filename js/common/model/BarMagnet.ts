@@ -31,7 +31,7 @@ export default class BarMagnet extends Magnet {
   }
 
   /**
-   * Gets the B-field vector at a point in the magnet's local 2D coordinate frame.
+   * Gets the B-field vector at a position relative to the magnet's origin.
    */
   protected getBFieldRelative( position: Vector2, outputVector: Vector2 ): Vector2 {
 
@@ -47,7 +47,7 @@ export default class BarMagnet extends Magnet {
   }
 
   /**
-   * Gets the B-field x component for a point relative to the magnet's origin.
+   * Gets the B-field x component for a position relative to the magnet's origin.
    * This component is identical in all 4 quadrants.
    */
   private getBx( x: number, y: number ): number {
@@ -55,7 +55,7 @@ export default class BarMagnet extends Magnet {
   }
 
   /**
-   * Gets the B-field y component for a point relative to the magnet's origin.
+   * Gets the B-field y component for a position relative to the magnet's origin.
    * This component is the same in 2 quadrants, but must be reflected about the y-axis for 2 quadrants.
    */
   private getBy( x: number, y: number ): number {
