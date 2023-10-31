@@ -25,10 +25,10 @@ export type MagnetOptions = SelfOptions & PickRequired<PhetioObjectOptions, 'tan
 
 export default abstract class Magnet extends PhetioObject {
 
-  public readonly positionProperty: Property<Vector2>;
-  public readonly rotationProperty: Property<number>;
+  public readonly positionProperty: Property<Vector2>; // unitless
+  public readonly rotationProperty: Property<number>; // radians
+  public readonly strengthProperty: NumberProperty; // gauss
   public readonly enabledProperty: Property<boolean>;
-  public readonly strengthProperty: NumberProperty;
 
   protected constructor( providedOptions: MagnetOptions ) {
 
@@ -48,22 +48,22 @@ export default abstract class Magnet extends PhetioObject {
       tandem: options.tandem.createTandem( 'rotationProperty' )
     } );
 
-    this.enabledProperty = new BooleanProperty( true, {
-      tandem: options.tandem.createTandem( 'enabledProperty' )
-    } );
-
     this.strengthProperty = new NumberProperty( options.strengthRange.defaultValue, {
       units: 'gauss',
       range: options.strengthRange,
       tandem: options.tandem.createTandem( 'strengthProperty' )
+    } );
+
+    this.enabledProperty = new BooleanProperty( true, {
+      tandem: options.tandem.createTandem( 'enabledProperty' )
     } );
   }
 
   public reset(): void {
     this.positionProperty.reset();
     this.rotationProperty.reset();
-    this.enabledProperty.reset();
     this.strengthProperty.reset();
+    this.enabledProperty.reset();
   }
 }
 

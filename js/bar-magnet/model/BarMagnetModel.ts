@@ -14,6 +14,7 @@ import BarMagnet from '../../common/model/BarMagnet.js';
 export default class BarMagnetModel implements TModel {
 
   public readonly barMagnet: BarMagnet;
+
   public constructor( tandem: Tandem ) {
 
     this.barMagnet = new BarMagnet( tandem.createTandem( 'barMagnet' ) );

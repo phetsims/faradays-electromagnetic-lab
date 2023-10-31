@@ -12,7 +12,7 @@ import Dimension2 from '../../../../dot/js/Dimension2.js';
 const BFieldData = {
 
   // Values used in MathCAD for generating the CSV grid files that were used to populate the arrays below.
-  GRID_MAGNET_STRENGTH: 1, // strength of the magnet, in Gauss
+  MAGNET_STRENGTH: 1, // strength of the magnet, in gauss
   INTERNAL_GRID_SPACING: 5, // spacing between points in the internal grid, same in both dimensions
   INTERNAL_GRID_SIZE: new Dimension2( 26, 6 ), // number of points in the internal grid
   EXTERNAL_NEAR_GRID_SPACING: 5, // spacing between points in the external-near grid, same in both dimensions
