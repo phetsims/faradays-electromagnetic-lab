@@ -551,32 +551,6 @@ const BFieldData = {
   ]
 };
 
-/**
- * Verify that the arrays match the parameters that were provided to MathCAD.
- */
-function verify(): void {
-  assert && assert( BFieldData.BX_INTERNAL.length === BFieldData.INTERNAL_GRID_SIZE.width );
-  assert && assert( _.every( BFieldData.BX_INTERNAL, array => array.length === BFieldData.INTERNAL_GRID_SIZE.height ) );
-
-  assert && assert( BFieldData.BY_INTERNAL.length === BFieldData.INTERNAL_GRID_SIZE.width );
-  assert && assert( _.every( BFieldData.BY_INTERNAL, array => array.length === BFieldData.INTERNAL_GRID_SIZE.height ) );
-
-  assert && assert( BFieldData.BX_EXTERNAL_NEAR.length === BFieldData.EXTERNAL_NEAR_GRID_SIZE.width );
-  assert && assert( _.every( BFieldData.BX_EXTERNAL_NEAR, array => array.length === BFieldData.EXTERNAL_NEAR_GRID_SIZE.height ) );
-
-  assert && assert( BFieldData.BY_EXTERNAL_NEAR.length === BFieldData.EXTERNAL_NEAR_GRID_SIZE.width );
-  assert && assert( _.every( BFieldData.BY_EXTERNAL_NEAR, array => array.length === BFieldData.EXTERNAL_NEAR_GRID_SIZE.height ) );
-
-  assert && assert( BFieldData.BX_EXTERNAL_FAR.length === BFieldData.EXTERNAL_FAR_GRID_SIZE.width );
-  assert && assert( _.every( BFieldData.BX_EXTERNAL_FAR, array => array.length === BFieldData.EXTERNAL_FAR_GRID_SIZE.height ) );
-
-  assert && assert( BFieldData.BY_EXTERNAL_FAR.length === BFieldData.EXTERNAL_FAR_GRID_SIZE.width );
-  assert && assert( _.every( BFieldData.BY_EXTERNAL_FAR, array => array.length === BFieldData.EXTERNAL_FAR_GRID_SIZE.height ) );
-
-  phet.log && phet.log( 'BFieldData has been loaded and verified.' );
-}
-verify();
-
 faradaysElectromagneticLab.register( 'BFieldData', BFieldData );
 
 export default BFieldData;

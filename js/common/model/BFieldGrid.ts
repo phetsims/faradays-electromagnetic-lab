@@ -12,6 +12,9 @@ import BFieldData from './BFieldData.js';
 
 export default class BFieldGrid {
 
+  // internal name, for debugging
+  public readonly name: string;
+
   // B-field vector x & y components, generated using MathCAD
   public readonly bxArray: number[][];
   public readonly byArray: number[][];
@@ -26,12 +29,25 @@ export default class BFieldGrid {
   private readonly maxY: number;
 
   // These are the 3 grids that were generated using MathCAD.
-  public static readonly INTERNAL = new BFieldGrid( BFieldData.BX_INTERNAL, BFieldData.BY_INTERNAL, BFieldData.INTERNAL_GRID_SIZE, BFieldData.INTERNAL_GRID_SPACING );
-  public static readonly EXTERNAL_NEAR = new BFieldGrid( BFieldData.BX_EXTERNAL_NEAR, BFieldData.BY_EXTERNAL_NEAR, BFieldData.EXTERNAL_NEAR_GRID_SIZE, BFieldData.EXTERNAL_NEAR_GRID_SPACING );
-  public static readonly EXTERNAL_FAR = new BFieldGrid( BFieldData.BX_EXTERNAL_FAR, BFieldData.BY_EXTERNAL_FAR, BFieldData.EXTERNAL_FAR_GRID_SIZE, BFieldData.EXTERNAL_FAR_GRID_SPACING );
+  public static readonly INTERNAL = new BFieldGrid( 'INTERNAL', BFieldData.BX_INTERNAL, BFieldData.BY_INTERNAL, BFieldData.INTERNAL_GRID_SIZE, BFieldData.INTERNAL_GRID_SPACING );
+  public static readonly EXTERNAL_NEAR = new BFieldGrid( 'EXTERNAL_NEAR', BFieldData.BX_EXTERNAL_NEAR, BFieldData.BY_EXTERNAL_NEAR, BFieldData.EXTERNAL_NEAR_GRID_SIZE, BFieldData.EXTERNAL_NEAR_GRID_SPACING );
+  public static readonly EXTERNAL_FAR = new BFieldGrid( 'EXTERNAL_FAR', BFieldData.BX_EXTERNAL_FAR, BFieldData.BY_EXTERNAL_FAR, BFieldData.EXTERNAL_FAR_GRID_SIZE, BFieldData.EXTERNAL_FAR_GRID_SPACING );
 
-  private constructor( bxArray: number[][], byArray: number[][], size: Dimension2, spacing: number ) {
+  /**
+   * Constructor is private because the static instances above are the only instances that should exist.
+   */
+  private constructor( name: string, bxArray: number[][], byArray: number[][], size: Dimension2, spacing: number ) {
 
+    assert && assert( bxArray.length === size.width, `${name}: unexpect bxArray.length: ${bxArray.length}` );
+    assert && assert( _.every( bxArray, array => array.length === size.height ), `${name}: bxArray has inconsistent number of components` );
+
+    assert && assert( byArray.length === size.width, `${name}: unexpect byArray.length: ${byArray.length}` );
+    assert && assert( _.every( byArray, array => array.length === size.height ), `${name}: byArray has inconsistent number of components` );
+
+    assert && assert( size.width > 0 && size.height > 0, `${name}: invalid size: ${size}` );
+    assert && assert( Number.isInteger( spacing ) && spacing > 0, `${name}: invalid spacing: ${spacing}` );
+
+    this.name = name;
     this.bxArray = bxArray;
     this.byArray = byArray;
     this.size = size;
