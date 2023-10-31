@@ -9,18 +9,21 @@
 import faradaysElectromagneticLab from '../../faradaysElectromagneticLab.js';
 import TModel from '../../../../joist/js/TModel.js';
 import Tandem from '../../../../tandem/js/Tandem.js';
+import BarMagnet from '../../common/model/BarMagnet.js';
 
 export default class BarMagnetModel implements TModel {
 
+  public readonly barMagnet: BarMagnet;
   public constructor( tandem: Tandem ) {
-    //TODO
+
+    this.barMagnet = new BarMagnet( tandem.createTandem( 'barMagnet' ) );
   }
 
   /**
    * Resets the model.
    */
   public reset(): void {
-    //TODO
+    this.barMagnet.reset();
   }
 
   /**

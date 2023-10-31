@@ -1,0 +1,2 @@
+These files are the precomputed B-field for a bar magnet, copied from the Java version of this simulation.
+The data sets were computed using MathCAD. See faradays-electromagnetic-lab/doc/bFieldOfHorizCylinerNumerical.*
