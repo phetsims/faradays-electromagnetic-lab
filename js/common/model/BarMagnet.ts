@@ -33,11 +33,11 @@ export default class BarMagnet extends Magnet {
   /**
    * Gets the B-field vector at a point in the magnet's local 2D coordinate frame.
    */
-  protected getBFieldRelative( p: Vector2, outputVector: Vector2 ): Vector2 {
+  protected getBFieldRelative( position: Vector2, outputVector: Vector2 ): Vector2 {
 
     // Compute the B-field components by interpolating over precomputed B-field data.
-    const x = this.getBx( p.x, p.y );
-    const y = this.getBy( p.x, p.y );
+    const x = this.getBx( position.x, position.y );
+    const y = this.getBy( position.x, position.y );
     outputVector.setXY( x, y );
 
     // Scale the B-field to match the bar magnet's strength.
