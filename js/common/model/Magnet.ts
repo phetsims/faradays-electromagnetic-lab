@@ -72,15 +72,22 @@ export default abstract class Magnet extends PhetioObject {
   }
 
   /**
+   * Flips the magnet's polarity by rotating it 180 degrees.
+   */
+  public flipPolarity(): void {
+    this.rotationProperty.value = ( this.rotationProperty.value + Math.PI ) % ( 2 * Math.PI );
+  }
+
+  /**
    * Gets the B-field vector at the specified point in the global coordinate frame.
    * If outputField is not provided, this method allocates a Vector2.
    */
   public getBField( position: Vector2, outputVector = new Vector2( 0, 0 ) ): Vector2 {
 
     /*
-    * Our models are based a magnet located at the origin, with the north pole pointing down the positive x-axis.
-    * The point we receive is in global 2D space.
-    * So transform the point to the magnet's local coordinate system, adjusting for position and orientation.
+    * Our models are based on a magnet located at the origin, with the North pole pointing down the positive x-axis.
+    * The position argument for this method is in the global coordinate frame. So transform that position to the
+    * magnet's local coordinate frame, adjusting for the magnet's position and rotation.
     */
     //TODO This is the original Java code. How do we rewrite this to modify scratchPosition?
     // _transform.setToIdentity();
