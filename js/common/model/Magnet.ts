@@ -50,7 +50,7 @@ export default abstract class Magnet extends PhetioObject {
     } );
 
     this.strengthProperty = new NumberProperty( options.strengthRange.defaultValue, {
-      units: 'gauss',
+      units: 'G',
       range: options.strengthRange,
       tandem: options.tandem.createTandem( 'strengthProperty' )
     } );
