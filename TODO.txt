@@ -2,3 +2,13 @@
 Position transform in Magnet getBField
 
 Make compass follow B-field immediately when clock is paused
+
+Floating panels
+
+Preferences
+	Show earth checkbox on Bar Magnet screen
+	Units: gauss, Teslas
+
+Projector mode - swap black & white for background and "south" color
+
+'N' & 'S' should be translatable
