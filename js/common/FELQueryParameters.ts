@@ -26,7 +26,7 @@ const SCHEMA_MAP = {
   needleSpacing: {
     type: 'number',
     defaultValue: 40,
-    isValidValue: ( value: number ) => ( value > 0 )
+    isValidValue: ( value: number ) => ( value >= 35 && value <= 100 )
   },
 
   // Length (tip to tip) of needles in the magnetic field visualization
