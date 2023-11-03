@@ -10,17 +10,60 @@ import faradaysElectromagneticLab from '../faradaysElectromagneticLab.js';
 import { ScreenOptions } from '../../../joist/js/Screen.js';
 import FELColors from './FELColors.js';
 import { CreditsData } from '../../../joist/js/CreditsNode.js';
+import { PanelOptions } from '../../../sun/js/Panel.js';
+import PhetFont from '../../../scenery-phet/js/PhetFont.js';
+import { CheckboxOptions } from '../../../sun/js/Checkbox.js';
+import { Text } from '../../../scenery/js/imports.js';
+import NumberControl, { NumberControlOptions } from '../../../scenery-phet/js/NumberControl.js';
+import Dimension2 from '../../../dot/js/Dimension2.js';
 
 //TODO https://github.com/phetsims/faradays-electromagnetic-lab/issues/2 fill in credits
 const CREDITS: CreditsData = {
   leadDesign: '',
-    softwareDevelopment: '',
-    team: '',
-    contributors: '',
-    qualityAssurance: '',
-    graphicArts: '',
-    soundDesign: '',
-    thanks: ''
+  softwareDevelopment: '',
+  team: '',
+  contributors: '',
+  qualityAssurance: '',
+  graphicArts: '',
+  soundDesign: '',
+  thanks: ''
+};
+
+const CONTROL_FONT = new PhetFont( 14 );
+
+const CHECKBOX_OPTIONS: CheckboxOptions = {
+
+  // Size the box to the height of a typical text label.
+  boxWidth: new Text( 'X', { font: CONTROL_FONT } ).height
+};
+
+const NUMBER_CONTROL_OPTIONS: NumberControlOptions = {
+  layoutFunction: NumberControl.createLayoutFunction1( {
+    align: 'left',
+    arrowButtonsXSpacing: 5,
+    ySpacing: 12
+  } ),
+  titleNodeOptions: {
+    font: CONTROL_FONT,
+    maxWidth: 140
+  },
+  sliderOptions: {
+    trackSize: new Dimension2( 140, 4 ),
+    thumbSize: new Dimension2( 15, 30 ),
+    thumbTouchAreaXDilation: 5,
+    thumbTouchAreaYDilation: 5
+  },
+  numberDisplayOptions: {
+    maxWidth: 70,
+    textOptions: {
+      font: CONTROL_FONT
+    }
+  }
+};
+
+const PANEL_OPTIONS: PanelOptions = {
+  xMargin: 15,
+  yMargin: 10
 };
 
 const SCREEN_OPTIONS: Partial<ScreenOptions> = {
@@ -38,9 +81,19 @@ const FELConstants = {
 
   // ScreenView
   SCREEN_VIEW_X_MARGIN: 15,
-  SCREEN_VIEW_Y_MARGIN: 15
+  SCREEN_VIEW_Y_MARGIN: 15,
 
-  //TODO
+  // Options for various types of UI components
+  CHECKBOX_OPTIONS: CHECKBOX_OPTIONS,
+  NUMBER_CONTROL_OPTIONS: NUMBER_CONTROL_OPTIONS,
+  PANEL_OPTIONS: PANEL_OPTIONS,
+
+  // Fonts
+  TITLE_FONT: new PhetFont( {
+    size: 20,
+    weight: 'bold'
+  } ),
+  CONTROL_FONT: CONTROL_FONT
 };
 
 faradaysElectromagneticLab.register( 'FELConstants', FELConstants );
