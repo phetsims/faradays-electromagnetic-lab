@@ -18,6 +18,20 @@ type StringsType = {
     'electromagnetStringProperty': LocalizedStringProperty;
     'transformerStringProperty': LocalizedStringProperty;
     'generatorStringProperty': LocalizedStringProperty;
+  };
+  'barMagnetStringProperty': LocalizedStringProperty;
+  'strengthColonStringProperty': LocalizedStringProperty;
+  'seeInsideStringProperty': LocalizedStringProperty;
+  'flipPolarityStringProperty': LocalizedStringProperty;
+  'pattern': {
+    'valuePercentStringProperty': LocalizedStringProperty;
+  };
+  'symbol': {
+    'northStringProperty': LocalizedStringProperty;
+    'southStringProperty': LocalizedStringProperty;
+  };
+  'units': {
+    'gaussStringProperty': LocalizedStringProperty;
   }
 };
 

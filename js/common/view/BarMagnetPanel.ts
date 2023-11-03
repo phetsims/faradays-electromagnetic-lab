@@ -17,29 +17,31 @@ import TextPushButton from '../../../../sun/js/buttons/TextPushButton.js';
 import NumberControl, { NumberControlOptions } from '../../../../scenery-phet/js/NumberControl.js';
 import { combineOptions } from '../../../../phet-core/js/optionize.js';
 import FELConstants from '../FELConstants.js';
+import FaradaysElectromagneticLabStrings from '../../FaradaysElectromagneticLabStrings.js';
 
 
 export default class BarMagnetPanel extends Panel {
 
   public constructor( barMagnet: BarMagnet, seeInsideBarMagenetProperty: Property<boolean>, tandem: Tandem ) {
 
-    const titleText = new Text( 'Bar Magnet', {
+    const titleText = new Text( FaradaysElectromagneticLabStrings.barMagnetStringProperty, {
       font: FELConstants.TITLE_FONT
     } );
 
     //TODO This control should be %, while barMagnet.strengthProperty is gauss.
-    const strengthNumberControl = new NumberControl( 'Strength:', barMagnet.strengthProperty, barMagnet.strengthProperty.range,
+    const strengthNumberControl = new NumberControl( FaradaysElectromagneticLabStrings.strengthColonStringProperty,
+      barMagnet.strengthProperty, barMagnet.strengthProperty.range,
       combineOptions<NumberControlOptions>( {}, FELConstants.NUMBER_CONTROL_OPTIONS, {
         tandem: tandem.createTandem( 'strengthNumberControl' )
       } ) );
 
-    const flipPolarityButton = new TextPushButton( 'Flip Polarity', {
+    const flipPolarityButton = new TextPushButton( FaradaysElectromagneticLabStrings.flipPolarityStringProperty, {
       font: FELConstants.CONTROL_FONT,
       //TODO listener
       tandem: tandem.createTandem( 'flipPolarityButton' )
     } );
 
-    const seeInsideText = new Text( 'See Inside', {
+    const seeInsideText = new Text( FaradaysElectromagneticLabStrings.seeInsideStringProperty, {
       font: FELConstants.CONTROL_FONT
     } );
     const seeIndexCheckbox = new Checkbox( seeInsideBarMagenetProperty, seeInsideText,
