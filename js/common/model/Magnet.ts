@@ -17,6 +17,8 @@ import PickRequired from '../../../../phet-core/js/types/PickRequired.js';
 import optionize from '../../../../phet-core/js/optionize.js';
 
 type SelfOptions = {
+  position?: Vector2; // initial value of positionProperty, unitless
+  rotation?: number; // initial value of rotationProperty, radians
   strengthRange: RangeWithValue; // range and initial value for strengthProperty, in gauss
 };
 
@@ -35,17 +37,21 @@ export default abstract class Magnet extends PhetioObject {
 
     const options = optionize<MagnetOptions, SelfOptions, PhetioObjectOptions>()( {
 
+      // SelfOptions
+      position: Vector2.ZERO,
+      rotation: 0,
+
       // PhetioObjectOptions
       phetioState: false
     }, providedOptions );
 
     super( options );
 
-    this.positionProperty = new Vector2Property( Vector2.ZERO, {
+    this.positionProperty = new Vector2Property( options.position, {
       tandem: options.tandem.createTandem( 'positionProperty' )
     } );
 
-    this.rotationProperty = new NumberProperty( 0, {
+    this.rotationProperty = new NumberProperty( options.rotation, {
       tandem: options.tandem.createTandem( 'rotationProperty' )
     } );
 
