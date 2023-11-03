@@ -23,6 +23,7 @@ export default class BarMagnet extends Magnet {
   public constructor( tandem: Tandem ) {
 
     super( {
+      position: new Vector2( 450, 300 ), //TODO from Java version
       strengthRange: new RangeWithValue( 0, 300, 225 ), // gauss
       tandem: tandem
     } );

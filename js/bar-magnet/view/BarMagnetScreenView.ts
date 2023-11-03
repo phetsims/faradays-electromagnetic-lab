@@ -16,6 +16,7 @@ import BarMagnetPanel from '../../common/view/BarMagnetPanel.js';
 import { Node } from '../../../../scenery/js/imports.js';
 import BarMagnetViewProperties from './BarMagnetViewProperties.js';
 import Multilink from '../../../../axon/js/Multilink.js';
+import BarMagnetNode from '../../common/view/BarMagnetNode.js';
 
 export default class BarMagnetScreenView extends ScreenView {
 
@@ -28,6 +29,8 @@ export default class BarMagnetScreenView extends ScreenView {
     } );
 
     this.viewProperties = new BarMagnetViewProperties( tandem.createTandem( 'viewProperties' ) );
+
+    const barMagnetNode = new BarMagnetNode( model.barMagnet, tandem.createTandem( 'barMagnetNode' ) );
 
     const barMagnetPanel = new BarMagnetPanel( model.barMagnet, this.viewProperties.seeInsideBarMagnetProperty,
       tandem.createTandem( 'barMagnetPanel' ) );
@@ -53,6 +56,7 @@ export default class BarMagnetScreenView extends ScreenView {
 
     const rootNode = new Node( {
       children: [
+        barMagnetNode,
         barMagnetPanel,
         resetAllButton
       ]
@@ -60,6 +64,7 @@ export default class BarMagnetScreenView extends ScreenView {
     this.addChild( rootNode );
 
     rootNode.pdomOrder = [
+      barMagnetNode,
       barMagnetPanel,
       resetAllButton
     ];

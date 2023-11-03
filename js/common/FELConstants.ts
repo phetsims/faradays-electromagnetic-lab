@@ -13,7 +13,7 @@ import { CreditsData } from '../../../joist/js/CreditsNode.js';
 import { PanelOptions } from '../../../sun/js/Panel.js';
 import PhetFont from '../../../scenery-phet/js/PhetFont.js';
 import { CheckboxOptions } from '../../../sun/js/Checkbox.js';
-import { Text } from '../../../scenery/js/imports.js';
+import { KeyboardDragListenerOptions, Text } from '../../../scenery/js/imports.js';
 import NumberControl, { NumberControlOptions } from '../../../scenery-phet/js/NumberControl.js';
 import Dimension2 from '../../../dot/js/Dimension2.js';
 
@@ -73,6 +73,11 @@ const SCREEN_OPTIONS: Partial<ScreenOptions> = {
   showUnselectedHomeScreenIconFrame: true
 };
 
+const KEYBOARD_DRAG_LISTENER_OPTIONS: KeyboardDragListenerOptions = {
+  dragVelocity: 300, // velocity of the Node being dragged, in view coordinates per second
+  shiftDragVelocity: 20 // velocity with the Shift key pressed, typically slower than dragVelocity
+};
+
 const FELConstants = {
 
   // Sim
@@ -89,6 +94,9 @@ const FELConstants = {
   CHECKBOX_OPTIONS: CHECKBOX_OPTIONS,
   NUMBER_CONTROL_OPTIONS: NUMBER_CONTROL_OPTIONS,
   PANEL_OPTIONS: PANEL_OPTIONS,
+
+  // Other options
+  KEYBOARD_DRAG_LISTENER_OPTIONS: KEYBOARD_DRAG_LISTENER_OPTIONS,
 
   // Fonts
   TITLE_FONT: new PhetFont( {
