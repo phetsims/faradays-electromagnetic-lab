@@ -28,6 +28,7 @@ export default class BarMagnet extends Magnet {
       tandem: tandem
     } );
 
+    //TODO BarMagnetNode will fail an assertion if this does not match the size of barMagnet.png
     this.size = new Dimension2( 250, 50 ); // unitless
   }
 
