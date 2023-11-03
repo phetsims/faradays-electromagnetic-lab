@@ -10,14 +10,19 @@ import faradaysElectromagneticLab from '../../faradaysElectromagneticLab.js';
 import TModel from '../../../../joist/js/TModel.js';
 import Tandem from '../../../../tandem/js/Tandem.js';
 import BarMagnet from '../../common/model/BarMagnet.js';
+import KinematicCompass from '../../common/model/KinematicCompass.js';
+import Compass from '../../common/model/Compass.js';
 
 export default class BarMagnetModel implements TModel {
 
   public readonly barMagnet: BarMagnet;
+  public readonly compass: Compass;
 
   public constructor( tandem: Tandem ) {
 
     this.barMagnet = new BarMagnet( tandem.createTandem( 'barMagnet' ) );
+
+    this.compass = new KinematicCompass( this.barMagnet, tandem.createTandem( 'compass' ) );
   }
 
   /**
@@ -25,6 +30,7 @@ export default class BarMagnetModel implements TModel {
    */
   public reset(): void {
     this.barMagnet.reset();
+    this.compass.reset();
   }
 
   /**
@@ -32,7 +38,7 @@ export default class BarMagnetModel implements TModel {
    * @param dt - time step, in seconds
    */
   public step( dt: number ): void {
-    //TODO
+    this.compass.step( dt );
   }
 }
 
