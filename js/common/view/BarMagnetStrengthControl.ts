@@ -23,7 +23,6 @@ export default class BarMagnetStrengthControl extends NumberControl {
   public constructor( barMagnetStrengthProperty: NumberProperty, tandem: Tandem ) {
 
     //TODO This control should be %, while barMagnetStrengthProperty is gauss.
-    //TODO NumberDisplay resizes as value changes
     //TODO Add tick marks at 0, 50, 100%
 
     const options = combineOptions<NumberControlOptions>( {}, FELConstants.NUMBER_CONTROL_OPTIONS, {
