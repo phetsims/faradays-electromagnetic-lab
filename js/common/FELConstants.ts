@@ -95,7 +95,8 @@ const FELConstants = {
     size: 20,
     weight: 'bold'
   } ),
-  CONTROL_FONT: CONTROL_FONT
+  CONTROL_FONT: CONTROL_FONT,
+  TICK_LABEL_FONT: new PhetFont( 10 )
 };
 
 faradaysElectromagneticLab.register( 'FELConstants', FELConstants );
