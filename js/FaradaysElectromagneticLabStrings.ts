@@ -25,6 +25,7 @@ type StringsType = {
   'flipPolarityStringProperty': LocalizedStringProperty;
   'pattern': {
     'valuePercentStringProperty': LocalizedStringProperty;
+    'valueUnitsStringProperty': LocalizedStringProperty;
   };
   'symbol': {
     'northStringProperty': LocalizedStringProperty;

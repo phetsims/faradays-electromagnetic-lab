@@ -32,12 +32,12 @@ const CREDITS: CreditsData = {
 const CONTROL_FONT = new PhetFont( 14 );
 
 const CHECKBOX_OPTIONS: CheckboxOptions = {
-
-  // Size the box to the height of a typical text label.
-  boxWidth: new Text( 'X', { font: CONTROL_FONT } ).height
+  isDisposable: false,
+  boxWidth: new Text( 'X', { font: CONTROL_FONT } ).height // Size the box to the height of a typical text label.
 };
 
 const NUMBER_CONTROL_OPTIONS: NumberControlOptions = {
+  isDisposable: false,
   layoutFunction: NumberControl.createLayoutFunction1( {
     align: 'left',
     arrowButtonsXSpacing: 5,
@@ -54,7 +54,7 @@ const NUMBER_CONTROL_OPTIONS: NumberControlOptions = {
     thumbTouchAreaYDilation: 5
   },
   numberDisplayOptions: {
-    maxWidth: 70,
+    maxWidth: 100,
     textOptions: {
       font: CONTROL_FONT
     }
@@ -62,11 +62,13 @@ const NUMBER_CONTROL_OPTIONS: NumberControlOptions = {
 };
 
 const PANEL_OPTIONS: PanelOptions = {
+  isDisposable: false,
   xMargin: 15,
   yMargin: 10
 };
 
 const SCREEN_OPTIONS: Partial<ScreenOptions> = {
+  isDisposable: false,
   backgroundColorProperty: FELColors.screenBackgroundColorProperty,
   showUnselectedHomeScreenIconFrame: true
 };

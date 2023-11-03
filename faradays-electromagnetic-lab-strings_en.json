@@ -30,7 +30,10 @@
     "value": "Flip Polarity"
   },
   "pattern.valuePercent": {
-    "value": "{value}%"
+    "value": "{{value}}%"
+  },
+  "pattern.valueUnits": {
+    "value": "{{value}} {{units}}"
   },
   "symbol.north": {
     "value": "N"

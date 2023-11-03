@@ -14,11 +14,10 @@ import Checkbox, { CheckboxOptions } from '../../../../sun/js/Checkbox.js';
 import Property from '../../../../axon/js/Property.js';
 import { Text, VBox } from '../../../../scenery/js/imports.js';
 import TextPushButton from '../../../../sun/js/buttons/TextPushButton.js';
-import NumberControl, { NumberControlOptions } from '../../../../scenery-phet/js/NumberControl.js';
 import { combineOptions } from '../../../../phet-core/js/optionize.js';
 import FELConstants from '../FELConstants.js';
 import FaradaysElectromagneticLabStrings from '../../FaradaysElectromagneticLabStrings.js';
-
+import BarMagnetStrengthControl from './BarMagnetStrengthControl.js';
 
 export default class BarMagnetPanel extends Panel {
 
@@ -28,16 +27,12 @@ export default class BarMagnetPanel extends Panel {
       font: FELConstants.TITLE_FONT
     } );
 
-    //TODO This control should be %, while barMagnet.strengthProperty is gauss.
-    const strengthNumberControl = new NumberControl( FaradaysElectromagneticLabStrings.strengthColonStringProperty,
-      barMagnet.strengthProperty, barMagnet.strengthProperty.range,
-      combineOptions<NumberControlOptions>( {}, FELConstants.NUMBER_CONTROL_OPTIONS, {
-        tandem: tandem.createTandem( 'strengthNumberControl' )
-      } ) );
+    const strengthControl = new BarMagnetStrengthControl( barMagnet.strengthProperty,
+      tandem.createTandem( 'strengthControl' ) );
 
     const flipPolarityButton = new TextPushButton( FaradaysElectromagneticLabStrings.flipPolarityStringProperty, {
       font: FELConstants.CONTROL_FONT,
-      //TODO listener
+      listener: () => barMagnet.flipPolarity(),
       tandem: tandem.createTandem( 'flipPolarityButton' )
     } );
 
@@ -54,7 +49,7 @@ export default class BarMagnetPanel extends Panel {
       spacing: 15,
       children: [
         titleText,
-        strengthNumberControl,
+        strengthControl,
         flipPolarityButton,
         seeIndexCheckbox
       ]
