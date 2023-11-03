@@ -12,7 +12,7 @@ import Magnet from './Magnet.js';
 import Tandem from '../../../../tandem/js/Tandem.js';
 import RangeWithValue from '../../../../dot/js/RangeWithValue.js';
 import Dimension2 from '../../../../dot/js/Dimension2.js';
-import BFieldData from './BFieldData.js';
+import BarMagnetFieldData from './BarMagnetFieldData.js';
 import Vector2 from '../../../../dot/js/Vector2.js';
 import BFieldGrid from './BFieldGrid.js';
 
@@ -41,7 +41,7 @@ export default class BarMagnet extends Magnet {
     outputVector.setXY( x, y );
 
     // Scale the B-field to match the bar magnet's strength.
-    outputVector.times( this.strengthProperty.value / BFieldData.MAGNET_STRENGTH );
+    outputVector.times( this.strengthProperty.value / BarMagnetFieldData.MAGNET_STRENGTH );
 
     return outputVector;
   }

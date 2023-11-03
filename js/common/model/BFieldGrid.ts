@@ -50,7 +50,7 @@
 
 import Dimension2 from '../../../../dot/js/Dimension2.js';
 import faradaysElectromagneticLab from '../../faradaysElectromagneticLab.js';
-import BFieldData from './BFieldData.js';
+import BarMagnetFieldData from './BarMagnetFieldData.js';
 
 export default class BFieldGrid {
 
@@ -71,9 +71,9 @@ export default class BFieldGrid {
   private readonly maxY: number;
 
   // These are the 3 grids that were generated using MathCAD.
-  public static readonly INTERNAL = new BFieldGrid( 'INTERNAL', BFieldData.BX_INTERNAL, BFieldData.BY_INTERNAL, BFieldData.INTERNAL_GRID_SIZE, BFieldData.INTERNAL_GRID_SPACING );
-  public static readonly EXTERNAL_NEAR = new BFieldGrid( 'EXTERNAL_NEAR', BFieldData.BX_EXTERNAL_NEAR, BFieldData.BY_EXTERNAL_NEAR, BFieldData.EXTERNAL_NEAR_GRID_SIZE, BFieldData.EXTERNAL_NEAR_GRID_SPACING );
-  public static readonly EXTERNAL_FAR = new BFieldGrid( 'EXTERNAL_FAR', BFieldData.BX_EXTERNAL_FAR, BFieldData.BY_EXTERNAL_FAR, BFieldData.EXTERNAL_FAR_GRID_SIZE, BFieldData.EXTERNAL_FAR_GRID_SPACING );
+  public static readonly INTERNAL = new BFieldGrid( 'INTERNAL', BarMagnetFieldData.BX_INTERNAL, BarMagnetFieldData.BY_INTERNAL, BarMagnetFieldData.INTERNAL_GRID_SIZE, BarMagnetFieldData.INTERNAL_GRID_SPACING );
+  public static readonly EXTERNAL_NEAR = new BFieldGrid( 'EXTERNAL_NEAR', BarMagnetFieldData.BX_EXTERNAL_NEAR, BarMagnetFieldData.BY_EXTERNAL_NEAR, BarMagnetFieldData.EXTERNAL_NEAR_GRID_SIZE, BarMagnetFieldData.EXTERNAL_NEAR_GRID_SPACING );
+  public static readonly EXTERNAL_FAR = new BFieldGrid( 'EXTERNAL_FAR', BarMagnetFieldData.BX_EXTERNAL_FAR, BarMagnetFieldData.BY_EXTERNAL_FAR, BarMagnetFieldData.EXTERNAL_FAR_GRID_SIZE, BarMagnetFieldData.EXTERNAL_FAR_GRID_SPACING );
 
   /**
    * Constructor is private because the static instances above are the only instances that should exist.

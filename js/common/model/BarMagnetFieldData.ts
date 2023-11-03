@@ -1,7 +1,7 @@
 // Copyright 2023, University of Colorado Boulder
 
 /**
- * BFieldData contains precomputed data for the B-field of a bar magnet, along with the MathCAD parameters that
+ * BarMagnetFieldData contains precomputed data for the B-field of a bar magnet, along with the MathCAD parameters that
  * were used to compute the data. More details are provided in the documentation for BFieldGrid.
  *
  * @author Chris Malley (PixelZoom, Inc.)
@@ -10,7 +10,7 @@
 import faradaysElectromagneticLab from '../../faradaysElectromagneticLab.js';
 import Dimension2 from '../../../../dot/js/Dimension2.js';
 
-const BFieldData = {
+const BarMagnetFieldData = {
 
   // Values used in MathCAD for generating the CSV grid files that were used to populate the arrays below.
   MAGNET_STRENGTH: 1, // strength of the magnet, in gauss
@@ -552,6 +552,6 @@ const BFieldData = {
   ]
 };
 
-faradaysElectromagneticLab.register( 'BFieldData', BFieldData );
+faradaysElectromagneticLab.register( 'BarMagnetFieldData', BarMagnetFieldData );
 
-export default BFieldData;
+export default BarMagnetFieldData;
