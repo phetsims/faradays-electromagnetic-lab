@@ -16,6 +16,9 @@ import FELConstants from '../FELConstants.js';
 import PatternStringProperty from '../../../../axon/js/PatternStringProperty.js';
 import Utils from '../../../../dot/js/Utils.js';
 import { RichText } from '../../../../scenery/js/imports.js';
+import MappedProperty from '../../../../axon/js/MappedProperty.js';
+import NumberIO from '../../../../tandem/js/types/NumberIO.js';
+import Range from '../../../../dot/js/Range.js';
 
 const SLIDER_STEP = 1;
 const TICK_LABEL_OPTIONS = {
@@ -26,18 +29,25 @@ export default class BarMagnetStrengthControl extends NumberControl {
 
   public constructor( barMagnetStrengthProperty: NumberProperty, tandem: Tandem ) {
 
-    //TODO This control should be %, while barMagnetStrengthProperty is gauss.
-    //TODO Add tick marks at 0, 50, 100%
+    assert && assert( barMagnetStrengthProperty.range.min === 0 );
 
-    const tickValues = [
-      barMagnetStrengthProperty.range.min,
-      barMagnetStrengthProperty.range.min + barMagnetStrengthProperty.range.getLength() / 2,
-      barMagnetStrengthProperty.range.max
-    ];
+    // barMagnetStrengthProperty is in gauss, while this control is in %.
+    const percentProperty = new MappedProperty<number, number>( barMagnetStrengthProperty, {
+      phetioValueType: NumberIO,
+      reentrant: true,
+      bidirectional: true,
+
+      // gauss => %
+      map: ( strength: number ) => 100 * strength / barMagnetStrengthProperty.range.max,
+
+      // % => gauss
+      inverseMap: ( percent: number ) => ( percent / 100 ) * barMagnetStrengthProperty.range.max
+    } );
+
+    const tickValues = [ 0, 50, 100 ];
     const majorTicks = tickValues.map( value => {
-      const stringProperty = new PatternStringProperty( FaradaysElectromagneticLabStrings.pattern.valueUnitsStringProperty, {
-        value: value,
-        units: FaradaysElectromagneticLabStrings.units.gaussStringProperty
+      const stringProperty = new PatternStringProperty( FaradaysElectromagneticLabStrings.pattern.valuePercentStringProperty, {
+        value: value
       } );
 
       return {
@@ -50,9 +60,7 @@ export default class BarMagnetStrengthControl extends NumberControl {
       delta: SLIDER_STEP,
       numberDisplayOptions: {
         decimalPlaces: 0,
-        valuePattern: new PatternStringProperty( FaradaysElectromagneticLabStrings.pattern.valueUnitsStringProperty, {
-          units: FaradaysElectromagneticLabStrings.units.gaussStringProperty
-        } )
+        valuePattern: FaradaysElectromagneticLabStrings.pattern.valuePercentStringProperty
       },
       sliderOptions: {
         constrainValue: ( value: number ) => Utils.roundToInterval( value, SLIDER_STEP ),
@@ -66,8 +74,8 @@ export default class BarMagnetStrengthControl extends NumberControl {
 
     super(
       FaradaysElectromagneticLabStrings.strengthColonStringProperty,
-      barMagnetStrengthProperty,
-      barMagnetStrengthProperty.range,
+      percentProperty,
+      new Range( 0, 100 ),
       options
     );
   }
