@@ -1,7 +1,7 @@
 // Copyright 2023, University of Colorado Boulder
 
 /**
- * BFieldGrid is a grid of precomputed B-field values for our BarMagnet. This was ported from the Java version of
+ * BarMagnetFieldGrid is a grid of precomputed B-field values for our BarMagnet. This was ported from the Java version of
  * the simulation. This code originally lived in BarMagnet.java, but made sense to encapsulate here.
  * This approach was motivated by a user report in https://phet.unfuddle.com/a#/projects/9404/tickets/by_number/2236
  *
@@ -52,7 +52,7 @@ import Dimension2 from '../../../../dot/js/Dimension2.js';
 import faradaysElectromagneticLab from '../../faradaysElectromagneticLab.js';
 import BarMagnetFieldData from './BarMagnetFieldData.js';
 
-export default class BFieldGrid {
+export default class BarMagnetFieldGrid {
 
   // internal name, for debugging
   public readonly name: string;
@@ -71,9 +71,9 @@ export default class BFieldGrid {
   private readonly maxY: number;
 
   // These are the 3 grids that were generated using MathCAD.
-  public static readonly INTERNAL = new BFieldGrid( 'INTERNAL', BarMagnetFieldData.BX_INTERNAL, BarMagnetFieldData.BY_INTERNAL, BarMagnetFieldData.INTERNAL_GRID_SIZE, BarMagnetFieldData.INTERNAL_GRID_SPACING );
-  public static readonly EXTERNAL_NEAR = new BFieldGrid( 'EXTERNAL_NEAR', BarMagnetFieldData.BX_EXTERNAL_NEAR, BarMagnetFieldData.BY_EXTERNAL_NEAR, BarMagnetFieldData.EXTERNAL_NEAR_GRID_SIZE, BarMagnetFieldData.EXTERNAL_NEAR_GRID_SPACING );
-  public static readonly EXTERNAL_FAR = new BFieldGrid( 'EXTERNAL_FAR', BarMagnetFieldData.BX_EXTERNAL_FAR, BarMagnetFieldData.BY_EXTERNAL_FAR, BarMagnetFieldData.EXTERNAL_FAR_GRID_SIZE, BarMagnetFieldData.EXTERNAL_FAR_GRID_SPACING );
+  public static readonly INTERNAL = new BarMagnetFieldGrid( 'INTERNAL', BarMagnetFieldData.BX_INTERNAL, BarMagnetFieldData.BY_INTERNAL, BarMagnetFieldData.INTERNAL_GRID_SIZE, BarMagnetFieldData.INTERNAL_GRID_SPACING );
+  public static readonly EXTERNAL_NEAR = new BarMagnetFieldGrid( 'EXTERNAL_NEAR', BarMagnetFieldData.BX_EXTERNAL_NEAR, BarMagnetFieldData.BY_EXTERNAL_NEAR, BarMagnetFieldData.EXTERNAL_NEAR_GRID_SIZE, BarMagnetFieldData.EXTERNAL_NEAR_GRID_SPACING );
+  public static readonly EXTERNAL_FAR = new BarMagnetFieldGrid( 'EXTERNAL_FAR', BarMagnetFieldData.BX_EXTERNAL_FAR, BarMagnetFieldData.BY_EXTERNAL_FAR, BarMagnetFieldData.EXTERNAL_FAR_GRID_SIZE, BarMagnetFieldData.EXTERNAL_FAR_GRID_SPACING );
 
   /**
    * Constructor is private because the static instances above are the only instances that should exist.
@@ -175,4 +175,4 @@ export default class BFieldGrid {
   }
 }
 
-faradaysElectromagneticLab.register( 'BFieldGrid', BFieldGrid );
+faradaysElectromagneticLab.register( 'BarMagnetFieldGrid', BarMagnetFieldGrid );

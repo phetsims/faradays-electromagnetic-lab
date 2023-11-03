@@ -2,7 +2,7 @@
 
 /**
  * BarMagnet is the model of a bar magnet. It uses a precomputed B-field that was generated using MathCAD, and is
- * described in detail in BFieldGrid.
+ * described in detail in BarMagnetFieldGrid.
  *
  * @author Chris Malley (PixelZoom, Inc.)
  */
@@ -14,7 +14,7 @@ import RangeWithValue from '../../../../dot/js/RangeWithValue.js';
 import Dimension2 from '../../../../dot/js/Dimension2.js';
 import BarMagnetFieldData from './BarMagnetFieldData.js';
 import Vector2 from '../../../../dot/js/Vector2.js';
-import BFieldGrid from './BFieldGrid.js';
+import BarMagnetFieldGrid from './BarMagnetFieldGrid.js';
 
 export default class BarMagnet extends Magnet {
 
@@ -67,23 +67,23 @@ export default class BarMagnet extends Magnet {
   }
 
   /**
-   * Chooses the appropriate grid.
+   * Chooses the appropriate grid of precomputed B-field data.
    */
-  private chooseGrid( x: number, y: number ): BFieldGrid {
+  private chooseGrid( x: number, y: number ): BarMagnetFieldGrid {
 
     // Data is precomputed only for the quadrant where x & y are positive, so use absolute values.
     const absX = Math.abs( x );
     const absY = Math.abs( y );
 
-    let grid: BFieldGrid;
-    if ( BFieldGrid.INTERNAL.contains( absX, absY ) ) {
-      grid = BFieldGrid.INTERNAL;
+    let grid: BarMagnetFieldGrid;
+    if ( BarMagnetFieldGrid.INTERNAL.contains( absX, absY ) ) {
+      grid = BarMagnetFieldGrid.INTERNAL;
     }
-    else if ( BFieldGrid.EXTERNAL_NEAR.contains( absX, absY ) ) {
-      grid = BFieldGrid.EXTERNAL_NEAR;
+    else if ( BarMagnetFieldGrid.EXTERNAL_NEAR.contains( absX, absY ) ) {
+      grid = BarMagnetFieldGrid.EXTERNAL_NEAR;
     }
     else {
-      grid = BFieldGrid.EXTERNAL_FAR;
+      grid = BarMagnetFieldGrid.EXTERNAL_FAR;
     }
     return grid;
   }

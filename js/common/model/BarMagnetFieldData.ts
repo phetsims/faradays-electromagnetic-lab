@@ -2,7 +2,7 @@
 
 /**
  * BarMagnetFieldData contains precomputed data for the B-field of a bar magnet, along with the MathCAD parameters that
- * were used to compute the data. More details are provided in the documentation for BFieldGrid.
+ * were used to compute the data. More details are provided in the documentation for BarMagnetFieldGrid.
  *
  * @author Chris Malley (PixelZoom, Inc.)
  */
