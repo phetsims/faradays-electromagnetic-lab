@@ -28,9 +28,6 @@
         "projector"
       ]
     },
-    "phet-io": {
-      "validation": false
-    },
     "screenNameKeys": [
       "FARADAYS_ELECTROMAGNETIC_LAB/screen.barMagnet",
       "FARADAYS_ELECTROMAGNETIC_LAB/screen.pickupCoil",
