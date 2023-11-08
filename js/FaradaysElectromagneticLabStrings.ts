@@ -23,6 +23,7 @@ type StringsType = {
   'strengthColonStringProperty': LocalizedStringProperty;
   'seeInsideStringProperty': LocalizedStringProperty;
   'flipPolarityStringProperty': LocalizedStringProperty;
+  'showEarthStringProperty': LocalizedStringProperty;
   'pattern': {
     'valuePercentStringProperty': LocalizedStringProperty;
     'valueUnitsStringProperty': LocalizedStringProperty;

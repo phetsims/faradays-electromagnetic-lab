@@ -33,7 +33,7 @@ export default class BarMagnetScreenView extends ScreenView {
     const barMagnetNode = new BarMagnetNode( model.barMagnet, tandem.createTandem( 'barMagnetNode' ) );
 
     const barMagnetPanel = new BarMagnetPanel( model.barMagnet, this.viewProperties.seeInsideBarMagnetProperty,
-      tandem.createTandem( 'barMagnetPanel' ) );
+      this.viewProperties.earthVisibleProperty, tandem.createTandem( 'barMagnetPanel' ) );
     Multilink.multilink( [ barMagnetPanel.boundsProperty, this.visibleBoundsProperty ],
       ( barMagnetPanelBounds, visibleBounds ) => {
         barMagnetPanel.right = visibleBounds.right - FELConstants.SCREEN_VIEW_X_MARGIN;
