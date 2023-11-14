@@ -8,18 +8,22 @@
  */
 
 import faradaysElectromagneticLab from '../../faradaysElectromagneticLab.js';
-import { Image } from '../../../../scenery/js/imports.js';
+import { Image, Node } from '../../../../scenery/js/imports.js';
 import BarMagnet from '../model/BarMagnet.js';
 import Tandem from '../../../../tandem/js/Tandem.js';
 import earth_png from '../../../images/earth_png.js';
 import TReadOnlyProperty from '../../../../axon/js/TReadOnlyProperty.js';
 
-export default class EarthNode extends Image {
+export default class EarthNode extends Node {
 
   public constructor( barMagnet: BarMagnet, visibleProperty: TReadOnlyProperty<boolean>, tandem: Tandem ) {
 
-    super( earth_png, {
-      scale: 0.6,
+    const earthImage = new Image( earth_png, {
+      scale: 0.6
+    } );
+
+    super( {
+      children: [ earthImage ],
       visibleProperty: visibleProperty,
       tandem: tandem
     } );
