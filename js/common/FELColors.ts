@@ -28,12 +28,12 @@ const FELColors = {
   } ),
 
   panelFillProperty: new ProfileColorProperty( faradaysElectromagneticLab, 'panelFill', {
-    default: 'white',
+    default: PANEL_FILL_PROJECTOR,
     projector: PANEL_FILL_PROJECTOR
   } ),
 
   panelStrokeProperty: new ProfileColorProperty( faradaysElectromagneticLab, 'panelStroke', {
-    default: 'black',
+    default: PANEL_FILL_PROJECTOR.darkerColor( 0.85 ),
     projector: PANEL_FILL_PROJECTOR.darkerColor( 0.85 )
   } )
 };
