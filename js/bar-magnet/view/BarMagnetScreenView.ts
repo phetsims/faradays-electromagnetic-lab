@@ -89,8 +89,8 @@ export default class BarMagnetScreenView extends ScreenView {
 
     const rootNode = new Node( {
       children: [
-        earthNode,
         barMagnetNode,
+        earthNode,
         controlPanels,
         resetAllButton
       ]

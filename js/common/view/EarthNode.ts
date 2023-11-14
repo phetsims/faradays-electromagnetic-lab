@@ -20,6 +20,7 @@ export default class EarthNode extends Node {
 
     const earthImage = new Image( earth_png, {
       scale: 0.6,
+      opacity: 0.75,
       rotation: Math.PI / 2, // earth_png has north up, bar magnet has north to the right
       pickable: false // ... so earthPath determines where this Node can be grabbed.
     } );
