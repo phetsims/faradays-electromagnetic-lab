@@ -12,12 +12,13 @@ import Panel, { PanelOptions } from '../../../../sun/js/Panel.js';
 import Tandem from '../../../../tandem/js/Tandem.js';
 import Checkbox, { CheckboxOptions } from '../../../../sun/js/Checkbox.js';
 import Property from '../../../../axon/js/Property.js';
-import { Text, VBox } from '../../../../scenery/js/imports.js';
+import { HBox, Text, VBox } from '../../../../scenery/js/imports.js';
 import TextPushButton from '../../../../sun/js/buttons/TextPushButton.js';
 import { combineOptions } from '../../../../phet-core/js/optionize.js';
 import FELConstants from '../FELConstants.js';
 import FaradaysElectromagneticLabStrings from '../../FaradaysElectromagneticLabStrings.js';
 import BarMagnetStrengthControl from './BarMagnetStrengthControl.js';
+import BarMagnetNode from './BarMagnetNode.js';
 
 export default class BarMagnetPanel extends Panel {
 
@@ -27,6 +28,10 @@ export default class BarMagnetPanel extends Panel {
 
     const titleText = new Text( FaradaysElectromagneticLabStrings.barMagnetStringProperty, {
       font: FELConstants.TITLE_FONT
+    } );
+    const titleNode = new HBox( {
+      children: [ titleText, BarMagnetNode.createIcon() ],
+      spacing: 4
     } );
 
     const strengthControl = new BarMagnetStrengthControl( barMagnet.strengthProperty,
@@ -51,7 +56,7 @@ export default class BarMagnetPanel extends Panel {
       spacing: 15,
       stretch: true,
       children: [
-        titleText,
+        titleNode,
         strengthControl,
         flipPolarityButton,
         seeIndexCheckbox

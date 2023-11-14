@@ -52,6 +52,12 @@ export default class BarMagnetNode extends Node {
       } ) );
     this.addInputListener( keyboardDragListener );
   }
+
+  public static createIcon(): Node {
+    return new Image( barMagnet_png, {
+      scale: 0.3
+    } );
+  }
 }
 
 faradaysElectromagneticLab.register( 'BarMagnetNode', BarMagnetNode );
