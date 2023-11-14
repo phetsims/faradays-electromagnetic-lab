@@ -24,6 +24,9 @@ type StringsType = {
   'seeInsideStringProperty': LocalizedStringProperty;
   'flipPolarityStringProperty': LocalizedStringProperty;
   'showEarthStringProperty': LocalizedStringProperty;
+  'showFieldStringProperty': LocalizedStringProperty;
+  'showCompassStringProperty': LocalizedStringProperty;
+  'showFieldMeterStringProperty': LocalizedStringProperty;
   'pattern': {
     'valuePercentStringProperty': LocalizedStringProperty;
     'valueUnitsStringProperty': LocalizedStringProperty;

@@ -13,10 +13,11 @@ import faradaysElectromagneticLab from '../../faradaysElectromagneticLab.js';
 import BarMagnetModel from '../model/BarMagnetModel.js';
 import Tandem from '../../../../tandem/js/Tandem.js';
 import BarMagnetPanel from '../../common/view/BarMagnetPanel.js';
-import { Node } from '../../../../scenery/js/imports.js';
+import { Node, VBox } from '../../../../scenery/js/imports.js';
 import BarMagnetViewProperties from './BarMagnetViewProperties.js';
 import Multilink from '../../../../axon/js/Multilink.js';
 import BarMagnetNode from '../../common/view/BarMagnetNode.js';
+import BarMagnetVisibilityPanel from './BarMagnetVisibilityPanel.js';
 
 export default class BarMagnetScreenView extends ScreenView {
 
@@ -34,10 +35,28 @@ export default class BarMagnetScreenView extends ScreenView {
 
     const barMagnetPanel = new BarMagnetPanel( model.barMagnet, this.viewProperties.seeInsideBarMagnetProperty,
       this.viewProperties.earthVisibleProperty, tandem.createTandem( 'barMagnetPanel' ) );
-    Multilink.multilink( [ barMagnetPanel.boundsProperty, this.visibleBoundsProperty ],
-      ( barMagnetPanelBounds, visibleBounds ) => {
-        barMagnetPanel.right = visibleBounds.right - FELConstants.SCREEN_VIEW_X_MARGIN;
-        barMagnetPanel.top = this.layoutBounds.top + FELConstants.SCREEN_VIEW_Y_MARGIN;
+
+    const visibilityPanel = new BarMagnetVisibilityPanel(
+      this.viewProperties.fieldVisibleProperty,
+      this.viewProperties.compassVisibleProperty,
+      this.viewProperties.fieldMeterVisibleProperty,
+      tandem.createTandem( 'visibilityPanel' )
+    );
+
+    const controlPanels = new VBox( {
+      stretch: true,
+      spacing: 10,
+      children: [
+        barMagnetPanel,
+        visibilityPanel
+      ]
+    } );
+
+    // Adjust position of the control panels
+    Multilink.multilink( [ controlPanels.boundsProperty, this.visibleBoundsProperty ],
+      ( controlPanelsBounds, visibleBounds ) => {
+        controlPanels.right = visibleBounds.right - FELConstants.SCREEN_VIEW_X_MARGIN;
+        controlPanels.top = this.layoutBounds.top + FELConstants.SCREEN_VIEW_Y_MARGIN;
       } );
 
     const resetAllButton = new ResetAllButton( {
@@ -57,7 +76,7 @@ export default class BarMagnetScreenView extends ScreenView {
     const rootNode = new Node( {
       children: [
         barMagnetNode,
-        barMagnetPanel,
+        controlPanels,
         resetAllButton
       ]
     } );
@@ -65,7 +84,7 @@ export default class BarMagnetScreenView extends ScreenView {
 
     rootNode.pdomOrder = [
       barMagnetNode,
-      barMagnetPanel,
+      controlPanels,
       resetAllButton
     ];
   }

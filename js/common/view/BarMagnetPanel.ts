@@ -58,6 +58,7 @@ export default class BarMagnetPanel extends Panel {
     const content = new VBox( {
       align: 'left',
       spacing: 15,
+      stretch: true,
       children: [
         titleText,
         strengthControl,
