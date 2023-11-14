@@ -40,6 +40,15 @@ export default class BarMagnetScreenView extends ScreenView {
     const barMagnetPanel = new BarMagnetPanel( model.barMagnet, this.viewProperties.seeInsideBarMagnetProperty,
       tandem.createTandem( 'barMagnetPanel' ) );
 
+    this.viewProperties.earthVisibleProperty.link( earthVisible => {
+      if ( earthVisible ) {
+        model.barMagnet.rotationProperty.value = -Math.PI / 2; // north is up
+      }
+      else {
+        model.barMagnet.rotationProperty.value = 0; // north is to the right
+      }
+    } );
+
     const visibilityPanel = new BarMagnetVisibilityPanel(
       this.viewProperties.fieldVisibleProperty,
       this.viewProperties.compassVisibleProperty,
