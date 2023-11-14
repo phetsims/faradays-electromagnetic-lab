@@ -34,6 +34,7 @@ export default class BarMagnetNode extends Node {
       this.center = position;
     } );
 
+    //TODO This is incorrect, requires the 'Flip Polarity button to be pushed twice.
     barMagnet.rotationProperty.link( rotation => {
       this.rotateAround( this.center, rotation );
     } );
