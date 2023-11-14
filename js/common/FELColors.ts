@@ -14,8 +14,10 @@
  * @author Chris Malley (PixelZoom, Inc.)
  */
 
-import { ProfileColorProperty } from '../../../scenery/js/imports.js';
+import { Color, ProfileColorProperty } from '../../../scenery/js/imports.js';
 import faradaysElectromagneticLab from '../faradaysElectromagneticLab.js';
+
+const PANEL_FILL_PROJECTOR = new Color( 222, 234, 255 );
 
 const FELColors = {
 
@@ -23,6 +25,16 @@ const FELColors = {
   screenBackgroundColorProperty: new ProfileColorProperty( faradaysElectromagneticLab, 'background', {
     default: 'black',
     projector: 'white'
+  } ),
+
+  panelFillProperty: new ProfileColorProperty( faradaysElectromagneticLab, 'panelFill', {
+    default: 'white',
+    projector: PANEL_FILL_PROJECTOR
+  } ),
+
+  panelStrokeProperty: new ProfileColorProperty( faradaysElectromagneticLab, 'panelStroke', {
+    default: 'black',
+    projector: PANEL_FILL_PROJECTOR.darkerColor( 0.85 )
   } )
 };
 

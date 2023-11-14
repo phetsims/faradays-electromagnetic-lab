@@ -64,7 +64,9 @@ const NUMBER_CONTROL_OPTIONS: NumberControlOptions = {
 const PANEL_OPTIONS: PanelOptions = {
   isDisposable: false,
   xMargin: 15,
-  yMargin: 10
+  yMargin: 10,
+  fill: FELColors.panelFillProperty,
+  stroke: FELColors.panelStrokeProperty
 };
 
 const SCREEN_OPTIONS: Partial<ScreenOptions> = {
