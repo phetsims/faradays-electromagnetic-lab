@@ -83,16 +83,20 @@ export default abstract class Magnet extends PhetioObject {
    */
   public getBField( position: Vector2, outputVector = new Vector2( 0, 0 ) ): Vector2 {
 
+    //TODO This is the original Java code. Is this the same as how we've computed scratchPosition below?
+    // _transform.setToIdentity();
+    // _transform.translate( -getX(), -getY() );
+    // _transform.rotate( -getDirection(), getX(), getY() );
+    // _transform.transform( p, _relativePoint /* output */ );
+
     /*
     * Our models are based on a magnet located at the origin, with the North pole pointing down the positive x-axis.
     * The position argument for this method is in the global coordinate frame. So transform that position to the
     * magnet's local coordinate frame, adjusting for the magnet's position and rotation.
     */
-    //TODO This is the original Java code. How do we rewrite this to modify scratchPosition?
-    // _transform.setToIdentity();
-    // _transform.translate( -getX(), -getY() );
-    // _transform.rotate( -getDirection(), getX(), getY() );
-    // _transform.transform( p, _relativePoint /* output */ );
+    this.scratchPosition.set( position );
+    this.scratchPosition.rotateAboutPoint( this.positionProperty.value, -this.rotationProperty.value );
+    this.scratchPosition.subtract( this.positionProperty.value );
 
     // Get strength in magnet's local coordinate frame.
     this.getBFieldRelative( this.scratchPosition, outputVector );
@@ -101,7 +105,7 @@ export default abstract class Magnet extends PhetioObject {
     outputVector.rotate( this.rotationProperty.value );
 
     // Clamp magnitude to magnet strength.
-    //TODO: why do we need to do this?
+    //TODO Why do we need to do this? Why would outputVector.magnitude be out of range?
     const magnetStrength = this.strengthProperty.value;
     const magnitude = outputVector.magnitude;
     if ( magnitude > magnetStrength ) {
