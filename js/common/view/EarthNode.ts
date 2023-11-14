@@ -1,6 +1,5 @@
 // Copyright 2023, University of Colorado Boulder
 
-//TODO Make the earth draggable.
 /**
  * EarthNode is the view of a planet earth, which aligns itself with the position and rotation of a BarMagnet.
  *
@@ -8,7 +7,7 @@
  */
 
 import faradaysElectromagneticLab from '../../faradaysElectromagneticLab.js';
-import { Image, Node } from '../../../../scenery/js/imports.js';
+import { DragListener, Image, Node } from '../../../../scenery/js/imports.js';
 import BarMagnet from '../model/BarMagnet.js';
 import Tandem from '../../../../tandem/js/Tandem.js';
 import earth_png from '../../../images/earth_png.js';
@@ -25,6 +24,9 @@ export default class EarthNode extends Node {
     super( {
       children: [ earthImage ],
       visibleProperty: visibleProperty,
+      cursor: 'pointer',
+      tagName: 'div',
+      focusable: true,
       tandem: tandem
     } );
 
@@ -32,10 +34,19 @@ export default class EarthNode extends Node {
       this.center = position;
     } );
 
-    //TODO This is incorrect, requires the 'Flip Polarity button to be pushed twice.
     barMagnet.rotationProperty.link( rotation => {
-      this.rotateAround( this.center, rotation );
+      this.rotateAround( this.center, rotation - this.rotation );
     } );
+
+    //TODO Limit dragging to non-transparent pixels in the image.
+    const dragListener = new DragListener( {
+      positionProperty: barMagnet.positionProperty,
+      useParentOffset: true,
+      tandem: tandem.createTandem( 'dragListener' )
+    } );
+    this.addInputListener( dragListener );
+
+    // KeyboardDragListener is unnecessary for EarthNode, since BarMagnetNode has a KeyboardDragListener.
   }
 }
 
