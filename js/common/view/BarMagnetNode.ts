@@ -34,6 +34,10 @@ export default class BarMagnetNode extends Node {
       this.center = position;
     } );
 
+    barMagnet.rotationProperty.link( rotation => {
+      this.rotateAround( this.center, rotation );
+    } );
+
     const dragListener = new DragListener( {
       positionProperty: barMagnet.positionProperty,
       useParentOffset: true,

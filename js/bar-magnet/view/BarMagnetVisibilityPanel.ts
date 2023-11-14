@@ -21,6 +21,7 @@ export default class BarMagnetVisibilityPanel extends Panel {
   public constructor( fieldVisibleProperty: Property<boolean>,
                       compassVisibleProperty: Property<boolean>,
                       fieldMeterVisibleProperty: Property<boolean>,
+                      earthVisibleProperty: Property<boolean>,
                       tandem: Tandem ) {
 
     // 'Show Field' checkbox
@@ -50,6 +51,15 @@ export default class BarMagnetVisibilityPanel extends Panel {
         tandem: tandem.createTandem( 'showFieldMeterCheckbox' )
       } ) );
 
+    // 'Show Earth' checkbox
+    const showEarthText = new Text( FaradaysElectromagneticLabStrings.showEarthStringProperty, {
+      font: FELConstants.CONTROL_FONT
+    } );
+    const showEarthCheckbox = new Checkbox( earthVisibleProperty, showEarthText,
+      combineOptions<CheckboxOptions>( {}, FELConstants.CHECKBOX_OPTIONS, {
+        tandem: tandem.createTandem( 'showEarthCheckbox' )
+      } ) );
+
     const content = new VBox( {
       align: 'left',
       spacing: 15,
@@ -57,7 +67,8 @@ export default class BarMagnetVisibilityPanel extends Panel {
       children: [
         showFieldCheckbox,
         showCompassCheckbox,
-        showFieldMeterCheckbox
+        showFieldMeterCheckbox,
+        showEarthCheckbox
       ]
     } );
 

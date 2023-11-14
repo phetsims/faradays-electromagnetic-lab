@@ -23,7 +23,6 @@ export default class BarMagnetPanel extends Panel {
 
   public constructor( barMagnet: BarMagnet,
                       seeInsideBarMagenetProperty: Property<boolean>,
-                      earthVisibleProperty: Property<boolean>,
                       tandem: Tandem ) {
 
     const titleText = new Text( FaradaysElectromagneticLabStrings.barMagnetStringProperty, {
@@ -47,14 +46,6 @@ export default class BarMagnetPanel extends Panel {
         tandem: tandem.createTandem( 'seeIndexCheckbox' )
       } ) );
 
-    const showEarthText = new Text( FaradaysElectromagneticLabStrings.showEarthStringProperty, {
-      font: FELConstants.CONTROL_FONT
-    } );
-    const showEarthCheckbox = new Checkbox( earthVisibleProperty, showEarthText,
-      combineOptions<CheckboxOptions>( {}, FELConstants.CHECKBOX_OPTIONS, {
-        tandem: tandem.createTandem( 'showEarthCheckbox' )
-      } ) );
-
     const content = new VBox( {
       align: 'left',
       spacing: 15,
@@ -63,8 +54,7 @@ export default class BarMagnetPanel extends Panel {
         titleText,
         strengthControl,
         flipPolarityButton,
-        seeIndexCheckbox,
-        showEarthCheckbox
+        seeIndexCheckbox
       ]
     } );
 

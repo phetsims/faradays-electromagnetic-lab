@@ -18,6 +18,7 @@ import BarMagnetViewProperties from './BarMagnetViewProperties.js';
 import Multilink from '../../../../axon/js/Multilink.js';
 import BarMagnetNode from '../../common/view/BarMagnetNode.js';
 import BarMagnetVisibilityPanel from './BarMagnetVisibilityPanel.js';
+import EarthNode from '../../common/view/EarthNode.js';
 
 export default class BarMagnetScreenView extends ScreenView {
 
@@ -33,13 +34,17 @@ export default class BarMagnetScreenView extends ScreenView {
 
     const barMagnetNode = new BarMagnetNode( model.barMagnet, tandem.createTandem( 'barMagnetNode' ) );
 
+    const earthNode = new EarthNode( model.barMagnet, this.viewProperties.earthVisibleProperty,
+      tandem.createTandem( 'earthNode' ) );
+
     const barMagnetPanel = new BarMagnetPanel( model.barMagnet, this.viewProperties.seeInsideBarMagnetProperty,
-      this.viewProperties.earthVisibleProperty, tandem.createTandem( 'barMagnetPanel' ) );
+      tandem.createTandem( 'barMagnetPanel' ) );
 
     const visibilityPanel = new BarMagnetVisibilityPanel(
       this.viewProperties.fieldVisibleProperty,
       this.viewProperties.compassVisibleProperty,
       this.viewProperties.fieldMeterVisibleProperty,
+      this.viewProperties.earthVisibleProperty,
       tandem.createTandem( 'visibilityPanel' )
     );
 
@@ -75,6 +80,7 @@ export default class BarMagnetScreenView extends ScreenView {
 
     const rootNode = new Node( {
       children: [
+        earthNode,
         barMagnetNode,
         controlPanels,
         resetAllButton
