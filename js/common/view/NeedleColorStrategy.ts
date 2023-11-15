@@ -1,5 +1,7 @@
 // Copyright 2023, University of Colorado Boulder
 
+//TODO Try using AlphaColorStrategy exclusively, with Sprites. Perhaps we can ditch this.
+
 /**
  * NeedleColorStrategy is the base class for strategies that converts B-field strength to Color.
  * B-field strength is a scale value between 0 and 1 inclusive.
