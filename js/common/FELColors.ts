@@ -35,6 +35,14 @@ const FELColors = {
   panelStrokeProperty: new ProfileColorProperty( faradaysElectromagneticLab, 'panelStroke', {
     default: PANEL_FILL_PROJECTOR.darkerColor( 0.85 ),
     projector: PANEL_FILL_PROJECTOR.darkerColor( 0.85 )
+  } ),
+
+  northColorProperty: new ProfileColorProperty( faradaysElectromagneticLab, 'northColor', {
+    default: 'red'
+  } ),
+
+  southColorProperty: new ProfileColorProperty( faradaysElectromagneticLab, 'southColor', {
+    default: 'white'
   } )
 };
 
