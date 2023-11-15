@@ -42,7 +42,8 @@ const FELColors = {
   } ),
 
   southColorProperty: new ProfileColorProperty( faradaysElectromagneticLab, 'southColor', {
-    default: 'white'
+    default: 'white',
+    projector: Color.grayColor( 200 )
   } )
 };
 
