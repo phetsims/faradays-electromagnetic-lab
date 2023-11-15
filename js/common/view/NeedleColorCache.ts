@@ -1,9 +1,9 @@
 // Copyright 2023, University of Colorado Boulder
 
 /**
- * NeedleColorCache is a cache of the colors used to draw B-field needs. The cache contains a maximum number of colors,
- * and B-field strength is mapped to the closest color. The cache can be populated lazily or eagerly, via the
- * populateEagerly constructor parameter.
+ * NeedleColorCache is a cache of the colors used to draw B-field needles. The cache contains a maximum number
+ * of colors, and B-field strength is mapped to the closest color. The cache can be populated lazily or eagerly,
+ * via the populateEagerly constructor parameter.
  *
  * @author Chris Malley (PixelZoom, Inc.)
  */
