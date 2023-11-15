@@ -2,8 +2,7 @@
 
 /**
  * NeedleColorCache is a cache of the colors used to draw B-field needles. The cache contains a maximum number
- * of colors, and B-field strength is mapped to the closest color. The cache can be populated lazily or eagerly,
- * via the populateEagerly constructor parameter.
+ * of colors, and B-field strength is mapped to the closest color. The cache can be populated lazily or eagerly.
  *
  * @author Chris Malley (PixelZoom, Inc.)
  */
@@ -13,27 +12,44 @@ import NeedleColorStrategy from './NeedleColorStrategy.js';
 import { Color, ProfileColorProperty } from '../../../../scenery/js/imports.js';
 import TReadOnlyProperty from '../../../../axon/js/TReadOnlyProperty.js';
 import Utils from '../../../../dot/js/Utils.js';
+import optionize from '../../../../phet-core/js/optionize.js';
 
-const NUMBER_OF_COLORS = 256; // the maximum number of colors in the cache
+type SelfOptions = {
+  cacheSize?: number; // the maximum number of colors in the cache
+  populateEagerly?: boolean; // whether to populate the cache eagerly or lazily
+};
+
+type NeedleColorCacheOptions = SelfOptions;
 
 export default class NeedleColorCache {
 
   private readonly needleColorStrategyProperty: TReadOnlyProperty<NeedleColorStrategy>;
   private readonly needleColorProperty: ProfileColorProperty;
   private readonly colors: Color[];
+  private readonly cacheSize: number;
 
-  public constructor( needleColorStrategyProperty: TReadOnlyProperty<NeedleColorStrategy>, needleColorProperty: ProfileColorProperty, populateEagerly = true ) {
+  public constructor( needleColorStrategyProperty: TReadOnlyProperty<NeedleColorStrategy>,
+                      needleColorProperty: ProfileColorProperty,
+                      providedOptions?: NeedleColorCacheOptions ) {
+
+    const options = optionize<NeedleColorCacheOptions, SelfOptions>()( {
+
+      // SelfOptions
+      cacheSize: 256,
+      populateEagerly: true
+    }, providedOptions );
 
     this.needleColorStrategyProperty = needleColorStrategyProperty;
     this.needleColorProperty = needleColorProperty;
     this.colors = [];
+    this.cacheSize = options.cacheSize;
 
-    populateEagerly && this.populate();
+    options.populateEagerly && this.populate();
 
     // If the color strategy changes, clear the cache and (optionally) populate eagerly.
     this.needleColorStrategyProperty.lazyLink( () => {
       this.clear();
-      populateEagerly && this.populate();
+      options.populateEagerly && this.populate();
     } );
   }
 
@@ -44,12 +60,12 @@ export default class NeedleColorCache {
    */
   public getColor( strength: number ): Color {
     assert && assert( strength >= 0 && strength <= 1, `invalid strength: ${strength}` );
-    const index = Utils.roundSymmetric( ( NUMBER_OF_COLORS - 1 ) * strength );
+    const index = Utils.roundSymmetric( ( this.cacheSize - 1 ) * strength );
     let color = this.colors[ index ];
     if ( !color ) {
       color = this.needleColorStrategyProperty.value.strengthToColor( strength, this.needleColorProperty.value );
       this.colors[ index ] = color;
-      assert && assert( this.colors.length <= NUMBER_OF_COLORS );
+      assert && assert( this.colors.length <= this.cacheSize );
     }
     assert && assert( color );
     return color;
@@ -60,11 +76,11 @@ export default class NeedleColorCache {
    * Fully populates the cache. If this is not called, then the cache is populated as colors are needed.
    */
   private populate(): void {
-    const deltaStrength = 1.0 / ( NUMBER_OF_COLORS - 1 );
-    for ( let i = 0; i < NUMBER_OF_COLORS; i++ ) {
+    const deltaStrength = 1 / ( this.cacheSize - 1 );
+    for ( let i = 0; i < this.cacheSize; i++ ) {
       this.getColor( i * deltaStrength );
     }
-    assert && assert( this.colors.length === NUMBER_OF_COLORS );
+    assert && assert( this.colors.length === this.cacheSize );
   }
 
   /**
