@@ -2,8 +2,8 @@
 
 /**
  * NeedleColorCache is a cache of the colors used to draw B-field needs. The cache contains a maximum number of colors,
- * and B-field strength is mapped to the closest color. The cache is populated as colors are requested, or you can call
- * 'populate' to populate the entire cache immediately.
+ * and B-field strength is mapped to the closest color. The cache can be populated lazily or eagerly, via the
+ * populateEagerly constructor parameter.
  *
  * @author Chris Malley (PixelZoom, Inc.)
  */
@@ -22,14 +22,19 @@ export default class NeedleColorCache {
   private readonly needleColorProperty: ProfileColorProperty;
   private readonly colors: Color[];
 
-  public constructor( needleColorStrategyProperty: TReadOnlyProperty<NeedleColorStrategy>, needleColorProperty: ProfileColorProperty ) {
+  public constructor( needleColorStrategyProperty: TReadOnlyProperty<NeedleColorStrategy>, needleColorProperty: ProfileColorProperty, populateEagerly = true ) {
 
     this.needleColorStrategyProperty = needleColorStrategyProperty;
     this.needleColorProperty = needleColorProperty;
     this.colors = [];
 
-    // If the color strategy changes, clear the cache.
-    this.needleColorStrategyProperty.lazyLink( () => this.clear() );
+    populateEagerly && this.populate();
+
+    // If the color strategy changes, clear the cache and (optionally) populate eagerly.
+    this.needleColorStrategyProperty.lazyLink( () => {
+      this.clear();
+      populateEagerly && this.populate();
+    } );
   }
 
   /**
@@ -46,14 +51,15 @@ export default class NeedleColorCache {
       this.colors[ index ] = color;
       assert && assert( this.colors.length <= NUMBER_OF_COLORS );
     }
+    assert && assert( color );
     return color;
   }
 
 
   /**
-   * Fully populates the cache. If you don't call this, then the cache is populated as colors are needed.
+   * Fully populates the cache. If this is not called, then the cache is populated as colors are needed.
    */
-  public populate(): void {
+  private populate(): void {
     const deltaStrength = 1.0 / ( NUMBER_OF_COLORS - 1 );
     for ( let i = 0; i < NUMBER_OF_COLORS; i++ ) {
       this.getColor( i * deltaStrength );
