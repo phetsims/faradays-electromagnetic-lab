@@ -13,6 +13,7 @@ import { Color, ProfileColorProperty } from '../../../../scenery/js/imports.js';
 import TReadOnlyProperty from '../../../../axon/js/TReadOnlyProperty.js';
 import Utils from '../../../../dot/js/Utils.js';
 import optionize from '../../../../phet-core/js/optionize.js';
+import Multilink from '../../../../axon/js/Multilink.js';
 
 type SelfOptions = {
   cacheSize?: number; // the maximum number of colors in the cache
@@ -46,8 +47,8 @@ export default class NeedleColorCache {
 
     options.populateEagerly && this.populate();
 
-    // If the color strategy changes, clear the cache and (optionally) populate eagerly.
-    this.needleColorStrategyProperty.lazyLink( () => {
+    // If the color strategy or needle color changes, clear the cache and (optionally) populate eagerly.
+    Multilink.lazyMultilink( [ needleColorStrategyProperty, needleColorProperty ], () => {
       this.clear();
       options.populateEagerly && this.populate();
     } );
