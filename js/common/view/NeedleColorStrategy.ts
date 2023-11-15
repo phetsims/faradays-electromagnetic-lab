@@ -1,7 +1,7 @@
 // Copyright 2023, University of Colorado Boulder
 
 /**
- * NeedleColorStrategy is the base class for strategies that convert B-field strength to Colors.
+ * NeedleColorStrategy is the base class for strategies that converts B-field strength to Color.
  * B-field strength is a scale value between 0 and 1 inclusive.
  *
  * Two concrete strategies are provided.
@@ -16,68 +16,44 @@
  */
 
 import faradaysElectromagneticLab from '../../faradaysElectromagneticLab.js';
-import { Color, ProfileColorProperty } from '../../../../scenery/js/imports.js';
+import { Color } from '../../../../scenery/js/imports.js';
 
 export default abstract class NeedleColorStrategy {
 
-  protected northColorProperty: ProfileColorProperty;
-  protected southColorProperty: ProfileColorProperty;
-
-  protected constructor( northColorProperty: ProfileColorProperty, southColorProperty: ProfileColorProperty ) {
-    this.northColorProperty = northColorProperty;
-    this.southColorProperty = southColorProperty;
+  protected constructor() {
+    // Use createStrategy to create instances.
   }
 
   /**
    * Gets a color for the north pole.
-   * @param scale - 0 to 1
+   * @param strength - 0 to 1
+   * @param fullStrengthColor - the Color for strength === 1
    */
-  public abstract getNorthColor( scale: number ): Color;
-
-  /**
-   * Gets a color for the south pole.
-   * @param scale - 0 to 1
-   */
-  public abstract getSouthColor( scale: number ): Color;
+  public abstract strengthToColor( strength: number, fullStrengthColor: Color ): Color;
 
   /**
    * Creates the appropriate strategy for a specified background color.
    */
-  public static createStrategy( backgroundColor: Color, northColorProperty: ProfileColorProperty, southColorProperty: ProfileColorProperty ): NeedleColorStrategy {
-    return ( backgroundColor.equals( Color.BLACK ) ) ?
-           new SaturationColorStrategy( northColorProperty, southColorProperty ) :
-           new AlphaColorStrategy( northColorProperty, southColorProperty );
+  public static createStrategy( backgroundColor: Color ): NeedleColorStrategy {
+    return ( backgroundColor.equals( Color.BLACK ) ) ? new SaturationColorStrategy() : new AlphaColorStrategy();
   }
 }
 
 class AlphaColorStrategy extends NeedleColorStrategy {
 
-  public getNorthColor( scale: number ): Color {
-    assert && assert( scale >= 0 && scale <= 1, `invalid scale: ${scale}` );
-    return this.northColorProperty.value.withAlpha( scale );
-  }
-
-  public getSouthColor( scale: number ): Color {
-    assert && assert( scale >= 0 && scale <= 1, `invalid alpha: ${scale}` );
-    return this.southColorProperty.value.withAlpha( scale );
+  public strengthToColor( strength: number, baseColor: Color ): Color {
+    assert && assert( strength >= 0 && strength <= 1, `invalid strength: ${strength}` );
+    return baseColor.withAlpha( strength );
   }
 }
 
 class SaturationColorStrategy extends NeedleColorStrategy {
 
-  public getNorthColor( scale: number ): Color {
-    return SaturationColorStrategy.scaleRGB( scale, this.northColorProperty.value );
-  }
-
-  public getSouthColor( scale: number ): Color {
-    return SaturationColorStrategy.scaleRGB( scale, this.southColorProperty.value );
-  }
-
-  private static scaleRGB( scale: number, color: Color ): Color {
-    assert && assert( scale >= 0 && scale <= 1, `invalid scale: ${scale}` );
-    const r = scale * color.red;
-    const g = scale * color.green;
-    const b = scale * color.blue;
+  public strengthToColor( strength: number, baseColor: Color ): Color {
+    assert && assert( strength >= 0 && strength <= 1, `invalid strength: ${strength}` );
+    const r = strength * baseColor.red;
+    const g = strength * baseColor.green;
+    const b = strength * baseColor.blue;
     return new Color( r, g, b );
   }
 }
