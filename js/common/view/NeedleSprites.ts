@@ -109,7 +109,7 @@ class NeedleSpriteInstance extends SpriteInstance {
   }
 
   public dispose(): void {
-    this.rotationProperty.dispose();cid
+    this.rotationProperty.dispose();
   }
 
   /**
