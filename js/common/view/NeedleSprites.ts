@@ -68,7 +68,6 @@ export default class NeedleSprites extends Sprites {
 
     // Make the grid fill the visible bounds.
     const visibleBounds = this.visibleBoundsProperty.value;
-    console.log( `visibleBounds=${visibleBounds}` );
     for ( let x = visibleBounds.left; x < visibleBounds.right; x = x + FELQueryParameters.needleSpacing ) {
       for ( let y = visibleBounds.top; y < visibleBounds.bottom; y = y + FELQueryParameters.needleSpacing ) {
         this.needleSpriteInstances.push( new NeedleSpriteInstance( this.needleSprite, new Vector2( x, y ), 0 ) );
@@ -80,11 +79,9 @@ export default class NeedleSprites extends Sprites {
 
   private update(): void {
     this.needleSpriteInstances.forEach( needleSpriteInstance => {
-      this.barMagnet.getBField( needleSpriteInstance.position, this.scratchVector );
-      needleSpriteInstance.rotationProperty.value = this.scratchVector.angle;
-
-      //TODO Should this use this.scratchVector.magnitude?
-      needleSpriteInstance.alpha = this.barMagnet.strengthProperty.value / this.barMagnet.strengthProperty.rangeProperty.value.max;
+      const bField = this.barMagnet.getBField( needleSpriteInstance.position, this.scratchVector );
+      needleSpriteInstance.rotationProperty.value = bField.angle;
+      needleSpriteInstance.alpha = strengthToAlpha( bField.magnitude, this.barMagnet.strengthProperty.rangeProperty.value.max );
     } );
     this.invalidatePaint();
   }
@@ -141,6 +138,31 @@ class NeedleSpriteInstance extends SpriteInstance {
 
     assert && assert( this.matrix.isFinite(), 'matrix should be finite' );
   }
+}
+
+//TODO Is this an OK substitute for NeedleColorStrategy?
+/**
+ * Converts magnet strength to alpha color component.
+ */
+function strengthToAlpha( strength: number, maxStrength: number ): number {
+  assert && assert( strength >= 0 && strength <= maxStrength, `invalid strength: ${strength}` );
+
+  //TODO Debug the algorithm below from AbstractBFieldGraphic.java updateStrengthAndOrientation. It's dropping off too quickly.
+  return 1;
+
+  // let alpha = ( strength / maxStrength );
+  //
+  // // Scale the alpha, because in reality the strength drops off quickly, and we wouldn't see much of the B-field.
+  // alpha = Math.pow( alpha, 1 / FELQueryParameters.outsideBFieldIntensityScale );
+  //
+  // // Increase the alpha of needles just outside the ends of magnet to improve the "look".
+  // alpha *= 2;
+  // if ( alpha > 1 ) {
+  //   alpha = 1;
+  // }
+  //
+  // assert && assert( alpha >= 0 && alpha <= 1, `invalid scaledIntensity: ${alpha}` );
+  // return alpha;
 }
 
 faradaysElectromagneticLab.register( 'NeedleSprites', NeedleSprites );
