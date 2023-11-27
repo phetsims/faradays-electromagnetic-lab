@@ -31,12 +31,7 @@ export default class NeedleSprites extends Sprites {
   public constructor( barMagnet: BarMagnet, visibleBoundsProperty: TReadOnlyProperty<Bounds2>, visibleProperty: TReadOnlyProperty<boolean>, tandem: Tandem ) {
 
     const needleSprite = new NeedleSprite();
-    const needleSpriteInstances: NeedleSpriteInstance[] = [
-
-      //TODO Array should initially be empty, this is a test.
-      new NeedleSpriteInstance( needleSprite, new Vector2( 100, 100 ), 0 ),
-      new NeedleSpriteInstance( needleSprite, new Vector2( 200, 200 ), 0 )
-    ];
+    const needleSpriteInstances: NeedleSpriteInstance[] = [];
 
     super( {
       isDisposable: false,
