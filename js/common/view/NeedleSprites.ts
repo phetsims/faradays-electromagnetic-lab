@@ -18,16 +18,18 @@ import Bounds2 from '../../../../dot/js/Bounds2.js';
 import BarMagnet from '../model/BarMagnet.js';
 import Multilink from '../../../../axon/js/Multilink.js';
 import NeedleNode from './NeedleNode.js';
+import FELQueryParameters from '../FELQueryParameters.js';
 
 export default class NeedleSprites extends Sprites {
 
   private readonly barMagnet: BarMagnet;
+  private readonly layoutBounds: Bounds2;
   private readonly visibleBoundsProperty: TReadOnlyProperty<Bounds2>;
   private readonly needleSprite: NeedleSprite;
   private readonly needleSpriteInstances: NeedleSpriteInstance[];
   private readonly scratchVector: Vector2;
 
-  public constructor( barMagnet: BarMagnet, visibleBoundsProperty: TReadOnlyProperty<Bounds2>, tandem: Tandem ) {
+  public constructor( barMagnet: BarMagnet, layoutBounds: Bounds2, visibleBoundsProperty: TReadOnlyProperty<Bounds2>, tandem: Tandem ) {
 
     const needleSprite = new NeedleSprite();
     const needleSpriteInstances: NeedleSpriteInstance[] = [
@@ -46,6 +48,7 @@ export default class NeedleSprites extends Sprites {
     } );
 
     this.barMagnet = barMagnet;
+    this.layoutBounds = layoutBounds;
     this.visibleBoundsProperty = visibleBoundsProperty;
 
     this.needleSprite = needleSprite;
@@ -65,8 +68,16 @@ export default class NeedleSprites extends Sprites {
   }
 
   private rebuild(): void {
-    //TODO Compute how many SpriteInstances are needed based on visibleBounds and B-field spacing.
     //TODO See gas-properties.ParticlesNode for SpriteInstance pooling.
+    this.needleSpriteInstances.forEach( needleSpriteInstance => needleSpriteInstance.dispose() );
+    this.needleSpriteInstances.length = 0;
+
+    //TODO Fill visibleBounds, not just layoutBounds.
+    for ( let x = this.layoutBounds.left; x < this.layoutBounds.right; x = x + FELQueryParameters.needleSpacing ) {
+      for ( let y = this.layoutBounds.top; y < this.layoutBounds.bottom; y = y + FELQueryParameters.needleSpacing ) {
+        this.needleSpriteInstances.push( new NeedleSpriteInstance( this.needleSprite, new Vector2( x, y ), 0 ) );
+      }
+    }
 
     this.update();
   }

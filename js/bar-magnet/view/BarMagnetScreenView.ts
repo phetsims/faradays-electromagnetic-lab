@@ -33,7 +33,7 @@ export default class BarMagnetScreenView extends ScreenView {
 
     this.viewProperties = new BarMagnetViewProperties( tandem.createTandem( 'viewProperties' ) );
 
-    const needleSprites = new NeedleSprites( model.barMagnet, this.visibleBoundsProperty, tandem.createTandem( 'needleSprites' ) );
+    const needleSprites = new NeedleSprites( model.barMagnet, this.layoutBounds, this.visibleBoundsProperty, tandem.createTandem( 'needleSprites' ) );
 
     const barMagnetNode = new BarMagnetNode( model.barMagnet, tandem.createTandem( 'barMagnetNode' ) );
 
@@ -92,11 +92,11 @@ export default class BarMagnetScreenView extends ScreenView {
 
     const rootNode = new Node( {
       children: [
+        needleSprites,
         barMagnetNode,
         earthNode,
         controlPanels,
-        resetAllButton,
-        needleSprites //TODO move to back
+        resetAllButton
       ]
     } );
     this.addChild( rootNode );
