@@ -124,9 +124,14 @@ class NeedleSpriteInstance extends SpriteInstance {
    * Updates the matrix to match the needle's position and rotation.
    */
   private updateMatrix(): void {
-    // this.matrix.set00( this.rotationProperty.value ); //TODO this is wrong, ignore for now
+
+    // rotation (yaw)
+    this.matrix.setToRotationZ( this.rotationProperty.value );
+
+    // translation
     this.matrix.set02( this.position.x );
     this.matrix.set12( this.position.y );
+
     assert && assert( this.matrix.isFinite(), 'matrix should be finite' );
   }
 }
