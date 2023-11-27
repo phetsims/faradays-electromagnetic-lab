@@ -22,16 +22,23 @@ export default class NeedleSprites extends Sprites {
 
   private readonly barMagnet: BarMagnet;
   private readonly needleSprite: NeedleSprite;
-  private readonly spriteInstances: NeedleSpriteInstance[];
+  private readonly needleSpriteInstances: NeedleSpriteInstance[];
   private readonly scratchVector: Vector2;
 
   public constructor( barMagnet: BarMagnet, visibleBoundsProperty: TReadOnlyProperty<Bounds2>, tandem: Tandem ) {
 
     const needleSprite = new NeedleSprite();
+    const needleSpriteInstances: NeedleSpriteInstance[] = [
+
+      //TODO this is a test
+      new NeedleSpriteInstance( needleSprite, new Vector2( 100, 100 ), 0 ),
+      new NeedleSpriteInstance( needleSprite, new Vector2( 200, 200 ), 0 )
+    ];
 
     super( {
       isDisposable: false,
       sprites: [ needleSprite ],
+      spriteInstances: needleSpriteInstances,
       hitTestSprites: false,
       tandem: tandem
     } );
@@ -39,12 +46,7 @@ export default class NeedleSprites extends Sprites {
     this.barMagnet = barMagnet;
 
     this.needleSprite = needleSprite;
-    this.spriteInstances = [
-
-      //TODO this is a test
-      new NeedleSpriteInstance( this.needleSprite, new Vector2( 100, 100 ), 0 ),
-      new NeedleSpriteInstance( this.needleSprite, new Vector2( 200, 200 ), 0 )
-    ];
+    this.needleSpriteInstances = needleSpriteInstances;
     this.scratchVector = new Vector2( 0, 0 );
 
     Multilink.multilink(
@@ -60,10 +62,8 @@ export default class NeedleSprites extends Sprites {
   }
 
   private rebuild(): void {
-    // this.spriteInstances.forEach( spriteInstance => spriteInstance.dispose() );
-    // this.spriteInstances.length = 0;
-
-    //TODO this.spriteInstances.push instances of NeedleSpriteInstance to fill this.canvasBounds
+    //TODO Compute how many SpriteInstances are needed based on visibleBounds and B-field spacing.
+    //TODO See gas-properties.ParticlesNode for SpriteInstance pooling.
 
     this.update();
   }
