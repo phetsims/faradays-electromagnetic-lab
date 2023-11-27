@@ -1,7 +1,8 @@
 // Copyright 2023, University of Colorado Boulder
 
 /**
- * TODO
+ * NeedleSprites is the visualization of the B-field as a 2D grid of compass needles.  It uses scenery's Sprites
+ * feature for performance optimization.
  *
  * @author Chris Malley (PixelZoom, Inc.)
  */
@@ -15,12 +16,13 @@ import Tandem from '../../../../tandem/js/Tandem.js';
 import TReadOnlyProperty from '../../../../axon/js/TReadOnlyProperty.js';
 import Bounds2 from '../../../../dot/js/Bounds2.js';
 import BarMagnet from '../model/BarMagnet.js';
-import barMagnet_png from '../../../images/barMagnet_png.js';
 import Multilink from '../../../../axon/js/Multilink.js';
+import NeedleNode from './NeedleNode.js';
 
 export default class NeedleSprites extends Sprites {
 
   private readonly barMagnet: BarMagnet;
+  private readonly visibleBoundsProperty: TReadOnlyProperty<Bounds2>;
   private readonly needleSprite: NeedleSprite;
   private readonly needleSpriteInstances: NeedleSpriteInstance[];
   private readonly scratchVector: Vector2;
@@ -30,7 +32,7 @@ export default class NeedleSprites extends Sprites {
     const needleSprite = new NeedleSprite();
     const needleSpriteInstances: NeedleSpriteInstance[] = [
 
-      //TODO this is a test
+      //TODO Array should initially be empty, this is a test.
       new NeedleSpriteInstance( needleSprite, new Vector2( 100, 100 ), 0 ),
       new NeedleSpriteInstance( needleSprite, new Vector2( 200, 200 ), 0 )
     ];
@@ -44,6 +46,7 @@ export default class NeedleSprites extends Sprites {
     } );
 
     this.barMagnet = barMagnet;
+    this.visibleBoundsProperty = visibleBoundsProperty;
 
     this.needleSprite = needleSprite;
     this.needleSpriteInstances = needleSpriteInstances;
@@ -69,14 +72,13 @@ export default class NeedleSprites extends Sprites {
   }
 
   private update(): void {
-    // this.spriteInstances.forEach( spriteInstance => {
-    //   this.barMagnet.getBField( spriteInstance.position, this.scratchVector );
-    //   console.log( `scratchVector=${this.scratchVector} magnitude=${this.scratchVector.magnitude} angle=${this.scratchVector.angle}` );
-    //   spriteInstance.rotationProperty.value = this.scratchVector.angle;
-    //
-    //   //TODO this should use this.scratchVector.magnitude
-    //   spriteInstance.alpha = this.barMagnet.strengthProperty.value / this.barMagnet.strengthProperty.rangeProperty.value.max; //TODO
-    // } );
+    this.needleSpriteInstances.forEach( needleSpriteInstance => {
+      this.barMagnet.getBField( needleSpriteInstance.position, this.scratchVector );
+      needleSpriteInstance.rotationProperty.value = this.scratchVector.angle;
+
+      //TODO Should this use this.scratchVector.magnitude?
+      needleSpriteInstance.alpha = this.barMagnet.strengthProperty.value / this.barMagnet.strengthProperty.rangeProperty.value.max;
+    } );
     this.invalidatePaint();
   }
 }
@@ -85,20 +87,14 @@ class NeedleSprite extends Sprite {
   public constructor() {
 
     // Convert a NeedleNode to a SpriteImage.
-    //TODO This is asynchronous. Is there a better way?
-    // let spriteImage: SpriteImage;
-    // const needleNode = new NeedleNode();
-    // needleNode.toCanvas( ( canvas: HTMLCanvasElement, x: number, y: number, width: number, height: number ) => {
-    //   const offset = new Vector2( needleNode.width / 2, needleNode.height / 2 );
-    //   spriteImage = new SpriteImage( canvas, offset );
-    // } );
-
-    //TODO Use image of the bar magnet for now, until I get something to render.
-    const spriteImage = new SpriteImage( barMagnet_png, new Vector2( barMagnet_png.width / 2, barMagnet_png.height / 2 ), {
-      pickable: false
+    let spriteImage: SpriteImage;
+    const needleNode = new NeedleNode();
+    needleNode.toCanvas( ( canvas: HTMLCanvasElement, x: number, y: number, width: number, height: number ) => {
+      const offset = new Vector2( needleNode.width / 2, needleNode.height / 2 );
+      spriteImage = new SpriteImage( canvas, offset );
     } );
 
-    super( spriteImage );
+    super( spriteImage! );
   }
 }
 
