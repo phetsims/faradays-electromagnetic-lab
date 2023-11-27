@@ -28,7 +28,7 @@ export default class NeedleSprites extends Sprites {
   private readonly needleSpriteInstances: NeedleSpriteInstance[];
   private readonly scratchVector: Vector2;
 
-  public constructor( barMagnet: BarMagnet, visibleBoundsProperty: TReadOnlyProperty<Bounds2>, tandem: Tandem ) {
+  public constructor( barMagnet: BarMagnet, visibleBoundsProperty: TReadOnlyProperty<Bounds2>, visibleProperty: TReadOnlyProperty<boolean>, tandem: Tandem ) {
 
     const needleSprite = new NeedleSprite();
     const needleSpriteInstances: NeedleSpriteInstance[] = [
@@ -43,6 +43,7 @@ export default class NeedleSprites extends Sprites {
       sprites: [ needleSprite ],
       spriteInstances: needleSpriteInstances,
       hitTestSprites: false,
+      visibleProperty: visibleProperty,
       tandem: tandem
     } );
 

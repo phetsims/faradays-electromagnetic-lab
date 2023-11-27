@@ -29,7 +29,7 @@ export default class BarMagnetViewProperties {
       tandem: tandem.createTandem( 'earthVisibleProperty' )
     } );
 
-    this.fieldVisibleProperty = new BooleanProperty( false, {
+    this.fieldVisibleProperty = new BooleanProperty( true, {
       tandem: tandem.createTandem( 'fieldVisibleProperty' )
     } );
 
