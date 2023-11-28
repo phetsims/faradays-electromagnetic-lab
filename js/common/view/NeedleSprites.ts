@@ -68,8 +68,8 @@ export default class NeedleSprites extends Sprites {
 
     // Make the grid fill the visible bounds.
     const visibleBounds = this.visibleBoundsProperty.value;
-    for ( let x = visibleBounds.left; x < visibleBounds.right; x = x + FELQueryParameters.needleSpacing ) {
-      for ( let y = visibleBounds.top; y < visibleBounds.bottom; y = y + FELQueryParameters.needleSpacing ) {
+    for ( let x = visibleBounds.left + FELQueryParameters.needleSpacing / 2; x <= visibleBounds.right; x = x + FELQueryParameters.needleSpacing ) {
+      for ( let y = visibleBounds.top + FELQueryParameters.needleSpacing / 2; y <= visibleBounds.bottom; y = y + FELQueryParameters.needleSpacing ) {
         this.needleSpriteInstances.push( new NeedleSpriteInstance( this.needleSprite, new Vector2( x, y ), 0 ) );
       }
     }
