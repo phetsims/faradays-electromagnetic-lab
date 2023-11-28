@@ -20,6 +20,8 @@ import Multilink from '../../../../axon/js/Multilink.js';
 import NeedleNode from './NeedleNode.js';
 import FELQueryParameters from '../FELQueryParameters.js';
 
+const NEEDLE_SPACING = FELQueryParameters.needleSpacing;
+
 export default class NeedleSprites extends Sprites {
 
   private readonly barMagnet: BarMagnet;
@@ -62,14 +64,14 @@ export default class NeedleSprites extends Sprites {
   }
 
   private rebuild(): void {
-    //TODO See gas-properties.ParticlesNode for SpriteInstance pooling.
+    //TODO See gas-properties.ParticlesNode for SpriteInstance pooling. Or maybe performance is OK without adding pooling complexity?
     this.needleSpriteInstances.forEach( needleSpriteInstance => needleSpriteInstance.dispose() );
     this.needleSpriteInstances.length = 0;
 
     // Make the grid fill the visible bounds.
     const visibleBounds = this.visibleBoundsProperty.value;
-    for ( let x = visibleBounds.left + FELQueryParameters.needleSpacing / 2; x <= visibleBounds.right; x = x + FELQueryParameters.needleSpacing ) {
-      for ( let y = visibleBounds.top + FELQueryParameters.needleSpacing / 2; y <= visibleBounds.bottom; y = y + FELQueryParameters.needleSpacing ) {
+    for ( let x = visibleBounds.left + NEEDLE_SPACING / 2; x <= visibleBounds.right; x = x + NEEDLE_SPACING ) {
+      for ( let y = visibleBounds.top + NEEDLE_SPACING / 2; y <= visibleBounds.bottom; y = y + NEEDLE_SPACING ) {
         this.needleSpriteInstances.push( new NeedleSpriteInstance( this.needleSprite, new Vector2( x, y ), 0 ) );
       }
     }
