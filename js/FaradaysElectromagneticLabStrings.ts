@@ -23,10 +23,10 @@ type StringsType = {
   'strengthColonStringProperty': LocalizedStringProperty;
   'seeInsideStringProperty': LocalizedStringProperty;
   'flipPolarityStringProperty': LocalizedStringProperty;
-  'showEarthStringProperty': LocalizedStringProperty;
-  'showFieldStringProperty': LocalizedStringProperty;
-  'showCompassStringProperty': LocalizedStringProperty;
-  'showFieldMeterStringProperty': LocalizedStringProperty;
+  'earthStringProperty': LocalizedStringProperty;
+  'magneticFieldStringProperty': LocalizedStringProperty;
+  'compassStringProperty': LocalizedStringProperty;
+  'fieldMeterStringProperty': LocalizedStringProperty;
   'pattern': {
     'valuePercentStringProperty': LocalizedStringProperty;
     'valueUnitsStringProperty': LocalizedStringProperty;

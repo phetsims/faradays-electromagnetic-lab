@@ -24,40 +24,40 @@ export default class BarMagnetVisibilityPanel extends Panel {
                       earthVisibleProperty: Property<boolean>,
                       tandem: Tandem ) {
 
-    // 'Show Field' checkbox
-    const showFieldText = new Text( FaradaysElectromagneticLabStrings.showFieldStringProperty, {
+    // 'Magnetic Field' checkbox
+    const magneticFieldText = new Text( FaradaysElectromagneticLabStrings.magneticFieldStringProperty, {
       font: FELConstants.CONTROL_FONT
     } );
-    const showFieldCheckbox = new Checkbox( fieldVisibleProperty, showFieldText,
+    const magneticFieldCheckbox = new Checkbox( fieldVisibleProperty, magneticFieldText,
       combineOptions<CheckboxOptions>( {}, FELConstants.CHECKBOX_OPTIONS, {
-        tandem: tandem.createTandem( 'showFieldCheckbox' )
+        tandem: tandem.createTandem( 'magneticFieldCheckbox' )
       } ) );
 
-    // 'Show Compass' checkbox
-    const showCompassText = new Text( FaradaysElectromagneticLabStrings.showCompassStringProperty, {
+    // 'Compass' checkbox
+    const compassText = new Text( FaradaysElectromagneticLabStrings.compassStringProperty, {
       font: FELConstants.CONTROL_FONT
     } );
-    const showCompassCheckbox = new Checkbox( compassVisibleProperty, showCompassText,
+    const compassCheckbox = new Checkbox( compassVisibleProperty, compassText,
       combineOptions<CheckboxOptions>( {}, FELConstants.CHECKBOX_OPTIONS, {
-        tandem: tandem.createTandem( 'showCompassCheckbox' )
+        tandem: tandem.createTandem( 'compassCheckbox' )
       } ) );
 
-    // 'Show Field Meter' checkbox
-    const showFieldMeterText = new Text( FaradaysElectromagneticLabStrings.showFieldMeterStringProperty, {
+    // 'Field Meter' checkbox
+    const fieldMeterText = new Text( FaradaysElectromagneticLabStrings.fieldMeterStringProperty, {
       font: FELConstants.CONTROL_FONT
     } );
-    const showFieldMeterCheckbox = new Checkbox( fieldMeterVisibleProperty, showFieldMeterText,
+    const fieldMeterCheckbox = new Checkbox( fieldMeterVisibleProperty, fieldMeterText,
       combineOptions<CheckboxOptions>( {}, FELConstants.CHECKBOX_OPTIONS, {
-        tandem: tandem.createTandem( 'showFieldMeterCheckbox' )
+        tandem: tandem.createTandem( 'fieldMeterCheckbox' )
       } ) );
 
-    // 'Show Earth' checkbox
-    const showEarthText = new Text( FaradaysElectromagneticLabStrings.showEarthStringProperty, {
+    // 'Earth' checkbox
+    const earthText = new Text( FaradaysElectromagneticLabStrings.earthStringProperty, {
       font: FELConstants.CONTROL_FONT
     } );
-    const showEarthCheckbox = new Checkbox( earthVisibleProperty, showEarthText,
+    const earthCheckbox = new Checkbox( earthVisibleProperty, earthText,
       combineOptions<CheckboxOptions>( {}, FELConstants.CHECKBOX_OPTIONS, {
-        tandem: tandem.createTandem( 'showEarthCheckbox' )
+        tandem: tandem.createTandem( 'earthCheckbox' )
       } ) );
 
     const content = new VBox( {
@@ -65,10 +65,10 @@ export default class BarMagnetVisibilityPanel extends Panel {
       spacing: 15,
       stretch: true,
       children: [
-        showFieldCheckbox,
-        showCompassCheckbox,
-        showFieldMeterCheckbox,
-        showEarthCheckbox
+        magneticFieldCheckbox,
+        compassCheckbox,
+        fieldMeterCheckbox,
+        earthCheckbox
       ]
     } );
 
