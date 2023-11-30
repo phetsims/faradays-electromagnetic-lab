@@ -20,6 +20,7 @@ import BarMagnetNode from '../../common/view/BarMagnetNode.js';
 import BarMagnetVisibilityPanel from './BarMagnetVisibilityPanel.js';
 import EarthNode from '../../common/view/EarthNode.js';
 import NeedleSprites from '../../common/view/NeedleSprites.js';
+import FieldMeterNode from '../../common/view/FieldMeterNode.js';
 
 export default class BarMagnetScreenView extends ScreenView {
 
@@ -37,6 +38,9 @@ export default class BarMagnetScreenView extends ScreenView {
       this.viewProperties.fieldVisibleProperty, tandem.createTandem( 'needleSprites' ) );
 
     const barMagnetNode = new BarMagnetNode( model.barMagnet, tandem.createTandem( 'barMagnetNode' ) );
+
+    const fieldMeterNode = new FieldMeterNode( model.fieldMeter, this.viewProperties.fieldMeterVisibleProperty,
+      tandem.createTandem( 'fieldMeterNode' ) );
 
     const earthNode = new EarthNode( model.barMagnet, this.viewProperties.earthVisibleProperty,
       tandem.createTandem( 'earthNode' ) );
@@ -96,6 +100,7 @@ export default class BarMagnetScreenView extends ScreenView {
         needleSprites,
         barMagnetNode,
         earthNode,
+        fieldMeterNode,
         controlPanels,
         resetAllButton
       ]
@@ -104,6 +109,7 @@ export default class BarMagnetScreenView extends ScreenView {
 
     rootNode.pdomOrder = [
       barMagnetNode,
+      fieldMeterNode,
       controlPanels,
       resetAllButton
     ];

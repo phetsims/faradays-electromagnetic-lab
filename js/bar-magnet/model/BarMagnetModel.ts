@@ -12,15 +12,23 @@ import Tandem from '../../../../tandem/js/Tandem.js';
 import BarMagnet from '../../common/model/BarMagnet.js';
 import KinematicCompass from '../../common/model/KinematicCompass.js';
 import Compass from '../../common/model/Compass.js';
+import FieldMeter from '../../common/model/FieldMeter.js';
+import Vector2 from '../../../../dot/js/Vector2.js';
 
 export default class BarMagnetModel implements TModel {
 
   public readonly barMagnet: BarMagnet;
+  public readonly fieldMeter: FieldMeter;
   public readonly compass: Compass;
 
   public constructor( tandem: Tandem ) {
 
     this.barMagnet = new BarMagnet( tandem.createTandem( 'barMagnet' ) );
+
+    this.fieldMeter = new FieldMeter( this.barMagnet, {
+      position: new Vector2( 150, 400 ),
+      tandem: tandem.createTandem( 'fieldMeter' )
+    } );
 
     this.compass = new KinematicCompass( this.barMagnet, tandem.createTandem( 'compass' ) );
   }
@@ -30,6 +38,7 @@ export default class BarMagnetModel implements TModel {
    */
   public reset(): void {
     this.barMagnet.reset();
+    this.fieldMeter.reset();
     this.compass.reset();
   }
 

@@ -25,8 +25,8 @@ export default class BarMagnetNode extends Node {
     super( {
       children: [ barMagnetImage ],
       cursor: 'pointer',
-      tagName: 'div',
-      focusable: true,
+      tagName: 'div', // for KeyboardDragListener
+      focusable: true, // for KeyboardDragListener
       tandem: tandem
     } );
 

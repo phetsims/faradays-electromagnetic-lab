@@ -42,6 +42,7 @@ export default abstract class Magnet extends PhetioObject {
       rotation: 0,
 
       // PhetioObjectOptions
+      isDisposable: false,
       phetioState: false
     }, providedOptions );
 
