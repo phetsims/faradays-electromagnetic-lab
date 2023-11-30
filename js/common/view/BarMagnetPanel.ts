@@ -18,11 +18,13 @@ import { combineOptions } from '../../../../phet-core/js/optionize.js';
 import FELConstants from '../FELConstants.js';
 import FaradaysElectromagneticLabStrings from '../../FaradaysElectromagneticLabStrings.js';
 import BarMagnetStrengthControl from './BarMagnetStrengthControl.js';
+import Compass from '../model/Compass.js';
 
 export default class BarMagnetPanel extends Panel {
 
   public constructor( barMagnet: BarMagnet,
                       seeInsideBarMagenetProperty: Property<boolean>,
+                      compass: Compass,
                       tandem: Tandem ) {
 
     const titleText = new Text( FaradaysElectromagneticLabStrings.barMagnetStringProperty, {
@@ -34,7 +36,10 @@ export default class BarMagnetPanel extends Panel {
 
     const flipPolarityButton = new TextPushButton( FaradaysElectromagneticLabStrings.flipPolarityStringProperty, {
       font: FELConstants.CONTROL_FONT,
-      listener: () => barMagnet.flipPolarity(),
+      listener: () => {
+        barMagnet.flipPolarity();
+        compass.startMovingNow();
+      },
       layoutOptions: { stretch: false },
       tandem: tandem.createTandem( 'flipPolarityButton' )
     } );

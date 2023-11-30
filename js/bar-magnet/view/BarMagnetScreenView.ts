@@ -53,7 +53,7 @@ export default class BarMagnetScreenView extends ScreenView {
       tandem.createTandem( 'earthNode' ) );
 
     const barMagnetPanel = new BarMagnetPanel( model.barMagnet, this.viewProperties.seeInsideBarMagnetProperty,
-      tandem.createTandem( 'barMagnetPanel' ) );
+      model.compass, tandem.createTandem( 'barMagnetPanel' ) );
 
     this.viewProperties.earthVisibleProperty.link( earthVisible => {
       if ( earthVisible ) {
