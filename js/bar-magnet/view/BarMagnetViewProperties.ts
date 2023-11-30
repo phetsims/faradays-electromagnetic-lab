@@ -21,7 +21,7 @@ export default class BarMagnetViewProperties {
 
   public constructor( tandem: Tandem ) {
 
-    this.compassVisibleProperty = new BooleanProperty( false, {
+    this.compassVisibleProperty = new BooleanProperty( true, {
       tandem: tandem.createTandem( 'compassVisibleProperty' ),
       phetioFeatured: true
     } );
