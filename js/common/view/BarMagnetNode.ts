@@ -14,7 +14,7 @@
 
 import faradaysElectromagneticLab from '../../faradaysElectromagneticLab.js';
 import BarMagnet from '../model/BarMagnet.js';
-import { DragListener, Image, KeyboardDragListener, KeyboardDragListenerOptions, Node, NodeOptions } from '../../../../scenery/js/imports.js';
+import { DragListener, GridBox, Image, KeyboardDragListener, KeyboardDragListenerOptions, Node, NodeOptions, Text } from '../../../../scenery/js/imports.js';
 import barMagnet_png from '../../../images/barMagnet_png.js';
 import FELConstants from '../FELConstants.js';
 import optionize, { combineOptions } from '../../../../phet-core/js/optionize.js';
@@ -76,7 +76,17 @@ export default class BarMagnetNode extends Node {
     this.addInputListener( keyboardDragListener );
 
     if ( options.seeInsideProperty ) {
-      //TODO add visualization of field inside the magnet
+      const fieldInsideNode = new GridBox( {
+        children: [ new Text( 'FIELD' ) ],
+        visibleProperty: options.seeInsideProperty,
+        center: barMagnetImage.center
+      } );
+      this.addChild( fieldInsideNode );
+
+      // Modulate opacity to as magnet strength changes.
+      barMagnet.strengthProperty.link( strength => {
+        fieldInsideNode.opacity = strength / barMagnet.strengthProperty.rangeProperty.value.max;
+      } );
     }
   }
 }
