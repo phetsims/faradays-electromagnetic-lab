@@ -35,6 +35,7 @@ export default class BarMagnetPanel extends Panel {
     const flipPolarityButton = new TextPushButton( FaradaysElectromagneticLabStrings.flipPolarityStringProperty, {
       font: FELConstants.CONTROL_FONT,
       listener: () => barMagnet.flipPolarity(),
+      layoutOptions: { stretch: false },
       tandem: tandem.createTandem( 'flipPolarityButton' )
     } );
 
