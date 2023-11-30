@@ -15,22 +15,22 @@ import NumberProperty from '../../../../axon/js/NumberProperty.js';
 import Tandem from '../../../../tandem/js/Tandem.js';
 import TReadOnlyProperty from '../../../../axon/js/TReadOnlyProperty.js';
 import Bounds2 from '../../../../dot/js/Bounds2.js';
-import BarMagnet from '../model/BarMagnet.js';
 import Multilink from '../../../../axon/js/Multilink.js';
 import NeedleNode from './NeedleNode.js';
 import FELQueryParameters from '../FELQueryParameters.js';
+import Magnet from '../model/Magnet.js';
 
 const NEEDLE_SPACING = FELQueryParameters.needleSpacing;
 
 export default class NeedleSprites extends Sprites {
 
-  private readonly barMagnet: BarMagnet;
+  private readonly magnet: Magnet;
   private readonly visibleBoundsProperty: TReadOnlyProperty<Bounds2>;
   private readonly needleSprite: NeedleSprite;
   private readonly needleSpriteInstances: NeedleSpriteInstance[];
   private readonly scratchVector: Vector2;
 
-  public constructor( barMagnet: BarMagnet, visibleBoundsProperty: TReadOnlyProperty<Bounds2>, visibleProperty: TReadOnlyProperty<boolean>, tandem: Tandem ) {
+  public constructor( magnet: Magnet, visibleBoundsProperty: TReadOnlyProperty<Bounds2>, visibleProperty: TReadOnlyProperty<boolean>, tandem: Tandem ) {
 
     const needleSprite = new NeedleSprite();
     const needleSpriteInstances: NeedleSpriteInstance[] = [];
@@ -44,7 +44,7 @@ export default class NeedleSprites extends Sprites {
       tandem: tandem
     } );
 
-    this.barMagnet = barMagnet;
+    this.magnet = magnet;
     this.visibleBoundsProperty = visibleBoundsProperty;
 
     this.needleSprite = needleSprite;
@@ -52,7 +52,7 @@ export default class NeedleSprites extends Sprites {
     this.scratchVector = new Vector2( 0, 0 );
 
     Multilink.multilink(
-      [ barMagnet.positionProperty, barMagnet.rotationProperty, barMagnet.strengthProperty ],
+      [ magnet.positionProperty, magnet.rotationProperty, magnet.strengthProperty ],
       () => this.update()
     );
 
@@ -81,9 +81,9 @@ export default class NeedleSprites extends Sprites {
 
   private update(): void {
     this.needleSpriteInstances.forEach( needleSpriteInstance => {
-      const bField = this.barMagnet.getBField( needleSpriteInstance.position, this.scratchVector );
+      const bField = this.magnet.getBField( needleSpriteInstance.position, this.scratchVector );
       needleSpriteInstance.rotationProperty.value = bField.angle;
-      needleSpriteInstance.alpha = strengthToAlpha( bField.magnitude, this.barMagnet.strengthProperty.rangeProperty.value.max );
+      needleSpriteInstance.alpha = strengthToAlpha( bField.magnitude, this.magnet.strengthProperty.rangeProperty.value.max );
     } );
     this.invalidatePaint();
   }
