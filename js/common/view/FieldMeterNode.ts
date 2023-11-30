@@ -1,7 +1,6 @@
 // Copyright 2023, University of Colorado Boulder
 
 //TODO dragBounds
-//TODO color profile
 
 /**
  * FieldMeterNode is the visual representation of meter for measuring the B-field.
@@ -25,6 +24,7 @@ import FaradaysElectromagneticLabStrings from '../../FaradaysElectromagneticLabS
 import PhetFont from '../../../../scenery-phet/js/PhetFont.js';
 import ShadedRectangle from '../../../../scenery-phet/js/ShadedRectangle.js';
 import Bounds2 from '../../../../dot/js/Bounds2.js';
+import FELColors from '../FELColors.js';
 
 const CROSSHAIRS_RADIUS = 10;
 const PROBE_RADIUS = CROSSHAIRS_RADIUS + 8;
@@ -40,7 +40,7 @@ export default class FieldMeterNode extends Node {
       .moveTo( 0, -CROSSHAIRS_RADIUS )
       .lineTo( 0, CROSSHAIRS_RADIUS );
     const crosshairsNode = new Path( crosshairsShape, {
-      stroke: 'white',
+      stroke: FELColors.fieldMeterCrosshairsColorProperty,
       lineWidth: 2
     } );
 
@@ -49,13 +49,13 @@ export default class FieldMeterNode extends Node {
       .moveTo( 0, PROBE_RADIUS )
       .lineTo( 0, PROBE_RADIUS + 15 );
     const probeNode = new Path( probeShape, {
-      stroke: 'rgb( 17, 33, 255 )',
+      stroke: FELColors.fieldMeterProbeColorProperty,
       lineWidth: 5
     } );
 
     const bodyNode = new ShadedRectangle( new Bounds2( 0, 0, 100, 100 ), {
       cornerRadius: 10,
-      baseColor: 'rgb( 17, 33, 255 )',
+      baseColor: FELColors.fieldMeterBodyColorProperty,
       centerX: probeNode.centerX,
       top: probeNode.bottom - 2
     } );
@@ -79,8 +79,7 @@ export default class FieldMeterNode extends Node {
 
     const richTextOptions = {
       font: new PhetFont( 14 ),
-      fill: 'white',
-      leading: 5
+      fill: FELColors.fieldMeterLabelsColorProperty
     };
     const BText = new RichText( BStringProperty, richTextOptions );
     const BxText = new RichText( BxStringProperty, richTextOptions );

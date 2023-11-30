@@ -44,6 +44,23 @@ const FELColors = {
   southColorProperty: new ProfileColorProperty( faradaysElectromagneticLab, 'southColor', {
     default: 'white',
     projector: Color.grayColor( 200 )
+  } ),
+
+  fieldMeterBodyColorProperty: new ProfileColorProperty( faradaysElectromagneticLab, 'fieldMeterBodyColor', {
+    default: 'rgb( 17, 33, 255 )'
+  } ),
+
+  fieldMeterProbeColorProperty: new ProfileColorProperty( faradaysElectromagneticLab, 'fieldMeterProbeColor', {
+    default: 'rgb( 17, 33, 255 )'
+  } ),
+
+  fieldMeterCrosshairsColorProperty: new ProfileColorProperty( faradaysElectromagneticLab, 'fieldMeterCrosshairsColor', {
+    default: 'white',
+    projector: 'black'
+  } ),
+
+  fieldMeterLabelsColorProperty: new ProfileColorProperty( faradaysElectromagneticLab, 'fieldMeterLabelsColor', {
+    default: 'white'
   } )
 };
 
