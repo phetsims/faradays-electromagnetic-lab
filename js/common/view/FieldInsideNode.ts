@@ -15,7 +15,7 @@ import CompassNeedleNode from './CompassNeedleNode.js';
 import optionize, { EmptySelfOptions } from '../../../../phet-core/js/optionize.js';
 import PickRequired from '../../../../phet-core/js/types/PickRequired.js';
 
-//TODO compute these values based on magnet size and desired xMargin and yMargin
+//TODO compute these values based on magnet size, needle size, and desired xMargin and yMargin
 const FIELD_INSIDE_ROWS = 2;
 const FIELD_INSIDE_COLUMNS = 7;
 const FIELD_INSIDE_X_SPACING = 10;
