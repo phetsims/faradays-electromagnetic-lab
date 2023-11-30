@@ -1,9 +1,5 @@
 // Copyright 2023, University of Colorado Boulder
 
-//TODO This is a rudimentary implementation
-//TODO dragBounds
-//TODO color profile
-
 /**
  * Compass is the abstract base class for compass models.
  *
