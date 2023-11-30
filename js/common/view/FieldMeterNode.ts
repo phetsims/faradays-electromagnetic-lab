@@ -2,6 +2,7 @@
 
 //TODO dragBounds
 //TODO design & polish presentation of labels and values
+//TODO add overline to 'B' magnitudes
 
 /**
  * FieldMeterNode is the visual representation of meter for measuring the B-field.
