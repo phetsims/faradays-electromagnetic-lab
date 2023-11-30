@@ -1,5 +1,6 @@
 // Copyright 2023, University of Colorado Boulder
 
+//TODO dragBounds
 /**
  * BarMagnetNode is the view of a BarMagnet.
  *
