@@ -1,8 +1,8 @@
 // Copyright 2023, University of Colorado Boulder
 
-//TODO This is a rudimentary implementation
 //TODO dragBounds
 //TODO color profile
+
 /**
  * FieldMeterNode is the visual representation of meter for measuring the B-field.
  * It can be dragged to a specific position, and shows the field vector's magnitude, x and y components, and angle.
@@ -13,7 +13,7 @@
 import faradaysElectromagneticLab from '../../faradaysElectromagneticLab.js';
 import FieldMeter from '../model/FieldMeter.js';
 import Tandem from '../../../../tandem/js/Tandem.js';
-import { DragListener, KeyboardDragListener, KeyboardDragListenerOptions, Node, Path, Rectangle, RichText, VBox } from '../../../../scenery/js/imports.js';
+import { DragListener, KeyboardDragListener, KeyboardDragListenerOptions, Node, Path, RichText, VBox } from '../../../../scenery/js/imports.js';
 import { combineOptions } from '../../../../phet-core/js/optionize.js';
 import FELConstants from '../FELConstants.js';
 import TReadOnlyProperty from '../../../../axon/js/TReadOnlyProperty.js';
@@ -23,29 +23,39 @@ import Utils from '../../../../dot/js/Utils.js';
 import MathSymbols from '../../../../scenery-phet/js/MathSymbols.js';
 import FaradaysElectromagneticLabStrings from '../../FaradaysElectromagneticLabStrings.js';
 import PhetFont from '../../../../scenery-phet/js/PhetFont.js';
+import ShadedRectangle from '../../../../scenery-phet/js/ShadedRectangle.js';
+import Bounds2 from '../../../../dot/js/Bounds2.js';
+
+const CROSSHAIRS_RADIUS = 10;
+const PROBE_RADIUS = CROSSHAIRS_RADIUS + 8;
 
 export default class FieldMeterNode extends Node {
 
   public constructor( fieldMeter: FieldMeter, visibleProperty: TReadOnlyProperty<boolean>, tandem: Tandem ) {
 
-    const probeWidth = 10;
-    const probeHeight = 40;
-    const probeShape = new Shape()
-      .moveTo( 0, 0 )
-      .lineTo( probeWidth / 2, probeWidth / 2 )
-      .lineTo( probeWidth / 2, probeHeight )
-      .lineTo( -probeWidth / 2, probeHeight )
-      .lineTo( -probeWidth / 2, probeWidth / 2 )
-      .close();
-    const probeNode = new Path( probeShape, {
-      fill: 'rgb( 17, 33, 255 )',
-      stroke: 'white'
+    // Origin at the center of the crosshairs
+    const crosshairsShape = new Shape()
+      .moveTo( -CROSSHAIRS_RADIUS, 0 )
+      .lineTo( CROSSHAIRS_RADIUS, 0 )
+      .moveTo( 0, -CROSSHAIRS_RADIUS )
+      .lineTo( 0, CROSSHAIRS_RADIUS );
+    const crosshairsNode = new Path( crosshairsShape, {
+      stroke: 'white',
+      lineWidth: 2
     } );
 
-    const bodyNode = new Rectangle( 0, 0, 100, 100, {
+    const probeShape = new Shape()
+      .circle( 0, 0, PROBE_RADIUS )
+      .moveTo( 0, PROBE_RADIUS )
+      .lineTo( 0, PROBE_RADIUS + 15 );
+    const probeNode = new Path( probeShape, {
+      stroke: 'rgb( 17, 33, 255 )',
+      lineWidth: 5
+    } );
+
+    const bodyNode = new ShadedRectangle( new Bounds2( 0, 0, 100, 100 ), {
       cornerRadius: 10,
-      fill: 'rgb( 17, 33, 255 )',
-      stroke: 'white',
+      baseColor: 'rgb( 17, 33, 255 )',
       centerX: probeNode.centerX,
       top: probeNode.bottom - 2
     } );
@@ -93,7 +103,7 @@ export default class FieldMeterNode extends Node {
     } );
 
     super( {
-      children: [ probeNode, bodyNode, textVBox ],
+      children: [ probeNode, crosshairsNode, bodyNode, textVBox ],
       cursor: 'pointer',
       visibleProperty: visibleProperty,
       tagName: 'div', // for KeyboardDragListener
