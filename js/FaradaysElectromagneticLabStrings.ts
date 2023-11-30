@@ -39,7 +39,7 @@ type StringsType = {
     'yStringProperty': LocalizedStringProperty;
   };
   'units': {
-    'gaussStringProperty': LocalizedStringProperty;
+    'GStringProperty': LocalizedStringProperty;
   }
 };
 

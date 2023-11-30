@@ -29,7 +29,7 @@ import FELColors from '../FELColors.js';
 const BStringProperty = FaradaysElectromagneticLabStrings.symbol.BStringProperty;
 const xStringProperty = FaradaysElectromagneticLabStrings.symbol.xStringProperty;
 const yStringProperty = FaradaysElectromagneticLabStrings.symbol.yStringProperty;
-const gaussStringProperty = FaradaysElectromagneticLabStrings.units.gaussStringProperty;
+const GStringProperty = FaradaysElectromagneticLabStrings.units.GStringProperty;
 
 const CROSSHAIRS_RADIUS = 10;
 const PROBE_RADIUS = CROSSHAIRS_RADIUS + 8;
@@ -71,16 +71,16 @@ export default class FieldMeterNode extends Node {
 
     // These strings have unconventional names so that they correspond to B, Bx, By, as shown in the UI.
     const stringBProperty = new DerivedProperty(
-      [ fieldMeter.fieldVectorProperty, BStringProperty, gaussStringProperty ],
-      ( fieldVector, BString, gaussString ) => `${BString} = ${Utils.toFixed( fieldVector.magnitude, 2 )} ${gaussString}`
+      [ fieldMeter.fieldVectorProperty, BStringProperty, GStringProperty ],
+      ( fieldVector, B, G ) => `${B} = ${Utils.toFixed( fieldVector.magnitude, 2 )} ${G}`
     );
     const stringBxProperty = new DerivedProperty(
-      [ fieldMeter.fieldVectorProperty, BStringProperty, xStringProperty, gaussStringProperty ],
-      ( fieldVector, BString, xString, gaussString ) => `${BString}<sub>${xString}</sub> = ${Utils.toFixed( fieldVector.x, 2 )} ${gaussString}`
+      [ fieldMeter.fieldVectorProperty, BStringProperty, xStringProperty, GStringProperty ],
+      ( fieldVector, B, x, G ) => `${B}<sub>${x}</sub> = ${Utils.toFixed( fieldVector.x, 2 )} ${G}`
     );
     const stringByProperty = new DerivedProperty(
-      [ fieldMeter.fieldVectorProperty, BStringProperty, yStringProperty, gaussStringProperty ],
-      ( fieldVector, BString, yString, gaussString ) => `${BString}<sub>${yString}</sub> = ${Utils.toFixed( fieldVector.y, 2 )} ${gaussString}`
+      [ fieldMeter.fieldVectorProperty, BStringProperty, yStringProperty, GStringProperty ],
+      ( fieldVector, B, y, G ) => `${B}<sub>${y}</sub> = ${Utils.toFixed( fieldVector.y, 2 )} ${G}`
     );
     const stringThetaProperty = new DerivedProperty(
       [ fieldMeter.fieldVectorProperty ],
