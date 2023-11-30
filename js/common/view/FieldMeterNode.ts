@@ -1,5 +1,6 @@
 // Copyright 2023, University of Colorado Boulder
 
+//TODO This is a rudimentary implementation
 //TODO color profile
 /**
  * FieldMeterNode is the visual representation of meter for measuring the B-field.
@@ -63,7 +64,8 @@ export default class FieldMeterNode extends Node {
 
     const valuesText = new RichText( valuesStringProperty, {
       font: new PhetFont( 14 ),
-      fill: 'white'
+      fill: 'white',
+      leading: 5
     } );
     valuesText.boundsProperty.link( bounds => {
       valuesText.left = bodyNode.left + 10;
