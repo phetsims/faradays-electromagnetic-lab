@@ -85,12 +85,6 @@ export default abstract class Magnet extends PhetioObject {
    */
   public getFieldVector( position: Vector2, outputVector = new Vector2( 0, 0 ) ): Vector2 {
 
-    //TODO This is the original Java code. Is this the same as how we've computed scratchPosition below?
-    // _transform.setToIdentity();
-    // _transform.translate( -getX(), -getY() );
-    // _transform.rotate( -getDirection(), getX(), getY() );
-    // _transform.transform( p, _relativePoint /* output */ );
-
     // Our models are based on a magnet located at the origin, with the North pole pointing down the positive x-axis.
     // The position argument for this method is in the global coordinate frame. So transform that position to the
     // magnet's local coordinate frame, adjusting for the magnet's position and rotation.
