@@ -14,18 +14,13 @@
 
 import faradaysElectromagneticLab from '../../faradaysElectromagneticLab.js';
 import BarMagnet from '../model/BarMagnet.js';
-import { DragListener, GridBox, Image, KeyboardDragListener, KeyboardDragListenerOptions, Node, NodeOptions } from '../../../../scenery/js/imports.js';
+import { DragListener, Image, KeyboardDragListener, KeyboardDragListenerOptions, Node, NodeOptions } from '../../../../scenery/js/imports.js';
 import barMagnet_png from '../../../images/barMagnet_png.js';
 import FELConstants from '../FELConstants.js';
 import optionize, { combineOptions } from '../../../../phet-core/js/optionize.js';
 import TReadOnlyProperty from '../../../../axon/js/TReadOnlyProperty.js';
 import PickRequired from '../../../../phet-core/js/types/PickRequired.js';
-import CompassNeedleNode from './CompassNeedleNode.js';
-
-const FIELD_INSIDE_ROWS = 2;
-const FIELD_INSIDE_COLUMNS = 7;
-const FIELD_INSIDE_X_SPACING = 10;
-const FIELD_INSIDE_Y_SPACING = 12;
+import FieldInsideNode from './FieldInsideNode.js';
 
 type SelfOptions = {
   seeInsideProperty?: TReadOnlyProperty<boolean> | null;
@@ -82,24 +77,8 @@ export default class BarMagnetNode extends Node {
     this.addInputListener( keyboardDragListener );
 
     // If a seeInsideProperty is provided, then add the visualization of the field inside the bar magnet.
-    // This is a grid of compass needles inside the bounds of the bar magnet. Alpha is modulated as the
-    // strength of the magnet changes.
     if ( options.seeInsideProperty ) {
-
-      const fieldInsideNode = new GridBox( {
-        children: _.times( FIELD_INSIDE_ROWS * FIELD_INSIDE_COLUMNS, () => new CompassNeedleNode() ),
-        autoRows: FIELD_INSIDE_ROWS,
-        xSpacing: FIELD_INSIDE_X_SPACING,
-        ySpacing: FIELD_INSIDE_Y_SPACING,
-        visibleProperty: options.seeInsideProperty,
-        center: barMagnetImage.center
-      } );
-      this.addChild( fieldInsideNode );
-
-      // Modulate opacity to as magnet strength changes.
-      barMagnet.strengthProperty.link( strength => {
-        fieldInsideNode.opacity = strength / barMagnet.strengthProperty.rangeProperty.value.max;
-      } );
+      this.addChild( new FieldInsideNode( barMagnet.strengthProperty, options.seeInsideProperty, barMagnetImage.center ) );
     }
   }
 }
