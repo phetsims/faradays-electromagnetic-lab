@@ -61,20 +61,20 @@ export default class FieldMeterNode extends Node {
     } );
 
     const BStringProperty = new DerivedProperty(
-      [ fieldMeter.BProperty, FaradaysElectromagneticLabStrings.units.gaussStringProperty ],
-      ( B, gaussString ) => `B = ${Utils.toFixed( B, 2 )} ${gaussString}`
+      [ fieldMeter.fieldVectorProperty, FaradaysElectromagneticLabStrings.units.gaussStringProperty ],
+      ( fieldVector, gaussString ) => `B = ${Utils.toFixed( fieldVector.magnitude, 2 )} ${gaussString}`
     );
     const BxStringProperty = new DerivedProperty(
-      [ fieldMeter.BxProperty, FaradaysElectromagneticLabStrings.units.gaussStringProperty ],
-      ( Bx, gaussString ) => `B<sub>x</sub> = ${Utils.toFixed( Bx, 2 )} ${gaussString}`
+      [ fieldMeter.fieldVectorProperty, FaradaysElectromagneticLabStrings.units.gaussStringProperty ],
+      ( fieldVector, gaussString ) => `B<sub>x</sub> = ${Utils.toFixed( fieldVector.x, 2 )} ${gaussString}`
     );
     const ByStringProperty = new DerivedProperty(
-      [ fieldMeter.ByProperty, FaradaysElectromagneticLabStrings.units.gaussStringProperty ],
-      ( By, gaussString ) => `B<sub>y</sub> = ${Utils.toFixed( By, 2 )} ${gaussString}`
+      [ fieldMeter.fieldVectorProperty, FaradaysElectromagneticLabStrings.units.gaussStringProperty ],
+      ( fieldVector, gaussString ) => `B<sub>y</sub> = ${Utils.toFixed( fieldVector.y, 2 )} ${gaussString}`
     );
     const thetaStringProperty = new DerivedProperty(
-      [ fieldMeter.thetaProperty ],
-      theta => `${MathSymbols.THETA} = ${Utils.toFixed( theta, 2 )}${MathSymbols.DEGREES}`
+      [ fieldMeter.fieldVectorProperty ],
+      fieldVector => `${MathSymbols.THETA} = ${Utils.toFixed( Utils.toDegrees( fieldVector.angle ), 2 )}${MathSymbols.DEGREES}`
     );
 
     const richTextOptions = {
