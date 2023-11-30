@@ -62,7 +62,7 @@ export default class FieldMeterNode extends Node {
       lineWidth: 5
     } );
 
-    const bodyNode = new ShadedRectangle( new Bounds2( 0, 0, 100, 100 ), {
+    const bodyNode = new ShadedRectangle( new Bounds2( 0, 0, 110, 100 ), {
       cornerRadius: 10,
       baseColor: FELColors.fieldMeterBodyColorProperty,
       centerX: probeNode.centerX,
