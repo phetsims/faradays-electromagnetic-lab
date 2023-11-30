@@ -40,7 +40,7 @@ export default class FieldInsideNode extends GridBox {
 
     super( options );
 
-    // Modulate opacity to as magnet strength changes.
+    // Visualize field strength by modulating opacity as magnet strength changes.
     strengthProperty.link( strength => {
       this.opacity = strength / strengthProperty.rangeProperty.value.max;
     } );
