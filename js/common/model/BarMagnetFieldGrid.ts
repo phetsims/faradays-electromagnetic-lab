@@ -82,9 +82,13 @@ export default class BarMagnetFieldGrid {
 
     assert && assert( bxArray.length === size.width, `${name}: unexpect bxArray.length: ${bxArray.length}` );
     assert && assert( _.every( bxArray, array => array.length === size.height ), `${name}: bxArray has inconsistent number of components` );
+    assert && assert( _.every( bxArray, array => _.every( array, value => ( Math.abs( value ) <= BarMagnetFieldData.MAGNET_STRENGTH ) ) ),
+      `${name}: bxArray contains invalid values` );
 
     assert && assert( byArray.length === size.width, `${name}: unexpect byArray.length: ${byArray.length}` );
     assert && assert( _.every( byArray, array => array.length === size.height ), `${name}: byArray has inconsistent number of components` );
+    assert && assert( _.every( byArray, array => _.every( array, value => ( Math.abs( value ) <= BarMagnetFieldData.MAGNET_STRENGTH ) ) ),
+      `${name}: byArray contains invalid values` );
 
     assert && assert( size.width > 0 && size.height > 0, `${name}: invalid size: ${size}` );
     assert && assert( Number.isInteger( spacing ) && spacing > 0, `${name}: invalid spacing: ${spacing}` );
