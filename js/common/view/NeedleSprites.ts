@@ -142,7 +142,6 @@ class NeedleSpriteInstance extends SpriteInstance {
   }
 }
 
-//TODO Is this an OK substitute for NeedleColorStrategy?
 /**
  * Converts magnet strength to alpha color component.
  */
