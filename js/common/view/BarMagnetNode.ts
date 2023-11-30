@@ -76,7 +76,7 @@ export default class BarMagnetNode extends Node {
       } ) );
     this.addInputListener( keyboardDragListener );
 
-    // If a seeInsideProperty is provided, then add the visualization of the field inside the bar magnet.
+    // If seeInsideProperty was provided, then add the visualization of the field inside the bar magnet.
     if ( options.seeInsideProperty ) {
       this.addChild( new FieldInsideNode( barMagnet.strengthProperty, {
         visibleProperty: options.seeInsideProperty,
