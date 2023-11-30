@@ -21,6 +21,7 @@ import BarMagnetVisibilityPanel from './BarMagnetVisibilityPanel.js';
 import EarthNode from '../../common/view/EarthNode.js';
 import FieldNode from '../../common/view/FieldNode.js';
 import FieldMeterNode from '../../common/view/FieldMeterNode.js';
+import CompassNode from '../../common/view/CompassNode.js';
 
 export default class BarMagnetScreenView extends ScreenView {
 
@@ -41,6 +42,9 @@ export default class BarMagnetScreenView extends ScreenView {
 
     const fieldMeterNode = new FieldMeterNode( model.fieldMeter, this.viewProperties.fieldMeterVisibleProperty,
       tandem.createTandem( 'fieldMeterNode' ) );
+
+    const compassNode = new CompassNode( model.compass, this.viewProperties.compassVisibleProperty,
+      tandem.createTandem( 'compassNode' ) );
 
     const earthNode = new EarthNode( model.barMagnet, this.viewProperties.earthVisibleProperty,
       tandem.createTandem( 'earthNode' ) );
@@ -100,6 +104,7 @@ export default class BarMagnetScreenView extends ScreenView {
         needleSprites,
         barMagnetNode,
         earthNode,
+        compassNode,
         fieldMeterNode,
         controlPanels,
         resetAllButton
@@ -109,6 +114,7 @@ export default class BarMagnetScreenView extends ScreenView {
 
     rootNode.pdomOrder = [
       barMagnetNode,
+      compassNode,
       fieldMeterNode,
       controlPanels,
       resetAllButton
