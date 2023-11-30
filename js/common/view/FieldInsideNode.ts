@@ -2,7 +2,8 @@
 
 /**
  * FieldInsideNode is the visualization of the field inside the bar magnet. It is a grid of compass needles inside
- * the bounds of the bar magnet. Alpha is modulated as the strength of the magnet changes.
+ * the bounds of the bar magnet. Alpha is modulated as the strength of the magnet changes.  It is assumed that this
+ * will be added to BarMagnetNode, and will therefore move with the bar magnet.
  *
  * @author Chris Malley (PixelZoom, Inc.)
  */
