@@ -50,11 +50,13 @@ export default class FieldNode extends Sprites {
     this.spriteInstances = spriteInstances;
     this.scratchFieldVector = new Vector2( 0, 0 );
 
+    // Update to match the magnet's B-field.
     Multilink.multilink(
       [ magnet.positionProperty, magnet.rotationProperty, magnet.strengthProperty ],
       () => this.update()
     );
 
+    // Rebuild the grid to fill the visible bounds of the browser window.
     const visibleBoundsListener = ( visibleBounds: Bounds2 ) => {
       this.canvasBounds = visibleBounds;
       this.rebuild();
@@ -80,6 +82,7 @@ export default class FieldNode extends Sprites {
       }
     }
 
+    // Now update the SpriteInstances that we created to match the B-field of the magnet.
     this.update();
   }
 
