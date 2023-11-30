@@ -1,6 +1,7 @@
 // Copyright 2023, University of Colorado Boulder
 
 //TODO dragBounds
+//TODO Eliminate dependency on barMagnet_png so we can support color profile and translation of 'N' and 'S'
 /**
  * BarMagnetNode is the view of a BarMagnet.
  *
