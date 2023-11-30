@@ -1,5 +1,6 @@
 // Copyright 2023, University of Colorado Boulder
 
+//TODO Replace earth_png with something less Americas-centric?
 /**
  * EarthNode is the view of a planet earth, which aligns itself with the position and rotation of a BarMagnet.
  *
