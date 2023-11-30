@@ -64,8 +64,11 @@ export default class CompassNode extends Node {
       visibleProperty: visibleProperty,
       tagName: 'div', // for KeyboardDragListener
       focusable: true, // for KeyboardDragListener
-      tandem: tandem
+      tandem: tandem,
+      phetioFeatured: true
     } );
+
+    this.addLinkedElement( compass );
 
     compass.positionProperty.link( position => {
       this.center = position;

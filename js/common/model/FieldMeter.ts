@@ -43,7 +43,8 @@ export default class FieldMeter extends PhetioObject {
     super( options );
 
     this.positionProperty = new Vector2Property( options.position, {
-      tandem: options.tandem.createTandem( 'positionProperty' )
+      tandem: options.tandem.createTandem( 'positionProperty' ),
+      phetioFeatured: true
     } );
 
     this.fieldVectorProperty = new DerivedProperty(
@@ -51,7 +52,8 @@ export default class FieldMeter extends PhetioObject {
       ( position, rotation, strength ) => magnet.getFieldVector( position ), {
         units: 'G',
         tandem: options.tandem.createTandem( 'fieldVectorProperty' ),
-        phetioValueType: Vector2.Vector2IO
+        phetioValueType: Vector2.Vector2IO,
+        phetioFeatured: true
       } );
   }
 

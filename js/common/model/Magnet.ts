@@ -49,18 +49,21 @@ export default abstract class Magnet extends PhetioObject {
     super( options );
 
     this.positionProperty = new Vector2Property( options.position, {
-      tandem: options.tandem.createTandem( 'positionProperty' )
+      tandem: options.tandem.createTandem( 'positionProperty' ),
+      phetioFeatured: true
     } );
 
     this.rotationProperty = new NumberProperty( options.rotation, {
       units: 'radians',
-      tandem: options.tandem.createTandem( 'rotationProperty' )
+      tandem: options.tandem.createTandem( 'rotationProperty' ),
+      phetioFeatured: true
     } );
 
     this.strengthProperty = new NumberProperty( options.strengthRange.defaultValue, {
       units: 'G',
       range: options.strengthRange,
-      tandem: options.tandem.createTandem( 'strengthProperty' )
+      tandem: options.tandem.createTandem( 'strengthProperty' ),
+      phetioFeatured: true
     } );
 
     this.scratchPosition = new Vector2( 0, 0 );

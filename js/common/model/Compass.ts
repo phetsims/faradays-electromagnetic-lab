@@ -52,12 +52,14 @@ export default abstract class Compass extends PhetioObject {
     this.scratchVector = new Vector2( 0, 0 );
 
     this.positionProperty = new Vector2Property( options.position, {
-      tandem: options.tandem.createTandem( 'positionProperty' )
+      tandem: options.tandem.createTandem( 'positionProperty' ),
+      phetioFeatured: true
     } );
 
     this._rotationProperty = new NumberProperty( 0, {
       units: 'radians',
       tandem: options.tandem.createTandem( 'rotationProperty' ),
+      phetioFeatured: true,
       phetioReadOnly: true
     } );
     this.rotationProperty = this._rotationProperty;

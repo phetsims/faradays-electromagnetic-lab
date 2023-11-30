@@ -114,8 +114,11 @@ export default class FieldMeterNode extends Node {
       visibleProperty: visibleProperty,
       tagName: 'div', // for KeyboardDragListener
       focusable: true, // for KeyboardDragListener
-      tandem: tandem
+      tandem: tandem,
+      phetioFeatured: true
     } );
+
+    this.addLinkedElement( fieldMeter );
 
     fieldMeter.positionProperty.link( position => {
       this.translation = position;

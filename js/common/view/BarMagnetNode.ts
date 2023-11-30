@@ -33,8 +33,11 @@ export default class BarMagnetNode extends Node {
       cursor: 'pointer',
       tagName: 'div', // for KeyboardDragListener
       focusable: true, // for KeyboardDragListener
-      tandem: tandem
+      tandem: tandem,
+      phetioFeatured: true
     } );
+
+    this.addLinkedElement( barMagnet );
 
     barMagnet.positionProperty.link( position => {
       this.center = position;

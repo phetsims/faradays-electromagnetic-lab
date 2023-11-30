@@ -22,23 +22,28 @@ export default class BarMagnetViewProperties {
   public constructor( tandem: Tandem ) {
 
     this.compassVisibleProperty = new BooleanProperty( false, {
-      tandem: tandem.createTandem( 'compassVisibleProperty' )
+      tandem: tandem.createTandem( 'compassVisibleProperty' ),
+      phetioFeatured: true
     } );
 
     this.earthVisibleProperty = new BooleanProperty( false, {
-      tandem: tandem.createTandem( 'earthVisibleProperty' )
+      tandem: tandem.createTandem( 'earthVisibleProperty' ),
+      phetioFeatured: true
     } );
 
     this.fieldVisibleProperty = new BooleanProperty( true, {
-      tandem: tandem.createTandem( 'fieldVisibleProperty' )
+      tandem: tandem.createTandem( 'fieldVisibleProperty' ),
+      phetioFeatured: true
     } );
 
     this.fieldMeterVisibleProperty = new BooleanProperty( false, {
-      tandem: tandem.createTandem( 'fieldMeterVisibleProperty' )
+      tandem: tandem.createTandem( 'fieldMeterVisibleProperty' ),
+      phetioFeatured: true
     } );
 
     this.seeInsideBarMagnetProperty = new BooleanProperty( false, {
-      tandem: tandem.createTandem( 'seeInsideBarMagnetProperty' )
+      tandem: tandem.createTandem( 'seeInsideBarMagnetProperty' ),
+      phetioFeatured: true
     } );
   }
 
