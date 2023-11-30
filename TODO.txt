@@ -1,6 +1,4 @@
 
-Position transform in Magnet getBField
-
 In Java version, (0,0) is in upper-left of screen, +x is right, +y is down.  Change this for HTML5 version.
 
 Make compass follow B-field immediately when clock is paused
@@ -9,7 +7,7 @@ Floating panels
 
 Preferences
 	Show earth checkbox on Bar Magnet screen
-	Units: gauss, Teslas
+	Units: gauss (G), Tesla (T)
 
 Projector mode - swap black & white for background and "south" color
 
