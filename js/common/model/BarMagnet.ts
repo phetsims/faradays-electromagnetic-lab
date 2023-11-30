@@ -8,25 +8,33 @@
  */
 
 import faradaysElectromagneticLab from '../../faradaysElectromagneticLab.js';
-import Magnet from './Magnet.js';
-import Tandem from '../../../../tandem/js/Tandem.js';
+import Magnet, { MagnetOptions } from './Magnet.js';
 import RangeWithValue from '../../../../dot/js/RangeWithValue.js';
 import Dimension2 from '../../../../dot/js/Dimension2.js';
 import BarMagnetFieldData from './BarMagnetFieldData.js';
 import Vector2 from '../../../../dot/js/Vector2.js';
 import BarMagnetFieldGrid from './BarMagnetFieldGrid.js';
+import optionize, { EmptySelfOptions } from '../../../../phet-core/js/optionize.js';
+import StrictOmit from '../../../../phet-core/js/types/StrictOmit.js';
+
+type SelfOptions = EmptySelfOptions;
+
+export type BarMagnetOptions = SelfOptions & StrictOmit<MagnetOptions, 'strengthRange'>;
+
 
 export default class BarMagnet extends Magnet {
 
   public readonly size: Dimension2; // width is from North to South pole
 
-  public constructor( tandem: Tandem ) {
+  public constructor( providedOptions: BarMagnetOptions ) {
 
-    super( {
-      position: new Vector2( 450, 300 ), //TODO from Java version
-      strengthRange: new RangeWithValue( 0, 300, 225 ), // gauss
-      tandem: tandem
-    } );
+    const options = optionize<BarMagnetOptions, SelfOptions, MagnetOptions>()( {
+
+      // MagnetOptions
+      strengthRange: new RangeWithValue( 0, 300, 225 ) // gauss
+    }, providedOptions );
+
+    super( options );
 
     //TODO BarMagnetNode will fail an assertion if this does not match the size of barMagnet.png
     this.size = new Dimension2( 250, 50 ); // unitless

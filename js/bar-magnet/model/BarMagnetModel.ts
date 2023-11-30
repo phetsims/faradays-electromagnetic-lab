@@ -23,7 +23,10 @@ export default class BarMagnetModel implements TModel {
 
   public constructor( tandem: Tandem ) {
 
-    this.barMagnet = new BarMagnet( tandem.createTandem( 'barMagnet' ) );
+    this.barMagnet = new BarMagnet( {
+      position: new Vector2( 450, 300 ),
+      tandem: tandem.createTandem( 'barMagnet' )
+    } );
 
     this.fieldMeter = new FieldMeter( this.barMagnet, {
       position: new Vector2( 150, 400 ),
