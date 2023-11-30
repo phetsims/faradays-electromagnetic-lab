@@ -53,6 +53,15 @@
   "symbol.south": {
     "value": "S"
   },
+  "symbol.B": {
+    "value": "B"
+  },
+  "symbol.x": {
+    "value": "x"
+  },
+  "symbol.y": {
+    "value": "y"
+  },
   "units.gauss": {
     "value": "G"
   }

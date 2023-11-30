@@ -34,6 +34,9 @@ type StringsType = {
   'symbol': {
     'northStringProperty': LocalizedStringProperty;
     'southStringProperty': LocalizedStringProperty;
+    'BStringProperty': LocalizedStringProperty;
+    'xStringProperty': LocalizedStringProperty;
+    'yStringProperty': LocalizedStringProperty;
   };
   'units': {
     'gaussStringProperty': LocalizedStringProperty;

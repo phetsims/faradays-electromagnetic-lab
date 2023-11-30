@@ -26,6 +26,11 @@ import ShadedRectangle from '../../../../scenery-phet/js/ShadedRectangle.js';
 import Bounds2 from '../../../../dot/js/Bounds2.js';
 import FELColors from '../FELColors.js';
 
+const BStringProperty = FaradaysElectromagneticLabStrings.symbol.BStringProperty;
+const xStringProperty = FaradaysElectromagneticLabStrings.symbol.xStringProperty;
+const yStringProperty = FaradaysElectromagneticLabStrings.symbol.yStringProperty;
+const gaussStringProperty = FaradaysElectromagneticLabStrings.units.gaussStringProperty;
+
 const CROSSHAIRS_RADIUS = 10;
 const PROBE_RADIUS = CROSSHAIRS_RADIUS + 8;
 const RICH_TEXT_OPTIONS = {
@@ -64,25 +69,25 @@ export default class FieldMeterNode extends Node {
       top: probeNode.bottom - 2
     } );
 
-    // These strings have unconventional names so that they correspond to B, Bx, By.
+    // These strings have unconventional names so that they correspond to B, Bx, By, as shown in the UI.
     const stringBProperty = new DerivedProperty(
-      [ fieldMeter.fieldVectorProperty, FaradaysElectromagneticLabStrings.units.gaussStringProperty ],
-      ( fieldVector, gaussString ) => `B = ${Utils.toFixed( fieldVector.magnitude, 2 )} ${gaussString}`
+      [ fieldMeter.fieldVectorProperty, BStringProperty, gaussStringProperty ],
+      ( fieldVector, BString, gaussString ) => `${BString} = ${Utils.toFixed( fieldVector.magnitude, 2 )} ${gaussString}`
     );
     const stringBxProperty = new DerivedProperty(
-      [ fieldMeter.fieldVectorProperty, FaradaysElectromagneticLabStrings.units.gaussStringProperty ],
-      ( fieldVector, gaussString ) => `B<sub>x</sub> = ${Utils.toFixed( fieldVector.x, 2 )} ${gaussString}`
+      [ fieldMeter.fieldVectorProperty, BStringProperty, xStringProperty, gaussStringProperty ],
+      ( fieldVector, BString, xString, gaussString ) => `${BString}<sub>${xString}</sub> = ${Utils.toFixed( fieldVector.x, 2 )} ${gaussString}`
     );
     const stringByProperty = new DerivedProperty(
-      [ fieldMeter.fieldVectorProperty, FaradaysElectromagneticLabStrings.units.gaussStringProperty ],
-      ( fieldVector, gaussString ) => `B<sub>y</sub> = ${Utils.toFixed( fieldVector.y, 2 )} ${gaussString}`
+      [ fieldMeter.fieldVectorProperty, BStringProperty, yStringProperty, gaussStringProperty ],
+      ( fieldVector, BString, yString, gaussString ) => `${BString}<sub>${yString}</sub> = ${Utils.toFixed( fieldVector.y, 2 )} ${gaussString}`
     );
     const stringThetaProperty = new DerivedProperty(
       [ fieldMeter.fieldVectorProperty ],
       fieldVector => `${MathSymbols.THETA} = ${Utils.toFixed( Utils.toDegrees( fieldVector.angle ), 2 )}${MathSymbols.DEGREES}`
     );
 
-    // These Nodes have unconventional names so that they correspond to B, Bx, By.
+    // These Nodes have unconventional names so that they correspond to B, Bx, By, as shown in the UI.
     const textB = new RichText( stringBProperty, RICH_TEXT_OPTIONS );
     const textBx = new RichText( stringBxProperty, RICH_TEXT_OPTIONS );
     const textBy = new RichText( stringByProperty, RICH_TEXT_OPTIONS );
