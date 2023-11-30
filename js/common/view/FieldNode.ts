@@ -1,7 +1,7 @@
 // Copyright 2023, University of Colorado Boulder
 
 /**
- * NeedleSprites is the visualization of the B-field as a 2D grid of compass needles.  It uses scenery's Sprites
+ * FieldNode is the visualization of a magnet's B-field as a 2D grid of compass needles.  It uses scenery's Sprites
  * feature for performance optimization.
  *
  * @author Chris Malley (PixelZoom, Inc.)
@@ -22,7 +22,7 @@ import Magnet from '../model/Magnet.js';
 
 const NEEDLE_SPACING = FELQueryParameters.needleSpacing;
 
-export default class NeedleSprites extends Sprites {
+export default class FieldNode extends Sprites {
 
   private readonly magnet: Magnet;
   private readonly visibleBoundsProperty: TReadOnlyProperty<Bounds2>;
@@ -166,4 +166,4 @@ function strengthToAlpha( strength: number, maxStrength: number ): number {
   // return alpha;
 }
 
-faradaysElectromagneticLab.register( 'NeedleSprites', NeedleSprites );
+faradaysElectromagneticLab.register( 'FieldNode', FieldNode );

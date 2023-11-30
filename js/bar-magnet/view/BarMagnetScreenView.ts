@@ -19,7 +19,7 @@ import Multilink from '../../../../axon/js/Multilink.js';
 import BarMagnetNode from '../../common/view/BarMagnetNode.js';
 import BarMagnetVisibilityPanel from './BarMagnetVisibilityPanel.js';
 import EarthNode from '../../common/view/EarthNode.js';
-import NeedleSprites from '../../common/view/NeedleSprites.js';
+import FieldNode from '../../common/view/FieldNode.js';
 import FieldMeterNode from '../../common/view/FieldMeterNode.js';
 
 export default class BarMagnetScreenView extends ScreenView {
@@ -34,7 +34,7 @@ export default class BarMagnetScreenView extends ScreenView {
 
     this.viewProperties = new BarMagnetViewProperties( tandem.createTandem( 'viewProperties' ) );
 
-    const needleSprites = new NeedleSprites( model.barMagnet, this.visibleBoundsProperty,
+    const needleSprites = new FieldNode( model.barMagnet, this.visibleBoundsProperty,
       this.viewProperties.fieldVisibleProperty, tandem.createTandem( 'needleSprites' ) );
 
     const barMagnetNode = new BarMagnetNode( model.barMagnet, tandem.createTandem( 'barMagnetNode' ) );
