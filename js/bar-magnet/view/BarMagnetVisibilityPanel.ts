@@ -33,15 +33,6 @@ export default class BarMagnetVisibilityPanel extends Panel {
         tandem: tandem.createTandem( 'magneticFieldCheckbox' )
       } ) );
 
-    // 'Compass' checkbox
-    const compassText = new Text( FaradaysElectromagneticLabStrings.compassStringProperty, {
-      font: FELConstants.CONTROL_FONT
-    } );
-    const compassCheckbox = new Checkbox( compassVisibleProperty, compassText,
-      combineOptions<CheckboxOptions>( {}, FELConstants.CHECKBOX_OPTIONS, {
-        tandem: tandem.createTandem( 'compassCheckbox' )
-      } ) );
-
     // 'Field Meter' checkbox
     const fieldMeterText = new Text( FaradaysElectromagneticLabStrings.fieldMeterStringProperty, {
       font: FELConstants.CONTROL_FONT
@@ -49,6 +40,15 @@ export default class BarMagnetVisibilityPanel extends Panel {
     const fieldMeterCheckbox = new Checkbox( fieldMeterVisibleProperty, fieldMeterText,
       combineOptions<CheckboxOptions>( {}, FELConstants.CHECKBOX_OPTIONS, {
         tandem: tandem.createTandem( 'fieldMeterCheckbox' )
+      } ) );
+
+    // 'Compass' checkbox
+    const compassText = new Text( FaradaysElectromagneticLabStrings.compassStringProperty, {
+      font: FELConstants.CONTROL_FONT
+    } );
+    const compassCheckbox = new Checkbox( compassVisibleProperty, compassText,
+      combineOptions<CheckboxOptions>( {}, FELConstants.CHECKBOX_OPTIONS, {
+        tandem: tandem.createTandem( 'compassCheckbox' )
       } ) );
 
     // 'Earth' checkbox
@@ -66,8 +66,8 @@ export default class BarMagnetVisibilityPanel extends Panel {
       stretch: true,
       children: [
         magneticFieldCheckbox,
-        compassCheckbox,
         fieldMeterCheckbox,
+        compassCheckbox,
         earthCheckbox
       ]
     } );
