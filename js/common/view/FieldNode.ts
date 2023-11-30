@@ -1,7 +1,5 @@
 // Copyright 2023, University of Colorado Boulder
 
-//TODO color profile
-
 /**
  * FieldNode is the visualization of a magnet's B-field as a 2D grid of compass needles.  It uses scenery's Sprites
  * feature for performance optimization.
@@ -21,6 +19,7 @@ import Multilink from '../../../../axon/js/Multilink.js';
 import CompassNeedleNode from './CompassNeedleNode.js';
 import FELQueryParameters from '../FELQueryParameters.js';
 import Magnet from '../model/Magnet.js';
+import FELColors from '../FELColors.js';
 
 const NEEDLE_SPACING = FELQueryParameters.needleSpacing;
 
@@ -28,13 +27,23 @@ export default class FieldNode extends Sprites {
 
   private readonly magnet: Magnet; // the magnet whose field is being visualized
   private readonly visibleBoundsProperty: TReadOnlyProperty<Bounds2>; // the visible bounds of the browser window
-  private readonly sprite: CompassNeedleSprite; // the single Sprite used to render all compass needles in the grid
+  private readonly sprite: Sprite; // the single Sprite used to render all compass needles in the grid
   private readonly spriteInstances: CompassNeedleSpriteInstance[]; // the individual compass needles in the grid
   private readonly scratchFieldVector: Vector2; // a reusable instance for getting field vectors
 
   public constructor( magnet: Magnet, visibleBoundsProperty: TReadOnlyProperty<Bounds2>, visibleProperty: TReadOnlyProperty<boolean>, tandem: Tandem ) {
 
-    const sprite = new CompassNeedleSprite();
+    // A vector in the field is visualized as a compass needle.
+    const compassNeedleNode = new CompassNeedleNode();
+
+    // Convert the CompassNeedleNode to a Sprite.
+    let spriteImage: SpriteImage;
+    const spriteImageOffset = new Vector2( compassNeedleNode.width / 2, compassNeedleNode.height / 2 );
+    compassNeedleNode.toCanvas( canvas => {
+      spriteImage = new SpriteImage( canvas, spriteImageOffset );
+    } );
+    const sprite = new Sprite( spriteImage! );
+
     const spriteInstances: CompassNeedleSpriteInstance[] = [];
 
     super( {
@@ -64,6 +73,14 @@ export default class FieldNode extends Sprites {
       this.rebuild();
     };
     visibleBoundsProperty.link( visibleBoundsListener );
+
+    // If the colors change, update the sprite and redraw.
+    Multilink.multilink( [ FELColors.northColorProperty, FELColors.southColorProperty ], () => {
+      compassNeedleNode.toCanvas( canvas => {
+        sprite.imageProperty.value = new SpriteImage( canvas, spriteImageOffset );
+        this.invalidatePaint();
+      } );
+    } );
   }
 
   /**
@@ -128,24 +145,6 @@ export default class FieldNode extends Sprites {
 }
 
 /**
- * CompassNeedleSprite is the sprite used to render the compass needles. A single instance is required.
- */
-class CompassNeedleSprite extends Sprite {
-  public constructor() {
-
-    // Convert a CompassNeedleNode to a SpriteImage.
-    let spriteImage: SpriteImage;
-    const compassNeedleNode = new CompassNeedleNode();
-    compassNeedleNode.toCanvas( ( canvas: HTMLCanvasElement, x: number, y: number, width: number, height: number ) => {
-      const offset = new Vector2( compassNeedleNode.width / 2, compassNeedleNode.height / 2 );
-      spriteImage = new SpriteImage( canvas, offset );
-    } );
-
-    super( spriteImage! );
-  }
-}
-
-/**
  * CompassNeedleSpriteInstance corresponds to one compass needle in the grid.
  */
 class CompassNeedleSpriteInstance extends SpriteInstance {
@@ -153,7 +152,7 @@ class CompassNeedleSpriteInstance extends SpriteInstance {
   public readonly position: Vector2;
   public readonly rotationProperty: Property<number>;
 
-  public constructor( sprite: CompassNeedleSprite, position: Vector2 ) {
+  public constructor( sprite: Sprite, position: Vector2 ) {
 
     super();
 
