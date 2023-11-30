@@ -76,8 +76,9 @@ export default class FieldNode extends Sprites {
 
     // Create new SpriteInstances to fill the visible bounds of the browser window.
     const visibleBounds = this.visibleBoundsProperty.value;
-    for ( let x = visibleBounds.left + NEEDLE_SPACING / 2; x <= visibleBounds.right; x = x + NEEDLE_SPACING ) {
-      for ( let y = visibleBounds.top + NEEDLE_SPACING / 2; y <= visibleBounds.bottom; y = y + NEEDLE_SPACING ) {
+    const margin = NEEDLE_SPACING / 4;
+    for ( let x = visibleBounds.left + margin; x <= visibleBounds.right; x = x + NEEDLE_SPACING ) {
+      for ( let y = visibleBounds.top + margin; y <= visibleBounds.bottom; y = y + NEEDLE_SPACING ) {
         this.spriteInstances.push( new CompassNeedleSpriteInstance( this.sprite, new Vector2( x, y ) ) );
       }
     }
