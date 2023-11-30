@@ -1,6 +1,7 @@
 // Copyright 2023, University of Colorado Boulder
 
 //TODO dragBounds
+//TODO design & polish presentation of labels and values
 
 /**
  * FieldMeterNode is the visual representation of meter for measuring the B-field.
