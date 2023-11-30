@@ -72,6 +72,11 @@ export default class KinematicCompass extends Compass {
     this.alphaProperty.reset();
   }
 
+  /**
+   * Updates the compass needle's rotation.
+   * @param fieldVector - the magnet's B-field vector at the compass position
+   * @param dt - time step, in seconds
+   */
   protected override updateRotation( fieldVector: Vector2, dt: number ): void {
 
     const magnitude = fieldVector.magnitude;

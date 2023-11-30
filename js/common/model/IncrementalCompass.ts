@@ -27,6 +27,11 @@ export default class IncrementalCompass extends Compass {
     super( magnet, providedOptions );
   }
 
+  /**
+   * Updates the compass needle's rotation.
+   * @param fieldVector - the magnet's B-field vector at the compass position
+   * @param dt - time step, in seconds
+   */
   protected override updateRotation( fieldVector: Vector2, dt: number ): void {
 
     // Calculate the delta angle
