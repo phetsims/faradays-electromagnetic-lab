@@ -1,9 +1,9 @@
 // Copyright 2023, University of Colorado Boulder
 
 /**
- * CompassNeedleNode is one needle in the B-field or compass. In its default orientation (rotation === 0), the north point
- * of the needle points down the +x-axis, the same as the default orientation of the bar magnet. The origin is at
- * the geometric center.
+ * CompassNeedleNode is a compass needle, used in the compass and B-field visualization. It has no associated model
+ * element. In its default orientation (rotation === 0), the north point of the needle points down the +x-axis.
+ * The origin is at the geometric center.
  *
  * @author Chris Malley (PixelZoom, Inc.)
  */
