@@ -27,11 +27,11 @@ export default class IncrementalCompass extends Compass {
     super( magnet, providedOptions );
   }
 
-  public override setDirection( fieldVector: Vector2, dt: number ): void {
+  public override setRotation( fieldVector: Vector2, dt: number ): void {
 
     // Calculate the delta angle
     const fieldAngle = fieldVector.angle;
-    const needleAngle = this.rotationProperty.value;
+    const needleAngle = this._rotationProperty.value;
     let delta = fieldAngle - needleAngle;
 
     // Normalize the angle to the range -355...+355 degrees
@@ -51,14 +51,14 @@ export default class IncrementalCompass extends Compass {
     if ( Math.abs( delta ) < MAX_INCREMENT ) {
 
       // If the delta is small, rotate immediately to the field angle.
-      this.rotationProperty.value = fieldAngle;
+      this._rotationProperty.value = fieldAngle;
     }
     else {
 
       // If the delta is large, rotate incrementally.
       const sign = ( delta < 0 ) ? -1 : 1;
       delta = sign * MAX_INCREMENT;
-      this.rotationProperty.value = needleAngle + delta;
+      this._rotationProperty.value = needleAngle + delta;
     }
   }
 

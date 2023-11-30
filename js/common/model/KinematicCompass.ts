@@ -72,7 +72,7 @@ export default class KinematicCompass extends Compass {
     this.alphaProperty.reset();
   }
 
-  public override setDirection( fieldVector: Vector2, dt: number ): void {
+  public override setRotation( fieldVector: Vector2, dt: number ): void {
 
     const magnitude = fieldVector.magnitude;
     const angle = fieldVector.angle;
@@ -87,7 +87,7 @@ export default class KinematicCompass extends Compass {
       this.thetaProperty.value = angle;
       this.omegaProperty.value = 0;
       this.alphaProperty.value = 0;
-      this.rotationProperty.value = this.thetaProperty.value;
+      this._rotationProperty.value = this.thetaProperty.value;
     }
     else {
       // Use the Verlet algorithm to compute angle, angular velocity, and angular acceleration.
@@ -97,7 +97,7 @@ export default class KinematicCompass extends Compass {
       const alphaTemp = ( SENSITIVITY * Math.sin( phi ) * magnitude ) - ( DAMPING * this.omegaProperty.value );
       this.thetaProperty.value = this.thetaProperty.value + ( this.omegaProperty.value * dt ) + ( 0.5 * alphaTemp * dt * dt );
       if ( this.thetaProperty.value !== thetaOld ) {
-        this.rotationProperty.value = this.thetaProperty.value;
+        this._rotationProperty.value = this.thetaProperty.value;
       }
 
       // Step 2: angular acceleration

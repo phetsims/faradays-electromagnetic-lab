@@ -19,6 +19,7 @@ import Vector2Property from '../../../../dot/js/Vector2Property.js';
 import Magnet from './Magnet.js';
 import PickRequired from '../../../../phet-core/js/types/PickRequired.js';
 import optionize from '../../../../phet-core/js/optionize.js';
+import TReadOnlyProperty from '../../../../axon/js/TReadOnlyProperty.js';
 
 type SelfOptions = {
   position?: Vector2; // initial value of positionProperty, unitless
@@ -29,7 +30,10 @@ export type CompassOptions = SelfOptions & PickRequired<PhetioObjectOptions, 'ta
 export default abstract class Compass extends PhetioObject {
 
   public readonly positionProperty: Property<Vector2>; // unitless
-  public readonly rotationProperty: Property<number>; // radians
+
+  // The public API is readonly, while the internal API is read + write.
+  public readonly rotationProperty: TReadOnlyProperty<number>; // radians
+  protected readonly _rotationProperty: Property<number>;
 
   private readonly magnet: Magnet;
   private readonly scratchVector: Vector2;
@@ -55,30 +59,31 @@ export default abstract class Compass extends PhetioObject {
       tandem: options.tandem.createTandem( 'positionProperty' )
     } );
 
-    this.rotationProperty = new NumberProperty( 0, {
+    this._rotationProperty = new NumberProperty( 0, {
       tandem: options.tandem.createTandem( 'rotationProperty' )
     } );
+    this.rotationProperty = this._rotationProperty;
   }
 
   public reset(): void {
     this.positionProperty.reset();
-    this.rotationProperty.reset();
+    this._rotationProperty.reset();
   }
 
   //TODO If the clock is paused and the magnet moves, update immediately to match the field vector
   public step( dt: number ): void {
     const fieldVector = this.magnet.getFieldVector( this.positionProperty.value, this.scratchVector );
     if ( fieldVector.magnitude !== 0 ) {
-      this.setDirection( fieldVector, dt );
+      this.setRotation( fieldVector, dt );
     }
   }
 
   /**
-   * Sets the compass needle's direction.
-   * @param fieldVector - the B-field vector at the compass location
+   * Sets the compass needle's rotation.
+   * @param fieldVector - the magnet's B-field vector at the compass position
    * @param dt - time step, in seconds
    */
-  public abstract setDirection( fieldVector: Vector2, dt: number ): void;
+  public abstract setRotation( fieldVector: Vector2, dt: number ): void;
 
   /**
    * Starts the compass needle moving immediately.
