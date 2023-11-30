@@ -114,14 +114,14 @@ export default class BarMagnetFieldGrid {
   }
 
   /**
-   * Gets the B-field x component at point (x,y).
+   * Gets Bx, the x component of the field vector, at point (x,y).
    */
   public getBx( x: number, y: number ): number {
     return this.interpolate( Math.abs( x ), Math.abs( y ), this.bxArray );
   }
 
   /**
-   * Gets the B-field x component at point (x,y).
+   * Gets By, the y component of the field vector, at point (x,y).
    */
   public getBy( x: number, y: number ): number {
     return this.interpolate( Math.abs( x ), Math.abs( y ), this.byArray );
