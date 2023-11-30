@@ -26,19 +26,19 @@ export default class FieldNode extends Sprites {
 
   private readonly magnet: Magnet;
   private readonly visibleBoundsProperty: TReadOnlyProperty<Bounds2>;
-  private readonly needleSprite: NeedleSprite;
-  private readonly needleSpriteInstances: NeedleSpriteInstance[];
+  private readonly sprite: CompassNeedleSprite;
+  private readonly spriteInstances: CompassNeedleSpriteInstance[];
   private readonly scratchVector: Vector2;
 
   public constructor( magnet: Magnet, visibleBoundsProperty: TReadOnlyProperty<Bounds2>, visibleProperty: TReadOnlyProperty<boolean>, tandem: Tandem ) {
 
-    const needleSprite = new NeedleSprite();
-    const needleSpriteInstances: NeedleSpriteInstance[] = [];
+    const sprite = new CompassNeedleSprite();
+    const spriteInstances: CompassNeedleSpriteInstance[] = [];
 
     super( {
       isDisposable: false,
-      sprites: [ needleSprite ],
-      spriteInstances: needleSpriteInstances,
+      sprites: [ sprite ],
+      spriteInstances: spriteInstances,
       hitTestSprites: false,
       visibleProperty: visibleProperty,
       tandem: tandem
@@ -47,8 +47,8 @@ export default class FieldNode extends Sprites {
     this.magnet = magnet;
     this.visibleBoundsProperty = visibleBoundsProperty;
 
-    this.needleSprite = needleSprite;
-    this.needleSpriteInstances = needleSpriteInstances;
+    this.sprite = sprite;
+    this.spriteInstances = spriteInstances;
     this.scratchVector = new Vector2( 0, 0 );
 
     Multilink.multilink(
@@ -65,14 +65,14 @@ export default class FieldNode extends Sprites {
 
   private rebuild(): void {
     //TODO See gas-properties.ParticlesNode for SpriteInstance pooling. Or maybe performance is OK without adding pooling complexity?
-    this.needleSpriteInstances.forEach( needleSpriteInstance => needleSpriteInstance.dispose() );
-    this.needleSpriteInstances.length = 0;
+    this.spriteInstances.forEach( spriteInstance => spriteInstance.dispose() );
+    this.spriteInstances.length = 0;
 
     // Make the grid fill the visible bounds.
     const visibleBounds = this.visibleBoundsProperty.value;
     for ( let x = visibleBounds.left + NEEDLE_SPACING / 2; x <= visibleBounds.right; x = x + NEEDLE_SPACING ) {
       for ( let y = visibleBounds.top + NEEDLE_SPACING / 2; y <= visibleBounds.bottom; y = y + NEEDLE_SPACING ) {
-        this.needleSpriteInstances.push( new NeedleSpriteInstance( this.needleSprite, new Vector2( x, y ), 0 ) );
+        this.spriteInstances.push( new CompassNeedleSpriteInstance( this.sprite, new Vector2( x, y ), 0 ) );
       }
     }
 
@@ -80,23 +80,23 @@ export default class FieldNode extends Sprites {
   }
 
   private update(): void {
-    this.needleSpriteInstances.forEach( needleSpriteInstance => {
-      const fieldVector = this.magnet.getFieldVector( needleSpriteInstance.position, this.scratchVector );
-      needleSpriteInstance.rotationProperty.value = fieldVector.angle;
-      needleSpriteInstance.alpha = strengthToAlpha( fieldVector.magnitude, this.magnet.strengthProperty.rangeProperty.value.max );
+    this.spriteInstances.forEach( spriteInstance => {
+      const fieldVector = this.magnet.getFieldVector( spriteInstance.position, this.scratchVector );
+      spriteInstance.rotationProperty.value = fieldVector.angle;
+      spriteInstance.alpha = strengthToAlpha( fieldVector.magnitude, this.magnet.strengthProperty.rangeProperty.value.max );
     } );
     this.invalidatePaint();
   }
 }
 
-class NeedleSprite extends Sprite {
+class CompassNeedleSprite extends Sprite {
   public constructor() {
 
     // Convert a CompassNeedleNode to a SpriteImage.
     let spriteImage: SpriteImage;
-    const needleNode = new CompassNeedleNode();
-    needleNode.toCanvas( ( canvas: HTMLCanvasElement, x: number, y: number, width: number, height: number ) => {
-      const offset = new Vector2( needleNode.width / 2, needleNode.height / 2 );
+    const compassNeedleNode = new CompassNeedleNode();
+    compassNeedleNode.toCanvas( ( canvas: HTMLCanvasElement, x: number, y: number, width: number, height: number ) => {
+      const offset = new Vector2( compassNeedleNode.width / 2, compassNeedleNode.height / 2 );
       spriteImage = new SpriteImage( canvas, offset );
     } );
 
@@ -104,12 +104,12 @@ class NeedleSprite extends Sprite {
   }
 }
 
-class NeedleSpriteInstance extends SpriteInstance {
+class CompassNeedleSpriteInstance extends SpriteInstance {
 
   public readonly position: Vector2;
   public readonly rotationProperty: Property<number>;
 
-  public constructor( sprite: NeedleSprite, position: Vector2, rotation: number ) {
+  public constructor( sprite: CompassNeedleSprite, position: Vector2, rotation: number ) {
 
     super();
 
