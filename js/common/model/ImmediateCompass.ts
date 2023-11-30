@@ -23,7 +23,7 @@ export default class ImmediateCompass extends Compass {
     super( magnet, providedOptions );
   }
 
-  public override setRotation( fieldVector: Vector2, dt: number ): void {
+  protected override updateRotation( fieldVector: Vector2, dt: number ): void {
     this._rotationProperty.value = fieldVector.angle;
   }
 

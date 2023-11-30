@@ -74,16 +74,16 @@ export default abstract class Compass extends PhetioObject {
   public step( dt: number ): void {
     const fieldVector = this.magnet.getFieldVector( this.positionProperty.value, this.scratchVector );
     if ( fieldVector.magnitude !== 0 ) {
-      this.setRotation( fieldVector, dt );
+      this.updateRotation( fieldVector, dt );
     }
   }
 
   /**
-   * Sets the compass needle's rotation.
+   * Updates the compass needle's rotation.
    * @param fieldVector - the magnet's B-field vector at the compass position
    * @param dt - time step, in seconds
    */
-  public abstract setRotation( fieldVector: Vector2, dt: number ): void;
+  protected abstract updateRotation( fieldVector: Vector2, dt: number ): void;
 
   /**
    * Starts the compass needle moving immediately.

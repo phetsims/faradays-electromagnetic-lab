@@ -72,7 +72,7 @@ export default class KinematicCompass extends Compass {
     this.alphaProperty.reset();
   }
 
-  public override setRotation( fieldVector: Vector2, dt: number ): void {
+  protected override updateRotation( fieldVector: Vector2, dt: number ): void {
 
     const magnitude = fieldVector.magnitude;
     const angle = fieldVector.angle;

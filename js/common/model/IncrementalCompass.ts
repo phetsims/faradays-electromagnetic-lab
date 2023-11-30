@@ -27,7 +27,7 @@ export default class IncrementalCompass extends Compass {
     super( magnet, providedOptions );
   }
 
-  public override setRotation( fieldVector: Vector2, dt: number ): void {
+  protected override updateRotation( fieldVector: Vector2, dt: number ): void {
 
     // Calculate the delta angle
     const fieldAngle = fieldVector.angle;
