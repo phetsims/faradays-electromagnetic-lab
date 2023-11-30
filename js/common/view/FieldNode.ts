@@ -125,22 +125,19 @@ export default class FieldNode extends Sprites {
     const maxStrength = this.magnet.strengthProperty.rangeProperty.value.max;
     assert && assert( strength >= 0 && strength <= maxStrength, `invalid strength: ${strength}` );
 
-    // let alpha = ( strength / maxStrength );
-    //
-    // // Scale the alpha, because in reality the strength drops off quickly, and we wouldn't see much of the B-field.
-    // alpha = Math.pow( alpha, 1 / FELQueryParameters.outsideBFieldIntensityScale );
-    //
-    // // Increase the alpha of needles just outside the ends of magnet to improve the "look".
-    // alpha *= 2;
-    // if ( alpha > 1 ) {
-    //   alpha = 1;
-    // }
-    //
-    // assert && assert( alpha >= 0 && alpha <= 1, `invalid scaledIntensity: ${alpha}` );
-    // return alpha;
+    let alpha = ( strength / maxStrength );
 
-    //TODO temporary workaround, the above is not working as expected
-    return this.magnet.strengthProperty.value / this.magnet.strengthProperty.rangeProperty.value.max;
+    // Scale the alpha, because in reality the strength drops off quickly, and we wouldn't see much of the B-field.
+    alpha = Math.pow( alpha, 1 / FELQueryParameters.outsideBFieldIntensityScale );
+
+    // Increase the alpha of needles just outside the ends of magnet to improve the "look".
+    alpha *= 2;
+    if ( alpha > 1 ) {
+      alpha = 1;
+    }
+
+    assert && assert( alpha >= 0 && alpha <= 1, `invalid scaledIntensity: ${alpha}` );
+    return alpha;
   }
 }
 
