@@ -23,7 +23,7 @@ import Compass from '../model/Compass.js';
 export default class BarMagnetPanel extends Panel {
 
   public constructor( barMagnet: BarMagnet,
-                      seeInsideBarMagenetProperty: Property<boolean>,
+                      seeInsideBarMagnetProperty: Property<boolean>,
                       compass: Compass,
                       tandem: Tandem ) {
 
@@ -47,7 +47,7 @@ export default class BarMagnetPanel extends Panel {
     const seeInsideText = new Text( FaradaysElectromagneticLabStrings.seeInsideStringProperty, {
       font: FELConstants.CONTROL_FONT
     } );
-    const seeIndexCheckbox = new Checkbox( seeInsideBarMagenetProperty, seeInsideText,
+    const seeIndexCheckbox = new Checkbox( seeInsideBarMagnetProperty, seeInsideText,
       combineOptions<CheckboxOptions>( {}, FELConstants.CHECKBOX_OPTIONS, {
         tandem: tandem.createTandem( 'seeIndexCheckbox' )
       } ) );
