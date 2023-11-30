@@ -22,6 +22,11 @@ import TReadOnlyProperty from '../../../../axon/js/TReadOnlyProperty.js';
 import PickRequired from '../../../../phet-core/js/types/PickRequired.js';
 import CompassNeedleNode from './CompassNeedleNode.js';
 
+const FIELD_INSIDE_ROWS = 2;
+const FIELD_INSIDE_COLUMNS = 7;
+const FIELD_INSIDE_X_SPACING = 10;
+const FIELD_INSIDE_Y_SPACING = 12;
+
 type SelfOptions = {
   seeInsideProperty?: TReadOnlyProperty<boolean> | null;
 };
@@ -77,17 +82,15 @@ export default class BarMagnetNode extends Node {
     this.addInputListener( keyboardDragListener );
 
     // If a seeInsideProperty is provided, then add the visualization of the field inside the bar magnet.
+    // This is a grid of compass needles inside the bounds of the bar magnet. Alpha is modulated as the
+    // strength of the magnet changes.
     if ( options.seeInsideProperty ) {
 
-      const compassNeedleNodes: Node[] = [];
-      for ( let i = 0; i < 14; i++ ) {
-        compassNeedleNodes.push( new CompassNeedleNode() );
-      }
       const fieldInsideNode = new GridBox( {
-        autoRows: 2,
-        xSpacing: 10,
-        ySpacing: 12,
-        children: compassNeedleNodes,
+        children: _.times( FIELD_INSIDE_ROWS * FIELD_INSIDE_COLUMNS, () => new CompassNeedleNode() ),
+        autoRows: FIELD_INSIDE_ROWS,
+        xSpacing: FIELD_INSIDE_X_SPACING,
+        ySpacing: FIELD_INSIDE_Y_SPACING,
         visibleProperty: options.seeInsideProperty,
         center: barMagnetImage.center
       } );
