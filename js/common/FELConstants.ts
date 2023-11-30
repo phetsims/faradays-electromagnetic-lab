@@ -102,7 +102,7 @@ const FELConstants = {
 
   // Fonts
   TITLE_FONT: new PhetFont( {
-    size: 20,
+    size: 16,
     weight: 'bold'
   } ),
   CONTROL_FONT: CONTROL_FONT,
