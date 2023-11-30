@@ -24,11 +24,11 @@ const NEEDLE_SPACING = FELQueryParameters.needleSpacing;
 
 export default class FieldNode extends Sprites {
 
-  private readonly magnet: Magnet;
-  private readonly visibleBoundsProperty: TReadOnlyProperty<Bounds2>;
-  private readonly sprite: CompassNeedleSprite;
-  private readonly spriteInstances: CompassNeedleSpriteInstance[];
-  private readonly scratchVector: Vector2;
+  private readonly magnet: Magnet; // the magnet whose field is being visualized
+  private readonly visibleBoundsProperty: TReadOnlyProperty<Bounds2>; // the visible bounds of the browser window
+  private readonly sprite: CompassNeedleSprite; // the single Sprite used to render all compass needles in the grid
+  private readonly spriteInstances: CompassNeedleSpriteInstance[]; // the individual compass needles in the grid
+  private readonly scratchFieldVector: Vector2; // a reusable instance for getting field vectors
 
   public constructor( magnet: Magnet, visibleBoundsProperty: TReadOnlyProperty<Bounds2>, visibleProperty: TReadOnlyProperty<boolean>, tandem: Tandem ) {
 
@@ -37,8 +37,8 @@ export default class FieldNode extends Sprites {
 
     super( {
       isDisposable: false,
-      sprites: [ sprite ],
-      spriteInstances: spriteInstances,
+      sprites: [ sprite ], // the set of Sprites used to render this Node, must be set at instantiation
+      spriteInstances: spriteInstances, // the set of SpriteInstances, one per compass needle in the grid
       hitTestSprites: false,
       visibleProperty: visibleProperty,
       tandem: tandem
@@ -46,10 +46,9 @@ export default class FieldNode extends Sprites {
 
     this.magnet = magnet;
     this.visibleBoundsProperty = visibleBoundsProperty;
-
     this.sprite = sprite;
     this.spriteInstances = spriteInstances;
-    this.scratchVector = new Vector2( 0, 0 );
+    this.scratchFieldVector = new Vector2( 0, 0 );
 
     Multilink.multilink(
       [ magnet.positionProperty, magnet.rotationProperty, magnet.strengthProperty ],
@@ -63,25 +62,33 @@ export default class FieldNode extends Sprites {
     visibleBoundsProperty.link( visibleBoundsListener );
   }
 
+  /**
+   * Rebuilds the grid to fill the visible bounds of the browser. We're not bothering with SpriteInstance pooling
+   * because this happens rarely, and the time to rebuild is not noticeable.
+   */
   private rebuild(): void {
-    //TODO See gas-properties.ParticlesNode for SpriteInstance pooling. Or maybe performance is OK without adding pooling complexity?
+
+    // Dispose of any SpriteInstances that we currently have.
     this.spriteInstances.forEach( spriteInstance => spriteInstance.dispose() );
     this.spriteInstances.length = 0;
 
-    // Make the grid fill the visible bounds.
+    // Create new SpriteInstances to fill the visible bounds of the browser window.
     const visibleBounds = this.visibleBoundsProperty.value;
     for ( let x = visibleBounds.left + NEEDLE_SPACING / 2; x <= visibleBounds.right; x = x + NEEDLE_SPACING ) {
       for ( let y = visibleBounds.top + NEEDLE_SPACING / 2; y <= visibleBounds.bottom; y = y + NEEDLE_SPACING ) {
-        this.spriteInstances.push( new CompassNeedleSpriteInstance( this.sprite, new Vector2( x, y ), 0 ) );
+        this.spriteInstances.push( new CompassNeedleSpriteInstance( this.sprite, new Vector2( x, y ) ) );
       }
     }
 
     this.update();
   }
 
+  /**
+   * Updates all compass needles to match the B-field of the magnet.
+   */
   private update(): void {
     this.spriteInstances.forEach( spriteInstance => {
-      const fieldVector = this.magnet.getFieldVector( spriteInstance.position, this.scratchVector );
+      const fieldVector = this.magnet.getFieldVector( spriteInstance.position, this.scratchFieldVector );
       spriteInstance.rotationProperty.value = fieldVector.angle;
       spriteInstance.alpha = strengthToAlpha( fieldVector.magnitude, this.magnet.strengthProperty.rangeProperty.value.max );
     } );
@@ -89,6 +96,9 @@ export default class FieldNode extends Sprites {
   }
 }
 
+/**
+ * CompassNeedleSprite is the sprite used to render the compass needles. A single instance is required.
+ */
 class CompassNeedleSprite extends Sprite {
   public constructor() {
 
@@ -104,12 +114,15 @@ class CompassNeedleSprite extends Sprite {
   }
 }
 
+/**
+ * CompassNeedleSpriteInstance corresponds to one compass needle in the grid.
+ */
 class CompassNeedleSpriteInstance extends SpriteInstance {
 
   public readonly position: Vector2;
   public readonly rotationProperty: Property<number>;
 
-  public constructor( sprite: CompassNeedleSprite, position: Vector2, rotation: number ) {
+  public constructor( sprite: CompassNeedleSprite, position: Vector2 ) {
 
     super();
 
@@ -118,7 +131,7 @@ class CompassNeedleSpriteInstance extends SpriteInstance {
     this.transformType = SpriteInstanceTransformType.TRANSLATION_AND_ROTATION;
 
     this.position = position;
-    this.rotationProperty = new NumberProperty( rotation );
+    this.rotationProperty = new NumberProperty( 0 );
     this.rotationProperty.link( () => this.updateMatrix() );
   }
 
