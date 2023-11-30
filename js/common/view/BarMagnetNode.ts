@@ -7,7 +7,7 @@
 //TODO eliminate barMagnet_png
 
 /**
- * BarMagnetNode is the view of a BarMagnet.
+ * BarMagnetNode is the view of a bar magnet, with optional visualization of the field inside the magnet.
  *
  * @author Chris Malley (PixelZoom, Inc.)
  */
