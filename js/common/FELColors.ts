@@ -61,6 +61,18 @@ const FELColors = {
 
   fieldMeterLabelsColorProperty: new ProfileColorProperty( faradaysElectromagneticLab, 'fieldMeterLabelsColor', {
     default: 'white'
+  } ),
+
+  compassRingColorProperty: new ProfileColorProperty( faradaysElectromagneticLab, 'compassRingColor', {
+    default: Color.grayColor( 153 )
+  } ),
+
+  compassIndicatorsColorProperty: new ProfileColorProperty( faradaysElectromagneticLab, 'compassIndicatorsColor', {
+    default: 'black'
+  } ),
+
+  compassNeedleAnchorColorProperty: new ProfileColorProperty( faradaysElectromagneticLab, 'compassNeedleAnchorColor', {
+    default: 'black'
   } )
 };
 

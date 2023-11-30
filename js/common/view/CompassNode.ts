@@ -2,7 +2,6 @@
 
 //TODO dragBounds
 //TODO collision detection
-//TODO color profile
 
 /**
  * CompassNode is the visualization of a compass, whose orientation matches a magnet's B-field.
@@ -15,12 +14,13 @@ import Compass from '../model/Compass.js';
 import TReadOnlyProperty from '../../../../axon/js/TReadOnlyProperty.js';
 import Vector2 from '../../../../dot/js/Vector2.js';
 import Tandem from '../../../../tandem/js/Tandem.js';
-import { Circle, Color, DragListener, KeyboardDragListener, KeyboardDragListenerOptions, Node, Path } from '../../../../scenery/js/imports.js';
+import { Circle, DragListener, KeyboardDragListener, KeyboardDragListenerOptions, Node, Path } from '../../../../scenery/js/imports.js';
 import { combineOptions } from '../../../../phet-core/js/optionize.js';
 import FELConstants from '../FELConstants.js';
 import CompassNeedleNode from './CompassNeedleNode.js';
 import { Shape } from '../../../../kite/js/imports.js';
 import Utils from '../../../../dot/js/Utils.js';
+import FELColors from '../FELColors.js';
 
 const RING_RADIUS = 40;
 const RING_LINE_WIDTH = 10;
@@ -34,7 +34,7 @@ export default class CompassNode extends Node {
   public constructor( compass: Compass, visibleProperty: TReadOnlyProperty<boolean>, tandem: Tandem ) {
 
     const ringNode = new Circle( RING_RADIUS, {
-      stroke: Color.grayColor( 153 ),
+      stroke: FELColors.compassRingColorProperty,
       lineWidth: RING_LINE_WIDTH,
       boundsMethod: 'accurate' // so that stroke is included TODO not working as expected
     } );
@@ -48,13 +48,13 @@ export default class CompassNode extends Node {
       indicatorAngle += INDICATOR_SPACING;
     }
     const indicatorsNode = new Path( indicatorsShape, {
-      fill: 'black'
+      fill: FELColors.compassIndicatorsColorProperty
     } );
 
     const needleNode = new CompassNeedleNode( NEEDLE_LENGTH );
 
     const needleAnchorNode = new Circle( NEEDLE_ANCHOR_RADIUS, {
-      fill: 'black',
+      fill: FELColors.compassNeedleAnchorColorProperty,
       center: ringNode.center
     } );
 
