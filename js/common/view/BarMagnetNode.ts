@@ -2,7 +2,10 @@
 
 //TODO dragBounds
 //TODO collision detection
-//TODO Eliminate dependency on barMagnet_png so we can support color profile and translation of 'N' and 'S'
+//TODO color profile
+//TODO translation of 'N' and 'S'
+//TODO eliminate barMagnet_png
+
 /**
  * BarMagnetNode is the view of a BarMagnet.
  *
