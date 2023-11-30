@@ -14,28 +14,42 @@
 
 import faradaysElectromagneticLab from '../../faradaysElectromagneticLab.js';
 import BarMagnet from '../model/BarMagnet.js';
-import { DragListener, Image, KeyboardDragListener, KeyboardDragListenerOptions, Node } from '../../../../scenery/js/imports.js';
-import Tandem from '../../../../tandem/js/Tandem.js';
+import { DragListener, Image, KeyboardDragListener, KeyboardDragListenerOptions, Node, NodeOptions } from '../../../../scenery/js/imports.js';
 import barMagnet_png from '../../../images/barMagnet_png.js';
 import FELConstants from '../FELConstants.js';
-import { combineOptions } from '../../../../phet-core/js/optionize.js';
+import optionize, { combineOptions } from '../../../../phet-core/js/optionize.js';
+import TReadOnlyProperty from '../../../../axon/js/TReadOnlyProperty.js';
+import PickRequired from '../../../../phet-core/js/types/PickRequired.js';
+
+type SelfOptions = {
+  seeInsideProperty?: TReadOnlyProperty<boolean> | null;
+};
+
+type BarMagnetNodeOptions = SelfOptions & PickRequired<NodeOptions, 'tandem'>;
 
 export default class BarMagnetNode extends Node {
 
-  public constructor( barMagnet: BarMagnet, tandem: Tandem ) {
+  public constructor( barMagnet: BarMagnet, providedOptions: BarMagnetNodeOptions ) {
+
+    const options = optionize<BarMagnetNodeOptions, SelfOptions, NodeOptions>()( {
+
+      // SelfOptions
+      seeInsideProperty: null,
+
+      // NodeOptions
+      cursor: 'pointer',
+      tagName: 'div', // for KeyboardDragListener
+      focusable: true, // for KeyboardDragListener
+      phetioFeatured: true
+    }, providedOptions );
 
     const barMagnetImage = new Image( barMagnet_png );
     assert && assert( barMagnetImage.width === barMagnet.size.width ); //TODO
     assert && assert( barMagnetImage.height === barMagnet.size.height ); //TODO
 
-    super( {
-      children: [ barMagnetImage ],
-      cursor: 'pointer',
-      tagName: 'div', // for KeyboardDragListener
-      focusable: true, // for KeyboardDragListener
-      tandem: tandem,
-      phetioFeatured: true
-    } );
+    options.children = [ barMagnetImage ];
+
+    super( options );
 
     this.addLinkedElement( barMagnet );
 
@@ -50,16 +64,20 @@ export default class BarMagnetNode extends Node {
     const dragListener = new DragListener( {
       positionProperty: barMagnet.positionProperty,
       useParentOffset: true,
-      tandem: tandem.createTandem( 'dragListener' )
+      tandem: options.tandem.createTandem( 'dragListener' )
     } );
     this.addInputListener( dragListener );
 
     const keyboardDragListener = new KeyboardDragListener(
       combineOptions<KeyboardDragListenerOptions>( {}, FELConstants.KEYBOARD_DRAG_LISTENER_OPTIONS, {
         positionProperty: barMagnet.positionProperty,
-        tandem: tandem.createTandem( 'keyboardDragListener' )
+        tandem: options.tandem.createTandem( 'keyboardDragListener' )
       } ) );
     this.addInputListener( keyboardDragListener );
+
+    if ( options.seeInsideProperty ) {
+      //TODO add visualization of field inside the magnet
+    }
   }
 }
 
