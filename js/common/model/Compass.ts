@@ -63,9 +63,9 @@ export default abstract class Compass extends PhetioObject {
 
   //TODO If the clock is paused and the magnet moves, update immediately to match the field vector
   public step( dt: number ): void {
-    this.magnet.getBField( this.positionProperty.value, this.scratchVector /* output */ );
-    if ( this.scratchVector.magnitude !== 0 ) {
-      this.setDirection( this.scratchVector, dt );
+    const fieldVector = this.magnet.getBField( this.positionProperty.value, this.scratchVector );
+    if ( fieldVector.magnitude !== 0 ) {
+      this.setDirection( fieldVector, dt );
     }
   }
 

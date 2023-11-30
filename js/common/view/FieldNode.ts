@@ -81,9 +81,9 @@ export default class FieldNode extends Sprites {
 
   private update(): void {
     this.needleSpriteInstances.forEach( needleSpriteInstance => {
-      const bField = this.magnet.getBField( needleSpriteInstance.position, this.scratchVector );
-      needleSpriteInstance.rotationProperty.value = bField.angle;
-      needleSpriteInstance.alpha = strengthToAlpha( bField.magnitude, this.magnet.strengthProperty.rangeProperty.value.max );
+      const fieldVector = this.magnet.getBField( needleSpriteInstance.position, this.scratchVector );
+      needleSpriteInstance.rotationProperty.value = fieldVector.angle;
+      needleSpriteInstance.alpha = strengthToAlpha( fieldVector.magnitude, this.magnet.strengthProperty.rangeProperty.value.max );
     } );
     this.invalidatePaint();
   }
