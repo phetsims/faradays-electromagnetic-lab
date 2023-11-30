@@ -28,6 +28,10 @@ import FELColors from '../FELColors.js';
 
 const CROSSHAIRS_RADIUS = 10;
 const PROBE_RADIUS = CROSSHAIRS_RADIUS + 8;
+const RICH_TEXT_OPTIONS = {
+  font: new PhetFont( 14 ),
+  fill: FELColors.fieldMeterLabelsColorProperty
+};
 
 export default class FieldMeterNode extends Node {
 
@@ -60,40 +64,38 @@ export default class FieldMeterNode extends Node {
       top: probeNode.bottom - 2
     } );
 
-    const BStringProperty = new DerivedProperty(
+    // These strings have unconventional names so that they correspond to B, Bx, By.
+    const stringBProperty = new DerivedProperty(
       [ fieldMeter.fieldVectorProperty, FaradaysElectromagneticLabStrings.units.gaussStringProperty ],
       ( fieldVector, gaussString ) => `B = ${Utils.toFixed( fieldVector.magnitude, 2 )} ${gaussString}`
     );
-    const BxStringProperty = new DerivedProperty(
+    const stringBxProperty = new DerivedProperty(
       [ fieldMeter.fieldVectorProperty, FaradaysElectromagneticLabStrings.units.gaussStringProperty ],
       ( fieldVector, gaussString ) => `B<sub>x</sub> = ${Utils.toFixed( fieldVector.x, 2 )} ${gaussString}`
     );
-    const ByStringProperty = new DerivedProperty(
+    const stringByProperty = new DerivedProperty(
       [ fieldMeter.fieldVectorProperty, FaradaysElectromagneticLabStrings.units.gaussStringProperty ],
       ( fieldVector, gaussString ) => `B<sub>y</sub> = ${Utils.toFixed( fieldVector.y, 2 )} ${gaussString}`
     );
-    const thetaStringProperty = new DerivedProperty(
+    const stringThetaProperty = new DerivedProperty(
       [ fieldMeter.fieldVectorProperty ],
       fieldVector => `${MathSymbols.THETA} = ${Utils.toFixed( Utils.toDegrees( fieldVector.angle ), 2 )}${MathSymbols.DEGREES}`
     );
 
-    const richTextOptions = {
-      font: new PhetFont( 14 ),
-      fill: FELColors.fieldMeterLabelsColorProperty
-    };
-    const BText = new RichText( BStringProperty, richTextOptions );
-    const BxText = new RichText( BxStringProperty, richTextOptions );
-    const ByText = new RichText( ByStringProperty, richTextOptions );
-    const thetaText = new RichText( thetaStringProperty, richTextOptions );
+    // These Nodes have unconventional names so that they correspond to B, Bx, By.
+    const textB = new RichText( stringBProperty, RICH_TEXT_OPTIONS );
+    const textBx = new RichText( stringBxProperty, RICH_TEXT_OPTIONS );
+    const textBy = new RichText( stringByProperty, RICH_TEXT_OPTIONS );
+    const textTheta = new RichText( stringThetaProperty, RICH_TEXT_OPTIONS );
 
     const textVBox = new VBox( {
       align: 'left',
       spacing: 5,
       children: [
-        BText,
-        BxText,
-        ByText,
-        thetaText
+        textB,
+        textBx,
+        textBy,
+        textTheta
       ]
     } );
     textVBox.boundsProperty.link( bounds => {
