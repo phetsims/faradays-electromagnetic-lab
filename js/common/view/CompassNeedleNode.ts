@@ -1,7 +1,7 @@
 // Copyright 2023, University of Colorado Boulder
 
 /**
- * NeedleNode is one needle in the B-field or compass. In its default orientation (rotation === 0), the north point
+ * CompassNeedleNode is one needle in the B-field or compass. In its default orientation (rotation === 0), the north point
  * of the needle points down the +x-axis, the same as the default orientation of the bar magnet. The origin is at
  * the geometric center.
  *
@@ -16,7 +16,7 @@ import FELQueryParameters from '../FELQueryParameters.js';
 
 const NEEDLE_ASPECT_RATIO = 25 / 7; // length:waist
 
-export default class NeedleNode extends Node {
+export default class CompassNeedleNode extends Node {
 
   public constructor( length = FELQueryParameters.needleLength ) {
 
@@ -45,4 +45,4 @@ export default class NeedleNode extends Node {
   }
 }
 
-faradaysElectromagneticLab.register( 'NeedleNode', NeedleNode );
+faradaysElectromagneticLab.register( 'CompassNeedleNode', CompassNeedleNode );

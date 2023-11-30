@@ -16,7 +16,7 @@ import Tandem from '../../../../tandem/js/Tandem.js';
 import TReadOnlyProperty from '../../../../axon/js/TReadOnlyProperty.js';
 import Bounds2 from '../../../../dot/js/Bounds2.js';
 import Multilink from '../../../../axon/js/Multilink.js';
-import NeedleNode from './NeedleNode.js';
+import CompassNeedleNode from './CompassNeedleNode.js';
 import FELQueryParameters from '../FELQueryParameters.js';
 import Magnet from '../model/Magnet.js';
 
@@ -92,9 +92,9 @@ export default class FieldNode extends Sprites {
 class NeedleSprite extends Sprite {
   public constructor() {
 
-    // Convert a NeedleNode to a SpriteImage.
+    // Convert a CompassNeedleNode to a SpriteImage.
     let spriteImage: SpriteImage;
-    const needleNode = new NeedleNode();
+    const needleNode = new CompassNeedleNode();
     needleNode.toCanvas( ( canvas: HTMLCanvasElement, x: number, y: number, width: number, height: number ) => {
       const offset = new Vector2( needleNode.width / 2, needleNode.height / 2 );
       spriteImage = new SpriteImage( canvas, offset );
