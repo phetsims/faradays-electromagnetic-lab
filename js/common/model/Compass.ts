@@ -56,7 +56,9 @@ export default abstract class Compass extends PhetioObject {
     } );
 
     this._rotationProperty = new NumberProperty( 0, {
-      tandem: options.tandem.createTandem( 'rotationProperty' )
+      units: 'radians',
+      tandem: options.tandem.createTandem( 'rotationProperty' ),
+      phetioReadOnly: true
     } );
     this.rotationProperty = this._rotationProperty;
   }

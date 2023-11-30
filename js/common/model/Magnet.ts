@@ -53,6 +53,7 @@ export default abstract class Magnet extends PhetioObject {
     } );
 
     this.rotationProperty = new NumberProperty( options.rotation, {
+      units: 'radians',
       tandem: options.tandem.createTandem( 'rotationProperty' )
     } );
 

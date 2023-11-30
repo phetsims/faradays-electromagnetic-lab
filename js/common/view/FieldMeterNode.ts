@@ -13,7 +13,7 @@
 import faradaysElectromagneticLab from '../../faradaysElectromagneticLab.js';
 import FieldMeter from '../model/FieldMeter.js';
 import Tandem from '../../../../tandem/js/Tandem.js';
-import { DragListener, KeyboardDragListener, KeyboardDragListenerOptions, Node, Path, Rectangle, RichText } from '../../../../scenery/js/imports.js';
+import { DragListener, KeyboardDragListener, KeyboardDragListenerOptions, Node, Path, Rectangle, RichText, VBox } from '../../../../scenery/js/imports.js';
 import { combineOptions } from '../../../../phet-core/js/optionize.js';
 import FELConstants from '../FELConstants.js';
 import TReadOnlyProperty from '../../../../axon/js/TReadOnlyProperty.js';
@@ -50,31 +50,50 @@ export default class FieldMeterNode extends Node {
       top: probeNode.bottom - 2
     } );
 
-    const valuesStringProperty = new DerivedProperty(
-      [ fieldMeter.fieldVectorProperty, FaradaysElectromagneticLabStrings.units.gaussStringProperty ],
-      ( fieldVector, gaussString ) => {
-        const B = Utils.toFixed( fieldVector.magnitude, 2 );
-        const Bx = Utils.toFixed( fieldVector.x, 2 );
-        const By = -Utils.toFixed( fieldVector.y, 2 ); //TODO Converting to +y up should be done elsewhere.
-        const theta = Utils.toFixed( Utils.toDegrees( fieldVector.angle ), 2 );
-        return `B = ${B} ${gaussString}<br>` +
-               `B<sub>x</sub> = ${Bx} ${gaussString}<br>` +
-               `B<sub>y</sub> = ${By} ${gaussString}<br>` +
-               `${MathSymbols.THETA} = ${theta}${MathSymbols.DEGREES}`;
-      } );
+    const BStringProperty = new DerivedProperty(
+      [ fieldMeter.BProperty, FaradaysElectromagneticLabStrings.units.gaussStringProperty ],
+      ( B, gaussString ) => `B = ${Utils.toFixed( B, 2 )} ${gaussString}`
+    );
+    const BxStringProperty = new DerivedProperty(
+      [ fieldMeter.BxProperty, FaradaysElectromagneticLabStrings.units.gaussStringProperty ],
+      ( Bx, gaussString ) => `B<sub>x</sub> = ${Utils.toFixed( Bx, 2 )} ${gaussString}`
+    );
+    const ByStringProperty = new DerivedProperty(
+      [ fieldMeter.ByProperty, FaradaysElectromagneticLabStrings.units.gaussStringProperty ],
+      ( By, gaussString ) => `B<sub>y</sub> = ${Utils.toFixed( By, 2 )} ${gaussString}`
+    );
+    const thetaStringProperty = new DerivedProperty(
+      [ fieldMeter.thetaProperty ],
+      theta => `${MathSymbols.THETA} = ${Utils.toFixed( theta, 2 )}${MathSymbols.DEGREES}`
+    );
 
-    const valuesText = new RichText( valuesStringProperty, {
+    const richTextOptions = {
       font: new PhetFont( 14 ),
       fill: 'white',
       leading: 5
+    };
+    const BText = new RichText( BStringProperty, richTextOptions );
+    const BxText = new RichText( BxStringProperty, richTextOptions );
+    const ByText = new RichText( ByStringProperty, richTextOptions );
+    const thetaText = new RichText( thetaStringProperty, richTextOptions );
+
+    const textVBox = new VBox( {
+      align: 'left',
+      spacing: 5,
+      children: [
+        BText,
+        BxText,
+        ByText,
+        thetaText
+      ]
     } );
-    valuesText.boundsProperty.link( bounds => {
-      valuesText.left = bodyNode.left + 10;
-      valuesText.centerY = bodyNode.centerY;
+    textVBox.boundsProperty.link( bounds => {
+      textVBox.left = bodyNode.left + 10;
+      textVBox.centerY = bodyNode.centerY;
     } );
 
     super( {
-      children: [ probeNode, bodyNode, valuesText ],
+      children: [ probeNode, bodyNode, textVBox ],
       cursor: 'pointer',
       visibleProperty: visibleProperty,
       tagName: 'div', // for KeyboardDragListener
