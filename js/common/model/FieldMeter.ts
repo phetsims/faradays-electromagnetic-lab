@@ -48,7 +48,7 @@ export default class FieldMeter extends PhetioObject {
 
     this.fieldVectorProperty = new DerivedProperty(
       [ this.positionProperty, magnet.positionProperty, magnet.rotationProperty, magnet.strengthProperty ],
-      ( position, rotation, strength ) => magnet.getBField( position )
+      ( position, rotation, strength ) => magnet.getFieldVector( position )
     );
 
     //TODO delete

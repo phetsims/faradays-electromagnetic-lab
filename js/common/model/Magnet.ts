@@ -82,7 +82,7 @@ export default abstract class Magnet extends PhetioObject {
    * Gets the B-field vector at the specified point in the global coordinate frame.
    * If outputField is not provided, this method allocates a Vector2.
    */
-  public getBField( position: Vector2, outputVector = new Vector2( 0, 0 ) ): Vector2 {
+  public getFieldVector( position: Vector2, outputVector = new Vector2( 0, 0 ) ): Vector2 {
 
     //TODO This is the original Java code. Is this the same as how we've computed scratchPosition below?
     // _transform.setToIdentity();
@@ -99,8 +99,8 @@ export default abstract class Magnet extends PhetioObject {
     this.scratchPosition.rotateAboutPoint( this.positionProperty.value, -this.rotationProperty.value );
     this.scratchPosition.subtract( this.positionProperty.value );
 
-    // Get strength in magnet's local coordinate frame.
-    this.getBFieldRelative( this.scratchPosition, outputVector );
+    // Get strength in magnet's local coordinate frame, writes to outputVector.
+    this.getLocalFieldVector( this.scratchPosition, outputVector );
 
     // Adjust the field vector to match the magnet's direction.
     outputVector.rotate( this.rotationProperty.value );
@@ -121,7 +121,7 @@ export default abstract class Magnet extends PhetioObject {
    * In the magnet's local 2D coordinate frame, it is located at (0,0),
    * and its north pole is pointing down the positive x-axis.
    */
-  protected abstract getBFieldRelative( position: Vector2, outputVector: Vector2 ): Vector2;
+  protected abstract getLocalFieldVector( position: Vector2, outputVector: Vector2 ): Vector2;
 }
 
 faradaysElectromagneticLab.register( 'Magnet', Magnet );
