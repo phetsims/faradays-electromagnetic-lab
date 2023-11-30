@@ -54,8 +54,8 @@ import BarMagnetFieldData from './BarMagnetFieldData.js';
 
 export default class BarMagnetFieldGrid {
 
-  // internal name, for debugging
-  public readonly name: string;
+  // name used for debugging purposes
+  public readonly debugName: string;
 
   // B-field vector x & y components, generated using MathCAD
   public readonly bxArray: number[][];
@@ -78,22 +78,22 @@ export default class BarMagnetFieldGrid {
   /**
    * Constructor is private because the static instances above are the only instances that should exist.
    */
-  private constructor( name: string, bxArray: number[][], byArray: number[][], size: Dimension2, spacing: number ) {
+  private constructor( debugName: string, bxArray: number[][], byArray: number[][], size: Dimension2, spacing: number ) {
 
-    assert && assert( bxArray.length === size.width, `${name}: unexpect bxArray.length: ${bxArray.length}` );
-    assert && assert( _.every( bxArray, array => array.length === size.height ), `${name}: bxArray has inconsistent number of components` );
+    assert && assert( bxArray.length === size.width, `${debugName}: unexpect bxArray.length: ${bxArray.length}` );
+    assert && assert( _.every( bxArray, array => array.length === size.height ), `${debugName}: bxArray has inconsistent number of components` );
     assert && assert( _.every( bxArray, array => _.every( array, value => ( Math.abs( value ) <= BarMagnetFieldData.MAGNET_STRENGTH ) ) ),
-      `${name}: bxArray contains invalid values` );
+      `${debugName}: bxArray contains invalid values` );
 
-    assert && assert( byArray.length === size.width, `${name}: unexpect byArray.length: ${byArray.length}` );
-    assert && assert( _.every( byArray, array => array.length === size.height ), `${name}: byArray has inconsistent number of components` );
+    assert && assert( byArray.length === size.width, `${debugName}: unexpect byArray.length: ${byArray.length}` );
+    assert && assert( _.every( byArray, array => array.length === size.height ), `${debugName}: byArray has inconsistent number of components` );
     assert && assert( _.every( byArray, array => _.every( array, value => ( Math.abs( value ) <= BarMagnetFieldData.MAGNET_STRENGTH ) ) ),
-      `${name}: byArray contains invalid values` );
+      `${debugName}: byArray contains invalid values` );
 
-    assert && assert( size.width > 0 && size.height > 0, `${name}: invalid size: ${size}` );
-    assert && assert( Number.isInteger( spacing ) && spacing > 0, `${name}: invalid spacing: ${spacing}` );
+    assert && assert( size.width > 0 && size.height > 0, `${debugName}: invalid size: ${size}` );
+    assert && assert( Number.isInteger( spacing ) && spacing > 0, `${debugName}: invalid spacing: ${spacing}` );
 
-    this.name = name;
+    this.debugName = debugName;
     this.bxArray = bxArray;
     this.byArray = byArray;
     this.size = size;
