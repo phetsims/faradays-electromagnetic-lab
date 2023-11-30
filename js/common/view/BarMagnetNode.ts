@@ -14,12 +14,13 @@
 
 import faradaysElectromagneticLab from '../../faradaysElectromagneticLab.js';
 import BarMagnet from '../model/BarMagnet.js';
-import { DragListener, GridBox, Image, KeyboardDragListener, KeyboardDragListenerOptions, Node, NodeOptions, Text } from '../../../../scenery/js/imports.js';
+import { DragListener, GridBox, Image, KeyboardDragListener, KeyboardDragListenerOptions, Node, NodeOptions } from '../../../../scenery/js/imports.js';
 import barMagnet_png from '../../../images/barMagnet_png.js';
 import FELConstants from '../FELConstants.js';
 import optionize, { combineOptions } from '../../../../phet-core/js/optionize.js';
 import TReadOnlyProperty from '../../../../axon/js/TReadOnlyProperty.js';
 import PickRequired from '../../../../phet-core/js/types/PickRequired.js';
+import CompassNeedleNode from './CompassNeedleNode.js';
 
 type SelfOptions = {
   seeInsideProperty?: TReadOnlyProperty<boolean> | null;
@@ -75,9 +76,18 @@ export default class BarMagnetNode extends Node {
       } ) );
     this.addInputListener( keyboardDragListener );
 
+    // If a seeInsideProperty is provided, then add the visualization of the field inside the bar magnet.
     if ( options.seeInsideProperty ) {
+
+      const compassNeedleNodes: Node[] = [];
+      for ( let i = 0; i < 14; i++ ) {
+        compassNeedleNodes.push( new CompassNeedleNode() );
+      }
       const fieldInsideNode = new GridBox( {
-        children: [ new Text( 'FIELD' ) ],
+        autoRows: 2,
+        xSpacing: 10,
+        ySpacing: 12,
+        children: compassNeedleNodes,
         visibleProperty: options.seeInsideProperty,
         center: barMagnetImage.center
       } );
