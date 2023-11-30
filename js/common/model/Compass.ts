@@ -7,60 +7,65 @@
  */
 
 import faradaysElectromagneticLab from '../../faradaysElectromagneticLab.js';
-import PhetioObject from '../../../../tandem/js/PhetioObject.js';
-import Tandem from '../../../../tandem/js/Tandem.js';
+import PhetioObject, { PhetioObjectOptions } from '../../../../tandem/js/PhetioObject.js';
 import Vector2 from '../../../../dot/js/Vector2.js';
 import Property from '../../../../axon/js/Property.js';
 import NumberProperty from '../../../../axon/js/NumberProperty.js';
 import Vector2Property from '../../../../dot/js/Vector2Property.js';
-import BooleanProperty from '../../../../axon/js/BooleanProperty.js';
 import Magnet from './Magnet.js';
+import PickRequired from '../../../../phet-core/js/types/PickRequired.js';
+import optionize from '../../../../phet-core/js/optionize.js';
+
+type SelfOptions = {
+  position?: Vector2; // initial value of positionProperty, unitless
+};
+
+export type CompassOptions = SelfOptions & PickRequired<PhetioObjectOptions, 'tandem'>;
 
 export default abstract class Compass extends PhetioObject {
 
   public readonly positionProperty: Property<Vector2>; // unitless
   public readonly rotationProperty: Property<number>; // radians
-  public readonly visibleProperty: Property<boolean>;
 
   private readonly magnet: Magnet;
   private readonly scratchVector: Vector2;
 
-  protected constructor( magnet: Magnet, tandem: Tandem ) {
+  protected constructor( magnet: Magnet, providedOptions: CompassOptions ) {
 
-    super( {
-      tandem: tandem,
+    const options = optionize<CompassOptions, SelfOptions, PhetioObjectOptions>()( {
+
+      // SelfOptions
+      position: Vector2.ZERO,
+
+      // PhetioObjectOptions
+      isDisposable: false,
       phetioState: false
-    } );
+    }, providedOptions );
+
+    super( options );
 
     this.magnet = magnet;
     this.scratchVector = new Vector2( 0, 0 );
 
     this.positionProperty = new Vector2Property( Vector2.ZERO, {
-      tandem: tandem.createTandem( 'positionProperty' )
+      tandem: options.tandem.createTandem( 'positionProperty' )
     } );
 
     this.rotationProperty = new NumberProperty( 0, {
-      tandem: tandem.createTandem( 'rotationProperty' )
-    } );
-
-    this.visibleProperty = new BooleanProperty( true, {
-      tandem: tandem.createTandem( 'visibleProperty' )
+      tandem: options.tandem.createTandem( 'rotationProperty' )
     } );
   }
 
   public reset(): void {
     this.positionProperty.reset();
     this.rotationProperty.reset();
-    this.visibleProperty.reset();
   }
 
   //TODO If the clock is paused and the magnet moves, update immediately to match the field vector
   public step( dt: number ): void {
-    if ( this.visibleProperty.value ) {
-      this.magnet.getBField( this.positionProperty.value, this.scratchVector /* output */ );
-      if ( this.scratchVector.magnitude !== 0 ) {
-        this.setDirection( this.scratchVector, dt );
-      }
+    this.magnet.getBField( this.positionProperty.value, this.scratchVector /* output */ );
+    if ( this.scratchVector.magnitude !== 0 ) {
+      this.setDirection( this.scratchVector, dt );
     }
   }
 

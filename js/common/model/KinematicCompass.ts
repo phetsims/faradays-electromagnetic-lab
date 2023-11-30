@@ -9,18 +9,22 @@
  * @author Chris Malley (PixelZoom, Inc.)
  */
 
-import Compass from './Compass.js';
+import Compass, { CompassOptions } from './Compass.js';
 import faradaysElectromagneticLab from '../../faradaysElectromagneticLab.js';
-import Tandem from '../../../../tandem/js/Tandem.js';
 import Magnet from './Magnet.js';
 import Vector2 from '../../../../dot/js/Vector2.js';
 import Utils from '../../../../dot/js/Utils.js';
 import Property from '../../../../axon/js/Property.js';
 import NumberProperty from '../../../../axon/js/NumberProperty.js';
+import { EmptySelfOptions } from '../../../../phet-core/js/optionize.js';
 
 const SENSITIVITY = 0.01; // increase this to make the compass more sensitive to smaller fields
 const DAMPING = 0.08; // increase this to make the needle wobble less
 const THRESHOLD = Utils.toRadians( 0.2 ); // angle at which the needle stops wobbling and snaps to the actual field orientation
+
+type SelfOptions = EmptySelfOptions;
+
+type KinematicCompassOptions = SelfOptions & CompassOptions;
 
 export default class KinematicCompass extends Compass {
 
@@ -35,24 +39,27 @@ export default class KinematicCompass extends Compass {
   // Angular acceleration, the change in angular velocity over time.
   private alphaProperty: Property<number>;
 
-  public constructor( magnet: Magnet, tandem: Tandem ) {
-    super( magnet, tandem );
+  public constructor( magnet: Magnet, providedOptions: KinematicCompassOptions ) {
+
+    const options = providedOptions;
+
+    super( magnet, options );
 
     this.thetaProperty = new NumberProperty( 0, {
       units: 'radians',
-      tandem: tandem.createTandem( 'thetaProperty' ),
+      tandem: options.tandem.createTandem( 'thetaProperty' ),
       phetioReadOnly: true,
       phetioDocumentation: 'Angle of the compass needle'
     } );
 
     this.omegaProperty = new NumberProperty( 0, {
-      tandem: tandem.createTandem( 'omegaProperty' ),
+      tandem: options.tandem.createTandem( 'omegaProperty' ),
       phetioReadOnly: true,
       phetioDocumentation: 'Angular velocity of the compass needle'
     } );
 
     this.alphaProperty = new NumberProperty( 0, {
-      tandem: tandem.createTandem( 'alphaProperty' ),
+      tandem: options.tandem.createTandem( 'alphaProperty' ),
       phetioReadOnly: true,
       phetioDocumentation: 'Angular acceleration of the compass needle'
     } );

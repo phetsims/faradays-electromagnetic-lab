@@ -33,7 +33,10 @@ export default class BarMagnetModel implements TModel {
       tandem: tandem.createTandem( 'fieldMeter' )
     } );
 
-    this.compass = new KinematicCompass( this.barMagnet, tandem.createTandem( 'compass' ) );
+    this.compass = new KinematicCompass( this.barMagnet, {
+      position: new Vector2( 150, 300 ),
+      tandem: tandem.createTandem( 'compass' )
+    } );
   }
 
   /**

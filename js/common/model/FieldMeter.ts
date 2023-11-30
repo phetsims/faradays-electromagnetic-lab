@@ -50,6 +50,11 @@ export default class FieldMeter extends PhetioObject {
       [ this.positionProperty, magnet.positionProperty, magnet.rotationProperty, magnet.strengthProperty ],
       ( position, rotation, strength ) => magnet.getBField( position )
     );
+
+    //TODO delete
+    // this.fieldVectorProperty.link( fieldVector => {
+    //   console.log( `fieldVector=${fieldVector}\nfieldMeter.position=${this.positionProperty.value}\nmagnet.position=${magnet.positionProperty.value}` )
+    // } );
   }
 
   public reset(): void {

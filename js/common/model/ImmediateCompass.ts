@@ -7,16 +7,20 @@
  * @author Chris Malley (PixelZoom, Inc.)
  */
 
-import Compass from './Compass.js';
+import Compass, { CompassOptions } from './Compass.js';
 import faradaysElectromagneticLab from '../../faradaysElectromagneticLab.js';
-import Tandem from '../../../../tandem/js/Tandem.js';
 import Magnet from './Magnet.js';
 import Vector2 from '../../../../dot/js/Vector2.js';
+import { EmptySelfOptions } from '../../../../phet-core/js/optionize.js';
+
+type SelfOptions = EmptySelfOptions;
+
+type ImmediateCompassOptions = SelfOptions & CompassOptions;
 
 export default class ImmediateCompass extends Compass {
 
-  public constructor( magnet: Magnet, tandem: Tandem ) {
-    super( magnet, tandem );
+  public constructor( magnet: Magnet, providedOptions: ImmediateCompassOptions ) {
+    super( magnet, providedOptions );
   }
 
   public override setDirection( fieldVector: Vector2, dt: number ): void {
