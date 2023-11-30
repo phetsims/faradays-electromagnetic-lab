@@ -52,7 +52,6 @@ export default class CompassNode extends Node {
     } );
 
     const needleNode = new CompassNeedleNode( NEEDLE_LENGTH );
-    needleNode.center = ringNode.center;
 
     const needleAnchorNode = new Circle( NEEDLE_ANCHOR_RADIUS, {
       fill: 'black',
@@ -72,8 +71,10 @@ export default class CompassNode extends Node {
       this.center = position;
     } );
 
-    //TODO not working as expected with KinematicCompass
-    compass.rotationProperty.link( rotation => needleNode.rotateAround( needleNode.center, rotation ) );
+    compass.rotationProperty.link( rotation => {
+      needleNode.rotation = rotation;
+      needleNode.center = ringNode.center;
+    } );
 
     const dragListener = new DragListener( {
       positionProperty: compass.positionProperty,

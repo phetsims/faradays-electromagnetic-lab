@@ -10,10 +10,10 @@ import faradaysElectromagneticLab from '../../faradaysElectromagneticLab.js';
 import TModel from '../../../../joist/js/TModel.js';
 import Tandem from '../../../../tandem/js/Tandem.js';
 import BarMagnet from '../../common/model/BarMagnet.js';
-import KinematicCompass from '../../common/model/KinematicCompass.js';
 import Compass from '../../common/model/Compass.js';
 import FieldMeter from '../../common/model/FieldMeter.js';
 import Vector2 from '../../../../dot/js/Vector2.js';
+import ImmediateCompass from '../../common/model/ImmediateCompass.js';
 
 export default class BarMagnetModel implements TModel {
 
@@ -33,7 +33,8 @@ export default class BarMagnetModel implements TModel {
       tandem: tandem.createTandem( 'fieldMeter' )
     } );
 
-    this.compass = new KinematicCompass( this.barMagnet, {
+    //TODO should be KinematicCompass, but it's not working
+    this.compass = new ImmediateCompass( this.barMagnet, {
       position: new Vector2( 150, 300 ),
       tandem: tandem.createTandem( 'compass' )
     } );
