@@ -55,7 +55,7 @@ export default class FieldMeterNode extends Node {
       ( fieldVector, gaussString ) => {
         const B = Utils.toFixed( fieldVector.magnitude, 2 );
         const Bx = Utils.toFixed( fieldVector.x, 2 );
-        const By = Utils.toFixed( fieldVector.y, 2 );
+        const By = -Utils.toFixed( fieldVector.y, 2 ); //TODO Converting to +y up should be done elsewhere.
         const theta = Utils.toFixed( Utils.toDegrees( fieldVector.angle ), 2 );
         return `B = ${B} ${gaussString}<br>` +
                `B<sub>x</sub> = ${Bx} ${gaussString}<br>` +
