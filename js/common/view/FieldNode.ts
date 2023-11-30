@@ -93,9 +93,34 @@ export default class FieldNode extends Sprites {
     this.spriteInstances.forEach( spriteInstance => {
       const fieldVector = this.magnet.getFieldVector( spriteInstance.position, this.scratchFieldVector );
       spriteInstance.rotationProperty.value = fieldVector.angle;
-      spriteInstance.alpha = strengthToAlpha( fieldVector.magnitude, this.magnet.strengthProperty.rangeProperty.value.max );
+      spriteInstance.alpha = this.strengthToAlpha( fieldVector.magnitude );
     } );
     this.invalidatePaint();
+  }
+
+  /**
+   * Converts magnet strength to alpha color component.
+   */
+  private strengthToAlpha( strength: number ): number {
+    const maxStrength = this.magnet.strengthProperty.rangeProperty.value.max;
+    assert && assert( strength >= 0 && strength <= maxStrength, `invalid strength: ${strength}` );
+
+    // let alpha = ( strength / maxStrength );
+    //
+    // // Scale the alpha, because in reality the strength drops off quickly, and we wouldn't see much of the B-field.
+    // alpha = Math.pow( alpha, 1 / FELQueryParameters.outsideBFieldIntensityScale );
+    //
+    // // Increase the alpha of needles just outside the ends of magnet to improve the "look".
+    // alpha *= 2;
+    // if ( alpha > 1 ) {
+    //   alpha = 1;
+    // }
+    //
+    // assert && assert( alpha >= 0 && alpha <= 1, `invalid scaledIntensity: ${alpha}` );
+    // return alpha;
+
+    //TODO temporary workaround, the above is not working as expected
+    return this.magnet.strengthProperty.value / this.magnet.strengthProperty.rangeProperty.value.max;
   }
 }
 
@@ -156,30 +181,6 @@ class CompassNeedleSpriteInstance extends SpriteInstance {
 
     assert && assert( this.matrix.isFinite(), 'matrix should be finite' );
   }
-}
-
-/**
- * Converts magnet strength to alpha color component.
- */
-function strengthToAlpha( strength: number, maxStrength: number ): number {
-  assert && assert( strength >= 0 && strength <= maxStrength, `invalid strength: ${strength}` );
-
-  //TODO Debug the algorithm below from AbstractBFieldGraphic.java updateStrengthAndOrientation. It's dropping off too quickly.
-  return 1;
-
-  // let alpha = ( strength / maxStrength );
-  //
-  // // Scale the alpha, because in reality the strength drops off quickly, and we wouldn't see much of the B-field.
-  // alpha = Math.pow( alpha, 1 / FELQueryParameters.outsideBFieldIntensityScale );
-  //
-  // // Increase the alpha of needles just outside the ends of magnet to improve the "look".
-  // alpha *= 2;
-  // if ( alpha > 1 ) {
-  //   alpha = 1;
-  // }
-  //
-  // assert && assert( alpha >= 0 && alpha <= 1, `invalid scaledIntensity: ${alpha}` );
-  // return alpha;
 }
 
 faradaysElectromagneticLab.register( 'FieldNode', FieldNode );
