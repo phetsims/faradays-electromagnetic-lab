@@ -78,7 +78,11 @@ export default class BarMagnetNode extends Node {
 
     // If a seeInsideProperty is provided, then add the visualization of the field inside the bar magnet.
     if ( options.seeInsideProperty ) {
-      this.addChild( new FieldInsideNode( barMagnet.strengthProperty, options.seeInsideProperty, barMagnetImage.center ) );
+      this.addChild( new FieldInsideNode( barMagnet.strengthProperty, {
+        visibleProperty: options.seeInsideProperty,
+        center: barMagnetImage.center,
+        tandem: options.tandem.createTandem( 'fieldInsideNode' )
+      } ) );
     }
   }
 }

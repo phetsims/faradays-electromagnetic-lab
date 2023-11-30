@@ -8,12 +8,12 @@
  * @author Chris Malley (PixelZoom, Inc.)
  */
 
-import { GridBox } from '../../../../scenery/js/imports.js';
+import { GridBox, GridBoxOptions } from '../../../../scenery/js/imports.js';
 import faradaysElectromagneticLab from '../../faradaysElectromagneticLab.js';
-import TReadOnlyProperty from '../../../../axon/js/TReadOnlyProperty.js';
 import NumberProperty from '../../../../axon/js/NumberProperty.js';
 import CompassNeedleNode from './CompassNeedleNode.js';
-import Vector2 from '../../../../dot/js/Vector2.js';
+import optionize, { EmptySelfOptions } from '../../../../phet-core/js/optionize.js';
+import PickRequired from '../../../../phet-core/js/types/PickRequired.js';
 
 //TODO Perhaps we should change the implementation to compute these values based on magnet size.
 const FIELD_INSIDE_ROWS = 2;
@@ -21,18 +21,24 @@ const FIELD_INSIDE_COLUMNS = 7;
 const FIELD_INSIDE_X_SPACING = 10;
 const FIELD_INSIDE_Y_SPACING = 12;
 
+type SelfOptions = EmptySelfOptions;
+
+type FieldInsideNodeOptions = SelfOptions & PickRequired<GridBoxOptions, 'tandem' | 'visibleProperty' | 'center'>;
+
 export default class FieldInsideNode extends GridBox {
 
-  public constructor( strengthProperty: NumberProperty, visibleProperty: TReadOnlyProperty<boolean>, center: Vector2 ) {
+  public constructor( strengthProperty: NumberProperty, providedOptions: FieldInsideNodeOptions ) {
 
-    super( {
+    const options = optionize<FieldInsideNodeOptions, SelfOptions, GridBoxOptions>()( {
+
+      // GridBoxOptions
       children: _.times( FIELD_INSIDE_ROWS * FIELD_INSIDE_COLUMNS, () => new CompassNeedleNode() ),
       autoRows: FIELD_INSIDE_ROWS,
       xSpacing: FIELD_INSIDE_X_SPACING,
-      ySpacing: FIELD_INSIDE_Y_SPACING,
-      visibleProperty: visibleProperty,
-      center: center
-    } );
+      ySpacing: FIELD_INSIDE_Y_SPACING
+    }, providedOptions );
+
+    super( options );
 
     // Modulate opacity to as magnet strength changes.
     strengthProperty.link( strength => {
