@@ -1,7 +1,7 @@
 // Copyright 2023, University of Colorado Boulder
 
 //TODO dragBounds
-//TODO collision detection
+//TODO collision detection - see FaradayMouseHandler.java
 
 /**
  * CompassNode is the visualization of a compass, whose orientation matches a magnet's B-field.

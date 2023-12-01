@@ -1,7 +1,7 @@
 // Copyright 2023, University of Colorado Boulder
 
 //TODO dragBounds
-//TODO collision detection
+//TODO collision detection - see FaradayMouseHandler.java
 //TODO color profile
 //TODO translation of 'N' and 'S'
 //TODO eliminate barMagnet_png

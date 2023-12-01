@@ -24,10 +24,6 @@ simLauncher.launch( () => {
 
   const titleStringProperty = FaradaysElectromagneticLabStrings[ 'faradays-electromagnetic-lab' ].titleStringProperty;
 
-  //TODO Use one instance of needleColorStrategyProperty for all screens.
-  //TODO Use one pair (north and south) of NeedColorCache for all screens, to reduce memory.
-  //TODO Use one shape cache for all screens, to reduce memory.
-
   const screens = [
     new BarMagnetScreen( Tandem.ROOT.createTandem( 'barMagnetScreen' ) ),
     new PickupCoilScreen( Tandem.ROOT.createTandem( 'pickupCoilScreen' ) ),
