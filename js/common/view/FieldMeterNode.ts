@@ -3,7 +3,7 @@
 //TODO dragBounds
 //TODO design & polish presentation of labels and values
 //TODO add overline to 'B' magnitudes
-//TODO display tesla in scientific notation
+//TODO display tesla in scientific notation, M.MM x 10^-N
 //TODO how should zero be displayed? 0.00? 0?
 
 /**
