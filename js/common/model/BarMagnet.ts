@@ -51,7 +51,7 @@ export default class BarMagnet extends Magnet {
     outputVector.setXY( x, y );
 
     // Scale the B-field to match the bar magnet's strength.
-    outputVector.multiply( this.strengthProperty.value / BarMagnetFieldData.MAGNET_STRENGTH );
+    outputVector.multiplyScalar( this.strengthProperty.value / BarMagnetFieldData.MAGNET_STRENGTH );
 
     return outputVector;
   }
