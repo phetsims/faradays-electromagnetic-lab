@@ -24,7 +24,7 @@ export type BarMagnetOptions = SelfOptions & StrictOmit<MagnetOptions, 'strength
 
 export default class BarMagnet extends Magnet {
 
-  public readonly size: Dimension2; // width is from North to South pole
+  public readonly size: Dimension2; // unitless, width is from the magnet's South to North pole
 
   public constructor( providedOptions: BarMagnetOptions ) {
 
@@ -37,7 +37,7 @@ export default class BarMagnet extends Magnet {
     super( options );
 
     //TODO BarMagnetNode will fail an assertion if this does not match the size of barMagnet.png
-    this.size = new Dimension2( 250, 50 ); // unitless
+    this.size = new Dimension2( 250, 50 );
   }
 
   /**
