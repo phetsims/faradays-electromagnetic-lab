@@ -74,6 +74,7 @@ export default class KinematicCompass extends Compass {
     this.alphaProperty.reset();
   }
 
+  //TODO This misbehaves near the ends of the magnets, and spins wildly inside the magnet.
   /**
    * Updates the compass needle's rotation.
    * @param fieldVector - the magnet's B-field vector at the compass position
