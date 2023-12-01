@@ -21,6 +21,7 @@ import { EmptySelfOptions } from '../../../../phet-core/js/optionize.js';
 const SENSITIVITY = 0.01; // increase this to make the compass more sensitive to smaller fields
 const DAMPING = 0.08; // increase this to make the needle wobble less
 const THRESHOLD = Utils.toRadians( 0.2 ); // angle at which the needle stops wobbling and snaps to the actual field orientation
+const SECONDS_PER_FRAME = 1 / 25; // framerate that updateRotation was step was designed to support
 
 type SelfOptions = EmptySelfOptions;
 
@@ -28,16 +29,19 @@ type KinematicCompassOptions = SelfOptions & CompassOptions;
 
 export default class KinematicCompass extends Compass {
 
-  //TODO Do theta, omega, and alpha really need to be stateful?
+  //TODO Do thetaProperty, omegaProperty, alphaProperty, accumulatedDtProperty really need to be stateful?
 
   // Angle of needle orientation (in radians)
   private thetaProperty: Property<number>;
 
-  // Angular velocity, the change in angle over time.
+  // Angular velocity, the change in angle over time, in radians/s
   private omegaProperty: Property<number>;
 
-  // Angular acceleration, the change in angular velocity over time.
+  // Angular acceleration, the change in angular velocity over time, in radians/s^2
   private alphaProperty: Property<number>;
+
+  // Accumulated dt since the most recent call to this.step, to maintain consistent framerate
+  private accumulatedDtProperty: Property<number>;
 
   public constructor( magnet: Magnet, providedOptions: KinematicCompassOptions ) {
 
@@ -65,6 +69,13 @@ export default class KinematicCompass extends Compass {
       phetioReadOnly: true,
       phetioDocumentation: 'Angular acceleration of the compass needle'
     } );
+
+    this.accumulatedDtProperty = new NumberProperty( 0, {
+      units: 's',
+      tandem: options.tandem.createTandem( 'accumulatedDtProperty' ),
+      phetioReadOnly: true,
+      phetioDocumentation: 'For internal use only'
+    } );
   }
 
   public override reset(): void {
@@ -72,21 +83,30 @@ export default class KinematicCompass extends Compass {
     this.thetaProperty.reset();
     this.omegaProperty.reset();
     this.alphaProperty.reset();
+    this.accumulatedDtProperty.reset();
   }
 
-  //TODO This misbehaves near the ends of the magnets, and spins wildly inside the magnet.
+  /**
+   * In the Java version, we used a clock that fired 25 times per second, with constant dt = 1.
+   * In FaradayModule.java: new SwingClock( 1000 / 25, FaradayConstants.CLOCK_STEP )
+   * The implementation of this method was ported from Java, and is tuned to that clock.
+   * So attempt to call this at 25 fps, with a constant dt = 1.
+   */
+  public override step( dt: number ): void {
+    this.accumulatedDtProperty.value += dt;
+    if ( this.accumulatedDtProperty.value > SECONDS_PER_FRAME ) {
+      super.step( 1 );
+      this.accumulatedDtProperty.value -= SECONDS_PER_FRAME;
+    }
+  }
+
   /**
    * Updates the compass needle's rotation.
    * @param fieldVector - the magnet's B-field vector at the compass position
    * @param dt - time step, in seconds
    */
   protected override updateRotation( fieldVector: Vector2, dt: number ): void {
-
-    // In the Java version, we used a clock that fired 25 times per second, with constant dt = 1.
-    // In FaradayModule.java: new SwingClock( 1000 / 25, FaradayConstants.CLOCK_STEP )
-    // The implementation of this method was ported from Java, and is tuned to that clock. So ignore the value of
-    // dt that was provided, and use a constant dt = 1.
-    dt = 1;
+    assert && assert( dt === 1, `invalid dt=${dt}, see documentation for step` );
 
     const magnitude = fieldVector.magnitude;
     const angle = fieldVector.angle;
