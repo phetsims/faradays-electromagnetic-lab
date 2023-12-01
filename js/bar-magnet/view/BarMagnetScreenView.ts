@@ -137,14 +137,6 @@ export default class BarMagnetScreenView extends ScreenView {
     this.interruptSubtreeInput(); // cancel interactions that may be in progress
     this.viewProperties.reset();
   }
-
-  /**
-   * Steps the view.
-   * @param dt - time step, in seconds
-   */
-  public override step( dt: number ): void {
-    //TODO
-  }
 }
 
 faradaysElectromagneticLab.register( 'BarMagnetScreenView', BarMagnetScreenView );
