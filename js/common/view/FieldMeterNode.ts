@@ -3,6 +3,8 @@
 //TODO dragBounds
 //TODO design & polish presentation of labels and values
 //TODO add overline to 'B' magnitudes
+//TODO display tesla in scientific notation
+//TODO how should zero be displayed? 0.00? 0?
 
 /**
  * FieldMeterNode is the visual representation of meter for measuring the B-field.
