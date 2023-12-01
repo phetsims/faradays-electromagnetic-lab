@@ -38,6 +38,7 @@ export default class IncrementalCompass extends Compass {
     const fieldAngle = fieldVector.angle;
     const needleAngle = this._rotationProperty.value;
     let delta = fieldAngle - needleAngle;
+    //TODO if delta === 0, return?
 
     // Normalize the angle to the range -355...+355 degrees
     if ( Math.abs( delta ) >= ( 2 * Math.PI ) ) {
