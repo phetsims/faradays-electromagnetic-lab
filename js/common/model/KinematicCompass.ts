@@ -53,12 +53,14 @@ export default class KinematicCompass extends Compass {
     } );
 
     this.omegaProperty = new NumberProperty( 0, {
+      units: 'radians/s',
       tandem: options.tandem.createTandem( 'omegaProperty' ),
       phetioReadOnly: true,
       phetioDocumentation: 'Angular velocity of the compass needle'
     } );
 
     this.alphaProperty = new NumberProperty( 0, {
+      units: 'radians/s^2',
       tandem: options.tandem.createTandem( 'alphaProperty' ),
       phetioReadOnly: true,
       phetioDocumentation: 'Angular acceleration of the compass needle'
