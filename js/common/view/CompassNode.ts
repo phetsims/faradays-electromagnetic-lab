@@ -21,7 +21,7 @@ import optionize, { EmptySelfOptions } from '../../../../phet-core/js/optionize.
 
 const NEEDLE_LENGTH = 55;
 const RING_LINE_WIDTH = 10;
-const RING_OUTER_RADIUS = ( NEEDLE_LENGTH + 2 * RING_LINE_WIDTH + 5 ) / 2;
+const RING_OUTER_RADIUS = ( NEEDLE_LENGTH + ( 2 * RING_LINE_WIDTH ) + 5 ) / 2;
 const NEEDLE_ANCHOR_RADIUS = 3;
 const INDICATOR_SPACING = 45; // degrees
 const INDICATOR_RADIUS = 3;
@@ -34,7 +34,7 @@ export default class CompassNode extends FELMovableNode {
 
   public constructor( compass: Compass, providedOptions: CompassNodeOptions ) {
 
-    const ringCenterRadius = RING_OUTER_RADIUS - RING_LINE_WIDTH / 2; // adjust for lineWidth
+    const ringCenterRadius = RING_OUTER_RADIUS - ( RING_LINE_WIDTH / 2 ); // adjust for lineWidth
 
     const ringNode = new Circle( ringCenterRadius, {
       stroke: FELColors.compassRingColorProperty,
