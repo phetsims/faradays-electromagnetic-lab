@@ -82,11 +82,13 @@ export default class FieldMeterNode extends Node {
     );
     const stringByProperty = new DerivedProperty(
       [ fieldMeter.fieldVectorProperty, BStringProperty, yStringProperty, GStringProperty ],
-      ( fieldVector, B, y, G ) => `${B}<sub>${y}</sub> = ${Utils.toFixed( fieldVector.y, 2 )} ${G}`
+      //TODO -fieldVector.y to convert to +y up, should be done in the model
+      ( fieldVector, B, y, G ) => `${B}<sub>${y}</sub> = ${Utils.toFixed( -fieldVector.y, 2 )} ${G}`
     );
     const stringThetaProperty = new DerivedProperty(
       [ fieldMeter.fieldVectorProperty ],
-      fieldVector => `${MathSymbols.THETA} = ${Utils.toFixed( Utils.toDegrees( fieldVector.angle ), 2 )}${MathSymbols.DEGREES}`
+      //TODO -fieldVector.angle to convert to +angle counterclockwise, should be done in the model
+      fieldVector => `${MathSymbols.THETA} = ${Utils.toFixed( Utils.toDegrees( -fieldVector.angle ), 2 )}${MathSymbols.DEGREES}`
     );
 
     // These Nodes have unconventional names so that they correspond to B, Bx, By, as shown in the UI.
