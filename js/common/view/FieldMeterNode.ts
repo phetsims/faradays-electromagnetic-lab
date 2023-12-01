@@ -27,12 +27,16 @@ import PhetFont from '../../../../scenery-phet/js/PhetFont.js';
 import ShadedRectangle from '../../../../scenery-phet/js/ShadedRectangle.js';
 import Bounds2 from '../../../../dot/js/Bounds2.js';
 import FELColors from '../FELColors.js';
+import FELPreferences from '../model/FELPreferences.js';
 
 const BStringProperty = FaradaysElectromagneticLabStrings.symbol.BStringProperty;
 const xStringProperty = FaradaysElectromagneticLabStrings.symbol.xStringProperty;
 const yStringProperty = FaradaysElectromagneticLabStrings.symbol.yStringProperty;
 const GStringProperty = FaradaysElectromagneticLabStrings.units.GStringProperty;
+const TStringProperty = FaradaysElectromagneticLabStrings.units.TStringProperty;
 
+const G_DECIMAL_PLACES = 2;
+const T_DECIMAL_PLACES = 6;
 const CROSSHAIRS_RADIUS = 10;
 const PROBE_RADIUS = CROSSHAIRS_RADIUS + 8;
 const RICH_TEXT_OPTIONS = {
@@ -64,7 +68,7 @@ export default class FieldMeterNode extends Node {
       lineWidth: 5
     } );
 
-    const bodyNode = new ShadedRectangle( new Bounds2( 0, 0, 110, 100 ), {
+    const bodyNode = new ShadedRectangle( new Bounds2( 0, 0, 120, 100 ), {
       cornerRadius: 10,
       baseColor: FELColors.fieldMeterBodyColorProperty,
       centerX: probeNode.centerX,
@@ -73,17 +77,23 @@ export default class FieldMeterNode extends Node {
 
     // These strings have unconventional names so that they correspond to B, Bx, By, as shown in the UI.
     const stringBProperty = new DerivedProperty(
-      [ fieldMeter.fieldVectorProperty, BStringProperty, GStringProperty ],
-      ( fieldVector, B, G ) => `${B} = ${Utils.toFixed( fieldVector.magnitude, 2 )} ${G}`
+      [ FELPreferences.magneticUnitsProperty, fieldMeter.fieldVectorProperty, BStringProperty, GStringProperty, TStringProperty ],
+      ( magneticUnits, fieldVector, B, G, T ) =>
+        ( magneticUnits === 'G' ) ? `${B} = ${Utils.toFixed( fieldVector.magnitude, G_DECIMAL_PLACES )} ${G}`
+                                  : `${B} = ${Utils.toFixed( fieldVector.magnitude / 10000, T_DECIMAL_PLACES )} ${T}`
     );
     const stringBxProperty = new DerivedProperty(
-      [ fieldMeter.fieldVectorProperty, BStringProperty, xStringProperty, GStringProperty ],
-      ( fieldVector, B, x, G ) => `${B}<sub>${x}</sub> = ${Utils.toFixed( fieldVector.x, 2 )} ${G}`
+      [ FELPreferences.magneticUnitsProperty, fieldMeter.fieldVectorProperty, BStringProperty, xStringProperty, GStringProperty, TStringProperty ],
+      ( magneticUnits, fieldVector, B, x, G, T ) =>
+        ( magneticUnits === 'G' ) ? `${B}<sub>${x}</sub> = ${Utils.toFixed( fieldVector.x, G_DECIMAL_PLACES )} ${G}`
+                                  : `${B}<sub>${x}</sub> = ${Utils.toFixed( fieldVector.x / 10000, T_DECIMAL_PLACES )} ${T}`
     );
     const stringByProperty = new DerivedProperty(
-      [ fieldMeter.fieldVectorProperty, BStringProperty, yStringProperty, GStringProperty ],
+      [ FELPreferences.magneticUnitsProperty, fieldMeter.fieldVectorProperty, BStringProperty, yStringProperty, GStringProperty, TStringProperty ],
       //TODO -fieldVector.y to convert to +y up, should be done in the model
-      ( fieldVector, B, y, G ) => `${B}<sub>${y}</sub> = ${Utils.toFixed( -fieldVector.y, 2 )} ${G}`
+      ( magneticUnits, fieldVector, B, y, G, T ) =>
+        ( magneticUnits === 'G' ) ? `${B}<sub>${y}</sub> = ${Utils.toFixed( -fieldVector.y, G_DECIMAL_PLACES )} ${G}`
+                                  : `${B}<sub>${y}</sub> = ${Utils.toFixed( -fieldVector.y / 10000, T_DECIMAL_PLACES )} ${T}`
     );
     const stringThetaProperty = new DerivedProperty(
       [ fieldMeter.fieldVectorProperty ],
