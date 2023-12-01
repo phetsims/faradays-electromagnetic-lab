@@ -1,6 +1,6 @@
 // Copyright 2023, University of Colorado Boulder
 
-//TODO dragBounds
+//TODO dragBounds - ala my-solar-system
 //TODO design & polish presentation of labels and values
 //TODO add overline to 'B' magnitudes
 //TODO display tesla in scientific notation, M.MM x 10^-N

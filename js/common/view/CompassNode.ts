@@ -1,6 +1,6 @@
 // Copyright 2023, University of Colorado Boulder
 
-//TODO dragBounds
+//TODO dragBounds - ala my-solar-system
 //TODO collision detection - see FaradayMouseHandler.java => FELDragListener, FELKeyboardDragListener
 
 /**
