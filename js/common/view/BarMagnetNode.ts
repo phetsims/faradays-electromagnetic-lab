@@ -41,7 +41,8 @@ export default class BarMagnetNode extends Node {
       cursor: 'pointer',
       tagName: 'div', // for KeyboardDragListener
       focusable: true, // for KeyboardDragListener
-      phetioFeatured: true
+      phetioFeatured: true,
+      phetioInputEnabledPropertyInstrumented: true
     }, providedOptions );
 
     const barMagnetImage = new Image( barMagnet_png );

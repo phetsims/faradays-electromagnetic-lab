@@ -119,7 +119,8 @@ export default class FieldMeterNode extends Node {
       tagName: 'div', // for KeyboardDragListener
       focusable: true, // for KeyboardDragListener
       tandem: tandem,
-      phetioFeatured: true
+      phetioFeatured: true,
+      phetioInputEnabledPropertyInstrumented: true
     } );
 
     this.addLinkedElement( fieldMeter );
