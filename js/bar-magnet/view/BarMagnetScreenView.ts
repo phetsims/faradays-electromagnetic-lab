@@ -25,46 +25,15 @@ import CompassNode from '../../common/view/CompassNode.js';
 
 export default class BarMagnetScreenView extends ScreenView {
 
-  private readonly viewProperties: BarMagnetViewProperties;
-
   public constructor( model: BarMagnetModel, tandem: Tandem ) {
 
     super( {
       tandem: tandem
     } );
 
-    this.viewProperties = new BarMagnetViewProperties( tandem.createTandem( 'viewProperties' ) );
+    const viewProperties = new BarMagnetViewProperties( tandem.createTandem( 'viewProperties' ) );
 
-    const fieldNode = new FieldNode( model.barMagnet, {
-      visibleBoundsProperty: this.visibleBoundsProperty,
-      visibleProperty: this.viewProperties.fieldVisibleProperty,
-      tandem: tandem.createTandem( 'fieldNode' )
-    } );
-
-    const barMagnetNode = new BarMagnetNode( model.barMagnet, {
-      seeInsideProperty: this.viewProperties.seeInsideBarMagnetProperty,
-      tandem: tandem.createTandem( 'barMagnetNode' )
-    } );
-
-    const fieldMeterNode = new FieldMeterNode( model.fieldMeter, {
-      visibleProperty: this.viewProperties.fieldMeterVisibleProperty,
-      tandem: tandem.createTandem( 'fieldMeterNode' )
-    } );
-
-    const compassNode = new CompassNode( model.compass, {
-      visibleProperty: this.viewProperties.compassVisibleProperty,
-      tandem: tandem.createTandem( 'compassNode' )
-    } );
-
-    const earthNode = new EarthNode( model.barMagnet, {
-      visibleProperty: this.viewProperties.earthVisibleProperty,
-      tandem: tandem.createTandem( 'earthNode' )
-    } );
-
-    const barMagnetPanel = new BarMagnetPanel( model.barMagnet, this.viewProperties.seeInsideBarMagnetProperty,
-      model.compass, tandem.createTandem( 'barMagnetPanel' ) );
-
-    this.viewProperties.earthVisibleProperty.link( earthVisible => {
+    viewProperties.earthVisibleProperty.link( earthVisible => {
       if ( earthVisible ) {
         model.barMagnet.rotationProperty.value = -Math.PI / 2; // north is up
       }
@@ -73,34 +42,68 @@ export default class BarMagnetScreenView extends ScreenView {
       }
     } );
 
+    const fieldNode = new FieldNode( model.barMagnet, {
+      visibleBoundsProperty: this.visibleBoundsProperty,
+      visibleProperty: viewProperties.fieldVisibleProperty,
+      tandem: tandem.createTandem( 'fieldNode' )
+    } );
+
+    const barMagnetNode = new BarMagnetNode( model.barMagnet, {
+      seeInsideProperty: viewProperties.seeInsideBarMagnetProperty,
+      tandem: tandem.createTandem( 'barMagnetNode' )
+    } );
+
+    const fieldMeterNode = new FieldMeterNode( model.fieldMeter, {
+      visibleProperty: viewProperties.fieldMeterVisibleProperty,
+      tandem: tandem.createTandem( 'fieldMeterNode' )
+    } );
+
+    const compassNode = new CompassNode( model.compass, {
+      visibleProperty: viewProperties.compassVisibleProperty,
+      tandem: tandem.createTandem( 'compassNode' )
+    } );
+
+    const earthNode = new EarthNode( model.barMagnet, {
+      visibleProperty: viewProperties.earthVisibleProperty,
+      tandem: tandem.createTandem( 'earthNode' )
+    } );
+
+    const panelsTandem = tandem.createTandem( 'panels' );
+
+    const barMagnetPanel = new BarMagnetPanel( model.barMagnet, viewProperties.seeInsideBarMagnetProperty,
+      model.compass, panelsTandem.createTandem( 'barMagnetPanel' ) );
+
     const visibilityPanel = new BarMagnetVisibilityPanel(
-      this.viewProperties.fieldVisibleProperty,
-      this.viewProperties.compassVisibleProperty,
-      this.viewProperties.fieldMeterVisibleProperty,
-      this.viewProperties.earthVisibleProperty,
-      tandem.createTandem( 'visibilityPanel' )
+      viewProperties.fieldVisibleProperty,
+      viewProperties.compassVisibleProperty,
+      viewProperties.fieldMeterVisibleProperty,
+      viewProperties.earthVisibleProperty,
+      panelsTandem.createTandem( 'visibilityPanel' )
     );
 
-    const controlPanels = new VBox( {
+    const panels = new VBox( {
       stretch: true,
       spacing: 10,
       children: [
         barMagnetPanel,
         visibilityPanel
-      ]
+      ],
+      tandem: panelsTandem,
+      phetioVisiblePropertyInstrumented: true
     } );
 
     // Adjust position of the control panels
-    Multilink.multilink( [ controlPanels.boundsProperty, this.visibleBoundsProperty ],
-      ( controlPanelsBounds, visibleBounds ) => {
-        controlPanels.right = visibleBounds.right - FELConstants.SCREEN_VIEW_X_MARGIN;
-        controlPanels.top = this.layoutBounds.top + FELConstants.SCREEN_VIEW_Y_MARGIN;
+    Multilink.multilink( [ panels.boundsProperty, this.visibleBoundsProperty ],
+      ( panelsBounds, visibleBounds ) => {
+        panels.right = visibleBounds.right - FELConstants.SCREEN_VIEW_X_MARGIN;
+        panels.top = this.layoutBounds.top + FELConstants.SCREEN_VIEW_Y_MARGIN;
       } );
 
     const resetAllButton = new ResetAllButton( {
       listener: () => {
         model.reset();
-        this.reset();
+        this.interruptSubtreeInput(); // cancel interactions that may be in progress
+        viewProperties.reset();
       },
       tandem: tandem.createTandem( 'resetAllButton' )
     } );
@@ -118,7 +121,7 @@ export default class BarMagnetScreenView extends ScreenView {
         earthNode,
         compassNode,
         fieldMeterNode,
-        controlPanels,
+        panels,
         resetAllButton
       ]
     } );
@@ -128,14 +131,9 @@ export default class BarMagnetScreenView extends ScreenView {
       barMagnetNode,
       compassNode,
       fieldMeterNode,
-      controlPanels,
+      panels,
       resetAllButton
     ];
-  }
-
-  public reset(): void {
-    this.interruptSubtreeInput(); // cancel interactions that may be in progress
-    this.viewProperties.reset();
   }
 }
 
