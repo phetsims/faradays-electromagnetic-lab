@@ -33,7 +33,9 @@ export default class CompassNode extends Node {
 
   public constructor( compass: Compass, visibleProperty: TReadOnlyProperty<boolean>, tandem: Tandem ) {
 
-    const ringNode = new Circle( RING_RADIUS, {
+    const ringCenterRadius = RING_RADIUS - RING_LINE_WIDTH / 2; // adjust for lineWidth
+
+    const ringNode = new Circle( ringCenterRadius, {
       stroke: FELColors.compassRingColorProperty,
       lineWidth: RING_LINE_WIDTH,
       boundsMethod: 'accurate' // so that stroke is included TODO not working as expected
@@ -43,7 +45,7 @@ export default class CompassNode extends Node {
     let indicatorAngle = 0; // degrees
     const indicatorsShape = new Shape();
     while ( indicatorAngle < 360 ) {
-      const vector = Vector2.createPolar( RING_RADIUS, Utils.toRadians( indicatorAngle ) );
+      const vector = Vector2.createPolar( ringCenterRadius, Utils.toRadians( indicatorAngle ) );
       indicatorsShape.circle( vector, INDICATOR_RADIUS );
       indicatorAngle += INDICATOR_SPACING;
     }
