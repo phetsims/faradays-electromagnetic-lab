@@ -67,10 +67,6 @@ export default class IncrementalCompass extends Compass {
       this._rotationProperty.value = needleAngle + delta;
     }
   }
-
-  public override startMovingNow(): void {
-    // Do nothing
-  }
 }
 
 faradaysElectromagneticLab.register( 'IncrementalCompass', IncrementalCompass );

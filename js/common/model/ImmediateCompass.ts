@@ -31,10 +31,6 @@ export default class ImmediateCompass extends Compass {
   protected override updateRotation( fieldVector: Vector2, dt: number ): void {
     this._rotationProperty.value = fieldVector.angle;
   }
-
-  public override startMovingNow(): void {
-    // Do nothing
-  }
 }
 
 faradaysElectromagneticLab.register( 'ImmediateCompass', ImmediateCompass );

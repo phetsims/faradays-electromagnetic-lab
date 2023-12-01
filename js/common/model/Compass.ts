@@ -71,7 +71,9 @@ export default abstract class Compass extends FELMovable {
   /**
    * Starts the compass needle moving immediately.
    */
-  public abstract startMovingNow(): void;
+  public startMovingNow(): void {
+    // The default behavior is to do nothing.
+  }
 }
 
 faradaysElectromagneticLab.register( 'Compass', Compass );

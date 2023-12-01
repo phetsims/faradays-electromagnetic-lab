@@ -146,7 +146,7 @@ export default class KinematicCompass extends Compass {
 
   /**
    * Workaround to get the compass moving immediately. In some situations, such as when the magnet polarity is flipped,
-   * it can take quite awhile for the needle to start moving. So we give the compass needle a small amount of angular
+   * it can take quite a while for the needle to start moving. So we give the compass needle a small amount of angular
    * velocity to get it going.
    */
   public override startMovingNow(): void {
