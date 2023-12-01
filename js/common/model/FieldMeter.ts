@@ -20,7 +20,8 @@ export type FieldMeterOptions = SelfOptions & FELMovableOptions;
 
 export default class FieldMeter extends FELMovable {
 
-  public readonly fieldVectorProperty: TReadOnlyProperty<Vector2>; // gauss
+  // The field vector at the meter's position, in gauss
+  public readonly fieldVectorProperty: TReadOnlyProperty<Vector2>;
 
   public constructor( magnet: Magnet, providedOptions: FieldMeterOptions ) {
 
@@ -28,6 +29,7 @@ export default class FieldMeter extends FELMovable {
 
     super( options );
 
+    // This needs to be a new Vector2 instance, so do not pass an output vector to magnet.getFieldVector.
     this.fieldVectorProperty = new DerivedProperty(
       [ this.positionProperty, magnet.positionProperty, magnet.rotationProperty, magnet.strengthProperty ],
       ( position, rotation, strength ) => magnet.getFieldVector( position ), {

@@ -27,7 +27,7 @@ export default abstract class Magnet extends FELMovable {
   public readonly strengthProperty: NumberProperty; // gauss
 
   // reusable vector for transforming a position to the magnet's local coordinate frame
-  private readonly scratchPosition: Vector2;
+  private readonly reusablePosition: Vector2;
 
   protected constructor( providedOptions: MagnetOptions ) {
 
@@ -52,7 +52,7 @@ export default abstract class Magnet extends FELMovable {
       phetioFeatured: true
     } );
 
-    this.scratchPosition = new Vector2( 0, 0 );
+    this.reusablePosition = new Vector2( 0, 0 );
   }
 
   public override reset(): void {
@@ -77,12 +77,12 @@ export default abstract class Magnet extends FELMovable {
     // Our models are based on a magnet located at the origin, with the North pole pointing down the positive x-axis.
     // The position argument for this method is in the global coordinate frame. So transform that position to the
     // magnet's local coordinate frame, adjusting for the magnet's position and rotation.
-    this.scratchPosition.set( position );
-    this.scratchPosition.rotateAboutPoint( this.positionProperty.value, -this.rotationProperty.value );
-    this.scratchPosition.subtract( this.positionProperty.value );
+    this.reusablePosition.set( position );
+    this.reusablePosition.rotateAboutPoint( this.positionProperty.value, -this.rotationProperty.value );
+    this.reusablePosition.subtract( this.positionProperty.value );
 
     // Get strength in magnet's local coordinate frame, writes to outputVector.
-    this.getLocalFieldVector( this.scratchPosition, outputVector );
+    this.getLocalFieldVector( this.reusablePosition, outputVector );
 
     // Adjust the field vector to match the magnet's direction.
     outputVector.rotate( this.rotationProperty.value );

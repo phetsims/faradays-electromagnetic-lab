@@ -26,7 +26,9 @@ export default abstract class Compass extends FELMovable {
   protected readonly _rotationProperty: Property<number>;
 
   private readonly magnet: Magnet;
-  private readonly scratchVector: Vector2;
+
+  // A reusable vector instance, for getting the field vector value at the compass' position
+  private readonly reusableFieldVector: Vector2;
 
   protected constructor( magnet: Magnet, providedOptions: CompassOptions ) {
 
@@ -35,7 +37,7 @@ export default abstract class Compass extends FELMovable {
     super( options );
 
     this.magnet = magnet;
-    this.scratchVector = new Vector2( 0, 0 );
+    this.reusableFieldVector = new Vector2( 0, 0 );
 
     this._rotationProperty = new NumberProperty( 0, {
       units: 'radians',
@@ -53,7 +55,7 @@ export default abstract class Compass extends FELMovable {
 
   //TODO If the clock is paused and the magnet moves, update immediately to match the field vector
   public step( dt: number ): void {
-    const fieldVector = this.magnet.getFieldVector( this.positionProperty.value, this.scratchVector );
+    const fieldVector = this.magnet.getFieldVector( this.positionProperty.value, this.reusableFieldVector );
     if ( fieldVector.magnitude !== 0 ) {
       this.updateRotation( fieldVector, dt );
     }

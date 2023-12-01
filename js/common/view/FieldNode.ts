@@ -36,7 +36,7 @@ export default class FieldNode extends Sprites {
   private readonly visibleBoundsProperty: TReadOnlyProperty<Bounds2>; // the visible bounds of the browser window
   private readonly sprite: Sprite; // the single Sprite used to render all compass needles in the grid
   private readonly spriteInstances: CompassNeedleSpriteInstance[]; // the individual compass needles in the grid
-  private readonly scratchFieldVector: Vector2; // a reusable instance for getting field vectors
+  private readonly reusableFieldVector: Vector2; // a reusable instance for getting field vectors
 
   public constructor( magnet: Magnet, providedOptions: FieldNodeOptions ) {
 
@@ -68,7 +68,7 @@ export default class FieldNode extends Sprites {
     this.visibleBoundsProperty = options.visibleBoundsProperty;
     this.sprite = sprite;
     this.spriteInstances = spriteInstances;
-    this.scratchFieldVector = new Vector2( 0, 0 );
+    this.reusableFieldVector = new Vector2( 0, 0 );
 
     // Update to match the magnet's B-field.
     Multilink.multilink(
@@ -120,7 +120,7 @@ export default class FieldNode extends Sprites {
    */
   private update(): void {
     this.spriteInstances.forEach( spriteInstance => {
-      const fieldVector = this.magnet.getFieldVector( spriteInstance.position, this.scratchFieldVector );
+      const fieldVector = this.magnet.getFieldVector( spriteInstance.position, this.reusableFieldVector );
       spriteInstance.rotationProperty.value = fieldVector.angle;
       spriteInstance.alpha = this.strengthToAlpha( fieldVector.magnitude );
     } );
