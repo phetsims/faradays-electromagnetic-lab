@@ -8,11 +8,10 @@
  */
 
 import faradaysElectromagneticLab from '../../faradaysElectromagneticLab.js';
-import { Sprite, SpriteImage, SpriteInstance, SpriteInstanceTransformType, Sprites } from '../../../../scenery/js/imports.js';
+import { Sprite, SpriteImage, SpriteInstance, SpriteInstanceTransformType, Sprites, SpritesOptions } from '../../../../scenery/js/imports.js';
 import Vector2 from '../../../../dot/js/Vector2.js';
 import Property from '../../../../axon/js/Property.js';
 import NumberProperty from '../../../../axon/js/NumberProperty.js';
-import Tandem from '../../../../tandem/js/Tandem.js';
 import TReadOnlyProperty from '../../../../axon/js/TReadOnlyProperty.js';
 import Bounds2 from '../../../../dot/js/Bounds2.js';
 import Multilink from '../../../../axon/js/Multilink.js';
@@ -20,8 +19,16 @@ import CompassNeedleNode from './CompassNeedleNode.js';
 import FELQueryParameters from '../FELQueryParameters.js';
 import Magnet from '../model/Magnet.js';
 import FELColors from '../FELColors.js';
+import PickRequired from '../../../../phet-core/js/types/PickRequired.js';
+import optionize from '../../../../phet-core/js/optionize.js';
 
 const NEEDLE_SPACING = FELQueryParameters.needleSpacing;
+
+type SelfOptions = {
+  visibleBoundsProperty: TReadOnlyProperty<Bounds2>; // the visible bounds of the browser window
+};
+
+type FieldNodeOptions = SelfOptions & PickRequired<SpritesOptions, 'visibleProperty' | 'tandem'>;
 
 export default class FieldNode extends Sprites {
 
@@ -31,7 +38,7 @@ export default class FieldNode extends Sprites {
   private readonly spriteInstances: CompassNeedleSpriteInstance[]; // the individual compass needles in the grid
   private readonly scratchFieldVector: Vector2; // a reusable instance for getting field vectors
 
-  public constructor( magnet: Magnet, visibleBoundsProperty: TReadOnlyProperty<Bounds2>, visibleProperty: TReadOnlyProperty<boolean>, tandem: Tandem ) {
+  public constructor( magnet: Magnet, providedOptions: FieldNodeOptions ) {
 
     // A vector in the field is visualized as a compass needle.
     const compassNeedleNode = new CompassNeedleNode();
@@ -46,17 +53,19 @@ export default class FieldNode extends Sprites {
 
     const spriteInstances: CompassNeedleSpriteInstance[] = [];
 
-    super( {
+    const options = optionize<FieldNodeOptions, SelfOptions, SpritesOptions>()( {
+
+      // SpritesOptions
       isDisposable: false,
       sprites: [ sprite ], // the set of Sprites used to render this Node, must be set at instantiation
       spriteInstances: spriteInstances, // the set of SpriteInstances, one per compass needle in the grid
-      hitTestSprites: false,
-      visibleProperty: visibleProperty,
-      tandem: tandem
-    } );
+      hitTestSprites: false
+    }, providedOptions );
+
+    super( options );
 
     this.magnet = magnet;
-    this.visibleBoundsProperty = visibleBoundsProperty;
+    this.visibleBoundsProperty = options.visibleBoundsProperty;
     this.sprite = sprite;
     this.spriteInstances = spriteInstances;
     this.scratchFieldVector = new Vector2( 0, 0 );
@@ -72,7 +81,7 @@ export default class FieldNode extends Sprites {
       this.canvasBounds = visibleBounds;
       this.rebuild();
     };
-    visibleBoundsProperty.link( visibleBoundsListener );
+    this.visibleBoundsProperty.link( visibleBoundsListener );
 
     // If the colors change, update the sprite and redraw.
     Multilink.multilink( [ FELColors.northColorProperty, FELColors.southColorProperty ], () => {

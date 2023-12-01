@@ -1,6 +1,5 @@
 // Copyright 2023, University of Colorado Boulder
 
-//TODO dragBounds - ala my-solar-system
 //TODO design & polish presentation of labels and values
 //TODO add overline to 'B' magnitudes
 //TODO display tesla in scientific notation, M.MM x 10^-N
@@ -9,17 +8,14 @@
 /**
  * FieldMeterNode is the visual representation of meter for measuring the B-field.
  * It can be dragged to a specific position, and shows the field vector's magnitude, x and y components, and angle.
+ * The origin is at the center of the crosshairs.
  *
  * @author Chris Malley (PixelZoom, Inc.)
  */
 
 import faradaysElectromagneticLab from '../../faradaysElectromagneticLab.js';
 import FieldMeter from '../model/FieldMeter.js';
-import Tandem from '../../../../tandem/js/Tandem.js';
-import { DragListener, KeyboardDragListener, KeyboardDragListenerOptions, Node, Path, RichText, VBox } from '../../../../scenery/js/imports.js';
-import { combineOptions } from '../../../../phet-core/js/optionize.js';
-import FELConstants from '../FELConstants.js';
-import TReadOnlyProperty from '../../../../axon/js/TReadOnlyProperty.js';
+import { Path, RichText, VBox } from '../../../../scenery/js/imports.js';
 import { Shape } from '../../../../kite/js/imports.js';
 import DerivedProperty from '../../../../axon/js/DerivedProperty.js';
 import Utils from '../../../../dot/js/Utils.js';
@@ -30,6 +26,9 @@ import ShadedRectangle from '../../../../scenery-phet/js/ShadedRectangle.js';
 import Bounds2 from '../../../../dot/js/Bounds2.js';
 import FELColors from '../FELColors.js';
 import FELPreferences from '../model/FELPreferences.js';
+import FELMovableNode, { FELMovableNodeOptions } from './FELMovableNode.js';
+import optionize, { EmptySelfOptions } from '../../../../phet-core/js/optionize.js';
+import StrictOmit from '../../../../phet-core/js/types/StrictOmit.js';
 
 const BStringProperty = FaradaysElectromagneticLabStrings.symbol.BStringProperty;
 const xStringProperty = FaradaysElectromagneticLabStrings.symbol.xStringProperty;
@@ -46,9 +45,13 @@ const RICH_TEXT_OPTIONS = {
   fill: FELColors.fieldMeterLabelsColorProperty
 };
 
-export default class FieldMeterNode extends Node {
+type SelfOptions = EmptySelfOptions;
 
-  public constructor( fieldMeter: FieldMeter, visibleProperty: TReadOnlyProperty<boolean>, tandem: Tandem ) {
+type FieldMeterNodeOptions = SelfOptions & StrictOmit<FELMovableNodeOptions, 'children'>;
+
+export default class FieldMeterNode extends FELMovableNode {
+
+  public constructor( fieldMeter: FieldMeter, providedOptions: FieldMeterNodeOptions ) {
 
     // Origin at the center of the crosshairs
     const crosshairsShape = new Shape()
@@ -124,36 +127,13 @@ export default class FieldMeterNode extends Node {
       textVBox.centerY = bodyNode.centerY;
     } );
 
-    super( {
-      children: [ probeNode, crosshairsNode, bodyNode, textVBox ],
-      cursor: 'pointer',
-      visibleProperty: visibleProperty,
-      tagName: 'div', // for KeyboardDragListener
-      focusable: true, // for KeyboardDragListener
-      tandem: tandem,
-      phetioFeatured: true,
-      phetioInputEnabledPropertyInstrumented: true
-    } );
+    const options = optionize<FieldMeterNodeOptions, SelfOptions, FELMovableNodeOptions>()( {
 
-    this.addLinkedElement( fieldMeter );
+      // FELMovableNodeOptions
+      children: [ probeNode, crosshairsNode, bodyNode, textVBox ]
+    }, providedOptions );
 
-    fieldMeter.positionProperty.link( position => {
-      this.translation = position;
-    } );
-
-    const dragListener = new DragListener( {
-      positionProperty: fieldMeter.positionProperty,
-      useParentOffset: true,
-      tandem: tandem.createTandem( 'dragListener' )
-    } );
-    this.addInputListener( dragListener );
-
-    const keyboardDragListener = new KeyboardDragListener(
-      combineOptions<KeyboardDragListenerOptions>( {}, FELConstants.KEYBOARD_DRAG_LISTENER_OPTIONS, {
-        positionProperty: fieldMeter.positionProperty,
-        tandem: tandem.createTandem( 'keyboardDragListener' )
-      } ) );
-    this.addInputListener( keyboardDragListener );
+    super( fieldMeter, options );
   }
 }
 

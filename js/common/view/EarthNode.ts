@@ -9,16 +9,20 @@
  */
 
 import faradaysElectromagneticLab from '../../faradaysElectromagneticLab.js';
-import { DragListener, Image, Node, Path } from '../../../../scenery/js/imports.js';
+import { DragListener, Image, Node, NodeOptions, Path, SpritesOptions } from '../../../../scenery/js/imports.js';
 import BarMagnet from '../model/BarMagnet.js';
-import Tandem from '../../../../tandem/js/Tandem.js';
 import earth_png from '../../../images/earth_png.js';
-import TReadOnlyProperty from '../../../../axon/js/TReadOnlyProperty.js';
 import { Shape } from '../../../../kite/js/imports.js';
+import PickRequired from '../../../../phet-core/js/types/PickRequired.js';
+import optionize, { EmptySelfOptions } from '../../../../phet-core/js/optionize.js';
+
+type SelfOptions = EmptySelfOptions;
+
+type EarthNodeOptions = SelfOptions & PickRequired<SpritesOptions, 'visibleProperty' | 'tandem'>;
 
 export default class EarthNode extends Node {
 
-  public constructor( barMagnet: BarMagnet, visibleProperty: TReadOnlyProperty<boolean>, tandem: Tandem ) {
+  public constructor( barMagnet: BarMagnet, providedOptions: EarthNodeOptions ) {
 
     const earthImage = new Image( earth_png, {
       scale: 0.6,
@@ -33,14 +37,12 @@ export default class EarthNode extends Node {
       center: earthImage.center
     } );
 
-    super( {
+    const options = optionize<EarthNodeOptions, SelfOptions, NodeOptions>()( {
       children: [ earthPath, earthImage ],
-      visibleProperty: visibleProperty,
-      cursor: 'pointer',
-      tagName: 'div',
-      focusable: true,
-      tandem: tandem
-    } );
+      cursor: 'pointer'
+    }, providedOptions );
+
+    super( options );
 
     barMagnet.positionProperty.link( position => {
       this.center = position;
@@ -53,7 +55,7 @@ export default class EarthNode extends Node {
     const dragListener = new DragListener( {
       positionProperty: barMagnet.positionProperty,
       useParentOffset: true,
-      tandem: tandem.createTandem( 'dragListener' )
+      tandem: options.tandem.createTandem( 'dragListener' )
     } );
     this.addInputListener( dragListener );
 

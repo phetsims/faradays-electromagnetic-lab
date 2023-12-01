@@ -1,26 +1,23 @@
 // Copyright 2023, University of Colorado Boulder
 
-//TODO dragBounds - ala my-solar-system
-//TODO collision detection - see FaradayMouseHandler.java => FELDragListener, FELKeyboardDragListener
-
 /**
  * CompassNode is the visualization of a compass, whose orientation matches a magnet's B-field.
+ * The origin is at the center of the compass.
  *
  * @author Chris Malley (PixelZoom, Inc.)
  */
 
 import faradaysElectromagneticLab from '../../faradaysElectromagneticLab.js';
 import Compass from '../model/Compass.js';
-import TReadOnlyProperty from '../../../../axon/js/TReadOnlyProperty.js';
 import Vector2 from '../../../../dot/js/Vector2.js';
-import Tandem from '../../../../tandem/js/Tandem.js';
-import { Circle, DragListener, KeyboardDragListener, KeyboardDragListenerOptions, Node, Path } from '../../../../scenery/js/imports.js';
-import { combineOptions } from '../../../../phet-core/js/optionize.js';
-import FELConstants from '../FELConstants.js';
+import { Circle, Path } from '../../../../scenery/js/imports.js';
 import CompassNeedleNode from './CompassNeedleNode.js';
 import { Shape } from '../../../../kite/js/imports.js';
 import Utils from '../../../../dot/js/Utils.js';
 import FELColors from '../FELColors.js';
+import FELMovableNode, { FELMovableNodeOptions } from './FELMovableNode.js';
+import StrictOmit from '../../../../phet-core/js/types/StrictOmit.js';
+import optionize, { EmptySelfOptions } from '../../../../phet-core/js/optionize.js';
 
 const NEEDLE_LENGTH = 55;
 const RING_LINE_WIDTH = 10;
@@ -29,9 +26,13 @@ const NEEDLE_ANCHOR_RADIUS = 3;
 const INDICATOR_SPACING = 45; // degrees
 const INDICATOR_RADIUS = 3;
 
-export default class CompassNode extends Node {
+type SelfOptions = EmptySelfOptions;
 
-  public constructor( compass: Compass, visibleProperty: TReadOnlyProperty<boolean>, tandem: Tandem ) {
+type CompassNodeOptions = SelfOptions & StrictOmit<FELMovableNodeOptions, 'children'>;
+
+export default class CompassNode extends FELMovableNode {
+
+  public constructor( compass: Compass, providedOptions: CompassNodeOptions ) {
 
     const ringCenterRadius = RING_OUTER_RADIUS - RING_LINE_WIDTH / 2; // adjust for lineWidth
 
@@ -60,41 +61,18 @@ export default class CompassNode extends Node {
       center: ringNode.center
     } );
 
-    super( {
-      children: [ ringNode, indicatorsNode, needleNode, needleAnchorNode ],
-      cursor: 'pointer',
-      visibleProperty: visibleProperty,
-      tagName: 'div', // for KeyboardDragListener
-      focusable: true, // for KeyboardDragListener
-      tandem: tandem,
-      phetioFeatured: true,
-      phetioInputEnabledPropertyInstrumented: true
-    } );
+    const options = optionize<CompassNodeOptions, SelfOptions, FELMovableNodeOptions>()( {
 
-    this.addLinkedElement( compass );
+      // FELMovableNodeOptions
+      children: [ ringNode, indicatorsNode, needleNode, needleAnchorNode ]
+    }, providedOptions );
 
-    compass.positionProperty.link( position => {
-      this.center = position;
-    } );
+    super( compass, options );
 
     compass.rotationProperty.link( rotation => {
       needleNode.rotation = rotation;
       needleNode.center = ringNode.center;
     } );
-
-    const dragListener = new DragListener( {
-      positionProperty: compass.positionProperty,
-      useParentOffset: true,
-      tandem: tandem.createTandem( 'dragListener' )
-    } );
-    this.addInputListener( dragListener );
-
-    const keyboardDragListener = new KeyboardDragListener(
-      combineOptions<KeyboardDragListenerOptions>( {}, FELConstants.KEYBOARD_DRAG_LISTENER_OPTIONS, {
-        positionProperty: compass.positionProperty,
-        tandem: tandem.createTandem( 'keyboardDragListener' )
-      } ) );
-    this.addInputListener( keyboardDragListener );
   }
 }
 

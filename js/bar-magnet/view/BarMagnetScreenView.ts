@@ -35,22 +35,31 @@ export default class BarMagnetScreenView extends ScreenView {
 
     this.viewProperties = new BarMagnetViewProperties( tandem.createTandem( 'viewProperties' ) );
 
-    const fieldNode = new FieldNode( model.barMagnet, this.visibleBoundsProperty,
-      this.viewProperties.fieldVisibleProperty, tandem.createTandem( 'fieldNode' ) );
+    const fieldNode = new FieldNode( model.barMagnet, {
+      visibleBoundsProperty: this.visibleBoundsProperty,
+      visibleProperty: this.viewProperties.fieldVisibleProperty,
+      tandem: tandem.createTandem( 'fieldNode' )
+    } );
 
     const barMagnetNode = new BarMagnetNode( model.barMagnet, {
       seeInsideProperty: this.viewProperties.seeInsideBarMagnetProperty,
       tandem: tandem.createTandem( 'barMagnetNode' )
     } );
 
-    const fieldMeterNode = new FieldMeterNode( model.fieldMeter, this.viewProperties.fieldMeterVisibleProperty,
-      tandem.createTandem( 'fieldMeterNode' ) );
+    const fieldMeterNode = new FieldMeterNode( model.fieldMeter, {
+      visibleProperty: this.viewProperties.fieldMeterVisibleProperty,
+      tandem: tandem.createTandem( 'fieldMeterNode' )
+    } );
 
-    const compassNode = new CompassNode( model.compass, this.viewProperties.compassVisibleProperty,
-      tandem.createTandem( 'compassNode' ) );
+    const compassNode = new CompassNode( model.compass, {
+      visibleProperty: this.viewProperties.compassVisibleProperty,
+      tandem: tandem.createTandem( 'compassNode' )
+    } );
 
-    const earthNode = new EarthNode( model.barMagnet, this.viewProperties.earthVisibleProperty,
-      tandem.createTandem( 'earthNode' ) );
+    const earthNode = new EarthNode( model.barMagnet, {
+      visibleProperty: this.viewProperties.earthVisibleProperty,
+      tandem: tandem.createTandem( 'earthNode' )
+    } );
 
     const barMagnetPanel = new BarMagnetPanel( model.barMagnet, this.viewProperties.seeInsideBarMagnetProperty,
       model.compass, tandem.createTandem( 'barMagnetPanel' ) );
