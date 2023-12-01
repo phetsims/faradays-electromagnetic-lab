@@ -1,41 +1,39 @@
-// Copyright 2023, University of Colorado Boulder
+// Copyright 2022-2023, University of Colorado Boulder
 
 /**
- * FELPreferencesNode is the user interface for sim-specific preferences, accessed via the Preferences dialog.
- * These preferences are global, and affect all screens.
+ * FELPreferencesNode is the user interface for sim-specific preferences, accessed via the
+ * Simulation tab of the Preferences dialog. These preferences are global, and affect all screens.
  *
- * The Preferences dialog is created on demand by joist, using a PhetioCapsule. So FELPreferencesNode and its
- * subcomponents must implement dispose.
+ * The Preferences dialog is created on demand by joist, using a PhetioCapsule. So this class must implement dispose,
+ * and all children that have tandems or link to String Properties must be disposed.
  *
  * @author Chris Malley (PixelZoom, Inc.)
  */
 
-import { Text, VBox } from '../../../../scenery/js/imports.js';
+import { VBox } from '../../../../scenery/js/imports.js';
 import Tandem from '../../../../tandem/js/Tandem.js';
-import PhetFont from '../../../../scenery-phet/js/PhetFont.js';
+import EarthPreferencesControl from './EarthPreferencesControl.js';
+import FELPreferences from '../model/FELPreferences.js';
 import faradaysElectromagneticLab from '../../faradaysElectromagneticLab.js';
 
 export default class FELPreferencesNode extends VBox {
 
   public constructor( tandem: Tandem ) {
 
-    //TODO delete this, add UI components for FELPreferences
-    const underConstructionText = new Text( 'Under Construction', {
-      font: new PhetFont( 22 ),
-      fill: 'red'
-    } );
+    // Controls in the order that they appear in the Simulation tab, from top-to-bottom.
+    const controls = [
+      new EarthPreferencesControl( FELPreferences.addEarthCheckboxProperty,
+        tandem.createTandem( 'earthPreferencesControl' ) )
+    ];
 
     super( {
-
-      // VBoxOptions
-      children: [ underConstructionText ],
+      children: controls,
       align: 'left',
-      spacing: 20,
+      spacing: 30,
       phetioVisiblePropertyInstrumented: false,
       tandem: tandem
     } );
   }
-
 }
 
 faradaysElectromagneticLab.register( 'FELPreferencesNode', FELPreferencesNode );

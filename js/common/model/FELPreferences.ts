@@ -8,9 +8,17 @@
  */
 
 import faradaysElectromagneticLab from '../../faradaysElectromagneticLab.js';
+import BooleanProperty from '../../../../axon/js/BooleanProperty.js';
+import Tandem from '../../../../tandem/js/Tandem.js';
+import FELQueryParameters from '../FELQueryParameters.js';
 
 const FELPreferences = {
-  //TODO add Properties sim-specific preferences here
+
+  // Property for adding an "Earth" checkbox in relevant screens
+  addEarthCheckboxProperty: new BooleanProperty( FELQueryParameters.addEarthCheckbox, {
+    tandem: Tandem.PREFERENCES.createTandem( 'addEarthCheckboxProperty' ),
+    phetioFeatured: true
+  } )
 };
 
 faradaysElectromagneticLab.register( 'FELPreferences', FELPreferences );

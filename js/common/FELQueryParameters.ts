@@ -17,7 +17,12 @@ const SCHEMA_MAP = {
   // Public-facing query parameters
   //----------------------------------------------------------------------------------------------------------------
 
-  //TODO
+  // Adds an "Earth" checkbox to screens where it is relevant.
+  addEarthCheckbox: {
+    type: 'boolean',
+    defaultValue: true, //TODO default false
+    public: true
+  },
 
   //----------------------------------------------------------------------------------------------------------------
   // Internal query parameters

@@ -40,7 +40,9 @@ type StringsType = {
   };
   'units': {
     'GStringProperty': LocalizedStringProperty;
-  }
+  };
+  'earthPreferencesLabelStringProperty': LocalizedStringProperty;
+  'earthPreferencesDescriptionStringProperty': LocalizedStringProperty;
 };
 
 const FaradaysElectromagneticLabStrings = getStringModule( 'FARADAYS_ELECTROMAGNETIC_LAB' ) as StringsType;

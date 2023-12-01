@@ -15,6 +15,7 @@ import { Text, VBox } from '../../../../scenery/js/imports.js';
 import { combineOptions } from '../../../../phet-core/js/optionize.js';
 import FELConstants from '../../common/FELConstants.js';
 import FaradaysElectromagneticLabStrings from '../../FaradaysElectromagneticLabStrings.js';
+import FELPreferences from '../../common/model/FELPreferences.js';
 
 export default class BarMagnetVisibilityPanel extends Panel {
 
@@ -57,6 +58,7 @@ export default class BarMagnetVisibilityPanel extends Panel {
     } );
     const earthCheckbox = new Checkbox( earthVisibleProperty, earthText,
       combineOptions<CheckboxOptions>( {}, FELConstants.CHECKBOX_OPTIONS, {
+        visibleProperty: FELPreferences.addEarthCheckboxProperty,
         tandem: tandem.createTandem( 'earthCheckbox' )
       } ) );
 
