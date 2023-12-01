@@ -20,11 +20,12 @@ import StrictOmit from '../../../../phet-core/js/types/StrictOmit.js';
 import optionize, { EmptySelfOptions } from '../../../../phet-core/js/optionize.js';
 
 const NEEDLE_LENGTH = 55;
+const NEEDLE_ANCHOR_RADIUS = 3;
 const RING_LINE_WIDTH = 10;
 const RING_OUTER_RADIUS = ( NEEDLE_LENGTH + ( 2 * RING_LINE_WIDTH ) + 5 ) / 2;
-const NEEDLE_ANCHOR_RADIUS = 3;
-const INDICATOR_SPACING = 45; // degrees
+const RING_CENTER_RADIUS = RING_OUTER_RADIUS - ( RING_LINE_WIDTH / 2 ); // adjust for lineWidth
 const INDICATOR_RADIUS = 3;
+const INDICATOR_SPACING = Utils.toRadians( 45 );
 
 type SelfOptions = EmptySelfOptions;
 
@@ -34,18 +35,16 @@ export default class CompassNode extends FELMovableNode {
 
   public constructor( compass: Compass, providedOptions: CompassNodeOptions ) {
 
-    const ringCenterRadius = RING_OUTER_RADIUS - ( RING_LINE_WIDTH / 2 ); // adjust for lineWidth
-
-    const ringNode = new Circle( ringCenterRadius, {
+    const ringNode = new Circle( RING_CENTER_RADIUS, {
       stroke: FELColors.compassRingColorProperty,
       lineWidth: RING_LINE_WIDTH
     } );
 
     // Indicators at evenly-spaced increments around the ring.
-    let indicatorAngle = 0; // degrees
+    let indicatorAngle = 0; // radians
     const indicatorsShape = new Shape();
     while ( indicatorAngle < 360 ) {
-      const vector = Vector2.createPolar( ringCenterRadius, Utils.toRadians( indicatorAngle ) );
+      const vector = Vector2.createPolar( RING_CENTER_RADIUS, indicatorAngle );
       indicatorsShape.circle( vector, INDICATOR_RADIUS );
       indicatorAngle += INDICATOR_SPACING;
     }
