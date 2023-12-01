@@ -40,7 +40,9 @@ type StringsType = {
   };
   'units': {
     'GStringProperty': LocalizedStringProperty;
+    'TStringProperty': LocalizedStringProperty;
   };
+  'magneticUnitsPreferencesLabelStringProperty': LocalizedStringProperty;
   'earthPreferencesLabelStringProperty': LocalizedStringProperty;
   'earthPreferencesDescriptionStringProperty': LocalizedStringProperty;
 };

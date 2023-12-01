@@ -15,6 +15,7 @@ import Tandem from '../../../../tandem/js/Tandem.js';
 import EarthPreferencesControl from './EarthPreferencesControl.js';
 import FELPreferences from '../model/FELPreferences.js';
 import faradaysElectromagneticLab from '../../faradaysElectromagneticLab.js';
+import MagneticUnitsPreferencesControl from './MagneticUnitsPreferencesControl.js';
 
 export default class FELPreferencesNode extends VBox {
 
@@ -22,6 +23,8 @@ export default class FELPreferencesNode extends VBox {
 
     // Controls in the order that they appear in the Simulation tab, from top-to-bottom.
     const controls = [
+      new MagneticUnitsPreferencesControl( FELPreferences.magneticUnitsProperty,
+        tandem.createTandem( 'magneticUnitsPreferencesControl' ) ),
       new EarthPreferencesControl( FELPreferences.addEarthCheckboxProperty,
         tandem.createTandem( 'earthPreferencesControl' ) )
     ];

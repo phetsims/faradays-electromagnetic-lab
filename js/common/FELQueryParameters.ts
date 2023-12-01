@@ -11,11 +11,22 @@
 import logGlobal from '../../../phet-core/js/logGlobal.js';
 import faradaysElectromagneticLab from '../faradaysElectromagneticLab.js';
 
+export const MagneticUnitsValues = [ 'G', 'T' ] as const;
+export type MagneticUnits = ( typeof MagneticUnitsValues )[number];
+
 const SCHEMA_MAP = {
 
   //----------------------------------------------------------------------------------------------------------------
   // Public-facing query parameters
   //----------------------------------------------------------------------------------------------------------------
+
+  // Magnetic units to be displayed
+  magneticUnits: {
+    type: 'string',
+    defaultValue: 'G',
+    validValues: MagneticUnitsValues,
+    public: true
+  },
 
   // Adds an "Earth" checkbox to screens where it is relevant.
   addEarthCheckbox: {
