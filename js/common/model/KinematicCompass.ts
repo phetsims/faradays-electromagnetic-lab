@@ -89,7 +89,7 @@ export default class KinematicCompass extends Compass {
   /**
    * In the Java version, we used a clock that fired 25 times per second, with constant dt = 1.
    * In FaradayModule.java: new SwingClock( 1000 / 25, FaradayConstants.CLOCK_STEP )
-   * The implementation of this method was ported from Java, and is tuned to that clock.
+   * The implementation of this class was ported from Java, and is tuned to that clock.
    * So attempt to call this at 25 fps, with a constant dt = 1.
    */
   public override step( dt: number ): void {
