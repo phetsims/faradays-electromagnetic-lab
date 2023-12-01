@@ -1,7 +1,7 @@
 // Copyright 2023, University of Colorado Boulder
 
 /**
- * CompassNode is the visualization of a compass, whose orientation matches a magnet's B-field.
+ * CompassNode is the visualization of a compass, whose orientation matches a magnet's B-field at the compass' position.
  * The origin is at the center of the compass.
  *
  * @author Chris Malley (PixelZoom, Inc.)
