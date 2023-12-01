@@ -74,13 +74,18 @@ export default class KinematicCompass extends Compass {
     this.alphaProperty.reset();
   }
 
-  //TODO In Java version, dt was in milliseconds
   /**
    * Updates the compass needle's rotation.
    * @param fieldVector - the magnet's B-field vector at the compass position
    * @param dt - time step, in seconds
    */
   protected override updateRotation( fieldVector: Vector2, dt: number ): void {
+
+    // In the Java version, we used a clock that fired 25 times per second, with constant dt = 1.
+    // In FaradayModule.java: new SwingClock( 1000 / 25, FaradayConstants.CLOCK_STEP )
+    // The implementation of this method was ported from Java, and is tuned to that clock. So ignore the value of
+    // dt that was provided, and use a constant dt = 1.
+    dt = 1;
 
     const magnitude = fieldVector.magnitude;
     const angle = fieldVector.angle;

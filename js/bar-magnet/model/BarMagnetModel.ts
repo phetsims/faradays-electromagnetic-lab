@@ -13,7 +13,7 @@ import BarMagnet from '../../common/model/BarMagnet.js';
 import Compass from '../../common/model/Compass.js';
 import FieldMeter from '../../common/model/FieldMeter.js';
 import Vector2 from '../../../../dot/js/Vector2.js';
-import ImmediateCompass from '../../common/model/ImmediateCompass.js';
+import KinematicCompass from '../../common/model/KinematicCompass.js';
 
 export default class BarMagnetModel implements TModel {
 
@@ -33,8 +33,7 @@ export default class BarMagnetModel implements TModel {
       tandem: tandem.createTandem( 'fieldMeter' )
     } );
 
-    //TODO should be KinematicCompass, but it's not working
-    this.compass = new ImmediateCompass( this.barMagnet, {
+    this.compass = new KinematicCompass( this.barMagnet, {
       position: new Vector2( 150, 300 ),
       tandem: tandem.createTandem( 'compass' )
     } );
