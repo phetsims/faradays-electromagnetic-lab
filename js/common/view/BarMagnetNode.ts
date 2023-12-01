@@ -46,8 +46,6 @@ export default class BarMagnetNode extends FELMovableNode {
 
     super( barMagnet, options );
 
-    this.addLinkedElement( barMagnet );
-
     barMagnet.rotationProperty.link( rotation => {
       this.rotateAround( this.center, rotation - this.rotation );
     } );
