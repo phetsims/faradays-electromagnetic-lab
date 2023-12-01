@@ -5,6 +5,7 @@
 //TODO color profile
 //TODO translation of 'N' and 'S'
 //TODO eliminate barMagnet_png
+//TODO factor out FELDraggableNode?
 
 /**
  * BarMagnetNode is the view of a bar magnet, with optional visualization of the field inside the magnet.
