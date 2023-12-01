@@ -7,26 +7,22 @@
  */
 
 import faradaysElectromagneticLab from '../../faradaysElectromagneticLab.js';
-import PhetioObject, { PhetioObjectOptions } from '../../../../tandem/js/PhetioObject.js';
 import Vector2 from '../../../../dot/js/Vector2.js';
 import Property from '../../../../axon/js/Property.js';
-import Vector2Property from '../../../../dot/js/Vector2Property.js';
 import NumberProperty from '../../../../axon/js/NumberProperty.js';
 import RangeWithValue from '../../../../dot/js/RangeWithValue.js';
-import PickRequired from '../../../../phet-core/js/types/PickRequired.js';
 import optionize from '../../../../phet-core/js/optionize.js';
+import FELMovable, { FELMovableOptions } from './FELMovable.js';
 
 type SelfOptions = {
-  position?: Vector2; // initial value of positionProperty, unitless
   rotation?: number; // initial value of rotationProperty, radians
   strengthRange: RangeWithValue; // range and initial value for strengthProperty, in gauss
 };
 
-export type MagnetOptions = SelfOptions & PickRequired<PhetioObjectOptions, 'tandem'>;
+export type MagnetOptions = SelfOptions & FELMovableOptions;
 
-export default abstract class Magnet extends PhetioObject {
+export default abstract class Magnet extends FELMovable {
 
-  public readonly positionProperty: Property<Vector2>; // unitless
   public readonly rotationProperty: Property<number>; // radians
   public readonly strengthProperty: NumberProperty; // gauss
 
@@ -35,23 +31,13 @@ export default abstract class Magnet extends PhetioObject {
 
   protected constructor( providedOptions: MagnetOptions ) {
 
-    const options = optionize<MagnetOptions, SelfOptions, PhetioObjectOptions>()( {
+    const options = optionize<MagnetOptions, SelfOptions, FELMovableOptions>()( {
 
       // SelfOptions
-      position: Vector2.ZERO,
-      rotation: 0,
-
-      // PhetioObjectOptions
-      isDisposable: false,
-      phetioState: false
+      rotation: 0
     }, providedOptions );
 
     super( options );
-
-    this.positionProperty = new Vector2Property( options.position, {
-      tandem: options.tandem.createTandem( 'positionProperty' ),
-      phetioFeatured: true
-    } );
 
     this.rotationProperty = new NumberProperty( options.rotation, {
       units: 'radians',
@@ -69,8 +55,8 @@ export default abstract class Magnet extends PhetioObject {
     this.scratchPosition = new Vector2( 0, 0 );
   }
 
-  public reset(): void {
-    this.positionProperty.reset();
+  public override reset(): void {
+    super.reset();
     this.rotationProperty.reset();
     this.strengthProperty.reset();
   }
