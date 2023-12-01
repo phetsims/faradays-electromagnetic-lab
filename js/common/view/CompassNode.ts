@@ -10,7 +10,7 @@
 import faradaysElectromagneticLab from '../../faradaysElectromagneticLab.js';
 import Compass from '../model/Compass.js';
 import Vector2 from '../../../../dot/js/Vector2.js';
-import { Circle, Path } from '../../../../scenery/js/imports.js';
+import { Circle, Node, Path } from '../../../../scenery/js/imports.js';
 import CompassNeedleNode from './CompassNeedleNode.js';
 import { Shape } from '../../../../kite/js/imports.js';
 import Utils from '../../../../dot/js/Utils.js';
@@ -38,8 +38,7 @@ export default class CompassNode extends FELMovableNode {
 
     const ringNode = new Circle( ringCenterRadius, {
       stroke: FELColors.compassRingColorProperty,
-      lineWidth: RING_LINE_WIDTH,
-      boundsMethod: 'accurate' // so that stroke is included TODO not working as expected
+      lineWidth: RING_LINE_WIDTH
     } );
 
     // Indicators at evenly-spaced increments around the ring.
@@ -61,10 +60,22 @@ export default class CompassNode extends FELMovableNode {
       center: ringNode.center
     } );
 
+    const notPickableNodes = new Node( {
+      children: [ ringNode, indicatorsNode, needleNode, needleAnchorNode ],
+      pickable: false
+    } );
+
+    // ... so this Node can be grabbed by the circular shape that matches ringNode.
+    const dragPath = new Path( Shape.circle( RING_OUTER_RADIUS ), {
+      fill: 'transparent',
+      stroke: 'transparent',
+      center: ringNode.center
+    } );
+
     const options = optionize<CompassNodeOptions, SelfOptions, FELMovableNodeOptions>()( {
 
       // FELMovableNodeOptions
-      children: [ ringNode, indicatorsNode, needleNode, needleAnchorNode ]
+      children: [ notPickableNodes, dragPath ]
     }, providedOptions );
 
     super( compass, options );
