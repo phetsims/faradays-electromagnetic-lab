@@ -20,6 +20,7 @@ import TReadOnlyProperty from '../../../../axon/js/TReadOnlyProperty.js';
 import FieldInsideNode from './FieldInsideNode.js';
 import FELMovableNode, { FELMovableNodeOptions } from './FELMovableNode.js';
 import StrictOmit from '../../../../phet-core/js/types/StrictOmit.js';
+import Vector2 from '../../../../dot/js/Vector2.js';
 
 type SelfOptions = {
   seeInsideProperty?: TReadOnlyProperty<boolean>;
@@ -32,8 +33,7 @@ export default class BarMagnetNode extends FELMovableNode {
   public constructor( barMagnet: BarMagnet, providedOptions: BarMagnetNodeOptions ) {
 
     const barMagnetImage = new Image( barMagnet_png, {
-      centerX: 0,
-      centerY: 0
+      center: Vector2.ZERO
     } );
     assert && assert( barMagnetImage.width === barMagnet.size.width );
     assert && assert( barMagnetImage.height === barMagnet.size.height );

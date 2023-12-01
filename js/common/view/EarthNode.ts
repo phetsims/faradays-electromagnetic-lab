@@ -4,23 +4,26 @@
 
 /**
  * EarthNode is the view of a planet earth, which aligns itself with the position and rotation of a BarMagnet.
+ * Origin is at the center.
  *
  * @author Chris Malley (PixelZoom, Inc.)
  */
 
 import faradaysElectromagneticLab from '../../faradaysElectromagneticLab.js';
-import { DragListener, Image, Node, NodeOptions, Path, SpritesOptions } from '../../../../scenery/js/imports.js';
+import { Image, NodeOptions, Path } from '../../../../scenery/js/imports.js';
 import BarMagnet from '../model/BarMagnet.js';
 import earth_png from '../../../images/earth_png.js';
 import { Shape } from '../../../../kite/js/imports.js';
 import PickRequired from '../../../../phet-core/js/types/PickRequired.js';
 import optionize, { EmptySelfOptions } from '../../../../phet-core/js/optionize.js';
+import FELMovableNode from './FELMovableNode.js';
+import Vector2 from '../../../../dot/js/Vector2.js';
 
 type SelfOptions = EmptySelfOptions;
 
-type EarthNodeOptions = SelfOptions & PickRequired<SpritesOptions, 'visibleProperty' | 'tandem'>;
+type EarthNodeOptions = SelfOptions & PickRequired<FELMovableNode, 'visibleProperty' | 'tandem'>;
 
-export default class EarthNode extends Node {
+export default class EarthNode extends FELMovableNode {
 
   public constructor( barMagnet: BarMagnet, providedOptions: EarthNodeOptions ) {
 
@@ -28,7 +31,8 @@ export default class EarthNode extends Node {
       scale: 0.6,
       opacity: 0.75,
       rotation: Math.PI / 2, // earth_png has north up, bar magnet has north to the right
-      pickable: false // ... so earthPath determines where this Node can be grabbed.
+      pickable: false, // ... so earthPath determines where this Node can be grabbed.
+      center: Vector2.ZERO
     } );
 
     // ... so this Node can only be grabbed by the circular shape that matches earthImage.
@@ -39,27 +43,14 @@ export default class EarthNode extends Node {
 
     const options = optionize<EarthNodeOptions, SelfOptions, NodeOptions>()( {
       children: [ earthPath, earthImage ],
-      cursor: 'pointer'
+      focusable: false // alt input is unnecessary for EarthNode, since BarMagnetNode has a KeyboardDragListener.
     }, providedOptions );
 
-    super( options );
-
-    barMagnet.positionProperty.link( position => {
-      this.center = position;
-    } );
+    super( barMagnet, options );
 
     barMagnet.rotationProperty.link( rotation => {
       this.rotateAround( this.center, rotation - this.rotation );
     } );
-
-    const dragListener = new DragListener( {
-      positionProperty: barMagnet.positionProperty,
-      useParentOffset: true,
-      tandem: options.tandem.createTandem( 'dragListener' )
-    } );
-    this.addInputListener( dragListener );
-
-    // KeyboardDragListener is unnecessary for EarthNode, since BarMagnetNode has a KeyboardDragListener.
   }
 }
 

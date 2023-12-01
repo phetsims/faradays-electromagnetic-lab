@@ -21,7 +21,7 @@ import PickRequired from '../../../../phet-core/js/types/PickRequired.js';
 type SelfOptions = EmptySelfOptions;
 
 export type FELMovableNodeOptions = SelfOptions &
-  PickOptional<NodeOptions, 'visibleProperty'> &
+  PickOptional<NodeOptions, 'visibleProperty' | 'focusable'> &
   PickRequired<NodeOptions, 'children' | 'tandem'>;
 
 export default abstract class FELMovableNode extends Node {
@@ -51,12 +51,14 @@ export default abstract class FELMovableNode extends Node {
     } );
     this.addInputListener( dragListener );
 
-    const keyboardDragListener = new KeyboardDragListener(
-      combineOptions<KeyboardDragListenerOptions>( {}, FELConstants.KEYBOARD_DRAG_LISTENER_OPTIONS, {
-        positionProperty: movable.positionProperty,
-        tandem: options.tandem.createTandem( 'keyboardDragListener' )
-      } ) );
-    this.addInputListener( keyboardDragListener );
+    if ( options.focusable ) {
+      const keyboardDragListener = new KeyboardDragListener(
+        combineOptions<KeyboardDragListenerOptions>( {}, FELConstants.KEYBOARD_DRAG_LISTENER_OPTIONS, {
+          positionProperty: movable.positionProperty,
+          tandem: options.tandem.createTandem( 'keyboardDragListener' )
+        } ) );
+      this.addInputListener( keyboardDragListener );
+    }
   }
 }
 
