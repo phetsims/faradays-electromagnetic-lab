@@ -43,6 +43,8 @@ type StringsType = {
     'TStringProperty': LocalizedStringProperty;
   };
   'magneticUnitsPreferencesLabelStringProperty': LocalizedStringProperty;
+  'gaussPreferenceStringProperty': LocalizedStringProperty;
+  'teslaPreferenceStringProperty': LocalizedStringProperty;
   'earthPreferencesLabelStringProperty': LocalizedStringProperty;
   'earthPreferencesDescriptionStringProperty': LocalizedStringProperty;
 };

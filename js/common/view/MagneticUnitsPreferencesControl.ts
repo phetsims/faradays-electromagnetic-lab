@@ -67,12 +67,12 @@ class MagneticUnitsRadioButtonGroup extends AquaRadioButtonGroup<MagneticUnits> 
     const items: AquaRadioButtonGroupItem<MagneticUnits>[] = [
       {
         value: 'G',
-        createNode: radioButtonTandem => new MagneticUnitsRadioButtonText( FaradaysElectromagneticLabStrings.units.GStringProperty, radioButtonTandem ),
+        createNode: radioButtonTandem => new MagneticUnitsRadioButtonText( FaradaysElectromagneticLabStrings.gaussPreferenceStringProperty, radioButtonTandem ),
         tandemName: `x${AquaRadioButton.TANDEM_NAME_SUFFIX}`
       },
       {
         value: 'T',
-        createNode: radioButtonTandem => new MagneticUnitsRadioButtonText( FaradaysElectromagneticLabStrings.units.TStringProperty, radioButtonTandem ),
+        createNode: radioButtonTandem => new MagneticUnitsRadioButtonText( FaradaysElectromagneticLabStrings.teslaPreferenceStringProperty, radioButtonTandem ),
         tandemName: `t${AquaRadioButton.TANDEM_NAME_SUFFIX}`
       }
     ];
