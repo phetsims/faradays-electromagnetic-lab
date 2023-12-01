@@ -53,7 +53,8 @@ export default class FieldMeterNode extends FELMovableNode {
 
   public constructor( fieldMeter: FieldMeter, providedOptions: FieldMeterNodeOptions ) {
 
-    // Origin at the center of the crosshairs
+    // Origin is at the center of the crosshairs.
+    // Draw the horizontal line from left to right, then the vertical line from top to bottom.
     const crosshairsShape = new Shape()
       .moveTo( -CROSSHAIRS_RADIUS, 0 )
       .lineTo( CROSSHAIRS_RADIUS, 0 )
@@ -64,6 +65,7 @@ export default class FieldMeterNode extends FELMovableNode {
       lineWidth: 2
     } );
 
+    // Origin is at the center of the circle.
     const probeShape = new Shape()
       .circle( 0, 0, PROBE_RADIUS )
       .moveTo( 0, PROBE_RADIUS )
