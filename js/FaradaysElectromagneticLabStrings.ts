@@ -27,6 +27,8 @@ type StringsType = {
   'magneticFieldStringProperty': LocalizedStringProperty;
   'compassStringProperty': LocalizedStringProperty;
   'fieldMeterStringProperty': LocalizedStringProperty;
+  'electronsStringProperty': LocalizedStringProperty;
+  'pickupCoilStringProperty': LocalizedStringProperty;
   'pattern': {
     'valuePercentStringProperty': LocalizedStringProperty;
     'valueUnitsStringProperty': LocalizedStringProperty;

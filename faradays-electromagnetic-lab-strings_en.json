@@ -41,6 +41,12 @@
   "fieldMeter": {
     "value": "Field Meter"
   },
+  "electrons": {
+    "value": "Electrons"
+  },
+  "pickupCoil": {
+    "value": "Pickup Coil"
+  },
   "pattern.valuePercent": {
     "value": "{{value}}%"
   },

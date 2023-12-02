@@ -7,28 +7,39 @@
  */
 
 import faradaysElectromagneticLab from '../../faradaysElectromagneticLab.js';
-import TModel from '../../../../joist/js/TModel.js';
 import Tandem from '../../../../tandem/js/Tandem.js';
+import BarMagnetModel from '../../bar-magnet/model/BarMagnetModel.js';
+import PickupCoil from '../../common/model/PickupCoil.js';
 
-export default class PickupCoilModel implements TModel {
+export default class PickupCoilModel extends BarMagnetModel {
+
+  public readonly pickupCoil: PickupCoil;
 
   public constructor( tandem: Tandem ) {
-    //TODO
+
+    super( tandem );
+
+    this.pickupCoil = new PickupCoil( {
+      //TODO position
+      tandem: tandem.createTandem( 'pickupCoil' )
+    } );
   }
 
   /**
    * Resets the model.
    */
-  public reset(): void {
-    //TODO
+  public override reset(): void {
+    super.reset();
+    this.pickupCoil.reset();
   }
 
   /**
    * Steps the model.
    * @param dt - time step, in seconds
    */
-  public step( dt: number ): void {
-    //TODO
+  public override step( dt: number ): void {
+    super.step( dt );
+    this.pickupCoil.step( dt );
   }
 }
 
