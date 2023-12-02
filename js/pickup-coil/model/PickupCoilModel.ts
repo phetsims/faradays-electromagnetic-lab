@@ -10,6 +10,7 @@ import faradaysElectromagneticLab from '../../faradaysElectromagneticLab.js';
 import Tandem from '../../../../tandem/js/Tandem.js';
 import BarMagnetModel from '../../bar-magnet/model/BarMagnetModel.js';
 import PickupCoil from '../../common/model/PickupCoil.js';
+import Vector2 from '../../../../dot/js/Vector2.js';
 
 export default class PickupCoilModel extends BarMagnetModel {
 
@@ -19,8 +20,10 @@ export default class PickupCoilModel extends BarMagnetModel {
 
     super( tandem );
 
-    this.pickupCoil = new PickupCoil( {
-      //TODO position
+    this.pickupCoil = new PickupCoil( this.barMagnet, {
+      position: new Vector2( 500, 400 ),
+      calibrationEMF: 2700000, //TODO see calibrateEmf in PickupCoil.java
+      transitionSmoothingScale: 0.77, //TODO see setTransitionSmoothingScale in PickupCoil.java
       tandem: tandem.createTandem( 'pickupCoil' )
     } );
   }
