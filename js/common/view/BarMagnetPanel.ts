@@ -9,30 +9,37 @@
 import faradaysElectromagneticLab from '../../faradaysElectromagneticLab.js';
 import BarMagnet from '../model/BarMagnet.js';
 import Panel, { PanelOptions } from '../../../../sun/js/Panel.js';
-import Tandem from '../../../../tandem/js/Tandem.js';
 import Checkbox, { CheckboxOptions } from '../../../../sun/js/Checkbox.js';
-import Property from '../../../../axon/js/Property.js';
-import { Text, VBox } from '../../../../scenery/js/imports.js';
+import { Node, Text, VBox } from '../../../../scenery/js/imports.js';
 import TextPushButton from '../../../../sun/js/buttons/TextPushButton.js';
-import { combineOptions } from '../../../../phet-core/js/optionize.js';
+import { combineOptions, optionize3 } from '../../../../phet-core/js/optionize.js';
 import FELConstants from '../FELConstants.js';
 import FaradaysElectromagneticLabStrings from '../../FaradaysElectromagneticLabStrings.js';
 import BarMagnetStrengthControl from './BarMagnetStrengthControl.js';
 import Compass from '../model/Compass.js';
+import PickRequired from '../../../../phet-core/js/types/PickRequired.js';
+import StrictOmit from '../../../../phet-core/js/types/StrictOmit.js';
+import Property from '../../../../axon/js/Property.js';
+
+type SelfOptions = {
+  seeInsideProperty?: Property<boolean>;
+};
+
+type BarMagnetPanelOptions = SelfOptions & PickRequired<PanelOptions, 'tandem'>;
 
 export default class BarMagnetPanel extends Panel {
 
-  public constructor( barMagnet: BarMagnet,
-                      seeInsideBarMagnetProperty: Property<boolean>,
-                      compass: Compass,
-                      tandem: Tandem ) {
+  public constructor( barMagnet: BarMagnet, compass: Compass, providedOptions: BarMagnetPanelOptions ) {
+
+    const options = optionize3<BarMagnetPanelOptions, StrictOmit<SelfOptions, 'seeInsideProperty'>, PanelOptions>()(
+      {}, FELConstants.PANEL_OPTIONS, providedOptions );
 
     const titleText = new Text( FaradaysElectromagneticLabStrings.barMagnetStringProperty, {
       font: FELConstants.TITLE_FONT
     } );
 
     const strengthControl = new BarMagnetStrengthControl( barMagnet.strengthProperty,
-      tandem.createTandem( 'strengthControl' ) );
+      options.tandem.createTandem( 'strengthControl' ) );
 
     const flipPolarityButton = new TextPushButton( FaradaysElectromagneticLabStrings.flipPolarityStringProperty, {
       font: FELConstants.CONTROL_FONT,
@@ -41,32 +48,35 @@ export default class BarMagnetPanel extends Panel {
         compass.startMovingNow();
       },
       layoutOptions: { stretch: false },
-      tandem: tandem.createTandem( 'flipPolarityButton' )
+      tandem: options.tandem.createTandem( 'flipPolarityButton' )
     } );
 
-    const seeInsideText = new Text( FaradaysElectromagneticLabStrings.seeInsideStringProperty, {
-      font: FELConstants.CONTROL_FONT
-    } );
-    const seeIndexCheckbox = new Checkbox( seeInsideBarMagnetProperty, seeInsideText,
-      combineOptions<CheckboxOptions>( {}, FELConstants.CHECKBOX_OPTIONS, {
-        tandem: tandem.createTandem( 'seeIndexCheckbox' )
-      } ) );
+    const contentChildren: Node[] = [
+      titleText,
+      strengthControl,
+      flipPolarityButton
+    ];
+
+    // Optional 'See Inside' checkbox
+    if ( options.seeInsideProperty ) {
+      const seeInsideText = new Text( FaradaysElectromagneticLabStrings.seeInsideStringProperty, {
+        font: FELConstants.CONTROL_FONT
+      } );
+      const seeInsideCheckbox = new Checkbox( options.seeInsideProperty, seeInsideText,
+        combineOptions<CheckboxOptions>( {}, FELConstants.CHECKBOX_OPTIONS, {
+          tandem: options.tandem.createTandem( 'seeIndexCheckbox' )
+        } ) );
+      contentChildren.push( seeInsideCheckbox );
+    }
 
     const content = new VBox( {
       align: 'left',
       spacing: 15,
       stretch: true,
-      children: [
-        titleText,
-        strengthControl,
-        flipPolarityButton,
-        seeIndexCheckbox
-      ]
+      children: contentChildren
     } );
 
-    super( content, combineOptions<PanelOptions>( {}, FELConstants.PANEL_OPTIONS, {
-      tandem: tandem
-    } ) );
+    super( content, options );
   }
 }
 

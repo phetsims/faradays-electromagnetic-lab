@@ -70,8 +70,10 @@ export default class BarMagnetScreenView extends ScreenView {
 
     const panelsTandem = tandem.createTandem( 'panels' );
 
-    const barMagnetPanel = new BarMagnetPanel( model.barMagnet, viewProperties.seeInsideBarMagnetProperty,
-      model.compass, panelsTandem.createTandem( 'barMagnetPanel' ) );
+    const barMagnetPanel = new BarMagnetPanel( model.barMagnet, model.compass, {
+      seeInsideProperty: viewProperties.seeInsideBarMagnetProperty,
+      tandem: panelsTandem.createTandem( 'barMagnetPanel' )
+    } );
 
     const visibilityPanel = new BarMagnetVisibilityPanel(
       viewProperties.fieldVisibleProperty,
