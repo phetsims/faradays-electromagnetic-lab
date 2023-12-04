@@ -145,8 +145,8 @@ export default class BarMagnetFieldGrid {
     if ( this.contains( x, y ) ) {
 
       // compute array indices
-      let columnIndex = Math.floor( x / this.spacing ); //TODO These were (int) casts in Java. Is Math.floor correct?
-      let rowIndex = Math.floor( y / this.spacing );
+      let columnIndex = Math.trunc( x / this.spacing );
+      let rowIndex = Math.trunc( y / this.spacing );
 
       // If we're at one of the index maximums, then we're exactly on the outer edge of the grid.
       // Back up by 1 so that we'll have a bounding rectangle.

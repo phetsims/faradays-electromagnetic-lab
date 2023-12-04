@@ -137,7 +137,7 @@ export class VariableNumberOfSamplePointsStrategy extends SamplePointsStrategy {
 
   public override createSamplePoints( pickupCoil: PickupCoil ): Vector2[] {
 
-    const numberOfSamplePointsOnRadius = Math.floor( pickupCoil.loopRadiusProperty.value / this.ySpacing );
+    const numberOfSamplePointsOnRadius = Math.trunc( pickupCoil.loopRadiusProperty.value / this.ySpacing );
 
     const samplePoints: Vector2[] = [];
 
