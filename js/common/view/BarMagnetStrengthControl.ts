@@ -1,7 +1,7 @@
 // Copyright 2023, University of Colorado Boulder
 
 /**
- * BarMagnetStrengthControl is the control for magnet strength.
+ * BarMagnetStrengthControl is the control for magnet strength. The control shows values in %.
  *
  * @author Chris Malley (PixelZoom, Inc.)
  */
@@ -16,9 +16,7 @@ import FELConstants from '../FELConstants.js';
 import PatternStringProperty from '../../../../axon/js/PatternStringProperty.js';
 import Utils from '../../../../dot/js/Utils.js';
 import { RichText } from '../../../../scenery/js/imports.js';
-import MappedProperty from '../../../../axon/js/MappedProperty.js';
-import NumberIO from '../../../../tandem/js/types/NumberIO.js';
-import Range from '../../../../dot/js/Range.js';
+import StringUtils from '../../../../phetcommon/js/util/StringUtils.js';
 
 const SLIDER_STEP = 1;
 const TICK_LABEL_OPTIONS = {
@@ -27,40 +25,45 @@ const TICK_LABEL_OPTIONS = {
 
 export default class BarMagnetStrengthControl extends NumberControl {
 
-  public constructor( barMagnetStrengthProperty: NumberProperty, tandem: Tandem ) {
+  public constructor( strengthProperty: NumberProperty, tandem: Tandem ) {
 
-    assert && assert( barMagnetStrengthProperty.range.min === 0 );
+    const strengthRange = strengthProperty.range;
+    assert && assert( strengthRange.min === 0 );
 
-    // barMagnetStrengthProperty is in gauss, while this control is in %.
-    const percentProperty = new MappedProperty<number, number>( barMagnetStrengthProperty, {
-      phetioValueType: NumberIO,
-      reentrant: true,
-      bidirectional: true,
+    const majorTicks = [
 
-      // gauss => %
-      map: ( strength: number ) => 100 * strength / barMagnetStrengthProperty.range.max,
+      // 0%
+      {
+        value: strengthRange.min,
+        label: new RichText( new PatternStringProperty( FaradaysElectromagneticLabStrings.pattern.valuePercentStringProperty, {
+          value: 0
+        } ), TICK_LABEL_OPTIONS )
+      },
 
-      // % => gauss
-      inverseMap: ( percent: number ) => ( percent / 100 ) * barMagnetStrengthProperty.range.max
-    } );
+      // 50%
+      {
+        value: strengthRange.min + strengthRange.getLength() / 2,
+        label: new RichText( new PatternStringProperty( FaradaysElectromagneticLabStrings.pattern.valuePercentStringProperty, {
+          value: 50
+        } ), TICK_LABEL_OPTIONS )
+      },
 
-    const tickValues = [ 0, 50, 100 ];
-    const majorTicks = tickValues.map( value => {
-      const stringProperty = new PatternStringProperty( FaradaysElectromagneticLabStrings.pattern.valuePercentStringProperty, {
-        value: value
-      } );
-
-      return {
-        value: value,
-        label: new RichText( stringProperty, TICK_LABEL_OPTIONS )
-      };
-    } );
+      // 100%
+      {
+        value: strengthRange.max,
+        label: new RichText( new PatternStringProperty( FaradaysElectromagneticLabStrings.pattern.valuePercentStringProperty, {
+          value: 100
+        } ), TICK_LABEL_OPTIONS )
+      }
+    ];
 
     const options = combineOptions<NumberControlOptions>( {}, FELConstants.NUMBER_CONTROL_OPTIONS, {
       delta: SLIDER_STEP,
       numberDisplayOptions: {
         decimalPlaces: 0,
-        valuePattern: FaradaysElectromagneticLabStrings.pattern.valuePercentStringProperty
+        numberFormatter: strength => StringUtils.fillIn( FaradaysElectromagneticLabStrings.pattern.valuePercentStringProperty, {
+          value: Utils.roundToInterval( 100 * strength / strengthRange.max, 1 )
+        } )
       },
       sliderOptions: {
         constrainValue: ( value: number ) => Utils.roundToInterval( value, SLIDER_STEP ),
@@ -72,12 +75,7 @@ export default class BarMagnetStrengthControl extends NumberControl {
       tandem: tandem
     } );
 
-    super(
-      FaradaysElectromagneticLabStrings.strengthColonStringProperty,
-      percentProperty,
-      new Range( 0, 100 ),
-      options
-    );
+    super( FaradaysElectromagneticLabStrings.strengthColonStringProperty, strengthProperty, strengthRange, options );
   }
 }
 
