@@ -1,6 +1,5 @@
 // Copyright 2023, University of Colorado Boulder
 
-//TODO prevent horizontal space between labelText and spinner
 /**
  * NumberOfLoopsControl is a labeled spinner for controlling the number of loops in a coil.
  *
@@ -35,6 +34,7 @@ export default class NumberOfLoopsControl extends HBox {
     super( {
       children: [ labelText, spinner ],
       spacing: 10,
+      layoutOptions: { stretch: false }, // Prevent the parent from adding space between labelText and spinner.
       tandem: tandem,
       phetioVisiblePropertyInstrumented: true
     } );
