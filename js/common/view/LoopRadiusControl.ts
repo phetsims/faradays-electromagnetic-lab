@@ -53,6 +53,8 @@ export default class LoopRadiusControl extends NumberControl {
       delta: SLIDER_STEP,
       numberDisplayOptions: {
         decimalPlaces: 0,
+
+        //TODO This will not immediately update when valuePercentStringProperty changes.
         numberFormatter: loopRadius => StringUtils.fillIn( valuePercentStringProperty, {
           value: Utils.roundToInterval( 100 * loopRadius / loopRadiusRange.max, 1 )
         } )

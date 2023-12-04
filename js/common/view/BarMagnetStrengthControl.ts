@@ -62,6 +62,8 @@ export default class BarMagnetStrengthControl extends NumberControl {
       delta: SLIDER_STEP,
       numberDisplayOptions: {
         decimalPlaces: 0,
+
+        //TODO This will not immediately update when valuePercentStringProperty changes.
         numberFormatter: strength => StringUtils.fillIn( FaradaysElectromagneticLabStrings.pattern.valuePercentStringProperty, {
           value: Utils.roundToInterval( 100 * strength / strengthRange.max, 1 )
         } )
