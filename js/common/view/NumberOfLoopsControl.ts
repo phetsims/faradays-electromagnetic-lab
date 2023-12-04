@@ -23,6 +23,7 @@ export default class NumberOfLoopsControl extends HBox {
     } );
 
     const spinner = new NumberSpinner( numberOfLoopsProperty, numberOfLoopsProperty.rangeProperty, {
+      arrowsPosition: 'leftRight', // so that they can be larger
       numberDisplayOptions: {
         textOptions: {
           font: FELConstants.CONTROL_FONT
@@ -33,7 +34,7 @@ export default class NumberOfLoopsControl extends HBox {
 
     super( {
       children: [ labelText, spinner ],
-      spacing: 10,
+      spacing: 5,
       layoutOptions: { stretch: false }, // Prevent the parent from adding space between labelText and spinner.
       tandem: tandem,
       phetioVisiblePropertyInstrumented: true
