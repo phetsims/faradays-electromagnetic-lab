@@ -36,6 +36,9 @@ export default class IndicatorRadioButtonGroup extends RectangularRadioButtonGro
 
     super( indicatorProperty, items, {
       orientation: 'horizontal',
+
+      // Eliminate space between radio buttons, and center them in the parent Panel.
+      layoutOptions: { stretch: false, align: 'center' },
       radioButtonOptions: {
         baseColor: FELColors.radioButtonFillProperty,
         cornerRadius: 3,
