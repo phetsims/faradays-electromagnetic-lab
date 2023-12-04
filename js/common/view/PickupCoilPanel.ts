@@ -16,6 +16,7 @@ import Tandem from '../../../../tandem/js/Tandem.js';
 import PickupCoil from '../model/PickupCoil.js';
 import Checkbox, { CheckboxOptions } from '../../../../sun/js/Checkbox.js';
 import Property from '../../../../axon/js/Property.js';
+import LoopRadiusControl from './LoopRadiusControl.js';
 
 export default class PickupCoilPanel extends Panel {
 
@@ -24,6 +25,9 @@ export default class PickupCoilPanel extends Panel {
     const titleText = new Text( FaradaysElectromagneticLabStrings.pickupCoilStringProperty, {
       font: FELConstants.TITLE_FONT
     } );
+
+    const loopAreaControl = new LoopRadiusControl( pickupCoil.loopRadiusProperty,
+      tandem.createTandem( 'loopAreaControl' ) );
 
     // 'Electrons' checkbox
     const electronsText = new Text( FaradaysElectromagneticLabStrings.electronsStringProperty, {
@@ -38,7 +42,7 @@ export default class PickupCoilPanel extends Panel {
       titleText,
       //TODO indicatorRadioButtonGroup
       //TODO loopsSpinner
-      //TODO loopAreaNumberControl
+      loopAreaControl,
       electronsCheckbox
     ];
 

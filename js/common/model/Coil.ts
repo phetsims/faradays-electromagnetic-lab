@@ -11,8 +11,6 @@ import Range from '../../../../dot/js/Range.js';
 import faradaysElectromagneticLab from '../../faradaysElectromagneticLab.js';
 import NumberProperty from '../../../../axon/js/NumberProperty.js';
 import TReadOnlyProperty from '../../../../axon/js/TReadOnlyProperty.js';
-import DerivedProperty from '../../../../axon/js/DerivedProperty.js';
-import NumberIO from '../../../../tandem/js/types/NumberIO.js';
 import optionize from '../../../../phet-core/js/optionize.js';
 import FELMovable, { FELMovableOptions } from './FELMovable.js';
 
@@ -36,9 +34,6 @@ export default abstract class Coil extends FELMovable {
 
   // Radius of one loop
   public readonly loopRadiusProperty: NumberProperty;
-
-  // Area of one loop
-  public readonly loopAreaProperty: TReadOnlyProperty<number>;
 
   // This is a quantity that we made up. It is a percentage that describes the amount of current relative to some
   // maximum current in the model, and direction of that current. View components can use this value to determine
@@ -72,13 +67,6 @@ export default abstract class Coil extends FELMovable {
       tandem: options.tandem.createTandem( 'loopRadiusProperty' ),
       phetioFeatured: true
     } );
-
-    this.loopAreaProperty = new DerivedProperty( [ this.loopRadiusProperty ],
-      loopRadius => Math.PI * loopRadius * loopRadius, {
-        tandem: options.tandem.createTandem( 'loopAreaProperty' ),
-        phetioValueType: NumberIO,
-        phetioFeatured: true
-      } );
 
     this._currentAmplitudeProperty = new NumberProperty( 0, {
       range: new Range( -1, 1 ),
