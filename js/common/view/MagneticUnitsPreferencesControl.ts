@@ -1,4 +1,4 @@
-// Copyright 2022-2023, University of Colorado Boulder
+// Copyright 2023, University of Colorado Boulder
 
 /**
  * MagneticUnitsPreferencesControl is the control in the Preferences dialog for choosing which magnetic units will
