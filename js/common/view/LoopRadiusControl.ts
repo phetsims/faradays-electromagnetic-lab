@@ -1,7 +1,7 @@
 // Copyright 2023, University of Colorado Boulder
 
 /**
- * LoopRadiusControl controls the radius of all loops in a pickup coil.
+ * LoopRadiusControl controls the radius of all loops in a pickup coil. The control shows values in %.
  *
  * @author Chris Malley (PixelZoom, Inc.)
  */
@@ -27,19 +27,21 @@ export default class LoopRadiusControl extends NumberControl {
 
   public constructor( loopRadiusProperty: NumberProperty, tandem: Tandem ) {
 
+    const loopRadiusRange = loopRadiusProperty.rangeProperty.value;
+
     const majorTicks = [
 
       // 45%
       {
-        value: loopRadiusProperty.rangeProperty.value.min,
+        value: loopRadiusRange.min,
         label: new RichText( new PatternStringProperty( FaradaysElectromagneticLabStrings.pattern.valuePercentStringProperty, {
-          value: Utils.roundToInterval( 100 * loopRadiusProperty.rangeProperty.value.min / loopRadiusProperty.rangeProperty.value.max, 1 )
+          value: Utils.roundToInterval( 100 * loopRadiusRange.min / loopRadiusRange.max, 1 )
         } ), TICK_LABEL_OPTIONS )
       },
 
       // 100%
       {
-        value: loopRadiusProperty.rangeProperty.value.max,
+        value: loopRadiusRange.max,
         label: new RichText( new PatternStringProperty( FaradaysElectromagneticLabStrings.pattern.valuePercentStringProperty, {
           value: 100
         } ), TICK_LABEL_OPTIONS )
@@ -51,7 +53,7 @@ export default class LoopRadiusControl extends NumberControl {
       numberDisplayOptions: {
         decimalPlaces: 0,
         numberFormatter: loopRadius => StringUtils.fillIn( FaradaysElectromagneticLabStrings.pattern.valuePercentStringProperty, {
-          value: Utils.roundToInterval( 100 * loopRadius / loopRadiusProperty.rangeProperty.value.max, 1 )
+          value: Utils.roundToInterval( 100 * loopRadius / loopRadiusRange.max, 1 )
         } )
       },
       sliderOptions: {
@@ -64,12 +66,7 @@ export default class LoopRadiusControl extends NumberControl {
       tandem: tandem
     } );
 
-    super(
-      FaradaysElectromagneticLabStrings.loopRadiusStringProperty,
-      loopRadiusProperty,
-      loopRadiusProperty.rangeProperty.value,
-      options
-    );
+    super( FaradaysElectromagneticLabStrings.loopRadiusStringProperty, loopRadiusProperty, loopRadiusRange, options );
   }
 }
 
