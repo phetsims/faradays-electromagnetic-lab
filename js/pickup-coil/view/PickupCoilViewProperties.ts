@@ -1,15 +1,21 @@
 // Copyright 2023, University of Colorado Boulder
 
-import faradaysElectromagneticLab from '../../faradaysElectromagneticLab.js';
-import Tandem from '../../../../tandem/js/Tandem.js';
-import BooleanProperty from '../../../../axon/js/BooleanProperty.js';
-import Property from '../../../../axon/js/Property.js';
-
 /**
  * PickupCoilViewProperties is the set of view-specific Properties for the 'Pickup Coil' screen.
  *
  * @author Chris Malley (PixelZoom, Inc.)
  */
+
+import faradaysElectromagneticLab from '../../faradaysElectromagneticLab.js';
+import Tandem from '../../../../tandem/js/Tandem.js';
+import BooleanProperty from '../../../../axon/js/BooleanProperty.js';
+import Property from '../../../../axon/js/Property.js';
+import StringUnionProperty from '../../../../axon/js/StringUnionProperty.js';
+
+//TODO move elsewhere, use a more specific name
+export const IndicatorValues = [ 'lightBulb', 'voltmeter' ] as const;
+export type Indicator = ( typeof IndicatorValues )[number];
+
 
 export default class PickupCoilViewProperties {
 
@@ -17,6 +23,7 @@ export default class PickupCoilViewProperties {
   public readonly fieldVisibleProperty: Property<boolean>;
   public readonly fieldMeterVisibleProperty: Property<boolean>;
   public readonly pickupCoilElectronsVisibleProperty: Property<boolean>;
+  public readonly indicatorProperty: Property<Indicator>;
 
   public constructor( tandem: Tandem ) {
 
@@ -37,6 +44,12 @@ export default class PickupCoilViewProperties {
 
     this.pickupCoilElectronsVisibleProperty = new BooleanProperty( false, {
       tandem: tandem.createTandem( 'pickupCoilElectronsVisibleProperty' ),
+      phetioFeatured: true
+    } );
+
+    this.indicatorProperty = new StringUnionProperty<Indicator>( 'lightBulb', {
+      validValues: IndicatorValues,
+      tandem: Tandem.PREFERENCES.createTandem( 'indicatorProperty' ),
       phetioFeatured: true
     } );
   }

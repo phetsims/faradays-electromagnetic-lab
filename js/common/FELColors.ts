@@ -16,6 +16,7 @@
 
 import { Color, ProfileColorProperty } from '../../../scenery/js/imports.js';
 import faradaysElectromagneticLab from '../faradaysElectromagneticLab.js';
+import PhetColorScheme from '../../../scenery-phet/js/PhetColorScheme.js';
 
 const PANEL_FILL_PROJECTOR = new Color( 222, 234, 255 );
 
@@ -73,6 +74,18 @@ const FELColors = {
 
   compassNeedleAnchorColorProperty: new ProfileColorProperty( faradaysElectromagneticLab, 'compassNeedleAnchorColor', {
     default: 'black'
+  } ),
+
+  radioButtonFillProperty: new ProfileColorProperty( faradaysElectromagneticLab, 'radioButtonFill', {
+    default: 'rgb( 153, 206, 255 )'
+  } ),
+
+  radioButtonSelectedStrokeProperty: new ProfileColorProperty( faradaysElectromagneticLab, 'radioButtonSelectedStroke', {
+    default: PhetColorScheme.RED_COLORBLIND
+  } ),
+
+  radioButtonDeselectedStrokeProperty: new ProfileColorProperty( faradaysElectromagneticLab, 'radioButtonDeselectedStroke', {
+    default: 'grey'
   } )
 };
 

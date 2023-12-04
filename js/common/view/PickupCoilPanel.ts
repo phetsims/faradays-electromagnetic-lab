@@ -18,14 +18,20 @@ import Checkbox, { CheckboxOptions } from '../../../../sun/js/Checkbox.js';
 import Property from '../../../../axon/js/Property.js';
 import LoopRadiusControl from './LoopRadiusControl.js';
 import NumberOfLoopsControl from './NumberOfLoopsControl.js';
+import StringUnionProperty from '../../../../axon/js/StringUnionProperty.js';
+import { Indicator } from '../../pickup-coil/view/PickupCoilViewProperties.js';
+import IndicatorRadioButtonGroup from './IndicatorRadioButtonGroup.js';
 
 export default class PickupCoilPanel extends Panel {
 
-  public constructor( pickupCoil: PickupCoil, pickupCoilElectronsVisibleProperty: Property<boolean>, tandem: Tandem ) {
+  public constructor( pickupCoil: PickupCoil, indicatorProperty: StringUnionProperty<Indicator>,
+                      pickupCoilElectronsVisibleProperty: Property<boolean>, tandem: Tandem ) {
 
     const titleText = new Text( FaradaysElectromagneticLabStrings.pickupCoilStringProperty, {
       font: FELConstants.TITLE_FONT
     } );
+
+    const indicatorRadioButtonGroup = new IndicatorRadioButtonGroup( indicatorProperty, tandem.createTandem( 'indicatorRadioButtonGroup' ) );
 
     const numberOfLoopsControl = new NumberOfLoopsControl( pickupCoil.numberOfLoopsProperty,
       tandem.createTandem( 'numberOfLoopsControl' ) );
@@ -44,7 +50,7 @@ export default class PickupCoilPanel extends Panel {
 
     const contentChildren: Node[] = [
       titleText,
-      //TODO indicatorRadioButtonGroup
+      indicatorRadioButtonGroup,
       numberOfLoopsControl,
       loopAreaControl,
       electronsCheckbox
