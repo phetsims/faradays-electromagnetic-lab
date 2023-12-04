@@ -18,6 +18,7 @@ import Utils from '../../../../dot/js/Utils.js';
 import { RichText } from '../../../../scenery/js/imports.js';
 import StringUtils from '../../../../phetcommon/js/util/StringUtils.js';
 
+const valuePercentStringProperty = FaradaysElectromagneticLabStrings.pattern.valuePercentStringProperty;
 const SLIDER_STEP = 1;
 const TICK_LABEL_OPTIONS = {
   font: FELConstants.TICK_LABEL_FONT
@@ -34,7 +35,7 @@ export default class LoopRadiusControl extends NumberControl {
       // 45%
       {
         value: loopRadiusRange.min,
-        label: new RichText( new PatternStringProperty( FaradaysElectromagneticLabStrings.pattern.valuePercentStringProperty, {
+        label: new RichText( new PatternStringProperty( valuePercentStringProperty, {
           value: Utils.roundToInterval( 100 * loopRadiusRange.min / loopRadiusRange.max, 1 )
         } ), TICK_LABEL_OPTIONS )
       },
@@ -42,7 +43,7 @@ export default class LoopRadiusControl extends NumberControl {
       // 100%
       {
         value: loopRadiusRange.max,
-        label: new RichText( new PatternStringProperty( FaradaysElectromagneticLabStrings.pattern.valuePercentStringProperty, {
+        label: new RichText( new PatternStringProperty( valuePercentStringProperty, {
           value: 100
         } ), TICK_LABEL_OPTIONS )
       }
@@ -52,7 +53,7 @@ export default class LoopRadiusControl extends NumberControl {
       delta: SLIDER_STEP,
       numberDisplayOptions: {
         decimalPlaces: 0,
-        numberFormatter: loopRadius => StringUtils.fillIn( FaradaysElectromagneticLabStrings.pattern.valuePercentStringProperty, {
+        numberFormatter: loopRadius => StringUtils.fillIn( valuePercentStringProperty, {
           value: Utils.roundToInterval( 100 * loopRadius / loopRadiusRange.max, 1 )
         } )
       },

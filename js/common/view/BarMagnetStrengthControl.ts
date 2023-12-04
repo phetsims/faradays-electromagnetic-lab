@@ -18,6 +18,7 @@ import Utils from '../../../../dot/js/Utils.js';
 import { RichText } from '../../../../scenery/js/imports.js';
 import StringUtils from '../../../../phetcommon/js/util/StringUtils.js';
 
+const valuePercentStringProperty = FaradaysElectromagneticLabStrings.pattern.valuePercentStringProperty;
 const SLIDER_STEP = 1;
 const TICK_LABEL_OPTIONS = {
   font: FELConstants.TICK_LABEL_FONT
@@ -35,7 +36,7 @@ export default class BarMagnetStrengthControl extends NumberControl {
       // 0%
       {
         value: strengthRange.min,
-        label: new RichText( new PatternStringProperty( FaradaysElectromagneticLabStrings.pattern.valuePercentStringProperty, {
+        label: new RichText( new PatternStringProperty( valuePercentStringProperty, {
           value: 0
         } ), TICK_LABEL_OPTIONS )
       },
@@ -43,7 +44,7 @@ export default class BarMagnetStrengthControl extends NumberControl {
       // 50%
       {
         value: strengthRange.min + strengthRange.getLength() / 2,
-        label: new RichText( new PatternStringProperty( FaradaysElectromagneticLabStrings.pattern.valuePercentStringProperty, {
+        label: new RichText( new PatternStringProperty( valuePercentStringProperty, {
           value: 50
         } ), TICK_LABEL_OPTIONS )
       },
@@ -51,7 +52,7 @@ export default class BarMagnetStrengthControl extends NumberControl {
       // 100%
       {
         value: strengthRange.max,
-        label: new RichText( new PatternStringProperty( FaradaysElectromagneticLabStrings.pattern.valuePercentStringProperty, {
+        label: new RichText( new PatternStringProperty( valuePercentStringProperty, {
           value: 100
         } ), TICK_LABEL_OPTIONS )
       }
