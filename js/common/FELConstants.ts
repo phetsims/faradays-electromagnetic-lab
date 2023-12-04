@@ -13,7 +13,7 @@ import { CreditsData } from '../../../joist/js/CreditsNode.js';
 import { PanelOptions } from '../../../sun/js/Panel.js';
 import PhetFont from '../../../scenery-phet/js/PhetFont.js';
 import { CheckboxOptions } from '../../../sun/js/Checkbox.js';
-import { KeyboardDragListenerOptions, Text } from '../../../scenery/js/imports.js';
+import { KeyboardDragListenerOptions, Text, VBoxOptions } from '../../../scenery/js/imports.js';
 import NumberControl, { NumberControlOptions } from '../../../scenery-phet/js/NumberControl.js';
 import Dimension2 from '../../../dot/js/Dimension2.js';
 
@@ -80,6 +80,12 @@ const KEYBOARD_DRAG_LISTENER_OPTIONS: KeyboardDragListenerOptions = {
   shiftDragVelocity: 20 // velocity with the Shift key pressed, typically slower than dragVelocity
 };
 
+const VBOX_OPTIONS: VBoxOptions = {
+  spacing: 10,
+  align: 'left',
+  stretch: true
+};
+
 const FELConstants = {
 
   // Sim
@@ -99,6 +105,7 @@ const FELConstants = {
 
   // Other options
   KEYBOARD_DRAG_LISTENER_OPTIONS: KEYBOARD_DRAG_LISTENER_OPTIONS,
+  VBOX_OPTIONS: VBOX_OPTIONS,
 
   // Fonts
   TITLE_FONT: new PhetFont( {

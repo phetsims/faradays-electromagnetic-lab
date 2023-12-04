@@ -10,7 +10,7 @@ import faradaysElectromagneticLab from '../../faradaysElectromagneticLab.js';
 import BarMagnet from '../model/BarMagnet.js';
 import Panel, { PanelOptions } from '../../../../sun/js/Panel.js';
 import Checkbox, { CheckboxOptions } from '../../../../sun/js/Checkbox.js';
-import { Node, Text, VBox } from '../../../../scenery/js/imports.js';
+import { Node, Text, VBox, VBoxOptions } from '../../../../scenery/js/imports.js';
 import TextPushButton from '../../../../sun/js/buttons/TextPushButton.js';
 import { combineOptions, optionize3 } from '../../../../phet-core/js/optionize.js';
 import FELConstants from '../FELConstants.js';
@@ -69,12 +69,9 @@ export default class BarMagnetPanel extends Panel {
       contentChildren.push( seeInsideCheckbox );
     }
 
-    const content = new VBox( {
-      align: 'left',
-      spacing: 15,
-      stretch: true,
+    const content = new VBox( combineOptions<VBoxOptions>( {}, FELConstants.VBOX_OPTIONS, {
       children: contentChildren
-    } );
+    } ) );
 
     super( content, options );
   }

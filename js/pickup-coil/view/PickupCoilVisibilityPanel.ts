@@ -11,7 +11,7 @@ import Panel, { PanelOptions } from '../../../../sun/js/Panel.js';
 import Tandem from '../../../../tandem/js/Tandem.js';
 import Checkbox, { CheckboxOptions } from '../../../../sun/js/Checkbox.js';
 import Property from '../../../../axon/js/Property.js';
-import { Text, VBox } from '../../../../scenery/js/imports.js';
+import { Text, VBox, VBoxOptions } from '../../../../scenery/js/imports.js';
 import { combineOptions } from '../../../../phet-core/js/optionize.js';
 import FELConstants from '../../common/FELConstants.js';
 import FaradaysElectromagneticLabStrings from '../../FaradaysElectromagneticLabStrings.js';
@@ -51,16 +51,13 @@ export default class PickupCoilVisibilityPanel extends Panel {
         tandem: tandem.createTandem( 'compassCheckbox' )
       } ) );
 
-    const content = new VBox( {
-      align: 'left',
-      spacing: 15,
-      stretch: true,
+    const content = new VBox( combineOptions<VBoxOptions>( {}, FELConstants.VBOX_OPTIONS, {
       children: [
         magneticFieldCheckbox,
         fieldMeterCheckbox,
         compassCheckbox
       ]
-    } );
+    } ) );
 
     super( content, combineOptions<PanelOptions>( {}, FELConstants.PANEL_OPTIONS, {
       tandem: tandem

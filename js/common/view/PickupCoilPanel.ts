@@ -8,7 +8,7 @@
 
 import faradaysElectromagneticLab from '../../faradaysElectromagneticLab.js';
 import Panel, { PanelOptions } from '../../../../sun/js/Panel.js';
-import { Node, Text, VBox } from '../../../../scenery/js/imports.js';
+import { Node, Text, VBox, VBoxOptions } from '../../../../scenery/js/imports.js';
 import { combineOptions } from '../../../../phet-core/js/optionize.js';
 import FELConstants from '../FELConstants.js';
 import FaradaysElectromagneticLabStrings from '../../FaradaysElectromagneticLabStrings.js';
@@ -50,12 +50,9 @@ export default class PickupCoilPanel extends Panel {
       electronsCheckbox
     ];
 
-    const content = new VBox( {
-      align: 'left',
-      spacing: 15,
-      stretch: true,
+    const content = new VBox( combineOptions<VBoxOptions>( {}, FELConstants.VBOX_OPTIONS, {
       children: contentChildren
-    } );
+    } ) );
 
     super( content, combineOptions<PanelOptions>( {}, FELConstants.PANEL_OPTIONS, {
       tandem: tandem
