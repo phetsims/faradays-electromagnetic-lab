@@ -42,8 +42,8 @@ export default class IndicatorRadioButtonGroup extends RectangularRadioButtonGro
       radioButtonOptions: {
         baseColor: FELColors.radioButtonFillProperty,
         cornerRadius: 3,
-        xMargin: 14,
-        yMargin: 5,
+        xMargin: 6,
+        yMargin: 4,
         buttonAppearanceStrategyOptions: {
           selectedStroke: FELColors.radioButtonSelectedStrokeProperty,
           deselectedStroke: FELColors.radioButtonDeselectedStrokeProperty,
