@@ -29,6 +29,7 @@ type StringsType = {
   'fieldMeterStringProperty': LocalizedStringProperty;
   'electronsStringProperty': LocalizedStringProperty;
   'pickupCoilStringProperty': LocalizedStringProperty;
+  'loopsStringProperty': LocalizedStringProperty;
   'loopRadiusStringProperty': LocalizedStringProperty;
   'pattern': {
     'valuePercentStringProperty': LocalizedStringProperty;
