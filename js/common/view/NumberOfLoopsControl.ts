@@ -24,6 +24,11 @@ export default class NumberOfLoopsControl extends HBox {
     } );
 
     const spinner = new NumberSpinner( numberOfLoopsProperty, numberOfLoopsProperty.rangeProperty, {
+      numberDisplayOptions: {
+        textOptions: {
+          font: FELConstants.CONTROL_FONT
+        }
+      },
       tandem: tandem.createTandem( 'spinner' )
     } );
 
