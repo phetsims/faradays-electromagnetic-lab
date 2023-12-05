@@ -13,6 +13,7 @@ import NumberProperty from '../../../../axon/js/NumberProperty.js';
 import RangeWithValue from '../../../../dot/js/RangeWithValue.js';
 import optionize from '../../../../phet-core/js/optionize.js';
 import FELMovable, { FELMovableOptions } from './FELMovable.js';
+import BooleanProperty from '../../../../axon/js/BooleanProperty.js';
 
 type SelfOptions = {
   rotation?: number; // initial value of rotationProperty, radians
@@ -25,6 +26,7 @@ export default abstract class Magnet extends FELMovable {
 
   public readonly rotationProperty: Property<number>; // radians
   public readonly strengthProperty: NumberProperty; // gauss
+  public readonly fieldVisibleProperty: Property<boolean>;
 
   // reusable vector for transforming a position to the magnet's local coordinate frame
   private readonly reusablePosition: Vector2;
@@ -53,6 +55,11 @@ export default abstract class Magnet extends FELMovable {
       phetioFeatured: true
     } );
 
+    this.fieldVisibleProperty = new BooleanProperty( true, {
+      tandem: options.tandem.createTandem( 'fieldVisibleProperty' ),
+      phetioFeatured: true
+    } );
+
     this.reusablePosition = new Vector2( 0, 0 );
   }
 
@@ -60,6 +67,7 @@ export default abstract class Magnet extends FELMovable {
     super.reset();
     this.rotationProperty.reset();
     this.strengthProperty.reset();
+    this.fieldVisibleProperty.reset();
   }
 
   /**

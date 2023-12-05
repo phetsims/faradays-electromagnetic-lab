@@ -18,7 +18,6 @@ import CompassNode from '../../common/view/CompassNode.js';
 import BarMagnetPanel from '../../common/view/BarMagnetPanel.js';
 import { Node, VBox } from '../../../../scenery/js/imports.js';
 import Multilink from '../../../../axon/js/Multilink.js';
-import PickupCoilViewProperties from './PickupCoilViewProperties.js';
 import PickupCoilVisibilityPanel from './PickupCoilVisibilityPanel.js';
 import PickupCoilPanel from '../../common/view/PickupCoilPanel.js';
 import PickupCoilModel from '../model/PickupCoilModel.js';
@@ -32,11 +31,8 @@ export default class PickupCoilScreenView extends ScreenView {
       tandem: tandem
     } );
 
-    const viewProperties = new PickupCoilViewProperties( tandem.createTandem( 'viewProperties' ) );
-
     const fieldNode = new FieldNode( model.barMagnet, {
       visibleBoundsProperty: this.visibleBoundsProperty,
-      visibleProperty: viewProperties.fieldVisibleProperty,
       tandem: tandem.createTandem( 'fieldNode' )
     } );
 
@@ -59,7 +55,7 @@ export default class PickupCoilScreenView extends ScreenView {
     const pickupCoilPanel = new PickupCoilPanel( model.pickupCoil, panelsTandem.createTandem( 'pickupCoilPanel' ) );
 
     const visibilityPanel = new PickupCoilVisibilityPanel(
-      viewProperties.fieldVisibleProperty,
+      model.barMagnet.fieldVisibleProperty,
       model.compass.visibleProperty,
       model.fieldMeter.visibleProperty,
       panelsTandem.createTandem( 'visibilityPanel' )
@@ -88,7 +84,6 @@ export default class PickupCoilScreenView extends ScreenView {
       listener: () => {
         model.reset();
         this.interruptSubtreeInput(); // cancel interactions that may be in progress
-        viewProperties.reset();
       },
       tandem: tandem.createTandem( 'resetAllButton' )
     } );

@@ -28,7 +28,7 @@ type SelfOptions = {
   visibleBoundsProperty: TReadOnlyProperty<Bounds2>; // the visible bounds of the browser window
 };
 
-type FieldNodeOptions = SelfOptions & PickRequired<SpritesOptions, 'visibleProperty' | 'tandem'>;
+type FieldNodeOptions = SelfOptions & PickRequired<SpritesOptions, 'tandem'>;
 
 export default class FieldNode extends Sprites {
 
@@ -57,6 +57,7 @@ export default class FieldNode extends Sprites {
 
       // SpritesOptions
       isDisposable: false,
+      visibleProperty: magnet.fieldVisibleProperty,
       sprites: [ sprite ], // the set of Sprites used to render this Node, must be set at instantiation
       spriteInstances: spriteInstances, // the set of SpriteInstances, one per compass needle in the grid
       hitTestSprites: false

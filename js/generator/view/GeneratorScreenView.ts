@@ -20,7 +20,6 @@ import PickupCoilPanel from '../../common/view/PickupCoilPanel.js';
 import PickupCoilVisibilityPanel from '../../pickup-coil/view/PickupCoilVisibilityPanel.js';
 import { Node, VBox } from '../../../../scenery/js/imports.js';
 import Multilink from '../../../../axon/js/Multilink.js';
-import GeneratorViewProperties from './GeneratorViewProperties.js';
 
 export default class GeneratorScreenView extends ScreenView {
 
@@ -31,11 +30,8 @@ export default class GeneratorScreenView extends ScreenView {
       tandem: tandem
     } );
 
-    const viewProperties = new GeneratorViewProperties( tandem.createTandem( 'viewProperties' ) );
-
     const fieldNode = new FieldNode( model.turbine, {
       visibleBoundsProperty: this.visibleBoundsProperty,
-      visibleProperty: viewProperties.fieldVisibleProperty,
       tandem: tandem.createTandem( 'fieldNode' )
     } );
 
@@ -57,7 +53,7 @@ export default class GeneratorScreenView extends ScreenView {
     const pickupCoilPanel = new PickupCoilPanel( model.pickupCoil, panelsTandem.createTandem( 'pickupCoilPanel' ) );
 
     const visibilityPanel = new PickupCoilVisibilityPanel(
-      viewProperties.fieldVisibleProperty,
+      model.turbine.fieldVisibleProperty,
       model.compass.visibleProperty,
       model.fieldMeter.visibleProperty,
       panelsTandem.createTandem( 'visibilityPanel' )
@@ -86,7 +82,6 @@ export default class GeneratorScreenView extends ScreenView {
       listener: () => {
         model.reset();
         this.interruptSubtreeInput(); // cancel interactions that may be in progress
-        viewProperties.reset();
       },
       tandem: tandem.createTandem( 'resetAllButton' )
     } );

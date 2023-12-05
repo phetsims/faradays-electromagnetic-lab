@@ -14,18 +14,12 @@ import Property from '../../../../axon/js/Property.js';
 export default class BarMagnetViewProperties {
 
   public readonly seeInsideBarMagnetProperty: Property<boolean>;
-  public readonly fieldVisibleProperty: Property<boolean>;
   public readonly earthVisibleProperty: Property<boolean>;
 
   public constructor( tandem: Tandem ) {
 
     this.seeInsideBarMagnetProperty = new BooleanProperty( false, {
       tandem: tandem.createTandem( 'seeInsideBarMagnetProperty' ),
-      phetioFeatured: true
-    } );
-
-    this.fieldVisibleProperty = new BooleanProperty( true, {
-      tandem: tandem.createTandem( 'fieldVisibleProperty' ),
       phetioFeatured: true
     } );
 
@@ -37,7 +31,6 @@ export default class BarMagnetViewProperties {
 
   public reset(): void {
     this.seeInsideBarMagnetProperty.reset();
-    this.fieldVisibleProperty.reset();
     this.earthVisibleProperty.reset();
   }
 }

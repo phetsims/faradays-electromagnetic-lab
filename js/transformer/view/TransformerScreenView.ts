@@ -19,7 +19,6 @@ import ElectromagnetPanel from '../../common/view/ElectromagnetPanel.js';
 import PickupCoilVisibilityPanel from '../../pickup-coil/view/PickupCoilVisibilityPanel.js';
 import { Node, VBox } from '../../../../scenery/js/imports.js';
 import Multilink from '../../../../axon/js/Multilink.js';
-import TransformerViewProperties from './TransformerViewProperties.js';
 import PickupCoilPanel from '../../common/view/PickupCoilPanel.js';
 
 export default class TransformerScreenView extends ScreenView {
@@ -31,11 +30,8 @@ export default class TransformerScreenView extends ScreenView {
       tandem: tandem
     } );
 
-    const viewProperties = new TransformerViewProperties( tandem.createTandem( 'viewProperties' ) );
-
     const fieldNode = new FieldNode( model.electromagnet, {
       visibleBoundsProperty: this.visibleBoundsProperty,
-      visibleProperty: viewProperties.fieldVisibleProperty,
       tandem: tandem.createTandem( 'fieldNode' )
     } );
 
@@ -54,7 +50,7 @@ export default class TransformerScreenView extends ScreenView {
     const pickupCoilPanel = new PickupCoilPanel( model.pickupCoil, panelsTandem.createTandem( 'pickupCoilPanel' ) );
 
     const visibilityPanel = new PickupCoilVisibilityPanel(
-      viewProperties.fieldVisibleProperty,
+      model.electromagnet.fieldVisibleProperty,
       model.compass.visibleProperty,
       model.fieldMeter.visibleProperty,
       panelsTandem.createTandem( 'visibilityPanel' )
@@ -83,7 +79,6 @@ export default class TransformerScreenView extends ScreenView {
       listener: () => {
         model.reset();
         this.interruptSubtreeInput(); // cancel interactions that may be in progress
-        //TODO viewProperties.reset();
       },
       tandem: tandem.createTandem( 'resetAllButton' )
     } );

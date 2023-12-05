@@ -15,7 +15,6 @@ import Tandem from '../../../../tandem/js/Tandem.js';
 import FieldNode from '../../common/view/FieldNode.js';
 import FieldMeterNode from '../../common/view/FieldMeterNode.js';
 import CompassNode from '../../common/view/CompassNode.js';
-import ElectromagnetViewProperties from './ElectromagnetViewProperties.js';
 import { Node, VBox } from '../../../../scenery/js/imports.js';
 import Multilink from '../../../../axon/js/Multilink.js';
 import ElectromagnetPanel from '../../common/view/ElectromagnetPanel.js';
@@ -30,11 +29,8 @@ export default class ElectromagnetScreenView extends ScreenView {
       tandem: tandem
     } );
 
-    const viewProperties = new ElectromagnetViewProperties( tandem.createTandem( 'viewProperties' ) );
-
     const fieldNode = new FieldNode( model.electromagnet, {
       visibleBoundsProperty: this.visibleBoundsProperty,
-      visibleProperty: viewProperties.fieldVisibleProperty,
       tandem: tandem.createTandem( 'fieldNode' )
     } );
 
@@ -49,7 +45,7 @@ export default class ElectromagnetScreenView extends ScreenView {
     const electromagnetPanel = new ElectromagnetPanel( model.electromagnet, tandem.createTandem( 'electromagnetPanel' ) );
 
     const visibilityPanel = new PickupCoilVisibilityPanel(
-      viewProperties.fieldVisibleProperty,
+      model.electromagnet.fieldVisibleProperty,
       model.compass.visibleProperty,
       model.fieldMeter.visibleProperty,
       panelsTandem.createTandem( 'visibilityPanel' )
@@ -77,7 +73,6 @@ export default class ElectromagnetScreenView extends ScreenView {
       listener: () => {
         model.reset();
         this.interruptSubtreeInput(); // cancel interactions that may be in progress
-        viewProperties.reset();
       },
       tandem: tandem.createTandem( 'resetAllButton' )
     } );
