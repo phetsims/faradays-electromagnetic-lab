@@ -64,8 +64,8 @@ export default class GeneratorModel implements TModel {
    */
   public step( dt: number ): void {
     //TODO this.turbine.step( dt );
-    this.pickupCoil.step( dt );
-    //TODO
+    //TODO this.pickupCoil.step( dt );
+    this.compass.step( dt );
   }
 }
 
