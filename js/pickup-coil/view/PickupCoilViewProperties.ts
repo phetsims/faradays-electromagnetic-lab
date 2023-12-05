@@ -13,15 +13,9 @@ import Property from '../../../../axon/js/Property.js';
 
 export default class PickupCoilViewProperties {
 
-  public readonly pickupCoilElectronsVisibleProperty: Property<boolean>;
   public readonly fieldVisibleProperty: Property<boolean>;
 
   public constructor( tandem: Tandem ) {
-
-    this.pickupCoilElectronsVisibleProperty = new BooleanProperty( false, {
-      tandem: tandem.createTandem( 'pickupCoilElectronsVisibleProperty' ),
-      phetioFeatured: true
-    } );
 
     this.fieldVisibleProperty = new BooleanProperty( true, {
       tandem: tandem.createTandem( 'fieldVisibleProperty' ),
@@ -31,7 +25,6 @@ export default class PickupCoilViewProperties {
 
   public reset(): void {
     this.fieldVisibleProperty.reset();
-    this.pickupCoilElectronsVisibleProperty.reset();
   }
 }
 

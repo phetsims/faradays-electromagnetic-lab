@@ -15,17 +15,11 @@ export default class TransformerViewProperties {
 
   public readonly fieldVisibleProperty: Property<boolean>;
   public readonly electromagnetElectronsVisibleProperty: Property<boolean>;
-  public readonly pickupCoilElectronsVisibleProperty: Property<boolean>;
 
   public constructor( tandem: Tandem ) {
 
     this.electromagnetElectronsVisibleProperty = new BooleanProperty( false, {
       tandem: tandem.createTandem( 'electromagnetElectronsVisibleProperty' ),
-      phetioFeatured: true
-    } );
-
-    this.pickupCoilElectronsVisibleProperty = new BooleanProperty( false, {
-      tandem: tandem.createTandem( 'pickupCoilElectronsVisibleProperty' ),
       phetioFeatured: true
     } );
 
@@ -37,7 +31,6 @@ export default class TransformerViewProperties {
 
   public reset(): void {
     this.electromagnetElectronsVisibleProperty.reset();
-    this.pickupCoilElectronsVisibleProperty.reset();
     this.fieldVisibleProperty.reset();
   }
 }

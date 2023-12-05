@@ -57,7 +57,8 @@ export default abstract class Compass extends FELMovable {
     this.rotationProperty = this._rotationProperty;
 
     this.visibleProperty = new BooleanProperty( options.visible, {
-      tandem: options.tandem.createTandem( 'visibleProperty' )
+      tandem: options.tandem.createTandem( 'visibleProperty' ),
+      phetioFeatured: true
     } );
   }
 

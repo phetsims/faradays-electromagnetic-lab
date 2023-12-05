@@ -15,14 +15,13 @@ import FaradaysElectromagneticLabStrings from '../../FaradaysElectromagneticLabS
 import Tandem from '../../../../tandem/js/Tandem.js';
 import PickupCoil from '../model/PickupCoil.js';
 import Checkbox, { CheckboxOptions } from '../../../../sun/js/Checkbox.js';
-import Property from '../../../../axon/js/Property.js';
 import LoopRadiusControl from './LoopRadiusControl.js';
 import NumberOfLoopsControl from './NumberOfLoopsControl.js';
 import IndicatorRadioButtonGroup from './IndicatorRadioButtonGroup.js';
 
 export default class PickupCoilPanel extends Panel {
 
-  public constructor( pickupCoil: PickupCoil, electronsVisibleProperty: Property<boolean>, tandem: Tandem ) {
+  public constructor( pickupCoil: PickupCoil, tandem: Tandem ) {
 
     const titleText = new Text( FaradaysElectromagneticLabStrings.pickupCoilStringProperty, {
       font: FELConstants.TITLE_FONT
@@ -42,7 +41,7 @@ export default class PickupCoilPanel extends Panel {
     const electronsText = new Text( FaradaysElectromagneticLabStrings.electronsStringProperty, {
       font: FELConstants.CONTROL_FONT
     } );
-    const electronsCheckbox = new Checkbox( electronsVisibleProperty, electronsText,
+    const electronsCheckbox = new Checkbox( pickupCoil.electronsVisibleProperty, electronsText,
       combineOptions<CheckboxOptions>( {}, FELConstants.CHECKBOX_OPTIONS, {
         tandem: tandem.createTandem( 'electronsCheckbox' )
       } ) );

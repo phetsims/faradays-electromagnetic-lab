@@ -50,7 +50,8 @@ export default class FieldMeter extends FELMovable {
       } );
 
     this.visibleProperty = new BooleanProperty( options.visible, {
-      tandem: options.tandem.createTandem( 'visibleProperty' )
+      tandem: options.tandem.createTandem( 'visibleProperty' ),
+      phetioFeatured: true
     } );
   }
 

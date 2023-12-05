@@ -16,6 +16,7 @@ import Vector2 from '../../../../dot/js/Vector2.js';
 import Property from '../../../../axon/js/Property.js';
 import { Indicator, IndicatorValues } from './Indicator.js';
 import StringUnionProperty from '../../../../axon/js/StringUnionProperty.js';
+import BooleanProperty from '../../../../axon/js/BooleanProperty.js';
 
 const WIRE_WIDTH = 16;
 const LOOP_SPACING = 1.5 * WIRE_WIDTH; // loosely packed loops
@@ -37,6 +38,7 @@ export default class PickupCoil extends Coil {
   private readonly samplePointsStrategy: SamplePointsStrategy;
 
   public readonly indicatorProperty: Property<Indicator>;
+  public readonly electronsVisibleProperty: Property<boolean>;
 
   public constructor( magnet: Magnet, providedOptions: PickupCoilOptions ) {
 
@@ -70,12 +72,18 @@ export default class PickupCoil extends Coil {
       phetioFeatured: true
     } );
 
+    this.electronsVisibleProperty = new BooleanProperty( true, {
+      tandem: options.tandem.createTandem( 'electronsVisibleProperty' ),
+      phetioFeatured: true
+    } );
+
     //TODO lots more to port from PickupCoil.java
   }
 
   public override reset(): void {
     super.reset();
     this.indicatorProperty.reset();
+    this.electronsVisibleProperty.reset();
     //TODO
   }
 
