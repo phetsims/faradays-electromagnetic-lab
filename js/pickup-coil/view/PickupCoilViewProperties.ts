@@ -15,16 +15,22 @@ import { Indicator, IndicatorValues } from '../../common/model/Indicator.js';
 
 export default class PickupCoilViewProperties {
 
-  public readonly compassVisibleProperty: Property<boolean>;
+  public readonly indicatorProperty: Property<Indicator>;
+  public readonly pickupCoilElectronsVisibleProperty: Property<boolean>;
   public readonly fieldVisibleProperty: Property<boolean>;
   public readonly fieldMeterVisibleProperty: Property<boolean>;
-  public readonly pickupCoilElectronsVisibleProperty: Property<boolean>;
-  public readonly indicatorProperty: Property<Indicator>;
+  public readonly compassVisibleProperty: Property<boolean>;
 
   public constructor( tandem: Tandem ) {
 
-    this.compassVisibleProperty = new BooleanProperty( false, {
-      tandem: tandem.createTandem( 'compassVisibleProperty' ),
+    this.indicatorProperty = new StringUnionProperty<Indicator>( 'lightBulb', {
+      validValues: IndicatorValues,
+      tandem: tandem.createTandem( 'indicatorProperty' ),
+      phetioFeatured: true
+    } );
+
+    this.pickupCoilElectronsVisibleProperty = new BooleanProperty( false, {
+      tandem: tandem.createTandem( 'pickupCoilElectronsVisibleProperty' ),
       phetioFeatured: true
     } );
 
@@ -38,14 +44,8 @@ export default class PickupCoilViewProperties {
       phetioFeatured: true
     } );
 
-    this.pickupCoilElectronsVisibleProperty = new BooleanProperty( false, {
-      tandem: tandem.createTandem( 'pickupCoilElectronsVisibleProperty' ),
-      phetioFeatured: true
-    } );
-
-    this.indicatorProperty = new StringUnionProperty<Indicator>( 'lightBulb', {
-      validValues: IndicatorValues,
-      tandem: tandem.createTandem( 'indicatorProperty' ),
+    this.compassVisibleProperty = new BooleanProperty( false, {
+      tandem: tandem.createTandem( 'compassVisibleProperty' ),
       phetioFeatured: true
     } );
   }

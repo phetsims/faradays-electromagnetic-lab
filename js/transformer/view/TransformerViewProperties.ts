@@ -24,21 +24,6 @@ export default class TransformerViewProperties {
 
   public constructor( tandem: Tandem ) {
 
-    this.compassVisibleProperty = new BooleanProperty( true, {
-      tandem: tandem.createTandem( 'compassVisibleProperty' ),
-      phetioFeatured: true
-    } );
-
-    this.fieldVisibleProperty = new BooleanProperty( true, {
-      tandem: tandem.createTandem( 'fieldVisibleProperty' ),
-      phetioFeatured: true
-    } );
-
-    this.fieldMeterVisibleProperty = new BooleanProperty( false, {
-      tandem: tandem.createTandem( 'fieldMeterVisibleProperty' ),
-      phetioFeatured: true
-    } );
-
     this.electromagnetElectronsVisibleProperty = new BooleanProperty( false, {
       tandem: tandem.createTandem( 'electromagnetElectronsVisibleProperty' ),
       phetioFeatured: true
@@ -54,15 +39,30 @@ export default class TransformerViewProperties {
       tandem: tandem.createTandem( 'pickupCoilElectronsVisibleProperty' ),
       phetioFeatured: true
     } );
+
+    this.fieldVisibleProperty = new BooleanProperty( true, {
+      tandem: tandem.createTandem( 'fieldVisibleProperty' ),
+      phetioFeatured: true
+    } );
+
+    this.fieldMeterVisibleProperty = new BooleanProperty( false, {
+      tandem: tandem.createTandem( 'fieldMeterVisibleProperty' ),
+      phetioFeatured: true
+    } );
+
+    this.compassVisibleProperty = new BooleanProperty( true, {
+      tandem: tandem.createTandem( 'compassVisibleProperty' ),
+      phetioFeatured: true
+    } );
   }
 
   public reset(): void {
-    this.compassVisibleProperty.reset();
-    this.fieldVisibleProperty.reset();
-    this.fieldMeterVisibleProperty.reset();
     this.electromagnetElectronsVisibleProperty.reset();
     this.indicatorProperty.reset();
     this.pickupCoilElectronsVisibleProperty.reset();
+    this.fieldVisibleProperty.reset();
+    this.fieldMeterVisibleProperty.reset();
+    this.compassVisibleProperty.reset();
   }
 }
 

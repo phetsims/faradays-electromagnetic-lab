@@ -20,8 +20,8 @@ export default class ElectromagnetViewProperties {
 
   public constructor( tandem: Tandem ) {
 
-    this.compassVisibleProperty = new BooleanProperty( false, {
-      tandem: tandem.createTandem( 'compassVisibleProperty' ),
+    this.electromagnetElectronsVisibleProperty = new BooleanProperty( false, {
+      tandem: tandem.createTandem( 'electromagnetElectronsVisibleProperty' ),
       phetioFeatured: true
     } );
 
@@ -35,17 +35,17 @@ export default class ElectromagnetViewProperties {
       phetioFeatured: true
     } );
 
-    this.electromagnetElectronsVisibleProperty = new BooleanProperty( false, {
-      tandem: tandem.createTandem( 'electromagnetElectronsVisibleProperty' ),
+    this.compassVisibleProperty = new BooleanProperty( false, {
+      tandem: tandem.createTandem( 'compassVisibleProperty' ),
       phetioFeatured: true
     } );
   }
 
   public reset(): void {
-    this.compassVisibleProperty.reset();
+    this.electromagnetElectronsVisibleProperty.reset();
     this.fieldVisibleProperty.reset();
     this.fieldMeterVisibleProperty.reset();
-    this.electromagnetElectronsVisibleProperty.reset();
+    this.compassVisibleProperty.reset();
   }
 }
 
