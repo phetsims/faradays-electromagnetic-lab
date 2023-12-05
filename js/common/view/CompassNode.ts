@@ -15,8 +15,7 @@ import CompassNeedleNode from './CompassNeedleNode.js';
 import { Shape } from '../../../../kite/js/imports.js';
 import Utils from '../../../../dot/js/Utils.js';
 import FELColors from '../FELColors.js';
-import FELMovableNode, { FELMovableNodeOptions } from './FELMovableNode.js';
-import { combineOptions } from '../../../../phet-core/js/optionize.js';
+import FELMovableNode from './FELMovableNode.js';
 import Tandem from '../../../../tandem/js/Tandem.js';
 
 const NEEDLE_LENGTH = 55;
@@ -67,13 +66,11 @@ export default class CompassNode extends FELMovableNode {
       center: ringNode.center
     } );
 
-    const options = combineOptions<FELMovableNodeOptions>( {
+    super( compass, {
       children: [ notPickableNodes, dragPath ],
       visibleProperty: compass.visibleProperty,
       tandem: tandem
     } );
-
-    super( compass, options );
 
     compass.rotationProperty.link( rotation => {
       needleNode.rotation = rotation;

@@ -26,9 +26,8 @@ import ShadedRectangle from '../../../../scenery-phet/js/ShadedRectangle.js';
 import Bounds2 from '../../../../dot/js/Bounds2.js';
 import FELColors from '../FELColors.js';
 import FELPreferences from '../model/FELPreferences.js';
-import FELMovableNode, { FELMovableNodeOptions } from './FELMovableNode.js';
-import optionize, { EmptySelfOptions } from '../../../../phet-core/js/optionize.js';
-import StrictOmit from '../../../../phet-core/js/types/StrictOmit.js';
+import FELMovableNode from './FELMovableNode.js';
+import Tandem from '../../../../tandem/js/Tandem.js';
 
 const BStringProperty = FaradaysElectromagneticLabStrings.symbol.BStringProperty;
 const xStringProperty = FaradaysElectromagneticLabStrings.symbol.xStringProperty;
@@ -45,13 +44,9 @@ const RICH_TEXT_OPTIONS = {
   fill: FELColors.fieldMeterLabelsColorProperty
 };
 
-type SelfOptions = EmptySelfOptions;
-
-type FieldMeterNodeOptions = SelfOptions & StrictOmit<FELMovableNodeOptions, 'children'>;
-
 export default class FieldMeterNode extends FELMovableNode {
 
-  public constructor( fieldMeter: FieldMeter, providedOptions: FieldMeterNodeOptions ) {
+  public constructor( fieldMeter: FieldMeter, tandem: Tandem ) {
 
     // Origin is at the center of the crosshairs.
     // Draw the horizontal line from left to right, then the vertical line from top to bottom.
@@ -129,13 +124,11 @@ export default class FieldMeterNode extends FELMovableNode {
       textVBox.centerY = bodyNode.centerY;
     } );
 
-    const options = optionize<FieldMeterNodeOptions, SelfOptions, FELMovableNodeOptions>()( {
-
-      // FELMovableNodeOptions
-      children: [ probeNode, crosshairsNode, bodyNode, textVBox ]
-    }, providedOptions );
-
-    super( fieldMeter, options );
+    super( fieldMeter, {
+      children: [ probeNode, crosshairsNode, bodyNode, textVBox ],
+      visibleProperty: fieldMeter.visibleProperty,
+      tandem: tandem
+    } );
   }
 }
 

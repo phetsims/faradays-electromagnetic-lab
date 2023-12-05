@@ -16,7 +16,6 @@ import { Indicator, IndicatorValues } from '../../common/model/Indicator.js';
 export default class TransformerViewProperties {
 
   public readonly fieldVisibleProperty: Property<boolean>;
-  public readonly fieldMeterVisibleProperty: Property<boolean>;
   public readonly electromagnetElectronsVisibleProperty: Property<boolean>;
   public readonly indicatorProperty: Property<Indicator>;
   public readonly pickupCoilElectronsVisibleProperty: Property<boolean>;
@@ -43,11 +42,6 @@ export default class TransformerViewProperties {
       tandem: tandem.createTandem( 'fieldVisibleProperty' ),
       phetioFeatured: true
     } );
-
-    this.fieldMeterVisibleProperty = new BooleanProperty( false, {
-      tandem: tandem.createTandem( 'fieldMeterVisibleProperty' ),
-      phetioFeatured: true
-    } );
   }
 
   public reset(): void {
@@ -55,7 +49,6 @@ export default class TransformerViewProperties {
     this.indicatorProperty.reset();
     this.pickupCoilElectronsVisibleProperty.reset();
     this.fieldVisibleProperty.reset();
-    this.fieldMeterVisibleProperty.reset();
   }
 }
 

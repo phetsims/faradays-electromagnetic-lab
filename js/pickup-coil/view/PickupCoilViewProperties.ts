@@ -18,7 +18,6 @@ export default class PickupCoilViewProperties {
   public readonly indicatorProperty: Property<Indicator>;
   public readonly pickupCoilElectronsVisibleProperty: Property<boolean>;
   public readonly fieldVisibleProperty: Property<boolean>;
-  public readonly fieldMeterVisibleProperty: Property<boolean>;
 
   public constructor( tandem: Tandem ) {
 
@@ -37,16 +36,10 @@ export default class PickupCoilViewProperties {
       tandem: tandem.createTandem( 'fieldVisibleProperty' ),
       phetioFeatured: true
     } );
-
-    this.fieldMeterVisibleProperty = new BooleanProperty( false, {
-      tandem: tandem.createTandem( 'fieldMeterVisibleProperty' ),
-      phetioFeatured: true
-    } );
   }
 
   public reset(): void {
     this.fieldVisibleProperty.reset();
-    this.fieldMeterVisibleProperty.reset();
     this.pickupCoilElectronsVisibleProperty.reset();
     this.indicatorProperty.reset();
   }

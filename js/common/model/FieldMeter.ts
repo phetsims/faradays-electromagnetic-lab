@@ -9,12 +9,16 @@
 import faradaysElectromagneticLab from '../../faradaysElectromagneticLab.js';
 import Magnet from './Magnet.js';
 import Vector2 from '../../../../dot/js/Vector2.js';
-import { EmptySelfOptions } from '../../../../phet-core/js/optionize.js';
+import optionize from '../../../../phet-core/js/optionize.js';
 import TReadOnlyProperty from '../../../../axon/js/TReadOnlyProperty.js';
 import DerivedProperty from '../../../../axon/js/DerivedProperty.js';
 import FELMovable, { FELMovableOptions } from './FELMovable.js';
+import Property from '../../../../axon/js/Property.js';
+import BooleanProperty from '../../../../axon/js/BooleanProperty.js';
 
-type SelfOptions = EmptySelfOptions;
+type SelfOptions = {
+  visible?: boolean;
+};
 
 export type FieldMeterOptions = SelfOptions & FELMovableOptions;
 
@@ -23,9 +27,15 @@ export default class FieldMeter extends FELMovable {
   // The field vector at the meter's position, in gauss
   public readonly fieldVectorProperty: TReadOnlyProperty<Vector2>;
 
+  public readonly visibleProperty: Property<boolean>;
+
   public constructor( magnet: Magnet, providedOptions: FieldMeterOptions ) {
 
-    const options = providedOptions;
+    const options = optionize<FieldMeterOptions, SelfOptions, FELMovableOptions>()( {
+
+      //SelfOptions
+      visible: true
+    }, providedOptions );
 
     super( options );
 
@@ -38,6 +48,15 @@ export default class FieldMeter extends FELMovable {
         phetioValueType: Vector2.Vector2IO,
         phetioFeatured: true
       } );
+
+    this.visibleProperty = new BooleanProperty( options.visible, {
+      tandem: options.tandem.createTandem( 'visibleProperty' )
+    } );
+  }
+
+  public override reset(): void {
+    super.reset();
+    this.visibleProperty.reset();
   }
 }
 

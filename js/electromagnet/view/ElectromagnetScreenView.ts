@@ -40,10 +40,7 @@ export default class ElectromagnetScreenView extends ScreenView {
 
     //TODO electromagnetNode
 
-    const fieldMeterNode = new FieldMeterNode( model.fieldMeter, {
-      visibleProperty: viewProperties.fieldMeterVisibleProperty,
-      tandem: tandem.createTandem( 'fieldMeterNode' )
-    } );
+    const fieldMeterNode = new FieldMeterNode( model.fieldMeter, tandem.createTandem( 'fieldMeterNode' ) );
 
     const compassNode = new CompassNode( model.compass, tandem.createTandem( 'compassNode' ) );
 
@@ -55,7 +52,7 @@ export default class ElectromagnetScreenView extends ScreenView {
     const visibilityPanel = new PickupCoilVisibilityPanel(
       viewProperties.fieldVisibleProperty,
       model.compass.visibleProperty,
-      viewProperties.fieldMeterVisibleProperty,
+      model.fieldMeter.visibleProperty,
       panelsTandem.createTandem( 'visibilityPanel' )
     );
 
