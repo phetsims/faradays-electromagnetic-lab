@@ -1,5 +1,7 @@
 // Copyright 2023, University of Colorado Boulder
 
+//TODO move these to a subclass of BarMagnet that is used for the 'Bar Magnet' screen
+
 import faradaysElectromagneticLab from '../../faradaysElectromagneticLab.js';
 import Tandem from '../../../../tandem/js/Tandem.js';
 import BooleanProperty from '../../../../axon/js/BooleanProperty.js';
