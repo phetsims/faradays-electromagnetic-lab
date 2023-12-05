@@ -18,9 +18,7 @@ export default class Turbine extends BarMagnet {
 
   public constructor( providedOptions: TurbineOptions ) {
 
-    const options = providedOptions;
-
-    super( options );
+    super( providedOptions );
 
     //TODO
   }

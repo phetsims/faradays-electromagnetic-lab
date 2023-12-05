@@ -15,6 +15,7 @@ import Compass from '../../common/model/Compass.js';
 import Vector2 from '../../../../dot/js/Vector2.js';
 import Turbine from './Turbine.js';
 import ImmediateCompass from '../../common/model/ImmediateCompass.js';
+import RangeWithValue from '../../../../dot/js/RangeWithValue.js';
 
 export default class GeneratorModel implements TModel {
 
@@ -26,24 +27,25 @@ export default class GeneratorModel implements TModel {
   public constructor( tandem: Tandem ) {
 
     this.turbine = new Turbine( {
-      position: new Vector2( 450, 300 ),
+      strengthRange: new RangeWithValue( 0, 300, 225 ), // gauss
+      position: new Vector2( 285, 400 ),
       tandem: tandem.createTandem( 'turbine' )
     } );
 
     this.pickupCoil = new PickupCoil( this.turbine, {
       position: new Vector2( 500, 400 ),
-      calibrationEMF: 2700000, //TODO incorrect, see GeneratorModule.java
-      transitionSmoothingScale: 0.77, //TODO incorrect, see GeneratorModule.java
+      calibrationEMF: 26000, //TODO see GeneratorModule.java
+      transitionSmoothingScale: 1, //TODO see GeneratorModule.java
       tandem: tandem.createTandem( 'pickupCoil' )
     } );
 
     this.fieldMeter = new FieldMeter( this.turbine, {
-      position: new Vector2( 150, 400 ),
+      position: new Vector2( 450, 460 ),
       tandem: tandem.createTandem( 'fieldMeter' )
     } );
 
     this.compass = new ImmediateCompass( this.turbine, {
-      position: new Vector2( 150, 300 ),
+      position: new Vector2( 350, 175 ),
       tandem: tandem.createTandem( 'compass' )
     } );
   }

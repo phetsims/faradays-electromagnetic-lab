@@ -10,19 +10,15 @@ import faradaysElectromagneticLab from '../../faradaysElectromagneticLab.js';
 import Magnet, { MagnetOptions } from './Magnet.js';
 import Vector2 from '../../../../dot/js/Vector2.js';
 import SourceCoil from './SourceCoil.js';
-import StrictOmit from '../../../../phet-core/js/types/StrictOmit.js';
-import optionize from '../../../../phet-core/js/optionize.js';
-import RangeWithValue from '../../../../dot/js/RangeWithValue.js';
 import StringUnionProperty from '../../../../axon/js/StringUnionProperty.js';
 import { CurrentSource, CurrentSourceValues } from './CurrentSource.js';
-import Tandem from '../../../../tandem/js/Tandem.js';
 import Property from '../../../../axon/js/Property.js';
 
 type SelfOptions = {
   //TODO
 };
 
-export type ElectromagnetOptions = SelfOptions & StrictOmit<MagnetOptions, 'strengthRange'>;
+export type ElectromagnetOptions = SelfOptions & MagnetOptions;
 
 export default class Electromagnet extends Magnet {
 
@@ -31,17 +27,13 @@ export default class Electromagnet extends Magnet {
 
   public constructor( providedOptions: ElectromagnetOptions ) {
 
-    const options = optionize<ElectromagnetOptions, SelfOptions, MagnetOptions>()( {
-
-      // MagnetOptions
-      strengthRange: new RangeWithValue( 0, 300, 0 ) // gauss
-    }, providedOptions );
+    const options = providedOptions;
 
     super( options );
 
     this.currentSourceProperty = new StringUnionProperty<CurrentSource>( 'battery', {
       validValues: CurrentSourceValues,
-      tandem: Tandem.PREFERENCES.createTandem( 'currentSourceProperty' ),
+      tandem: options.tandem.createTandem( 'currentSourceProperty' ),
       phetioFeatured: true
     } );
 

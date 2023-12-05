@@ -20,7 +20,7 @@ export default class ElectromagnetViewProperties {
 
   public constructor( tandem: Tandem ) {
 
-    this.compassVisibleProperty = new BooleanProperty( true, {
+    this.compassVisibleProperty = new BooleanProperty( false, {
       tandem: tandem.createTandem( 'compassVisibleProperty' ),
       phetioFeatured: true
     } );

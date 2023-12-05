@@ -9,17 +9,15 @@
 
 import faradaysElectromagneticLab from '../../faradaysElectromagneticLab.js';
 import Magnet, { MagnetOptions } from './Magnet.js';
-import RangeWithValue from '../../../../dot/js/RangeWithValue.js';
 import Dimension2 from '../../../../dot/js/Dimension2.js';
 import BarMagnetFieldData from './BarMagnetFieldData.js';
 import Vector2 from '../../../../dot/js/Vector2.js';
 import BarMagnetFieldGrid from './BarMagnetFieldGrid.js';
-import optionize, { EmptySelfOptions } from '../../../../phet-core/js/optionize.js';
-import StrictOmit from '../../../../phet-core/js/types/StrictOmit.js';
+import { EmptySelfOptions } from '../../../../phet-core/js/optionize.js';
 
 type SelfOptions = EmptySelfOptions;
 
-export type BarMagnetOptions = SelfOptions & StrictOmit<MagnetOptions, 'strengthRange'>;
+export type BarMagnetOptions = SelfOptions & MagnetOptions;
 
 
 export default class BarMagnet extends Magnet {
@@ -28,13 +26,7 @@ export default class BarMagnet extends Magnet {
 
   public constructor( providedOptions: BarMagnetOptions ) {
 
-    const options = optionize<BarMagnetOptions, SelfOptions, MagnetOptions>()( {
-
-      // MagnetOptions
-      strengthRange: new RangeWithValue( 0, 300, 225 ) // gauss
-    }, providedOptions );
-
-    super( options );
+    super( providedOptions );
 
     this.size = new Dimension2( 250, 50 );
   }

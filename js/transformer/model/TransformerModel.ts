@@ -15,6 +15,7 @@ import Compass from '../../common/model/Compass.js';
 import PickupCoil from '../../common/model/PickupCoil.js';
 import Vector2 from '../../../../dot/js/Vector2.js';
 import IncrementalCompass from '../../common/model/IncrementalCompass.js';
+import RangeWithValue from '../../../../dot/js/RangeWithValue.js';
 
 export default class TransformerModel implements TModel {
 
@@ -26,14 +27,15 @@ export default class TransformerModel implements TModel {
   public constructor( tandem: Tandem ) {
 
     this.electromagnet = new Electromagnet( {
-      position: new Vector2( 400, 400 ),
+      strengthRange: new RangeWithValue( 0, 300, 0 ), // gauss
+      position: new Vector2( 200, 400 ),
       tandem: tandem.createTandem( 'electromagnet' )
     } );
 
     this.pickupCoil = new PickupCoil( this.electromagnet, {
       position: new Vector2( 500, 400 ),
-      calibrationEMF: 2700000, //TODO incorrect, see TransformerModule.java
-      transitionSmoothingScale: 0.77, //TODO incorrect, see TransformerModule.java
+      calibrationEMF: 3500000, //TODO see TransformerModule.java
+      transitionSmoothingScale: 0.56, //TODO see TransformerModule.java
       tandem: tandem.createTandem( 'pickupCoil' )
     } );
 
@@ -43,7 +45,7 @@ export default class TransformerModel implements TModel {
     } );
 
     this.compass = new IncrementalCompass( this.electromagnet, {
-      position: new Vector2( 150, 300 ),
+      position: new Vector2( 100, 525 ),
       tandem: tandem.createTandem( 'compass' )
     } );
   }

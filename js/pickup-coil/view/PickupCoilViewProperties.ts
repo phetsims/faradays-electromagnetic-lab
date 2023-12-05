@@ -23,7 +23,7 @@ export default class PickupCoilViewProperties {
 
   public constructor( tandem: Tandem ) {
 
-    this.compassVisibleProperty = new BooleanProperty( true, {
+    this.compassVisibleProperty = new BooleanProperty( false, {
       tandem: tandem.createTandem( 'compassVisibleProperty' ),
       phetioFeatured: true
     } );
@@ -45,7 +45,7 @@ export default class PickupCoilViewProperties {
 
     this.indicatorProperty = new StringUnionProperty<Indicator>( 'lightBulb', {
       validValues: IndicatorValues,
-      tandem: Tandem.PREFERENCES.createTandem( 'indicatorProperty' ),
+      tandem: tandem.createTandem( 'indicatorProperty' ),
       phetioFeatured: true
     } );
   }

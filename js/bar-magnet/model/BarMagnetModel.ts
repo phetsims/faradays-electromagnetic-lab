@@ -14,6 +14,7 @@ import Compass from '../../common/model/Compass.js';
 import FieldMeter from '../../common/model/FieldMeter.js';
 import Vector2 from '../../../../dot/js/Vector2.js';
 import KinematicCompass from '../../common/model/KinematicCompass.js';
+import RangeWithValue from '../../../../dot/js/RangeWithValue.js';
 
 export default class BarMagnetModel implements TModel {
 
@@ -24,6 +25,7 @@ export default class BarMagnetModel implements TModel {
   public constructor( tandem: Tandem ) {
 
     this.barMagnet = new BarMagnet( {
+      strengthRange: new RangeWithValue( 0, 300, 225 ), // gauss
       position: new Vector2( 450, 300 ),
       tandem: tandem.createTandem( 'barMagnet' )
     } );

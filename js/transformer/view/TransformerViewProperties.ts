@@ -46,7 +46,7 @@ export default class TransformerViewProperties {
 
     this.indicatorProperty = new StringUnionProperty<Indicator>( 'lightBulb', {
       validValues: IndicatorValues,
-      tandem: Tandem.PREFERENCES.createTandem( 'indicatorProperty' ),
+      tandem: tandem.createTandem( 'indicatorProperty' ),
       phetioFeatured: true
     } );
 
