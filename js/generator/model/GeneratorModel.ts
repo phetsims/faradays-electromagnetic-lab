@@ -13,8 +13,8 @@ import PickupCoil from '../../common/model/PickupCoil.js';
 import FieldMeter from '../../common/model/FieldMeter.js';
 import Compass from '../../common/model/Compass.js';
 import Vector2 from '../../../../dot/js/Vector2.js';
-import KinematicCompass from '../../common/model/KinematicCompass.js';
 import Turbine from './Turbine.js';
+import ImmediateCompass from '../../common/model/ImmediateCompass.js';
 
 export default class GeneratorModel implements TModel {
 
@@ -42,7 +42,7 @@ export default class GeneratorModel implements TModel {
       tandem: tandem.createTandem( 'fieldMeter' )
     } );
 
-    this.compass = new KinematicCompass( this.turbine, {
+    this.compass = new ImmediateCompass( this.turbine, {
       position: new Vector2( 150, 300 ),
       tandem: tandem.createTandem( 'compass' )
     } );

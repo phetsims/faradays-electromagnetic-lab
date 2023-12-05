@@ -13,7 +13,7 @@ import FieldMeter from '../../common/model/FieldMeter.js';
 import Compass from '../../common/model/Compass.js';
 import Electromagnet from '../../common/model/Electromagnet.js';
 import Vector2 from '../../../../dot/js/Vector2.js';
-import KinematicCompass from '../../common/model/KinematicCompass.js';
+import IncrementalCompass from '../../common/model/IncrementalCompass.js';
 
 export default class ElectromagnetModel implements TModel {
 
@@ -33,7 +33,7 @@ export default class ElectromagnetModel implements TModel {
       tandem: tandem.createTandem( 'fieldMeter' )
     } );
 
-    this.compass = new KinematicCompass( this.electromagnet, {
+    this.compass = new IncrementalCompass( this.electromagnet, {
       position: new Vector2( 150, 300 ),
       tandem: tandem.createTandem( 'compass' )
     } );
