@@ -28,6 +28,7 @@ export default class BarMagnetScreenView extends ScreenView {
   public constructor( model: BarMagnetModel, tandem: Tandem ) {
 
     super( {
+      isDisposable: false,
       tandem: tandem
     } );
 

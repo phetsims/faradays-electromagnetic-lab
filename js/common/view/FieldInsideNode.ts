@@ -32,6 +32,7 @@ export default class FieldInsideNode extends GridBox {
     const options = optionize<FieldInsideNodeOptions, SelfOptions, GridBoxOptions>()( {
 
       // GridBoxOptions
+      isDisposable: false,
       children: _.times( FIELD_INSIDE_ROWS * FIELD_INSIDE_COLUMNS, () => new CompassNeedleNode() ),
       autoRows: FIELD_INSIDE_ROWS,
       xSpacing: FIELD_INSIDE_X_SPACING,

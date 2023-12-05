@@ -29,6 +29,7 @@ export default abstract class FELMovableNode extends Node {
   protected constructor( movable: FELMovable, providedOptions: FELMovableNodeOptions ) {
 
     const options = optionize<FELMovableNodeOptions, SelfOptions, NodeOptions>()( {
+      isDisposable: false,
       cursor: 'pointer',
       tagName: 'div', // for KeyboardDragListener
       focusable: true, // for KeyboardDragListener

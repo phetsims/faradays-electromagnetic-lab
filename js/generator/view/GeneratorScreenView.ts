@@ -27,6 +27,7 @@ export default class GeneratorScreenView extends ScreenView {
   public constructor( model: GeneratorModel, tandem: Tandem ) {
 
     super( {
+      isDisposable: false,
       tandem: tandem
     } );
 

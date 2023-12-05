@@ -27,6 +27,7 @@ export default class TransformerScreenView extends ScreenView {
   public constructor( model: TransformerModel, tandem: Tandem ) {
 
     super( {
+      isDisposable: false,
       tandem: tandem
     } );
 

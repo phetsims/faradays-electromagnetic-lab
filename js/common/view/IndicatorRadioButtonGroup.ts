@@ -35,6 +35,7 @@ export default class IndicatorRadioButtonGroup extends RectangularRadioButtonGro
     ];
 
     super( indicatorProperty, items, {
+      isDisposable: false,
       orientation: 'horizontal',
 
       // Prevent space between radio buttons, and center them in the parent Panel.

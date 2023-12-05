@@ -26,6 +26,7 @@ export default class ElectromagnetScreenView extends ScreenView {
   public constructor( model: ElectromagnetModel, tandem: Tandem ) {
 
     super( {
+      isDisposable: false,
       tandem: tandem
     } );
 

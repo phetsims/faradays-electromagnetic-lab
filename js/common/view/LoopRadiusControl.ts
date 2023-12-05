@@ -51,6 +51,7 @@ export default class LoopRadiusControl extends NumberControl {
     ];
 
     const options = combineOptions<NumberControlOptions>( {}, FELConstants.NUMBER_CONTROL_OPTIONS, {
+      isDisposable: false,
       delta: SLIDER_STEP,
       numberDisplayOptions: {
         decimalPlaces: 0,

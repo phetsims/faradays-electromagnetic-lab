@@ -33,6 +33,7 @@ export default class NumberOfLoopsControl extends HBox {
     } );
 
     super( {
+      isDisposable: false,
       children: [ labelText, spinner ],
       spacing: 5,
       layoutOptions: { stretch: false }, // Prevent the parent from adding space between labelText and spinner.

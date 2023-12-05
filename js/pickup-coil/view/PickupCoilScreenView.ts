@@ -28,6 +28,7 @@ export default class PickupCoilScreenView extends ScreenView {
   public constructor( model: PickupCoilModel, tandem: Tandem ) {
 
     super( {
+      isDisposable: false,
       tandem: tandem
     } );
 

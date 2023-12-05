@@ -30,6 +30,7 @@ export default class FELPreferencesNode extends VBox {
     ];
 
     super( {
+      isDisposable: false,
       children: controls,
       align: 'left',
       spacing: 30,
