@@ -24,7 +24,8 @@ export default class TransformerScreenView extends ScreenView {
     const resetAllButton = new ResetAllButton( {
       listener: () => {
         model.reset();
-        this.reset();
+        this.interruptSubtreeInput(); // cancel interactions that may be in progress
+        //TODO viewProperties.reset();
       },
       tandem: tandem.createTandem( 'resetAllButton' )
     } );
@@ -34,10 +35,6 @@ export default class TransformerScreenView extends ScreenView {
       resetAllButton.right = visibleBounds.maxX - FELConstants.SCREEN_VIEW_X_MARGIN;
       resetAllButton.bottom = visibleBounds.maxY - FELConstants.SCREEN_VIEW_Y_MARGIN;
     } );
-  }
-
-  public reset(): void {
-    this.interruptSubtreeInput(); // cancel interactions that may be in progress
   }
 
   /**

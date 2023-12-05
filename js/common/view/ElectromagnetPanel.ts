@@ -1,7 +1,7 @@
 // Copyright 2023, University of Colorado Boulder
 
 /**
- * PickupCoilPanel is the panel that contains controls for changing properties of the pickup coil.
+ * ElectromagnetPanel is the panel that contains controls for changing properties of the electromagnet.
  *
  * @author Chris Malley (PixelZoom, Inc.)
  */
@@ -13,31 +13,27 @@ import { combineOptions } from '../../../../phet-core/js/optionize.js';
 import FELConstants from '../FELConstants.js';
 import FaradaysElectromagneticLabStrings from '../../FaradaysElectromagneticLabStrings.js';
 import Tandem from '../../../../tandem/js/Tandem.js';
-import PickupCoil from '../model/PickupCoil.js';
 import Checkbox, { CheckboxOptions } from '../../../../sun/js/Checkbox.js';
 import Property from '../../../../axon/js/Property.js';
-import LoopRadiusControl from './LoopRadiusControl.js';
 import NumberOfLoopsControl from './NumberOfLoopsControl.js';
-import StringUnionProperty from '../../../../axon/js/StringUnionProperty.js';
-import IndicatorRadioButtonGroup from './IndicatorRadioButtonGroup.js';
-import { Indicator } from '../model/Indicator.js';
+import Electromagnet from '../model/Electromagnet.js';
+import CurrentSourceRadioButtonGroup from './CurrentSourceRadioButtonGroup.js';
 
-export default class PickupCoilPanel extends Panel {
+export default class ElectromagnetPanel extends Panel {
 
-  public constructor( pickupCoil: PickupCoil, indicatorProperty: StringUnionProperty<Indicator>,
-                      electronsVisibleProperty: Property<boolean>, tandem: Tandem ) {
+  public constructor( electromagnet: Electromagnet, electronsVisibleProperty: Property<boolean>, tandem: Tandem ) {
 
-    const titleText = new Text( FaradaysElectromagneticLabStrings.pickupCoilStringProperty, {
+    const titleText = new Text( FaradaysElectromagneticLabStrings.electromagnetStringProperty, {
       font: FELConstants.TITLE_FONT
     } );
 
-    const indicatorRadioButtonGroup = new IndicatorRadioButtonGroup( indicatorProperty, tandem.createTandem( 'indicatorRadioButtonGroup' ) );
+    const currentSourceRadioButtonGroup = new CurrentSourceRadioButtonGroup( electromagnet.currentSourceProperty,
+      tandem.createTandem( 'indicatorRadioButtonGroup' ) );
 
-    const numberOfLoopsControl = new NumberOfLoopsControl( pickupCoil.numberOfLoopsProperty,
+    //TODO
+
+    const numberOfLoopsControl = new NumberOfLoopsControl( electromagnet.sourceCoil.numberOfLoopsProperty,
       tandem.createTandem( 'numberOfLoopsControl' ) );
-
-    const loopAreaControl = new LoopRadiusControl( pickupCoil.loopRadiusProperty,
-      tandem.createTandem( 'loopAreaControl' ) );
 
     // 'Electrons' checkbox
     const electronsText = new Text( FaradaysElectromagneticLabStrings.electronsStringProperty, {
@@ -50,9 +46,8 @@ export default class PickupCoilPanel extends Panel {
 
     const contentChildren: Node[] = [
       titleText,
-      indicatorRadioButtonGroup,
+      currentSourceRadioButtonGroup,
       numberOfLoopsControl,
-      loopAreaControl,
       electronsCheckbox
     ];
 
@@ -66,4 +61,4 @@ export default class PickupCoilPanel extends Panel {
   }
 }
 
-faradaysElectromagneticLab.register( 'PickupCoilPanel', PickupCoilPanel );
+faradaysElectromagneticLab.register( 'ElectromagnetPanel', ElectromagnetPanel );

@@ -9,18 +9,43 @@
 import faradaysElectromagneticLab from '../../faradaysElectromagneticLab.js';
 import TModel from '../../../../joist/js/TModel.js';
 import Tandem from '../../../../tandem/js/Tandem.js';
+import FieldMeter from '../../common/model/FieldMeter.js';
+import Compass from '../../common/model/Compass.js';
+import Electromagnet from '../../common/model/Electromagnet.js';
+import Vector2 from '../../../../dot/js/Vector2.js';
+import KinematicCompass from '../../common/model/KinematicCompass.js';
 
 export default class ElectromagnetModel implements TModel {
 
+  public readonly electromagnet: Electromagnet;
+  public readonly fieldMeter: FieldMeter;
+  public readonly compass: Compass;
+
   public constructor( tandem: Tandem ) {
-    //TODO
+
+    this.electromagnet = new Electromagnet( {
+      position: new Vector2( 400, 400 ),
+      tandem: tandem.createTandem( 'electromagnet' )
+    } );
+
+    this.fieldMeter = new FieldMeter( this.electromagnet, {
+      position: new Vector2( 150, 400 ),
+      tandem: tandem.createTandem( 'fieldMeter' )
+    } );
+
+    this.compass = new KinematicCompass( this.electromagnet, {
+      position: new Vector2( 150, 300 ),
+      tandem: tandem.createTandem( 'compass' )
+    } );
   }
 
   /**
    * Resets the model.
    */
   public reset(): void {
-    //TODO
+    this.electromagnet.reset();
+    this.fieldMeter.reset();
+    this.compass.reset();
   }
 
   /**
@@ -28,7 +53,8 @@ export default class ElectromagnetModel implements TModel {
    * @param dt - time step, in seconds
    */
   public step( dt: number ): void {
-    //TODO
+    //TODO this.electromagnet.step();
+    this.compass.step( dt );
   }
 }
 

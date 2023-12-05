@@ -16,6 +16,7 @@ import { CheckboxOptions } from '../../../sun/js/Checkbox.js';
 import { KeyboardDragListenerOptions, Text, VBoxOptions } from '../../../scenery/js/imports.js';
 import NumberControl, { NumberControlOptions } from '../../../scenery-phet/js/NumberControl.js';
 import Dimension2 from '../../../dot/js/Dimension2.js';
+import { RectangularRadioButtonOptions } from '../../../sun/js/buttons/RectangularRadioButton.js';
 
 //TODO https://github.com/phetsims/faradays-electromagnetic-lab/issues/2 fill in credits
 const CREDITS: CreditsData = {
@@ -86,6 +87,19 @@ const VBOX_OPTIONS: VBoxOptions = {
   stretch: true
 };
 
+const RECTANGULAR_RADIO_BUTTON_OPTIONS: RectangularRadioButtonOptions = {
+  baseColor: FELColors.radioButtonFillProperty,
+  cornerRadius: 3,
+  xMargin: 6,
+  yMargin: 4,
+  buttonAppearanceStrategyOptions: {
+    selectedStroke: FELColors.radioButtonSelectedStrokeProperty,
+    deselectedStroke: FELColors.radioButtonDeselectedStrokeProperty,
+    deselectedLineWidth: 2,
+    selectedLineWidth: 2
+  }
+};
+
 const FELConstants = {
 
   // Sim
@@ -102,6 +116,7 @@ const FELConstants = {
   CHECKBOX_OPTIONS: CHECKBOX_OPTIONS,
   NUMBER_CONTROL_OPTIONS: NUMBER_CONTROL_OPTIONS,
   PANEL_OPTIONS: PANEL_OPTIONS,
+  RECTANGULAR_RADIO_BUTTON_OPTIONS: RECTANGULAR_RADIO_BUTTON_OPTIONS,
 
   // Other options
   KEYBOARD_DRAG_LISTENER_OPTIONS: KEYBOARD_DRAG_LISTENER_OPTIONS,

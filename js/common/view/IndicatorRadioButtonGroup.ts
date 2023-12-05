@@ -1,19 +1,19 @@
 // Copyright 2023, University of Colorado Boulder
 
 /**
- * IndicatorRadioButtonGroup is radio button group for choosing an Indicator for the pickup coil.
+ * IndicatorRadioButtonGroup is radio button group for choosing an EMF indicator for the pickup coil.
  *
  * @author Chris Malley (PixelZoom, Inc.)
  */
 
 import RectangularRadioButtonGroup, { RectangularRadioButtonGroupItem } from '../../../../sun/js/buttons/RectangularRadioButtonGroup.js';
-import { Indicator } from '../../pickup-coil/view/PickupCoilViewProperties.js';
 import faradaysElectromagneticLab from '../../faradaysElectromagneticLab.js';
 import StringUnionProperty from '../../../../axon/js/StringUnionProperty.js';
 import Tandem from '../../../../tandem/js/Tandem.js';
 import LightBulbNode from './LightBulbNode.js';
 import VoltmeterNode from './VoltmeterNode.js';
-import FELColors from '../FELColors.js';
+import { Indicator } from '../model/Indicator.js';
+import FELConstants from '../FELConstants.js';
 
 const ICON_SCALE = 0.65;
 
@@ -39,18 +39,7 @@ export default class IndicatorRadioButtonGroup extends RectangularRadioButtonGro
 
       // Prevent space between radio buttons, and center them in the parent Panel.
       layoutOptions: { stretch: false, align: 'center' },
-      radioButtonOptions: {
-        baseColor: FELColors.radioButtonFillProperty,
-        cornerRadius: 3,
-        xMargin: 6,
-        yMargin: 4,
-        buttonAppearanceStrategyOptions: {
-          selectedStroke: FELColors.radioButtonSelectedStrokeProperty,
-          deselectedStroke: FELColors.radioButtonDeselectedStrokeProperty,
-          deselectedLineWidth: 2,
-          selectedLineWidth: 2
-        }
-      },
+      radioButtonOptions: FELConstants.RECTANGULAR_RADIO_BUTTON_OPTIONS,
       tandem: tandem
     } );
   }

@@ -12,6 +12,14 @@ import FELConstants from '../../common/FELConstants.js';
 import faradaysElectromagneticLab from '../../faradaysElectromagneticLab.js';
 import ElectromagnetModel from '../model/ElectromagnetModel.js';
 import Tandem from '../../../../tandem/js/Tandem.js';
+import FieldNode from '../../common/view/FieldNode.js';
+import FieldMeterNode from '../../common/view/FieldMeterNode.js';
+import CompassNode from '../../common/view/CompassNode.js';
+import ElectromagnetViewProperties from './ElectromagnetViewProperties.js';
+import { Node, VBox } from '../../../../scenery/js/imports.js';
+import Multilink from '../../../../axon/js/Multilink.js';
+import ElectromagnetPanel from '../../common/view/ElectromagnetPanel.js';
+import PickupCoilVisibilityPanel from '../../pickup-coil/view/PickupCoilVisibilityPanel.js';
 
 export default class ElectromagnetScreenView extends ScreenView {
 
@@ -21,10 +29,62 @@ export default class ElectromagnetScreenView extends ScreenView {
       tandem: tandem
     } );
 
+    const viewProperties = new ElectromagnetViewProperties( tandem.createTandem( 'viewProperties' ) );
+
+    const fieldNode = new FieldNode( model.electromagnet, {
+      visibleBoundsProperty: this.visibleBoundsProperty,
+      visibleProperty: viewProperties.fieldVisibleProperty,
+      tandem: tandem.createTandem( 'fieldNode' )
+    } );
+
+    //TODO electromagnetNode
+
+    const fieldMeterNode = new FieldMeterNode( model.fieldMeter, {
+      visibleProperty: viewProperties.fieldMeterVisibleProperty,
+      tandem: tandem.createTandem( 'fieldMeterNode' )
+    } );
+
+    const compassNode = new CompassNode( model.compass, {
+      visibleProperty: viewProperties.compassVisibleProperty,
+      tandem: tandem.createTandem( 'compassNode' )
+    } );
+
+    const panelsTandem = tandem.createTandem( 'panels' );
+
+    const electromagnetPanel = new ElectromagnetPanel( model.electromagnet,
+      viewProperties.electromagnetElectronsVisibleProperty, tandem.createTandem( 'electromagnetPanel' ) );
+
+    const visibilityPanel = new PickupCoilVisibilityPanel(
+      viewProperties.fieldVisibleProperty,
+      viewProperties.compassVisibleProperty,
+      viewProperties.fieldMeterVisibleProperty,
+      viewProperties.electromagnetElectronsVisibleProperty,
+      panelsTandem.createTandem( 'visibilityPanel' )
+    );
+
+    const panels = new VBox( {
+      stretch: true,
+      spacing: 10,
+      children: [
+        electromagnetPanel,
+        visibilityPanel
+      ],
+      tandem: panelsTandem,
+      phetioVisiblePropertyInstrumented: true
+    } );
+
+    // Adjust position of the control panels
+    Multilink.multilink( [ panels.boundsProperty, this.visibleBoundsProperty ],
+      ( panelsBounds, visibleBounds ) => {
+        panels.right = visibleBounds.right - FELConstants.SCREEN_VIEW_X_MARGIN;
+        panels.top = this.layoutBounds.top + FELConstants.SCREEN_VIEW_Y_MARGIN;
+      } );
+
     const resetAllButton = new ResetAllButton( {
       listener: () => {
         model.reset();
-        this.reset();
+        this.interruptSubtreeInput(); // cancel interactions that may be in progress
+        viewProperties.reset();
       },
       tandem: tandem.createTandem( 'resetAllButton' )
     } );
@@ -34,10 +94,26 @@ export default class ElectromagnetScreenView extends ScreenView {
       resetAllButton.right = visibleBounds.maxX - FELConstants.SCREEN_VIEW_X_MARGIN;
       resetAllButton.bottom = visibleBounds.maxY - FELConstants.SCREEN_VIEW_Y_MARGIN;
     } );
-  }
 
-  public reset(): void {
-    this.interruptSubtreeInput(); // cancel interactions that may be in progress
+    const rootNode = new Node( {
+      children: [
+        fieldNode,
+        //TODO electromagnetNode
+        compassNode,
+        fieldMeterNode,
+        panels,
+        resetAllButton
+      ]
+    } );
+    this.addChild( rootNode );
+
+    rootNode.pdomOrder = [
+      //TODO electromagnetNode
+      compassNode,
+      fieldMeterNode,
+      panels,
+      resetAllButton
+    ];
   }
 
   /**

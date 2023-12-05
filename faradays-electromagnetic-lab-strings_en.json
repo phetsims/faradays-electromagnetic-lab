@@ -53,6 +53,9 @@
   "loopRadius": {
     "value": "Loop Radius:"
   },
+  "electromagnet": {
+    "value": "Electromagnet"
+  },
   "pattern.valuePercent": {
     "value": "{{value}}%"
   },

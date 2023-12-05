@@ -1,7 +1,7 @@
 // Copyright 2023, University of Colorado Boulder
 
 /**
- * PickupCoilViewProperties is the set of view-specific Properties for the 'Pickup Coil' screen.
+ * ElectromagnetViewProperties is the set of view-specific Properties for the 'Electromagnet' screen.
  *
  * @author Chris Malley (PixelZoom, Inc.)
  */
@@ -10,16 +10,13 @@ import faradaysElectromagneticLab from '../../faradaysElectromagneticLab.js';
 import Tandem from '../../../../tandem/js/Tandem.js';
 import BooleanProperty from '../../../../axon/js/BooleanProperty.js';
 import Property from '../../../../axon/js/Property.js';
-import StringUnionProperty from '../../../../axon/js/StringUnionProperty.js';
-import { Indicator, IndicatorValues } from '../../common/model/Indicator.js';
 
-export default class PickupCoilViewProperties {
+export default class ElectromagnetViewProperties {
 
   public readonly compassVisibleProperty: Property<boolean>;
   public readonly fieldVisibleProperty: Property<boolean>;
   public readonly fieldMeterVisibleProperty: Property<boolean>;
-  public readonly pickupCoilElectronsVisibleProperty: Property<boolean>;
-  public readonly indicatorProperty: Property<Indicator>;
+  public readonly electromagnetElectronsVisibleProperty: Property<boolean>;
 
   public constructor( tandem: Tandem ) {
 
@@ -38,14 +35,8 @@ export default class PickupCoilViewProperties {
       phetioFeatured: true
     } );
 
-    this.pickupCoilElectronsVisibleProperty = new BooleanProperty( false, {
-      tandem: tandem.createTandem( 'pickupCoilElectronsVisibleProperty' ),
-      phetioFeatured: true
-    } );
-
-    this.indicatorProperty = new StringUnionProperty<Indicator>( 'lightBulb', {
-      validValues: IndicatorValues,
-      tandem: Tandem.PREFERENCES.createTandem( 'indicatorProperty' ),
+    this.electromagnetElectronsVisibleProperty = new BooleanProperty( false, {
+      tandem: tandem.createTandem( 'electromagnetElectronsVisibleProperty' ),
       phetioFeatured: true
     } );
   }
@@ -54,9 +45,8 @@ export default class PickupCoilViewProperties {
     this.compassVisibleProperty.reset();
     this.fieldVisibleProperty.reset();
     this.fieldMeterVisibleProperty.reset();
-    this.pickupCoilElectronsVisibleProperty.reset();
-    this.indicatorProperty.reset();
+    this.electromagnetElectronsVisibleProperty.reset();
   }
 }
 
-faradaysElectromagneticLab.register( 'PickupCoilViewProperties', PickupCoilViewProperties );
+faradaysElectromagneticLab.register( 'ElectromagnetViewProperties', ElectromagnetViewProperties );

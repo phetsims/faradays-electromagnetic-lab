@@ -31,6 +31,7 @@ type StringsType = {
   'pickupCoilStringProperty': LocalizedStringProperty;
   'loopsStringProperty': LocalizedStringProperty;
   'loopRadiusStringProperty': LocalizedStringProperty;
+  'electromagnetStringProperty': LocalizedStringProperty;
   'pattern': {
     'valuePercentStringProperty': LocalizedStringProperty;
     'valueUnitsStringProperty': LocalizedStringProperty;
