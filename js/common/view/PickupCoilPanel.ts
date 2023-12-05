@@ -31,6 +31,7 @@ export default class PickupCoilPanel extends Panel {
       font: FELConstants.TITLE_FONT
     } );
 
+    //TODO label as 'Indicator'?
     const indicatorRadioButtonGroup = new IndicatorRadioButtonGroup( indicatorProperty, tandem.createTandem( 'indicatorRadioButtonGroup' ) );
 
     const numberOfLoopsControl = new NumberOfLoopsControl( pickupCoil.numberOfLoopsProperty,

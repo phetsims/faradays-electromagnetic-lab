@@ -27,10 +27,9 @@ export default class ElectromagnetPanel extends Panel {
       font: FELConstants.TITLE_FONT
     } );
 
+    //TODO label as 'Current Source'?
     const currentSourceRadioButtonGroup = new CurrentSourceRadioButtonGroup( electromagnet.currentSourceProperty,
       tandem.createTandem( 'indicatorRadioButtonGroup' ) );
-
-    //TODO
 
     const numberOfLoopsControl = new NumberOfLoopsControl( electromagnet.sourceCoil.numberOfLoopsProperty,
       tandem.createTandem( 'numberOfLoopsControl' ) );
