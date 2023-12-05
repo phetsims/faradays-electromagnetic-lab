@@ -43,6 +43,8 @@ export default class PickupCoilScreenView extends ScreenView {
       tandem: tandem.createTandem( 'barMagnetNode' )
     } );
 
+    //TODO pickupCoilNode
+
     const fieldMeterNode = new FieldMeterNode( model.fieldMeter, {
       visibleProperty: viewProperties.fieldMeterVisibleProperty,
       tandem: tandem.createTandem( 'fieldMeterNode' )
@@ -107,6 +109,7 @@ export default class PickupCoilScreenView extends ScreenView {
       children: [
         fieldNode,
         barMagnetNode,
+        //TODO pickupCoilNode
         compassNode,
         fieldMeterNode,
         panels,
@@ -117,6 +120,7 @@ export default class PickupCoilScreenView extends ScreenView {
 
     rootNode.pdomOrder = [
       barMagnetNode,
+      //TODO pickupCoilNode
       compassNode,
       fieldMeterNode,
       panels,
