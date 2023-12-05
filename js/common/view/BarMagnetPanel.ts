@@ -12,7 +12,7 @@ import Panel, { PanelOptions } from '../../../../sun/js/Panel.js';
 import Checkbox, { CheckboxOptions } from '../../../../sun/js/Checkbox.js';
 import { Node, Text, VBox, VBoxOptions } from '../../../../scenery/js/imports.js';
 import TextPushButton from '../../../../sun/js/buttons/TextPushButton.js';
-import { combineOptions, optionize3 } from '../../../../phet-core/js/optionize.js';
+import { combineOptions, optionize4 } from '../../../../phet-core/js/optionize.js';
 import FELConstants from '../FELConstants.js';
 import FaradaysElectromagneticLabStrings from '../../FaradaysElectromagneticLabStrings.js';
 import BarMagnetStrengthControl from './BarMagnetStrengthControl.js';
@@ -23,6 +23,7 @@ import Property from '../../../../axon/js/Property.js';
 
 type SelfOptions = {
   seeInsideProperty?: Property<boolean>;
+  hasFlipPolarityButton?: boolean;
 };
 
 type BarMagnetPanelOptions = SelfOptions & PickRequired<PanelOptions, 'tandem'>;
@@ -31,8 +32,12 @@ export default class BarMagnetPanel extends Panel {
 
   public constructor( barMagnet: BarMagnet, compass: Compass, providedOptions: BarMagnetPanelOptions ) {
 
-    const options = optionize3<BarMagnetPanelOptions, StrictOmit<SelfOptions, 'seeInsideProperty'>, PanelOptions>()(
-      {}, FELConstants.PANEL_OPTIONS, providedOptions );
+    const options = optionize4<BarMagnetPanelOptions, StrictOmit<SelfOptions, 'seeInsideProperty'>, PanelOptions>()(
+      {}, FELConstants.PANEL_OPTIONS, {
+
+        // SelfOptions
+        hasFlipPolarityButton: true
+      }, providedOptions );
 
     const titleText = new Text( FaradaysElectromagneticLabStrings.barMagnetStringProperty, {
       font: FELConstants.TITLE_FONT
@@ -41,21 +46,23 @@ export default class BarMagnetPanel extends Panel {
     const strengthControl = new BarMagnetStrengthControl( barMagnet.strengthProperty,
       options.tandem.createTandem( 'strengthControl' ) );
 
-    const flipPolarityButton = new TextPushButton( FaradaysElectromagneticLabStrings.flipPolarityStringProperty, {
-      font: FELConstants.CONTROL_FONT,
-      listener: () => {
-        barMagnet.flipPolarity();
-        compass.startMovingNow();
-      },
-      layoutOptions: { stretch: false },
-      tandem: options.tandem.createTandem( 'flipPolarityButton' )
-    } );
-
     const contentChildren: Node[] = [
       titleText,
-      strengthControl,
-      flipPolarityButton
+      strengthControl
     ];
+
+    if ( options.hasFlipPolarityButton ) {
+      const flipPolarityButton = new TextPushButton( FaradaysElectromagneticLabStrings.flipPolarityStringProperty, {
+        font: FELConstants.CONTROL_FONT,
+        listener: () => {
+          barMagnet.flipPolarity();
+          compass.startMovingNow();
+        },
+        layoutOptions: { stretch: false },
+        tandem: options.tandem.createTandem( 'flipPolarityButton' )
+      } );
+      contentChildren.push( flipPolarityButton );
+    }
 
     // Optional 'See Inside' checkbox
     if ( options.seeInsideProperty ) {

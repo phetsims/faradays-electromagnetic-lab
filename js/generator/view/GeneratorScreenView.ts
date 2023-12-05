@@ -55,6 +55,7 @@ export default class GeneratorScreenView extends ScreenView {
     const panelsTandem = tandem.createTandem( 'panels' );
 
     const barMagnetPanel = new BarMagnetPanel( model.turbine, model.compass, {
+      hasFlipPolarityButton: false,
       tandem: panelsTandem.createTandem( 'barMagnetPanel' )
     } );
 
