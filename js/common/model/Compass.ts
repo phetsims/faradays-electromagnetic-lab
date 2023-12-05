@@ -42,8 +42,8 @@ export default abstract class Compass extends FELMovable {
     this._rotationProperty = new NumberProperty( 0, {
       units: 'radians',
       tandem: options.tandem.createTandem( 'rotationProperty' ),
-      phetioFeatured: true,
-      phetioReadOnly: true
+      phetioReadOnly: true,
+      phetioFeatured: true
     } );
     this.rotationProperty = this._rotationProperty;
   }

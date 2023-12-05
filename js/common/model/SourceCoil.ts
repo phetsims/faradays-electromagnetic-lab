@@ -42,12 +42,17 @@ export default class SourceCoil extends Coil {
     super( options );
 
     this.electromagnet = electromagnet;
+
     //TODO
   }
 
   public override reset(): void {
     super.reset();
     //TODO
+  }
+
+  public step( dt: number ): void {
+    //TODO beware of dependencies on SwingTimer.java !!
   }
 }
 

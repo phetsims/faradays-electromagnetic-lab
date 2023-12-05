@@ -65,8 +65,8 @@ export default class GeneratorModel implements TModel {
    * @param dt - time step, in seconds
    */
   public step( dt: number ): void {
-    //TODO this.turbine.step( dt );
-    //TODO this.pickupCoil.step( dt );
+    this.turbine.step( dt );
+    this.pickupCoil.step( dt );
     this.compass.step( dt );
   }
 }

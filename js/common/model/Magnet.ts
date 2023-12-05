@@ -42,6 +42,7 @@ export default abstract class Magnet extends FELMovable {
     this.rotationProperty = new NumberProperty( options.rotation, {
       units: 'radians',
       tandem: options.tandem.createTandem( 'rotationProperty' ),
+      phetioReadOnly: true,
       phetioFeatured: true
     } );
 

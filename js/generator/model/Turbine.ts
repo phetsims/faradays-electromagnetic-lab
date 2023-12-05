@@ -22,6 +22,15 @@ export default class Turbine extends BarMagnet {
 
     //TODO
   }
+
+  public override reset(): void {
+    super.reset();
+    //TODO
+  }
+
+  public step( dt: number ): void {
+    //TODO beware of dependencies on SwingTimer.java !!
+  }
 }
 
 faradaysElectromagneticLab.register( 'Turbine', Turbine );

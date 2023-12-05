@@ -65,7 +65,7 @@ export default class PickupCoilModel implements TModel {
    * @param dt - time step, in seconds
    */
   public step( dt: number ): void {
-    //TODO this.pickupCoil.step( dt );
+    this.pickupCoil.step( dt );
     this.compass.step( dt );
   }
 }

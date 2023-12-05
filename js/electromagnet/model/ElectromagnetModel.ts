@@ -55,7 +55,7 @@ export default class ElectromagnetModel implements TModel {
    * @param dt - time step, in seconds
    */
   public step( dt: number ): void {
-    //TODO this.electromagnet.step();
+    this.electromagnet.step( dt );
     this.compass.step( dt );
   }
 }

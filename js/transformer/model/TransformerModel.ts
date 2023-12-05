@@ -65,8 +65,8 @@ export default class TransformerModel implements TModel {
    * @param dt - time step, in seconds
    */
   public step( dt: number ): void {
-    //TODO this.electromagnet.step( dt );
-    //TODO this.pickupCoil.step( dt );
+    this.electromagnet.step( dt );
+    this.pickupCoil.step( dt );
     this.compass.step( dt );
   }
 }

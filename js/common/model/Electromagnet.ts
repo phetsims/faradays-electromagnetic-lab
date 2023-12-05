@@ -56,6 +56,10 @@ export default class Electromagnet extends Magnet {
     this.currentSourceProperty.reset();
     this.sourceCoil.reset();
   }
+
+  public step( dt: number ): void {
+    //TODO beware of dependencies on SwingTimer.java !!
+  }
 }
 
 faradaysElectromagneticLab.register( 'Electromagnet', Electromagnet );
