@@ -17,7 +17,7 @@ import { Rectangle } from '../../../scenery/js/imports.js';
 import Tandem from '../../../tandem/js/Tandem.js';
 import { combineOptions } from '../../../phet-core/js/optionize.js';
 import FELConstants from '../common/FELConstants.js';
-import ElectromagnetKeyboardHelpContent from './view/ElectromagnetKeyboardHelpContent.js';
+import FELKeyboardHelpContent from '../common/view/FELKeyboardHelpContent.js';
 
 export default class ElectromagnetScreen extends Screen<ElectromagnetModel, ElectromagnetScreenView> {
 
@@ -28,7 +28,7 @@ export default class ElectromagnetScreen extends Screen<ElectromagnetModel, Elec
       combineOptions<ScreenOptions>( {}, FELConstants.SCREEN_OPTIONS, {
           name: FaradaysElectromagneticLabStrings.screen.electromagnetStringProperty,
           homeScreenIcon: createHomeScreenIcon(),
-          createKeyboardHelpNode: () => new ElectromagnetKeyboardHelpContent(),
+          createKeyboardHelpNode: () => new FELKeyboardHelpContent(),
           tandem: tandem
         }
       ) );

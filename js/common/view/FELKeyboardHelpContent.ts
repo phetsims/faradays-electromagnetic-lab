@@ -1,8 +1,7 @@
 // Copyright 2023, University of Colorado Boulder
 
-//TODO same as BarMagnetKeyboardHelpContent?
 /**
- * ElectromagnetKeyboardHelpContent is the keyboard help for the 'Electromagnet' screen.
+ * FELKeyboardHelpContent is the keyboard help for all screens.
  *
  * @author Chris Malley (PixelZoom, Inc.)
  */
@@ -13,7 +12,7 @@ import faradaysElectromagneticLab from '../../faradaysElectromagneticLab.js';
 import MoveDraggableItemsKeyboardHelpSection from '../../../../scenery-phet/js/keyboard/help/MoveDraggableItemsKeyboardHelpSection.js';
 import SliderControlsKeyboardHelpSection from '../../../../scenery-phet/js/keyboard/help/SliderControlsKeyboardHelpSection.js';
 
-export default class ElectromagnetKeyboardHelpContent extends TwoColumnKeyboardHelpContent {
+export default class FELKeyboardHelpContent extends TwoColumnKeyboardHelpContent {
 
   public constructor() {
 
@@ -42,4 +41,4 @@ export default class ElectromagnetKeyboardHelpContent extends TwoColumnKeyboardH
   }
 }
 
-faradaysElectromagneticLab.register( 'ElectromagnetKeyboardHelpContent', ElectromagnetKeyboardHelpContent );
+faradaysElectromagneticLab.register( 'FELKeyboardHelpContent', FELKeyboardHelpContent );
