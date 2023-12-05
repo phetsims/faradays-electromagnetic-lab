@@ -13,6 +13,7 @@ import SourceCoil from './SourceCoil.js';
 import StringUnionProperty from '../../../../axon/js/StringUnionProperty.js';
 import { CurrentSource, CurrentSourceValues } from './CurrentSource.js';
 import Property from '../../../../axon/js/Property.js';
+import BooleanProperty from '../../../../axon/js/BooleanProperty.js';
 
 type SelfOptions = {
   //TODO
@@ -24,6 +25,7 @@ export default class Electromagnet extends Magnet {
 
   public readonly currentSourceProperty: Property<CurrentSource>;
   public readonly sourceCoil: SourceCoil;
+  public readonly electronsVisibleProperty: Property<boolean>;
 
   public constructor( providedOptions: ElectromagnetOptions ) {
 
@@ -41,6 +43,11 @@ export default class Electromagnet extends Magnet {
       tandem: options.tandem.createTandem( 'sourceCoil' )
     } );
 
+    this.electronsVisibleProperty = new BooleanProperty( true, {
+      tandem: options.tandem.createTandem( 'electronsVisibleProperty' ),
+      phetioFeatured: true
+    } );
+
     //TODO
   }
 
@@ -55,6 +62,7 @@ export default class Electromagnet extends Magnet {
     super.reset();
     this.currentSourceProperty.reset();
     this.sourceCoil.reset();
+    this.electronsVisibleProperty.reset();
   }
 
   public step( dt: number ): void {

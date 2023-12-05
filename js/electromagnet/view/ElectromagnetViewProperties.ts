@@ -14,14 +14,8 @@ import Property from '../../../../axon/js/Property.js';
 export default class ElectromagnetViewProperties {
 
   public readonly fieldVisibleProperty: Property<boolean>;
-  public readonly electromagnetElectronsVisibleProperty: Property<boolean>;
 
   public constructor( tandem: Tandem ) {
-
-    this.electromagnetElectronsVisibleProperty = new BooleanProperty( false, {
-      tandem: tandem.createTandem( 'electromagnetElectronsVisibleProperty' ),
-      phetioFeatured: true
-    } );
 
     this.fieldVisibleProperty = new BooleanProperty( true, {
       tandem: tandem.createTandem( 'fieldVisibleProperty' ),
@@ -30,7 +24,6 @@ export default class ElectromagnetViewProperties {
   }
 
   public reset(): void {
-    this.electromagnetElectronsVisibleProperty.reset();
     this.fieldVisibleProperty.reset();
   }
 }

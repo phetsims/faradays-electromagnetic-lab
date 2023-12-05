@@ -14,14 +14,13 @@ import FELConstants from '../FELConstants.js';
 import FaradaysElectromagneticLabStrings from '../../FaradaysElectromagneticLabStrings.js';
 import Tandem from '../../../../tandem/js/Tandem.js';
 import Checkbox, { CheckboxOptions } from '../../../../sun/js/Checkbox.js';
-import Property from '../../../../axon/js/Property.js';
 import NumberOfLoopsControl from './NumberOfLoopsControl.js';
 import Electromagnet from '../model/Electromagnet.js';
 import CurrentSourceRadioButtonGroup from './CurrentSourceRadioButtonGroup.js';
 
 export default class ElectromagnetPanel extends Panel {
 
-  public constructor( electromagnet: Electromagnet, electronsVisibleProperty: Property<boolean>, tandem: Tandem ) {
+  public constructor( electromagnet: Electromagnet, tandem: Tandem ) {
 
     const titleText = new Text( FaradaysElectromagneticLabStrings.electromagnetStringProperty, {
       font: FELConstants.TITLE_FONT
@@ -38,7 +37,7 @@ export default class ElectromagnetPanel extends Panel {
     const electronsText = new Text( FaradaysElectromagneticLabStrings.electronsStringProperty, {
       font: FELConstants.CONTROL_FONT
     } );
-    const electronsCheckbox = new Checkbox( electronsVisibleProperty, electronsText,
+    const electronsCheckbox = new Checkbox( electromagnet.electronsVisibleProperty, electronsText,
       combineOptions<CheckboxOptions>( {}, FELConstants.CHECKBOX_OPTIONS, {
         tandem: tandem.createTandem( 'electronsCheckbox' )
       } ) );
