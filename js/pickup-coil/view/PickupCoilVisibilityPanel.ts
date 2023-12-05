@@ -21,7 +21,6 @@ export default class PickupCoilVisibilityPanel extends Panel {
   public constructor( fieldVisibleProperty: Property<boolean>,
                       compassVisibleProperty: Property<boolean>,
                       fieldMeterVisibleProperty: Property<boolean>,
-                      pickupCoilElectronsVisibleProperty: Property<boolean>,
                       tandem: Tandem ) {
 
     // 'Magnetic Field' checkbox

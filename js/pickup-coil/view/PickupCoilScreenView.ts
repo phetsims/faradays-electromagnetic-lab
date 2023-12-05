@@ -66,7 +66,6 @@ export default class PickupCoilScreenView extends ScreenView {
       viewProperties.fieldVisibleProperty,
       viewProperties.compassVisibleProperty,
       viewProperties.fieldMeterVisibleProperty,
-      viewProperties.pickupCoilElectronsVisibleProperty,
       panelsTandem.createTandem( 'visibilityPanel' )
     );
 

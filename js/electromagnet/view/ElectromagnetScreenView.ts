@@ -58,7 +58,6 @@ export default class ElectromagnetScreenView extends ScreenView {
       viewProperties.fieldVisibleProperty,
       viewProperties.compassVisibleProperty,
       viewProperties.fieldMeterVisibleProperty,
-      viewProperties.electromagnetElectronsVisibleProperty,
       panelsTandem.createTandem( 'visibilityPanel' )
     );
 
