@@ -13,6 +13,9 @@ import RangeWithValue from '../../../../dot/js/RangeWithValue.js';
 import StrictOmit from '../../../../phet-core/js/types/StrictOmit.js';
 import Magnet from './Magnet.js';
 import Vector2 from '../../../../dot/js/Vector2.js';
+import Property from '../../../../axon/js/Property.js';
+import { Indicator, IndicatorValues } from './Indicator.js';
+import StringUnionProperty from '../../../../axon/js/StringUnionProperty.js';
 
 const WIRE_WIDTH = 16;
 const LOOP_SPACING = 1.5 * WIRE_WIDTH; // loosely packed loops
@@ -32,6 +35,8 @@ export default class PickupCoil extends Coil {
   private readonly calibrationEMF: number;
   private readonly transitionSmoothingScale: number;
   private readonly samplePointsStrategy: SamplePointsStrategy;
+
+  public readonly indicatorProperty: Property<Indicator>;
 
   public constructor( magnet: Magnet, providedOptions: PickupCoilOptions ) {
 
@@ -59,11 +64,18 @@ export default class PickupCoil extends Coil {
     this.transitionSmoothingScale = options.transitionSmoothingScale;
     this.samplePointsStrategy = options.samplePointsStrategy;
 
+    this.indicatorProperty = new StringUnionProperty<Indicator>( 'lightBulb', {
+      validValues: IndicatorValues,
+      tandem: options.tandem.createTandem( 'indicatorProperty' ),
+      phetioFeatured: true
+    } );
+
     //TODO lots more to port from PickupCoil.java
   }
 
   public override reset(): void {
     super.reset();
+    this.indicatorProperty.reset();
     //TODO
   }
 

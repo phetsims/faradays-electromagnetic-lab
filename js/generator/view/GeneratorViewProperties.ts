@@ -10,22 +10,13 @@ import faradaysElectromagneticLab from '../../faradaysElectromagneticLab.js';
 import Tandem from '../../../../tandem/js/Tandem.js';
 import BooleanProperty from '../../../../axon/js/BooleanProperty.js';
 import Property from '../../../../axon/js/Property.js';
-import StringUnionProperty from '../../../../axon/js/StringUnionProperty.js';
-import { Indicator, IndicatorValues } from '../../common/model/Indicator.js';
 
 export default class GeneratorViewProperties {
 
-  public readonly indicatorProperty: Property<Indicator>;
   public readonly pickupCoilElectronsVisibleProperty: Property<boolean>;
   public readonly fieldVisibleProperty: Property<boolean>;
 
   public constructor( tandem: Tandem ) {
-
-    this.indicatorProperty = new StringUnionProperty<Indicator>( 'lightBulb', {
-      validValues: IndicatorValues,
-      tandem: tandem.createTandem( 'indicatorProperty' ),
-      phetioFeatured: true
-    } );
 
     this.pickupCoilElectronsVisibleProperty = new BooleanProperty( false, {
       tandem: tandem.createTandem( 'pickupCoilElectronsVisibleProperty' ),
@@ -39,7 +30,6 @@ export default class GeneratorViewProperties {
   }
 
   public reset(): void {
-    this.indicatorProperty.reset();
     this.pickupCoilElectronsVisibleProperty.reset();
     this.fieldVisibleProperty.reset();
   }

@@ -54,7 +54,7 @@ export default class GeneratorScreenView extends ScreenView {
       tandem: panelsTandem.createTandem( 'barMagnetPanel' )
     } );
 
-    const pickupCoilPanel = new PickupCoilPanel( model.pickupCoil, viewProperties.indicatorProperty,
+    const pickupCoilPanel = new PickupCoilPanel( model.pickupCoil,
       viewProperties.pickupCoilElectronsVisibleProperty, panelsTandem.createTandem( 'pickupCoilPanel' ) );
 
     const visibilityPanel = new PickupCoilVisibilityPanel(
