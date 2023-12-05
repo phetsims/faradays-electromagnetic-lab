@@ -46,6 +46,7 @@ export default class PickupCoilModel implements TModel {
 
     this.compass = new KinematicCompass( this.barMagnet, {
       position: new Vector2( 150, 300 ),
+      visible: false,
       tandem: tandem.createTandem( 'compass' )
     } );
   }

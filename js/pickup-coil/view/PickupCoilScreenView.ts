@@ -51,10 +51,7 @@ export default class PickupCoilScreenView extends ScreenView {
       tandem: tandem.createTandem( 'fieldMeterNode' )
     } );
 
-    const compassNode = new CompassNode( model.compass, {
-      visibleProperty: viewProperties.compassVisibleProperty,
-      tandem: tandem.createTandem( 'compassNode' )
-    } );
+    const compassNode = new CompassNode( model.compass, tandem.createTandem( 'compassNode' ) );
 
     const panelsTandem = tandem.createTandem( 'panels' );
 
@@ -67,7 +64,7 @@ export default class PickupCoilScreenView extends ScreenView {
 
     const visibilityPanel = new PickupCoilVisibilityPanel(
       viewProperties.fieldVisibleProperty,
-      viewProperties.compassVisibleProperty,
+      model.compass.visibleProperty,
       viewProperties.fieldMeterVisibleProperty,
       panelsTandem.createTandem( 'visibilityPanel' )
     );

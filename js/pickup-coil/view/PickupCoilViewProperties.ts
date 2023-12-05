@@ -19,7 +19,6 @@ export default class PickupCoilViewProperties {
   public readonly pickupCoilElectronsVisibleProperty: Property<boolean>;
   public readonly fieldVisibleProperty: Property<boolean>;
   public readonly fieldMeterVisibleProperty: Property<boolean>;
-  public readonly compassVisibleProperty: Property<boolean>;
 
   public constructor( tandem: Tandem ) {
 
@@ -43,15 +42,9 @@ export default class PickupCoilViewProperties {
       tandem: tandem.createTandem( 'fieldMeterVisibleProperty' ),
       phetioFeatured: true
     } );
-
-    this.compassVisibleProperty = new BooleanProperty( false, {
-      tandem: tandem.createTandem( 'compassVisibleProperty' ),
-      phetioFeatured: true
-    } );
   }
 
   public reset(): void {
-    this.compassVisibleProperty.reset();
     this.fieldVisibleProperty.reset();
     this.fieldMeterVisibleProperty.reset();
     this.pickupCoilElectronsVisibleProperty.reset();

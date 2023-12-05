@@ -16,7 +16,6 @@ export default class BarMagnetViewProperties {
   public readonly seeInsideBarMagnetProperty: Property<boolean>;
   public readonly fieldVisibleProperty: Property<boolean>;
   public readonly fieldMeterVisibleProperty: Property<boolean>;
-  public readonly compassVisibleProperty: Property<boolean>;
   public readonly earthVisibleProperty: Property<boolean>;
 
   public constructor( tandem: Tandem ) {
@@ -36,11 +35,6 @@ export default class BarMagnetViewProperties {
       phetioFeatured: true
     } );
 
-    this.compassVisibleProperty = new BooleanProperty( true, {
-      tandem: tandem.createTandem( 'compassVisibleProperty' ),
-      phetioFeatured: true
-    } );
-
     this.earthVisibleProperty = new BooleanProperty( false, {
       tandem: tandem.createTandem( 'earthVisibleProperty' ),
       phetioFeatured: true
@@ -51,7 +45,6 @@ export default class BarMagnetViewProperties {
     this.seeInsideBarMagnetProperty.reset();
     this.fieldVisibleProperty.reset();
     this.fieldMeterVisibleProperty.reset();
-    this.compassVisibleProperty.reset();
     this.earthVisibleProperty.reset();
   }
 }

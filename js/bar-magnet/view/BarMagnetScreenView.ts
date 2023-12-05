@@ -59,10 +59,7 @@ export default class BarMagnetScreenView extends ScreenView {
       tandem: tandem.createTandem( 'fieldMeterNode' )
     } );
 
-    const compassNode = new CompassNode( model.compass, {
-      visibleProperty: viewProperties.compassVisibleProperty,
-      tandem: tandem.createTandem( 'compassNode' )
-    } );
+    const compassNode = new CompassNode( model.compass, tandem.createTandem( 'compassNode' ) );
 
     const earthNode = new EarthNode( model.barMagnet, {
       visibleProperty: viewProperties.earthVisibleProperty,
@@ -78,7 +75,7 @@ export default class BarMagnetScreenView extends ScreenView {
 
     const visibilityPanel = new BarMagnetVisibilityPanel(
       viewProperties.fieldVisibleProperty,
-      viewProperties.compassVisibleProperty,
+      model.compass.visibleProperty,
       viewProperties.fieldMeterVisibleProperty,
       viewProperties.earthVisibleProperty,
       panelsTandem.createTandem( 'visibilityPanel' )

@@ -11,11 +11,14 @@ import Vector2 from '../../../../dot/js/Vector2.js';
 import Property from '../../../../axon/js/Property.js';
 import NumberProperty from '../../../../axon/js/NumberProperty.js';
 import Magnet from './Magnet.js';
-import { EmptySelfOptions } from '../../../../phet-core/js/optionize.js';
 import TReadOnlyProperty from '../../../../axon/js/TReadOnlyProperty.js';
 import FELMovable, { FELMovableOptions } from './FELMovable.js';
+import BooleanProperty from '../../../../axon/js/BooleanProperty.js';
+import optionize from '../../../../phet-core/js/optionize.js';
 
-type SelfOptions = EmptySelfOptions;
+type SelfOptions = {
+  visible?: boolean;
+};
 
 export type CompassOptions = SelfOptions & FELMovableOptions;
 
@@ -25,6 +28,8 @@ export default abstract class Compass extends FELMovable {
   public readonly rotationProperty: TReadOnlyProperty<number>; // radians
   protected readonly _rotationProperty: Property<number>;
 
+  public readonly visibleProperty: Property<boolean>;
+
   private readonly magnet: Magnet;
 
   // A reusable vector instance, for getting the field vector value at the compass' position
@@ -32,7 +37,11 @@ export default abstract class Compass extends FELMovable {
 
   protected constructor( magnet: Magnet, providedOptions: CompassOptions ) {
 
-    const options = providedOptions;
+    const options = optionize<CompassOptions, SelfOptions, FELMovableOptions>()( {
+
+      //SelfOptions
+      visible: true
+    }, providedOptions );
 
     super( options );
 
@@ -46,11 +55,16 @@ export default abstract class Compass extends FELMovable {
       phetioFeatured: true
     } );
     this.rotationProperty = this._rotationProperty;
+
+    this.visibleProperty = new BooleanProperty( options.visible, {
+      tandem: options.tandem.createTandem( 'visibleProperty' )
+    } );
   }
 
   public override reset(): void {
     super.reset();
     this._rotationProperty.reset();
+    this.visibleProperty.reset();
   }
 
   //TODO If the clock is paused and the magnet moves, update immediately to match the field vector

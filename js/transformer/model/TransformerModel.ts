@@ -46,6 +46,7 @@ export default class TransformerModel implements TModel {
 
     this.compass = new IncrementalCompass( this.electromagnet, {
       position: new Vector2( 100, 525 ),
+      visible: false,
       tandem: tandem.createTandem( 'compass' )
     } );
   }

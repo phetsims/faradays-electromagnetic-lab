@@ -19,7 +19,6 @@ export default class GeneratorViewProperties {
   public readonly pickupCoilElectronsVisibleProperty: Property<boolean>;
   public readonly fieldVisibleProperty: Property<boolean>;
   public readonly fieldMeterVisibleProperty: Property<boolean>;
-  public readonly compassVisibleProperty: Property<boolean>;
 
   public constructor( tandem: Tandem ) {
 
@@ -43,11 +42,6 @@ export default class GeneratorViewProperties {
       tandem: tandem.createTandem( 'fieldMeterVisibleProperty' ),
       phetioFeatured: true
     } );
-
-    this.compassVisibleProperty = new BooleanProperty( true, {
-      tandem: tandem.createTandem( 'compassVisibleProperty' ),
-      phetioFeatured: true
-    } );
   }
 
   public reset(): void {
@@ -55,7 +49,6 @@ export default class GeneratorViewProperties {
     this.pickupCoilElectronsVisibleProperty.reset();
     this.fieldVisibleProperty.reset();
     this.fieldMeterVisibleProperty.reset();
-    this.compassVisibleProperty.reset();
   }
 }
 
