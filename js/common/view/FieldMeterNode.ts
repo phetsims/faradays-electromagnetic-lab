@@ -145,8 +145,7 @@ function toGaussString( gauss: number, G: string ): string {
 }
 
 /**
- * Converts a numeric gauss value to a RichText string in tesla, in *normalized* scientific notation
- * (absolute value of mantissa >= 0 and < 10).
+ * Converts a numeric gauss value to a RichText string in tesla, in *normalized* scientific notation (0 <= |mantissa| < 10).
  */
 function toTeslaString( gauss: number, T: string ): string {
   if ( gauss === 0 ) {
