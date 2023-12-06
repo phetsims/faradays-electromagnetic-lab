@@ -100,7 +100,7 @@ export default class FieldMeterNode extends FELMovableNode {
     );
     const stringThetaProperty = new DerivedProperty(
       [ fieldMeter.fieldVectorProperty ],
-      fieldVector => `${MathSymbols.THETA} = ${radiansToDegreesString( fieldVector )}`
+      fieldVector => `${MathSymbols.THETA} = ${toDegreesString( fieldVector )}`
     );
 
     // These Nodes have unconventional names so that they correspond to B, Bx, By, as shown in the UI.
@@ -162,7 +162,7 @@ function toTeslaString( gauss: number, T: string ): string {
 /**
  * Converts a fieldVector's angle in radians to a string in degrees.
  */
-function radiansToDegreesString( fieldVector: Vector2 ): string {
+function toDegreesString( fieldVector: Vector2 ): string {
   if ( fieldVector.magnitude === 0 ) {
     return '';
   }
