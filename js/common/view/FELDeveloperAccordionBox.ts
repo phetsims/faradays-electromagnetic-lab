@@ -12,7 +12,7 @@
 
 import AccordionBox from '../../../../sun/js/AccordionBox.js';
 import faradaysElectromagneticLab from '../../faradaysElectromagneticLab.js';
-import { Node, RichText, Text } from '../../../../scenery/js/imports.js';
+import { HBox, Node, RichText, Text, VBox } from '../../../../scenery/js/imports.js';
 import FELConstants from '../../common/FELConstants.js';
 import BooleanProperty from '../../../../axon/js/BooleanProperty.js';
 import Tandem from '../../../../tandem/js/Tandem.js';
@@ -20,9 +20,10 @@ import Checkbox from '../../../../sun/js/Checkbox.js';
 import Property from '../../../../axon/js/Property.js';
 import PhetFont from '../../../../scenery-phet/js/PhetFont.js';
 import NumberProperty from '../../../../axon/js/NumberProperty.js';
-import NumberControl from '../../../../scenery-phet/js/NumberControl.js';
+import NumberControl, { LayoutFunction } from '../../../../scenery-phet/js/NumberControl.js';
 import Utils from '../../../../dot/js/Utils.js';
 import Dimension2 from '../../../../dot/js/Dimension2.js';
+import ResetButton from '../../../../scenery-phet/js/buttons/ResetButton.js';
 
 const FONT_SIZE = 12;
 const FONT = new PhetFont( FONT_SIZE );
@@ -36,7 +37,7 @@ const CHECKBOX_OPTIONS = {
 const TICK_LABEL_OPTIONS = {
   font: new PhetFont( FONT_SIZE - 2 )
 };
-const TRACK_SIZE = new Dimension2( 140, 4 );
+const TRACK_SIZE = new Dimension2( 140, 1 );
 const THUMB_SIZE = new Dimension2( 10, 20 );
 
 export default class FELDeveloperAccordionBox extends AccordionBox {
@@ -117,15 +118,17 @@ class FELDeveloperNumberControl extends NumberControl {
       }
     ];
 
+    // Since Properties related to developer controls are not affected by Reset All, add a reset button.
+    const resetButton = new ResetButton( {
+      listener: () => numberProperty.reset(),
+      scale: 0.4
+    } );
+
     const sliderStep = Utils.toFixedNumber( Math.pow( 10, -decimalPlaces ), decimalPlaces );
 
     super( labelString, numberProperty, range, {
       delta: sliderStep,
-      layoutFunction: NumberControl.createLayoutFunction1( {
-        align: 'left',
-        arrowButtonsXSpacing: 4,
-        ySpacing: 8
-      } ),
+      layoutFunction: createLayoutFunction( resetButton ),
       titleNodeOptions: {
         font: FONT
       },
@@ -134,10 +137,15 @@ class FELDeveloperNumberControl extends NumberControl {
         constrainValue: value => Utils.roundToInterval( value, sliderStep ),
         majorTicks: majorTicks,
         trackSize: TRACK_SIZE,
+        trackFillEnabled: 'black',
+        trackStroke: null,
         thumbSize: THUMB_SIZE,
         thumbTouchAreaXDilation: 5,
         thumbTouchAreaYDilation: 5,
-        majorTickLength: 10
+        majorTickLength: 10,
+        layoutOptions: {
+          grow: 1
+        }
       },
       numberDisplayOptions: {
         decimalPlaces: decimalPlaces,
@@ -150,5 +158,35 @@ class FELDeveloperNumberControl extends NumberControl {
     } );
   }
 }
+
+/**
+ * Creates a NumberControl layout function that includes a reset button.
+ */
+function createLayoutFunction( resetButton: Node ): LayoutFunction {
+
+  return ( titleNode, numberDisplay, slider, decrementButton, incrementButton ) => {
+    assert && assert( decrementButton, 'decrementButton is required' );
+    assert && assert( incrementButton, 'incrementButton is required' );
+
+    return new VBox( {
+      align: 'left',
+      spacing: 5,
+      children: [
+        new HBox( {
+          spacing: 5,
+          children: [ titleNode, numberDisplay, resetButton ]
+        } ),
+        new HBox( {
+          layoutOptions: {
+            stretch: true
+          },
+          spacing: 4,
+          children: [ decrementButton!, slider, incrementButton! ]
+        } )
+      ]
+    } );
+  };
+}
+
 
 faradaysElectromagneticLab.register( 'FELDeveloperAccordionBox', FELDeveloperAccordionBox );
