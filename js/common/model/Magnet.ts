@@ -14,7 +14,7 @@ import RangeWithValue from '../../../../dot/js/RangeWithValue.js';
 import optionize from '../../../../phet-core/js/optionize.js';
 import FELMovable, { FELMovableOptions } from './FELMovable.js';
 import BooleanProperty from '../../../../axon/js/BooleanProperty.js';
-import FELQueryParameters, { FIELD_INTENSITY_SCALE_RANGE } from '../FELQueryParameters.js';
+import FELQueryParameters, { FIELD_SCALE_RANGE } from '../FELQueryParameters.js';
 
 type SelfOptions = {
   rotation?: number; // initial value of rotationProperty, radians
@@ -33,7 +33,7 @@ export default abstract class Magnet extends FELMovable {
   private readonly reusablePosition: Vector2;
 
   // For use by developer controls only
-  public readonly fieldIntensityScaleProperty: NumberProperty;
+  public readonly fieldScaleProperty: NumberProperty;
 
   protected constructor( providedOptions: MagnetOptions ) {
 
@@ -66,8 +66,8 @@ export default abstract class Magnet extends FELMovable {
 
     this.reusablePosition = new Vector2( 0, 0 );
 
-    this.fieldIntensityScaleProperty = new NumberProperty( FELQueryParameters.fieldIntensityScale, {
-      range: FIELD_INTENSITY_SCALE_RANGE
+    this.fieldScaleProperty = new NumberProperty( FELQueryParameters.fieldScale, {
+      range: FIELD_SCALE_RANGE
     } );
   }
 

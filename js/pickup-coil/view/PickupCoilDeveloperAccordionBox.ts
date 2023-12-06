@@ -11,18 +11,18 @@ import faradaysElectromagneticLab from '../../faradaysElectromagneticLab.js';
 import { VBox } from '../../../../scenery/js/imports.js';
 import PickupCoilModel from '../model/PickupCoilModel.js';
 import FELDeveloperAccordionBox from '../../common/view/FELDeveloperAccordionBox.js';
-import FieldIntensityScaleControl from '../../common/view/FieldIntensityScaleControl.js';
+import FELDeveloperNumberControl from '../../common/view/FELDeveloperNumberControl.js';
 
 
 export default class PickupCoilDeveloperAccordionBox extends FELDeveloperAccordionBox {
 
   public constructor( model: PickupCoilModel ) {
 
-    const fieldIntensityScaleControl = new FieldIntensityScaleControl( model.barMagnet.fieldIntensityScaleProperty );
+    const fieldScaleControl = FELDeveloperNumberControl.createFieldScaleControl( model.barMagnet.fieldScaleProperty );
 
     const content = new VBox( {
       spacing: 10,
-      children: [ fieldIntensityScaleControl ]
+      children: [ fieldScaleControl ]
     } );
 
     super( content );

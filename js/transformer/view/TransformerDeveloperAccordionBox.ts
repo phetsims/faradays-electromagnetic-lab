@@ -11,18 +11,18 @@ import faradaysElectromagneticLab from '../../faradaysElectromagneticLab.js';
 import { VBox } from '../../../../scenery/js/imports.js';
 import FELDeveloperAccordionBox from '../../common/view/FELDeveloperAccordionBox.js';
 import TransformerModel from '../model/TransformerModel.js';
-import FieldIntensityScaleControl from '../../common/view/FieldIntensityScaleControl.js';
+import FELDeveloperNumberControl from '../../common/view/FELDeveloperNumberControl.js';
 
 
 export default class TransformerDeveloperAccordionBox extends FELDeveloperAccordionBox {
 
   public constructor( model: TransformerModel ) {
 
-    const fieldIntensityScaleControl = new FieldIntensityScaleControl( model.electromagnet.fieldIntensityScaleProperty );
+    const fieldScaleControl = FELDeveloperNumberControl.createFieldScaleControl( model.electromagnet.fieldScaleProperty );
 
     const content = new VBox( {
       spacing: 10,
-      children: [ fieldIntensityScaleControl ]
+      children: [ fieldScaleControl ]
     } );
 
     super( content );

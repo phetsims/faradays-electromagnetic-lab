@@ -15,7 +15,7 @@ import RangeWithValue from '../../../dot/js/RangeWithValue.js';
 export const MagneticUnitsValues = [ 'G', 'T' ] as const;
 export type MagneticUnits = ( typeof MagneticUnitsValues )[number];
 
-export const FIELD_INTENSITY_SCALE_RANGE = new RangeWithValue( 1, 6, 2.7 );
+export const FIELD_SCALE_RANGE = new RangeWithValue( 1, 6, 2.7 );
 
 const SCHEMA_MAP = {
 
@@ -62,10 +62,10 @@ const SCHEMA_MAP = {
    * compass needles in our visualization so that we see more of the field. Smaller values make the field appear to
    * drop off more rapidly. Larger values make the field appear to drop off more slowly.
    */
-  fieldIntensityScale: {
+  fieldScale: {
     type: 'number',
-    defaultValue: FIELD_INTENSITY_SCALE_RANGE.defaultValue,
-    isValidValue: ( value: number ) => FIELD_INTENSITY_SCALE_RANGE.contains( value )
+    defaultValue: FIELD_SCALE_RANGE.defaultValue,
+    isValidValue: ( value: number ) => FIELD_SCALE_RANGE.contains( value )
   }
 
   //TODO see DeveloperControlsPanel.java for more useful parameters

@@ -73,7 +73,7 @@ export default class FieldNode extends Sprites {
 
     // Update to match the magnet's B-field.
     Multilink.multilink(
-      [ magnet.positionProperty, magnet.rotationProperty, magnet.strengthProperty, magnet.fieldIntensityScaleProperty ],
+      [ magnet.positionProperty, magnet.rotationProperty, magnet.strengthProperty, magnet.fieldScaleProperty ],
       () => this.update()
     );
 
@@ -123,7 +123,7 @@ export default class FieldNode extends Sprites {
     this.spriteInstances.forEach( spriteInstance => {
       const fieldVector = this.magnet.getFieldVector( spriteInstance.position, this.reusableFieldVector );
       spriteInstance.rotationProperty.value = fieldVector.angle;
-      spriteInstance.alpha = this.strengthToAlpha( fieldVector.magnitude, this.magnet.fieldIntensityScaleProperty.value );
+      spriteInstance.alpha = this.strengthToAlpha( fieldVector.magnitude, this.magnet.fieldScaleProperty.value );
     } );
     this.invalidatePaint();
   }
