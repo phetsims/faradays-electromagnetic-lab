@@ -2,7 +2,6 @@
 
 //TODO design & polish presentation of labels and values
 //TODO add overline to 'B' magnitudes
-//TODO display tesla in scientific notation, M.MM x 10^-N
 //TODO how should zero be displayed? 0.00? 0?
 
 /**
@@ -36,7 +35,7 @@ const GStringProperty = FaradaysElectromagneticLabStrings.units.GStringProperty;
 const TStringProperty = FaradaysElectromagneticLabStrings.units.TStringProperty;
 
 const G_DECIMAL_PLACES = 2;
-const T_DECIMAL_PLACES = 6;
+const T_DECIMAL_PLACES = 2;
 const CROSSHAIRS_RADIUS = 10;
 const PROBE_RADIUS = CROSSHAIRS_RADIUS + 8;
 const RICH_TEXT_OPTIONS = {
@@ -70,7 +69,7 @@ export default class FieldMeterNode extends FELMovableNode {
       lineWidth: 5
     } );
 
-    const bodyNode = new ShadedRectangle( new Bounds2( 0, 0, 125, 100 ), {
+    const bodyNode = new ShadedRectangle( new Bounds2( 0, 0, 135, 110 ), {
       cornerRadius: 10,
       baseColor: FELColors.fieldMeterBodyColorProperty,
       centerX: probeNode.centerX,
@@ -81,21 +80,21 @@ export default class FieldMeterNode extends FELMovableNode {
     const stringBProperty = new DerivedProperty(
       [ FELPreferences.magneticUnitsProperty, fieldMeter.fieldVectorProperty, BStringProperty, GStringProperty, TStringProperty ],
       ( magneticUnits, fieldVector, B, G, T ) =>
-        ( magneticUnits === 'G' ) ? `${B} = ${Utils.toFixed( fieldVector.magnitude, G_DECIMAL_PLACES )} ${G}`
-                                  : `${B} = ${Utils.toFixed( fieldVector.magnitude / 10000, T_DECIMAL_PLACES )} ${T}`
+        ( magneticUnits === 'G' ) ? `${B} = ${toGaussString( fieldVector.magnitude )} ${G}`
+                                  : `${B} = ${toTeslaString( fieldVector.magnitude )} ${T}`
     );
     const stringBxProperty = new DerivedProperty(
       [ FELPreferences.magneticUnitsProperty, fieldMeter.fieldVectorProperty, BStringProperty, xStringProperty, GStringProperty, TStringProperty ],
       ( magneticUnits, fieldVector, B, x, G, T ) =>
-        ( magneticUnits === 'G' ) ? `${B}<sub>${x}</sub> = ${Utils.toFixed( fieldVector.x, G_DECIMAL_PLACES )} ${G}`
-                                  : `${B}<sub>${x}</sub> = ${Utils.toFixed( fieldVector.x / 10000, T_DECIMAL_PLACES )} ${T}`
+        ( magneticUnits === 'G' ) ? `${B}<sub>${x}</sub> = ${toGaussString( fieldVector.x )} ${G}`
+                                  : `${B}<sub>${x}</sub> = ${toTeslaString( fieldVector.x )} ${T}`
     );
     const stringByProperty = new DerivedProperty(
       [ FELPreferences.magneticUnitsProperty, fieldMeter.fieldVectorProperty, BStringProperty, yStringProperty, GStringProperty, TStringProperty ],
       //TODO -fieldVector.y to convert to +y up, should be done in the model
       ( magneticUnits, fieldVector, B, y, G, T ) =>
-        ( magneticUnits === 'G' ) ? `${B}<sub>${y}</sub> = ${Utils.toFixed( -fieldVector.y, G_DECIMAL_PLACES )} ${G}`
-                                  : `${B}<sub>${y}</sub> = ${Utils.toFixed( -fieldVector.y / 10000, T_DECIMAL_PLACES )} ${T}`
+        ( magneticUnits === 'G' ) ? `${B}<sub>${y}</sub> = ${toGaussString( -fieldVector.y )} ${G}`
+                                  : `${B}<sub>${y}</sub> = ${toTeslaString( fieldVector.y )} ${T}`
     );
     const stringThetaProperty = new DerivedProperty(
       [ fieldMeter.fieldVectorProperty ],
@@ -129,6 +128,28 @@ export default class FieldMeterNode extends FELMovableNode {
       visibleProperty: fieldMeter.visibleProperty,
       tandem: tandem
     } );
+  }
+}
+
+/**
+ * Converts a numeric gauss value to a RichText string in gauss, in decimal notation.
+ */
+function toGaussString( gauss: number ): string {
+  return `${Utils.toFixed( gauss, G_DECIMAL_PLACES )}`;
+}
+
+/**
+ * Converts a numeric gauss value to a RichText string in tesla, in scientific notation.
+ */
+function toTeslaString( gauss: number ): string {
+  if ( gauss === 0 ) {
+    return '0';
+  }
+  else {
+    const tesla = ( gauss / 10000 ).toExponential( T_DECIMAL_PLACES );
+    const tokens = `${tesla}`.split( 'e' );
+    assert && assert( tokens.length === 2, `unexpected tokens for ${tesla}` );
+    return `${tokens[ 0 ]} ${MathSymbols.TIMES} 10<sup>${tokens[ 1 ]}</sup>`;
   }
 }
 
