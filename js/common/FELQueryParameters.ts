@@ -16,6 +16,7 @@ export const MagneticUnitsValues = [ 'G', 'T' ] as const;
 export type MagneticUnits = ( typeof MagneticUnitsValues )[number];
 
 export const FIELD_SCALE_RANGE = new RangeWithValue( 1, 6, 2.7 );
+export const LIGHT_BULB_GLOW_SCALE_RANGE = new RangeWithValue( 1, 100, 15 );
 
 const SCHEMA_MAP = {
 
@@ -66,6 +67,15 @@ const SCHEMA_MAP = {
     type: 'number',
     defaultValue: FIELD_SCALE_RANGE.defaultValue,
     isValidValue: ( value: number ) => FIELD_SCALE_RANGE.contains( value )
+  },
+
+  /**
+   * Scales the modulation of alpha, used to make the light bulb glow.
+   */
+  lightBulbGlowScale: {
+    type: 'number',
+    defaultValue: LIGHT_BULB_GLOW_SCALE_RANGE.defaultValue,
+    isValidValue: ( value: number ) => LIGHT_BULB_GLOW_SCALE_RANGE.contains( value )
   }
 
   //TODO see DeveloperControlsPanel.java for more useful parameters
