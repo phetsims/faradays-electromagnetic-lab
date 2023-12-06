@@ -138,7 +138,7 @@ export default class FieldNode extends Sprites {
     let alpha = ( strength / maxStrength );
 
     // Scale the alpha, because in reality the strength drops off quickly, and we wouldn't see much of the B-field.
-    alpha = Math.pow( alpha, 1 / FELQueryParameters.outsideBFieldIntensityScale );
+    alpha = Math.pow( alpha, 1 / FELQueryParameters.fieldIntensityScale );
 
     // Increase the alpha of needles just outside the ends of magnet to improve the "look".
     alpha *= 2;

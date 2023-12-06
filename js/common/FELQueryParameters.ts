@@ -59,12 +59,7 @@ const SCHEMA_MAP = {
    * compass needles in our visualization so that we see more of the field. Smaller values make the field appear to
    * drop off more rapidly. Larger values make the field appear to drop off more slowly.
    */
-  insideBFieldIntensityScale: {
-    type: 'number',
-    defaultValue: 2.7,
-    isValidValue: ( value: number ) => ( value >= 1 )
-  },
-  outsideBFieldIntensityScale: {
+  fieldIntensityScale: {
     type: 'number',
     defaultValue: 2.7,
     isValidValue: ( value: number ) => ( value >= 1 )
