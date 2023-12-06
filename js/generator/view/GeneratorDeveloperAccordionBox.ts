@@ -8,23 +8,21 @@
  */
 
 import faradaysElectromagneticLab from '../../faradaysElectromagneticLab.js';
-import { Text, VBox } from '../../../../scenery/js/imports.js';
-import FELConstants from '../../common/FELConstants.js';
+import { VBox } from '../../../../scenery/js/imports.js';
 import FELDeveloperAccordionBox from '../../common/view/FELDeveloperAccordionBox.js';
 import GeneratorModel from '../model/GeneratorModel.js';
+import FieldIntensityScaleControl from '../../common/view/FieldIntensityScaleControl.js';
 
 
 export default class GeneratorDeveloperAccordionBox extends FELDeveloperAccordionBox {
 
   public constructor( model: GeneratorModel ) {
 
+    const fieldIntensityScaleControl = new FieldIntensityScaleControl( model.turbine.fieldIntensityScaleProperty );
+
     const content = new VBox( {
       spacing: 10,
-      children: [
-        new Text( 'Under Construction', {
-          font: FELConstants.CONTROL_FONT
-        } )
-      ]
+      children: [ fieldIntensityScaleControl ]
     } );
 
     super( content );
