@@ -117,7 +117,6 @@ export default class GeneratorScreenView extends ScreenView {
 
     // Run with &dev to add developer controls.
     if ( phet.chipper.queryParameters.dev ) {
-      console.log( 'adding developer controls' );
 
       const developerAccordionBox = new GeneratorDeveloperAccordionBox( model );
       rootNode.addChild( developerAccordionBox );

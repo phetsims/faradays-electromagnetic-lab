@@ -73,7 +73,7 @@ export default class FieldNode extends Sprites {
 
     // Update to match the magnet's B-field.
     Multilink.multilink(
-      [ magnet.positionProperty, magnet.rotationProperty, magnet.strengthProperty ],
+      [ magnet.positionProperty, magnet.rotationProperty, magnet.strengthProperty, magnet.fieldIntensityScaleProperty ],
       () => this.update()
     );
 
@@ -123,7 +123,7 @@ export default class FieldNode extends Sprites {
     this.spriteInstances.forEach( spriteInstance => {
       const fieldVector = this.magnet.getFieldVector( spriteInstance.position, this.reusableFieldVector );
       spriteInstance.rotationProperty.value = fieldVector.angle;
-      spriteInstance.alpha = this.strengthToAlpha( fieldVector.magnitude );
+      spriteInstance.alpha = this.strengthToAlpha( fieldVector.magnitude, this.magnet.fieldIntensityScaleProperty.value );
     } );
     this.invalidatePaint();
   }
@@ -131,14 +131,16 @@ export default class FieldNode extends Sprites {
   /**
    * Converts magnet strength to alpha color component.
    */
-  private strengthToAlpha( strength: number ): number {
+  private strengthToAlpha( strength: number, fieldIntensityScale: number ): number {
+    assert && assert( fieldIntensityScale >= 1, `invalid fieldIntensityScale: ${fieldIntensityScale}` );
+
     const maxStrength = this.magnet.strengthProperty.rangeProperty.value.max;
     assert && assert( strength >= 0 && strength <= maxStrength, `invalid strength: ${strength}` );
 
     let alpha = ( strength / maxStrength );
 
     // Scale the alpha, because in reality the strength drops off quickly, and we wouldn't see much of the B-field.
-    alpha = Math.pow( alpha, 1 / FELQueryParameters.fieldIntensityScale );
+    alpha = Math.pow( alpha, 1 / fieldIntensityScale );
 
     // Increase the alpha of needles just outside the ends of magnet to improve the "look".
     alpha *= 2;

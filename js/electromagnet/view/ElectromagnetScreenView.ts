@@ -106,7 +106,6 @@ export default class ElectromagnetScreenView extends ScreenView {
 
     // Run with &dev to add developer controls.
     if ( phet.chipper.queryParameters.dev ) {
-      console.log( 'adding developer controls' );
 
       const developerAccordionBox = new ElectromagnetDeveloperAccordionBox( model );
       rootNode.addChild( developerAccordionBox );

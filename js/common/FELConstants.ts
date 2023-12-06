@@ -40,7 +40,8 @@ const ACCORDION_BOX_OPTIONS: AccordionBoxOptions = {
   buttonYMargin: 6,
   titleXMargin: 8,
   titleYMargin: 6,
-  titleXSpacing: 10
+  titleXSpacing: 10,
+  titleAlignX: 'left'
 };
 
 const CHECKBOX_OPTIONS: CheckboxOptions = {

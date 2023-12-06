@@ -10,9 +10,12 @@
 
 import logGlobal from '../../../phet-core/js/logGlobal.js';
 import faradaysElectromagneticLab from '../faradaysElectromagneticLab.js';
+import RangeWithValue from '../../../dot/js/RangeWithValue.js';
 
 export const MagneticUnitsValues = [ 'G', 'T' ] as const;
 export type MagneticUnits = ( typeof MagneticUnitsValues )[number];
+
+export const FIELD_INTENSITY_SCALE_RANGE = new RangeWithValue( 1, 6, 2.7 );
 
 const SCHEMA_MAP = {
 
@@ -61,8 +64,8 @@ const SCHEMA_MAP = {
    */
   fieldIntensityScale: {
     type: 'number',
-    defaultValue: 2.7,
-    isValidValue: ( value: number ) => ( value >= 1 )
+    defaultValue: FIELD_INTENSITY_SCALE_RANGE.defaultValue,
+    isValidValue: ( value: number ) => FIELD_INTENSITY_SCALE_RANGE.contains( value )
   }
 
   //TODO see DeveloperControlsPanel.java for more useful parameters

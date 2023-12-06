@@ -119,7 +119,6 @@ export default class PickupCoilScreenView extends ScreenView {
 
     // Run with &dev to add developer controls.
     if ( phet.chipper.queryParameters.dev ) {
-      console.log( 'adding developer controls' );
 
       const developerAccordionBox = new PickupCoilDeveloperAccordionBox( model );
       rootNode.addChild( developerAccordionBox );

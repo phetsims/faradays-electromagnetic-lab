@@ -134,7 +134,6 @@ export default class BarMagnetScreenView extends ScreenView {
 
     // Run with &dev to add developer controls.
     if ( phet.chipper.queryParameters.dev ) {
-      console.log( 'adding developer controls' );
 
       const developerAccordionBox = new BarMagnetDeveloperAccordionBox( model );
       rootNode.addChild( developerAccordionBox );
