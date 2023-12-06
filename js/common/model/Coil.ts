@@ -19,6 +19,7 @@ type SelfOptions = {
   loopRadiusRange: RangeWithValue; // range and initial value for loopRadiusProperty, unitless
   wireWidth?: number;
   loopSpacing?: number;
+  electronSpeedScale?: number;
 };
 
 export type CoilOptions = SelfOptions & FELMovableOptions;
@@ -41,13 +42,18 @@ export default abstract class Coil extends FELMovable {
   public readonly currentAmplitudeProperty: TReadOnlyProperty<number>;
   protected readonly _currentAmplitudeProperty: NumberProperty;
 
+  // *** Writeable by developer controls only ***
+  // Scale used for electron speed in the view.
+  public readonly electronSpeedScaleProperty: NumberProperty;
+
   protected constructor( providedOptions: CoilOptions ) {
 
     const options = optionize<CoilOptions, SelfOptions, FELMovableOptions>()( {
 
       // SelfOptions
       wireWidth: 16,
-      loopSpacing: 25
+      loopSpacing: 25,
+      electronSpeedScale: 1
     }, providedOptions );
 
     super( options );
@@ -76,6 +82,10 @@ export default abstract class Coil extends FELMovable {
       phetioDocumentation: 'For internal use only'
     } );
     this.currentAmplitudeProperty = this._currentAmplitudeProperty;
+
+    this.electronSpeedScaleProperty = new NumberProperty( options.electronSpeedScale, {
+      range: new Range( 1, 100 )
+    } );
   }
 
   public override reset(): void {

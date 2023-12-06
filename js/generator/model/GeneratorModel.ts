@@ -36,8 +36,8 @@ export default class GeneratorModel implements TModel {
 
     this.pickupCoil = new PickupCoil( this.turbine, {
       position: new Vector2( 500, 400 ),
-      calibrationEMF: 26000, //TODO see GeneratorModule.java
-      transitionSmoothingScale: 1, //TODO see GeneratorModule.java
+      maxEMF: 26000,
+      transitionSmoothingScale: 1,
       tandem: tandem.createTandem( 'pickupCoil' )
     } );
 

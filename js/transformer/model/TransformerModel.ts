@@ -36,8 +36,9 @@ export default class TransformerModel implements TModel {
 
     this.pickupCoil = new PickupCoil( this.electromagnet, {
       position: new Vector2( 500, 400 ),
-      calibrationEMF: 3500000, //TODO see TransformerModule.java
-      transitionSmoothingScale: 0.56, //TODO see TransformerModule.java
+      maxEMF: 3500000,
+      transitionSmoothingScale: 0.56,
+      electronSpeedScale: 2,
       tandem: tandem.createTandem( 'pickupCoil' )
     } );
 

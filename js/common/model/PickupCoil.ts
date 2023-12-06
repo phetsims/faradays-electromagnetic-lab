@@ -17,13 +17,15 @@ import Property from '../../../../axon/js/Property.js';
 import { Indicator, IndicatorValues } from './Indicator.js';
 import StringUnionProperty from '../../../../axon/js/StringUnionProperty.js';
 import BooleanProperty from '../../../../axon/js/BooleanProperty.js';
+import NumberProperty from '../../../../axon/js/NumberProperty.js';
+import Range from '../../../../dot/js/Range.js';
 
 const WIRE_WIDTH = 16;
 const LOOP_SPACING = 1.5 * WIRE_WIDTH; // loosely packed loops
 
 type SelfOptions = {
-  calibrationEMF: number; //TODO document
-  transitionSmoothingScale?: number; //TODO document
+  maxEMF: number; // the initial value of maxEMFProperty
+  transitionSmoothingScale?: number; // the initial value of transitionSmoothingScaleProperty
   samplePointsStrategy?: SamplePointsStrategy; //TODO document
 };
 
@@ -33,12 +35,31 @@ export type PickupCoilOptions = SelfOptions &
 export default class PickupCoil extends Coil {
 
   private readonly magnet: Magnet;
-  private readonly calibrationEMF: number;
-  private readonly transitionSmoothingScale: number;
   private readonly samplePointsStrategy: SamplePointsStrategy;
 
   public readonly indicatorProperty: Property<Indicator>;
   public readonly electronsVisibleProperty: Property<boolean>;
+
+  // *** Writeable by developer controls only ***
+  // Dividing the coil's emf by this number will give us the coil's current amplitude, a number between 0 and 1 that
+  // determines the responsiveness of view components. This number should be set as close as possible to the maximum
+  // EMF that can be induced given the range of all model parameters.
+  public readonly maxEMFProperty: NumberProperty;
+
+  // *** Writeable by developer controls only ***
+  // This is a scaling factor used to smooth out abrupt changes that occur when the magnet transitions between being
+  // inside & outside the coil. This is used to scale the B-field for sample points inside the magnet, eliminating
+  // abrupt transitions at the left and right edges of the magnet. For any sample point inside the magnet, the B-field
+  // sample is multiplied by this value.
+  //
+  // To set this value, follow these steps:
+  // * enable the developer controls for "pickup transition scale" and "display flux"
+  // * move the magnet horizontally through the coil until, by moving it one pixel, you see an abrupt change in the
+  //   displayed flux value.
+  // * note the 2 flux values when the abrupt change occurs
+  // * move the magnet so that the larger of the 2 flux values is displayed
+  // * adjust the developer control until the larger value is reduced to approximately the same value as the smaller value.
+  public readonly transitionSmoothingScaleProperty: NumberProperty;
 
   public constructor( magnet: Magnet, providedOptions: PickupCoilOptions ) {
 
@@ -55,15 +76,18 @@ export default class PickupCoil extends Coil {
       loopSpacing: LOOP_SPACING
     }, providedOptions );
 
-    assert && assert( options.calibrationEMF >= 1, `invalid calibrationEMF: ${options.calibrationEMF} ` );
-    assert && assert( options.transitionSmoothingScale > 0 && options.transitionSmoothingScale <= 1,
-      `invalid transitionSmoothingScale: ${options.transitionSmoothingScale} ` );
-
     super( options );
 
     this.magnet = magnet;
-    this.calibrationEMF = options.calibrationEMF;
-    this.transitionSmoothingScale = options.transitionSmoothingScale;
+
+    this.maxEMFProperty = new NumberProperty( options.maxEMF, {
+      range: new Range( 10000, 5000000 )
+    } );
+
+    this.transitionSmoothingScaleProperty = new NumberProperty( options.transitionSmoothingScale, {
+      range: new Range( 0.1, 1 )
+    } );
+
     this.samplePointsStrategy = options.samplePointsStrategy;
 
     this.indicatorProperty = new StringUnionProperty<Indicator>( 'lightBulb', {

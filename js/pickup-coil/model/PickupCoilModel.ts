@@ -36,8 +36,9 @@ export default class PickupCoilModel implements TModel {
 
     this.pickupCoil = new PickupCoil( this.barMagnet, {
       position: new Vector2( 500, 400 ),
-      calibrationEMF: 2700000, //TODO see calibrateEmf in PickupCoil.java
-      transitionSmoothingScale: 0.77, //TODO see setTransitionSmoothingScale in PickupCoil.java
+      maxEMF: 2700000,
+      transitionSmoothingScale: 0.77,
+      electronSpeedScale: 3,
       tandem: tandem.createTandem( 'pickupCoil' )
     } );
 

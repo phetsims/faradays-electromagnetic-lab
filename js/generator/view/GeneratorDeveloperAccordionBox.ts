@@ -18,16 +18,18 @@ export default class GeneratorDeveloperAccordionBox extends FELDeveloperAccordio
 
   public constructor( model: GeneratorModel ) {
 
-    const fieldScaleControl = FELDeveloperNumberControl.createFieldScaleControl( model.turbine.fieldScaleProperty );
-
-    const lightBulbGlowScaleControl = FELDeveloperNumberControl.createLightBulbGlowScaleControl( model.lightBulb.glowScaleProperty );
-
     const content = new VBox( {
       spacing: 10,
       children: [
-        fieldScaleControl,
+        FELDeveloperNumberControl.createFieldScaleControl( model.turbine.fieldScaleProperty ),
         new HSeparator(),
-        lightBulbGlowScaleControl
+        FELDeveloperNumberControl.createMaxEMFControl( model.pickupCoil.maxEMFProperty ),
+        new HSeparator(),
+        FELDeveloperNumberControl.createTransitionSmoothingScaleControl( model.pickupCoil.transitionSmoothingScaleProperty ),
+        new HSeparator(),
+        FELDeveloperNumberControl.createElectronSpeedScaleControl( model.pickupCoil.electronSpeedScaleProperty ),
+        new HSeparator(),
+        FELDeveloperNumberControl.createLightBulbGlowScaleControl( model.lightBulb.glowScaleProperty )
       ]
     } );
 

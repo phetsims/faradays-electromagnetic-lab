@@ -18,16 +18,18 @@ export default class TransformerDeveloperAccordionBox extends FELDeveloperAccord
 
   public constructor( model: TransformerModel ) {
 
-    const fieldScaleControl = FELDeveloperNumberControl.createFieldScaleControl( model.electromagnet.fieldScaleProperty );
-
-    const lightBulbGlowScaleControl = FELDeveloperNumberControl.createLightBulbGlowScaleControl( model.lightBulb.glowScaleProperty );
-
     const content = new VBox( {
       spacing: 10,
       children: [
-        fieldScaleControl,
+        FELDeveloperNumberControl.createFieldScaleControl( model.electromagnet.fieldScaleProperty ),
         new HSeparator(),
-        lightBulbGlowScaleControl
+        FELDeveloperNumberControl.createMaxEMFControl( model.pickupCoil.maxEMFProperty ),
+        new HSeparator(),
+        FELDeveloperNumberControl.createTransitionSmoothingScaleControl( model.pickupCoil.transitionSmoothingScaleProperty ),
+        new HSeparator(),
+        FELDeveloperNumberControl.createElectronSpeedScaleControl( model.pickupCoil.electronSpeedScaleProperty ),
+        new HSeparator(),
+        FELDeveloperNumberControl.createLightBulbGlowScaleControl( model.lightBulb.glowScaleProperty )
       ]
     } );
 

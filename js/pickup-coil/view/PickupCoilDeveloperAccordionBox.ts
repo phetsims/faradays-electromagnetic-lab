@@ -18,16 +18,18 @@ export default class PickupCoilDeveloperAccordionBox extends FELDeveloperAccordi
 
   public constructor( model: PickupCoilModel ) {
 
-    const fieldScaleControl = FELDeveloperNumberControl.createFieldScaleControl( model.barMagnet.fieldScaleProperty );
-
-    const lightBulbGlowScaleControl = FELDeveloperNumberControl.createLightBulbGlowScaleControl( model.lightBulb.glowScaleProperty );
-
     const content = new VBox( {
       spacing: 10,
       children: [
-        fieldScaleControl,
+        FELDeveloperNumberControl.createFieldScaleControl( model.barMagnet.fieldScaleProperty ),
         new HSeparator(),
-        lightBulbGlowScaleControl
+        FELDeveloperNumberControl.createMaxEMFControl( model.pickupCoil.maxEMFProperty ),
+        new HSeparator(),
+        FELDeveloperNumberControl.createTransitionSmoothingScaleControl( model.pickupCoil.transitionSmoothingScaleProperty ),
+        new HSeparator(),
+        FELDeveloperNumberControl.createElectronSpeedScaleControl( model.pickupCoil.electronSpeedScaleProperty ),
+        new HSeparator(),
+        FELDeveloperNumberControl.createLightBulbGlowScaleControl( model.lightBulb.glowScaleProperty )
       ]
     } );
 

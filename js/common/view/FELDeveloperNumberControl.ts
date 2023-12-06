@@ -8,17 +8,20 @@
  */
 
 import faradaysElectromagneticLab from '../../faradaysElectromagneticLab.js';
-import NumberControl, { NumberControlOptions } from '../../../../scenery-phet/js/NumberControl.js';
+import NumberControl from '../../../../scenery-phet/js/NumberControl.js';
 import NumberProperty from '../../../../axon/js/NumberProperty.js';
 import Tandem from '../../../../tandem/js/Tandem.js';
-import { combineOptions } from '../../../../phet-core/js/optionize.js';
-import FELConstants from '../FELConstants.js';
 import Utils from '../../../../dot/js/Utils.js';
 import { RichText } from '../../../../scenery/js/imports.js';
+import Dimension2 from '../../../../dot/js/Dimension2.js';
+import PhetFont from '../../../../scenery-phet/js/PhetFont.js';
 
+const FONT = new PhetFont( 10 );
 const TICK_LABEL_OPTIONS = {
-  font: FELConstants.TICK_LABEL_FONT
+  font: new PhetFont( 8 )
 };
+const TRACK_SIZE = new Dimension2( 140, 4 );
+const THUMB_SIZE = new Dimension2( 10, 20 );
 
 export default class FELDeveloperNumberControl extends NumberControl {
 
@@ -43,27 +46,55 @@ export default class FELDeveloperNumberControl extends NumberControl {
 
     const sliderStep = Utils.toFixedNumber( Math.pow( 10, -decimalPlaces ), decimalPlaces );
 
-    const options = combineOptions<NumberControlOptions>( {}, FELConstants.NUMBER_CONTROL_OPTIONS, {
-      delta: decimalPlaces,
-      numberDisplayOptions: {
-        decimalPlaces: decimalPlaces
+    super( labelString, numberProperty, range, {
+      delta: sliderStep,
+      layoutFunction: NumberControl.createLayoutFunction1( {
+        align: 'left',
+        arrowButtonsXSpacing: 4,
+        ySpacing: 8
+      } ),
+      titleNodeOptions: {
+        font: FONT,
+        maxWidth: 140
       },
       sliderOptions: {
         constrainValue: value => Utils.roundToInterval( value, sliderStep ),
-        majorTicks: majorTicks
+        majorTicks: majorTicks,
+        trackSize: TRACK_SIZE,
+        thumbSize: THUMB_SIZE,
+        thumbTouchAreaXDilation: 5,
+        thumbTouchAreaYDilation: 5,
+        majorTickLength: 10
+      },
+      numberDisplayOptions: {
+        decimalPlaces: decimalPlaces,
+        maxWidth: 100,
+        textOptions: {
+          font: FONT
+        }
       },
       tandem: Tandem.OPT_OUT
     } );
-
-    super( labelString, numberProperty, range, options );
   }
 
-  public static createFieldScaleControl( fieldScaleProperty: NumberProperty ): NumberControl {
-    return new FELDeveloperNumberControl( 'Field Scale:', fieldScaleProperty, 2 /* decimalPlaces */ );
+  public static createFieldScaleControl( property: NumberProperty ): NumberControl {
+    return new FELDeveloperNumberControl( 'Field Scale:', property, 2 /* decimalPlaces */ );
   }
 
-  public static createLightBulbGlowScaleControl( lightBulbGlowScaleProperty: NumberProperty ): NumberControl {
-    return new FELDeveloperNumberControl( 'Light Bulb Glow Scale:', lightBulbGlowScaleProperty, 1 /* decimalPlaces */ );
+  public static createMaxEMFControl( property: NumberProperty ): NumberControl {
+    return new FELDeveloperNumberControl( 'Max EMF:', property, 0 /* decimalPlaces */ );
+  }
+
+  public static createTransitionSmoothingScaleControl( property: NumberProperty ): NumberControl {
+    return new FELDeveloperNumberControl( 'Transition Smoothing Scale:', property, 2 /* decimalPlaces */ );
+  }
+
+  public static createElectronSpeedScaleControl( property: NumberProperty ): NumberControl {
+    return new FELDeveloperNumberControl( 'Electron Speed Scale:', property, 1 /* decimalPlaces */ );
+  }
+
+  public static createLightBulbGlowScaleControl( property: NumberProperty ): NumberControl {
+    return new FELDeveloperNumberControl( 'Light Bulb Glow Scale:', property, 1 /* decimalPlaces */ );
   }
 }
 
