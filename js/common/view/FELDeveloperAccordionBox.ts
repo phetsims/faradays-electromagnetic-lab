@@ -1,7 +1,10 @@
 // Copyright 2023, University of Colorado Boulder
 
 /**
- * FELDeveloperAccordionBox is the base class for an accordion box that contains developer controls.
+ * FELDeveloperAccordionBox is the base class for an accordion box that contains developer controls. In addition to
+ * styling the accordion box, it includes static methods for creating the developer controls needed throughout the
+ * simulation.
+ *
  * Run with &dev to add this to the sim.
  *
  * @author Chris Malley (PixelZoom, Inc.)
