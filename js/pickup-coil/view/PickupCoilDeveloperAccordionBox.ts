@@ -22,16 +22,7 @@ export default class PickupCoilDeveloperAccordionBox extends FELDeveloperAccordi
       children: [
         FELDeveloperAccordionBox.createFieldScaleControl( model.barMagnet.fieldScaleProperty ),
         new HSeparator(),
-        FELDeveloperAccordionBox.createMaxEMFControl( model.pickupCoil.maxEMFProperty ),
-        new HSeparator(),
-        FELDeveloperAccordionBox.createTransitionSmoothingScaleControl( model.pickupCoil.transitionSmoothingScaleProperty ),
-        new HSeparator(),
-        FELDeveloperAccordionBox.createElectronSpeedScaleControl( model.pickupCoil.electronSpeedScaleProperty ),
-        new HSeparator(),
-        FELDeveloperAccordionBox.createLightBulbGlowScaleControl( model.lightBulb.glowScaleProperty ),
-        new HSeparator(),
-        FELDeveloperAccordionBox.createPickupCoilSamplePointsVisibleCheckbox( model.pickupCoil.samplePointsVisibleProperty ),
-        FELDeveloperAccordionBox.createPickupCoilFluxVisibleCheckbox( model.pickupCoil.fluxVisibleProperty )
+        FELDeveloperAccordionBox.createPickupCoilControls( model.pickupCoil, model.lightBulb )
       ]
     } );
 

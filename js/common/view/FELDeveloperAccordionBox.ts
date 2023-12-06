@@ -24,21 +24,30 @@ import NumberControl, { LayoutFunction } from '../../../../scenery-phet/js/Numbe
 import Utils from '../../../../dot/js/Utils.js';
 import Dimension2 from '../../../../dot/js/Dimension2.js';
 import ResetButton from '../../../../scenery-phet/js/buttons/ResetButton.js';
+import PickupCoil from '../model/PickupCoil.js';
+import LightBulb from '../model/LightBulb.js';
 
-const FONT_SIZE = 12;
-const FONT = new PhetFont( FONT_SIZE );
+const CONTROL_FONT_SIZE = 12;
+const CONTROL_FONT = new PhetFont( CONTROL_FONT_SIZE );
 const TEXT_OPTIONS = {
-  font: FONT
+  font: CONTROL_FONT
+};
+const SUBTITLE_OPTIONS = {
+  font: new PhetFont( {
+    size: CONTROL_FONT_SIZE + 2,
+    weight: 'bold'
+  } )
 };
 const CHECKBOX_OPTIONS = {
-  boxWidth: new Text( 'X', { font: FONT } ).height,
+  boxWidth: new Text( 'X', { font: CONTROL_FONT } ).height,
   tandem: Tandem.OPT_OUT
 };
 const TICK_LABEL_OPTIONS = {
-  font: new PhetFont( FONT_SIZE - 2 )
+  font: new PhetFont( CONTROL_FONT_SIZE - 2 )
 };
 const TRACK_SIZE = new Dimension2( 140, 1 );
 const THUMB_SIZE = new Dimension2( 10, 20 );
+const VBOX_SPACING = 15;
 
 export default class FELDeveloperAccordionBox extends AccordionBox {
 
@@ -68,35 +77,33 @@ export default class FELDeveloperAccordionBox extends AccordionBox {
     return new FELDeveloperNumberControl( 'Field Scale:', property, 2 /* decimalPlaces */ );
   }
 
-  public static createMaxEMFControl( property: NumberProperty ): NumberControl {
-    return new FELDeveloperNumberControl( 'Max EMF:', property, 0 /* decimalPlaces */ );
+  public static createElectromagnetShapeCheckbox( property: Property<boolean> ): Checkbox {
+    return new FELDeveloperCheckbox( 'Electromagnet Shape', property );
   }
 
-  public static createTransitionSmoothingScaleControl( property: NumberProperty ): NumberControl {
-    return new FELDeveloperNumberControl( 'Transition Smoothing Scale:', property, 2 /* decimalPlaces */ );
+  /**
+   * Creates the set of controls related to the pickup coil and its indicators.
+   */
+  public static createPickupCoilControls( pickupCoil: PickupCoil, lightBulb: LightBulb ): VBox {
+    return new VBox( {
+      align: 'left',
+      spacing: VBOX_SPACING,
+      children: [
+        new Text( 'Pickup Coil', SUBTITLE_OPTIONS ),
+        new FELDeveloperNumberControl( 'Max EMF:', pickupCoil.maxEMFProperty, 0 /* decimalPlaces */ ),
+        new FELDeveloperNumberControl( 'Transition Smoothing Scale:', pickupCoil.transitionSmoothingScaleProperty, 2 /* decimalPlaces */ ),
+        new FELDeveloperNumberControl( 'Electron Speed Scale:', pickupCoil.electronSpeedScaleProperty, 1 /* decimalPlaces */ ),
+        new FELDeveloperNumberControl( 'Light Bulb Scale:', lightBulb.glowScaleProperty, 1 /* decimalPlaces */ ),
+        new FELDeveloperCheckbox( 'Sample Points', pickupCoil.samplePointsVisibleProperty ),
+        new FELDeveloperCheckbox( 'Flux Display', pickupCoil.fluxVisibleProperty )
+      ]
+    } );
   }
+}
 
-  public static createElectronSpeedScaleControl( property: NumberProperty ): NumberControl {
-    return new FELDeveloperNumberControl( 'Electron Speed Scale:', property, 1 /* decimalPlaces */ );
-  }
-
-  public static createLightBulbGlowScaleControl( property: NumberProperty ): NumberControl {
-    return new FELDeveloperNumberControl( 'Light Bulb Glow Scale:', property, 1 /* decimalPlaces */ );
-  }
-
-  public static createElectromagnetShapeVisibleCheckbox( property: Property<boolean> ): Checkbox {
-    const content = new Text( 'Electromagnet Shape', TEXT_OPTIONS );
-    return new Checkbox( property, content, CHECKBOX_OPTIONS );
-  }
-
-  public static createPickupCoilSamplePointsVisibleCheckbox( property: Property<boolean> ): Checkbox {
-    const content = new Text( 'Pickup Coil Sample Points', TEXT_OPTIONS );
-    return new Checkbox( property, content, CHECKBOX_OPTIONS );
-  }
-
-  public static createPickupCoilFluxVisibleCheckbox( property: Property<boolean> ): Checkbox {
-    const content = new Text( 'Pickup Coil Flux', TEXT_OPTIONS );
-    return new Checkbox( property, content, CHECKBOX_OPTIONS );
+class FELDeveloperCheckbox extends Checkbox {
+  public constructor( labelString: string, property: Property<boolean> ) {
+    super( property, new Text( labelString, TEXT_OPTIONS ), CHECKBOX_OPTIONS );
   }
 }
 
@@ -130,7 +137,7 @@ class FELDeveloperNumberControl extends NumberControl {
       delta: sliderStep,
       layoutFunction: createLayoutFunction( resetButton ),
       titleNodeOptions: {
-        font: FONT
+        font: CONTROL_FONT
       },
       sliderOptions: {
         soundGenerator: null,
@@ -151,7 +158,7 @@ class FELDeveloperNumberControl extends NumberControl {
         decimalPlaces: decimalPlaces,
         maxWidth: 100,
         textOptions: {
-          font: FONT
+          font: CONTROL_FONT
         }
       },
       tandem: Tandem.OPT_OUT
@@ -170,7 +177,7 @@ function createLayoutFunction( resetButton: Node ): LayoutFunction {
 
     return new VBox( {
       align: 'left',
-      spacing: 5,
+      spacing: 4,
       children: [
         new HBox( {
           spacing: 5,
