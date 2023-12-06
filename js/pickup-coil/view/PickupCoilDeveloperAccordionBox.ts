@@ -11,7 +11,6 @@ import faradaysElectromagneticLab from '../../faradaysElectromagneticLab.js';
 import { HSeparator, VBox } from '../../../../scenery/js/imports.js';
 import PickupCoilModel from '../model/PickupCoilModel.js';
 import FELDeveloperAccordionBox from '../../common/view/FELDeveloperAccordionBox.js';
-import FELDeveloperNumberControl from '../../common/view/FELDeveloperNumberControl.js';
 
 export default class PickupCoilDeveloperAccordionBox extends FELDeveloperAccordionBox {
 
@@ -21,15 +20,15 @@ export default class PickupCoilDeveloperAccordionBox extends FELDeveloperAccordi
       align: 'left',
       spacing: 10,
       children: [
-        FELDeveloperNumberControl.createFieldScaleControl( model.barMagnet.fieldScaleProperty ),
+        FELDeveloperAccordionBox.createFieldScaleControl( model.barMagnet.fieldScaleProperty ),
         new HSeparator(),
-        FELDeveloperNumberControl.createMaxEMFControl( model.pickupCoil.maxEMFProperty ),
+        FELDeveloperAccordionBox.createMaxEMFControl( model.pickupCoil.maxEMFProperty ),
         new HSeparator(),
-        FELDeveloperNumberControl.createTransitionSmoothingScaleControl( model.pickupCoil.transitionSmoothingScaleProperty ),
+        FELDeveloperAccordionBox.createTransitionSmoothingScaleControl( model.pickupCoil.transitionSmoothingScaleProperty ),
         new HSeparator(),
-        FELDeveloperNumberControl.createElectronSpeedScaleControl( model.pickupCoil.electronSpeedScaleProperty ),
+        FELDeveloperAccordionBox.createElectronSpeedScaleControl( model.pickupCoil.electronSpeedScaleProperty ),
         new HSeparator(),
-        FELDeveloperNumberControl.createLightBulbGlowScaleControl( model.lightBulb.glowScaleProperty ),
+        FELDeveloperAccordionBox.createLightBulbGlowScaleControl( model.lightBulb.glowScaleProperty ),
         new HSeparator(),
         FELDeveloperAccordionBox.createPickupCoilSamplePointsVisibleCheckbox( model.pickupCoil.samplePointsVisibleProperty ),
         FELDeveloperAccordionBox.createPickupCoilFluxVisibleCheckbox( model.pickupCoil.fluxVisibleProperty )
