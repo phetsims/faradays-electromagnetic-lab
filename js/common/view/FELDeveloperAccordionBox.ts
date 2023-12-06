@@ -27,6 +27,7 @@ import ResetButton from '../../../../scenery-phet/js/buttons/ResetButton.js';
 import PickupCoil from '../model/PickupCoil.js';
 import LightBulb from '../model/LightBulb.js';
 
+// Developer controls are styled independently of controls in the UI, so that we can cram more of them in.
 const CONTROL_FONT_SIZE = 12;
 const CONTROL_FONT = new PhetFont( CONTROL_FONT_SIZE );
 const TEXT_OPTIONS = {
