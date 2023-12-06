@@ -21,7 +21,7 @@ import NumberControl from '../../../../scenery-phet/js/NumberControl.js';
 import Utils from '../../../../dot/js/Utils.js';
 import Dimension2 from '../../../../dot/js/Dimension2.js';
 
-const FONT_SIZE = 10;
+const FONT_SIZE = 12;
 const FONT = new PhetFont( FONT_SIZE );
 const TEXT_OPTIONS = {
   font: FONT
@@ -106,11 +106,11 @@ class FELDeveloperNumberControl extends NumberControl {
     const majorTicks = [
       {
         value: range.min,
-        label: new RichText( Utils.toFixedNumber( range.min, decimalPlaces ), TICK_LABEL_OPTIONS )
+        label: new RichText( Utils.toFixed( range.min, decimalPlaces ), TICK_LABEL_OPTIONS )
       },
       {
         value: range.max,
-        label: new RichText( Utils.toFixedNumber( range.max, decimalPlaces ), TICK_LABEL_OPTIONS )
+        label: new RichText( Utils.toFixed( range.max, decimalPlaces ), TICK_LABEL_OPTIONS )
       }
     ];
 
@@ -124,8 +124,7 @@ class FELDeveloperNumberControl extends NumberControl {
         ySpacing: 8
       } ),
       titleNodeOptions: {
-        font: FONT,
-        maxWidth: 140
+        font: FONT
       },
       sliderOptions: {
         soundGenerator: null,
