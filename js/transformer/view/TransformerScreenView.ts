@@ -20,6 +20,7 @@ import PickupCoilVisibilityPanel from '../../pickup-coil/view/PickupCoilVisibili
 import { Node, VBox } from '../../../../scenery/js/imports.js';
 import Multilink from '../../../../axon/js/Multilink.js';
 import PickupCoilPanel from '../../common/view/PickupCoilPanel.js';
+import TransformerDeveloperAccordionBox from './TransformerDeveloperAccordionBox.js';
 
 export default class TransformerScreenView extends ScreenView {
 
@@ -110,6 +111,21 @@ export default class TransformerScreenView extends ScreenView {
       panels,
       resetAllButton
     ];
+
+    // Run with &dev to add developer controls.
+    if ( phet.chipper.queryParameters.dev ) {
+      console.log( 'adding developer controls' );
+
+      const developerAccordionBox = new TransformerDeveloperAccordionBox( model );
+      rootNode.addChild( developerAccordionBox );
+
+      // Adjust position of the control panels
+      Multilink.multilink( [ developerAccordionBox.boundsProperty, this.visibleBoundsProperty ],
+        ( bounds, visibleBounds ) => {
+          developerAccordionBox.left = visibleBounds.left + FELConstants.SCREEN_VIEW_X_MARGIN;
+          developerAccordionBox.top = this.layoutBounds.top + FELConstants.SCREEN_VIEW_Y_MARGIN;
+        } );
+    }
   }
 
   /**

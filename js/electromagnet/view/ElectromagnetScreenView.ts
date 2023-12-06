@@ -19,6 +19,7 @@ import { Node, VBox } from '../../../../scenery/js/imports.js';
 import Multilink from '../../../../axon/js/Multilink.js';
 import ElectromagnetPanel from '../../common/view/ElectromagnetPanel.js';
 import PickupCoilVisibilityPanel from '../../pickup-coil/view/PickupCoilVisibilityPanel.js';
+import ElectromagnetDeveloperAccordionBox from './ElectromagnetDeveloperAccordionBox.js';
 
 export default class ElectromagnetScreenView extends ScreenView {
 
@@ -102,6 +103,21 @@ export default class ElectromagnetScreenView extends ScreenView {
       panels,
       resetAllButton
     ];
+
+    // Run with &dev to add developer controls.
+    if ( phet.chipper.queryParameters.dev ) {
+      console.log( 'adding developer controls' );
+
+      const developerAccordionBox = new ElectromagnetDeveloperAccordionBox( model );
+      rootNode.addChild( developerAccordionBox );
+
+      // Adjust position of the control panels
+      Multilink.multilink( [ developerAccordionBox.boundsProperty, this.visibleBoundsProperty ],
+        ( bounds, visibleBounds ) => {
+          developerAccordionBox.left = visibleBounds.left + FELConstants.SCREEN_VIEW_X_MARGIN;
+          developerAccordionBox.top = this.layoutBounds.top + FELConstants.SCREEN_VIEW_Y_MARGIN;
+        } );
+    }
   }
 
   /**

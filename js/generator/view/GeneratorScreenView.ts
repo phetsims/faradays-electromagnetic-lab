@@ -20,6 +20,7 @@ import PickupCoilPanel from '../../common/view/PickupCoilPanel.js';
 import PickupCoilVisibilityPanel from '../../pickup-coil/view/PickupCoilVisibilityPanel.js';
 import { Node, VBox } from '../../../../scenery/js/imports.js';
 import Multilink from '../../../../axon/js/Multilink.js';
+import GeneratorDeveloperAccordionBox from './GeneratorDeveloperAccordionBox.js';
 
 export default class GeneratorScreenView extends ScreenView {
 
@@ -113,6 +114,21 @@ export default class GeneratorScreenView extends ScreenView {
       panels,
       resetAllButton
     ];
+
+    // Run with &dev to add developer controls.
+    if ( phet.chipper.queryParameters.dev ) {
+      console.log( 'adding developer controls' );
+
+      const developerAccordionBox = new GeneratorDeveloperAccordionBox( model );
+      rootNode.addChild( developerAccordionBox );
+
+      // Adjust position of the control panels
+      Multilink.multilink( [ developerAccordionBox.boundsProperty, this.visibleBoundsProperty ],
+        ( bounds, visibleBounds ) => {
+          developerAccordionBox.left = visibleBounds.left + FELConstants.SCREEN_VIEW_X_MARGIN;
+          developerAccordionBox.top = this.layoutBounds.top + FELConstants.SCREEN_VIEW_Y_MARGIN;
+        } );
+    }
   }
 
   /**

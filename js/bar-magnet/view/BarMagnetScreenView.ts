@@ -22,6 +22,7 @@ import EarthNode from '../../common/view/EarthNode.js';
 import FieldNode from '../../common/view/FieldNode.js';
 import FieldMeterNode from '../../common/view/FieldMeterNode.js';
 import CompassNode from '../../common/view/CompassNode.js';
+import BarMagnetDeveloperAccordionBox from './BarMagnetDeveloperAccordionBox.js';
 
 export default class BarMagnetScreenView extends ScreenView {
 
@@ -130,6 +131,21 @@ export default class BarMagnetScreenView extends ScreenView {
       panels,
       resetAllButton
     ];
+
+    // Run with &dev to add developer controls.
+    if ( phet.chipper.queryParameters.dev ) {
+      console.log( 'adding developer controls' );
+
+      const developerAccordionBox = new BarMagnetDeveloperAccordionBox( model );
+      rootNode.addChild( developerAccordionBox );
+
+      // Adjust position of the control panels
+      Multilink.multilink( [ developerAccordionBox.boundsProperty, this.visibleBoundsProperty ],
+        ( bounds, visibleBounds ) => {
+          developerAccordionBox.left = visibleBounds.left + FELConstants.SCREEN_VIEW_X_MARGIN;
+          developerAccordionBox.top = this.layoutBounds.top + FELConstants.SCREEN_VIEW_Y_MARGIN;
+        } );
+    }
   }
 }
 

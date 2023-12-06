@@ -21,6 +21,7 @@ import Multilink from '../../../../axon/js/Multilink.js';
 import PickupCoilVisibilityPanel from './PickupCoilVisibilityPanel.js';
 import PickupCoilPanel from '../../common/view/PickupCoilPanel.js';
 import PickupCoilModel from '../model/PickupCoilModel.js';
+import PickupCoilDeveloperAccordionBox from './PickupCoilDeveloperAccordionBox.js';
 
 export default class PickupCoilScreenView extends ScreenView {
 
@@ -115,6 +116,21 @@ export default class PickupCoilScreenView extends ScreenView {
       panels,
       resetAllButton
     ];
+
+    // Run with &dev to add developer controls.
+    if ( phet.chipper.queryParameters.dev ) {
+      console.log( 'adding developer controls' );
+
+      const developerAccordionBox = new PickupCoilDeveloperAccordionBox( model );
+      rootNode.addChild( developerAccordionBox );
+
+      // Adjust position of the control panels
+      Multilink.multilink( [ developerAccordionBox.boundsProperty, this.visibleBoundsProperty ],
+        ( bounds, visibleBounds ) => {
+          developerAccordionBox.left = visibleBounds.left + FELConstants.SCREEN_VIEW_X_MARGIN;
+          developerAccordionBox.top = this.layoutBounds.top + FELConstants.SCREEN_VIEW_Y_MARGIN;
+        } );
+    }
   }
 }
 
