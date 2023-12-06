@@ -2,7 +2,7 @@
 
 //TODO design & polish presentation of labels and values
 //TODO add overline to 'B' magnitudes
-//TODO how should zero be displayed? 0.00? 0?
+//TODO when should we display '0' vs '0.00'?
 
 /**
  * FieldMeterNode is the visual representation of meter for measuring the B-field.
@@ -27,6 +27,7 @@ import FELColors from '../FELColors.js';
 import FELPreferences from '../model/FELPreferences.js';
 import FELMovableNode from './FELMovableNode.js';
 import Tandem from '../../../../tandem/js/Tandem.js';
+import Vector2 from '../../../../dot/js/Vector2.js';
 
 const BStringProperty = FaradaysElectromagneticLabStrings.symbol.BStringProperty;
 const xStringProperty = FaradaysElectromagneticLabStrings.symbol.xStringProperty;
@@ -36,6 +37,7 @@ const TStringProperty = FaradaysElectromagneticLabStrings.units.TStringProperty;
 
 const G_DECIMAL_PLACES = 2;
 const T_DECIMAL_PLACES = 2;
+const ANGLE_DECIMAL_PLACES = 2;
 const CROSSHAIRS_RADIUS = 10;
 const PROBE_RADIUS = CROSSHAIRS_RADIUS + 8;
 const RICH_TEXT_OPTIONS = {
@@ -80,26 +82,25 @@ export default class FieldMeterNode extends FELMovableNode {
     const stringBProperty = new DerivedProperty(
       [ FELPreferences.magneticUnitsProperty, fieldMeter.fieldVectorProperty, BStringProperty, GStringProperty, TStringProperty ],
       ( magneticUnits, fieldVector, B, G, T ) =>
-        ( magneticUnits === 'G' ) ? `${B} = ${toGaussString( fieldVector.magnitude )} ${G}`
-                                  : `${B} = ${toTeslaString( fieldVector.magnitude )} ${T}`
+        ( magneticUnits === 'G' ) ? `${B} = ${toGaussString( fieldVector.magnitude, G )}`
+                                  : `${B} = ${toTeslaString( fieldVector.magnitude, T )}`
     );
     const stringBxProperty = new DerivedProperty(
       [ FELPreferences.magneticUnitsProperty, fieldMeter.fieldVectorProperty, BStringProperty, xStringProperty, GStringProperty, TStringProperty ],
       ( magneticUnits, fieldVector, B, x, G, T ) =>
-        ( magneticUnits === 'G' ) ? `${B}<sub>${x}</sub> = ${toGaussString( fieldVector.x )} ${G}`
-                                  : `${B}<sub>${x}</sub> = ${toTeslaString( fieldVector.x )} ${T}`
+        ( magneticUnits === 'G' ) ? `${B}<sub>${x}</sub> = ${toGaussString( fieldVector.x, G )}`
+                                  : `${B}<sub>${x}</sub> = ${toTeslaString( fieldVector.x, T )}`
     );
     const stringByProperty = new DerivedProperty(
       [ FELPreferences.magneticUnitsProperty, fieldMeter.fieldVectorProperty, BStringProperty, yStringProperty, GStringProperty, TStringProperty ],
       //TODO -fieldVector.y to convert to +y up, should be done in the model
       ( magneticUnits, fieldVector, B, y, G, T ) =>
-        ( magneticUnits === 'G' ) ? `${B}<sub>${y}</sub> = ${toGaussString( -fieldVector.y )} ${G}`
-                                  : `${B}<sub>${y}</sub> = ${toTeslaString( fieldVector.y )} ${T}`
+        ( magneticUnits === 'G' ) ? `${B}<sub>${y}</sub> = ${toGaussString( -fieldVector.y, G )}`
+                                  : `${B}<sub>${y}</sub> = ${toTeslaString( fieldVector.y, T )}`
     );
     const stringThetaProperty = new DerivedProperty(
       [ fieldMeter.fieldVectorProperty ],
-      //TODO -fieldVector.angle to convert to +angle counterclockwise, should be done in the model
-      fieldVector => `${MathSymbols.THETA} = ${Utils.toFixed( Utils.toDegrees( -fieldVector.angle ), 2 )}${MathSymbols.DEGREES}`
+      fieldVector => `${MathSymbols.THETA} = ${radiansToDegreesString( fieldVector )}`
     );
 
     // These Nodes have unconventional names so that they correspond to B, Bx, By, as shown in the UI.
@@ -134,22 +135,45 @@ export default class FieldMeterNode extends FELMovableNode {
 /**
  * Converts a numeric gauss value to a RichText string in gauss, in decimal notation.
  */
-function toGaussString( gauss: number ): string {
-  return `${Utils.toFixed( gauss, G_DECIMAL_PLACES )}`;
+function toGaussString( gauss: number, G: string ): string {
+  if ( gauss === 0 ) {
+    return `0 ${G}`;
+  }
+  else {
+    return `${Utils.toFixed( gauss, G_DECIMAL_PLACES )} ${G}`;
+  }
 }
 
 /**
  * Converts a numeric gauss value to a RichText string in tesla, in scientific notation.
  */
-function toTeslaString( gauss: number ): string {
+function toTeslaString( gauss: number, T: string ): string {
   if ( gauss === 0 ) {
-    return '0';
+    return `0 ${T}`;
   }
   else {
     const tesla = ( gauss / 10000 ).toExponential( T_DECIMAL_PLACES );
     const tokens = `${tesla}`.split( 'e' );
     assert && assert( tokens.length === 2, `unexpected tokens for ${tesla}` );
-    return `${tokens[ 0 ]} ${MathSymbols.TIMES} 10<sup>${tokens[ 1 ]}</sup>`;
+    return `${tokens[ 0 ]} ${MathSymbols.TIMES} 10<sup>${tokens[ 1 ]}</sup> ${T}`;
+  }
+}
+
+/**
+ * Converts a fieldVector's angle in radians to a string in degrees.
+ */
+function radiansToDegreesString( fieldVector: Vector2 ): string {
+  if ( fieldVector.magnitude === 0 ) {
+    return '';
+  }
+  else {
+    if ( fieldVector.angle === 0 ) {
+      return `0${MathSymbols.DEGREES}`;
+    }
+    else {
+      //TODO -angle to convert to +rotation counterclockwise, should be done in the model
+      return `${Utils.toFixed( Utils.toDegrees( -fieldVector.angle ), ANGLE_DECIMAL_PLACES )}${MathSymbols.DEGREES}`;
+    }
   }
 }
 
