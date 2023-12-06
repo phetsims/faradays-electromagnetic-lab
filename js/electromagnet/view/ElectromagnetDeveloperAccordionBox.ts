@@ -8,7 +8,7 @@
  */
 
 import faradaysElectromagneticLab from '../../faradaysElectromagneticLab.js';
-import { VBox } from '../../../../scenery/js/imports.js';
+import { HSeparator, VBox } from '../../../../scenery/js/imports.js';
 import FELDeveloperAccordionBox from '../../common/view/FELDeveloperAccordionBox.js';
 import ElectromagnetModel from '../model/ElectromagnetModel.js';
 import FELDeveloperNumberControl from '../../common/view/FELDeveloperNumberControl.js';
@@ -18,12 +18,13 @@ export default class ElectromagnetDeveloperAccordionBox extends FELDeveloperAcco
 
   public constructor( model: ElectromagnetModel ) {
 
-    const fieldScaleControl = FELDeveloperNumberControl.createFieldScaleControl( model.electromagnet.fieldScaleProperty );
-
     const content = new VBox( {
+      align: 'left',
       spacing: 10,
       children: [
-        fieldScaleControl
+        FELDeveloperNumberControl.createFieldScaleControl( model.electromagnet.fieldScaleProperty ),
+        new HSeparator(),
+        FELDeveloperAccordionBox.createElectromagnetShapeVisibleCheckbox( model.electromagnet.shapeVisibleProperty )
       ]
     } );
 

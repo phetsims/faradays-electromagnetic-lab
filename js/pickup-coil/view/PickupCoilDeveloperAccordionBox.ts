@@ -13,12 +13,12 @@ import PickupCoilModel from '../model/PickupCoilModel.js';
 import FELDeveloperAccordionBox from '../../common/view/FELDeveloperAccordionBox.js';
 import FELDeveloperNumberControl from '../../common/view/FELDeveloperNumberControl.js';
 
-
 export default class PickupCoilDeveloperAccordionBox extends FELDeveloperAccordionBox {
 
   public constructor( model: PickupCoilModel ) {
 
     const content = new VBox( {
+      align: 'left',
       spacing: 10,
       children: [
         FELDeveloperNumberControl.createFieldScaleControl( model.barMagnet.fieldScaleProperty ),
@@ -29,7 +29,10 @@ export default class PickupCoilDeveloperAccordionBox extends FELDeveloperAccordi
         new HSeparator(),
         FELDeveloperNumberControl.createElectronSpeedScaleControl( model.pickupCoil.electronSpeedScaleProperty ),
         new HSeparator(),
-        FELDeveloperNumberControl.createLightBulbGlowScaleControl( model.lightBulb.glowScaleProperty )
+        FELDeveloperNumberControl.createLightBulbGlowScaleControl( model.lightBulb.glowScaleProperty ),
+        new HSeparator(),
+        FELDeveloperAccordionBox.createPickupCoilSamplePointsVisibleCheckbox( model.pickupCoil.samplePointsVisibleProperty ),
+        FELDeveloperAccordionBox.createPickupCoilFluxVisibleCheckbox( model.pickupCoil.fluxVisibleProperty )
       ]
     } );
 

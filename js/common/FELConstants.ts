@@ -17,7 +17,6 @@ import { KeyboardDragListenerOptions, Text, VBoxOptions } from '../../../scenery
 import NumberControl, { NumberControlOptions } from '../../../scenery-phet/js/NumberControl.js';
 import Dimension2 from '../../../dot/js/Dimension2.js';
 import { RectangularRadioButtonOptions } from '../../../sun/js/buttons/RectangularRadioButton.js';
-import { AccordionBoxOptions } from '../../../sun/js/AccordionBox.js';
 
 //TODO https://github.com/phetsims/faradays-electromagnetic-lab/issues/2 fill in credits
 const CREDITS: CreditsData = {
@@ -32,17 +31,6 @@ const CREDITS: CreditsData = {
 };
 
 const CONTROL_FONT = new PhetFont( 14 );
-
-const ACCORDION_BOX_OPTIONS: AccordionBoxOptions = {
-  contentXMargin: 8,
-  contentYMargin: 2,
-  buttonXMargin: 8,
-  buttonYMargin: 6,
-  titleXMargin: 8,
-  titleYMargin: 6,
-  titleXSpacing: 10,
-  titleAlignX: 'left'
-};
 
 const CHECKBOX_OPTIONS: CheckboxOptions = {
   isDisposable: false,
@@ -125,7 +113,6 @@ const FELConstants = {
   SCREEN_VIEW_Y_MARGIN: 15,
 
   // Options for various types of UI components
-  ACCORDION_BOX_OPTIONS: ACCORDION_BOX_OPTIONS,
   CHECKBOX_OPTIONS: CHECKBOX_OPTIONS,
   NUMBER_CONTROL_OPTIONS: NUMBER_CONTROL_OPTIONS,
   PANEL_OPTIONS: PANEL_OPTIONS,

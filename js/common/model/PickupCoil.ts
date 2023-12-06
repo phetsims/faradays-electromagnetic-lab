@@ -61,6 +61,14 @@ export default class PickupCoil extends Coil {
   // * adjust the developer control until the larger value is reduced to approximately the same value as the smaller value.
   public readonly transitionSmoothingScaleProperty: NumberProperty;
 
+  // *** Writeable by developer controls only ***
+  // Makes the sample points visible in the view
+  public readonly samplePointsVisibleProperty: Property<boolean>;
+
+  // *** Writeable by developer controls only ***
+  // Makes a flux display visible in the view
+  public readonly fluxVisibleProperty: Property<boolean>;
+
   public constructor( magnet: Magnet, providedOptions: PickupCoilOptions ) {
 
     const options = optionize<PickupCoilOptions, SelfOptions, CoilOptions>()( {
@@ -100,6 +108,10 @@ export default class PickupCoil extends Coil {
       tandem: options.tandem.createTandem( 'electronsVisibleProperty' ),
       phetioFeatured: true
     } );
+
+    this.samplePointsVisibleProperty = new BooleanProperty( false );
+
+    this.fluxVisibleProperty = new BooleanProperty( false );
 
     //TODO lots more to port from PickupCoil.java
   }

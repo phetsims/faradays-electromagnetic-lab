@@ -13,12 +13,12 @@ import FELDeveloperAccordionBox from '../../common/view/FELDeveloperAccordionBox
 import GeneratorModel from '../model/GeneratorModel.js';
 import FELDeveloperNumberControl from '../../common/view/FELDeveloperNumberControl.js';
 
-
 export default class GeneratorDeveloperAccordionBox extends FELDeveloperAccordionBox {
 
   public constructor( model: GeneratorModel ) {
 
     const content = new VBox( {
+      align: 'left',
       spacing: 10,
       children: [
         FELDeveloperNumberControl.createFieldScaleControl( model.turbine.fieldScaleProperty ),
@@ -29,7 +29,10 @@ export default class GeneratorDeveloperAccordionBox extends FELDeveloperAccordio
         new HSeparator(),
         FELDeveloperNumberControl.createElectronSpeedScaleControl( model.pickupCoil.electronSpeedScaleProperty ),
         new HSeparator(),
-        FELDeveloperNumberControl.createLightBulbGlowScaleControl( model.lightBulb.glowScaleProperty )
+        FELDeveloperNumberControl.createLightBulbGlowScaleControl( model.lightBulb.glowScaleProperty ),
+        new HSeparator(),
+        FELDeveloperAccordionBox.createPickupCoilSamplePointsVisibleCheckbox( model.pickupCoil.samplePointsVisibleProperty ),
+        FELDeveloperAccordionBox.createPickupCoilFluxVisibleCheckbox( model.pickupCoil.fluxVisibleProperty )
       ]
     } );
 

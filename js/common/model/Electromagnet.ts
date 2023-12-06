@@ -27,6 +27,10 @@ export default class Electromagnet extends Magnet {
   public readonly sourceCoil: SourceCoil;
   public readonly electronsVisibleProperty: Property<boolean>;
 
+  // *** Writeable by developer controls only ***
+  // Makes the model shape visible in view
+  public readonly shapeVisibleProperty: Property<boolean>;
+
   public constructor( providedOptions: ElectromagnetOptions ) {
 
     const options = providedOptions;
@@ -47,6 +51,8 @@ export default class Electromagnet extends Magnet {
       tandem: options.tandem.createTandem( 'electronsVisibleProperty' ),
       phetioFeatured: true
     } );
+
+    this.shapeVisibleProperty = new BooleanProperty( false );
 
     //TODO
   }

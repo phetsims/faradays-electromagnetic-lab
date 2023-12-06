@@ -13,17 +13,15 @@ import FELDeveloperAccordionBox from '../../common/view/FELDeveloperAccordionBox
 import BarMagnetModel from '../model/BarMagnetModel.js';
 import FELDeveloperNumberControl from '../../common/view/FELDeveloperNumberControl.js';
 
-
 export default class BarMagnetDeveloperAccordionBox extends FELDeveloperAccordionBox {
 
   public constructor( model: BarMagnetModel ) {
 
-    const fieldScaleControl = FELDeveloperNumberControl.createFieldScaleControl( model.barMagnet.fieldScaleProperty );
-
     const content = new VBox( {
+      align: 'left',
       spacing: 10,
       children: [
-        fieldScaleControl
+        FELDeveloperNumberControl.createFieldScaleControl( model.barMagnet.fieldScaleProperty )
       ]
     } );
 

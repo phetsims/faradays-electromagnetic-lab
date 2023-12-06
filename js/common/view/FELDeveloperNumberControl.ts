@@ -58,6 +58,7 @@ export default class FELDeveloperNumberControl extends NumberControl {
         maxWidth: 140
       },
       sliderOptions: {
+        soundGenerator: null,
         constrainValue: value => Utils.roundToInterval( value, sliderStep ),
         majorTicks: majorTicks,
         trackSize: TRACK_SIZE,

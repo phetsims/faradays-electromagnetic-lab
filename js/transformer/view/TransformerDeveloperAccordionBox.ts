@@ -13,12 +13,12 @@ import FELDeveloperAccordionBox from '../../common/view/FELDeveloperAccordionBox
 import TransformerModel from '../model/TransformerModel.js';
 import FELDeveloperNumberControl from '../../common/view/FELDeveloperNumberControl.js';
 
-
 export default class TransformerDeveloperAccordionBox extends FELDeveloperAccordionBox {
 
   public constructor( model: TransformerModel ) {
 
     const content = new VBox( {
+      align: 'left',
       spacing: 10,
       children: [
         FELDeveloperNumberControl.createFieldScaleControl( model.electromagnet.fieldScaleProperty ),
@@ -29,7 +29,11 @@ export default class TransformerDeveloperAccordionBox extends FELDeveloperAccord
         new HSeparator(),
         FELDeveloperNumberControl.createElectronSpeedScaleControl( model.pickupCoil.electronSpeedScaleProperty ),
         new HSeparator(),
-        FELDeveloperNumberControl.createLightBulbGlowScaleControl( model.lightBulb.glowScaleProperty )
+        FELDeveloperNumberControl.createLightBulbGlowScaleControl( model.lightBulb.glowScaleProperty ),
+        new HSeparator(),
+        FELDeveloperAccordionBox.createElectromagnetShapeVisibleCheckbox( model.electromagnet.shapeVisibleProperty ),
+        FELDeveloperAccordionBox.createPickupCoilSamplePointsVisibleCheckbox( model.pickupCoil.samplePointsVisibleProperty ),
+        FELDeveloperAccordionBox.createPickupCoilFluxVisibleCheckbox( model.pickupCoil.fluxVisibleProperty )
       ]
     } );
 
