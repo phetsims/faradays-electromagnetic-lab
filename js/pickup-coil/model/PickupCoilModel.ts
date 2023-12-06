@@ -16,11 +16,13 @@ import Compass from '../../common/model/Compass.js';
 import TModel from '../../../../joist/js/TModel.js';
 import KinematicCompass from '../../common/model/KinematicCompass.js';
 import RangeWithValue from '../../../../dot/js/RangeWithValue.js';
+import LightBulb from '../../common/model/LightBulb.js';
 
 export default class PickupCoilModel implements TModel {
 
   public readonly barMagnet: BarMagnet;
   public readonly pickupCoil: PickupCoil;
+  public readonly lightBulb: LightBulb;
   public readonly fieldMeter: FieldMeter;
   public readonly compass: Compass;
 
@@ -38,6 +40,8 @@ export default class PickupCoilModel implements TModel {
       transitionSmoothingScale: 0.77, //TODO see setTransitionSmoothingScale in PickupCoil.java
       tandem: tandem.createTandem( 'pickupCoil' )
     } );
+
+    this.lightBulb = new LightBulb( this.pickupCoil, tandem.createTandem( 'lightBulb' ) );
 
     this.fieldMeter = new FieldMeter( this.barMagnet, {
       position: new Vector2( 150, 400 ),

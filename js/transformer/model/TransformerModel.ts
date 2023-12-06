@@ -16,11 +16,13 @@ import PickupCoil from '../../common/model/PickupCoil.js';
 import Vector2 from '../../../../dot/js/Vector2.js';
 import IncrementalCompass from '../../common/model/IncrementalCompass.js';
 import RangeWithValue from '../../../../dot/js/RangeWithValue.js';
+import LightBulb from '../../common/model/LightBulb.js';
 
 export default class TransformerModel implements TModel {
 
   public readonly electromagnet: Electromagnet;
   public readonly pickupCoil: PickupCoil;
+  public readonly lightBulb: LightBulb;
   public readonly fieldMeter: FieldMeter;
   public readonly compass: Compass;
 
@@ -38,6 +40,8 @@ export default class TransformerModel implements TModel {
       transitionSmoothingScale: 0.56, //TODO see TransformerModule.java
       tandem: tandem.createTandem( 'pickupCoil' )
     } );
+
+    this.lightBulb = new LightBulb( this.pickupCoil, tandem.createTandem( 'lightBulb' ) );
 
     this.fieldMeter = new FieldMeter( this.electromagnet, {
       position: new Vector2( 150, 400 ),

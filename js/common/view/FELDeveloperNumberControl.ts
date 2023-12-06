@@ -59,7 +59,11 @@ export default class FELDeveloperNumberControl extends NumberControl {
   }
 
   public static createFieldScaleControl( fieldScaleProperty: NumberProperty ): NumberControl {
-    return new FELDeveloperNumberControl( 'Field Scale:', fieldScaleProperty, 2 );
+    return new FELDeveloperNumberControl( 'Field Scale:', fieldScaleProperty, 2 /* decimalPlaces */ );
+  }
+
+  public static createLightBulbGlowScaleControl( lightBulbGlowScaleProperty: NumberProperty ): NumberControl {
+    return new FELDeveloperNumberControl( 'Light Bulb Glow Scale:', lightBulbGlowScaleProperty, 1 /* decimalPlaces */ );
   }
 }
 

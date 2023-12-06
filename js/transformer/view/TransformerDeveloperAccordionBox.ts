@@ -8,7 +8,7 @@
  */
 
 import faradaysElectromagneticLab from '../../faradaysElectromagneticLab.js';
-import { VBox } from '../../../../scenery/js/imports.js';
+import { HSeparator, VBox } from '../../../../scenery/js/imports.js';
 import FELDeveloperAccordionBox from '../../common/view/FELDeveloperAccordionBox.js';
 import TransformerModel from '../model/TransformerModel.js';
 import FELDeveloperNumberControl from '../../common/view/FELDeveloperNumberControl.js';
@@ -20,9 +20,15 @@ export default class TransformerDeveloperAccordionBox extends FELDeveloperAccord
 
     const fieldScaleControl = FELDeveloperNumberControl.createFieldScaleControl( model.electromagnet.fieldScaleProperty );
 
+    const lightBulbGlowScaleControl = FELDeveloperNumberControl.createLightBulbGlowScaleControl( model.lightBulb.glowScaleProperty );
+
     const content = new VBox( {
       spacing: 10,
-      children: [ fieldScaleControl ]
+      children: [
+        fieldScaleControl,
+        new HSeparator(),
+        lightBulbGlowScaleControl
+      ]
     } );
 
     super( content );

@@ -16,11 +16,13 @@ import Vector2 from '../../../../dot/js/Vector2.js';
 import Turbine from './Turbine.js';
 import ImmediateCompass from '../../common/model/ImmediateCompass.js';
 import RangeWithValue from '../../../../dot/js/RangeWithValue.js';
+import LightBulb from '../../common/model/LightBulb.js';
 
 export default class GeneratorModel implements TModel {
 
   public readonly turbine: Turbine;
   public readonly pickupCoil: PickupCoil;
+  public readonly lightBulb: LightBulb;
   public readonly fieldMeter: FieldMeter;
   public readonly compass: Compass;
 
@@ -38,6 +40,8 @@ export default class GeneratorModel implements TModel {
       transitionSmoothingScale: 1, //TODO see GeneratorModule.java
       tandem: tandem.createTandem( 'pickupCoil' )
     } );
+
+    this.lightBulb = new LightBulb( this.pickupCoil, tandem.createTandem( 'lightBulb' ) );
 
     this.fieldMeter = new FieldMeter( this.turbine, {
       position: new Vector2( 450, 460 ),
