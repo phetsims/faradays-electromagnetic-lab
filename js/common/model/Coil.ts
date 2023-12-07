@@ -44,7 +44,7 @@ export default abstract class Coil extends FELMovable {
 
   // *** Writeable by developer controls only ***
   // Scale used for electron speed in the view.
-  public readonly electronSpeedScaleProperty: NumberProperty;
+  public readonly devEectronSpeedScaleProperty: NumberProperty;
 
   protected constructor( providedOptions: CoilOptions ) {
 
@@ -83,8 +83,9 @@ export default abstract class Coil extends FELMovable {
     } );
     this.currentAmplitudeProperty = this._currentAmplitudeProperty;
 
-    this.electronSpeedScaleProperty = new NumberProperty( options.electronSpeedScale, {
+    this.devEectronSpeedScaleProperty = new NumberProperty( options.electronSpeedScale, {
       range: new Range( 1, 100 )
+      // Do not instrument. This is a PhET developer Property.
     } );
   }
 

@@ -69,6 +69,7 @@ export default abstract class Magnet extends FELMovable {
 
     this.devFieldScaleProperty = new NumberProperty( FELQueryParameters.fieldScale, {
       range: FIELD_SCALE_RANGE
+      // Do not instrument. This is a PhET developer Property.
     } );
   }
 

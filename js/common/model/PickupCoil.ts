@@ -103,15 +103,21 @@ export default class PickupCoil extends Coil {
 
     this.devMaxEMFProperty = new NumberProperty( options.maxEMF, {
       range: new Range( 10000, 5000000 )
+      // Do not instrument. This is a PhET developer Property.
     } );
 
     this.devTransitionSmoothingScaleProperty = new NumberProperty( options.transitionSmoothingScale, {
       range: new Range( 0.1, 1 )
+      // Do not instrument. This is a PhET developer Property.
     } );
 
-    this.devSamplePointsVisibleProperty = new BooleanProperty( false );
+    this.devSamplePointsVisibleProperty = new BooleanProperty( false, {
+      // Do not instrument. This is a PhET developer Property.
+    } );
 
-    this.devFluxVisibleProperty = new BooleanProperty( false );
+    this.devFluxVisibleProperty = new BooleanProperty( false, {
+      // Do not instrument. This is a PhET developer Property.
+    } );
 
     //TODO lots more to port from PickupCoil.java
   }
