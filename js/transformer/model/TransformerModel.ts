@@ -7,7 +7,6 @@
  */
 
 import faradaysElectromagneticLab from '../../faradaysElectromagneticLab.js';
-import TModel from '../../../../joist/js/TModel.js';
 import Tandem from '../../../../tandem/js/Tandem.js';
 import Electromagnet from '../../common/model/Electromagnet.js';
 import FieldMeter from '../../common/model/FieldMeter.js';
@@ -17,8 +16,9 @@ import Vector2 from '../../../../dot/js/Vector2.js';
 import IncrementalCompass from '../../common/model/IncrementalCompass.js';
 import RangeWithValue from '../../../../dot/js/RangeWithValue.js';
 import LightBulb from '../../common/model/LightBulb.js';
+import FELModel from '../../common/model/FELModel.js';
 
-export default class TransformerModel implements TModel {
+export default class TransformerModel extends FELModel {
 
   public readonly electromagnet: Electromagnet;
   public readonly pickupCoil: PickupCoil;
@@ -27,6 +27,8 @@ export default class TransformerModel implements TModel {
   public readonly compass: Compass;
 
   public constructor( tandem: Tandem ) {
+
+    super( tandem );
 
     this.electromagnet = new Electromagnet( {
       strengthRange: new RangeWithValue( 0, 300, 0 ), // gauss
@@ -54,26 +56,23 @@ export default class TransformerModel implements TModel {
       visible: false,
       tandem: tandem.createTandem( 'compass' )
     } );
+
+    this.stepEmitter.addListener( dt => {
+      this.electromagnet.step( dt );
+      this.pickupCoil.step( dt );
+      this.compass.step( dt );
+    } );
   }
 
   /**
    * Resets the model.
    */
-  public reset(): void {
+  public override reset(): void {
+    super.reset();
     this.electromagnet.reset();
     this.pickupCoil.reset();
     this.fieldMeter.reset();
     this.compass.reset();
-  }
-
-  /**
-   * Steps the model.
-   * @param dt - time step, in seconds
-   */
-  public step( dt: number ): void {
-    this.electromagnet.step( dt );
-    this.pickupCoil.step( dt );
-    this.compass.step( dt );
   }
 }
 

@@ -7,7 +7,6 @@
  */
 
 import faradaysElectromagneticLab from '../../faradaysElectromagneticLab.js';
-import TModel from '../../../../joist/js/TModel.js';
 import Tandem from '../../../../tandem/js/Tandem.js';
 import PickupCoil from '../../common/model/PickupCoil.js';
 import FieldMeter from '../../common/model/FieldMeter.js';
@@ -17,8 +16,9 @@ import Turbine from './Turbine.js';
 import ImmediateCompass from '../../common/model/ImmediateCompass.js';
 import RangeWithValue from '../../../../dot/js/RangeWithValue.js';
 import LightBulb from '../../common/model/LightBulb.js';
+import FELModel from '../../common/model/FELModel.js';
 
-export default class GeneratorModel implements TModel {
+export default class GeneratorModel extends FELModel {
 
   public readonly turbine: Turbine;
   public readonly pickupCoil: PickupCoil;
@@ -27,6 +27,8 @@ export default class GeneratorModel implements TModel {
   public readonly compass: Compass;
 
   public constructor( tandem: Tandem ) {
+
+    super( tandem );
 
     this.turbine = new Turbine( {
       strengthRange: new RangeWithValue( 0, 300, 225 ), // gauss
@@ -52,26 +54,20 @@ export default class GeneratorModel implements TModel {
       position: new Vector2( 350, 175 ),
       tandem: tandem.createTandem( 'compass' )
     } );
+
+    this.stepEmitter.addListener( dt => {
+      this.turbine.step( dt );
+      this.pickupCoil.step( dt );
+      this.compass.step( dt );
+    } );
   }
 
-  /**
-   * Resets the model.
-   */
-  public reset(): void {
+  public override reset(): void {
+    super.reset();
     this.turbine.reset();
     this.pickupCoil.reset();
     this.fieldMeter.reset();
     this.compass.reset();
-  }
-
-  /**
-   * Steps the model.
-   * @param dt - time step, in seconds
-   */
-  public step( dt: number ): void {
-    this.turbine.step( dt );
-    this.pickupCoil.step( dt );
-    this.compass.step( dt );
   }
 }
 

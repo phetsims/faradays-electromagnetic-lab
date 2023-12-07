@@ -8,17 +8,17 @@
 
 import faradaysElectromagneticLab from '../../faradaysElectromagneticLab.js';
 import Tandem from '../../../../tandem/js/Tandem.js';
-import PickupCoil, { VariableNumberOfSamplePointsStrategy } from '../../common/model/PickupCoil.js';
+import PickupCoil, { FixedSpacingSamplePointsStrategy } from '../../common/model/PickupCoil.js';
 import Vector2 from '../../../../dot/js/Vector2.js';
 import BarMagnet from '../../common/model/BarMagnet.js';
 import FieldMeter from '../../common/model/FieldMeter.js';
 import Compass from '../../common/model/Compass.js';
-import TModel from '../../../../joist/js/TModel.js';
 import KinematicCompass from '../../common/model/KinematicCompass.js';
 import RangeWithValue from '../../../../dot/js/RangeWithValue.js';
 import LightBulb from '../../common/model/LightBulb.js';
+import FELModel from '../../common/model/FELModel.js';
 
-export default class PickupCoilModel implements TModel {
+export default class PickupCoilModel extends FELModel {
 
   public readonly barMagnet: BarMagnet;
   public readonly pickupCoil: PickupCoil;
@@ -27,6 +27,8 @@ export default class PickupCoilModel implements TModel {
   public readonly compass: Compass;
 
   public constructor( tandem: Tandem ) {
+
+    super( tandem );
 
     this.barMagnet = new BarMagnet( {
       strengthRange: new RangeWithValue( 0, 300, 225 ), // gauss
@@ -39,7 +41,7 @@ export default class PickupCoilModel implements TModel {
       maxEMF: 2700000,
       transitionSmoothingScale: 0.77,
       electronSpeedScale: 3,
-      samplePointsStrategy: new VariableNumberOfSamplePointsStrategy( this.barMagnet.size.height / 10 ),
+      samplePointsStrategy: new FixedSpacingSamplePointsStrategy( this.barMagnet.size.height / 10 ),
       tandem: tandem.createTandem( 'pickupCoil' )
     } );
 
@@ -55,25 +57,19 @@ export default class PickupCoilModel implements TModel {
       visible: false,
       tandem: tandem.createTandem( 'compass' )
     } );
+
+    this.stepEmitter.addListener( dt => {
+      this.pickupCoil.step( dt );
+      this.compass.step( dt );
+    } );
   }
 
-  /**
-   * Resets the model.
-   */
-  public reset(): void {
+  public override reset(): void {
+    super.reset();
     this.barMagnet.reset();
     this.pickupCoil.reset();
     this.fieldMeter.reset();
     this.compass.reset();
-  }
-
-  /**
-   * Steps the model.
-   * @param dt - time step, in seconds
-   */
-  public step( dt: number ): void {
-    this.pickupCoil.step( dt );
-    this.compass.step( dt );
   }
 }
 

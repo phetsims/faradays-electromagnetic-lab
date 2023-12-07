@@ -52,7 +52,7 @@ export default class SourceCoil extends Coil {
   }
 
   public step( dt: number ): void {
-    //TODO beware of dependencies on SwingTimer.java !!
+    //TODO beware of dependencies on SwingClock.java !!
   }
 }
 

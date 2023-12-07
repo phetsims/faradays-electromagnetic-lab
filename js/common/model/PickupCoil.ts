@@ -19,6 +19,8 @@ import StringUnionProperty from '../../../../axon/js/StringUnionProperty.js';
 import BooleanProperty from '../../../../axon/js/BooleanProperty.js';
 import NumberProperty from '../../../../axon/js/NumberProperty.js';
 import Range from '../../../../dot/js/Range.js';
+import Utils from '../../../../dot/js/Utils.js';
+import createObservableArray, { ObservableArray } from '../../../../axon/js/createObservableArray.js';
 
 const WIRE_WIDTH = 16;
 const LOOP_SPACING = 1.5 * WIRE_WIDTH; // loosely packed loops
@@ -35,15 +37,30 @@ export type PickupCoilOptions = SelfOptions &
 export default class PickupCoil extends Coil {
 
   private readonly magnet: Magnet;
+  
+  // Strategy used to create sample points
   private readonly samplePointsStrategy: SamplePointsStrategy;
+  
+  private readonly fluxProperty: Property<number>;
+  private readonly emfProperty: Property<number>;
 
+  // Used exclusively in calibrateMaxEMF, does not need to be stateful for PhET-iO
+  private _biggestAbsEmf; // in volts
+
+  // B-field sample points along the vertical axis of the coil
+  private samplePoints: ObservableArray<Vector2>;
+
+  // Which EMF indicator is visible in the view
   public readonly indicatorProperty: Property<Indicator>;
+  
+  // Whether electrons are visible in the coil in the view
   public readonly electronsVisibleProperty: Property<boolean>;
 
   // *** Writeable via developer controls only, when running with &dev query parameter. ***
   // Dividing the coil's emf by this number will give us the coil's current amplitude, a number between 0 and 1 that
   // determines the responsiveness of view components. This number should be set as close as possible to the maximum
-  // EMF that can be induced given the range of all model parameters.
+  // EMF that can be induced given the range of all model parameters. See PickupCoil.calibrateEmf for guidance on how
+  // to set this.
   public readonly devMaxEMFProperty: NumberProperty;
 
   // *** Writeable via developer controls only, when running with &dev query parameter. ***
@@ -57,7 +74,7 @@ export default class PickupCoil extends Coil {
   // * move the magnet horizontally through the coil until, by moving it one pixel, you see an abrupt change in the
   //   displayed flux value.
   // * note the 2 flux values when the abrupt change occurs
-  // * move the magnet so that the larger of the 2 flux values is displayed
+  // * move the magnet so that the largest of the 2 flux values is displayed
   // * adjust the developer control until the larger value is reduced to approximately the same value as the smaller value.
   public readonly devTransitionSmoothingScaleProperty: NumberProperty;
 
@@ -69,13 +86,19 @@ export default class PickupCoil extends Coil {
   // Makes a flux display visible in the view
   public readonly devFluxVisibleProperty: Property<boolean>;
 
+  // Reusable sample point
+  private readonly reusableSamplePoint: Vector2;
+
+  // Reusable B-field vector
+  private readonly reusableFieldVector: Vector2;
+
   public constructor( magnet: Magnet, providedOptions: PickupCoilOptions ) {
 
     const options = optionize<PickupCoilOptions, SelfOptions, CoilOptions>()( {
 
       // SelfOptions
       transitionSmoothingScale: 1, // no smoothing
-      samplePointsStrategy: new ConstantNumberOfSamplePointsStrategy( 9 /* numberOfSamplePoints */ ),
+      samplePointsStrategy: new FixedNumberOfSamplePointsStrategy( 9 /* numberOfSamplePoints */ ),
 
       // CoilOptions
       numberOfLoopsRange: new RangeWithValue( 1, 3, 2 ),
@@ -90,15 +113,42 @@ export default class PickupCoil extends Coil {
 
     this.samplePointsStrategy = options.samplePointsStrategy;
 
+    this.fluxProperty = new NumberProperty( 0, {
+      units: 'Wb',
+      tandem: options.tandem.createTandem( 'fluxProperty' ),
+      phetioReadOnly: true,
+      phetioFeatured: true
+      //TODO phetioDocumentation
+    } );
+
+    this.emfProperty = new NumberProperty( 0, {
+      units: 'V',
+      tandem: options.tandem.createTandem( 'emfProperty' ),
+      phetioReadOnly: true,
+      phetioFeatured: true
+      //TODO phetioDocumentation
+    } );
+
+    this._biggestAbsEmf = 0.0;
+
+    this.samplePoints = createObservableArray( {
+      tandem: options.tandem.createTandem( 'samplePoints' ),
+      phetioReadOnly: true,
+      phetioType: createObservableArray.ObservableArrayIO( Vector2.Vector2IO ),
+      phetioDocumentation: 'B-field sample points along the vertical axis of the coil'
+    } );
+
     this.indicatorProperty = new StringUnionProperty<Indicator>( 'lightBulb', {
       validValues: IndicatorValues,
       tandem: options.tandem.createTandem( 'indicatorProperty' ),
       phetioFeatured: true
+      //TODO phetioDocumentation
     } );
 
     this.electronsVisibleProperty = new BooleanProperty( true, {
       tandem: options.tandem.createTandem( 'electronsVisibleProperty' ),
       phetioFeatured: true
+      //TODO phetioDocumentation
     } );
 
     this.devMaxEMFProperty = new NumberProperty( options.maxEMF, {
@@ -119,7 +169,10 @@ export default class PickupCoil extends Coil {
       // Do not instrument. This is a PhET developer Property.
     } );
 
-    //TODO lots more to port from PickupCoil.java
+    this.reusableSamplePoint = new Vector2( 0, 0 );
+    this.reusableFieldVector = new Vector2( 0, 0 );
+
+    this.updateSamplePoints();
   }
 
   public override reset(): void {
@@ -127,11 +180,144 @@ export default class PickupCoil extends Coil {
     this.indicatorProperty.reset();
     this.electronsVisibleProperty.reset();
     //TODO
-    // Do not reset developer Properties, those with names have a 'dev' prefix.
+    // Do not reset developer Properties, those with names that have a 'dev' prefix.
   }
 
   public step( dt: number ): void {
-    //TODO beware of dependencies on SwingTimer.java !!
+    //TODO beware of dependencies on SwingClock.java !!
+    this.updateEMF( dt );
+  }
+
+  /**
+   * Updates the sample points for the coil.
+   * The samples points are used to measure the B-field in the calculation of EMF.
+   */
+  private updateSamplePoints(): void {
+    this.samplePoints.clear();
+    this.samplePoints.push( ...this.samplePointsStrategy.createSamplePoints( this ) );
+  }
+
+  /**
+   * Updates the induced EMF (and other related instance data), using Faraday's Law.
+   */
+  private updateEMF( dt: number ): void {
+
+    // Sum the B-field sample points.
+    const sumBx = this.getSumBx();
+
+    // Average the B-field sample points.
+    const averageBx = sumBx / this.samplePoints.length;
+
+    // Flux in one loop.
+    const A = this.getEffectiveLoopArea();
+    const loopFlux = A * averageBx;
+
+    // Flux in the coil.
+    const flux = this.numberOfLoopsProperty.value * loopFlux;
+
+    // Change in flux.
+    const deltaFlux = flux - this.fluxProperty.value;
+    this.fluxProperty.value = flux;
+
+    // Induced EMF.
+    const emf = -( deltaFlux / dt );
+
+    // If the EMF has changed, set the current in the coil.
+    if ( emf !== this.emfProperty.value ) {
+      this.emfProperty.value = emf;
+
+      // Current amplitude is proportional to EMF amplitude.
+      const currentAmplitude = emf / this.devMaxEMFProperty.value;
+      this._currentAmplitudeProperty.value = Utils.clamp( currentAmplitude, -1, 1 );
+    }
+
+    // Check that devMaxEMFProperty is calibrated properly.
+    phet.log && this.calibrateMaxEMF();
+  }
+
+  /**
+   * Provides assistance for calibrating this coil. The easiest way to calibrate is to run the sim in with the
+   * &dev query parameter, then follow these steps for each screen that has a PickupCoil model element.
+   *
+   * 1. Set the "Max EMF" developer control to its smallest value.
+   * 2. Set the model parameters to their maximums, so that maximum EMF will be generated.
+   * 3. Do whatever is required to generate EMF (move magnet through coil, run generator, etc.)
+   * 4. Watch the console for a message that tells you what value to use.
+   * 5. Change the value of maxEMF that is used to instantiate the PickupCoil.
+   */
+  private calibrateMaxEMF(): void {
+
+    const absEMF = Math.abs( this.emfProperty.value );
+
+    // Keeps track of the biggest emf seen by the pickup coil. This is useful for determining the desired value of
+    // devMaxEMFProperty. Run the sim with &log query parameter, set model controls to their max values, then observe
+    // this debug output in the browser console. The largest value that you see is what you should use for the value
+    // of devMaxEMFProperty.
+    if ( absEMF > this._biggestAbsEmf ) {
+      this._biggestAbsEmf = absEMF;
+      phet.log && phet.log( `PickupCoil.calibrateMaxEMF, biggestEmf=${this._biggestAbsEmf}` );
+
+      // If this prints, you have devMaxEMFProperty set too low. This will cause view components to exhibit responses
+      // that are less than their maximums. For example, the voltmeter won't fully deflect, and the lightbulb won't
+      // fully light.
+      if ( this._biggestAbsEmf > this.devMaxEMFProperty.value ) {
+        phet.log && phet.log( `PickupCoil.calibrateMaxEMF: Recalibrate ${this.devMaxEMFProperty.tandem.name} with ${this._biggestAbsEmf}` );
+
+        // From Java version: The coil could theoretically be self-calibrating. If we notice that we've exceeded
+        // devMaxEMFProperty, then adjust its value. This would be OK only if we started with a value that was in
+        // the ballpark, because we don't want the user to perceive a noticeable change in the sim's behavior.
+      }
+    }
+  }
+
+  /**
+   * Gets the sum of Bx at the coil's sample points.
+   */
+  private getSumBx(): number {
+
+    const magnetStrength = this.magnet.strengthProperty.value;
+
+    // Sum the B-field sample points.
+    let sumBx = 0;
+    for ( let i = 0; i < this.samplePoints.length; i++ ) {
+
+      const x = this.positionProperty.value.x + this.samplePoints[ i ].x;
+      const y = this.positionProperty.value.y + this.samplePoints[ i ].y;
+      this.reusableSamplePoint.setXY( x, y );
+
+      // Find the B-field vector at that point.
+      const fieldVector = this.magnet.getFieldVector( this.reusableSamplePoint, this.reusableFieldVector );
+
+      // If the B-field x component is equal to the magnet strength, then our B-field sample was inside the magnet.
+      // Use a fudge factor to scale the sample so that the transitions between inside and outside the magnet are
+      // not abrupt. See Unfuddle ticket https://phet.unfuddle.com/a#/projects/9404/tickets/by_number/248.
+      let Bx = fieldVector.x;
+      if ( Math.abs( Bx ) === magnetStrength ) {
+        Bx *= this.devTransitionSmoothingScaleProperty.value;
+      }
+
+      // Accumulate a sum of the sample points.
+      sumBx += Bx;
+    }
+
+    return sumBx;
+  }
+
+  /**
+   * Ported directly from the Java versions, this is a workaround for Unfuddle ticket
+   * https://phet.unfuddle.com/a#/projects/9404/tickets/by_number/721.
+   * When the magnet is in the center of the coil, increasing the loop size should decrease the EMF.  But since we are
+   * averaging sample points on a vertical line, multiplying by the actual area would (incorrectly) result in an EMF
+   * increase. The best solution would be to take sample points across the entire coil, but that requires many changes,
+   * so Mike Dubson came up with this workaround. By fudging the area using a thin vertical rectangle, the results are
+   * qualitatively (but not quantitatively) correct.
+   *
+   * NOTE: This fix required recalibration of all the scaling factors accessible via developer controls.
+   */
+  private getEffectiveLoopArea(): number {
+    const width = this.loopRadiusProperty.rangeProperty.value.min;
+    const height = 2 * this.loopRadiusProperty.value;
+    return width * height;
   }
 }
 
@@ -144,11 +330,11 @@ abstract class SamplePointsStrategy {
 }
 
 /**
- * ConstantNumberOfSamplePointsStrategy has a fixed number of points and variable spacing. The points are distributed
+ * FixedNumberOfSamplePointsStrategy has a fixed number of points and variable spacing. The points are distributed
  * along a vertical line that goes through the center of a pickup coil. The number of sample points must be odd, so
  * that one point is at the center of the coil. The points at the outer edge are guaranteed to be on the coil.
  */
-class ConstantNumberOfSamplePointsStrategy extends SamplePointsStrategy {
+class FixedNumberOfSamplePointsStrategy extends SamplePointsStrategy {
 
   private readonly numberOfSamplePoints: number;
 
@@ -185,11 +371,11 @@ class ConstantNumberOfSamplePointsStrategy extends SamplePointsStrategy {
 }
 
 /**
- * VariableNumberOfSamplePointsStrategy has a fixed spacing and variable number of points. Points are distributed along
+ * FixedSpacingSamplePointsStrategy has a fixed spacing and variable number of points. Points are distributed along
  * a vertical line that goes through the center of a pickup coil. One point is at the center of the coil. Points will
  * be on the edge of the coil only if the coil's radius is an integer multiple of the spacing.
  */
-export class VariableNumberOfSamplePointsStrategy extends SamplePointsStrategy {
+export class FixedSpacingSamplePointsStrategy extends SamplePointsStrategy {
 
   private readonly ySpacing: number;
 

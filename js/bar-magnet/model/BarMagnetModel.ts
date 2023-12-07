@@ -7,7 +7,6 @@
  */
 
 import faradaysElectromagneticLab from '../../faradaysElectromagneticLab.js';
-import TModel from '../../../../joist/js/TModel.js';
 import Tandem from '../../../../tandem/js/Tandem.js';
 import BarMagnet from '../../common/model/BarMagnet.js';
 import Compass from '../../common/model/Compass.js';
@@ -15,14 +14,17 @@ import FieldMeter from '../../common/model/FieldMeter.js';
 import Vector2 from '../../../../dot/js/Vector2.js';
 import KinematicCompass from '../../common/model/KinematicCompass.js';
 import RangeWithValue from '../../../../dot/js/RangeWithValue.js';
+import FELModel from '../../common/model/FELModel.js';
 
-export default class BarMagnetModel implements TModel {
+export default class BarMagnetModel extends FELModel {
 
   public readonly barMagnet: BarMagnet;
   public readonly fieldMeter: FieldMeter;
   public readonly compass: Compass;
 
   public constructor( tandem: Tandem ) {
+
+    super( tandem );
 
     this.barMagnet = new BarMagnet( {
       strengthRange: new RangeWithValue( 0, 300, 225 ), // gauss
@@ -39,23 +41,17 @@ export default class BarMagnetModel implements TModel {
       position: new Vector2( 150, 300 ),
       tandem: tandem.createTandem( 'compass' )
     } );
+
+    this.stepEmitter.addListener( dt => {
+      this.compass.step( dt );
+    } );
   }
 
-  /**
-   * Resets the model.
-   */
-  public reset(): void {
+  public override reset(): void {
+    super.reset();
     this.barMagnet.reset();
     this.fieldMeter.reset();
     this.compass.reset();
-  }
-
-  /**
-   * Steps the model.
-   * @param dt - time step, in seconds
-   */
-  public step( dt: number ): void {
-    this.compass.step( dt );
   }
 }
 

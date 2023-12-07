@@ -29,7 +29,7 @@ export default class Turbine extends BarMagnet {
   }
 
   public step( dt: number ): void {
-    //TODO beware of dependencies on SwingTimer.java !!
+    //TODO beware of dependencies on SwingClock.java !!
   }
 }
 
