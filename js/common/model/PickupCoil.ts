@@ -24,8 +24,8 @@ const WIRE_WIDTH = 16;
 const LOOP_SPACING = 1.5 * WIRE_WIDTH; // loosely packed loops
 
 type SelfOptions = {
-  maxEMF: number; // the initial value of maxEMFProperty
-  transitionSmoothingScale?: number; // the initial value of transitionSmoothingScaleProperty
+  maxEMF: number; // the initial value of devMaxEMFProperty
+  transitionSmoothingScale?: number; // the initial value of devTransitionSmoothingScaleProperty
   samplePointsStrategy?: SamplePointsStrategy; //TODO document
 };
 
@@ -44,7 +44,7 @@ export default class PickupCoil extends Coil {
   // Dividing the coil's emf by this number will give us the coil's current amplitude, a number between 0 and 1 that
   // determines the responsiveness of view components. This number should be set as close as possible to the maximum
   // EMF that can be induced given the range of all model parameters.
-  public readonly maxEMFProperty: NumberProperty;
+  public readonly devMaxEMFProperty: NumberProperty;
 
   // *** Writeable by developer controls only ***
   // This is a scaling factor used to smooth out abrupt changes that occur when the magnet transitions between being
@@ -59,15 +59,15 @@ export default class PickupCoil extends Coil {
   // * note the 2 flux values when the abrupt change occurs
   // * move the magnet so that the larger of the 2 flux values is displayed
   // * adjust the developer control until the larger value is reduced to approximately the same value as the smaller value.
-  public readonly transitionSmoothingScaleProperty: NumberProperty;
+  public readonly devTransitionSmoothingScaleProperty: NumberProperty;
 
   // *** Writeable by developer controls only ***
   // Makes the sample points visible in the view
-  public readonly samplePointsVisibleProperty: Property<boolean>;
+  public readonly devSamplePointsVisibleProperty: Property<boolean>;
 
   // *** Writeable by developer controls only ***
   // Makes a flux display visible in the view
-  public readonly fluxVisibleProperty: Property<boolean>;
+  public readonly devFluxVisibleProperty: Property<boolean>;
 
   public constructor( magnet: Magnet, providedOptions: PickupCoilOptions ) {
 
@@ -101,17 +101,17 @@ export default class PickupCoil extends Coil {
       phetioFeatured: true
     } );
 
-    this.maxEMFProperty = new NumberProperty( options.maxEMF, {
+    this.devMaxEMFProperty = new NumberProperty( options.maxEMF, {
       range: new Range( 10000, 5000000 )
     } );
 
-    this.transitionSmoothingScaleProperty = new NumberProperty( options.transitionSmoothingScale, {
+    this.devTransitionSmoothingScaleProperty = new NumberProperty( options.transitionSmoothingScale, {
       range: new Range( 0.1, 1 )
     } );
 
-    this.samplePointsVisibleProperty = new BooleanProperty( false );
+    this.devSamplePointsVisibleProperty = new BooleanProperty( false );
 
-    this.fluxVisibleProperty = new BooleanProperty( false );
+    this.devFluxVisibleProperty = new BooleanProperty( false );
 
     //TODO lots more to port from PickupCoil.java
   }
@@ -121,6 +121,7 @@ export default class PickupCoil extends Coil {
     this.indicatorProperty.reset();
     this.electronsVisibleProperty.reset();
     //TODO
+    // Do not reset developer Properties, those with names have a 'dev' prefix.
   }
 
   public step( dt: number ): void {

@@ -21,7 +21,7 @@ export default class ElectromagnetDeveloperAccordionBox extends FELDeveloperAcco
       align: 'left',
       spacing: 10,
       children: [
-        FELDeveloperAccordionBox.createFieldScaleControl( model.electromagnet.fieldScaleProperty ),
+        FELDeveloperAccordionBox.createFieldScaleControl( model.electromagnet.devFieldScaleProperty ),
         FELDeveloperAccordionBox.createElectromagnetShapeCheckbox( model.electromagnet.shapeVisibleProperty )
       ]
     } );

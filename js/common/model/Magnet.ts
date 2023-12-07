@@ -32,9 +32,9 @@ export default abstract class Magnet extends FELMovable {
   // reusable vector for transforming a position to the magnet's local coordinate frame
   private readonly reusablePosition: Vector2;
 
+  // *** Writeable by developer controls only ***
   // Scales the modulation of alpha used to render the B-field visualization.
-  // Writeable by developer controls only
-  public readonly fieldScaleProperty: NumberProperty;
+  public readonly devFieldScaleProperty: NumberProperty;
 
   protected constructor( providedOptions: MagnetOptions ) {
 
@@ -67,7 +67,7 @@ export default abstract class Magnet extends FELMovable {
 
     this.reusablePosition = new Vector2( 0, 0 );
 
-    this.fieldScaleProperty = new NumberProperty( FELQueryParameters.fieldScale, {
+    this.devFieldScaleProperty = new NumberProperty( FELQueryParameters.fieldScale, {
       range: FIELD_SCALE_RANGE
     } );
   }
@@ -77,6 +77,7 @@ export default abstract class Magnet extends FELMovable {
     this.rotationProperty.reset();
     this.strengthProperty.reset();
     this.fieldVisibleProperty.reset();
+    // Do not reset developer Properties, those with names have a 'dev' prefix.
   }
 
   /**

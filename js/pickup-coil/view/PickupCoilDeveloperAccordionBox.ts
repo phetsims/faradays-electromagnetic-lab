@@ -20,7 +20,7 @@ export default class PickupCoilDeveloperAccordionBox extends FELDeveloperAccordi
       align: 'left',
       spacing: 10,
       children: [
-        FELDeveloperAccordionBox.createFieldScaleControl( model.barMagnet.fieldScaleProperty ),
+        FELDeveloperAccordionBox.createFieldScaleControl( model.barMagnet.devFieldScaleProperty ),
         new HSeparator(),
         FELDeveloperAccordionBox.createPickupCoilControls( model.pickupCoil, model.lightBulb )
       ]
