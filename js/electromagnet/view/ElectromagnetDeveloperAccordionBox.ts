@@ -15,7 +15,7 @@ import ElectromagnetModel from '../model/ElectromagnetModel.js';
 
 export default class ElectromagnetDeveloperAccordionBox extends FELDeveloperAccordionBox {
 
-  public constructor( model: ElectromagnetModel ) {
+  public constructor( model: ElectromagnetModel, visible: boolean ) {
 
     const content = new VBox( {
       align: 'left',
@@ -26,7 +26,7 @@ export default class ElectromagnetDeveloperAccordionBox extends FELDeveloperAcco
       ]
     } );
 
-    super( content );
+    super( content, visible );
   }
 }
 

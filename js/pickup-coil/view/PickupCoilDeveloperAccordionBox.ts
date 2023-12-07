@@ -14,7 +14,7 @@ import FELDeveloperAccordionBox from '../../common/view/FELDeveloperAccordionBox
 
 export default class PickupCoilDeveloperAccordionBox extends FELDeveloperAccordionBox {
 
-  public constructor( model: PickupCoilModel ) {
+  public constructor( model: PickupCoilModel, visible: boolean ) {
 
     const content = new VBox( {
       align: 'left',
@@ -26,7 +26,7 @@ export default class PickupCoilDeveloperAccordionBox extends FELDeveloperAccordi
       ]
     } );
 
-    super( content );
+    super( content, visible );
   }
 }
 

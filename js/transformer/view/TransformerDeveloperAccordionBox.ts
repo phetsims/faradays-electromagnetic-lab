@@ -14,7 +14,7 @@ import TransformerModel from '../model/TransformerModel.js';
 
 export default class TransformerDeveloperAccordionBox extends FELDeveloperAccordionBox {
 
-  public constructor( model: TransformerModel ) {
+  public constructor( model: TransformerModel, visible: boolean ) {
 
     const content = new VBox( {
       align: 'left',
@@ -27,7 +27,7 @@ export default class TransformerDeveloperAccordionBox extends FELDeveloperAccord
       ]
     } );
 
-    super( content );
+    super( content, visible );
   }
 }
 

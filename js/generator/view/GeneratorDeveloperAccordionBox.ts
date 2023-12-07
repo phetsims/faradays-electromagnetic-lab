@@ -14,7 +14,7 @@ import GeneratorModel from '../model/GeneratorModel.js';
 
 export default class GeneratorDeveloperAccordionBox extends FELDeveloperAccordionBox {
 
-  public constructor( model: GeneratorModel ) {
+  public constructor( model: GeneratorModel, visible: boolean ) {
 
     const content = new VBox( {
       align: 'left',
@@ -26,7 +26,7 @@ export default class GeneratorDeveloperAccordionBox extends FELDeveloperAccordio
       ]
     } );
 
-    super( content );
+    super( content, visible );
   }
 }
 

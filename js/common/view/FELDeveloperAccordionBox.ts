@@ -54,7 +54,7 @@ const VBOX_SPACING = 15;
 
 export default class FELDeveloperAccordionBox extends AccordionBox {
 
-  protected constructor( content: Node ) {
+  protected constructor( content: Node, visible: boolean ) {
 
     const titleText = new Text( 'Developer Controls', {
       font: FELConstants.CONTROL_FONT
@@ -62,6 +62,7 @@ export default class FELDeveloperAccordionBox extends AccordionBox {
 
     super( content, {
       isDisposable: false,
+      visible: visible,
       expandedProperty: new BooleanProperty( false ),
       titleNode: titleText,
       titleXMargin: 8,

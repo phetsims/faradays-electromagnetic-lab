@@ -14,7 +14,7 @@ import BarMagnetModel from '../model/BarMagnetModel.js';
 
 export default class BarMagnetDeveloperAccordionBox extends FELDeveloperAccordionBox {
 
-  public constructor( model: BarMagnetModel ) {
+  public constructor( model: BarMagnetModel, visible: boolean ) {
 
     const content = new VBox( {
       align: 'left',
@@ -24,7 +24,7 @@ export default class BarMagnetDeveloperAccordionBox extends FELDeveloperAccordio
       ]
     } );
 
-    super( content );
+    super( content, visible );
   }
 }
 

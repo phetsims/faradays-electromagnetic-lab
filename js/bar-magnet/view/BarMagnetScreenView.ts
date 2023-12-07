@@ -104,12 +104,19 @@ export default class BarMagnetScreenView extends ScreenView {
       },
       tandem: tandem.createTandem( 'resetAllButton' )
     } );
-    this.addChild( resetAllButton );
-
     this.visibleBoundsProperty.link( visibleBounds => {
       resetAllButton.right = visibleBounds.maxX - FELConstants.SCREEN_VIEW_X_MARGIN;
       resetAllButton.bottom = visibleBounds.maxY - FELConstants.SCREEN_VIEW_Y_MARGIN;
     } );
+
+    // Developer controls are always created, to prevent them from becoming broken over time.
+    // But they are visible only when running with &dev.
+    const developerAccordionBox = new BarMagnetDeveloperAccordionBox( model, !!phet.chipper.queryParameters.dev );
+    Multilink.multilink( [ developerAccordionBox.boundsProperty, this.visibleBoundsProperty ],
+      ( bounds, visibleBounds ) => {
+        developerAccordionBox.left = visibleBounds.left + FELConstants.SCREEN_VIEW_X_MARGIN;
+        developerAccordionBox.top = this.layoutBounds.top + FELConstants.SCREEN_VIEW_Y_MARGIN;
+      } );
 
     const rootNode = new Node( {
       children: [
@@ -119,7 +126,8 @@ export default class BarMagnetScreenView extends ScreenView {
         compassNode,
         fieldMeterNode,
         panels,
-        resetAllButton
+        resetAllButton,
+        developerAccordionBox
       ]
     } );
     this.addChild( rootNode );
@@ -130,21 +138,8 @@ export default class BarMagnetScreenView extends ScreenView {
       fieldMeterNode,
       panels,
       resetAllButton
+      // Exclude developerAccordionBox from alt input.
     ];
-
-    // Run with &dev to add developer controls.
-    if ( phet.chipper.queryParameters.dev ) {
-
-      const developerAccordionBox = new BarMagnetDeveloperAccordionBox( model );
-      rootNode.addChild( developerAccordionBox );
-
-      // Adjust position of the control panels
-      Multilink.multilink( [ developerAccordionBox.boundsProperty, this.visibleBoundsProperty ],
-        ( bounds, visibleBounds ) => {
-          developerAccordionBox.left = visibleBounds.left + FELConstants.SCREEN_VIEW_X_MARGIN;
-          developerAccordionBox.top = this.layoutBounds.top + FELConstants.SCREEN_VIEW_Y_MARGIN;
-        } );
-    }
   }
 }
 
