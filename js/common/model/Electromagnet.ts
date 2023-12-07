@@ -27,7 +27,7 @@ export default class Electromagnet extends Magnet {
   public readonly sourceCoil: SourceCoil;
   public readonly electronsVisibleProperty: Property<boolean>;
 
-  // *** Writeable by developer controls only ***
+  // *** Writeable via developer controls only, when running with &dev query parameter. ***
   // Makes the model shape visible in view
   public readonly devShapeVisibleProperty: Property<boolean>;
 

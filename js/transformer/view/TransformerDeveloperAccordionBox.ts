@@ -2,7 +2,7 @@
 
 /**
  * TransformerDeveloperAccordionBox contains developer controls for the 'Transformer' screen.
- * Run with &dev to add this to the sim.
+ * Run with &dev query parameter to add this to the sim.
  *
  * @author Chris Malley (PixelZoom, Inc.)
  */

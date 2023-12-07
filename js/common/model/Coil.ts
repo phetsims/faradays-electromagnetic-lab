@@ -42,7 +42,7 @@ export default abstract class Coil extends FELMovable {
   public readonly currentAmplitudeProperty: TReadOnlyProperty<number>;
   protected readonly _currentAmplitudeProperty: NumberProperty;
 
-  // *** Writeable by developer controls only ***
+  // *** Writeable via developer controls only, when running with &dev query parameter. ***
   // Scale used for electron speed in the view.
   public readonly devElectronSpeedScaleProperty: NumberProperty;
 

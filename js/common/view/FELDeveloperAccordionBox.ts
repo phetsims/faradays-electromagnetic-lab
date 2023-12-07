@@ -5,7 +5,7 @@
  * styling the accordion box, it includes static methods for creating the developer controls needed throughout the
  * simulation.
  *
- * Run with &dev to add this to the sim.
+ * Run with &dev query parameter to add this to the sim.
  *
  * See the Property associated with a control for documentation about its semantics, how to adjust it, etc.
  *

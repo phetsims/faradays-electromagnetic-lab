@@ -17,7 +17,7 @@ export default class LightBulb {
   private readonly pickupCoil: PickupCoil;
 
   // Scales the modulation of alpha, used to make the light bulb glow.
-  // Writeable by developer controls only.
+  // Writeable via developer controls only, when running with &dev query parameter..
   public readonly devGlowScaleProperty: NumberProperty;
 
   public constructor( pickupCoil: PickupCoil, tandem: Tandem ) {

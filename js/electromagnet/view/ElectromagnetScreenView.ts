@@ -83,7 +83,7 @@ export default class ElectromagnetScreenView extends ScreenView {
     } );
 
     // Developer controls are always created, to prevent them from becoming broken over time.
-    // But they are visible only when running with &dev.
+    // But they are visible only when running with &dev query parameter.
     const developerAccordionBox = new ElectromagnetDeveloperAccordionBox( model, !!phet.chipper.queryParameters.dev );
     Multilink.multilink( [ developerAccordionBox.boundsProperty, this.visibleBoundsProperty ],
       ( bounds, visibleBounds ) => {

@@ -40,13 +40,13 @@ export default class PickupCoil extends Coil {
   public readonly indicatorProperty: Property<Indicator>;
   public readonly electronsVisibleProperty: Property<boolean>;
 
-  // *** Writeable by developer controls only ***
+  // *** Writeable via developer controls only, when running with &dev query parameter. ***
   // Dividing the coil's emf by this number will give us the coil's current amplitude, a number between 0 and 1 that
   // determines the responsiveness of view components. This number should be set as close as possible to the maximum
   // EMF that can be induced given the range of all model parameters.
   public readonly devMaxEMFProperty: NumberProperty;
 
-  // *** Writeable by developer controls only ***
+  // *** Writeable via developer controls only, when running with &dev query parameter. ***
   // This is a scaling factor used to smooth out abrupt changes that occur when the magnet transitions between being
   // inside & outside the coil. This is used to scale the B-field for sample points inside the magnet, eliminating
   // abrupt transitions at the left and right edges of the magnet. For any sample point inside the magnet, the B-field
@@ -61,11 +61,11 @@ export default class PickupCoil extends Coil {
   // * adjust the developer control until the larger value is reduced to approximately the same value as the smaller value.
   public readonly devTransitionSmoothingScaleProperty: NumberProperty;
 
-  // *** Writeable by developer controls only ***
+  // *** Writeable via developer controls only, when running with &dev query parameter. ***
   // Makes the sample points visible in the view
   public readonly devSamplePointsVisibleProperty: Property<boolean>;
 
-  // *** Writeable by developer controls only ***
+  // *** Writeable via developer controls only, when running with &dev query parameter. ***
   // Makes a flux display visible in the view
   public readonly devFluxVisibleProperty: Property<boolean>;
 
