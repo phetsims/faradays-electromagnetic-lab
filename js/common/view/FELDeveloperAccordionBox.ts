@@ -131,7 +131,8 @@ class FELDeveloperNumberControl extends NumberControl {
     // Since Properties related to developer controls are not affected by Reset All, add a reset button.
     const resetButton = new ResetButton( {
       listener: () => numberProperty.reset(),
-      scale: 0.4
+      scale: 0.4,
+      tandem: Tandem.OPT_OUT
     } );
 
     const sliderStep = Utils.toFixedNumber( Math.pow( 10, -decimalPlaces ), decimalPlaces );
