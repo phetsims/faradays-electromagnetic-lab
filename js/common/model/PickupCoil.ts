@@ -88,14 +88,6 @@ export default class PickupCoil extends Coil {
 
     this.magnet = magnet;
 
-    this.maxEMFProperty = new NumberProperty( options.maxEMF, {
-      range: new Range( 10000, 5000000 )
-    } );
-
-    this.transitionSmoothingScaleProperty = new NumberProperty( options.transitionSmoothingScale, {
-      range: new Range( 0.1, 1 )
-    } );
-
     this.samplePointsStrategy = options.samplePointsStrategy;
 
     this.indicatorProperty = new StringUnionProperty<Indicator>( 'lightBulb', {
@@ -107,6 +99,14 @@ export default class PickupCoil extends Coil {
     this.electronsVisibleProperty = new BooleanProperty( true, {
       tandem: options.tandem.createTandem( 'electronsVisibleProperty' ),
       phetioFeatured: true
+    } );
+
+    this.maxEMFProperty = new NumberProperty( options.maxEMF, {
+      range: new Range( 10000, 5000000 )
+    } );
+
+    this.transitionSmoothingScaleProperty = new NumberProperty( options.transitionSmoothingScale, {
+      range: new Range( 0.1, 1 )
     } );
 
     this.samplePointsVisibleProperty = new BooleanProperty( false );
@@ -146,7 +146,8 @@ class ConstantNumberOfSamplePointsStrategy extends SamplePointsStrategy {
   private readonly numberOfSamplePoints: number;
 
   public constructor( numberOfSamplePoints: number ) {
-    assert && assert( numberOfSamplePoints > 0 && numberOfSamplePoints % 2 === 1, `invalid numberOfSamplePoints=${numberOfSamplePoints}` );
+    assert && assert( Number.isInteger( numberOfSamplePoints ) && numberOfSamplePoints > 0 && numberOfSamplePoints % 2 === 1,
+      `invalid numberOfSamplePoints=${numberOfSamplePoints}, should be an odd integer` );
     super();
     this.numberOfSamplePoints = numberOfSamplePoints;
   }

@@ -8,7 +8,7 @@
 
 import faradaysElectromagneticLab from '../../faradaysElectromagneticLab.js';
 import Tandem from '../../../../tandem/js/Tandem.js';
-import PickupCoil from '../../common/model/PickupCoil.js';
+import PickupCoil, { VariableNumberOfSamplePointsStrategy } from '../../common/model/PickupCoil.js';
 import Vector2 from '../../../../dot/js/Vector2.js';
 import BarMagnet from '../../common/model/BarMagnet.js';
 import FieldMeter from '../../common/model/FieldMeter.js';
@@ -39,6 +39,7 @@ export default class PickupCoilModel implements TModel {
       maxEMF: 2700000,
       transitionSmoothingScale: 0.77,
       electronSpeedScale: 3,
+      samplePointsStrategy: new VariableNumberOfSamplePointsStrategy( this.barMagnet.size.height / 10 ),
       tandem: tandem.createTandem( 'pickupCoil' )
     } );
 
