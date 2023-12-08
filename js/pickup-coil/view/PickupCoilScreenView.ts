@@ -18,11 +18,11 @@ import CompassNode from '../../common/view/CompassNode.js';
 import BarMagnetPanel from '../../common/view/BarMagnetPanel.js';
 import { Node, VBox } from '../../../../scenery/js/imports.js';
 import Multilink from '../../../../axon/js/Multilink.js';
-import PickupCoilVisibilityPanel from './PickupCoilVisibilityPanel.js';
 import PickupCoilPanel from '../../common/view/PickupCoilPanel.js';
 import PickupCoilModel from '../model/PickupCoilModel.js';
 import PickupCoilDeveloperAccordionBox from './PickupCoilDeveloperAccordionBox.js';
 import PickupCoilDebuggerPanel from '../../common/view/PickupCoilDebuggerPanel.js';
+import ToolsPanel from '../../common/view/ToolsPanel.js';
 
 export default class PickupCoilScreenView extends ScreenView {
 
@@ -60,11 +60,7 @@ export default class PickupCoilScreenView extends ScreenView {
 
     const pickupCoilPanel = new PickupCoilPanel( model.pickupCoil, panelsTandem.createTandem( 'pickupCoilPanel' ) );
 
-    const visibilityPanel = new PickupCoilVisibilityPanel(
-      model.compass.visibleProperty,
-      model.fieldMeter.visibleProperty,
-      panelsTandem.createTandem( 'visibilityPanel' )
-    );
+    const toolsPanel = new ToolsPanel( model.compass, model.fieldMeter, panelsTandem.createTandem( 'toolsPanel' ) );
 
     const panels = new VBox( {
       stretch: true,
@@ -72,7 +68,7 @@ export default class PickupCoilScreenView extends ScreenView {
       children: [
         barMagnetPanel,
         pickupCoilPanel,
-        visibilityPanel
+        toolsPanel
       ],
       tandem: panelsTandem,
       phetioVisiblePropertyInstrumented: true

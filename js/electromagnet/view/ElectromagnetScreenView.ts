@@ -18,8 +18,8 @@ import CompassNode from '../../common/view/CompassNode.js';
 import { Node, VBox } from '../../../../scenery/js/imports.js';
 import Multilink from '../../../../axon/js/Multilink.js';
 import ElectromagnetPanel from '../../common/view/ElectromagnetPanel.js';
-import PickupCoilVisibilityPanel from '../../pickup-coil/view/PickupCoilVisibilityPanel.js';
 import ElectromagnetDeveloperAccordionBox from './ElectromagnetDeveloperAccordionBox.js';
+import ToolsPanel from '../../common/view/ToolsPanel.js';
 
 export default class ElectromagnetScreenView extends ScreenView {
 
@@ -45,10 +45,7 @@ export default class ElectromagnetScreenView extends ScreenView {
 
     const electromagnetPanel = new ElectromagnetPanel( model.electromagnet, tandem.createTandem( 'electromagnetPanel' ) );
 
-    const visibilityPanel = new PickupCoilVisibilityPanel(
-      model.compass.visibleProperty,
-      model.fieldMeter.visibleProperty,
-      panelsTandem.createTandem( 'visibilityPanel' )
+    const toolsPanel = new ToolsPanel( model.compass, model.fieldMeter, panelsTandem.createTandem( 'toolsPanel' )
     );
 
     const panels = new VBox( {
@@ -56,7 +53,7 @@ export default class ElectromagnetScreenView extends ScreenView {
       spacing: 10,
       children: [
         electromagnetPanel,
-        visibilityPanel
+        toolsPanel
       ],
       tandem: panelsTandem,
       phetioVisiblePropertyInstrumented: true

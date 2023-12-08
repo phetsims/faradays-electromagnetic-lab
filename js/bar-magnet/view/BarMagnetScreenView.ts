@@ -17,12 +17,12 @@ import { Node, VBox } from '../../../../scenery/js/imports.js';
 import BarMagnetViewProperties from './BarMagnetViewProperties.js';
 import Multilink from '../../../../axon/js/Multilink.js';
 import BarMagnetNode from '../../common/view/BarMagnetNode.js';
-import BarMagnetVisibilityPanel from './BarMagnetVisibilityPanel.js';
 import EarthNode from '../../common/view/EarthNode.js';
 import FieldNode from '../../common/view/FieldNode.js';
 import FieldMeterNode from '../../common/view/FieldMeterNode.js';
 import CompassNode from '../../common/view/CompassNode.js';
 import BarMagnetDeveloperAccordionBox from './BarMagnetDeveloperAccordionBox.js';
+import ToolsPanel from '../../common/view/ToolsPanel.js';
 
 export default class BarMagnetScreenView extends ScreenView {
 
@@ -71,18 +71,14 @@ export default class BarMagnetScreenView extends ScreenView {
       tandem: panelsTandem.createTandem( 'barMagnetPanel' )
     } );
 
-    const visibilityPanel = new BarMagnetVisibilityPanel(
-      model.compass.visibleProperty,
-      model.fieldMeter.visibleProperty,
-      panelsTandem.createTandem( 'visibilityPanel' )
-    );
+    const toolsPanel = new ToolsPanel( model.compass, model.fieldMeter, panelsTandem.createTandem( 'toolsPanel' ) );
 
     const panels = new VBox( {
       stretch: true,
       spacing: 10,
       children: [
         barMagnetPanel,
-        visibilityPanel
+        toolsPanel
       ],
       tandem: panelsTandem,
       phetioVisiblePropertyInstrumented: true
