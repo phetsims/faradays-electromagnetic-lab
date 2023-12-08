@@ -94,11 +94,11 @@ export default class FELDeveloperAccordionBox extends AccordionBox {
       spacing: VBOX_SPACING,
       children: [
         new Text( 'Pickup Coil', SUBTITLE_OPTIONS ),
-        new FELDeveloperNumberControl( 'Max EMF:', pickupCoil.devMaxEMFProperty, 0 /* decimalPlaces */ ),
-        new FELDeveloperNumberControl( 'Transition Smoothing Scale:', pickupCoil.devTransitionSmoothingScaleProperty, 2 /* decimalPlaces */ ),
-        new FELDeveloperNumberControl( 'Electron Speed Scale:', pickupCoil.devElectronSpeedScaleProperty, 1 /* decimalPlaces */ ),
-        new FELDeveloperNumberControl( 'Light Bulb Scale:', lightBulb.devGlowScaleProperty, 1 /* decimalPlaces */ ),
-        new FELDeveloperCheckbox( 'Sample Points', pickupCoil.devSamplePointsVisibleProperty ),
+        new FELDeveloperNumberControl( 'Max EMF:', pickupCoil.maxEMFProperty, 0 /* decimalPlaces */ ),
+        new FELDeveloperNumberControl( 'Transition Smoothing Scale:', pickupCoil.transitionSmoothingScaleProperty, 2 /* decimalPlaces */ ),
+        new FELDeveloperNumberControl( 'Electron Speed Scale:', pickupCoil.electronSpeedScaleProperty, 1 /* decimalPlaces */ ),
+        new FELDeveloperNumberControl( 'Light Bulb Scale:', lightBulb.glowScaleProperty, 1 /* decimalPlaces */ ),
+        new FELDeveloperCheckbox( 'Sample Points', pickupCoil.samplePointsVisibleProperty ),
         new FELDeveloperCheckbox( 'Debugger Panel', pickupCoil.debuggerPanelVisibleProperty )
       ]
     } );

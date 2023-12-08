@@ -34,7 +34,7 @@ export default abstract class Magnet extends FELMovable {
 
   // *** Writeable via developer controls only, when running with &dev query parameter. ***
   // Scales the modulation of alpha used to render the B-field visualization.
-  public readonly devFieldScaleProperty: NumberProperty;
+  public readonly fieldScaleProperty: NumberProperty;
 
   protected constructor( providedOptions: MagnetOptions ) {
 
@@ -67,7 +67,7 @@ export default abstract class Magnet extends FELMovable {
 
     this.reusablePosition = new Vector2( 0, 0 );
 
-    this.devFieldScaleProperty = new NumberProperty( FELQueryParameters.fieldScale, {
+    this.fieldScaleProperty = new NumberProperty( FELQueryParameters.fieldScale, {
       range: FIELD_SCALE_RANGE
       // Do not instrument. This is a PhET developer Property.
     } );

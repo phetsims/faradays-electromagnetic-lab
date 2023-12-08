@@ -27,8 +27,8 @@ const WIRE_WIDTH = 16;
 const LOOP_SPACING = 1.5 * WIRE_WIDTH; // loosely packed loops
 
 type SelfOptions = {
-  maxEMF: number; // the initial value of devMaxEMFProperty
-  transitionSmoothingScale?: number; // the initial value of devTransitionSmoothingScaleProperty
+  maxEMF: number; // the initial value of maxEMFProperty
+  transitionSmoothingScale?: number; // the initial value of transitionSmoothingScaleProperty
   samplePointsStrategy?: SamplePointsStrategy; //TODO document
 };
 
@@ -75,7 +75,7 @@ export default class PickupCoil extends Coil {
   // determines the responsiveness of view components. This number should be set as close as possible to the maximum
   // EMF that can be induced given the range of all model parameters. See PickupCoil.calibrateEmf for guidance on how
   // to set this.
-  public readonly devMaxEMFProperty: NumberProperty;
+  public readonly maxEMFProperty: NumberProperty;
 
   // *** Writeable via developer controls only, when running with &dev query parameter. ***
   // This is a scaling factor used to smooth out abrupt changes that occur when the magnet transitions between being
@@ -90,11 +90,11 @@ export default class PickupCoil extends Coil {
   // * note the 2 flux values when the abrupt change occurs
   // * move the magnet so that the largest of the 2 flux values is displayed
   // * adjust the developer control until the larger value is reduced to approximately the same value as the smaller value.
-  public readonly devTransitionSmoothingScaleProperty: NumberProperty;
+  public readonly transitionSmoothingScaleProperty: NumberProperty;
 
   // *** Writeable via developer controls only, when running with &dev query parameter. ***
   // Makes the sample points visible in the view
-  public readonly devSamplePointsVisibleProperty: Property<boolean>;
+  public readonly samplePointsVisibleProperty: Property<boolean>;
 
   // *** Writeable via developer controls only, when running with &dev query parameter. ***
   // Makes a flux display visible in the view
@@ -183,17 +183,17 @@ export default class PickupCoil extends Coil {
       //TODO phetioDocumentation
     } );
 
-    this.devMaxEMFProperty = new NumberProperty( options.maxEMF, {
+    this.maxEMFProperty = new NumberProperty( options.maxEMF, {
       range: new Range( 10000, 5000000 )
       // Do not instrument. This is a PhET developer Property.
     } );
 
-    this.devTransitionSmoothingScaleProperty = new NumberProperty( options.transitionSmoothingScale, {
+    this.transitionSmoothingScaleProperty = new NumberProperty( options.transitionSmoothingScale, {
       range: new Range( 0.1, 1 )
       // Do not instrument. This is a PhET developer Property.
     } );
 
-    this.devSamplePointsVisibleProperty = new BooleanProperty( false, {
+    this.samplePointsVisibleProperty = new BooleanProperty( false, {
       // Do not instrument. This is a PhET developer Property.
     } );
 
@@ -263,11 +263,11 @@ export default class PickupCoil extends Coil {
       this._emfProperty.value = emf;
 
       // Current amplitude is proportional to EMF amplitude.
-      const currentAmplitude = emf / this.devMaxEMFProperty.value;
+      const currentAmplitude = emf / this.maxEMFProperty.value;
       this._currentAmplitudeProperty.value = Utils.clamp( currentAmplitude, -1, 1 );
     }
 
-    // Check that devMaxEMFProperty is calibrated properly.
+    // Check that maxEMFProperty is calibrated properly.
     phet.log && this.calibrateMaxEMF();
   }
 
@@ -286,21 +286,21 @@ export default class PickupCoil extends Coil {
     const absEMF = Math.abs( this._emfProperty.value );
 
     // Keeps track of the biggest emf seen by the pickup coil. This is useful for determining the desired value of
-    // devMaxEMFProperty. Run the sim with &log query parameter, set model controls to their max values, then observe
+    // maxEMFProperty. Run the sim with &log query parameter, set model controls to their max values, then observe
     // this debug output in the browser console. The largest value that you see is what you should use for the value
-    // of devMaxEMFProperty.
+    // of maxEMFProperty.
     if ( absEMF > this._biggestAbsEmf ) {
       this._biggestAbsEmf = absEMF;
       phet.log && phet.log( `PickupCoil.calibrateMaxEMF, biggestEmf=${this._biggestAbsEmf}` );
 
-      // If this prints, you have devMaxEMFProperty set too low. This will cause view components to exhibit responses
+      // If this prints, you have maxEMFProperty set too low. This will cause view components to exhibit responses
       // that are less than their maximums. For example, the voltmeter won't fully deflect, and the lightbulb won't
       // fully light.
-      if ( this._biggestAbsEmf > this.devMaxEMFProperty.value ) {
-        phet.log && phet.log( `PickupCoil.calibrateMaxEMF: Recalibrate ${this.devMaxEMFProperty.tandem.name} with ${this._biggestAbsEmf}` );
+      if ( this._biggestAbsEmf > this.maxEMFProperty.value ) {
+        phet.log && phet.log( `PickupCoil.calibrateMaxEMF: Recalibrate ${this.maxEMFProperty.tandem.name} with ${this._biggestAbsEmf}` );
 
         // From Java version: The coil could theoretically be self-calibrating. If we notice that we've exceeded
-        // devMaxEMFProperty, then adjust its value. This would be OK only if we started with a value that was in
+        // maxEMFProperty, then adjust its value. This would be OK only if we started with a value that was in
         // the ballpark, because we don't want the user to perceive a noticeable change in the sim's behavior.
       }
     }
@@ -329,7 +329,7 @@ export default class PickupCoil extends Coil {
       // not abrupt. See Unfuddle ticket https://phet.unfuddle.com/a#/projects/9404/tickets/by_number/248.
       let Bx = fieldVector.x;
       if ( Math.abs( Bx ) === magnetStrength ) {
-        Bx *= this.devTransitionSmoothingScaleProperty.value;
+        Bx *= this.transitionSmoothingScaleProperty.value;
       }
 
       // Accumulate a sum of the sample points.

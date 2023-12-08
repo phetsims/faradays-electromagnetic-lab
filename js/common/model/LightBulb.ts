@@ -18,13 +18,13 @@ export default class LightBulb {
 
   // Scales the modulation of alpha, used to make the light bulb glow.
   // Writeable via developer controls only, when running with &dev query parameter..
-  public readonly devGlowScaleProperty: NumberProperty;
+  public readonly glowScaleProperty: NumberProperty;
 
   public constructor( pickupCoil: PickupCoil, tandem: Tandem ) {
 
     this.pickupCoil = pickupCoil;
 
-    this.devGlowScaleProperty = new NumberProperty( FELQueryParameters.lightBulbGlowScale, {
+    this.glowScaleProperty = new NumberProperty( FELQueryParameters.lightBulbGlowScale, {
       range: LIGHT_BULB_GLOW_SCALE_RANGE
       // Do not instrument. This is a PhET developer Property.
     } );

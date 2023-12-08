@@ -20,7 +20,7 @@ export default class GeneratorDeveloperAccordionBox extends FELDeveloperAccordio
       align: 'left',
       spacing: 10,
       children: [
-        FELDeveloperAccordionBox.createFieldScaleControl( model.turbine.devFieldScaleProperty ),
+        FELDeveloperAccordionBox.createFieldScaleControl( model.turbine.fieldScaleProperty ),
         new HSeparator(),
         FELDeveloperAccordionBox.createPickupCoilControls( model.pickupCoil, model.lightBulb )
       ]

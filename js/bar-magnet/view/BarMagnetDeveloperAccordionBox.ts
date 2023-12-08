@@ -20,7 +20,7 @@ export default class BarMagnetDeveloperAccordionBox extends FELDeveloperAccordio
       align: 'left',
       spacing: 10,
       children: [
-        FELDeveloperAccordionBox.createFieldScaleControl( model.barMagnet.devFieldScaleProperty )
+        FELDeveloperAccordionBox.createFieldScaleControl( model.barMagnet.fieldScaleProperty )
       ]
     } );
 

@@ -29,7 +29,7 @@ export default class Electromagnet extends Magnet {
 
   // *** Writeable via developer controls only, when running with &dev query parameter. ***
   // Makes the model shape visible in view
-  public readonly devShapeVisibleProperty: Property<boolean>;
+  public readonly shapeVisibleProperty: Property<boolean>;
 
   public constructor( providedOptions: ElectromagnetOptions ) {
 
@@ -52,7 +52,7 @@ export default class Electromagnet extends Magnet {
       phetioFeatured: true
     } );
 
-    this.devShapeVisibleProperty = new BooleanProperty( false, {
+    this.shapeVisibleProperty = new BooleanProperty( false, {
       // Do not instrument. This is a PhET developer Property.
     } );
 
