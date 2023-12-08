@@ -20,10 +20,12 @@ import Compass from '../model/Compass.js';
 import PickRequired from '../../../../phet-core/js/types/PickRequired.js';
 import StrictOmit from '../../../../phet-core/js/types/StrictOmit.js';
 import Property from '../../../../axon/js/Property.js';
+import FELPreferences from '../model/FELPreferences.js';
 
 type SelfOptions = {
-  seeInsideProperty?: Property<boolean>;
   hasFlipPolarityButton?: boolean;
+  seeInsideProperty?: Property<boolean>;
+  earthVisibleProperty?: Property<boolean>;
 };
 
 type BarMagnetPanelOptions = SelfOptions & PickRequired<PanelOptions, 'tandem'>;
@@ -32,7 +34,7 @@ export default class BarMagnetPanel extends Panel {
 
   public constructor( barMagnet: BarMagnet, compass: Compass, providedOptions: BarMagnetPanelOptions ) {
 
-    const options = optionize4<BarMagnetPanelOptions, StrictOmit<SelfOptions, 'seeInsideProperty'>, PanelOptions>()(
+    const options = optionize4<BarMagnetPanelOptions, StrictOmit<SelfOptions, 'seeInsideProperty' | 'earthVisibleProperty'>, PanelOptions>()(
       {}, FELConstants.PANEL_OPTIONS, {
 
         // SelfOptions
@@ -84,6 +86,19 @@ export default class BarMagnetPanel extends Panel {
           tandem: options.tandem.createTandem( 'seeIndexCheckbox' )
         } ) );
       contentChildren.push( seeInsideCheckbox );
+    }
+
+    // Optional 'Earth' checkbox
+    if ( options.earthVisibleProperty ) {
+      const earthText = new Text( FaradaysElectromagneticLabStrings.earthStringProperty, {
+        font: FELConstants.CONTROL_FONT
+      } );
+      const earthCheckbox = new Checkbox( options.earthVisibleProperty, earthText,
+        combineOptions<CheckboxOptions>( {}, FELConstants.CHECKBOX_OPTIONS, {
+          visibleProperty: FELPreferences.addEarthCheckboxProperty,
+          tandem: options.tandem.createTandem( 'earthCheckbox' )
+        } ) );
+      contentChildren.push( earthCheckbox );
     }
 
     const content = new VBox( combineOptions<VBoxOptions>( {}, FELConstants.VBOX_OPTIONS, {
