@@ -22,7 +22,7 @@ import PickupCoilVisibilityPanel from './PickupCoilVisibilityPanel.js';
 import PickupCoilPanel from '../../common/view/PickupCoilPanel.js';
 import PickupCoilModel from '../model/PickupCoilModel.js';
 import PickupCoilDeveloperAccordionBox from './PickupCoilDeveloperAccordionBox.js';
-import FluxDisplayNode from '../../common/view/FluxDisplayNode.js';
+import PickupCoilDebuggerPanel from '../../common/view/PickupCoilDebuggerPanel.js';
 
 export default class PickupCoilScreenView extends ScreenView {
 
@@ -44,9 +44,9 @@ export default class PickupCoilScreenView extends ScreenView {
 
     //TODO pickupCoilNode
 
-    const fluxDisplayNode = new FluxDisplayNode( model.pickupCoil );
-    fluxDisplayNode.centerX = this.layoutBounds.centerX;
-    fluxDisplayNode.top = this.layoutBounds.top + FELConstants.SCREEN_VIEW_Y_MARGIN;
+    const pickupCoilDebuggerPanel = new PickupCoilDebuggerPanel( model.pickupCoil );
+    pickupCoilDebuggerPanel.centerX = this.layoutBounds.centerX;
+    pickupCoilDebuggerPanel.top = this.layoutBounds.top + FELConstants.SCREEN_VIEW_Y_MARGIN;
 
     const fieldMeterNode = new FieldMeterNode( model.fieldMeter, tandem.createTandem( 'fieldMeterNode' ) );
 
@@ -117,7 +117,7 @@ export default class PickupCoilScreenView extends ScreenView {
         panels,
         resetAllButton,
         developerAccordionBox,
-        fluxDisplayNode
+        pickupCoilDebuggerPanel
       ]
     } );
     this.addChild( rootNode );
@@ -129,7 +129,7 @@ export default class PickupCoilScreenView extends ScreenView {
       fieldMeterNode,
       panels,
       resetAllButton
-      // Exclude developerAccordionBox and fluxDisplayNode from alt input.
+      // Exclude developerAccordionBox and pickupCoilDebuggerPanel from alt input.
     ];
   }
 }

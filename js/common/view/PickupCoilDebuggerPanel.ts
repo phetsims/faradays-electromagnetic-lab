@@ -1,9 +1,9 @@
 // Copyright 2023, University of Colorado Boulder
 
 /**
- * FluxDisplayNode displays quantities associated with a PickupCoil that are useful during development and debugging.
- * This is not intended to be displayed in the production version. It does not support switching between gauss and tesla,
- * alternative input, and translated strings.
+ * PickupCoilDebuggerPanel is a movable panel that displays quantities associated with a PickupCoil. This is intended to
+ * be used solely for development and debugging. It is not intended to be displayed in the production version. It does
+ * not support switching between gauss and tesla, alternative input, and translated strings.
  *
  * @author Chris Malley (PixelZoom, Inc.)
  */
@@ -35,7 +35,7 @@ const valueTextOptions: RichTextOptions = {
   }
 };
 
-export default class FluxDisplayNode extends Panel {
+export default class PickupCoilDebuggerPanel extends Panel {
 
   public constructor( pickupCoil: PickupCoil ) {
 
@@ -51,7 +51,7 @@ export default class FluxDisplayNode extends Panel {
     const emfStringProperty = new DerivedProperty( [ pickupCoil.emfProperty ],
       emf => `${Utils.toFixed( emf, 0 )} V` );
 
-    const titleText = new Text( 'Flux Display', {
+    const titleText = new Text( 'Pickup Coil debugger', {
       font: FELConstants.TITLE_FONT
     } );
 
@@ -100,4 +100,4 @@ export default class FluxDisplayNode extends Panel {
   }
 }
 
-faradaysElectromagneticLab.register( 'FluxDisplayNode', FluxDisplayNode );
+faradaysElectromagneticLab.register( 'PickupCoilDebuggerPanel', PickupCoilDebuggerPanel );

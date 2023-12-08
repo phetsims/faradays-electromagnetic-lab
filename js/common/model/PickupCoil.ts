@@ -41,17 +41,20 @@ export default class PickupCoil extends Coil {
   
   // Strategy used to create sample points
   private readonly samplePointsStrategy: SamplePointsStrategy;
-  
+
+  //TODO document
   private readonly _fluxProperty: Property<number>;
   public readonly fluxProperty: TReadOnlyProperty<number>;
 
+  //TODO document
   private readonly _emfProperty: Property<number>;
   public readonly emfProperty: TReadOnlyProperty<number>;
 
-  // Provided solely for FluxDisplayNode, a developer view
+  //TODO document
   private readonly _averageBxProperty: Property<number>;
   public readonly averageBxProperty: TReadOnlyProperty<number>;
 
+  //TODO document
   private readonly _deltaFluxProperty: Property<number>;
   public readonly deltaFluxProperty: TReadOnlyProperty<number>;
 
