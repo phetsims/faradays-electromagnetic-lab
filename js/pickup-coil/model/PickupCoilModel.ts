@@ -17,14 +17,16 @@ import KinematicCompass from '../../common/model/KinematicCompass.js';
 import RangeWithValue from '../../../../dot/js/RangeWithValue.js';
 import LightBulb from '../../common/model/LightBulb.js';
 import FELModel from '../../common/model/FELModel.js';
+import Voltmeter from '../../common/model/Voltmeter.js';
 
 export default class PickupCoilModel extends FELModel {
 
   public readonly barMagnet: BarMagnet;
   public readonly pickupCoil: PickupCoil;
   public readonly lightBulb: LightBulb;
-  public readonly fieldMeter: FieldMeter;
+  public readonly voltmeter: Voltmeter;
   public readonly compass: Compass;
+  public readonly fieldMeter: FieldMeter;
 
   public constructor( tandem: Tandem ) {
 
@@ -47,10 +49,7 @@ export default class PickupCoilModel extends FELModel {
 
     this.lightBulb = new LightBulb( this.pickupCoil, tandem.createTandem( 'lightBulb' ) );
 
-    this.fieldMeter = new FieldMeter( this.barMagnet, {
-      position: new Vector2( 150, 400 ),
-      tandem: tandem.createTandem( 'fieldMeter' )
-    } );
+    this.voltmeter = new Voltmeter( this.pickupCoil, tandem.createTandem( 'voltmeter' ) );
 
     this.compass = new KinematicCompass( this.barMagnet, {
       position: new Vector2( 150, 300 ),
@@ -58,8 +57,15 @@ export default class PickupCoilModel extends FELModel {
       tandem: tandem.createTandem( 'compass' )
     } );
 
+    this.fieldMeter = new FieldMeter( this.barMagnet, {
+      position: new Vector2( 150, 400 ),
+      tandem: tandem.createTandem( 'fieldMeter' )
+    } );
+
     this.stepEmitter.addListener( dt => {
       this.pickupCoil.step( dt );
+      this.lightBulb.step( dt );
+      this.voltmeter.step( dt );
       this.compass.step( dt );
     } );
   }
@@ -68,8 +74,10 @@ export default class PickupCoilModel extends FELModel {
     super.reset();
     this.barMagnet.reset();
     this.pickupCoil.reset();
-    this.fieldMeter.reset();
+    this.lightBulb.reset();
+    this.voltmeter.reset();
     this.compass.reset();
+    this.fieldMeter.reset();
   }
 }
 

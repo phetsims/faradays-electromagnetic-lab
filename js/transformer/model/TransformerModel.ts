@@ -17,14 +17,16 @@ import IncrementalCompass from '../../common/model/IncrementalCompass.js';
 import RangeWithValue from '../../../../dot/js/RangeWithValue.js';
 import LightBulb from '../../common/model/LightBulb.js';
 import FELModel from '../../common/model/FELModel.js';
+import Voltmeter from '../../common/model/Voltmeter.js';
 
 export default class TransformerModel extends FELModel {
 
   public readonly electromagnet: Electromagnet;
   public readonly pickupCoil: PickupCoil;
   public readonly lightBulb: LightBulb;
-  public readonly fieldMeter: FieldMeter;
+  public readonly voltmeter: Voltmeter;
   public readonly compass: Compass;
+  public readonly fieldMeter: FieldMeter;
 
   public constructor( tandem: Tandem ) {
 
@@ -46,10 +48,7 @@ export default class TransformerModel extends FELModel {
 
     this.lightBulb = new LightBulb( this.pickupCoil, tandem.createTandem( 'lightBulb' ) );
 
-    this.fieldMeter = new FieldMeter( this.electromagnet, {
-      position: new Vector2( 150, 400 ),
-      tandem: tandem.createTandem( 'fieldMeter' )
-    } );
+    this.voltmeter = new Voltmeter( this.pickupCoil, tandem.createTandem( 'voltmeter' ) );
 
     this.compass = new IncrementalCompass( this.electromagnet, {
       position: new Vector2( 100, 525 ),
@@ -57,9 +56,16 @@ export default class TransformerModel extends FELModel {
       tandem: tandem.createTandem( 'compass' )
     } );
 
+    this.fieldMeter = new FieldMeter( this.electromagnet, {
+      position: new Vector2( 150, 400 ),
+      tandem: tandem.createTandem( 'fieldMeter' )
+    } );
+
     this.stepEmitter.addListener( dt => {
       this.electromagnet.step( dt );
       this.pickupCoil.step( dt );
+      this.lightBulb.step( dt );
+      this.voltmeter.step( dt );
       this.compass.step( dt );
     } );
   }
@@ -71,8 +77,10 @@ export default class TransformerModel extends FELModel {
     super.reset();
     this.electromagnet.reset();
     this.pickupCoil.reset();
-    this.fieldMeter.reset();
+    this.lightBulb.reset();
+    this.voltmeter.reset();
     this.compass.reset();
+    this.fieldMeter.reset();
   }
 }
 

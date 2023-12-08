@@ -19,8 +19,8 @@ import FELModel from '../../common/model/FELModel.js';
 export default class BarMagnetModel extends FELModel {
 
   public readonly barMagnet: BarMagnet;
-  public readonly fieldMeter: FieldMeter;
   public readonly compass: Compass;
+  public readonly fieldMeter: FieldMeter;
 
   public constructor( tandem: Tandem ) {
 
@@ -32,14 +32,14 @@ export default class BarMagnetModel extends FELModel {
       tandem: tandem.createTandem( 'barMagnet' )
     } );
 
-    this.fieldMeter = new FieldMeter( this.barMagnet, {
-      position: new Vector2( 150, 400 ),
-      tandem: tandem.createTandem( 'fieldMeter' )
-    } );
-
     this.compass = new KinematicCompass( this.barMagnet, {
       position: new Vector2( 150, 300 ),
       tandem: tandem.createTandem( 'compass' )
+    } );
+
+    this.fieldMeter = new FieldMeter( this.barMagnet, {
+      position: new Vector2( 150, 400 ),
+      tandem: tandem.createTandem( 'fieldMeter' )
     } );
 
     this.stepEmitter.addListener( dt => {
@@ -50,8 +50,8 @@ export default class BarMagnetModel extends FELModel {
   public override reset(): void {
     super.reset();
     this.barMagnet.reset();
-    this.fieldMeter.reset();
     this.compass.reset();
+    this.fieldMeter.reset();
   }
 }
 

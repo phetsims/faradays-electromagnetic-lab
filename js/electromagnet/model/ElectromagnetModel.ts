@@ -19,8 +19,8 @@ import FELModel from '../../common/model/FELModel.js';
 export default class ElectromagnetModel extends FELModel {
 
   public readonly electromagnet: Electromagnet;
-  public readonly fieldMeter: FieldMeter;
   public readonly compass: Compass;
+  public readonly fieldMeter: FieldMeter;
 
   public constructor( tandem: Tandem ) {
 
@@ -32,14 +32,14 @@ export default class ElectromagnetModel extends FELModel {
       tandem: tandem.createTandem( 'electromagnet' )
     } );
 
-    this.fieldMeter = new FieldMeter( this.electromagnet, {
-      position: new Vector2( 150, 400 ),
-      tandem: tandem.createTandem( 'fieldMeter' )
-    } );
-
     this.compass = new IncrementalCompass( this.electromagnet, {
       position: new Vector2( 150, 200 ),
       tandem: tandem.createTandem( 'compass' )
+    } );
+
+    this.fieldMeter = new FieldMeter( this.electromagnet, {
+      position: new Vector2( 150, 400 ),
+      tandem: tandem.createTandem( 'fieldMeter' )
     } );
 
     this.stepEmitter.addListener( dt => {
@@ -51,8 +51,8 @@ export default class ElectromagnetModel extends FELModel {
   public override reset(): void {
     super.reset();
     this.electromagnet.reset();
-    this.fieldMeter.reset();
     this.compass.reset();
+    this.fieldMeter.reset();
   }
 }
 

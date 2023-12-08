@@ -16,8 +16,8 @@ export default class LightBulb {
 
   private readonly pickupCoil: PickupCoil;
 
+  // *** Writeable via developer controls only, when running with &dev query parameter. ***
   // Scales the modulation of alpha, used to make the light bulb glow.
-  // Writeable via developer controls only, when running with &dev query parameter..
   public readonly glowScaleProperty: NumberProperty;
 
   public constructor( pickupCoil: PickupCoil, tandem: Tandem ) {
@@ -28,6 +28,14 @@ export default class LightBulb {
       range: LIGHT_BULB_GLOW_SCALE_RANGE
       // Do not instrument. This is a PhET developer Property.
     } );
+  }
+
+  public reset(): void {
+    //TODO
+  }
+
+  public step( dt: number ): void {
+    //TODO
   }
 }
 
