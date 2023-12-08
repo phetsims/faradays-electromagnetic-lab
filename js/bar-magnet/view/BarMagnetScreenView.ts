@@ -74,7 +74,6 @@ export default class BarMagnetScreenView extends ScreenView {
     const visibilityPanel = new BarMagnetVisibilityPanel(
       model.compass.visibleProperty,
       model.fieldMeter.visibleProperty,
-      viewProperties.earthVisibleProperty,
       panelsTandem.createTandem( 'visibilityPanel' )
     );
 

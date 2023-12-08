@@ -20,7 +20,6 @@ export default class BarMagnetVisibilityPanel extends Panel {
 
   public constructor( compassVisibleProperty: Property<boolean>,
                       fieldMeterVisibleProperty: Property<boolean>,
-                      earthVisibleProperty: Property<boolean>,
                       tandem: Tandem ) {
 
     // 'Field Meter' checkbox
