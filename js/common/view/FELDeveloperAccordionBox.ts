@@ -99,7 +99,7 @@ export default class FELDeveloperAccordionBox extends AccordionBox {
         new FELDeveloperNumberControl( 'Electron Speed Scale:', pickupCoil.devElectronSpeedScaleProperty, 1 /* decimalPlaces */ ),
         new FELDeveloperNumberControl( 'Light Bulb Scale:', lightBulb.devGlowScaleProperty, 1 /* decimalPlaces */ ),
         new FELDeveloperCheckbox( 'Sample Points', pickupCoil.devSamplePointsVisibleProperty ),
-        new FELDeveloperCheckbox( 'Flux Display', pickupCoil.devFluxVisibleProperty )
+        new FELDeveloperCheckbox( 'Debugger Panel', pickupCoil.debuggerPanelVisibleProperty )
       ]
     } );
   }

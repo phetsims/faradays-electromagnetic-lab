@@ -86,7 +86,7 @@ export default class PickupCoilDebuggerPanel extends Panel {
     } );
 
     super( content, combineOptions<PanelOptions>( {}, FELConstants.PANEL_OPTIONS, {
-      visibleProperty: pickupCoil.devFluxVisibleProperty,
+      visibleProperty: pickupCoil.debuggerPanelVisibleProperty,
       cursor: 'pointer',
       preferredWidth: 175, // set empirically so that the panel does not resize
       layoutOptions: {

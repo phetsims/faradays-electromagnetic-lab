@@ -98,7 +98,7 @@ export default class PickupCoil extends Coil {
 
   // *** Writeable via developer controls only, when running with &dev query parameter. ***
   // Makes a flux display visible in the view
-  public readonly devFluxVisibleProperty: Property<boolean>;
+  public readonly debuggerPanelVisibleProperty: Property<boolean>;
 
   // Reusable sample point
   private readonly reusableSamplePoint: Vector2;
@@ -197,7 +197,7 @@ export default class PickupCoil extends Coil {
       // Do not instrument. This is a PhET developer Property.
     } );
 
-    this.devFluxVisibleProperty = new BooleanProperty( false, {
+    this.debuggerPanelVisibleProperty = new BooleanProperty( false, {
       // Do not instrument. This is a PhET developer Property.
     } );
 
