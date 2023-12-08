@@ -21,6 +21,7 @@ import NumberProperty from '../../../../axon/js/NumberProperty.js';
 import Range from '../../../../dot/js/Range.js';
 import Utils from '../../../../dot/js/Utils.js';
 import createObservableArray, { ObservableArray } from '../../../../axon/js/createObservableArray.js';
+import TReadOnlyProperty from '../../../../axon/js/TReadOnlyProperty.js';
 
 const WIRE_WIDTH = 16;
 const LOOP_SPACING = 1.5 * WIRE_WIDTH; // loosely packed loops
@@ -41,8 +42,18 @@ export default class PickupCoil extends Coil {
   // Strategy used to create sample points
   private readonly samplePointsStrategy: SamplePointsStrategy;
   
-  private readonly fluxProperty: Property<number>;
-  private readonly emfProperty: Property<number>;
+  private readonly _fluxProperty: Property<number>;
+  public readonly fluxProperty: TReadOnlyProperty<number>;
+
+  private readonly _emfProperty: Property<number>;
+  public readonly emfProperty: TReadOnlyProperty<number>;
+
+  // Provided solely for FluxDisplayNode, a developer view
+  private readonly _averageBxProperty: Property<number>;
+  public readonly averageBxProperty: TReadOnlyProperty<number>;
+
+  private readonly _deltaFluxProperty: Property<number>;
+  public readonly deltaFluxProperty: TReadOnlyProperty<number>;
 
   // Used exclusively in calibrateMaxEMF, does not need to be stateful for PhET-iO
   private _biggestAbsEmf; // in volts
@@ -113,21 +124,39 @@ export default class PickupCoil extends Coil {
 
     this.samplePointsStrategy = options.samplePointsStrategy;
 
-    this.fluxProperty = new NumberProperty( 0, {
+    this._fluxProperty = new NumberProperty( 0, {
       units: 'Wb',
       tandem: options.tandem.createTandem( 'fluxProperty' ),
       phetioReadOnly: true,
       phetioFeatured: true
       //TODO phetioDocumentation
     } );
+    this.fluxProperty = this._fluxProperty;
 
-    this.emfProperty = new NumberProperty( 0, {
+    this._emfProperty = new NumberProperty( 0, {
       units: 'V',
       tandem: options.tandem.createTandem( 'emfProperty' ),
       phetioReadOnly: true,
       phetioFeatured: true
       //TODO phetioDocumentation
     } );
+    this.emfProperty = this._emfProperty;
+
+    this._averageBxProperty = new NumberProperty( 0, {
+      units: 'V',
+      tandem: options.tandem.createTandem( 'averageBxProperty' ),
+      phetioReadOnly: true,
+      phetioDocumentation: 'For internal use only'
+    } );
+    this.averageBxProperty = this._averageBxProperty;
+
+    this._deltaFluxProperty = new NumberProperty( 0, {
+      units: 'V',
+      tandem: options.tandem.createTandem( 'deltaFluxProperty' ),
+      phetioReadOnly: true,
+      phetioDocumentation: 'For internal use only'
+    } );
+    this.deltaFluxProperty = this._deltaFluxProperty;
 
     this._biggestAbsEmf = 0.0;
 
@@ -177,6 +206,10 @@ export default class PickupCoil extends Coil {
 
   public override reset(): void {
     super.reset();
+    this._fluxProperty.reset();
+    this._emfProperty.reset();
+    this._averageBxProperty.reset();
+    this._deltaFluxProperty.reset();
     this.indicatorProperty.reset();
     this.electronsVisibleProperty.reset();
     //TODO
@@ -206,25 +239,25 @@ export default class PickupCoil extends Coil {
     const sumBx = this.getSumBx();
 
     // Average the B-field sample points.
-    const averageBx = sumBx / this.samplePoints.length;
+    this._averageBxProperty.value = sumBx / this.samplePoints.length;
 
     // Flux in one loop.
     const A = this.getEffectiveLoopArea();
-    const loopFlux = A * averageBx;
+    const loopFlux = A * this._averageBxProperty.value;
 
     // Flux in the coil.
     const flux = this.numberOfLoopsProperty.value * loopFlux;
 
     // Change in flux.
-    const deltaFlux = flux - this.fluxProperty.value;
-    this.fluxProperty.value = flux;
+    this._deltaFluxProperty.value = flux - this._fluxProperty.value;
+    this._fluxProperty.value = flux;
 
     // Induced EMF.
-    const emf = -( deltaFlux / dt );
+    const emf = -( this._deltaFluxProperty.value / dt );
 
     // If the EMF has changed, set the current in the coil.
-    if ( emf !== this.emfProperty.value ) {
-      this.emfProperty.value = emf;
+    if ( emf !== this._emfProperty.value ) {
+      this._emfProperty.value = emf;
 
       // Current amplitude is proportional to EMF amplitude.
       const currentAmplitude = emf / this.devMaxEMFProperty.value;
@@ -247,7 +280,7 @@ export default class PickupCoil extends Coil {
    */
   private calibrateMaxEMF(): void {
 
-    const absEMF = Math.abs( this.emfProperty.value );
+    const absEMF = Math.abs( this._emfProperty.value );
 
     // Keeps track of the biggest emf seen by the pickup coil. This is useful for determining the desired value of
     // devMaxEMFProperty. Run the sim with &log query parameter, set model controls to their max values, then observe
