@@ -56,7 +56,7 @@ export default class FELDeveloperAccordionBox extends AccordionBox {
 
   protected constructor( content: Node, visible: boolean ) {
 
-    const titleText = new Text( 'Developer Controls', {
+    const titleText = new Text( 'Developer', {
       font: FELConstants.CONTROL_FONT
     } );
 
