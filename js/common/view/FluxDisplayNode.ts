@@ -20,7 +20,6 @@ import Utils from '../../../../dot/js/Utils.js';
 
 const PHI = '\u03A6';
 const DELTA_PHI = `\u2206${PHI}`;
-const DECIMAL_PLACES = 3;
 
 const labelTextOptions: RichTextOptions = {
   font: new PhetFont( 12 ),
@@ -41,16 +40,16 @@ export default class FluxDisplayNode extends Panel {
   public constructor( pickupCoil: PickupCoil ) {
 
     const averageBxStringProperty = new DerivedProperty( [ pickupCoil.averageBxProperty ],
-      averageBx => `${Utils.toFixed( averageBx, DECIMAL_PLACES )} G` );
+      averageBx => `${Utils.toFixed( averageBx, 2 )} G` );
 
     const fluxStringProperty = new DerivedProperty( [ pickupCoil.fluxProperty ],
-      flux => `${Utils.toFixed( flux, DECIMAL_PLACES )} Wb` );
+      flux => `${Utils.toFixed( flux, 0 )} Wb` );
 
     const deltaFluxStringProperty = new DerivedProperty( [ pickupCoil.deltaFluxProperty ],
-      deltaFlux => `${Utils.toFixed( deltaFlux, DECIMAL_PLACES )} Wb` );
+      deltaFlux => `${Utils.toFixed( deltaFlux, 0 )} Wb` );
 
     const emfStringProperty = new DerivedProperty( [ pickupCoil.emfProperty ],
-      emf => `${Utils.toFixed( emf, DECIMAL_PLACES )} V` );
+      emf => `${Utils.toFixed( emf, 0 )} V` );
 
     const titleText = new Text( 'Flux Display', {
       font: FELConstants.TITLE_FONT
@@ -79,7 +78,7 @@ export default class FluxDisplayNode extends Panel {
 
     const content = new VBox( {
       align: 'left',
-      spacing: 5,
+      spacing: 7,
       children: [
         titleText,
         gridBox

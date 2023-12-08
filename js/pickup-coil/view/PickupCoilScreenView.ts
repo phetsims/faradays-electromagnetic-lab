@@ -100,7 +100,7 @@ export default class PickupCoilScreenView extends ScreenView {
 
     // Developer controls are always created, to prevent them from becoming broken over time.
     // But they are visible only when running with &dev query parameter.
-    const developerAccordionBox = new PickupCoilDeveloperAccordionBox( model, !!phet.chipper.queryParameters );
+    const developerAccordionBox = new PickupCoilDeveloperAccordionBox( model, !!phet.chipper.queryParameters.dev );
     Multilink.multilink( [ developerAccordionBox.boundsProperty, this.visibleBoundsProperty ],
       ( bounds, visibleBounds ) => {
         developerAccordionBox.left = visibleBounds.left + FELConstants.SCREEN_VIEW_X_MARGIN;
