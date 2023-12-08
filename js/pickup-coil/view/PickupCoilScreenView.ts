@@ -61,7 +61,6 @@ export default class PickupCoilScreenView extends ScreenView {
     const pickupCoilPanel = new PickupCoilPanel( model.pickupCoil, panelsTandem.createTandem( 'pickupCoilPanel' ) );
 
     const visibilityPanel = new PickupCoilVisibilityPanel(
-      model.barMagnet.fieldVisibleProperty,
       model.compass.visibleProperty,
       model.fieldMeter.visibleProperty,
       panelsTandem.createTandem( 'visibilityPanel' )

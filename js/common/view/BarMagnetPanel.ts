@@ -64,6 +64,16 @@ export default class BarMagnetPanel extends Panel {
       contentChildren.push( flipPolarityButton );
     }
 
+    // 'Magnetic Field' checkbox
+    const magneticFieldText = new Text( FaradaysElectromagneticLabStrings.magneticFieldStringProperty, {
+      font: FELConstants.CONTROL_FONT
+    } );
+    const magneticFieldCheckbox = new Checkbox( barMagnet.fieldVisibleProperty, magneticFieldText,
+      combineOptions<CheckboxOptions>( {}, FELConstants.CHECKBOX_OPTIONS, {
+        tandem: options.tandem.createTandem( 'magneticFieldCheckbox' )
+      } ) );
+    contentChildren.push( magneticFieldCheckbox );
+
     // Optional 'See Inside' checkbox
     if ( options.seeInsideProperty ) {
       const seeInsideText = new Text( FaradaysElectromagneticLabStrings.seeInsideStringProperty, {

@@ -51,7 +51,6 @@ export default class TransformerScreenView extends ScreenView {
     const pickupCoilPanel = new PickupCoilPanel( model.pickupCoil, panelsTandem.createTandem( 'pickupCoilPanel' ) );
 
     const visibilityPanel = new PickupCoilVisibilityPanel(
-      model.electromagnet.fieldVisibleProperty,
       model.compass.visibleProperty,
       model.fieldMeter.visibleProperty,
       panelsTandem.createTandem( 'visibilityPanel' )

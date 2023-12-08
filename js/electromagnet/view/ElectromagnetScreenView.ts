@@ -46,7 +46,6 @@ export default class ElectromagnetScreenView extends ScreenView {
     const electromagnetPanel = new ElectromagnetPanel( model.electromagnet, tandem.createTandem( 'electromagnetPanel' ) );
 
     const visibilityPanel = new PickupCoilVisibilityPanel(
-      model.electromagnet.fieldVisibleProperty,
       model.compass.visibleProperty,
       model.fieldMeter.visibleProperty,
       panelsTandem.createTandem( 'visibilityPanel' )

@@ -18,19 +18,9 @@ import FaradaysElectromagneticLabStrings from '../../FaradaysElectromagneticLabS
 
 export default class PickupCoilVisibilityPanel extends Panel {
 
-  public constructor( fieldVisibleProperty: Property<boolean>,
-                      compassVisibleProperty: Property<boolean>,
+  public constructor( compassVisibleProperty: Property<boolean>,
                       fieldMeterVisibleProperty: Property<boolean>,
                       tandem: Tandem ) {
-
-    // 'Magnetic Field' checkbox
-    const magneticFieldText = new Text( FaradaysElectromagneticLabStrings.magneticFieldStringProperty, {
-      font: FELConstants.CONTROL_FONT
-    } );
-    const magneticFieldCheckbox = new Checkbox( fieldVisibleProperty, magneticFieldText,
-      combineOptions<CheckboxOptions>( {}, FELConstants.CHECKBOX_OPTIONS, {
-        tandem: tandem.createTandem( 'magneticFieldCheckbox' )
-      } ) );
 
     // 'Field Meter' checkbox
     const fieldMeterText = new Text( FaradaysElectromagneticLabStrings.fieldMeterStringProperty, {
@@ -52,7 +42,6 @@ export default class PickupCoilVisibilityPanel extends Panel {
 
     const content = new VBox( combineOptions<VBoxOptions>( {}, FELConstants.VBOX_OPTIONS, {
       children: [
-        magneticFieldCheckbox,
         fieldMeterCheckbox,
         compassCheckbox
       ]

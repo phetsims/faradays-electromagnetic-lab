@@ -33,6 +33,15 @@ export default class ElectromagnetPanel extends Panel {
     const numberOfLoopsControl = new NumberOfLoopsControl( electromagnet.sourceCoil.numberOfLoopsProperty,
       tandem.createTandem( 'numberOfLoopsControl' ) );
 
+    // 'Magnetic Field' checkbox
+    const magneticFieldText = new Text( FaradaysElectromagneticLabStrings.magneticFieldStringProperty, {
+      font: FELConstants.CONTROL_FONT
+    } );
+    const magneticFieldCheckbox = new Checkbox( electromagnet.fieldVisibleProperty, magneticFieldText,
+      combineOptions<CheckboxOptions>( {}, FELConstants.CHECKBOX_OPTIONS, {
+        tandem: tandem.createTandem( 'magneticFieldCheckbox' )
+      } ) );
+
     // 'Electrons' checkbox
     const electronsText = new Text( FaradaysElectromagneticLabStrings.electronsStringProperty, {
       font: FELConstants.CONTROL_FONT
@@ -46,6 +55,7 @@ export default class ElectromagnetPanel extends Panel {
       titleText,
       currentSourceRadioButtonGroup,
       numberOfLoopsControl,
+      magneticFieldCheckbox,
       electronsCheckbox
     ];
 
