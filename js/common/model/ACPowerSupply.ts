@@ -1,6 +1,6 @@
 // Copyright 2023, University of Colorado Boulder
 
-//TODO Factor out Indicator base class (with a better name), possibly delete Indicator string union?
+//TODO Factor out CurrentSource base class, possibly delete CurrentSource string union?
 /**
  * TODO
  *
@@ -9,21 +9,18 @@
 
 import Tandem from '../../../../tandem/js/Tandem.js';
 import faradaysElectromagneticLab from '../../faradaysElectromagneticLab.js';
-import PickupCoil from './PickupCoil.js';
 import PhetioObject from '../../../../tandem/js/PhetioObject.js';
 
-export default class Voltmeter extends PhetioObject {
+export default class ACPowerSupply extends PhetioObject {
 
-  private readonly pickupCoil: PickupCoil;
-
-  public constructor( pickupCoil: PickupCoil, tandem: Tandem ) {
+  public constructor( tandem: Tandem ) {
 
     super( {
       tandem: tandem,
       phetioState: false
     } );
 
-    this.pickupCoil = pickupCoil;
+    //TODO
   }
 
   public reset(): void {
@@ -35,4 +32,4 @@ export default class Voltmeter extends PhetioObject {
   }
 }
 
-faradaysElectromagneticLab.register( 'Voltmeter', Voltmeter );
+faradaysElectromagneticLab.register( 'ACPowerSupply', ACPowerSupply );

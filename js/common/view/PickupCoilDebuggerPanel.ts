@@ -17,6 +17,7 @@ import Panel, { PanelOptions } from '../../../../sun/js/Panel.js';
 import { combineOptions } from '../../../../phet-core/js/optionize.js';
 import FELConstants from '../FELConstants.js';
 import Utils from '../../../../dot/js/Utils.js';
+import Tandem from '../../../../tandem/js/Tandem.js';
 
 const PHI = '\u03A6';
 const DELTA_PHI = `\u2206${PHI}`;
@@ -95,7 +96,8 @@ export default class PickupCoilDebuggerPanel extends Panel {
     } ) );
 
     this.addInputListener( new DragListener( {
-      translateNode: true
+      translateNode: true,
+      tandem: Tandem.OPT_OUT
     } ) );
   }
 }

@@ -12,8 +12,9 @@ import faradaysElectromagneticLab from '../../faradaysElectromagneticLab.js';
 import PickupCoil from './PickupCoil.js';
 import NumberProperty from '../../../../axon/js/NumberProperty.js';
 import FELQueryParameters, { LIGHT_BULB_GLOW_SCALE_RANGE } from '../FELQueryParameters.js';
+import PhetioObject from '../../../../tandem/js/PhetioObject.js';
 
-export default class LightBulb {
+export default class LightBulb extends PhetioObject {
 
   private readonly pickupCoil: PickupCoil;
 
@@ -22,6 +23,11 @@ export default class LightBulb {
   public readonly glowScaleProperty: NumberProperty;
 
   public constructor( pickupCoil: PickupCoil, tandem: Tandem ) {
+
+    super( {
+      tandem: tandem,
+      phetioState: false
+    } );
 
     this.pickupCoil = pickupCoil;
 
