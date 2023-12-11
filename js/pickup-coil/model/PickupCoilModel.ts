@@ -59,6 +59,7 @@ export default class PickupCoilModel extends FELModel {
 
     this.fieldMeter = new FieldMeter( this.barMagnet, {
       position: new Vector2( 150, 400 ),
+      visible: false,
       tandem: tandem.createTandem( 'fieldMeter' )
     } );
 

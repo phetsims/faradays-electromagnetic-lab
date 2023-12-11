@@ -39,6 +39,7 @@ export default class ElectromagnetModel extends FELModel {
 
     this.fieldMeter = new FieldMeter( this.electromagnet, {
       position: new Vector2( 150, 400 ),
+      visible: false,
       tandem: tandem.createTandem( 'fieldMeter' )
     } );
 
