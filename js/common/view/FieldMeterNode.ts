@@ -1,6 +1,5 @@
 // Copyright 2023, University of Colorado Boulder
 
-//TODO design & polish presentation of labels and values
 //TODO add overline to 'B' magnitudes
 //TODO when should we display '0' vs '0.00'?
 
@@ -14,7 +13,7 @@
 
 import faradaysElectromagneticLab from '../../faradaysElectromagneticLab.js';
 import FieldMeter from '../model/FieldMeter.js';
-import { GridBox, Path, RichText, RichTextOptions } from '../../../../scenery/js/imports.js';
+import { GridBox, Node, Path, Rectangle, RichText, RichTextOptions } from '../../../../scenery/js/imports.js';
 import { Shape } from '../../../../kite/js/imports.js';
 import DerivedProperty from '../../../../axon/js/DerivedProperty.js';
 import Utils from '../../../../dot/js/Utils.js';
@@ -28,6 +27,8 @@ import FELPreferences from '../model/FELPreferences.js';
 import FELMovableNode from './FELMovableNode.js';
 import Tandem from '../../../../tandem/js/Tandem.js';
 import Vector2 from '../../../../dot/js/Vector2.js';
+import TReadOnlyProperty from '../../../../axon/js/TReadOnlyProperty.js';
+import Dimension2 from '../../../../dot/js/Dimension2.js';
 
 const BStringProperty = FaradaysElectromagneticLabStrings.symbol.BStringProperty;
 const xStringProperty = FaradaysElectromagneticLabStrings.symbol.xStringProperty;
@@ -40,8 +41,11 @@ const T_DECIMAL_PLACES = 2;
 const ANGLE_DECIMAL_PLACES = 2;
 const CROSSHAIRS_RADIUS = 10;
 const PROBE_RADIUS = CROSSHAIRS_RADIUS + 8;
+const READOUT_SIZE = new Dimension2( 90, 20 );
+const READOUT_X_MARGIN = 5;
+const READOUT_Y_MARGIN = 2;
 
-const labelTextOptions: RichTextOptions = {
+const LABEL_TEXT_OPTIONS: RichTextOptions = {
   font: new PhetFont( 12 ),
   fill: FELColors.fieldMeterLabelsColorProperty,
   layoutOptions: {
@@ -49,12 +53,14 @@ const labelTextOptions: RichTextOptions = {
   }
 };
 
-const valueTextOptions: RichTextOptions = {
+const READOUT_TEXT_OPTIONS: RichTextOptions = {
   font: new PhetFont( 12 ),
   fill: FELColors.fieldMeterLabelsColorProperty,
   layoutOptions: {
     xAlign: 'left'
-  }
+  },
+  maxWidth: READOUT_SIZE.width - ( 2 * READOUT_X_MARGIN ),
+  maxHeight: READOUT_SIZE.height - ( 2 * READOUT_Y_MARGIN )
 };
 
 export default class FieldMeterNode extends FELMovableNode {
@@ -121,37 +127,62 @@ export default class FieldMeterNode extends FELMovableNode {
     );
 
     const gridBox = new GridBox( {
-      xSpacing: 15,
-      ySpacing: 8,
+      xSpacing: 5,
+      ySpacing: 5,
       yAlign: 'center',
       columns: [
         // Labels
         [
-          new RichText( stringBLabelProperty, labelTextOptions ),
-          new RichText( stringBxLabelProperty, labelTextOptions ),
-          new RichText( stringByLabelProperty, labelTextOptions ),
-          new RichText( `${MathSymbols.THETA}`, labelTextOptions )
+          new RichText( stringBLabelProperty, LABEL_TEXT_OPTIONS ),
+          new RichText( stringBxLabelProperty, LABEL_TEXT_OPTIONS ),
+          new RichText( stringByLabelProperty, LABEL_TEXT_OPTIONS ),
+          new RichText( `${MathSymbols.THETA}`, LABEL_TEXT_OPTIONS )
         ],
 
         // Values
         [
-          new RichText( stringBValueProperty, valueTextOptions ),
-          new RichText( stringBxValueProperty, valueTextOptions ),
-          new RichText( stringByValueProperty, valueTextOptions ),
-          new RichText( stringThetaValueProperty, valueTextOptions )
+          new ReadoutNode( stringBValueProperty ),
+          new ReadoutNode( stringBxValueProperty ),
+          new ReadoutNode( stringByValueProperty ),
+          new ReadoutNode( stringThetaValueProperty )
         ]
       ]
     } );
 
     gridBox.boundsProperty.link( bounds => {
-      gridBox.left = bodyNode.left + 10;
-      gridBox.centerY = bodyNode.centerY;
+      gridBox.center = bodyNode.center;
     } );
 
     super( fieldMeter, {
       children: [ probeNode, crosshairsNode, bodyNode, gridBox ],
       visibleProperty: fieldMeter.visibleProperty,
       tandem: tandem
+    } );
+  }
+}
+
+/**
+ * NumberDisplay has gotten way too complicated, and does not deal with dynamic strings well. Since they do not
+ * be instrumented in this sim, roll our own lighter-weight readout that works well with dynamic strings.
+ */
+class ReadoutNode extends Node {
+
+  public constructor( stringProperty: TReadOnlyProperty<string> ) {
+
+    const background = new Rectangle( 0, 0, READOUT_SIZE.width, READOUT_SIZE.height, {
+      fill: 'black',
+      stroke: null,
+      cornerRadius: 4
+    } );
+
+    const text = new RichText( stringProperty, READOUT_TEXT_OPTIONS );
+    text.boundsProperty.link( bounds => {
+      text.right = background.right - READOUT_X_MARGIN;
+      text.centerY = background.centerY;
+    } );
+
+    super( {
+      children: [ background, text ]
     } );
   }
 }
