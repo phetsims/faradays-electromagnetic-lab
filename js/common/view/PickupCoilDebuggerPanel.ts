@@ -22,14 +22,14 @@ import Tandem from '../../../../tandem/js/Tandem.js';
 const PHI = '\u03A6';
 const DELTA_PHI = `\u2206${PHI}`;
 
-const labelTextOptions: RichTextOptions = {
+const LABEL_TEXT_OPTIONS: RichTextOptions = {
   font: new PhetFont( 12 ),
   layoutOptions: {
     xAlign: 'right'
   }
 };
 
-const valueTextOptions: RichTextOptions = {
+const VALUE_TEXT_OPTIONS: RichTextOptions = {
   font: new PhetFont( 12 ),
   layoutOptions: {
     xAlign: 'left'
@@ -61,18 +61,18 @@ export default class PickupCoilDebuggerPanel extends Panel {
       columns: [
         // Labels
         [
-          new RichText( 'Avg B<sub>x</sub> =', labelTextOptions ),
-          new RichText( `${PHI} =`, labelTextOptions ),
-          new RichText( `${DELTA_PHI} =`, labelTextOptions ),
-          new RichText( 'EMF =', labelTextOptions )
+          new RichText( 'Avg B<sub>x</sub> =', LABEL_TEXT_OPTIONS ),
+          new RichText( `${PHI} =`, LABEL_TEXT_OPTIONS ),
+          new RichText( `${DELTA_PHI} =`, LABEL_TEXT_OPTIONS ),
+          new RichText( 'EMF =', LABEL_TEXT_OPTIONS )
         ],
 
         // Values
         [
-          new RichText( averageBxStringProperty, valueTextOptions ),
-          new RichText( fluxStringProperty, valueTextOptions ),
-          new RichText( deltaFluxStringProperty, valueTextOptions ),
-          new RichText( emfStringProperty, valueTextOptions )
+          new RichText( averageBxStringProperty, VALUE_TEXT_OPTIONS ),
+          new RichText( fluxStringProperty, VALUE_TEXT_OPTIONS ),
+          new RichText( deltaFluxStringProperty, VALUE_TEXT_OPTIONS ),
+          new RichText( emfStringProperty, VALUE_TEXT_OPTIONS )
         ]
       ]
     } );
