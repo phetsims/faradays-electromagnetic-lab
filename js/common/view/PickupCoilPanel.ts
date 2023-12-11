@@ -17,7 +17,7 @@ import PickupCoil from '../model/PickupCoil.js';
 import Checkbox, { CheckboxOptions } from '../../../../sun/js/Checkbox.js';
 import LoopRadiusControl from './LoopRadiusControl.js';
 import NumberOfLoopsControl from './NumberOfLoopsControl.js';
-import IndicatorRadioButtonGroup from './IndicatorRadioButtonGroup.js';
+import IndicatorControl from './IndicatorControl.js';
 
 export default class PickupCoilPanel extends Panel {
 
@@ -27,9 +27,8 @@ export default class PickupCoilPanel extends Panel {
       font: FELConstants.TITLE_FONT
     } );
 
-    //TODO label as 'Indicator'?
-    const indicatorRadioButtonGroup = new IndicatorRadioButtonGroup( pickupCoil.indicatorProperty,
-      tandem.createTandem( 'indicatorRadioButtonGroup' ) );
+    const indicatorControl = new IndicatorControl( pickupCoil.indicatorProperty,
+      tandem.createTandem( 'indicatorControl' ) );
 
     const numberOfLoopsControl = new NumberOfLoopsControl( pickupCoil.numberOfLoopsProperty,
       tandem.createTandem( 'numberOfLoopsControl' ) );
@@ -48,7 +47,7 @@ export default class PickupCoilPanel extends Panel {
 
     const contentChildren: Node[] = [
       titleText,
-      indicatorRadioButtonGroup,
+      indicatorControl,
       numberOfLoopsControl,
       loopAreaControl,
       electronsCheckbox

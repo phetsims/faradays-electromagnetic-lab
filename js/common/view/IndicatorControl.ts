@@ -1,7 +1,7 @@
 // Copyright 2023, University of Colorado Boulder
 
 /**
- * IndicatorRadioButtonGroup is radio button group for choosing an EMF indicator for the pickup coil.
+ * IndicatorControl is the control for choosing an EMF indicator for the pickup coil. It is a labeled radio button group.
  *
  * @author Chris Malley (PixelZoom, Inc.)
  */
@@ -14,10 +14,31 @@ import LightBulbNode from './LightBulbNode.js';
 import VoltmeterNode from './VoltmeterNode.js';
 import { Indicator } from '../model/Indicator.js';
 import FELConstants from '../FELConstants.js';
+import { HBox, Text } from '../../../../scenery/js/imports.js';
+import FaradaysElectromagneticLabStrings from '../../FaradaysElectromagneticLabStrings.js';
 
 const ICON_SCALE = 0.65;
 
-export default class IndicatorRadioButtonGroup extends RectangularRadioButtonGroup<Indicator> {
+export default class IndicatorControl extends HBox {
+
+  public constructor( indicatorProperty: StringUnionProperty<Indicator>, tandem: Tandem ) {
+
+    const labelText = new Text( FaradaysElectromagneticLabStrings.indicatorStringProperty, {
+      font: FELConstants.CONTROL_FONT
+    } );
+
+    const radioButtonGroup = new IndicatorRadioButtonGroup( indicatorProperty, tandem );
+
+    super( {
+      spacing: 5,
+      layoutOptions: { stretch: false },  // Prevent space between subcomponents.
+      children: [ labelText, radioButtonGroup ],
+      tandem: tandem
+    } );
+  }
+}
+
+class IndicatorRadioButtonGroup extends RectangularRadioButtonGroup<Indicator> {
 
   public constructor( indicatorProperty: StringUnionProperty<Indicator>, tandem: Tandem ) {
 
@@ -37,13 +58,10 @@ export default class IndicatorRadioButtonGroup extends RectangularRadioButtonGro
     super( indicatorProperty, items, {
       isDisposable: false,
       orientation: 'horizontal',
-
-      // Prevent space between radio buttons, and center them in the parent Panel.
-      layoutOptions: { stretch: false, align: 'center' },
       radioButtonOptions: FELConstants.RECTANGULAR_RADIO_BUTTON_OPTIONS,
       tandem: tandem
     } );
   }
 }
 
-faradaysElectromagneticLab.register( 'IndicatorRadioButtonGroup', IndicatorRadioButtonGroup );
+faradaysElectromagneticLab.register( 'IndicatorControl', IndicatorControl );
