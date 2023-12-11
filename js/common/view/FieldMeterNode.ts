@@ -43,7 +43,7 @@ const CROSSHAIRS_RADIUS = 10;
 const PROBE_RADIUS = CROSSHAIRS_RADIUS + 8;
 
 const LABEL_TEXT_OPTIONS: RichTextOptions = {
-  font: new PhetFont( 12 ),
+  font: new PhetFont( 14 ),
   fill: FELColors.fieldMeterLabelsColorProperty,
   layoutOptions: {
     xAlign: 'left'
@@ -51,11 +51,11 @@ const LABEL_TEXT_OPTIONS: RichTextOptions = {
 };
 
 const STRING_DISPLAY_OPTIONS: StringDisplayOptions = {
-  size: new Dimension2( 90, 20 ),
+  size: new Dimension2( 90, 22 ),
   xMargin: 5,
   yMargin: 2,
   textOptions: {
-    font: new PhetFont( 12 ),
+    font: new PhetFont( 14 ),
     fill: FELColors.fieldMeterLabelsColorProperty
   },
   rectangleOptions: {
@@ -93,7 +93,7 @@ export default class FieldMeterNode extends FELMovableNode {
       lineWidth: 5
     } );
 
-    const bodyNode = new ShadedRectangle( new Bounds2( 0, 0, 135, 110 ), {
+    const bodyNode = new ShadedRectangle( new Bounds2( 0, 0, 135, 120 ), {
       cornerRadius: 10,
       baseColor: FELColors.fieldMeterBodyColorProperty,
       centerX: probeNode.centerX,
