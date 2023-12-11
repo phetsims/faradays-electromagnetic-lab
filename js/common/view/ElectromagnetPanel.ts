@@ -16,7 +16,7 @@ import Tandem from '../../../../tandem/js/Tandem.js';
 import Checkbox, { CheckboxOptions } from '../../../../sun/js/Checkbox.js';
 import NumberOfLoopsControl from './NumberOfLoopsControl.js';
 import Electromagnet from '../model/Electromagnet.js';
-import CurrentSourceRadioButtonGroup from './CurrentSourceRadioButtonGroup.js';
+import CurrentSourceControl from './CurrentSourceControl.js';
 
 export default class ElectromagnetPanel extends Panel {
 
@@ -26,9 +26,8 @@ export default class ElectromagnetPanel extends Panel {
       font: FELConstants.TITLE_FONT
     } );
 
-    //TODO label as 'Current Source'?
-    const currentSourceRadioButtonGroup = new CurrentSourceRadioButtonGroup( electromagnet.currentSourceProperty,
-      tandem.createTandem( 'indicatorRadioButtonGroup' ) );
+    const currentSourceControl = new CurrentSourceControl( electromagnet.currentSourceProperty,
+      tandem.createTandem( 'currentSourceControl' ) );
 
     const numberOfLoopsControl = new NumberOfLoopsControl( electromagnet.sourceCoil.numberOfLoopsProperty,
       tandem.createTandem( 'numberOfLoopsControl' ) );
@@ -53,7 +52,7 @@ export default class ElectromagnetPanel extends Panel {
 
     const contentChildren: Node[] = [
       titleText,
-      currentSourceRadioButtonGroup,
+      currentSourceControl,
       numberOfLoopsControl,
       magneticFieldCheckbox,
       electronsCheckbox

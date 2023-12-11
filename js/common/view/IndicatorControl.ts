@@ -30,7 +30,7 @@ export default class IndicatorControl extends HBox {
     const radioButtonGroup = new IndicatorRadioButtonGroup( indicatorProperty, tandem.createTandem( 'radioButtonGroup' ) );
 
     super( {
-      spacing: 5,
+      spacing: 10,
       layoutOptions: { stretch: false },  // Prevent space between subcomponents.
       children: [ labelText, radioButtonGroup ],
       tandem: tandem
@@ -58,6 +58,7 @@ class IndicatorRadioButtonGroup extends RectangularRadioButtonGroup<Indicator> {
     super( indicatorProperty, items, {
       isDisposable: false,
       orientation: 'horizontal',
+      spacing: 10,
       radioButtonOptions: FELConstants.RECTANGULAR_RADIO_BUTTON_OPTIONS,
       tandem: tandem,
       phetioVisiblePropertyInstrumented: false // use indicatorControl.visibleProperty

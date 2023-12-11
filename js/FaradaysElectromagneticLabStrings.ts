@@ -33,6 +33,7 @@ type StringsType = {
   'loopsStringProperty': LocalizedStringProperty;
   'loopRadiusStringProperty': LocalizedStringProperty;
   'electromagnetStringProperty': LocalizedStringProperty;
+  'currentSourceStringProperty': LocalizedStringProperty;
   'pattern': {
     'valuePercentStringProperty': LocalizedStringProperty;
     'valueUnitsStringProperty': LocalizedStringProperty;
