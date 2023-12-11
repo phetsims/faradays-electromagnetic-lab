@@ -71,7 +71,7 @@ export default class PickupCoil extends Coil {
   public readonly electronsVisibleProperty: Property<boolean>;
 
   // *** Writeable via developer controls only, when running with &dev query parameter. ***
-  // Dividing the coil's emf by this number will give us the coil's current amplitude, a number between 0 and 1 that
+  // Dividing the coil's EMF by this number will give us the coil's current amplitude, a number between 0 and 1 that
   // determines the responsiveness of view components. This number should be set as close as possible to the maximum
   // EMF that can be induced given the range of all model parameters. See PickupCoil.calibrateEmf for guidance on how
   // to set this.
@@ -285,7 +285,7 @@ export default class PickupCoil extends Coil {
 
     const absEMF = Math.abs( this._emfProperty.value );
 
-    // Keeps track of the biggest emf seen by the pickup coil. This is useful for determining the desired value of
+    // Keeps track of the biggest EMF seen by the pickup coil. This is useful for determining the desired value of
     // maxEMFProperty. Run the sim with &log query parameter, set model controls to their max values, then observe
     // this debug output in the browser console. The largest value that you see is what you should use for the value
     // of maxEMFProperty.
