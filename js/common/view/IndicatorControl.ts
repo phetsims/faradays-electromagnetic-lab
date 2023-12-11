@@ -27,7 +27,7 @@ export default class IndicatorControl extends HBox {
       font: FELConstants.CONTROL_FONT
     } );
 
-    const radioButtonGroup = new IndicatorRadioButtonGroup( indicatorProperty, tandem );
+    const radioButtonGroup = new IndicatorRadioButtonGroup( indicatorProperty, tandem.createTandem( 'radioButtonGroup' ) );
 
     super( {
       spacing: 5,
@@ -59,7 +59,8 @@ class IndicatorRadioButtonGroup extends RectangularRadioButtonGroup<Indicator> {
       isDisposable: false,
       orientation: 'horizontal',
       radioButtonOptions: FELConstants.RECTANGULAR_RADIO_BUTTON_OPTIONS,
-      tandem: tandem
+      tandem: tandem,
+      phetioVisiblePropertyInstrumented: false // use indicatorControl.visibleProperty
     } );
   }
 }
