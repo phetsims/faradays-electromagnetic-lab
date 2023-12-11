@@ -141,10 +141,10 @@ export default class FieldMeterNode extends FELMovableNode {
 
         // Values
         [
-          new ReadoutNode( stringBValueProperty ),
-          new ReadoutNode( stringBxValueProperty ),
-          new ReadoutNode( stringByValueProperty ),
-          new ReadoutNode( stringThetaValueProperty )
+          new StringDisplay( stringBValueProperty ),
+          new StringDisplay( stringBxValueProperty ),
+          new StringDisplay( stringByValueProperty ),
+          new StringDisplay( stringThetaValueProperty )
         ]
       ]
     } );
@@ -163,9 +163,9 @@ export default class FieldMeterNode extends FELMovableNode {
 
 /**
  * NumberDisplay has gotten way too complicated, and does not deal with dynamic strings well. Since they do not
- * be instrumented in this sim, roll our own lighter-weight readout that works well with dynamic strings.
+ * be instrumented in this sim, roll our own lighter-weight implementation that works well with dynamic strings.
  */
-class ReadoutNode extends Node {
+class StringDisplay extends Node {
 
   public constructor( stringProperty: TReadOnlyProperty<string> ) {
 
