@@ -299,7 +299,7 @@ export default class PickupCoil extends Coil {
       if ( this._biggestAbsEmf > this.maxEMFProperty.value ) {
         phet.log && phet.log( `PickupCoil.calibrateMaxEMF: Recalibrate ${this.maxEMFProperty.tandem.name} with ${this._biggestAbsEmf}` );
 
-        // From Java version: The coil could theoretically be self-calibrating. If we notice that we've exceeded
+        // From the Java version: The coil could theoretically be self-calibrating. If we notice that we've exceeded
         // maxEMFProperty, then adjust its value. This would be OK only if we started with a value that was in
         // the ballpark, because we don't want the user to perceive a noticeable change in the sim's behavior.
       }
