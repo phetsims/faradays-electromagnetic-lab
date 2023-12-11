@@ -52,7 +52,8 @@ const NUMBER_CONTROL_OPTIONS: NumberControlOptions = {
     trackSize: new Dimension2( 140, 4 ),
     thumbSize: new Dimension2( 15, 30 ),
     thumbTouchAreaXDilation: 5,
-    thumbTouchAreaYDilation: 5
+    thumbTouchAreaYDilation: 5,
+    majorTickLength: 15
   },
   numberDisplayOptions: {
     maxWidth: 100,
