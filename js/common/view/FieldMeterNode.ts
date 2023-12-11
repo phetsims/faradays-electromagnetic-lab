@@ -45,7 +45,7 @@ const labelTextOptions: RichTextOptions = {
   font: new PhetFont( 12 ),
   fill: FELColors.fieldMeterLabelsColorProperty,
   layoutOptions: {
-    xAlign: 'right'
+    xAlign: 'left'
   }
 };
 
@@ -91,9 +91,9 @@ export default class FieldMeterNode extends FELMovableNode {
     } );
 
     // Dynamic labels
-    const stringBLabelProperty = new DerivedProperty( [ BStringProperty ], B => `${B} = ` );
-    const stringBxLabelProperty = new DerivedProperty( [ BStringProperty, xStringProperty ], ( B, x ) => `${B}<sub>${x}</sub> = ` );
-    const stringByLabelProperty = new DerivedProperty( [ BStringProperty, yStringProperty ], ( B, y ) => `${B}<sub>${y}</sub> = ` );
+    const stringBLabelProperty = new DerivedProperty( [ BStringProperty ], B => `${B}` );
+    const stringBxLabelProperty = new DerivedProperty( [ BStringProperty, xStringProperty ], ( B, x ) => `${B}<sub>${x}</sub>` );
+    const stringByLabelProperty = new DerivedProperty( [ BStringProperty, yStringProperty ], ( B, y ) => `${B}<sub>${y}</sub>` );
 
     // Dynamic values
     const stringBValueProperty = new DerivedProperty(
@@ -121,7 +121,8 @@ export default class FieldMeterNode extends FELMovableNode {
     );
 
     const gridBox = new GridBox( {
-      spacing: 5,
+      xSpacing: 15,
+      ySpacing: 8,
       yAlign: 'center',
       columns: [
         // Labels
@@ -129,7 +130,7 @@ export default class FieldMeterNode extends FELMovableNode {
           new RichText( stringBLabelProperty, labelTextOptions ),
           new RichText( stringBxLabelProperty, labelTextOptions ),
           new RichText( stringByLabelProperty, labelTextOptions ),
-          new RichText( `${MathSymbols.THETA} =`, labelTextOptions )
+          new RichText( `${MathSymbols.THETA}`, labelTextOptions )
         ],
 
         // Values
