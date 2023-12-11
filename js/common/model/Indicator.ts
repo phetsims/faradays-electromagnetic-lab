@@ -1,6 +1,7 @@
 // Copyright 2023, University of Colorado Boulder
 
-//TODO better more-specific name
+//TODO Give this a more descriptive name.
+
 /**
  * Indicator is an enumeration of the types of EMF indicator for a pickup coil.
  *

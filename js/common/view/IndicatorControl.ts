@@ -1,5 +1,7 @@
 // Copyright 2023, University of Colorado Boulder
 
+//TODO Give this a more descriptive name.
+
 /**
  * IndicatorControl is the control for choosing an EMF indicator for the pickup coil. It is a labeled radio button group.
  *
