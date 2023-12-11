@@ -14,7 +14,7 @@
 
 import faradaysElectromagneticLab from '../../faradaysElectromagneticLab.js';
 import FieldMeter from '../model/FieldMeter.js';
-import { Path, RichText, VBox } from '../../../../scenery/js/imports.js';
+import { GridBox, Path, RichText, RichTextOptions } from '../../../../scenery/js/imports.js';
 import { Shape } from '../../../../kite/js/imports.js';
 import DerivedProperty from '../../../../axon/js/DerivedProperty.js';
 import Utils from '../../../../dot/js/Utils.js';
@@ -40,9 +40,21 @@ const T_DECIMAL_PLACES = 2;
 const ANGLE_DECIMAL_PLACES = 2;
 const CROSSHAIRS_RADIUS = 10;
 const PROBE_RADIUS = CROSSHAIRS_RADIUS + 8;
-const RICH_TEXT_OPTIONS = {
-  font: new PhetFont( 14 ),
-  fill: FELColors.fieldMeterLabelsColorProperty
+
+const labelTextOptions: RichTextOptions = {
+  font: new PhetFont( 12 ),
+  fill: FELColors.fieldMeterLabelsColorProperty,
+  layoutOptions: {
+    xAlign: 'right'
+  }
+};
+
+const valueTextOptions: RichTextOptions = {
+  font: new PhetFont( 12 ),
+  fill: FELColors.fieldMeterLabelsColorProperty,
+  layoutOptions: {
+    xAlign: 'left'
+  }
 };
 
 export default class FieldMeterNode extends FELMovableNode {
@@ -78,54 +90,65 @@ export default class FieldMeterNode extends FELMovableNode {
       top: probeNode.bottom - 2
     } );
 
-    // These strings have unconventional names so that they correspond to B, Bx, By, as shown in the UI.
-    const stringBProperty = new DerivedProperty(
-      [ FELPreferences.magneticUnitsProperty, fieldMeter.fieldVectorProperty, BStringProperty, GStringProperty, TStringProperty ],
-      ( magneticUnits, fieldVector, B, G, T ) =>
-        ( magneticUnits === 'G' ) ? `${B} = ${toGaussString( fieldVector.magnitude, G )}`
-                                  : `${B} = ${toTeslaString( fieldVector.magnitude, T )}`
+    // Dynamic labels
+    const stringBLabelProperty = new DerivedProperty( [ BStringProperty ], B => `${B} = ` );
+    const stringBxLabelProperty = new DerivedProperty( [ BStringProperty, xStringProperty ], ( B, x ) => `${B}<sub>${x}</sub> = ` );
+    const stringByLabelProperty = new DerivedProperty( [ BStringProperty, yStringProperty ], ( B, y ) => `${B}<sub>${y}</sub> = ` );
+
+    // Dynamic values
+    const stringBValueProperty = new DerivedProperty(
+      [ FELPreferences.magneticUnitsProperty, fieldMeter.fieldVectorProperty, GStringProperty, TStringProperty ],
+      ( magneticUnits, fieldVector, G, T ) =>
+        ( magneticUnits === 'G' ) ? `${toGaussString( fieldVector.magnitude, G )}`
+                                  : `${toTeslaString( fieldVector.magnitude, T )}`
     );
-    const stringBxProperty = new DerivedProperty(
-      [ FELPreferences.magneticUnitsProperty, fieldMeter.fieldVectorProperty, BStringProperty, xStringProperty, GStringProperty, TStringProperty ],
-      ( magneticUnits, fieldVector, B, x, G, T ) =>
-        ( magneticUnits === 'G' ) ? `${B}<sub>${x}</sub> = ${toGaussString( fieldVector.x, G )}`
-                                  : `${B}<sub>${x}</sub> = ${toTeslaString( fieldVector.x, T )}`
+    const stringBxValueProperty = new DerivedProperty(
+      [ FELPreferences.magneticUnitsProperty, fieldMeter.fieldVectorProperty, GStringProperty, TStringProperty ],
+      ( magneticUnits, fieldVector, G, T ) =>
+        ( magneticUnits === 'G' ) ? `${toGaussString( fieldVector.x, G )}`
+                                  : `${toTeslaString( fieldVector.x, T )}`
     );
-    const stringByProperty = new DerivedProperty(
-      [ FELPreferences.magneticUnitsProperty, fieldMeter.fieldVectorProperty, BStringProperty, yStringProperty, GStringProperty, TStringProperty ],
+    const stringByValueProperty = new DerivedProperty(
+      [ FELPreferences.magneticUnitsProperty, fieldMeter.fieldVectorProperty, GStringProperty, TStringProperty ],
       //TODO -fieldVector.y to convert to +y up, should be done in the model
-      ( magneticUnits, fieldVector, B, y, G, T ) =>
-        ( magneticUnits === 'G' ) ? `${B}<sub>${y}</sub> = ${toGaussString( -fieldVector.y, G )}`
-                                  : `${B}<sub>${y}</sub> = ${toTeslaString( fieldVector.y, T )}`
+      ( magneticUnits, fieldVector, G, T ) =>
+        ( magneticUnits === 'G' ) ? `${toGaussString( -fieldVector.y, G )}`
+                                  : `${toTeslaString( fieldVector.y, T )}`
     );
-    const stringThetaProperty = new DerivedProperty(
+    const stringThetaValueProperty = new DerivedProperty(
       [ fieldMeter.fieldVectorProperty ],
-      fieldVector => `${MathSymbols.THETA} = ${toDegreesString( fieldVector )}`
+      fieldVector => `${toDegreesString( fieldVector )}`
     );
 
-    // These Nodes have unconventional names so that they correspond to B, Bx, By, as shown in the UI.
-    const textB = new RichText( stringBProperty, RICH_TEXT_OPTIONS );
-    const textBx = new RichText( stringBxProperty, RICH_TEXT_OPTIONS );
-    const textBy = new RichText( stringByProperty, RICH_TEXT_OPTIONS );
-    const textTheta = new RichText( stringThetaProperty, RICH_TEXT_OPTIONS );
-
-    const textVBox = new VBox( {
-      align: 'left',
+    const gridBox = new GridBox( {
       spacing: 5,
-      children: [
-        textB,
-        textBx,
-        textBy,
-        textTheta
+      yAlign: 'center',
+      columns: [
+        // Labels
+        [
+          new RichText( stringBLabelProperty, labelTextOptions ),
+          new RichText( stringBxLabelProperty, labelTextOptions ),
+          new RichText( stringByLabelProperty, labelTextOptions ),
+          new RichText( `${MathSymbols.THETA} =`, labelTextOptions )
+        ],
+
+        // Values
+        [
+          new RichText( stringBValueProperty, valueTextOptions ),
+          new RichText( stringBxValueProperty, valueTextOptions ),
+          new RichText( stringByValueProperty, valueTextOptions ),
+          new RichText( stringThetaValueProperty, valueTextOptions )
+        ]
       ]
     } );
-    textVBox.boundsProperty.link( bounds => {
-      textVBox.left = bodyNode.left + 10;
-      textVBox.centerY = bodyNode.centerY;
+
+    gridBox.boundsProperty.link( bounds => {
+      gridBox.left = bodyNode.left + 10;
+      gridBox.centerY = bodyNode.centerY;
     } );
 
     super( fieldMeter, {
-      children: [ probeNode, crosshairsNode, bodyNode, textVBox ],
+      children: [ probeNode, crosshairsNode, bodyNode, gridBox ],
       visibleProperty: fieldMeter.visibleProperty,
       tandem: tandem
     } );
