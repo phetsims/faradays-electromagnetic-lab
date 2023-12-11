@@ -18,6 +18,7 @@ import NumberControl, { NumberControlOptions } from '../../../scenery-phet/js/Nu
 import Dimension2 from '../../../dot/js/Dimension2.js';
 import { RectangularRadioButtonOptions } from '../../../sun/js/buttons/RectangularRadioButton.js';
 
+// Credits are shared by all sims in this family.
 //TODO https://github.com/phetsims/faradays-electromagnetic-lab/issues/2 fill in credits
 const CREDITS: CreditsData = {
   leadDesign: '',
