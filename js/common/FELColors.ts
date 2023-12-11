@@ -64,6 +64,18 @@ const FELColors = {
     default: 'white'
   } ),
 
+  fieldMeterValuesColorProperty: new ProfileColorProperty( faradaysElectromagneticLab, 'fieldMeterValuesColor', {
+    default: 'white'
+  } ),
+
+  fieldMeterValuesBackgroundFillProperty: new ProfileColorProperty( faradaysElectromagneticLab, 'fieldMeterValuesBackgroundFill', {
+    default: 'black'
+  } ),
+
+  fieldMeterValuesBackgroundStrokeProperty: new ProfileColorProperty( faradaysElectromagneticLab, 'fieldMeterValuesBackgroundStroke', {
+    default: 'transparent'
+  } ),
+
   compassRingColorProperty: new ProfileColorProperty( faradaysElectromagneticLab, 'compassRingColor', {
     default: Color.grayColor( 153 )
   } ),
