@@ -4,7 +4,7 @@
 //TODO when should we display '0' vs '0.00'?
 
 /**
- * FieldMeterNode is the visual representation of meter for measuring the B-field.
+ * FieldMeterNode is the visual representation of a meter for measuring the B-field.
  * It can be dragged to a specific position, and shows the field vector's magnitude, x and y components, and angle.
  * The origin is at the center of the crosshairs.
  *
