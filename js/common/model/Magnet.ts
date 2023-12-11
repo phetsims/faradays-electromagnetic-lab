@@ -7,6 +7,7 @@
  */
 
 import faradaysElectromagneticLab from '../../faradaysElectromagneticLab.js';
+import Range from '../../../../dot/js/Range.js';
 import Vector2 from '../../../../dot/js/Vector2.js';
 import Property from '../../../../axon/js/Property.js';
 import NumberProperty from '../../../../axon/js/NumberProperty.js';
@@ -14,7 +15,6 @@ import RangeWithValue from '../../../../dot/js/RangeWithValue.js';
 import optionize from '../../../../phet-core/js/optionize.js';
 import FELMovable, { FELMovableOptions } from './FELMovable.js';
 import BooleanProperty from '../../../../axon/js/BooleanProperty.js';
-import FELQueryParameters, { FIELD_SCALE_RANGE } from '../FELQueryParameters.js';
 
 type SelfOptions = {
   rotation?: number; // initial value of rotationProperty, radians
@@ -33,7 +33,10 @@ export default abstract class Magnet extends FELMovable {
   private readonly reusablePosition: Vector2;
 
   // *** Writeable via developer controls only, when running with &dev query parameter. ***
-  // Scales the modulation of alpha used to render the B-field visualization.
+  // Scales the modulation of alpha used to render the B-field visualization. In reality, the B-field drops off very
+  // quickly as we move away from the magnet, and we wouldn't be able to see very much of the field. So we scale the
+  // intensity of the compass needles in our visualization so that we see more of the field. Smaller values make the
+  // field appear to drop off more rapidly. Larger values make the field appear to drop off more slowly.
   public readonly fieldScaleProperty: NumberProperty;
 
   protected constructor( providedOptions: MagnetOptions ) {
@@ -67,8 +70,8 @@ export default abstract class Magnet extends FELMovable {
 
     this.reusablePosition = new Vector2( 0, 0 );
 
-    this.fieldScaleProperty = new NumberProperty( FELQueryParameters.fieldScale, {
-      range: FIELD_SCALE_RANGE
+    this.fieldScaleProperty = new NumberProperty( 2.7, {
+      range: new Range( 1, 6 )
       // Do not instrument. This is a PhET developer Property.
     } );
   }

@@ -10,13 +10,9 @@
 
 import logGlobal from '../../../phet-core/js/logGlobal.js';
 import faradaysElectromagneticLab from '../faradaysElectromagneticLab.js';
-import RangeWithValue from '../../../dot/js/RangeWithValue.js';
 
 export const MagneticUnitsValues = [ 'G', 'T' ] as const;
 export type MagneticUnits = ( typeof MagneticUnitsValues )[number];
-
-export const FIELD_SCALE_RANGE = new RangeWithValue( 1, 6, 2.7 );
-export const LIGHT_BULB_GLOW_SCALE_RANGE = new RangeWithValue( 1, 100, 15 );
 
 const SCHEMA_MAP = {
 
@@ -55,27 +51,6 @@ const SCHEMA_MAP = {
     type: 'number',
     defaultValue: 25,
     isValidValue: ( value: number ) => ( value >= 20 && value <= 60 )
-  },
-
-  /**
-   * Set the intensity scale for the B-field visualization. In reality, the B-field drops off very quickly as we move
-   * away from the magnet, and we wouldn't be able to see very much of the field. So we scale the intensity of the
-   * compass needles in our visualization so that we see more of the field. Smaller values make the field appear to
-   * drop off more rapidly. Larger values make the field appear to drop off more slowly.
-   */
-  fieldScale: {
-    type: 'number',
-    defaultValue: FIELD_SCALE_RANGE.defaultValue,
-    isValidValue: ( value: number ) => FIELD_SCALE_RANGE.contains( value )
-  },
-
-  /**
-   * Scales the modulation of alpha, used to make the light bulb glow.
-   */
-  lightBulbScale: {
-    type: 'number',
-    defaultValue: LIGHT_BULB_GLOW_SCALE_RANGE.defaultValue,
-    isValidValue: ( value: number ) => LIGHT_BULB_GLOW_SCALE_RANGE.contains( value )
   }
 } as const;
 
