@@ -72,14 +72,11 @@ const SCHEMA_MAP = {
   /**
    * Scales the modulation of alpha, used to make the light bulb glow.
    */
-  lightBulbGlowScale: {
+  lightBulbScale: {
     type: 'number',
     defaultValue: LIGHT_BULB_GLOW_SCALE_RANGE.defaultValue,
     isValidValue: ( value: number ) => LIGHT_BULB_GLOW_SCALE_RANGE.contains( value )
   }
-
-  //TODO see DeveloperControlsPanel.java for more useful parameters
-
 } as const;
 
 const FELQueryParameters = QueryStringMachine.getAll( SCHEMA_MAP );

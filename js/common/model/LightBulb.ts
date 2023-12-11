@@ -31,7 +31,7 @@ export default class LightBulb extends PhetioObject {
 
     this.pickupCoil = pickupCoil;
 
-    this.glowScaleProperty = new NumberProperty( FELQueryParameters.lightBulbGlowScale, {
+    this.glowScaleProperty = new NumberProperty( FELQueryParameters.lightBulbScale, {
       range: LIGHT_BULB_GLOW_SCALE_RANGE
       // Do not instrument. This is a PhET developer Property.
     } );
