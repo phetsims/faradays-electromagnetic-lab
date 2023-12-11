@@ -287,8 +287,8 @@ export default class PickupCoil extends Coil {
 
     // Keeps track of the biggest EMF seen by the pickup coil. This is useful for determining the desired value of
     // maxEMFProperty. Run the sim with &log query parameter, set model controls to their max values, then observe
-    // this debug output in the browser console. The largest value that you see is what you should use for the value
-    // of maxEMFProperty.
+    // the logging output in the browser console. The largest value that you see is the value that should be used
+    // for maxEMFProperty.
     if ( absEMF > this._biggestAbsEmf ) {
       this._biggestAbsEmf = absEMF;
       phet.log && phet.log( `PickupCoil.calibrateMaxEMF, biggestEmf=${this._biggestAbsEmf}` );
