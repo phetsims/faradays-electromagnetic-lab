@@ -1,6 +1,5 @@
 // Copyright 2023, University of Colorado Boulder
 
-//TODO delete anything here that ends up not being used
 /**
  * FELQueryParameters defines the query parameters that are specific to this simulation.
  * Run with ?log to print query parameters and their values to the browser console at startup.
@@ -20,7 +19,7 @@ const SCHEMA_MAP = {
   // Public-facing query parameters
   //----------------------------------------------------------------------------------------------------------------
 
-  // Magnetic units to be displayed
+  // Magnetic units to be displayed. Initializes FELPreferences.magneticUnitsProperty.
   magneticUnits: {
     type: 'string',
     defaultValue: 'G',
@@ -28,7 +27,7 @@ const SCHEMA_MAP = {
     public: true
   },
 
-  // Adds an "Earth" checkbox to screens where it is relevant.
+  // Adds an "Earth" checkbox to screens where it is relevant. Initializes FELPreferences.addEarthCheckboxProperty.
   addEarthCheckbox: {
     type: 'boolean',
     defaultValue: true, //TODO default false
