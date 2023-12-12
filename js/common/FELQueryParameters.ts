@@ -39,14 +39,15 @@ const SCHEMA_MAP = {
   // Internal query parameters
   //----------------------------------------------------------------------------------------------------------------
 
-  // Spacing between needles in the magnetic field visualization
+  // Spacing (x & y) between needles in the magnetic field visualization.
   needleSpacing: {
     type: 'number',
     defaultValue: 40,
     isValidValue: ( value: number ) => ( value >= 35 && value <= 100 )
   },
 
-  // Length (tip to tip) of needles in the magnetic field visualization
+  // Length (tip to tip) of needles in the magnetic field visualization.
+  // The other dimension is computed to provide a consistent aspect ratio.
   needleLength: {
     type: 'number',
     defaultValue: 25,
