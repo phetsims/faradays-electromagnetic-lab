@@ -28,6 +28,8 @@ export type StringDisplayOptions = SelfOptions & NodeOptions;
 
 export default class StringDisplay extends Node {
 
+  private readonly disposeStringDisplay: () => void;
+
   public constructor( stringProperty: TReadOnlyProperty<string>, providedOptions?: StringDisplayOptions ) {
 
     const options = optionize<StringDisplayOptions, StrictOmit<SelfOptions, 'textOptions' | 'rectangleOptions'>, NodeOptions>()( {
@@ -64,6 +66,16 @@ export default class StringDisplay extends Node {
     super( {
       children: [ background, text ]
     } );
+
+    this.disposeStringDisplay = () => {
+      background.dispose(); // may be listening to color Properties
+      text.dispose();
+    };
+  }
+
+  public override dispose(): void {
+    super.dispose();
+    this.disposeStringDisplay();
   }
 }
 
