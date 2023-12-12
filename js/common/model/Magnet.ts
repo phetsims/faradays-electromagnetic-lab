@@ -81,7 +81,7 @@ export default abstract class Magnet extends FELMovable {
     this.rotationProperty.reset();
     this.strengthProperty.reset();
     this.fieldVisibleProperty.reset();
-    // Do not reset developer Properties, those with names have a 'dev' prefix.
+    // Do not reset developer Properties.
   }
 
   /**

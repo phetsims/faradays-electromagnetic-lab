@@ -216,7 +216,7 @@ export default class PickupCoil extends Coil {
     this.indicatorProperty.reset();
     this.electronsVisibleProperty.reset();
     //TODO
-    // Do not reset developer Properties, those with names that have a 'dev' prefix.
+    // Do not reset developer Properties.
   }
 
   public step( dt: number ): void {
