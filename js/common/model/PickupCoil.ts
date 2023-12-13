@@ -67,9 +67,6 @@ export default class PickupCoil extends Coil {
   // Which EMF indicator is visible in the view
   public readonly indicatorProperty: Property<Indicator>;
   
-  // Whether electrons are visible in the coil in the view
-  public readonly electronsVisibleProperty: Property<boolean>;
-
   // *** Writeable via developer controls only, when running with &dev query parameter. ***
   // Dividing the coil's EMF by this number will give us the coil's current amplitude, a number between 0 and 1 that
   // determines the responsiveness of view components. This number should be set as close as possible to the maximum
@@ -173,12 +170,6 @@ export default class PickupCoil extends Coil {
     this.indicatorProperty = new StringUnionProperty<Indicator>( 'lightBulb', {
       validValues: IndicatorValues,
       tandem: options.tandem.createTandem( 'indicatorProperty' ),
-      phetioFeatured: true
-      //TODO phetioDocumentation
-    } );
-
-    this.electronsVisibleProperty = new BooleanProperty( true, {
-      tandem: options.tandem.createTandem( 'electronsVisibleProperty' ),
       phetioFeatured: true
       //TODO phetioDocumentation
     } );

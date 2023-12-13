@@ -13,6 +13,8 @@ import NumberProperty from '../../../../axon/js/NumberProperty.js';
 import TReadOnlyProperty from '../../../../axon/js/TReadOnlyProperty.js';
 import optionize from '../../../../phet-core/js/optionize.js';
 import FELMovable, { FELMovableOptions } from './FELMovable.js';
+import Property from '../../../../axon/js/Property.js';
+import BooleanProperty from '../../../../axon/js/BooleanProperty.js';
 
 type SelfOptions = {
   numberOfLoopsRange: RangeWithValue; // range and initial value for numberOfLoopsProperty
@@ -45,6 +47,9 @@ export default abstract class Coil extends FELMovable {
   // *** Writeable via developer controls only, when running with &dev query parameter. ***
   // Scale used for electron speed in the view.
   public readonly electronSpeedScaleProperty: NumberProperty;
+
+  // Whether electrons are visible in the coil in the view
+  public readonly electronsVisibleProperty: Property<boolean>;
 
   protected constructor( providedOptions: CoilOptions ) {
 
@@ -87,6 +92,12 @@ export default abstract class Coil extends FELMovable {
       range: new Range( 1, 100 )
       // Do not instrument. This is a PhET developer Property.
     } );
+
+    this.electronsVisibleProperty = new BooleanProperty( true, {
+      tandem: options.tandem.createTandem( 'electronsVisibleProperty' ),
+      phetioFeatured: true
+      //TODO phetioDocumentation
+    } );
   }
 
   public override reset(): void {
@@ -94,6 +105,7 @@ export default abstract class Coil extends FELMovable {
     this.numberOfLoopsProperty.reset();
     this.loopRadiusProperty.reset();
     this._currentAmplitudeProperty.reset();
+    this.electronsVisibleProperty.reset();
   }
 }
 

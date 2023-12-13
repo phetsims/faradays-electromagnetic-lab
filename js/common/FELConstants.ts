@@ -139,7 +139,12 @@ const FELConstants = {
   } ),
   PREFERENCES_LABEL_MAX_WIDTH: 200,
   PREFERENCES_DESCRIPTION_FONT: new PhetFont( 16 ),
-  PREFERENCES_DESCRIPTION_LINE_WRAP: 500
+  PREFERENCES_DESCRIPTION_LINE_WRAP: 500,
+
+  // Model
+
+  // Absolute current amplitude below this value is treated as zero.
+  CURRENT_AMPLITUDE_THRESHOLD: 0.001
 };
 
 faradaysElectromagneticLab.register( 'FELConstants', FELConstants );
