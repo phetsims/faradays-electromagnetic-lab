@@ -3,12 +3,4 @@ In Java version, (0,0) is in upper-left of screen, +x is right, +y is down.  Cha
 
 Make compass follow B-field immediately when clock is paused
 
-Floating panels
-
-Preferences
-	Show earth checkbox on Bar Magnet screen
-	Units: gauss (G), Tesla (T)
-
-Projector mode - swap black & white for background and "south" color
-
 'N' & 'S' should be translatable
