@@ -23,7 +23,7 @@ const MAX_PATH_POSITION_DELTA = 0.15;
 const PATH_POSITION_RANGE = new Range( 0, 1 );
 
 type SelfOptions = {
-  pathDescriptors: ElectronPathDescriptor[];
+  coilSegments: ElectronPathDescriptor[];
   pathPosition: number;
   pathIndex: number;
   speedAndDirection: number;
@@ -38,13 +38,13 @@ export default class Electron {
   public readonly positionProperty: TReadOnlyProperty<Vector2>;
   private readonly _positionProperty: Property<Vector2>;
 
-  // Describes the electron's path.
-  private readonly pathDescriptors: ElectronPathDescriptor[];
+  // Ordered collection of the curve segments that make up the coil
+  private readonly coilSegments: ElectronPathDescriptor[];
 
-  // Index of the element in pathDescriptors that describes the curve the electron is currently on.
-  public readonly pathIndexProperty: NumberProperty;
+  // Index of the coil segment that the electron currently occupies
+  public readonly coilSegmentIndexProperty: NumberProperty;
 
-  // Electron's position along the current curve (1=startPoint, 0=endPoint)
+  // Electron's position along the coil segment that it occupies (1=startPoint, 0=endPoint)
   //TODO Flip the semantics to be a percent along the curve, 0=start, 1=end.
   private pathPositionProperty: NumberProperty;
 
@@ -68,11 +68,11 @@ export default class Electron {
     } );
     this.positionProperty = this._positionProperty;
 
-    this.pathDescriptors = options.pathDescriptors;
+    this.coilSegments = options.coilSegments;
 
-    this.pathIndexProperty = new NumberProperty( options.pathIndex, {
-      range: new Range( 0, this.pathDescriptors.length - 1 ),
-      tandem: options.tandem.createTandem( 'pathIndexProperty' ),
+    this.coilSegmentIndexProperty = new NumberProperty( options.pathIndex, {
+      range: new Range( 0, this.coilSegments.length - 1 ),
+      tandem: options.tandem.createTandem( 'coilSegmentIndexProperty' ),
       phetioReadOnly: true
     } );
 
@@ -101,15 +101,15 @@ export default class Electron {
     this.disposeElectron();
   }
 
-  public getPathDescriptor( pathIndex?: number ): ElectronPathDescriptor {
+  public getCoilSegment( pathIndex?: number ): ElectronPathDescriptor {
     if ( pathIndex === undefined ) {
-      pathIndex = this.pathIndexProperty.value;
+      pathIndex = this.coilSegmentIndexProperty.value;
     }
-    return this.pathDescriptors[ pathIndex ];
+    return this.coilSegments[ pathIndex ];
   }
 
-  private getPathSpeedScale(): number {
-    return this.pathDescriptors[ this.pathIndexProperty.value ].speedScale;
+  private getCoilSegmentSpeedScale(): number {
+    return this.coilSegments[ this.coilSegmentIndexProperty.value ].speedScale;
   }
 
   /**
@@ -128,7 +128,7 @@ export default class Electron {
 
       // Move the electron along the path.
       const deltaPosition = dt * MAX_PATH_POSITION_DELTA * this.speedAndDirectionProperty.value *
-                            this.speedScaleProperty.value * this.getPathSpeedScale();
+                            this.speedScaleProperty.value * this.getCoilSegmentSpeedScale();
       const newPathPosition = this.pathPositionProperty.value - deltaPosition;
 
       // Do we need to switch curves?
@@ -140,7 +140,7 @@ export default class Electron {
       }
 
       // Evaluate the quadratic to determine xy position.
-      const descriptor = this.pathDescriptors[ this.pathIndexProperty.value ];
+      const descriptor = this.coilSegments[ this.coilSegmentIndexProperty.value ];
       this._positionProperty.value = descriptor.curve.evaluate( this.pathPositionProperty.value );
     }
   }
@@ -154,21 +154,21 @@ export default class Electron {
    */
   private switchCurves( newPathPosition: number ): void {
 
-    const oldPathSpeedScale = this.getPathSpeedScale();
+    const oldPathSpeedScale = this.getCoilSegmentSpeedScale();
 
     if ( newPathPosition <= 0 ) {
 
       // We've passed the end point, so move to the next curve. Wrap around if necessary.
-      const pathIndex = this.pathIndexProperty.value + 1;
-      if ( pathIndex > this.pathDescriptors.length - 1 ) {
-        this.pathIndexProperty.value = 0;
+      const pathIndex = this.coilSegmentIndexProperty.value + 1;
+      if ( pathIndex > this.coilSegments.length - 1 ) {
+        this.coilSegmentIndexProperty.value = 0;
       }
       else {
-        this.pathIndexProperty.value = pathIndex;
+        this.coilSegmentIndexProperty.value = pathIndex;
       }
 
       // Set the position on the curve.
-      const overshoot = Math.abs( newPathPosition * this.getPathSpeedScale() / oldPathSpeedScale );
+      const overshoot = Math.abs( newPathPosition * this.getCoilSegmentSpeedScale() / oldPathSpeedScale );
       newPathPosition = 1.0 - overshoot;
 
       // Did we overshoot the curve? If so, call this method recursively.
@@ -182,16 +182,16 @@ export default class Electron {
     else if ( newPathPosition >= 1.0 ) {
 
       // We've passed the start point, so move to the previous curve. Wrap around if necessary.
-      const pathIndex = this.pathIndexProperty.value - 1;
+      const pathIndex = this.coilSegmentIndexProperty.value - 1;
       if ( pathIndex < 0 ) {
-        this.pathIndexProperty.value = this.pathDescriptors.length - 1;
+        this.coilSegmentIndexProperty.value = this.coilSegments.length - 1;
       }
       else {
-        this.pathIndexProperty.value = pathIndex;
+        this.coilSegmentIndexProperty.value = pathIndex;
       }
 
       // Set the position on the curve.
-      newPathPosition = Math.abs( ( 1 - newPathPosition ) * this.getPathSpeedScale() / oldPathSpeedScale );
+      newPathPosition = Math.abs( ( 1 - newPathPosition ) * this.getCoilSegmentSpeedScale() / oldPathSpeedScale );
 
       // Did we overshoot the curve? If so, call this method recursively.
       if ( newPathPosition > 1.0 ) {

@@ -36,10 +36,10 @@ export default class ElectronNode extends ShadedSphereNode {
     this.electron.positionProperty.link( positionListener );
 
     // If the electron has jumped to a different layer (foreground vs background), move it in the scenegraph.
-    const pathIndexListener = ( pathIndex: number, oldPathIndex: number | null ) => {
-      const newParentNode = electron.getPathDescriptor( pathIndex ).parentNode;
-      if ( oldPathIndex !== null ) {
-        const oldParentNode = electron.getPathDescriptor( oldPathIndex ).parentNode;
+    const coilSegmentIndexListener = ( newIndex: number, oldIndex: number | null ) => {
+      const newParentNode = electron.getCoilSegment( newIndex ).parentNode;
+      if ( oldIndex !== null ) {
+        const oldParentNode = electron.getCoilSegment( oldIndex ).parentNode;
         if ( newParentNode !== oldParentNode ) {
           oldParentNode.removeChild( this );
           newParentNode.addChild( this );
@@ -49,11 +49,11 @@ export default class ElectronNode extends ShadedSphereNode {
         newParentNode.addChild( this );
       }
     };
-    this.electron.pathIndexProperty.link( pathIndexListener );
+    this.electron.coilSegmentIndexProperty.link( coilSegmentIndexListener );
 
     this.disposeElectronNode = () => {
       this.electron.positionProperty.unlink( positionListener );
-      this.electron.pathIndexProperty.unlink( pathIndexListener );
+      this.electron.coilSegmentIndexProperty.unlink( coilSegmentIndexListener );
     };
   }
 
