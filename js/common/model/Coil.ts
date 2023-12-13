@@ -28,9 +28,11 @@ export type CoilOptions = SelfOptions & FELMovableOptions;
 
 export default abstract class Coil extends FELMovable {
 
-  public readonly wireWidth: number; //TODO document
+  // Width of the wire that makes up the coil.
+  public readonly wireWidth: number;
 
-  public readonly loopSpacing: number; //TODO document
+  // Horizontal spacing between loops in the coil. Values that are closer to wireWidth result in more closely-packed loops.
+  public readonly loopSpacing: number;
 
   // Number of loops in the coil
   public readonly numberOfLoopsProperty: NumberProperty;
@@ -60,6 +62,8 @@ export default abstract class Coil extends FELMovable {
       loopSpacing: 25,
       electronSpeedScale: 1
     }, providedOptions );
+
+    assert && assert( options.loopSpacing >= options.wireWidth );
 
     super( options );
 
@@ -96,7 +100,6 @@ export default abstract class Coil extends FELMovable {
     this.electronsVisibleProperty = new BooleanProperty( true, {
       tandem: options.tandem.createTandem( 'electronsVisibleProperty' ),
       phetioFeatured: true
-      //TODO phetioDocumentation
     } );
   }
 

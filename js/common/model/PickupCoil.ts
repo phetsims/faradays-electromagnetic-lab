@@ -24,7 +24,7 @@ import createObservableArray, { ObservableArray } from '../../../../axon/js/crea
 import TReadOnlyProperty from '../../../../axon/js/TReadOnlyProperty.js';
 
 const WIRE_WIDTH = 16;
-const LOOP_SPACING = 1.5 * WIRE_WIDTH; // loosely packed loops
+const LOOP_SPACING = 1.5 * WIRE_WIDTH; // loosely-packed loops
 
 type SelfOptions = {
   maxEMF: number; // the initial value of maxEMFProperty

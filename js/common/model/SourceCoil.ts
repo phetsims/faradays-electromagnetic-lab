@@ -14,7 +14,7 @@ import RangeWithValue from '../../../../dot/js/RangeWithValue.js';
 import StrictOmit from '../../../../phet-core/js/types/StrictOmit.js';
 
 const WIRE_WIDTH = 16;
-const LOOP_SPACING = WIRE_WIDTH; // closely packed loops
+const LOOP_SPACING = WIRE_WIDTH; // closely-packed loops
 
 type SelfOptions = EmptySelfOptions;
 
