@@ -101,6 +101,9 @@ export default class Electron {
     this.disposeElectron();
   }
 
+  /**
+   * Gets a CoilSegment by index. If no index is provided, get the CoilSegment that the electron currently occupies.
+   */
   public getCoilSegment( pathIndex?: number ): CoilSegment {
     if ( pathIndex === undefined ) {
       pathIndex = this.coilSegmentIndexProperty.value;
@@ -108,6 +111,9 @@ export default class Electron {
     return this.coilSegments[ pathIndex ];
   }
 
+  /**
+   * Gets the speed scale for the CoilSegment that the electron currently occupies.
+   */
   private getCoilSegmentSpeedScale(): number {
     return this.coilSegments[ this.coilSegmentIndexProperty.value ].speedScale;
   }
