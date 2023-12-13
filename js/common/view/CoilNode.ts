@@ -143,7 +143,7 @@ export default class CoilNode extends PhetioObject {
 
       if ( i === 0 ) {
 
-        // Left wire end
+        // Left wire end in background
         {
           const endPoint = new Vector2( -loopSpacing / 2 + xOffset, -radius ); // lower
           const startPoint = new Vector2( endPoint.x - 15, endPoint.y - 40 ); // upper
@@ -170,7 +170,7 @@ export default class CoilNode extends PhetioObject {
           leftEndPoint = startPoint;
         }
 
-        // Back top (left-most) is slightly different, so it connects to the left wire end.
+        // Back top (left-most) is slightly different, because it connects to the left wire end.
         {
           const startPoint = new Vector2( -loopSpacing / 2 + xOffset, -radius ); // upper
           const endPoint = new Vector2( ( radius * 0.25 ) + xOffset, 0 ); // lower
@@ -189,7 +189,7 @@ export default class CoilNode extends PhetioObject {
       }
       else {
 
-        // Back top, no wire end connected
+        // Back top (no wire end connection)
         const startPoint = new Vector2( -loopSpacing + xOffset, -radius ); // upper
         const endPoint = new Vector2( ( radius * 0.25 ) + xOffset, 0 ); // lower
         const controlPoint = new Vector2( ( radius * 0.15 ) + xOffset, ( -radius * 1.20 ) );
@@ -276,7 +276,7 @@ export default class CoilNode extends PhetioObject {
         this.foregroundNode.addChild( path );
       }
 
-      // Right wire end
+      // Right wire end in foreground
       if ( i === numberOfLoops - 1 ) {
         const startPoint = new Vector2( xOffset, -radius ); // lower
         const endPoint = new Vector2( startPoint.x + 15, startPoint.y - 40 ); // upper
