@@ -155,7 +155,9 @@ export default class CoilNode extends PhetioObject {
           // const gradient = new GradientPaint( startPoint.x, 0, _middlegroundColor, endPoint.x, 0, _backgroundColor );
           const gradient = MIDDLEGROUND_COLOR; //TODO
 
-          const shape = new Shape(); //TODO setShape( curve )
+          const shape = new Shape()
+            .moveToPoint( curve.startPoint )
+            .quadraticCurveToPoint( curve.controlPoint, curve.endPoint );
           const path = new Path( shape, combineOptions<PathOptions>( { stroke: gradient }, pathOptions ) );
           this.backgroundNode.addChild( path );
 
@@ -172,7 +174,9 @@ export default class CoilNode extends PhetioObject {
           const descriptor = new ElectronPathDescriptor( curve, this.backgroundNode, 'background' );
           this.electronPathDescriptors.push( descriptor );
 
-          const shape = new Shape(); //TODO setShape( curve )
+          const shape = new Shape()
+            .moveToPoint( curve.startPoint )
+            .quadraticCurveToPoint( curve.controlPoint, curve.endPoint );
           const path = new Path( shape, combineOptions<PathOptions>( { stroke: BACKGROUND_COLOR }, pathOptions ) );
           this.backgroundNode.addChild( path );
         }
@@ -192,7 +196,9 @@ export default class CoilNode extends PhetioObject {
         // Paint gradient = new GradientPaint( (int)(startPoint.x + (radius * .10)), (int)-(radius), _middlegroundColor, xOffset, (int)-(radius * 0.92), _backgroundColor );
         const gradient = MIDDLEGROUND_COLOR; //TODO
 
-        const shape = new Shape(); //TODO setShape( curve )
+        const shape = new Shape()
+          .moveToPoint( curve.startPoint )
+          .quadraticCurveToPoint( curve.controlPoint, curve.endPoint );
         const path = new Path( shape, combineOptions<PathOptions>( { stroke: gradient }, pathOptions ) );
         this.backgroundNode.addChild( path );
       }
@@ -211,7 +217,9 @@ export default class CoilNode extends PhetioObject {
         // Paint gradient = new GradientPaint( 0, (int)(radius * 0.92), _backgroundColor, 0, (int)(radius), _middlegroundColor );
         const gradient = BACKGROUND_COLOR; //TODO
 
-        const shape = new Shape(); //TODO setShape( curve )
+        const shape = new Shape()
+          .moveToPoint( curve.startPoint )
+          .quadraticCurveToPoint( curve.controlPoint, curve.endPoint );
         const path = new Path( shape, combineOptions<PathOptions>( { stroke: gradient }, pathOptions ) );
         this.backgroundNode.addChild( path );
       }
@@ -230,7 +238,9 @@ export default class CoilNode extends PhetioObject {
         // Paint gradient = new GradientPaint( (int)(-radius * .25) + xOffset, 0, _foregroundColor, (int)(-radius * .15) + xOffset, 0, _middlegroundColor );
         const gradient = FOREGROUND_COLOR; //TODO
 
-        const shape = new Shape(); //TODO setShape( curve )
+        const shape = new Shape()
+          .moveToPoint( curve.startPoint )
+          .quadraticCurveToPoint( curve.controlPoint, curve.endPoint );
         const path = new Path( shape, combineOptions<PathOptions>( { stroke: gradient }, pathOptions ) );
         this.foregroundNode.addChild( path );
       }
@@ -249,7 +259,9 @@ export default class CoilNode extends PhetioObject {
         // Paint gradient = new GradientPaint( (int)(-radius * .25) + xOffset, 0, _foregroundColor, (int)(-radius * .15) + xOffset, 0, _middlegroundColor );
         const gradient = FOREGROUND_COLOR; //TODO
 
-        const shape = new Shape(); //TODO setShape( curve )
+        const shape = new Shape()
+          .moveToPoint( curve.startPoint )
+          .quadraticCurveToPoint( curve.controlPoint, curve.endPoint );
         const path = new Path( shape, combineOptions<PathOptions>( { stroke: gradient }, pathOptions ) );
         this.foregroundNode.addChild( path );
       }
@@ -266,7 +278,9 @@ export default class CoilNode extends PhetioObject {
         const descriptor = new ElectronPathDescriptor( curve, this.foregroundNode, 'foreground', speedScale );
         this.electronPathDescriptors.push( descriptor );
 
-        const shape = new Shape(); //TODO setShape( curve )
+        const shape = new Shape()
+          .moveToPoint( curve.startPoint )
+          .quadraticCurveToPoint( curve.controlPoint, curve.endPoint );
         const path = new Path( shape, combineOptions<PathOptions>( { stroke: MIDDLEGROUND_COLOR }, pathOptions ) );
         this.foregroundNode.addChild( path );
 
