@@ -71,7 +71,7 @@ export default class CoilNode extends PhetioObject {
   // Whether to connect the ends of the coil.
   public readonly endsConnected: boolean;
 
-  public constructor( coil: Coil, stepEmitter: Emitter<[number]>, providedOptions: CoilNodeOptions ) {
+  public constructor( coil: Coil, stepEmitter: Emitter<[ number ]>, providedOptions: CoilNodeOptions ) {
 
     const options = optionize<CoilNodeOptions, SelfOptions, NodeOptions>()( {
 
@@ -101,9 +101,11 @@ export default class CoilNode extends PhetioObject {
     //TODO Is this correct? Not in the Java version.
     this.coil.currentAmplitudeProperty.link( currentAmplitude => this.updateElectronsSpeedAndDirection() );
 
-    stepEmitter.addListener( dt => {
-      this.electrons.forEach( electron => electron.step( dt ) );
-    } );
+    stepEmitter.addListener( dt => this.step( dt ) );
+  }
+
+  private step( dt: number ): void {
+    this.electrons.forEach( electron => electron.step( dt ) );
   }
 
   /**
@@ -321,14 +323,14 @@ export default class CoilNode extends PhetioObject {
       const rightEndIndex = this.coilSegments.length - 1;
 
       // For each curve...
-      for ( let pathIndex = 0; pathIndex < this.coilSegments.length; pathIndex++ ) {
+      for ( let i = 0; i < this.coilSegments.length; i++ ) {
 
         // The wire ends are a different size, and therefore contain a different number of electrons.
         let numberOfElectrons;
-        if ( pathIndex === leftEndIndex ) {
+        if ( i === leftEndIndex ) {
           numberOfElectrons = ELECTRONS_IN_LEFT_END;
         }
-        else if ( pathIndex === rightEndIndex ) {
+        else if ( i === rightEndIndex ) {
           numberOfElectrons = ELECTRONS_IN_RIGHT_END;
         }
         else {
