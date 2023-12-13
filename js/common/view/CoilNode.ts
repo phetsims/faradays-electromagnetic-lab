@@ -39,11 +39,7 @@ import Electron from '../model/Electron.js';
 import Tandem from '../../../../tandem/js/Tandem.js';
 import ElectronNode from './ElectronNode.js';
 import QuadraticBezierSpline from '../model/QuadraticBezierSpline.js';
-
-// Loop parameters
-const FOREGROUND_COLOR = 'rgb( 153, 102, 51 )'; // light brown
-const MIDDLEGROUND_COLOR = 'rgb( 92, 52, 12 )'; // dark brown
-const BACKGROUND_COLOR = 'rgb( 40, 23, 3 )'; // really dark brown
+import FELColors from '../FELColors.js';
 
 // Space between electrons, determines the number of electrons add to each curve.
 const ELECTRON_SPACING = 25;
@@ -157,8 +153,8 @@ export default class CoilNode extends PhetioObject {
 
           // Horizontal gradient, left to right.
           const gradient = new LinearGradient( startPoint.x, 0, endPoint.x, 0 )
-            .addColorStop( 0, MIDDLEGROUND_COLOR )
-            .addColorStop( 1, BACKGROUND_COLOR );
+            .addColorStop( 0, FELColors.coilMiddleColorProperty )
+            .addColorStop( 1, FELColors.coilBackColorProperty );
 
           const shape = new Shape()
             .moveToPoint( curve.startPoint )
@@ -182,7 +178,9 @@ export default class CoilNode extends PhetioObject {
           const shape = new Shape()
             .moveToPoint( curve.startPoint )
             .quadraticCurveToPoint( curve.controlPoint, curve.endPoint );
-          const path = new Path( shape, combineOptions<PathOptions>( { stroke: BACKGROUND_COLOR }, pathOptions ) );
+          const path = new Path( shape, combineOptions<PathOptions>( {
+            stroke: FELColors.coilBackColorProperty
+          }, pathOptions ) );
           this.backgroundNode.addChild( path );
         }
       }
@@ -199,8 +197,8 @@ export default class CoilNode extends PhetioObject {
 
         // Diagonal gradient, upper left to lower right.
         const gradient = new LinearGradient( startPoint.x + ( radius * 0.10 ), -radius, xOffset, -radius * 0.92 )
-          .addColorStop( 0, MIDDLEGROUND_COLOR )
-          .addColorStop( 1, BACKGROUND_COLOR );
+          .addColorStop( 0, FELColors.coilMiddleColorProperty )
+          .addColorStop( 1, FELColors.coilBackColorProperty );
 
         const shape = new Shape()
           .moveToPoint( curve.startPoint )
@@ -221,8 +219,8 @@ export default class CoilNode extends PhetioObject {
 
         // Vertical gradient, upper to lower
         const gradient = new LinearGradient( 0, radius * 0.92, 0, radius )
-          .addColorStop( 0, BACKGROUND_COLOR )
-          .addColorStop( 1, MIDDLEGROUND_COLOR );
+          .addColorStop( 0, FELColors.coilBackColorProperty )
+          .addColorStop( 1, FELColors.coilMiddleColorProperty );
 
         const shape = new Shape()
           .moveToPoint( curve.startPoint )
@@ -243,8 +241,8 @@ export default class CoilNode extends PhetioObject {
 
         // Horizontal gradient, left to right
         const gradient = new LinearGradient( ( -radius * 0.25 ) + xOffset, 0, -radius * 0.15 + xOffset, 0 )
-          .addColorStop( 0, FOREGROUND_COLOR )
-          .addColorStop( 1, MIDDLEGROUND_COLOR );
+          .addColorStop( 0, FELColors.coilFrontColorProperty )
+          .addColorStop( 1, FELColors.coilMiddleColorProperty );
 
         const shape = new Shape()
           .moveToPoint( curve.startPoint )
@@ -265,8 +263,8 @@ export default class CoilNode extends PhetioObject {
 
         // Horizontal gradient, left to right
         const gradient = new LinearGradient( ( -radius * 0.25 ) + xOffset, 0, -radius * 0.15 + xOffset, 0 )
-          .addColorStop( 0, FOREGROUND_COLOR )
-          .addColorStop( 1, MIDDLEGROUND_COLOR );
+          .addColorStop( 0, FELColors.coilFrontColorProperty )
+          .addColorStop( 1, FELColors.coilMiddleColorProperty );
 
         const shape = new Shape()
           .moveToPoint( curve.startPoint )
@@ -290,7 +288,9 @@ export default class CoilNode extends PhetioObject {
         const shape = new Shape()
           .moveToPoint( curve.startPoint )
           .quadraticCurveToPoint( curve.controlPoint, curve.endPoint );
-        const path = new Path( shape, combineOptions<PathOptions>( { stroke: MIDDLEGROUND_COLOR }, pathOptions ) );
+        const path = new Path( shape, combineOptions<PathOptions>( {
+          stroke: FELColors.coilMiddleColorProperty
+        }, pathOptions ) );
         this.foregroundNode.addChild( path );
 
         rightEndPoint = endPoint;
@@ -302,7 +302,7 @@ export default class CoilNode extends PhetioObject {
       assert && assert( leftEndPoint && rightEndPoint );
       const shape = new Shape().moveTo( leftEndPoint!.x, leftEndPoint!.y ).lineTo( rightEndPoint!.x, rightEndPoint!.y );
       const path = new Path( shape, {
-        stroke: MIDDLEGROUND_COLOR,
+        stroke: FELColors.coilMiddleColorProperty,
         lineWidth: this.coil.wireWidth,
         lineCap: 'round',
         lineJoin: 'bevel'
