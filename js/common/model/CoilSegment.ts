@@ -1,9 +1,8 @@
 // Copyright 2023, University of Colorado Boulder
 
 /**
- * ElectronPathDescriptor contains a description of one segment of an Electron's path. This description is used
- * exclusively by the view to describe the visual representation of segments of a coil, for the purposes of animating
- * the flow of electrons in the coil.
+ * CoilSegment is one segment of a coil, described by a quadratic bezier spline. An array of CoilSegment is used to
+ * draw the coil, and to guide the flow of electrons in the coil.
  *
  * @author Chris Malley (PixelZoom, Inc.)
  */
@@ -12,7 +11,7 @@ import faradaysElectromagneticLab from '../../faradaysElectromagneticLab.js';
 import { Node } from '../../../../scenery/js/imports.js';
 import QuadraticBezierSpline from './QuadraticBezierSpline.js';
 
-export default class ElectronPathDescriptor {
+export default class CoilSegment {
 
   // The default speed scale
   public static readonly DEFAULT_SPEED_SCALE = 1.0;
@@ -20,7 +19,7 @@ export default class ElectronPathDescriptor {
   // The curve
   public readonly curve: QuadraticBezierSpline;
 
-  // The parent graphic
+  // The parent Node
   public readonly parentNode: Node;
 
   // How to scale the speed for this curve (any positive value). This value is used to adjust the speed of electrons
@@ -28,7 +27,7 @@ export default class ElectronPathDescriptor {
   // and the speed needs to be scaled in order to make electron "speed" appear the same on all curves.
   public readonly speedScale;
 
-  public constructor( curve: QuadraticBezierSpline, parentNode: Node, speedScale = ElectronPathDescriptor.DEFAULT_SPEED_SCALE ) {
+  public constructor( curve: QuadraticBezierSpline, parentNode: Node, speedScale = CoilSegment.DEFAULT_SPEED_SCALE ) {
     assert && assert( speedScale > 0, `invalid speedScale: ${speedScale}` );
     this.curve = curve;
     this.parentNode = parentNode;
@@ -36,4 +35,4 @@ export default class ElectronPathDescriptor {
   }
 }
 
-faradaysElectromagneticLab.register( 'ElectronPathDescriptor', ElectronPathDescriptor );
+faradaysElectromagneticLab.register( 'CoilSegment', CoilSegment );

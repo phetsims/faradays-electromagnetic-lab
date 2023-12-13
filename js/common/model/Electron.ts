@@ -2,13 +2,13 @@
 
 /**
  * Electron is the model of an electron that moves through a coil. The path through the coil is described by
- * an ordered set of ElectronPathDescriptor elements.
+ * an ordered set of CoilSegment elements.
  *
  * @author Chris Malley (PixelZoom, Inc.)
  */
 
 import faradaysElectromagneticLab from '../../faradaysElectromagneticLab.js';
-import ElectronPathDescriptor from './ElectronPathDescriptor.js';
+import CoilSegment from './CoilSegment.js';
 import Range from '../../../../dot/js/Range.js';
 import Vector2 from '../../../../dot/js/Vector2.js';
 import TReadOnlyProperty from '../../../../axon/js/TReadOnlyProperty.js';
@@ -23,7 +23,7 @@ const MAX_PATH_POSITION_DELTA = 0.15;
 const PATH_POSITION_RANGE = new Range( 0, 1 );
 
 type SelfOptions = {
-  coilSegments: ElectronPathDescriptor[];
+  coilSegments: CoilSegment[];
   pathPosition: number;
   pathIndex: number;
   speedAndDirection: number;
@@ -38,8 +38,8 @@ export default class Electron {
   public readonly positionProperty: TReadOnlyProperty<Vector2>;
   private readonly _positionProperty: Property<Vector2>;
 
-  // Ordered collection of the curve segments that make up the coil
-  private readonly coilSegments: ElectronPathDescriptor[];
+  // Ordered collection of the curves that make up the coil
+  private readonly coilSegments: CoilSegment[];
 
   // Index of the coil segment that the electron currently occupies
   public readonly coilSegmentIndexProperty: NumberProperty;
@@ -101,7 +101,7 @@ export default class Electron {
     this.disposeElectron();
   }
 
-  public getCoilSegment( pathIndex?: number ): ElectronPathDescriptor {
+  public getCoilSegment( pathIndex?: number ): CoilSegment {
     if ( pathIndex === undefined ) {
       pathIndex = this.coilSegmentIndexProperty.value;
     }
@@ -115,13 +115,13 @@ export default class Electron {
   /**
    * Moves the electron along the path.
    *
-   * The electron's path is described by the ElectronPathDescriptor array.
+   * The electron's path is described by the CoilSegment array.
    *
    * The electron's speed & direction determine its position along a curve. Speed is scaled to account for possible
    * differences in the lengths of the curves. Shorter curves will have a larger scaling factor.
    *
    * When an electron gets to the end of the current curve, it jumps to the next curve, to a point that represents
-   * the "overshoot". The order of curves is determined by the order of elements in the ElectronPathDescriptor array.
+   * the "overshoot". The order of curves is determined by the order of elements in the CoilSegment array.
    */
   public step( dt: number ): void {
     if ( this.visibleProperty.value && this.speedAndDirectionProperty.value !== 0 ) {
