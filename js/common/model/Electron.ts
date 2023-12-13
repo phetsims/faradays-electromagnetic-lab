@@ -1,8 +1,8 @@
 // Copyright 2023, University of Colorado Boulder
 
 /**
- * Electron is the model of an electron, capable of moving along some path. The path is described by an ordered set
- * of ElectronPathDescriptors.
+ * Electron is the model of an electron that moves through a coil. The path through the coil is described by
+ * an ordered set of ElectronPathDescriptor elements.
  *
  * @author Chris Malley (PixelZoom, Inc.)
  */
