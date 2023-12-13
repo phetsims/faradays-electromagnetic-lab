@@ -138,6 +138,7 @@ export default class CoilNode extends PhetioObject {
 
       const xOffset = xStart + ( i * loopSpacing );
 
+      // For the left-most loop...
       if ( i === 0 ) {
 
         // Left wire end in background
@@ -269,7 +270,7 @@ export default class CoilNode extends PhetioObject {
         this.foregroundNode.addChild( path );
       }
 
-      // Right wire end in foreground
+      // For the rightmost loop.... Right wire end in foreground
       if ( i === numberOfLoops - 1 ) {
         const startPoint = new Vector2( xOffset, -radius ); // lower
         const endPoint = new Vector2( startPoint.x + 15, startPoint.y - 40 ); // upper
