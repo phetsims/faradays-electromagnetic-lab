@@ -70,7 +70,7 @@ export default class CoilNode extends PhetioObject {
   private readonly electronPathDescriptors: ElectronPathDescriptor[];
 
   // Electrons in the coil
-  private readonly electrons: Electron[];
+  private readonly electrons: Electron[]; //TODO PhetioGroup or allocate a static pool
 
   // Whether to connect the ends of the coil.
   public readonly endsConnected: boolean;
@@ -148,7 +148,7 @@ export default class CoilNode extends PhetioObject {
 
           // Scale the speed, since this curve is different than the others in the coil.
           const speedScale = ( radius / ELECTRON_SPACING ) / ELECTRONS_IN_LEFT_END;
-          const descriptor = new ElectronPathDescriptor( curve, this.backgroundNode, 'background', speedScale );
+          const descriptor = new ElectronPathDescriptor( curve, this.backgroundNode, speedScale );
           this.electronPathDescriptors.push( descriptor );
 
           // Horizontal gradient, left to right.
@@ -171,7 +171,7 @@ export default class CoilNode extends PhetioObject {
           const controlPoint = new Vector2( ( radius * 0.15 ) + xOffset, ( -radius * 0.70 ) );
           const curve = new QuadraticBezierSpline( startPoint, controlPoint, endPoint );
 
-          const descriptor = new ElectronPathDescriptor( curve, this.backgroundNode, 'background' );
+          const descriptor = new ElectronPathDescriptor( curve, this.backgroundNode );
           this.electronPathDescriptors.push( descriptor );
 
           const shape = new Shape()
@@ -189,7 +189,7 @@ export default class CoilNode extends PhetioObject {
         const controlPoint = new Vector2( ( radius * 0.15 ) + xOffset, ( -radius * 1.20 ) );
         const curve = new QuadraticBezierSpline( startPoint, controlPoint, endPoint );
 
-        const descriptor = new ElectronPathDescriptor( curve, this.backgroundNode, 'background' );
+        const descriptor = new ElectronPathDescriptor( curve, this.backgroundNode );
         this.electronPathDescriptors.push( descriptor );
 
         // Diagonal gradient, upper left to lower right.
@@ -210,7 +210,7 @@ export default class CoilNode extends PhetioObject {
         const controlPoint = new Vector2( ( radius * 0.35 ) + xOffset, ( radius * 1.20 ) );
         const curve = new QuadraticBezierSpline( startPoint, controlPoint, endPoint );
 
-        const descriptor = new ElectronPathDescriptor( curve, this.backgroundNode, 'background' );
+        const descriptor = new ElectronPathDescriptor( curve, this.backgroundNode );
         this.electronPathDescriptors.push( descriptor );
 
         // Vertical gradient, upper to lower
@@ -231,7 +231,7 @@ export default class CoilNode extends PhetioObject {
         const controlPoint = new Vector2( ( -radius * 0.25 ) + xOffset, ( radius * 0.80 ) );
         const curve = new QuadraticBezierSpline( startPoint, controlPoint, endPoint );
 
-        const d = new ElectronPathDescriptor( curve, this.foregroundNode, 'foreground' );
+        const d = new ElectronPathDescriptor( curve, this.foregroundNode );
         this.electronPathDescriptors.push( d );
 
         // Horizontal gradient, left to right
@@ -252,7 +252,7 @@ export default class CoilNode extends PhetioObject {
         const controlPoint = new Vector2( ( -radius * 0.25 ) + xOffset, ( -radius * 0.80 ) );
         const curve = new QuadraticBezierSpline( startPoint, controlPoint, endPoint );
 
-        const descriptor = new ElectronPathDescriptor( curve, this.foregroundNode, 'foreground' );
+        const descriptor = new ElectronPathDescriptor( curve, this.foregroundNode );
         this.electronPathDescriptors.push( descriptor );
 
         // Horizontal gradient, left to right
@@ -275,7 +275,7 @@ export default class CoilNode extends PhetioObject {
 
         // Scale the speed, since this curve is different from the others in the coil.
         const speedScale = ( radius / ELECTRON_SPACING ) / ELECTRONS_IN_RIGHT_END;
-        const descriptor = new ElectronPathDescriptor( curve, this.foregroundNode, 'foreground', speedScale );
+        const descriptor = new ElectronPathDescriptor( curve, this.foregroundNode, speedScale );
         this.electronPathDescriptors.push( descriptor );
 
         const shape = new Shape()
@@ -343,8 +343,8 @@ export default class CoilNode extends PhetioObject {
           this.electrons.push( electron );
 
           // View
-          const electronNode = new ElectronNode( electron, Tandem.OPT_OUT /* TODO dynamic element */ );
-          electron.getPathDescriptor().parent.addChild( electronNode );
+          const electronNode = new ElectronNode( electron );
+          electron.getPathDescriptor().parentNode.addChild( electronNode );
         }
       }
     }

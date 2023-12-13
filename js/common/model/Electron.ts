@@ -20,6 +20,7 @@ import NumberProperty from '../../../../axon/js/NumberProperty.js';
 
 // Maximum distance along a path that can be traveled in one clock tick.
 const MAX_PATH_POSITION_DELTA = 0.15;
+const PATH_POSITION_RANGE = new Range( 0, 1 );
 
 type SelfOptions = {
   pathDescriptors: ElectronPathDescriptor[];
@@ -41,11 +42,11 @@ export default class Electron {
   private readonly pathDescriptors: ElectronPathDescriptor[];
 
   // Index of the element in pathDescriptors that describes the curve the electron is currently on.
-  public pathIndex: number;
+  public readonly pathIndexProperty: NumberProperty;
 
   // Electron's position along the current curve (1=startPoint, 0=endPoint)
   //TODO Flip the semantics to be a percent along the path, 0=start, 1=end.
-  private pathPosition: number;
+  private pathPositionProperty: NumberProperty;
 
   // Electron's speed & direction (-1...+1)
   public readonly speedAndDirectionProperty: NumberProperty;
@@ -61,23 +62,30 @@ export default class Electron {
   public constructor( providedOptions: ElectronOptions ) {
     const options = providedOptions;
 
-    assert && assert( Number.isInteger( options.pathIndex ) && options.pathIndex >= 0 && options.pathIndex <= options.pathDescriptors.length - 1,
-      `invalid pathIndex: ${options.pathIndex}` );
-    assert && assert( options.pathPosition >= 0 && options.pathPosition <= 1,
-      `invalid pathPosition: ${options.pathPosition}` );
-
     this._positionProperty = new Vector2Property( new Vector2( 0, 0 ), {
-      tandem: options.tandem.createTandem( 'positionProperty' )
+      tandem: options.tandem.createTandem( 'positionProperty' ),
+      phetioReadOnly: true
     } );
     this.positionProperty = this._positionProperty;
 
     this.pathDescriptors = options.pathDescriptors;
-    this.pathIndex = options.pathIndex;
-    this.pathPosition = options.pathPosition;
+
+    this.pathIndexProperty = new NumberProperty( options.pathIndex, {
+      range: new Range( 0, this.pathDescriptors.length - 1 ),
+      tandem: options.tandem.createTandem( 'pathIndexProperty' ),
+      phetioReadOnly: true
+    } );
+
+    this.pathPositionProperty = new NumberProperty( options.pathPosition, {
+      range: PATH_POSITION_RANGE,
+      tandem: options.tandem.createTandem( 'pathPositionProperty' ),
+      phetioReadOnly: true
+    } );
 
     this.speedAndDirectionProperty = new NumberProperty( options.speedAndDirection, {
       range: new Range( -1, 1 ),
-      tandem: options.tandem.createTandem( 'speedAndDirectionProperty' )
+      tandem: options.tandem.createTandem( 'speedAndDirectionProperty' ),
+      phetioReadOnly: true
     } );
 
     this.speedScaleProperty = options.speedScaleProperty;
@@ -93,8 +101,15 @@ export default class Electron {
     this.disposeElectron();
   }
 
-  public getPathDescriptor(): ElectronPathDescriptor {
-    return this.pathDescriptors[ this.pathIndex ];
+  public getPathDescriptor( pathIndex?: number ): ElectronPathDescriptor {
+    if ( pathIndex === undefined ) {
+      pathIndex = this.pathIndexProperty.value;
+    }
+    return this.pathDescriptors[ pathIndex ];
+  }
+
+  private getPathSpeedScale(): number {
+    return this.pathDescriptors[ this.pathIndexProperty.value ].speedScale;
   }
 
   /**
@@ -112,77 +127,80 @@ export default class Electron {
     if ( this.visibleProperty.value && this.speedAndDirectionProperty.value !== 0 ) {
 
       // Move the electron along the path.
-      const speedScale = this.pathDescriptors[ this.pathIndex ].speedScale;
       const deltaPosition = dt * MAX_PATH_POSITION_DELTA * this.speedAndDirectionProperty.value *
-                            this.speedScaleProperty.value * speedScale;
-      this.pathPosition -= deltaPosition;
+                            this.speedScaleProperty.value * this.getPathSpeedScale();
+      const newPathPosition = this.pathPositionProperty.value - deltaPosition;
 
       // Do we need to switch curves?
-      if ( this.pathPosition <= 0 || this.pathPosition >= 1 ) {
-        this.switchCurves();
+      if ( newPathPosition <= 0 || newPathPosition >= 1 ) {
+        this.switchCurves( newPathPosition );
       }
-      assert && assert( this.pathPosition >= 0 && this.pathPosition <= 1,
-        `invalid pathPosition: ${this.pathPosition}` );
+      else {
+        this.pathPositionProperty.value = newPathPosition;
+      }
 
       // Evaluate the quadratic to determine XY location.
-      const descriptor = this.pathDescriptors[ this.pathIndex ];
-      this._positionProperty.value = descriptor.curve.evaluate( this.pathPosition );
+      const descriptor = this.pathDescriptors[ this.pathIndexProperty.value ];
+      this._positionProperty.value = descriptor.curve.evaluate( this.pathPositionProperty.value );
     }
   }
 
   /**
-   * Moves the electron to an appropriate point on the next/previous curve.
-   * Rescales any "overshoot" of position so the distance moved looks
-   * approximately the same when moving between curves that have different
-   * lengths.
-   * <p>
-   * If curves have different lengths, it is possible that we may totally
-   * skip a curve.  This is handled via recursive calls to switchCurves.
+   * Moves the electron to an appropriate point on the next/previous curve. Rescales any "overshoot" of position so
+   * the distance moved looks approximately the same when moving between curves that have different lengths.
+   *
+   * If curves have different lengths, it is possible that we may totally skip a curve.This is handled via
+   * recursive calls to switchCurves.
    */
-  private switchCurves(): void {
+  private switchCurves( newPathPosition: number ): void {
 
-    const oldSpeedScale = this.pathDescriptors[ this.pathIndex ].speedScale;
+    const oldPathSpeedScale = this.getPathSpeedScale();
 
-    if ( this.pathPosition <= 0 ) {
+    if ( newPathPosition <= 0 ) {
 
-      // We've passed the end point, so move to the next curve.
-      this.pathIndex++;
-      if ( this.pathIndex > this.pathDescriptors.length - 1 ) {
-        this.pathIndex = 0;
+      // We've passed the end point, so move to the next curve. Wrap around if necessary.
+      const pathIndex = this.pathIndexProperty.value + 1;
+      if ( pathIndex > this.pathDescriptors.length - 1 ) {
+        this.pathIndexProperty.value = 0;
+      }
+      else {
+        this.pathIndexProperty.value = pathIndex;
       }
 
       // Set the position on the curve.
-      const newSpeedScale = this.pathDescriptors[ this.pathIndex ].speedScale;
-      const overshoot = Math.abs( this.pathPosition * newSpeedScale / oldSpeedScale );
-      this.pathPosition = 1.0 - overshoot;
+      const overshoot = Math.abs( newPathPosition * this.getPathSpeedScale() / oldPathSpeedScale );
+      newPathPosition = 1.0 - overshoot;
 
       // Did we overshoot the curve? If so, call this method recursively.
-      if ( this.pathPosition < 0.0 ) {
-        this.switchCurves();
+      if ( newPathPosition < 0.0 ) {
+        this.switchCurves( newPathPosition ); //TODO guard against infinite recursion?
+      }
+      else {
+        this.pathPositionProperty.value = newPathPosition;
       }
     }
-    else if ( this.pathPosition >= 1.0 ) {
+    else if ( newPathPosition >= 1.0 ) {
 
-      // We've passed the start point, so move to the previous curve.
-      this.pathIndex--;
-      if ( this.pathIndex < 0 ) {
-        this.pathIndex = this.pathDescriptors.length - 1;
+      // We've passed the start point, so move to the previous curve. Wrap around if necessary.
+      const pathIndex = this.pathIndexProperty.value - 1;
+      if ( pathIndex < 0 ) {
+        this.pathIndexProperty.value = this.pathDescriptors.length - 1;
+      }
+      else {
+        this.pathIndexProperty.value = pathIndex;
       }
 
       // Set the position on the curve.
-      const newSpeedScale = this.pathDescriptors[ this.pathIndex ].speedScale;
-      const overshoot = Math.abs( ( 1 - this.pathPosition ) * newSpeedScale / oldSpeedScale );
-      this.pathPosition = overshoot;
+      newPathPosition = Math.abs( ( 1 - newPathPosition ) * this.getPathSpeedScale() / oldPathSpeedScale );
 
       // Did we overshoot the curve? If so, call this method recursively.
-      if ( this.pathPosition > 1.0 ) {
-        this.switchCurves();
+      if ( newPathPosition > 1.0 ) {
+        this.switchCurves( newPathPosition ); //TODO guard against infinite recursion?
+      }
+      else {
+        this.pathPositionProperty.value = newPathPosition;
       }
     }
-    assert && assert( Number.isInteger( this.pathIndex ) && this.pathIndex >= 0 && this.pathIndex <= this.pathDescriptors.length - 1,
-      `invalid pathIndex: ${this.pathIndex}` );
-    assert && assert( this.pathPosition >= 0 && this.pathPosition <= 1,
-      `invalid pathPosition: ${this.pathPosition}` );
   }
 }
 
