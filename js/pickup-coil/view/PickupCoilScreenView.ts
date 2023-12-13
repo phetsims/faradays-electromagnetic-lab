@@ -23,6 +23,7 @@ import PickupCoilModel from '../model/PickupCoilModel.js';
 import PickupCoilDeveloperAccordionBox from './PickupCoilDeveloperAccordionBox.js';
 import PickupCoilDebuggerPanel from '../../common/view/PickupCoilDebuggerPanel.js';
 import ToolsPanel from '../../common/view/ToolsPanel.js';
+import PickupCoilNode from '../../common/view/PickupCoilNode.js';
 
 export default class PickupCoilScreenView extends ScreenView {
 
@@ -42,7 +43,7 @@ export default class PickupCoilScreenView extends ScreenView {
       tandem: tandem.createTandem( 'barMagnetNode' )
     } );
 
-    //TODO pickupCoilNode
+    const pickupCoilNode = new PickupCoilNode( model.pickupCoil, tandem.createTandem( 'pickupCoilNode' ) );
 
     const pickupCoilDebuggerPanel = new PickupCoilDebuggerPanel( model.pickupCoil );
     pickupCoilDebuggerPanel.centerX = this.layoutBounds.centerX;
@@ -106,7 +107,7 @@ export default class PickupCoilScreenView extends ScreenView {
       children: [
         fieldNode,
         barMagnetNode,
-        //TODO pickupCoilNode
+        pickupCoilNode,
         compassNode,
         fieldMeterNode,
         panels,
@@ -119,7 +120,7 @@ export default class PickupCoilScreenView extends ScreenView {
 
     rootNode.pdomOrder = [
       barMagnetNode,
-      //TODO pickupCoilNode
+      pickupCoilNode,
       compassNode,
       fieldMeterNode,
       panels,

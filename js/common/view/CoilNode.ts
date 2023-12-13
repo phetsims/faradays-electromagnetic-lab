@@ -71,6 +71,7 @@ export default class CoilNode extends PhetioObject {
 
   // Electrons in the coil
   private readonly electrons: Electron[]; //TODO PhetioGroup or allocate a static pool
+  private readonly electronNodes: ElectronNode[];
 
   // Whether to connect the ends of the coil.
   public readonly endsConnected: boolean;
@@ -97,6 +98,7 @@ export default class CoilNode extends PhetioObject {
 
     this.electronPathDescriptors = [];
     this.electrons = [];
+    this.electronNodes = [];
     this.endsConnected = options.endsConnected;
 
     Multilink.multilink( [ coil.numberOfLoopsProperty, coil.loopRadiusProperty ], () => this.updateCoil() );
@@ -113,6 +115,8 @@ export default class CoilNode extends PhetioObject {
     this.electronPathDescriptors.length = 0;
     this.electrons.forEach( electron => electron.dispose() );
     this.electrons.length = 0;
+    this.electronNodes.forEach( electronNode => electronNode.dispose() );
+    this.electronNodes.length = 0;
 
     // Get some coil model values, to improve code readability.
     const radius = this.coil.loopRadiusProperty.value;
@@ -344,7 +348,7 @@ export default class CoilNode extends PhetioObject {
 
           // View
           const electronNode = new ElectronNode( electron );
-          electron.getPathDescriptor().parentNode.addChild( electronNode );
+          this.electronNodes.push( electronNode );
         }
       }
     }
