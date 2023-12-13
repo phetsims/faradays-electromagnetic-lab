@@ -199,7 +199,6 @@ export default class CoilNode extends PhetioObject {
         this.electronPathDescriptors.push( descriptor );
 
         // Diagonal gradient, upper left to lower right.
-        //TODO Paint gradient = new GradientPaint( (int)(startPoint.x + (radius * .10)), (int)-(radius), _middlegroundColor, xOffset, (int)-(radius * 0.92), _backgroundColor );
         const gradient = new LinearGradient( startPoint.x + ( radius * 0.10 ), -radius, xOffset, -radius * 0.92 )
           .addColorStop( 0, MIDDLEGROUND_COLOR )
           .addColorStop( 1, BACKGROUND_COLOR );
@@ -222,7 +221,6 @@ export default class CoilNode extends PhetioObject {
         this.electronPathDescriptors.push( descriptor );
 
         // Vertical gradient, upper to lower
-        //TODO Paint gradient = new GradientPaint( 0, (int)(radius * 0.92), _backgroundColor, 0, (int)(radius), _middlegroundColor );
         const gradient = new LinearGradient( 0, radius * 0.92, 0, radius )
           .addColorStop( 0, BACKGROUND_COLOR )
           .addColorStop( 1, MIDDLEGROUND_COLOR );
@@ -245,8 +243,7 @@ export default class CoilNode extends PhetioObject {
         this.electronPathDescriptors.push( d );
 
         // Horizontal gradient, left to right
-        //TODO Paint gradient = new GradientPaint( (int)(-radius * .25) + xOffset, 0, _foregroundColor, (int)(-radius * .15) + xOffset, 0, _middlegroundColor );
-        const gradient = new LinearGradient( ( -radius * 0.25 ) + xOffset, 0, -radius * 0.15, 0 )
+        const gradient = new LinearGradient( ( -radius * 0.25 ) + xOffset, 0, -radius * 0.15 + xOffset, 0 )
           .addColorStop( 0, FOREGROUND_COLOR )
           .addColorStop( 1, MIDDLEGROUND_COLOR );
 
@@ -268,7 +265,6 @@ export default class CoilNode extends PhetioObject {
         this.electronPathDescriptors.push( descriptor );
 
         // Horizontal gradient, left to right
-        //TODO Paint gradient = new GradientPaint( (int)(-radius * .25) + xOffset, 0, _foregroundColor, (int)(-radius * .15) + xOffset, 0, _middlegroundColor );
         const gradient = new LinearGradient( ( -radius * 0.25 ) + xOffset, 0, -radius * 0.15 + xOffset, 0 )
           .addColorStop( 0, FOREGROUND_COLOR )
           .addColorStop( 1, MIDDLEGROUND_COLOR );
