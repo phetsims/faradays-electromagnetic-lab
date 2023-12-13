@@ -12,8 +12,17 @@ import Tandem from '../../../../tandem/js/Tandem.js';
 import PickupCoil from '../model/PickupCoil.js';
 import CoilNode from './CoilNode.js';
 import FELMovableNode from './FELMovableNode.js';
+import { Node } from '../../../../scenery/js/imports.js';
+
 
 export default class PickupCoilNode extends FELMovableNode {
+
+  private readonly coilNode: CoilNode;
+
+  // This Node is the background layer, intended to be added to the scenegraph behind the B-field, magnet, and compass,
+  // so that it looks like those things are passing through the coil. It is the responsibility of the instantiator to
+  // add backgroundNode to the scenegraph.
+  public readonly backgroundNode: Node;
 
   public constructor( pickupCoil: PickupCoil, tandem: Tandem ) {
 
@@ -23,15 +32,22 @@ export default class PickupCoilNode extends FELMovableNode {
     } );
 
     super( pickupCoil, {
-      children: [ coilNode.backgroundNode, coilNode.foregroundNode ],
+
+      // This Node's children are the foreground elements only.
+      //TODO add lightNode and voltmeterNode
+      children: [ coilNode.foregroundNode ],
       tandem: tandem
     } );
 
+    this.coilNode = coilNode;
+    this.backgroundNode = this.coilNode.backgroundNode;
+
     pickupCoil.positionProperty.link( position => {
       this.translation = position;
+      this.backgroundNode.translation = position;
     } );
 
-    //TODO debug view for pickupCoil.samplePointsVisibleProperty
+    //TODO Add debug view for pickupCoil.samplePointsVisibleProperty
   }
 }
 

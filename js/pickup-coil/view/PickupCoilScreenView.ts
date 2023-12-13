@@ -105,6 +105,7 @@ export default class PickupCoilScreenView extends ScreenView {
 
     const rootNode = new Node( {
       children: [
+        pickupCoilNode.backgroundNode,
         fieldNode,
         barMagnetNode,
         pickupCoilNode,
