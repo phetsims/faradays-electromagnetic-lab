@@ -9,7 +9,7 @@
 
 import faradaysElectromagneticLab from '../../faradaysElectromagneticLab.js';
 import BarMagnet from '../model/BarMagnet.js';
-import { Path, Rectangle, Text } from '../../../../scenery/js/imports.js';
+import { Text } from '../../../../scenery/js/imports.js';
 import optionize from '../../../../phet-core/js/optionize.js';
 import TReadOnlyProperty from '../../../../axon/js/TReadOnlyProperty.js';
 import FieldInsideNode from './FieldInsideNode.js';
@@ -19,6 +19,8 @@ import Vector2 from '../../../../dot/js/Vector2.js';
 import FELColors from '../FELColors.js';
 import PhetFont from '../../../../scenery-phet/js/PhetFont.js';
 import { Shape } from '../../../../kite/js/imports.js';
+import ShadedRectangle from '../../../../scenery-phet/js/ShadedRectangle.js';
+import Bounds2 from '../../../../dot/js/Bounds2.js';
 
 const CORNER_RADIUS = 10;
 const FONT = new PhetFont( { size: 30, weight: 'bold' } );
@@ -33,23 +35,22 @@ export default class BarMagnetNode extends FELMovableNode {
 
   public constructor( barMagnet: BarMagnet, providedOptions: BarMagnetNodeOptions ) {
 
-    const southNode = new Rectangle( 0, 0, barMagnet.size.width, barMagnet.size.height, {
-      fill: FELColors.barMagnetSouthColorProperty,
+    const southNode = new ShadedRectangle( new Bounds2( 0, 0, barMagnet.size.width, barMagnet.size.height ), {
+      baseColor: FELColors.barMagnetSouthColorProperty,
       cornerRadius: CORNER_RADIUS,
       center: Vector2.ZERO
     } );
 
-    // Square corners at left end, rounded corners at right end
-    const northShape = Shape.roundedRectangleWithRadii( 0, 0, 0.5 * barMagnet.size.width, barMagnet.size.height, {
-      topLeft: 0,
-      topRight: CORNER_RADIUS,
-      bottomRight: CORNER_RADIUS,
-      bottomLeft: 0
-    } );
-    const northNode = new Path( northShape, {
-      fill: FELColors.barMagnetNorthColorProperty,
+    const northNode = new ShadedRectangle( new Bounds2( 0, 0, barMagnet.size.width, barMagnet.size.height ), {
+      baseColor: FELColors.barMagnetNorthColorProperty,
       right: southNode.right,
-      centerY: southNode.centerY
+      centerY: southNode.centerY,
+      clipArea: Shape.roundedRectangleWithRadii( barMagnet.size.width / 2, 0, barMagnet.size.width / 2, barMagnet.size.height, {
+        topLeft: 0,
+        topRight: CORNER_RADIUS,
+        bottomRight: CORNER_RADIUS,
+        bottomLeft: 0
+      } )
     } );
 
     const xMargin = 0.06 * barMagnet.size.width;
