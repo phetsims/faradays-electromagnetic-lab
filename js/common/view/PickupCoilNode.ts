@@ -14,6 +14,7 @@ import CoilNode from './CoilNode.js';
 import FELMovableNode from './FELMovableNode.js';
 import { Node } from '../../../../scenery/js/imports.js';
 import PickupCoilSamplePointsNode from './PickupCoilSamplePointsNode.js';
+import Emitter from '../../../../axon/js/Emitter.js';
 
 
 export default class PickupCoilNode extends FELMovableNode {
@@ -25,9 +26,9 @@ export default class PickupCoilNode extends FELMovableNode {
   // add backgroundNode to the scenegraph.
   public readonly backgroundNode: Node;
 
-  public constructor( pickupCoil: PickupCoil, tandem: Tandem ) {
+  public constructor( pickupCoil: PickupCoil, stepEmitter: Emitter<[number]>, tandem: Tandem ) {
 
-    const coilNode = new CoilNode( pickupCoil, {
+    const coilNode = new CoilNode( pickupCoil, stepEmitter, {
       endsConnected: true,
       tandem: tandem.createTandem( 'coilNode' )
     } );

@@ -43,7 +43,7 @@ export default class PickupCoilScreenView extends ScreenView {
       tandem: tandem.createTandem( 'barMagnetNode' )
     } );
 
-    const pickupCoilNode = new PickupCoilNode( model.pickupCoil, tandem.createTandem( 'pickupCoilNode' ) );
+    const pickupCoilNode = new PickupCoilNode( model.pickupCoil, model.stepEmitter, tandem.createTandem( 'pickupCoilNode' ) );
 
     const pickupCoilDebuggerPanel = new PickupCoilDebuggerPanel( model.pickupCoil );
     pickupCoilDebuggerPanel.centerX = this.layoutBounds.centerX;

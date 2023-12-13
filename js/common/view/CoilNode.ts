@@ -1,6 +1,6 @@
 // Copyright 2023, University of Colorado Boulder
 
-//TODO Move electrons and coilSegments to the Coil model
+//TODO Move electrons and coilSegments to the Coil model, remove stepEmitter
 
 /**
  * CoilNode is the visualization of a coil of wire. In order to simulate objects passing "through" the
@@ -38,6 +38,7 @@ import Tandem from '../../../../tandem/js/Tandem.js';
 import ElectronNode from './ElectronNode.js';
 import QuadraticBezierSpline from '../model/QuadraticBezierSpline.js';
 import FELColors from '../FELColors.js';
+import Emitter from '../../../../axon/js/Emitter.js';
 
 // Space between electrons, determines the number of electrons add to each curve.
 const ELECTRON_SPACING = 25;
@@ -70,7 +71,7 @@ export default class CoilNode extends PhetioObject {
   // Whether to connect the ends of the coil.
   public readonly endsConnected: boolean;
 
-  public constructor( coil: Coil, providedOptions: CoilNodeOptions ) {
+  public constructor( coil: Coil, stepEmitter: Emitter<[number]>, providedOptions: CoilNodeOptions ) {
 
     const options = optionize<CoilNodeOptions, SelfOptions, NodeOptions>()( {
 
@@ -99,6 +100,10 @@ export default class CoilNode extends PhetioObject {
 
     //TODO Is this correct? Not in the Java version.
     this.coil.currentAmplitudeProperty.link( currentAmplitude => this.updateElectronsSpeedAndDirection() );
+
+    stepEmitter.addListener( dt => {
+      this.electrons.forEach( electron => electron.step( dt ) );
+    } );
   }
 
   /**
