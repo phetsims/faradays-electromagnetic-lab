@@ -1,23 +1,19 @@
 // Copyright 2023, University of Colorado Boulder
 
-//TODO This doc was copied from CoilGraphic.java. Verify that it's still accurate.
 /**
- * CoilGraphic is the graphical representation of a coil of wire. In order to simulate objects passing "through" the
- * coil, the coil graphic consists of two layers, called the "foreground" and "background".
+ * CoilNode is the visualization of a coil of wire. In order to simulate objects passing "through" the
+ * coil, CoilNode consists of two layers, called the "foreground" and "background".
  *
- * The coil is drawn as a set of curves, with a "wire end" joined at each end of the coil. The wire ends is where
+ * The coil is drawn as a set of curves, with a "wire end" attached at each end of the coil. The wire ends is where
  * things can be connected to the coil (eg, a lightbulb or voltmeter).
  *
- * The coil optionally shows electrons flowing. The number of electrons is a function of the coil radius and number of
- * loops. Electrons are part of the simulation model, and they know about the path that they need to follow. The path
- * is a describe by a set of ElectronPathDescriptors.
+ * The coil is also responsible for showing the flow of electrons. The number of electrons is a function of the
+ * loop radius and number of loops. An array of CoilSegment describes the coil's path, and contains the information
+ * that the electrons need to flow through the coil, move between layers (foreground or background), and how to
+ * adjust ("scale") their speed so that they appear to flow at the same rate in all curve segments. For example,
+ * the wire ends are significantly shorter curves that the other segments in the coil.
  *
- * The set of ElectronPathDescriptors contains the information that the electrons need to determine which layer that
- * are in (foreground or background) and how to adjust ("scale") their speed so that they appear to flow at the same
- * rate in all curve segments. For example, the wire ends are significantly shorter curves that the other segments
- * in the coil.
- *
- * WARNING!  The updateCoil method in particular is very complicated, and the curves that it creates have been tuned
+ * WARNING! The updateCoil method in particular is very complicated, and the curves that it creates have been tuned
  * so that all curve segments are smoothly joined to form a 3D-looking coil. If you change values, do so with caution,
  * test frequently, and perform a close visual inspection of your changes.
  *
