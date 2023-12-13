@@ -139,7 +139,7 @@ export default class Electron {
         this.pathPositionProperty.value = newPathPosition;
       }
 
-      // Evaluate the quadratic to determine XY location.
+      // Evaluate the quadratic to determine xy position.
       const descriptor = this.pathDescriptors[ this.pathIndexProperty.value ];
       this._positionProperty.value = descriptor.curve.evaluate( this.pathPositionProperty.value );
     }
