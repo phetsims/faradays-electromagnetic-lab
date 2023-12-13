@@ -1,5 +1,7 @@
 // Copyright 2023, University of Colorado Boulder
 
+//TODO Move electrons and coilSegments to the Coil model
+
 /**
  * CoilNode is the visualization of a coil of wire. In order to simulate objects passing "through" the
  * coil, CoilNode consists of two layers, called the "foreground" and "background".
@@ -350,6 +352,7 @@ export default class CoilNode extends PhetioObject {
     }
   }
 
+  //TODO Where is this supposed to be called? It is currently unused.
   /**
    * Updates the speed and direction of electrons in the coil.
    */
@@ -366,7 +369,7 @@ export default class CoilNode extends PhetioObject {
   }
 
   /**
-   * Calculates the speed and direction of electrons, a function of the voltage across the coil.
+   * Calculates the speed and direction of electrons, as a function of the voltage across the coil.
    * The value is in the range [-1,1].
    * Direction is indicated by the sign of the value.
    * Magnitude of 0 indicates no motion.
