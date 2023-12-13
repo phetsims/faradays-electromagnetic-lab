@@ -13,6 +13,7 @@ import PickupCoil from '../model/PickupCoil.js';
 import CoilNode from './CoilNode.js';
 import FELMovableNode from './FELMovableNode.js';
 import { Node } from '../../../../scenery/js/imports.js';
+import PickupCoilSamplePointsNode from './PickupCoilSamplePointsNode.js';
 
 
 export default class PickupCoilNode extends FELMovableNode {
@@ -31,11 +32,13 @@ export default class PickupCoilNode extends FELMovableNode {
       tandem: tandem.createTandem( 'coilNode' )
     } );
 
+    const samplePointsNode = new PickupCoilSamplePointsNode( pickupCoil );
+
     super( pickupCoil, {
 
       // This Node's children are the foreground elements only.
       //TODO add lightNode and voltmeterNode
-      children: [ coilNode.foregroundNode ],
+      children: [ coilNode.foregroundNode, samplePointsNode ],
       tandem: tandem
     } );
 

@@ -62,7 +62,7 @@ export default class PickupCoil extends Coil {
   private _biggestAbsEmf; // in volts
 
   // B-field sample points along the vertical axis of the coil
-  private samplePoints: ObservableArray<Vector2>;
+  public samplePoints: ObservableArray<Vector2>;
 
   // Which EMF indicator is visible in the view
   public readonly indicatorProperty: Property<Indicator>;
@@ -195,7 +195,7 @@ export default class PickupCoil extends Coil {
     this.reusableSamplePoint = new Vector2( 0, 0 );
     this.reusableFieldVector = new Vector2( 0, 0 );
 
-    this.updateSamplePoints();
+    this.loopRadiusProperty.link( () => this.updateSamplePoints() );
   }
 
   public override reset(): void {
@@ -392,7 +392,9 @@ class FixedNumberOfSamplePointsStrategy extends SamplePointsStrategy {
       samplePoints[ index++ ] = new Vector2( xOffset, y );
       samplePoints[ index++ ] = new Vector2( xOffset, -y );
     }
+    assert && assert( samplePoints.length === this.numberOfSamplePoints );
 
+    phet.log && phet.log( `FixedNumberOfSamplePointsStrategy.createSamplePoints: count=${samplePoints.length} spacing=${ySpacing}` );
     return samplePoints;
   }
 }
@@ -433,6 +435,7 @@ export class FixedSpacingSamplePointsStrategy extends SamplePointsStrategy {
       samplePoints[ index++ ] = new Vector2( xOffset, -y );
     }
 
+    phet.log && phet.log( `FixedSpacingSamplePointsStrategy.createSamplePoints: count=${samplePoints.length} spacing=${this.ySpacing}` );
     return samplePoints;
   }
 }
