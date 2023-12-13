@@ -146,7 +146,7 @@ export default class CoilNode extends PhetioObject {
           const controlPoint = new Vector2( endPoint.x - 20, endPoint.y - 20 );
           const curve = new QuadraticBezierSpline( startPoint, controlPoint, endPoint );
 
-          // Scale the speed, since this curve is different than the others in the coil.
+          // Scale the speed, since this curve is different from the others in the coil.
           const speedScale = ( radius / ELECTRON_SPACING ) / ELECTRONS_IN_LEFT_END;
           const descriptor = new CoilSegment( curve, this.backgroundNode, speedScale );
           this.coilSegments.push( descriptor );
