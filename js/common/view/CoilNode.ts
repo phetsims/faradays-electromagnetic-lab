@@ -229,6 +229,11 @@ export default class CoilNode extends PhetioObject {
         this.backgroundNode.addChild( path );
       }
 
+      // Horizontal gradient, left to right, for the front segments
+      const frontGradient = new LinearGradient( ( -radius * 0.25 ) + xOffset, 0, -radius * 0.15 + xOffset, 0 )
+        .addColorStop( 0, FELColors.coilFrontColorProperty )
+        .addColorStop( 1, FELColors.coilMiddleColorProperty );
+
       // Front bottom
       {
         const startPoint = new Vector2( xOffset, radius ); // lower
@@ -239,15 +244,10 @@ export default class CoilNode extends PhetioObject {
         const d = new CoilSegment( curve, this.foregroundNode );
         this.coilSegments.push( d );
 
-        // Horizontal gradient, left to right
-        const gradient = new LinearGradient( ( -radius * 0.25 ) + xOffset, 0, -radius * 0.15 + xOffset, 0 )
-          .addColorStop( 0, FELColors.coilFrontColorProperty )
-          .addColorStop( 1, FELColors.coilMiddleColorProperty );
-
         const shape = new Shape()
           .moveToPoint( curve.startPoint )
           .quadraticCurveToPoint( curve.controlPoint, curve.endPoint );
-        const path = new Path( shape, combineOptions<PathOptions>( { stroke: gradient }, pathOptions ) );
+        const path = new Path( shape, combineOptions<PathOptions>( { stroke: frontGradient }, pathOptions ) );
         this.foregroundNode.addChild( path );
       }
 
@@ -261,15 +261,10 @@ export default class CoilNode extends PhetioObject {
         const descriptor = new CoilSegment( curve, this.foregroundNode );
         this.coilSegments.push( descriptor );
 
-        // Horizontal gradient, left to right
-        const gradient = new LinearGradient( ( -radius * 0.25 ) + xOffset, 0, -radius * 0.15 + xOffset, 0 )
-          .addColorStop( 0, FELColors.coilFrontColorProperty )
-          .addColorStop( 1, FELColors.coilMiddleColorProperty );
-
         const shape = new Shape()
           .moveToPoint( curve.startPoint )
           .quadraticCurveToPoint( curve.controlPoint, curve.endPoint );
-        const path = new Path( shape, combineOptions<PathOptions>( { stroke: gradient }, pathOptions ) );
+        const path = new Path( shape, combineOptions<PathOptions>( { stroke: frontGradient }, pathOptions ) );
         this.foregroundNode.addChild( path );
       }
 
