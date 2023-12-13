@@ -19,7 +19,7 @@ import FELColors from '../FELColors.js';
 //TODO compute these values based on magnet size, needle size, and desired xMargin and yMargin
 const FIELD_INSIDE_ROWS = 2;
 const FIELD_INSIDE_COLUMNS = 7;
-const FIELD_INSIDE_X_SPACING = 8;
+const FIELD_INSIDE_X_SPACING = 6;
 const FIELD_INSIDE_Y_SPACING = 12;
 
 type SelfOptions = EmptySelfOptions;
