@@ -27,7 +27,7 @@ export default class QuadraticBezierSpline {
    * Uses the de Castelijau algorithm to determine the point that is some fraction t of the way along the curve from
    * the start point to the end point.
    *
-   * TODO Flip the semantics to be a percent along the path, 0=start, 1=end.
+   * TODO Flip the semantics to be a percent along the curve, 0=start, 1=end.
    * @param t a value between 0 and 1. t=1 is at the start point, and t=0 is at the end point.
    */
   public evaluate( t: number ): Vector2 {

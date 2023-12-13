@@ -45,7 +45,7 @@ export default class Electron {
   public readonly pathIndexProperty: NumberProperty;
 
   // Electron's position along the current curve (1=startPoint, 0=endPoint)
-  //TODO Flip the semantics to be a percent along the path, 0=start, 1=end.
+  //TODO Flip the semantics to be a percent along the curve, 0=start, 1=end.
   private pathPositionProperty: NumberProperty;
 
   // Electron's speed & direction (-1...+1)
