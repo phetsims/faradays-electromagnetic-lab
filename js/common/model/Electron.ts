@@ -54,7 +54,7 @@ export default class Electron {
   private readonly speedScaleProperty: TReadOnlyProperty<number>;
 
   // Whether electrons are visible.
-  private readonly visibleProperty: TReadOnlyProperty<boolean>;
+  public readonly visibleProperty: TReadOnlyProperty<boolean>;
 
   private readonly disposeElectron: () => void;
 

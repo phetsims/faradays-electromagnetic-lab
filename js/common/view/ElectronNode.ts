@@ -10,6 +10,7 @@ import faradaysElectromagneticLab from '../../faradaysElectromagneticLab.js';
 import Tandem from '../../../../tandem/js/Tandem.js';
 import Electron from '../model/Electron.js';
 import ShadedSphereNode from '../../../../scenery-phet/js/ShadedSphereNode.js';
+import FELColors from '../FELColors.js';
 
 const DIAMETER = 9;
 
@@ -21,7 +22,8 @@ export default class ElectronNode extends ShadedSphereNode {
   public constructor( electron: Electron, tandem: Tandem ) {
 
     super( DIAMETER, {
-      mainColor: 'blue', //TODO color profile
+      visibleProperty: electron.visibleProperty,
+      mainColor: FELColors.electronColorProperty,
       tandem: tandem
     } );
 

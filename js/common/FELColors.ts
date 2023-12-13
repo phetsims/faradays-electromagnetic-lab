@@ -98,6 +98,10 @@ const FELColors = {
 
   radioButtonDeselectedStrokeProperty: new ProfileColorProperty( faradaysElectromagneticLab, 'radioButtonDeselectedStroke', {
     default: 'grey'
+  } ),
+
+  electronColorProperty: new ProfileColorProperty( faradaysElectromagneticLab, 'electronColor', {
+    default: 'blue'
   } )
 };
 
