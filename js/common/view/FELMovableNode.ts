@@ -34,6 +34,7 @@ export default abstract class FELMovableNode extends Node {
       tagName: 'div', // for KeyboardDragListener
       focusable: true, // for KeyboardDragListener
       phetioFeatured: true,
+      phetioVisiblePropertyInstrumented: false,
       phetioInputEnabledPropertyInstrumented: true
     }, providedOptions );
 

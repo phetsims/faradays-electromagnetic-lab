@@ -42,6 +42,11 @@ export default class PickupCoilNode extends FELMovableNode {
     this.coilNode = coilNode;
     this.backgroundNode = this.coilNode.backgroundNode;
 
+    // Because backgroundNode is added to the scenegraph elsewhere, ensure that its visibility remains synchronized with this Node.
+    this.visibleProperty.link( visible => {
+      this.backgroundNode.visible = visible;
+    } );
+
     pickupCoil.positionProperty.link( position => {
       this.translation = position;
       this.backgroundNode.translation = position;
