@@ -21,6 +21,8 @@ import { Node, VBox } from '../../../../scenery/js/imports.js';
 import Multilink from '../../../../axon/js/Multilink.js';
 import GeneratorDeveloperAccordionBox from './GeneratorDeveloperAccordionBox.js';
 import ToolsPanel from '../../common/view/ToolsPanel.js';
+import PickupCoilNode from '../../common/view/PickupCoilNode.js';
+import PickupCoilDebuggerPanel from '../../common/view/PickupCoilDebuggerPanel.js';
 
 export default class GeneratorScreenView extends ScreenView {
 
@@ -38,7 +40,11 @@ export default class GeneratorScreenView extends ScreenView {
 
     //TODO turbineNode
 
-    //TODO pickupCoilNode
+    const pickupCoilNode = new PickupCoilNode( model.pickupCoil, tandem.createTandem( 'pickupCoilNode' ) );
+
+    const pickupCoilDebuggerPanel = new PickupCoilDebuggerPanel( model.pickupCoil );
+    pickupCoilDebuggerPanel.centerX = this.layoutBounds.centerX;
+    pickupCoilDebuggerPanel.top = this.layoutBounds.top + FELConstants.SCREEN_VIEW_Y_MARGIN;
 
     const fieldMeterNode = new FieldMeterNode( model.fieldMeter, tandem.createTandem( 'fieldMeterNode' ) );
 
@@ -97,26 +103,28 @@ export default class GeneratorScreenView extends ScreenView {
 
     const rootNode = new Node( {
       children: [
+        pickupCoilNode.backgroundNode,
         fieldNode,
         //TODO turbineNode,
-        //TODO pickupCoilNode
+        pickupCoilNode,
         compassNode,
         fieldMeterNode,
         panels,
         resetAllButton,
-        developerAccordionBox
+        developerAccordionBox,
+        pickupCoilDebuggerPanel
       ]
     } );
     this.addChild( rootNode );
 
     rootNode.pdomOrder = [
       //TODO turbineNode,
-      //TODO pickupCoilNode
+      pickupCoilNode,
       compassNode,
       fieldMeterNode,
       panels,
       resetAllButton
-      // Exclude developerAccordionBox from alt input.
+      // Exclude developerAccordionBox and pickupCoilDebuggerPanel from alt input.
     ];
   }
 
