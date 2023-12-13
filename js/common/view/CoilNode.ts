@@ -96,10 +96,13 @@ export default class CoilNode extends PhetioObject {
     this.endsConnected = options.endsConnected;
 
     Multilink.multilink( [ coil.numberOfLoopsProperty, coil.loopRadiusProperty ], () => this.updateCoil() );
+
+    //TODO Is this correct? Not in the Java version.
+    this.coil.currentAmplitudeProperty.link( currentAmplitude => this.updateElectronsSpeedAndDirection() );
   }
 
   /**
-   * Updates the physical appearance of the coil.
+   * Updates the physical appearance of the coil and the number of electrons.
    */
   private updateCoil(): void {
 
@@ -352,11 +355,10 @@ export default class CoilNode extends PhetioObject {
     }
   }
 
-  //TODO Where is this supposed to be called? It is currently unused.
   /**
    * Updates the speed and direction of electrons in the coil.
    */
-  private updateElectrons(): void {
+  private updateElectronsSpeedAndDirection(): void {
 
     // Speed and direction is a function of the voltage.
     const speedAndDirection = this.calculateElectronSpeedAndDirection();
@@ -369,22 +371,16 @@ export default class CoilNode extends PhetioObject {
   }
 
   /**
-   * Calculates the speed and direction of electrons, as a function of the voltage across the coil.
+   * Calculates the speed and direction of electrons.
    * The value is in the range [-1,1].
    * Direction is indicated by the sign of the value.
    * Magnitude of 0 indicates no motion.
    * Magnitude of 1 moves along an entire curve segment in one clock tick.
+   * Current below the threshold is effectively zero.
    */
   private calculateElectronSpeedAndDirection(): number {
-    let currentAmplitude = this.coil.currentAmplitudeProperty.value;
-
-    // Current below the threshold is effectively zero.
-    if ( Math.abs( currentAmplitude ) < FELConstants.CURRENT_AMPLITUDE_THRESHOLD ) {
-      currentAmplitude = 0;
-    }
-
-    assert && assert( Math.abs( currentAmplitude ) <= 1, `invalid currentAmplitude: ${currentAmplitude}` );
-    return currentAmplitude;
+    const currentAmplitude = this.coil.currentAmplitudeProperty.value;
+    return ( Math.abs( currentAmplitude ) < FELConstants.CURRENT_AMPLITUDE_THRESHOLD ) ? 0 : currentAmplitude;
   }
 }
 
