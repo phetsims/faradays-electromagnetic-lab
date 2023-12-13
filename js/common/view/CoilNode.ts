@@ -123,6 +123,7 @@ export default class CoilNode extends PhetioObject {
     // Start at the left-most loop, keeping the coil centered.
     const xStart = -( loopSpacing * ( numberOfLoops - 1 ) / 2 );
 
+    // Positions of the left and right ends of the coil.
     let leftEndPoint: Vector2 | null = null;
     let rightEndPoint: Vector2 | null = null;
 
