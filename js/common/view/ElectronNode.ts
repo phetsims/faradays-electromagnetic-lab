@@ -35,7 +35,7 @@ export default class ElectronNode extends ShadedSphereNode {
     };
     this.electron.positionProperty.link( positionListener );
 
-    // If the electron has jumped to a different layer (foreground vs background), move it in the scenegraph.
+    // If the electron has jumped to a different layer (foreground vs background), move it to the new parent Node.
     const coilSegmentIndexListener = ( newIndex: number, oldIndex: number | null ) => {
       const newParentNode = electron.getCoilSegment( newIndex ).parentNode;
       if ( oldIndex !== null ) {
