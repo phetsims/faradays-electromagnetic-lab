@@ -34,7 +34,7 @@ export default class PickupCoilModel extends FELModel {
 
     this.barMagnet = new BarMagnet( {
       strengthRange: new RangeWithValue( 0, 300, 225 ), // gauss
-      position: new Vector2( 450, 300 ),
+      position: new Vector2( 200, 400 ),
       tandem: tandem.createTandem( 'barMagnet' )
     } );
 
