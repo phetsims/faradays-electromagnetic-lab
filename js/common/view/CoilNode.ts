@@ -156,7 +156,6 @@ export default class CoilNode extends PhetioObject {
           this.electronPathDescriptors.push( descriptor );
 
           // Horizontal gradient, left to right.
-          // const gradient = new GradientPaint( startPoint.x, 0, _middlegroundColor, endPoint.x, 0, _backgroundColor );
           const gradient = new LinearGradient( startPoint.x, 0, endPoint.x, 0 )
             .addColorStop( 0, MIDDLEGROUND_COLOR )
             .addColorStop( 1, BACKGROUND_COLOR );
