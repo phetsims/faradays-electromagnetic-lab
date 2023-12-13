@@ -1,9 +1,5 @@
 // Copyright 2023, University of Colorado Boulder
 
-//TODO color profile
-//TODO translation of 'N' and 'S'
-//TODO eliminate barMagnet_png
-
 /**
  * BarMagnetNode is the view of a bar magnet, with optional visualization of the field inside the magnet.
  * The origin is at the center of the bar magnet.
@@ -13,14 +9,19 @@
 
 import faradaysElectromagneticLab from '../../faradaysElectromagneticLab.js';
 import BarMagnet from '../model/BarMagnet.js';
-import { Image } from '../../../../scenery/js/imports.js';
-import barMagnet_png from '../../../images/barMagnet_png.js';
+import { Path, Rectangle, Text } from '../../../../scenery/js/imports.js';
 import optionize from '../../../../phet-core/js/optionize.js';
 import TReadOnlyProperty from '../../../../axon/js/TReadOnlyProperty.js';
 import FieldInsideNode from './FieldInsideNode.js';
 import FELMovableNode, { FELMovableNodeOptions } from './FELMovableNode.js';
 import StrictOmit from '../../../../phet-core/js/types/StrictOmit.js';
 import Vector2 from '../../../../dot/js/Vector2.js';
+import FELColors from '../FELColors.js';
+import PhetFont from '../../../../scenery-phet/js/PhetFont.js';
+import { Shape } from '../../../../kite/js/imports.js';
+
+const CORNER_RADIUS = 10;
+const FONT = new PhetFont( { size: 30, weight: 'bold' } );
 
 type SelfOptions = {
   seeInsideProperty?: TReadOnlyProperty<boolean>;
@@ -32,16 +33,45 @@ export default class BarMagnetNode extends FELMovableNode {
 
   public constructor( barMagnet: BarMagnet, providedOptions: BarMagnetNodeOptions ) {
 
-    const barMagnetImage = new Image( barMagnet_png, {
+    const southNode = new Rectangle( 0, 0, barMagnet.size.width, barMagnet.size.height, {
+      fill: FELColors.barMagnetSouthColorProperty,
+      cornerRadius: CORNER_RADIUS,
       center: Vector2.ZERO
     } );
-    assert && assert( barMagnetImage.width === barMagnet.size.width );
-    assert && assert( barMagnetImage.height === barMagnet.size.height );
+
+    // Square corners at left end, rounded corners at right end
+    const northShape = Shape.roundedRectangleWithRadii( 0, 0, 0.5 * barMagnet.size.width, barMagnet.size.height, {
+      topLeft: 0,
+      topRight: CORNER_RADIUS,
+      bottomRight: CORNER_RADIUS,
+      bottomLeft: 0
+    } );
+    const northNode = new Path( northShape, {
+      fill: FELColors.barMagnetNorthColorProperty,
+      right: southNode.right,
+      centerY: southNode.centerY
+    } );
+
+    const xMargin = 0.06 * barMagnet.size.width;
+
+    const southText = new Text( 'S', {
+      font: FONT,
+      fill: FELColors.barMagnetSouthTextColorProperty,
+      left: southNode.left + xMargin,
+      centerY: southNode.centerY
+    } );
+
+    const northText = new Text( 'N', {
+      font: FONT,
+      fill: FELColors.barMagnetNorthTextColorProperty,
+      right: northNode.right - xMargin,
+      centerY: northNode.centerY
+    } );
 
     const options = optionize<BarMagnetNodeOptions, StrictOmit<SelfOptions, 'seeInsideProperty'>, FELMovableNodeOptions>()( {
 
       // FELMovableNodeOptions
-      children: [ barMagnetImage ]
+      children: [ southNode, northNode, southText, northText ]
     }, providedOptions );
 
     super( barMagnet, options );
@@ -54,7 +84,7 @@ export default class BarMagnetNode extends FELMovableNode {
     if ( options.seeInsideProperty ) {
       this.addChild( new FieldInsideNode( barMagnet.strengthProperty, {
         visibleProperty: options.seeInsideProperty,
-        center: barMagnetImage.center,
+        center: southNode.center,
         tandem: options.tandem.createTandem( 'fieldInsideNode' )
       } ) );
     }

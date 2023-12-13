@@ -11,17 +11,32 @@
 import faradaysElectromagneticLab from '../../faradaysElectromagneticLab.js';
 import { Shape } from '../../../../kite/js/imports.js';
 import FELColors from '../FELColors.js';
-import { Node, Path } from '../../../../scenery/js/imports.js';
+import { Node, Path, TColor } from '../../../../scenery/js/imports.js';
 import FELQueryParameters from '../FELQueryParameters.js';
+import optionize from '../../../../phet-core/js/optionize.js';
 
 const NEEDLE_ASPECT_RATIO = 25 / 7; // length:waist
 
+type SelfOptions = {
+  length?: number;
+  stroke?: TColor;
+};
+
+type CompassNeedleNodeOptions = SelfOptions;
+
 export default class CompassNeedleNode extends Node {
 
-  public constructor( length = FELQueryParameters.needleLength ) {
+  public constructor( providedOptions?: CompassNeedleNodeOptions ) {
 
-    const w = length;
-    const h = length / NEEDLE_ASPECT_RATIO;
+    const options = optionize<CompassNeedleNodeOptions, SelfOptions>()( {
+
+      // SelfOptions
+      length: FELQueryParameters.needleLength,
+      stroke: null
+    }, providedOptions );
+
+    const w = options.length;
+    const h = options.length / NEEDLE_ASPECT_RATIO;
 
     // Start at the right (north) tip and proceed clockwise.
     const southShape = new Shape().moveTo( 0, h / 2 ).lineTo( w / 2, 0 ).lineTo( w / 2, h ).close();
@@ -30,17 +45,21 @@ export default class CompassNeedleNode extends Node {
     const northShape = new Shape().moveTo( w, h / 2 ).lineTo( w / 2, h ).lineTo( w / 2, 0 ).close();
 
     const southPath = new Path( southShape, {
-      fill: FELColors.southColorProperty
+      fill: FELColors.compassNeedleSouthColorProperty
     } );
 
     const northPath = new Path( northShape, {
-      fill: FELColors.northColorProperty,
+      fill: FELColors.compassNeedleNorthColorProperty,
       left: southPath.right,
       centerY: southPath.centerY
     } );
 
+    const unionPath = new Path( southShape.shapeUnion( northShape ), {
+      stroke: options.stroke
+    } );
+
     super( {
-      children: [ southPath, northPath ]
+      children: [ southPath, northPath, unionPath ]
     } );
   }
 }

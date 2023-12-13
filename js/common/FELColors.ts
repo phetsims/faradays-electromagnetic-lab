@@ -38,13 +38,20 @@ const FELColors = {
     projector: PANEL_FILL_PROJECTOR.darkerColor( 0.85 )
   } ),
 
-  northColorProperty: new ProfileColorProperty( faradaysElectromagneticLab, 'northColor', {
-    default: 'red'
+  barMagnetNorthColorProperty: new ProfileColorProperty( faradaysElectromagneticLab, 'barMagnetNorthColor', {
+    default: 'rgb( 219, 30, 34 )'
   } ),
 
-  southColorProperty: new ProfileColorProperty( faradaysElectromagneticLab, 'southColor', {
-    default: 'white',
-    projector: Color.grayColor( 200 )
+  barMagnetSouthColorProperty: new ProfileColorProperty( faradaysElectromagneticLab, 'barMagnetSouthColor', {
+    default: 'rgb( 48, 69, 138 )'
+  } ),
+
+  barMagnetNorthTextColorProperty: new ProfileColorProperty( faradaysElectromagneticLab, 'barMagnetNorthTextColor', {
+    default: 'white'
+  } ),
+
+  barMagnetSouthTextColorProperty: new ProfileColorProperty( faradaysElectromagneticLab, 'barMagnetSouthTextColor', {
+    default: 'white'
   } ),
 
   fieldMeterBodyColorProperty: new ProfileColorProperty( faradaysElectromagneticLab, 'fieldMeterBodyColor', {
@@ -74,6 +81,19 @@ const FELColors = {
 
   fieldMeterValuesBackgroundStrokeProperty: new ProfileColorProperty( faradaysElectromagneticLab, 'fieldMeterValuesBackgroundStroke', {
     default: 'transparent'
+  } ),
+
+  fieldInsideStrokeProperty: new ProfileColorProperty( faradaysElectromagneticLab, 'fieldInsideStroke', {
+    default: 'black'
+  } ),
+
+  compassNeedleNorthColorProperty: new ProfileColorProperty( faradaysElectromagneticLab, 'compassNeedleNorthColor', {
+    default: 'red'
+  } ),
+
+  compassNeedleSouthColorProperty: new ProfileColorProperty( faradaysElectromagneticLab, 'compassNeedleSouthColor', {
+    default: 'white',
+    projector: Color.grayColor( 200 )
   } ),
 
   compassRingColorProperty: new ProfileColorProperty( faradaysElectromagneticLab, 'compassRingColor', {

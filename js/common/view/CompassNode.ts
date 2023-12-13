@@ -47,7 +47,9 @@ export default class CompassNode extends FELMovableNode {
       fill: FELColors.compassIndicatorsColorProperty
     } );
 
-    const needleNode = new CompassNeedleNode( NEEDLE_LENGTH );
+    const needleNode = new CompassNeedleNode( {
+      length: NEEDLE_LENGTH
+    } );
 
     const needleAnchorNode = new Circle( NEEDLE_ANCHOR_RADIUS, {
       fill: FELColors.compassNeedleAnchorColorProperty,

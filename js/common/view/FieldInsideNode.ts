@@ -14,11 +14,12 @@ import NumberProperty from '../../../../axon/js/NumberProperty.js';
 import CompassNeedleNode from './CompassNeedleNode.js';
 import optionize, { EmptySelfOptions } from '../../../../phet-core/js/optionize.js';
 import PickRequired from '../../../../phet-core/js/types/PickRequired.js';
+import FELColors from '../FELColors.js';
 
 //TODO compute these values based on magnet size, needle size, and desired xMargin and yMargin
 const FIELD_INSIDE_ROWS = 2;
 const FIELD_INSIDE_COLUMNS = 7;
-const FIELD_INSIDE_X_SPACING = 10;
+const FIELD_INSIDE_X_SPACING = 8;
 const FIELD_INSIDE_Y_SPACING = 12;
 
 type SelfOptions = EmptySelfOptions;
@@ -33,7 +34,9 @@ export default class FieldInsideNode extends GridBox {
 
       // GridBoxOptions
       isDisposable: false,
-      children: _.times( FIELD_INSIDE_ROWS * FIELD_INSIDE_COLUMNS, () => new CompassNeedleNode() ),
+      children: _.times( FIELD_INSIDE_ROWS * FIELD_INSIDE_COLUMNS, () => new CompassNeedleNode( {
+        stroke: FELColors.fieldInsideStrokeProperty
+      } ) ),
       autoRows: FIELD_INSIDE_ROWS,
       xSpacing: FIELD_INSIDE_X_SPACING,
       ySpacing: FIELD_INSIDE_Y_SPACING

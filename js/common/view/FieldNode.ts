@@ -85,7 +85,7 @@ export default class FieldNode extends Sprites {
     this.visibleBoundsProperty.link( visibleBoundsListener );
 
     // If the colors change, update the sprite and redraw.
-    Multilink.multilink( [ FELColors.northColorProperty, FELColors.southColorProperty ], () => {
+    Multilink.multilink( [ FELColors.compassNeedleNorthColorProperty, FELColors.compassNeedleSouthColorProperty ], () => {
       compassNeedleNode.toCanvas( canvas => {
         sprite.imageProperty.value = new SpriteImage( canvas, spriteImageOffset );
         this.invalidatePaint();
