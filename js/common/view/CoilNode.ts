@@ -26,7 +26,7 @@
 
 import faradaysElectromagneticLab from '../../faradaysElectromagneticLab.js';
 import Coil from '../model/Coil.js';
-import { Node, NodeOptions, Path, PathOptions } from '../../../../scenery/js/imports.js';
+import { LinearGradient, Node, NodeOptions, Path, PathOptions } from '../../../../scenery/js/imports.js';
 import ElectronPathDescriptor from '../model/ElectronPathDescriptor.js';
 import PickRequired from '../../../../phet-core/js/types/PickRequired.js';
 import optionize, { combineOptions } from '../../../../phet-core/js/optionize.js';
@@ -157,7 +157,9 @@ export default class CoilNode extends PhetioObject {
 
           // Horizontal gradient, left to right.
           // const gradient = new GradientPaint( startPoint.x, 0, _middlegroundColor, endPoint.x, 0, _backgroundColor );
-          const gradient = MIDDLEGROUND_COLOR; //TODO
+          const gradient = new LinearGradient( startPoint.x, 0, endPoint.x, 0 )
+            .addColorStop( 0, MIDDLEGROUND_COLOR )
+            .addColorStop( 1, BACKGROUND_COLOR );
 
           const shape = new Shape()
             .moveToPoint( curve.startPoint )
@@ -197,8 +199,10 @@ export default class CoilNode extends PhetioObject {
         this.electronPathDescriptors.push( descriptor );
 
         // Diagonal gradient, upper left to lower right.
-        // Paint gradient = new GradientPaint( (int)(startPoint.x + (radius * .10)), (int)-(radius), _middlegroundColor, xOffset, (int)-(radius * 0.92), _backgroundColor );
-        const gradient = MIDDLEGROUND_COLOR; //TODO
+        //TODO Paint gradient = new GradientPaint( (int)(startPoint.x + (radius * .10)), (int)-(radius), _middlegroundColor, xOffset, (int)-(radius * 0.92), _backgroundColor );
+        const gradient = new LinearGradient( startPoint.x + ( radius * 0.10 ), -radius, xOffset, -radius * 0.92 )
+          .addColorStop( 0, MIDDLEGROUND_COLOR )
+          .addColorStop( 1, BACKGROUND_COLOR );
 
         const shape = new Shape()
           .moveToPoint( curve.startPoint )
@@ -218,8 +222,10 @@ export default class CoilNode extends PhetioObject {
         this.electronPathDescriptors.push( descriptor );
 
         // Vertical gradient, upper to lower
-        // Paint gradient = new GradientPaint( 0, (int)(radius * 0.92), _backgroundColor, 0, (int)(radius), _middlegroundColor );
-        const gradient = BACKGROUND_COLOR; //TODO
+        //TODO Paint gradient = new GradientPaint( 0, (int)(radius * 0.92), _backgroundColor, 0, (int)(radius), _middlegroundColor );
+        const gradient = new LinearGradient( 0, radius * 0.92, 0, radius )
+          .addColorStop( 0, BACKGROUND_COLOR )
+          .addColorStop( 1, MIDDLEGROUND_COLOR );
 
         const shape = new Shape()
           .moveToPoint( curve.startPoint )
@@ -239,8 +245,10 @@ export default class CoilNode extends PhetioObject {
         this.electronPathDescriptors.push( d );
 
         // Horizontal gradient, left to right
-        // Paint gradient = new GradientPaint( (int)(-radius * .25) + xOffset, 0, _foregroundColor, (int)(-radius * .15) + xOffset, 0, _middlegroundColor );
-        const gradient = FOREGROUND_COLOR; //TODO
+        //TODO Paint gradient = new GradientPaint( (int)(-radius * .25) + xOffset, 0, _foregroundColor, (int)(-radius * .15) + xOffset, 0, _middlegroundColor );
+        const gradient = new LinearGradient( ( -radius * 0.25 ) + xOffset, 0, -radius * 0.15, 0 )
+          .addColorStop( 0, FOREGROUND_COLOR )
+          .addColorStop( 1, MIDDLEGROUND_COLOR );
 
         const shape = new Shape()
           .moveToPoint( curve.startPoint )
@@ -260,8 +268,10 @@ export default class CoilNode extends PhetioObject {
         this.electronPathDescriptors.push( descriptor );
 
         // Horizontal gradient, left to right
-        // Paint gradient = new GradientPaint( (int)(-radius * .25) + xOffset, 0, _foregroundColor, (int)(-radius * .15) + xOffset, 0, _middlegroundColor );
-        const gradient = FOREGROUND_COLOR; //TODO
+        //TODO Paint gradient = new GradientPaint( (int)(-radius * .25) + xOffset, 0, _foregroundColor, (int)(-radius * .15) + xOffset, 0, _middlegroundColor );
+        const gradient = new LinearGradient( ( -radius * 0.25 ) + xOffset, 0, -radius * 0.15 + xOffset, 0 )
+          .addColorStop( 0, FOREGROUND_COLOR )
+          .addColorStop( 1, MIDDLEGROUND_COLOR );
 
         const shape = new Shape()
           .moveToPoint( curve.startPoint )
