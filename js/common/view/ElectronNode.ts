@@ -48,6 +48,7 @@ export default class ElectronNode extends ShadedSphereNode {
       else {
         newParentNode.addChild( this );
       }
+      assert && assert( this.getParent(), 'expected this ElectronNode to have a parent' );
     };
     this.electron.coilSegmentIndexProperty.link( coilSegmentIndexListener );
 
