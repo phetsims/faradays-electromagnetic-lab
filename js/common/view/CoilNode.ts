@@ -79,7 +79,8 @@ export default class CoilNode extends PhetioObject {
       endsConnected: false,
 
       // NodeOptions
-      isDisposable: false
+      isDisposable: false,
+      phetioState: false // because this is not really a Node, and therefore has no state of its own
     }, providedOptions );
 
     super( options );
