@@ -39,8 +39,8 @@ type StringsType = {
     'valueUnitsStringProperty': LocalizedStringProperty;
   };
   'symbol': {
-    'northStringProperty': LocalizedStringProperty;
-    'southStringProperty': LocalizedStringProperty;
+    'NStringProperty': LocalizedStringProperty;
+    'SStringProperty': LocalizedStringProperty;
     'BStringProperty': LocalizedStringProperty;
     'xStringProperty': LocalizedStringProperty;
     'yStringProperty': LocalizedStringProperty;

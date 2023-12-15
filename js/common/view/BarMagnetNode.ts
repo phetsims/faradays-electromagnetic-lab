@@ -9,8 +9,8 @@
 
 import faradaysElectromagneticLab from '../../faradaysElectromagneticLab.js';
 import BarMagnet from '../model/BarMagnet.js';
-import { Text } from '../../../../scenery/js/imports.js';
-import optionize from '../../../../phet-core/js/optionize.js';
+import { Node, Text, TextOptions } from '../../../../scenery/js/imports.js';
+import optionize, { combineOptions } from '../../../../phet-core/js/optionize.js';
 import TReadOnlyProperty from '../../../../axon/js/TReadOnlyProperty.js';
 import FieldInsideNode from './FieldInsideNode.js';
 import FELMovableNode, { FELMovableNodeOptions } from './FELMovableNode.js';
@@ -21,6 +21,7 @@ import PhetFont from '../../../../scenery-phet/js/PhetFont.js';
 import { Shape } from '../../../../kite/js/imports.js';
 import ShadedRectangle from '../../../../scenery-phet/js/ShadedRectangle.js';
 import Bounds2 from '../../../../dot/js/Bounds2.js';
+import FaradaysElectromagneticLabStrings from '../../FaradaysElectromagneticLabStrings.js';
 
 const CORNER_RADIUS = 10;
 const FONT = new PhetFont( { size: 30, weight: 'bold' } );
@@ -37,14 +38,11 @@ export default class BarMagnetNode extends FELMovableNode {
 
     const southNode = new ShadedRectangle( new Bounds2( 0, 0, barMagnet.size.width, barMagnet.size.height ), {
       baseColor: FELColors.barMagnetSouthColorProperty,
-      cornerRadius: CORNER_RADIUS,
-      center: Vector2.ZERO
+      cornerRadius: CORNER_RADIUS
     } );
 
     const northNode = new ShadedRectangle( new Bounds2( 0, 0, barMagnet.size.width, barMagnet.size.height ), {
       baseColor: FELColors.barMagnetNorthColorProperty,
-      right: southNode.right,
-      centerY: southNode.centerY,
       clipArea: Shape.roundedRectangleWithRadii( barMagnet.size.width / 2, 0, barMagnet.size.width / 2, barMagnet.size.height, {
         topLeft: 0,
         topRight: CORNER_RADIUS,
@@ -53,26 +51,43 @@ export default class BarMagnetNode extends FELMovableNode {
       } )
     } );
 
-    const xMargin = 0.06 * barMagnet.size.width;
-
-    const southText = new Text( 'S', {
-      font: FONT,
-      fill: FELColors.barMagnetSouthTextColorProperty,
-      left: southNode.left + xMargin,
-      centerY: southNode.centerY
+    const barNode = new Node( {
+      children: [ southNode, northNode ],
+      center: Vector2.ZERO
     } );
 
-    const northText = new Text( 'N', {
+    const textXMargin = 0.06 * barMagnet.size.width;
+    const textMaxWidth = 0.25 * barMagnet.size.width;
+    const textMaxHeight = 0.85 * barMagnet.size.height;
+
+    const textOptions = {
       font: FONT,
-      fill: FELColors.barMagnetNorthTextColorProperty,
-      right: northNode.right - xMargin,
-      centerY: northNode.centerY
+      maxWidth: textMaxWidth,
+      maxHeight: textMaxHeight
+    };
+
+    const southText = new Text( FaradaysElectromagneticLabStrings.symbol.SStringProperty,
+      combineOptions<TextOptions>( {
+        fill: FELColors.barMagnetSouthTextColorProperty
+      }, textOptions ) );
+    southText.boundsProperty.link( () => {
+      southText.left = barNode.left + textXMargin;
+      southText.centerY = barNode.centerY;
+    } );
+
+    const northText = new Text( FaradaysElectromagneticLabStrings.symbol.NStringProperty,
+      combineOptions<TextOptions>( {
+        fill: FELColors.barMagnetNorthTextColorProperty
+      }, textOptions ) );
+    northText.boundsProperty.link( () => {
+      northText.right = barNode.right - textXMargin;
+      northText.centerY = barNode.centerY;
     } );
 
     const options = optionize<BarMagnetNodeOptions, StrictOmit<SelfOptions, 'seeInsideProperty'>, FELMovableNodeOptions>()( {
 
       // FELMovableNodeOptions
-      children: [ southNode, northNode, southText, northText ]
+      children: [ barNode, southText, northText ]
     }, providedOptions );
 
     super( barMagnet, options );
@@ -85,7 +100,7 @@ export default class BarMagnetNode extends FELMovableNode {
     if ( options.seeInsideProperty ) {
       this.addChild( new FieldInsideNode( barMagnet.strengthProperty, {
         visibleProperty: options.seeInsideProperty,
-        center: southNode.center,
+        center: barNode.center,
         tandem: options.tandem.createTandem( 'fieldInsideNode' )
       } ) );
     }
