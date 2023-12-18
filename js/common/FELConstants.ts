@@ -17,6 +17,7 @@ import { KeyboardDragListenerOptions, Text, VBoxOptions } from '../../../scenery
 import NumberControl, { NumberControlOptions } from '../../../scenery-phet/js/NumberControl.js';
 import Dimension2 from '../../../dot/js/Dimension2.js';
 import { RectangularRadioButtonOptions } from '../../../sun/js/buttons/RectangularRadioButton.js';
+import { SoundClipOptions } from '../../../tambo/js/sound-generators/SoundClip.js';
 
 // Credits are shared by all sims in this family.
 //TODO https://github.com/phetsims/faradays-electromagnetic-lab/issues/2 fill in credits
@@ -102,6 +103,10 @@ const RECTANGULAR_RADIO_BUTTON_OPTIONS: RectangularRadioButtonOptions = {
   }
 };
 
+const GRAB_RELEASE_SOUND_CLIP_OPTIONS: SoundClipOptions = {
+  initialOutputLevel: 0.4
+};
+
 const FELConstants = {
 
   // Sim
@@ -123,6 +128,7 @@ const FELConstants = {
   // Other options
   KEYBOARD_DRAG_LISTENER_OPTIONS: KEYBOARD_DRAG_LISTENER_OPTIONS,
   VBOX_OPTIONS: VBOX_OPTIONS,
+  GRAB_RELEASE_SOUND_CLIP_OPTIONS: GRAB_RELEASE_SOUND_CLIP_OPTIONS,
 
   // Fonts
   TITLE_FONT: new PhetFont( {

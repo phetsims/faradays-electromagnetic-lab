@@ -17,6 +17,10 @@ import FELConstants from '../FELConstants.js';
 import FELMovable from '../model/FELMovable.js';
 import PickOptional from '../../../../phet-core/js/types/PickOptional.js';
 import PickRequired from '../../../../phet-core/js/types/PickRequired.js';
+import SoundClip from '../../../../tambo/js/sound-generators/SoundClip.js';
+import grab_mp3 from '../../../../tambo/sounds/grab_mp3.js';
+import release_mp3 from '../../../../tambo/sounds/release_mp3.js';
+import soundManager from '../../../../tambo/js/soundManager.js';
 
 type SelfOptions = EmptySelfOptions;
 
@@ -46,9 +50,17 @@ export default abstract class FELMovableNode extends Node {
       this.translation = position;
     } );
 
+    // Sounds clips associated with dragging
+    const grabClip = new SoundClip( grab_mp3, FELConstants.GRAB_RELEASE_SOUND_CLIP_OPTIONS );
+    const releaseClip = new SoundClip( release_mp3, FELConstants.GRAB_RELEASE_SOUND_CLIP_OPTIONS );
+    soundManager.addSoundGenerator( grabClip );
+    soundManager.addSoundGenerator( releaseClip );
+
     const dragListener = new DragListener( {
       positionProperty: movable.positionProperty,
       useParentOffset: true,
+      start: () => grabClip.play(),
+      end: () => releaseClip.play(),
       tandem: options.tandem.createTandem( 'dragListener' )
     } );
     this.addInputListener( dragListener );
@@ -57,6 +69,8 @@ export default abstract class FELMovableNode extends Node {
       const keyboardDragListener = new KeyboardDragListener(
         combineOptions<KeyboardDragListenerOptions>( {}, FELConstants.KEYBOARD_DRAG_LISTENER_OPTIONS, {
           positionProperty: movable.positionProperty,
+          start: () => grabClip.play(),
+          end: () => releaseClip.play(),
           tandem: options.tandem.createTandem( 'keyboardDragListener' )
         } ) );
       this.addInputListener( keyboardDragListener );
