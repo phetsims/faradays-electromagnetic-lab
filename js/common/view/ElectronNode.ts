@@ -32,29 +32,26 @@ export default class ElectronNode extends ShadedSphereNode {
     };
     electron.positionProperty.link( positionListener );
 
-    const parentNode = electron.getCoilSegment().parentNode;
-    parentNode.addChild( this );
+    // If the electron has jumped to a different layer (foreground vs background), move it to the new parent Node.
+    const coilSegmentIndexListener = ( newIndex: number, oldIndex: number | null ) => {
 
-    // // If the electron has jumped to a different layer (foreground vs background), move it to the new parent Node.
-    // const coilSegmentIndexListener = ( newIndex: number, oldIndex: number | null ) => {
-    //
-    //   const newParentNode = electron.getCoilSegment( newIndex ).parentNode;
-    //   assert && assert( newParentNode );
-    //
-    //   if ( oldIndex !== null ) {
-    //     const oldParentNode = electron.getCoilSegment( oldIndex ).parentNode;
-    //     assert && assert( oldParentNode );
-    //     if ( newParentNode !== oldParentNode ) {
-    //       oldParentNode.removeChild( this );
-    //       newParentNode.addChild( this );
-    //     }
-    //   }
-    //   else {
-    //     newParentNode.addChild( this );
-    //   }
-    //   assert && assert( this.getParent(), 'expected this ElectronNode to have a parent' );
-    // };
-    // electron.coilSegmentIndexProperty.link( coilSegmentIndexListener );
+      const newParentNode = electron.getCoilSegment( newIndex ).parentNode;
+      assert && assert( newParentNode );
+
+      if ( oldIndex !== null ) {
+        const oldParentNode = electron.getCoilSegment( oldIndex ).parentNode;
+        assert && assert( oldParentNode );
+        if ( newParentNode !== oldParentNode ) {
+          oldParentNode.removeChild( this );
+          newParentNode.addChild( this );
+        }
+      }
+      else {
+        newParentNode.addChild( this );
+      }
+      assert && assert( this.getParent(), 'expected this ElectronNode to have a parent' );
+    };
+    electron.coilSegmentIndexProperty.link( coilSegmentIndexListener );
 
     this.disposeElectronNode = () => {
       electron.positionProperty.unlink( positionListener );
