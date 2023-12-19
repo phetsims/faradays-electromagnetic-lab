@@ -47,7 +47,10 @@ export default class PickupCoilModel extends FELModel {
       tandem: tandem.createTandem( 'pickupCoil' )
     } );
 
-    this.lightBulb = new LightBulb( this.pickupCoil, tandem.createTandem( 'lightBulb' ) );
+    this.lightBulb = new LightBulb( this.pickupCoil, {
+      lightsWhenCurrentChangesDirection: true,
+      tandem: tandem.createTandem( 'lightBulb' )
+    } );
 
     this.voltmeter = new Voltmeter( this.pickupCoil, tandem.createTandem( 'voltmeter' ) );
 
@@ -65,7 +68,6 @@ export default class PickupCoilModel extends FELModel {
 
     this.stepEmitter.addListener( dt => {
       this.pickupCoil.step( dt );
-      this.lightBulb.step( dt );
       this.voltmeter.step( dt );
       this.compass.step( dt );
     } );
