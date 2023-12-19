@@ -4,7 +4,9 @@
 
 /**
  * CoilNode is the visualization of a coil of wire. In order to simulate objects passing "through" the
- * coil, CoilNode consists of two layers, called the "foreground" and "background".
+ * coil, CoilNode consists of two layers, referred to as the foreground and background. Foreground elements
+ * are children of CoilNode. Background elements are children of this.backgroundNode, and it is the responsibility
+ * of the instantiator to add this.backgroundNode to the scenegraph.
  *
  * The coil is drawn as a set of curves, with a "wire end" attached at each end of the coil. The wire ends is where
  * things can be connected to the coil (eg, a lightbulb or voltmeter).
@@ -30,7 +32,7 @@ import PickRequired from '../../../../phet-core/js/types/PickRequired.js';
 import optionize, { combineOptions } from '../../../../phet-core/js/optionize.js';
 import FELConstants from '../FELConstants.js';
 import Multilink from '../../../../axon/js/Multilink.js';
-import PhetioObject, { PhetioObjectOptions } from '../../../../tandem/js/PhetioObject.js';
+import { PhetioObjectOptions } from '../../../../tandem/js/PhetioObject.js';
 import Vector2 from '../../../../dot/js/Vector2.js';
 import { Shape } from '../../../../kite/js/imports.js';
 import Electron from '../model/Electron.js';
@@ -51,11 +53,13 @@ type SelfOptions = {
 
 type CoilNodeOptions = SelfOptions & PickRequired<PhetioObjectOptions, 'tandem'>;
 
-//TODO This is not a Node. It creates foregroundNode and backgroundNode, between which electrons move.
-export default class CoilNode extends PhetioObject {
+export default class CoilNode extends Node {
 
   private readonly coil: Coil;
-  public readonly foregroundNode: Node;
+
+  // The parent of Nodes that are background elements, intended to be added to the scenegraph behind the B-field, magnet,
+  // and compass, so that it looks like those things are passing through the coil. It is the responsibility of the
+  // instantiator to add backgroundNode to the scenegraph. Foreground elements are children of CoilNode.
   public readonly backgroundNode: Node;
 
   // Is electron animation enabled?
@@ -79,15 +83,13 @@ export default class CoilNode extends PhetioObject {
       endsConnected: false,
 
       // NodeOptions
-      isDisposable: false,
-      phetioState: false // because this is not really a Node, and therefore has no state of its own
+      isDisposable: false
     }, providedOptions );
 
     super( options );
 
     this.coil = coil;
 
-    this.foregroundNode = new Node();
     this.backgroundNode = new Node();
 
     this.electronAnimationEnabled = false;
@@ -115,7 +117,7 @@ export default class CoilNode extends PhetioObject {
   private updateCoil(): void {
 
     // Start by deleting everything.
-    this.foregroundNode.removeAllChildren();
+    this.removeAllChildren();
     this.backgroundNode.removeAllChildren();
     this.coilSegments.length = 0;
     this.electrons.forEach( electron => electron.dispose() );
@@ -252,14 +254,14 @@ export default class CoilNode extends PhetioObject {
         const controlPoint = new Vector2( ( -radius * 0.25 ) + xOffset, ( radius * 0.80 ) );
         const curve = new QuadraticBezierSpline( startPoint, controlPoint, endPoint );
 
-        const d = new CoilSegment( curve, this.foregroundNode );
+        const d = new CoilSegment( curve, this );
         this.coilSegments.push( d );
 
         const shape = new Shape()
           .moveToPoint( curve.startPoint )
           .quadraticCurveToPoint( curve.controlPoint, curve.endPoint );
         const path = new Path( shape, combineOptions<PathOptions>( { stroke: frontGradient }, pathOptions ) );
-        this.foregroundNode.addChild( path );
+        this.addChild( path );
       }
 
       // Front top
@@ -269,14 +271,14 @@ export default class CoilNode extends PhetioObject {
         const controlPoint = new Vector2( ( -radius * 0.25 ) + xOffset, ( -radius * 0.80 ) );
         const curve = new QuadraticBezierSpline( startPoint, controlPoint, endPoint );
 
-        const descriptor = new CoilSegment( curve, this.foregroundNode );
+        const descriptor = new CoilSegment( curve, this );
         this.coilSegments.push( descriptor );
 
         const shape = new Shape()
           .moveToPoint( curve.startPoint )
           .quadraticCurveToPoint( curve.controlPoint, curve.endPoint );
         const path = new Path( shape, combineOptions<PathOptions>( { stroke: frontGradient }, pathOptions ) );
-        this.foregroundNode.addChild( path );
+        this.addChild( path );
       }
 
       // For the rightmost loop.... Right wire end in foreground
@@ -288,7 +290,7 @@ export default class CoilNode extends PhetioObject {
 
         // Scale the speed, since this curve is different from the others in the coil.
         const speedScale = ( radius / ELECTRON_SPACING ) / ELECTRONS_IN_RIGHT_END;
-        const descriptor = new CoilSegment( curve, this.foregroundNode, speedScale );
+        const descriptor = new CoilSegment( curve, this, speedScale );
         this.coilSegments.push( descriptor );
 
         const shape = new Shape()
@@ -297,7 +299,7 @@ export default class CoilNode extends PhetioObject {
         const path = new Path( shape, combineOptions<PathOptions>( {
           stroke: FELColors.coilMiddleColorProperty
         }, pathOptions ) );
-        this.foregroundNode.addChild( path );
+        this.addChild( path );
 
         rightEndPoint = endPoint;
       }
@@ -313,7 +315,7 @@ export default class CoilNode extends PhetioObject {
         lineCap: 'round',
         lineJoin: 'bevel'
       } );
-      this.foregroundNode.addChild( path );
+      this.addChild( path );
     }
 
     // Add electrons to the coil.

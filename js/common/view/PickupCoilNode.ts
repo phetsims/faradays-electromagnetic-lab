@@ -21,9 +21,9 @@ export default class PickupCoilNode extends FELMovableNode {
 
   private readonly coilNode: CoilNode;
 
-  // This Node is the background layer, intended to be added to the scenegraph behind the B-field, magnet, and compass,
-  // so that it looks like those things are passing through the coil. It is the responsibility of the instantiator to
-  // add backgroundNode to the scenegraph.
+  // The background layer, intended to be added to the scenegraph behind the B-field, magnet, and compass, so that
+  // it looks like those things are passing through the coil. It is the responsibility of the instantiator to add
+  // backgroundNode to the scenegraph.
   public readonly backgroundNode: Node;
 
   public constructor( pickupCoil: PickupCoil, stepEmitter: Emitter<[number]>, tandem: Tandem ) {
@@ -39,7 +39,7 @@ export default class PickupCoilNode extends FELMovableNode {
 
       // This Node's children are the foreground elements only.
       //TODO add lightNode and voltmeterNode
-      children: [ coilNode.foregroundNode, samplePointsNode ],
+      children: [ coilNode, samplePointsNode ],
       tandem: tandem
     } );
 
