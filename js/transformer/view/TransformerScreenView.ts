@@ -21,7 +21,6 @@ import Multilink from '../../../../axon/js/Multilink.js';
 import PickupCoilPanel from '../../common/view/PickupCoilPanel.js';
 import TransformerDeveloperAccordionBox from './TransformerDeveloperAccordionBox.js';
 import ToolsPanel from '../../common/view/ToolsPanel.js';
-import PickupCoilNode from '../../common/view/PickupCoilNode.js';
 import PickupCoilDebuggerPanel from '../../common/view/PickupCoilDebuggerPanel.js';
 
 export default class TransformerScreenView extends ScreenView {
@@ -40,7 +39,7 @@ export default class TransformerScreenView extends ScreenView {
 
     //TODO electromagnetNode
 
-    const pickupCoilNode = new PickupCoilNode( model.pickupCoil, model.stepEmitter, tandem.createTandem( 'pickupCoilNode' ) );
+    // const pickupCoilNode = new PickupCoilNode( model.pickupCoil, model.stepEmitter, tandem.createTandem( 'pickupCoilNode' ) );
 
     const pickupCoilDebuggerPanel = new PickupCoilDebuggerPanel( model.pickupCoil );
     pickupCoilDebuggerPanel.centerX = this.layoutBounds.centerX;
@@ -100,10 +99,10 @@ export default class TransformerScreenView extends ScreenView {
 
     const rootNode = new Node( {
       children: [
-        pickupCoilNode.backgroundNode,
+        // pickupCoilNode.backgroundNode,
         fieldNode,
         //TODO electromagnetNode,
-        pickupCoilNode,
+        // pickupCoilNode,
         compassNode,
         fieldMeterNode,
         panels,
@@ -116,7 +115,7 @@ export default class TransformerScreenView extends ScreenView {
 
     rootNode.pdomOrder = [
       //TODO electromagnetNode,
-      pickupCoilNode,
+      // pickupCoilNode,
       compassNode,
       fieldMeterNode,
       panels,
