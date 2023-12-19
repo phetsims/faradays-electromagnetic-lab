@@ -19,7 +19,7 @@ export default class CoilSegment {
   // The curve
   public readonly curve: QuadraticBezierSpline;
 
-  // The parent Node
+  // The parent Node for this segment and any electrons that appear in this segment.
   public readonly parentNode: Node;
 
   // How to scale the speed for this curve (any positive value). This value is used to adjust the speed of electrons
