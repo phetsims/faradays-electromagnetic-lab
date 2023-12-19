@@ -1,6 +1,5 @@
 // Copyright 2023, University of Colorado Boulder
 
-//TODO add overline to 'B' magnitudes
 //TODO when should we display '0' vs '0.00'?
 
 /**
@@ -100,7 +99,9 @@ export default class FieldMeterNode extends FELMovableNode {
       top: probeNode.bottom - 2
     } );
 
-    // Dynamic labels
+    // Dynamic labels. The Java version showed a line over 'B' for these labels, presumably indicating magnitude.
+    // That notation was incorrect, since 'B' is (by definition) the *magnitude* of the magnetic field. See for
+    // example https://en.wikipedia.org/wiki/Magnetic_flux.
     const stringBLabelProperty = new DerivedProperty( [ BStringProperty ], B => `${B}` );
     const stringBxLabelProperty = new DerivedProperty( [ BStringProperty, xStringProperty ], ( B, x ) => `${B}<sub>${x}</sub>` );
     const stringByLabelProperty = new DerivedProperty( [ BStringProperty, yStringProperty ], ( B, y ) => `${B}<sub>${y}</sub>` );
