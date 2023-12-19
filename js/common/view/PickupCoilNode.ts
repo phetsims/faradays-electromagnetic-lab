@@ -26,7 +26,7 @@ export default class PickupCoilNode extends FELMovableNode {
   // backgroundNode to the scenegraph.
   public readonly backgroundNode: Node;
 
-  public constructor( pickupCoil: PickupCoil, stepEmitter: Emitter<[number]>, tandem: Tandem ) {
+  public constructor( pickupCoil: PickupCoil, stepEmitter: Emitter<[ number ]>, tandem: Tandem ) {
 
     const coilNode = new CoilNode( pickupCoil, stepEmitter, {
       endsConnected: true,
@@ -55,8 +55,6 @@ export default class PickupCoilNode extends FELMovableNode {
       this.translation = position;
       this.backgroundNode.translation = position;
     } );
-
-    //TODO Add debug view for pickupCoil.samplePointsVisibleProperty
   }
 }
 

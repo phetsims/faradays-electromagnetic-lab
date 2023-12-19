@@ -12,12 +12,12 @@ import RectangularRadioButtonGroup, { RectangularRadioButtonGroupItem } from '..
 import faradaysElectromagneticLab from '../../faradaysElectromagneticLab.js';
 import StringUnionProperty from '../../../../axon/js/StringUnionProperty.js';
 import Tandem from '../../../../tandem/js/Tandem.js';
-import LightBulbNode from './LightBulbNode.js';
 import VoltmeterNode from './VoltmeterNode.js';
 import { Indicator } from '../model/Indicator.js';
 import FELConstants from '../FELConstants.js';
 import { HBox, Text } from '../../../../scenery/js/imports.js';
 import FaradaysElectromagneticLabStrings from '../../FaradaysElectromagneticLabStrings.js';
+import FELLightBulbNode from './FELLightBulbNode.js';
 
 const ICON_SCALE = 0.65;
 
@@ -47,7 +47,7 @@ class IndicatorRadioButtonGroup extends RectangularRadioButtonGroup<Indicator> {
     const items: RectangularRadioButtonGroupItem<Indicator>[] = [
       {
         value: 'lightBulb',
-        createNode: ( tandem: Tandem ) => LightBulbNode.createIcon( ICON_SCALE ),
+        createNode: ( tandem: Tandem ) => FELLightBulbNode.createIcon( ICON_SCALE ),
         tandemName: 'lightBulbRadioButton'
       },
       {
