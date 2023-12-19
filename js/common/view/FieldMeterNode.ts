@@ -106,7 +106,7 @@ export default class FieldMeterNode extends FELMovableNode {
     const stringBxLabelProperty = new DerivedProperty( [ BStringProperty, xStringProperty ], ( B, x ) => `${B}<sub>${x}</sub>` );
     const stringByLabelProperty = new DerivedProperty( [ BStringProperty, yStringProperty ], ( B, y ) => `${B}<sub>${y}</sub>` );
 
-    // Dynamic values
+    // Dynamic values. We decided that Bx and By should be signed.
     const stringBValueProperty = new DerivedProperty(
       [ FELPreferences.magneticUnitsProperty, fieldMeter.fieldVectorProperty, GStringProperty, TStringProperty ],
       ( magneticUnits, fieldVector, G, T ) =>
@@ -171,7 +171,7 @@ export default class FieldMeterNode extends FELMovableNode {
  */
 function toGaussString( gauss: number, G: string ): string {
   if ( gauss === 0 ) {
-    return `0 ${G}`;
+    return `0 ${G}`; // If the value is exactly zero, display '0' with no decimal places.
   }
   else {
     return `${Utils.toFixed( gauss, G_DECIMAL_PLACES )} ${G}`;
@@ -183,7 +183,7 @@ function toGaussString( gauss: number, G: string ): string {
  */
 function toTeslaString( gauss: number, T: string ): string {
   if ( gauss === 0 ) {
-    return `0 ${T}`;
+    return `0 ${T}`; // If the value is exactly zero, display '0' with no decimal places.
   }
   else {
     const tesla = ( gauss / 10000 ).toExponential( T_DECIMAL_PLACES );
@@ -198,11 +198,11 @@ function toTeslaString( gauss: number, T: string ): string {
  */
 function toDegreesString( fieldVector: Vector2 ): string {
   if ( fieldVector.magnitude === 0 ) {
-    return '';
+    return ''; // A zero-magnitude vector should display no value for its angle, since it points in no direction.
   }
   else {
     if ( fieldVector.angle === 0 ) {
-      return `0${MathSymbols.DEGREES}`;
+      return `0${MathSymbols.DEGREES}`; // If the angle is exactly zero, display '0' with no decimal places.
     }
     else {
       //TODO -angle to convert to +rotation counterclockwise, should be done in the model
