@@ -326,14 +326,14 @@ export default class CoilNode extends Node {
       const rightEndIndex = this.coilSegments.length - 1;
 
       // For each curve...
-      for ( let i = 0; i < this.coilSegments.length; i++ ) {
+      for ( let coilSegmentIndex = 0; coilSegmentIndex < this.coilSegments.length; coilSegmentIndex++ ) {
 
         // The wire ends are a different size, and therefore contain a different number of electrons.
         let numberOfElectrons;
-        if ( i === leftEndIndex ) {
+        if ( coilSegmentIndex === leftEndIndex ) {
           numberOfElectrons = ELECTRONS_IN_LEFT_END;
         }
-        else if ( i === rightEndIndex ) {
+        else if ( coilSegmentIndex === rightEndIndex ) {
           numberOfElectrons = ELECTRONS_IN_RIGHT_END;
         }
         else {
@@ -350,7 +350,7 @@ export default class CoilNode extends Node {
           // Model
           const electron = new Electron( {
             coilSegments: this.coilSegments,
-            coilSegmentIndex: i,
+            coilSegmentIndex: coilSegmentIndex,
             coilSegmentPosition: coilSegmentPosition,
             speedAndDirection: speedAndDirection,
             speedScaleProperty: this.coil.electronSpeedScaleProperty,
