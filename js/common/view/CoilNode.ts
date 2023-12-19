@@ -345,13 +345,13 @@ export default class CoilNode extends Node {
         // Add the electrons to the curve.
         for ( let i = 0; i < numberOfElectrons; i++ ) {
 
-          const pathPosition = i / numberOfElectrons;
+          const coilSegmentPosition = i / numberOfElectrons;
 
           // Model
           const electron = new Electron( {
             coilSegments: this.coilSegments,
-            pathPosition: pathPosition,
-            pathIndex: i,
+            coilSegmentIndex: i,
+            coilSegmentPosition: coilSegmentPosition,
             speedAndDirection: speedAndDirection,
             speedScaleProperty: this.coil.electronSpeedScaleProperty,
             visibleProperty: this.coil.electronsVisibleProperty,
@@ -364,6 +364,7 @@ export default class CoilNode extends Node {
           this.electronNodes.push( electronNode );
         }
       }
+      assert && assert( this.electrons.length === this.electronNodes.length );
     }
   }
 

@@ -17,7 +17,6 @@ const DIAMETER = 9;
 
 export default class ElectronNode extends ShadedSphereNode {
 
-  private readonly electron: Electron;
   private readonly disposeElectronNode: () => void;
 
   public constructor( electron: Electron ) {
@@ -27,19 +26,21 @@ export default class ElectronNode extends ShadedSphereNode {
       mainColor: FELColors.electronColorProperty
     } );
 
-    this.electron = electron;
-
     // Move to the electron's position.
     const positionListener = ( position: Vector2 ) => {
       this.translation = position;
     };
-    this.electron.positionProperty.link( positionListener );
+    electron.positionProperty.link( positionListener );
 
     // If the electron has jumped to a different layer (foreground vs background), move it to the new parent Node.
     const coilSegmentIndexListener = ( newIndex: number, oldIndex: number | null ) => {
+
       const newParentNode = electron.getCoilSegment( newIndex ).parentNode;
+      assert && assert( newParentNode );
+
       if ( oldIndex !== null ) {
         const oldParentNode = electron.getCoilSegment( oldIndex ).parentNode;
+        assert && assert( oldParentNode );
         if ( newParentNode !== oldParentNode ) {
           oldParentNode.removeChild( this );
           newParentNode.addChild( this );
@@ -50,11 +51,11 @@ export default class ElectronNode extends ShadedSphereNode {
       }
       assert && assert( this.getParent(), 'expected this ElectronNode to have a parent' );
     };
-    this.electron.coilSegmentIndexProperty.link( coilSegmentIndexListener );
+    electron.coilSegmentIndexProperty.link( coilSegmentIndexListener );
 
     this.disposeElectronNode = () => {
-      this.electron.positionProperty.unlink( positionListener );
-      this.electron.coilSegmentIndexProperty.unlink( coilSegmentIndexListener );
+      electron.positionProperty.unlink( positionListener );
+      electron.coilSegmentIndexProperty.unlink( coilSegmentIndexListener );
     };
   }
 
