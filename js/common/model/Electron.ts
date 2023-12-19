@@ -18,14 +18,14 @@ import { PhetioObjectOptions } from '../../../../tandem/js/PhetioObject.js';
 import Property from '../../../../axon/js/Property.js';
 import NumberProperty from '../../../../axon/js/NumberProperty.js';
 
-// Maximum distance along a path that can be traveled in one clock tick.
-const MAX_PATH_POSITION_DELTA = 0.15;
-const PATH_POSITION_RANGE = new Range( 0, 1 );
+// Maximum distance along a coil segment that can be traveled in one clock tick.
+const MAX_COIL_SEGMENT_POSITION_DELTA = 0.15;
+const COIL_SEGMENT_POSITION_RANGE = new Range( 0, 1 );
 
 type SelfOptions = {
   coilSegments: CoilSegment[];
-  pathPosition: number;
-  pathIndex: number;
+  coilSegmentIndex: number;
+  coilSegmentPosition: number;
   speedAndDirection: number;
   speedScaleProperty: TReadOnlyProperty<number>;
   visibleProperty: TReadOnlyProperty<boolean>;
@@ -45,8 +45,8 @@ export default class Electron {
   public readonly coilSegmentIndexProperty: NumberProperty;
 
   // Electron's position along the coil segment that it occupies (1=startPoint, 0=endPoint)
-  //TODO Flip the semantics to be a percent along the curve, 0=start, 1=end.
-  private pathPositionProperty: NumberProperty;
+  //TODO Flip the semantics to be a percent along a coil segment, 0=start, 1=end.
+  private coilSegmentPositionProperty: NumberProperty;
 
   // Electron's speed & direction (-1...+1)
   public readonly speedAndDirectionProperty: NumberProperty;
@@ -62,7 +62,10 @@ export default class Electron {
   public constructor( providedOptions: ElectronOptions ) {
     const options = providedOptions;
 
-    this._positionProperty = new Vector2Property( new Vector2( 0, 0 ), {
+    const descriptor = options.coilSegments[ options.coilSegmentIndex ];
+    const initialPosition = descriptor.curve.evaluate( options.coilSegmentPosition );
+    
+    this._positionProperty = new Vector2Property( initialPosition, {
       tandem: options.tandem.createTandem( 'positionProperty' ),
       phetioReadOnly: true
     } );
@@ -70,15 +73,15 @@ export default class Electron {
 
     this.coilSegments = options.coilSegments;
 
-    this.coilSegmentIndexProperty = new NumberProperty( options.pathIndex, {
+    this.coilSegmentIndexProperty = new NumberProperty( options.coilSegmentIndex, {
       range: new Range( 0, this.coilSegments.length - 1 ),
       tandem: options.tandem.createTandem( 'coilSegmentIndexProperty' ),
       phetioReadOnly: true
     } );
 
-    this.pathPositionProperty = new NumberProperty( options.pathPosition, {
-      range: PATH_POSITION_RANGE,
-      tandem: options.tandem.createTandem( 'pathPositionProperty' ),
+    this.coilSegmentPositionProperty = new NumberProperty( options.coilSegmentPosition, {
+      range: COIL_SEGMENT_POSITION_RANGE,
+      tandem: options.tandem.createTandem( 'coilSegmentPositionProperty' ),
       phetioReadOnly: true
     } );
 
@@ -104,11 +107,11 @@ export default class Electron {
   /**
    * Gets a CoilSegment by index. If no index is provided, get the CoilSegment that the electron currently occupies.
    */
-  public getCoilSegment( pathIndex?: number ): CoilSegment {
-    if ( pathIndex === undefined ) {
-      pathIndex = this.coilSegmentIndexProperty.value;
+  public getCoilSegment( coilSegmentIndex?: number ): CoilSegment {
+    if ( coilSegmentIndex === undefined ) {
+      coilSegmentIndex = this.coilSegmentIndexProperty.value;
     }
-    return this.coilSegments[ pathIndex ];
+    return this.coilSegments[ coilSegmentIndex ];
   }
 
   /**
@@ -133,21 +136,21 @@ export default class Electron {
     if ( this.visibleProperty.value && this.speedAndDirectionProperty.value !== 0 ) {
 
       // Move the electron along the path.
-      const deltaPosition = dt * MAX_PATH_POSITION_DELTA * this.speedAndDirectionProperty.value *
+      const deltaPosition = dt * MAX_COIL_SEGMENT_POSITION_DELTA * this.speedAndDirectionProperty.value *
                             this.speedScaleProperty.value * this.getCoilSegmentSpeedScale();
-      const newPathPosition = this.pathPositionProperty.value - deltaPosition;
+      const newPosition = this.coilSegmentPositionProperty.value - deltaPosition;
 
       // Do we need to switch curves?
-      if ( newPathPosition <= 0 || newPathPosition >= 1 ) {
-        this.switchCurves( newPathPosition );
+      if ( newPosition <= 0 || newPosition >= 1 ) {
+        this.switchCurves( newPosition );
       }
       else {
-        this.pathPositionProperty.value = newPathPosition;
+        this.coilSegmentPositionProperty.value = newPosition;
       }
 
       // Evaluate the quadratic to determine xy position.
       const descriptor = this.coilSegments[ this.coilSegmentIndexProperty.value ];
-      this._positionProperty.value = descriptor.curve.evaluate( this.pathPositionProperty.value );
+      this._positionProperty.value = descriptor.curve.evaluate( this.coilSegmentPositionProperty.value );
     }
   }
 
@@ -158,53 +161,53 @@ export default class Electron {
    * If curves have different lengths, it is possible that we may totally skip a curve.This is handled via
    * recursive calls to switchCurves.
    */
-  private switchCurves( newPathPosition: number ): void {
+  private switchCurves( coilSegmentPosition: number ): void {
 
     const oldPathSpeedScale = this.getCoilSegmentSpeedScale();
 
-    if ( newPathPosition <= 0 ) {
+    if ( coilSegmentPosition <= 0 ) {
 
       // We've passed the end point, so move to the next curve. Wrap around if necessary.
-      const pathIndex = this.coilSegmentIndexProperty.value + 1;
-      if ( pathIndex > this.coilSegments.length - 1 ) {
+      const coilSegmentIndex = this.coilSegmentIndexProperty.value + 1;
+      if ( coilSegmentIndex > this.coilSegments.length - 1 ) {
         this.coilSegmentIndexProperty.value = 0;
       }
       else {
-        this.coilSegmentIndexProperty.value = pathIndex;
+        this.coilSegmentIndexProperty.value = coilSegmentIndex;
       }
 
       // Set the position on the curve.
-      const overshoot = Math.abs( newPathPosition * this.getCoilSegmentSpeedScale() / oldPathSpeedScale );
-      newPathPosition = 1.0 - overshoot;
+      const overshoot = Math.abs( coilSegmentPosition * this.getCoilSegmentSpeedScale() / oldPathSpeedScale );
+      coilSegmentPosition = 1.0 - overshoot;
 
       // Did we overshoot the curve? If so, call this method recursively.
-      if ( newPathPosition < 0.0 ) {
-        this.switchCurves( newPathPosition ); //TODO guard against infinite recursion?
+      if ( coilSegmentPosition < 0.0 ) {
+        this.switchCurves( coilSegmentPosition ); //TODO guard against infinite recursion?
       }
       else {
-        this.pathPositionProperty.value = newPathPosition;
+        this.coilSegmentPositionProperty.value = coilSegmentPosition;
       }
     }
-    else if ( newPathPosition >= 1.0 ) {
+    else if ( coilSegmentPosition >= 1.0 ) {
 
       // We've passed the start point, so move to the previous curve. Wrap around if necessary.
-      const pathIndex = this.coilSegmentIndexProperty.value - 1;
-      if ( pathIndex < 0 ) {
+      const coilSegmentIndex = this.coilSegmentIndexProperty.value - 1;
+      if ( coilSegmentIndex < 0 ) {
         this.coilSegmentIndexProperty.value = this.coilSegments.length - 1;
       }
       else {
-        this.coilSegmentIndexProperty.value = pathIndex;
+        this.coilSegmentIndexProperty.value = coilSegmentIndex;
       }
 
       // Set the position on the curve.
-      newPathPosition = Math.abs( ( 1 - newPathPosition ) * this.getCoilSegmentSpeedScale() / oldPathSpeedScale );
+      coilSegmentPosition = Math.abs( ( 1 - coilSegmentPosition ) * this.getCoilSegmentSpeedScale() / oldPathSpeedScale );
 
       // Did we overshoot the curve? If so, call this method recursively.
-      if ( newPathPosition > 1.0 ) {
-        this.switchCurves( newPathPosition ); //TODO guard against infinite recursion?
+      if ( coilSegmentPosition > 1.0 ) {
+        this.switchCurves( coilSegmentPosition ); //TODO guard against infinite recursion?
       }
       else {
-        this.pathPositionProperty.value = newPathPosition;
+        this.coilSegmentPositionProperty.value = coilSegmentPosition;
       }
     }
   }
