@@ -9,7 +9,5 @@ Drag bounds for compass and field meter constrained to visibleBounds, move insid
 
 Collision detection only in Pickup Coil screen, between bar magnet and pickup coil,
 
-Compass and field meter in top layer
-
 Make compass work inside bar magnet
 
