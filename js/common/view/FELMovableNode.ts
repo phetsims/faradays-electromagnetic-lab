@@ -25,12 +25,12 @@ import soundManager from '../../../../tambo/js/soundManager.js';
 type SelfOptions = EmptySelfOptions;
 
 export type FELMovableNodeOptions = SelfOptions &
-  PickOptional<NodeOptions, 'visibleProperty' | 'focusable'> &
-  PickRequired<NodeOptions, 'children' | 'tandem'>;
+  PickOptional<NodeOptions, 'children' | 'visibleProperty' | 'focusable'> &
+  PickRequired<NodeOptions, 'tandem'>;
 
-export default abstract class FELMovableNode extends Node {
+export default class FELMovableNode extends Node {
 
-  protected constructor( movable: FELMovable, providedOptions: FELMovableNodeOptions ) {
+  public constructor( movable: FELMovable, providedOptions: FELMovableNodeOptions ) {
 
     const options = optionize<FELMovableNodeOptions, SelfOptions, NodeOptions>()( {
       isDisposable: false,

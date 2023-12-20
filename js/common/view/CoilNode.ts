@@ -42,6 +42,7 @@ import ElectronNode from './ElectronNode.js';
 import QuadraticBezierSpline from '../model/QuadraticBezierSpline.js';
 import FELColors from '../FELColors.js';
 import Emitter from '../../../../axon/js/Emitter.js';
+import FELMovableNode from './FELMovableNode.js';
 
 // Space between electrons, determines the number of electrons add to each curve.
 const ELECTRON_SPACING = 25;
@@ -92,8 +93,10 @@ export default class CoilNode extends Node {
 
     this.coil = coil;
 
-    this.backgroundNode = new Node( {
-      visibleProperty: this.visibleProperty
+    // This is an FELMovableNode so that the coil can also be dragged via this.backgroundNode.
+    this.backgroundNode = new FELMovableNode( coil, {
+      visibleProperty: this.visibleProperty,
+      tandem: Tandem.OPT_OUT
     } );
 
     this.electronAnimationEnabled = false;
@@ -143,7 +146,8 @@ export default class CoilNode extends Node {
     const pathOptions: PathOptions = {
       lineWidth: this.coil.wireWidth,
       lineCap: 'round',
-      lineJoin: 'bevel'
+      lineJoin: 'bevel',
+      boundsMethod: 'accurate' //TODO This is not working. The bounds do not include the stroke, and it's difficult to drag.
     };
 
     // Create the wire ends & loops from left to right.
