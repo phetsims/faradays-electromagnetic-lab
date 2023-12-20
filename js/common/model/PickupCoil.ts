@@ -430,6 +430,7 @@ export class FixedSpacingSamplePointsStrategy extends SamplePointsStrategy {
     this.ySpacing = ySpacing;
   }
 
+  //TODO Lots of duplication with FixedNumberOfSamplePointsStrategy here.
   public override createSamplePoints( pickupCoil: PickupCoil ): Vector2[] {
 
     const numberOfSamplePointsOnRadius = Math.trunc( pickupCoil.loopRadiusProperty.value / this.ySpacing );
