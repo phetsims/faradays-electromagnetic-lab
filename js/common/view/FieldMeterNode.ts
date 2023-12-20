@@ -201,19 +201,24 @@ function toTeslaString( gauss: number, T: string ): string {
 
 /**
  * Converts a fieldVector's angle in radians to a string in degrees.
+ * If the angle is exactly zero, display '0' with no decimal places.
  */
 function toDegreesString( fieldVector: Vector2 ): string {
   if ( fieldVector.magnitude === 0 ) {
     return ''; // A zero-magnitude vector should display no value for its angle, since it points in no direction.
   }
   else {
+    let stringValue: string;
     if ( fieldVector.angle === 0 ) {
-      return `0${MathSymbols.DEGREES}`; // If the angle is exactly zero, display '0' with no decimal places.
+      stringValue = '0';
     }
     else {
       //TODO -angle to convert to +rotation counterclockwise, should be done in the model
-      return `${Utils.toFixed( Utils.toDegrees( -fieldVector.angle ), ANGLE_DECIMAL_PLACES )}${MathSymbols.DEGREES}`;
+      stringValue = `${Utils.toFixed( Utils.toDegrees( -fieldVector.angle ), ANGLE_DECIMAL_PLACES )}`;
     }
+    return StringUtils.fillIn( FaradaysElectromagneticLabStrings.pattern.valueDegreesStringProperty, {
+      value: stringValue
+    } );
   }
 }
 
