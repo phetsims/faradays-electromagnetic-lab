@@ -45,8 +45,7 @@ export default class PickupCoilNode extends FELMovableNode {
     super( pickupCoil, {
 
       // This Node's children are the foreground elements only.
-      //TODO add lightNode and voltmeterNode
-      children: [ coilNode, samplePointsNode, lightBulbNode ],
+      children: [ coilNode, samplePointsNode, lightBulbNode ], //TODO add voltmeterNode
       tandem: tandem
     } );
 
