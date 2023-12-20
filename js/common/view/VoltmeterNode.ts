@@ -7,7 +7,7 @@
  */
 
 import faradaysElectromagneticLab from '../../faradaysElectromagneticLab.js';
-import { Circle, Node, NodeOptions, NodeTranslationOptions, Path, Text } from '../../../../scenery/js/imports.js';
+import { Circle, Line, Node, NodeOptions, NodeTranslationOptions, Path, Text, TextOptions } from '../../../../scenery/js/imports.js';
 import Voltmeter from '../model/Voltmeter.js';
 import ShadedRectangle, { ShadedRectangleOptions } from '../../../../scenery-phet/js/ShadedRectangle.js';
 import Bounds2 from '../../../../dot/js/Bounds2.js';
@@ -22,6 +22,8 @@ import PhetFont from '../../../../scenery-phet/js/PhetFont.js';
 import ArrowNode, { ArrowNodeOptions } from '../../../../scenery-phet/js/ArrowNode.js';
 import FELColors from '../FELColors.js';
 import { Shape } from '../../../../kite/js/imports.js';
+import MathSymbols from '../../../../scenery-phet/js/MathSymbols.js';
+import Vector2 from '../../../../dot/js/Vector2.js';
 
 // Body and display area
 const BODY_BOUNDS = new Bounds2( 0, 0, 172, 112 );
@@ -31,6 +33,7 @@ const BOTTOM_MARGIN = 15;
 const DISPLAY_BOUNDS = new Bounds2( X_MARGIN, TOP_MARGIN, BODY_BOUNDS.width - X_MARGIN, BODY_BOUNDS.height - TOP_MARGIN - BOTTOM_MARGIN );
 const CORNER_RADIUS = 10;
 const NEEDLE_LENGTH = ( 0.80 * DISPLAY_BOUNDS.height );
+const GAUGE_RADIUS = NEEDLE_LENGTH;
 
 // Options shared by VoltmeterNode and its icon
 const BODY_OPTIONS: ShadedRectangleOptions = {
@@ -47,6 +50,17 @@ const NEEDLE_OPTIONS: ArrowNodeOptions = {
   tailWidth: 3,
   fill: FELColors.voltmeterNeedleColorProperty
 };
+const GAUGE_TEXT_OPTIONS: TextOptions = {
+  font: new PhetFont( { size: 20, weight: 'bold' } ),
+  fill: FELColors.voltmeterGaugeColorProperty
+};
+
+// Tick marks on the gauge
+const NUMBER_OF_TICKS = 40;
+const TICK_SPACING = Math.PI / NUMBER_OF_TICKS; // radians
+const MINOR_TICKS_PER_MAJOR_TICK = 4;
+const MAJOR_TICK_LENGTH = 8;
+const MINOR_TICK_LENGTH = 4;
 
 type SelfOptions = EmptySelfOptions;
 
@@ -83,14 +97,8 @@ export default class VoltmeterNode extends Node {
       center: needleNode.centerBottom
     } );
 
-    // Meter gauge, a 180-degree corded arc, with a vertical line down the center.
-    const gaugeShape = new Shape()
-      .arc( 0, 0, NEEDLE_LENGTH, -Math.PI, 0 )
-      .close()
-      .moveTo( 0, 0 )
-      .lineTo( 0, -NEEDLE_LENGTH );
-    const gaugeNode = new Path( gaugeShape, {
-      stroke: FELColors.voltmeterGaugeColorProperty,
+    // The gauge, a 180-degree corded arc with tick marks around its edge.
+    const gaugeNode = new GaugeNode( {
       centerX: needleNode.centerX,
       bottom: needleNode.bottom
     } );
@@ -131,6 +139,66 @@ export default class VoltmeterNode extends Node {
       children: [ bodyNode, displayNode, needleNode ],
       scale: scale
     } );
+  }
+}
+
+class GaugeNode extends Node {
+
+  public constructor( translationOptions?: NodeTranslationOptions ) {
+
+    // 180-degree arc, with a vertical line down the center at zero volts.
+    const gaugeShape = new Shape()
+      .arc( 0, 0, GAUGE_RADIUS, -Math.PI, 0 )
+      .close()
+      .moveTo( 0, 0 )
+      .lineTo( 0, -GAUGE_RADIUS );
+    const gaugePath = new Path( gaugeShape, {
+      stroke: FELColors.voltmeterGaugeColorProperty,
+      lineWidth: 1
+    } );
+
+    // Major and minor tick marks around the outer edge of the arc
+    //TODO draw ticks with one Path
+    const tickNodes: Node[] = [];
+    let angle = TICK_SPACING;
+    let tickCount = 1;
+    while ( angle < Math.PI / 2 ) {
+
+      const tickLength = ( tickCount % MINOR_TICKS_PER_MAJOR_TICK === 0 ) ? MAJOR_TICK_LENGTH : MINOR_TICK_LENGTH;
+
+      const positiveTick = new Line( 0, -GAUGE_RADIUS, 0, -GAUGE_RADIUS + tickLength, {
+        stroke: FELColors.voltmeterGaugeColorProperty,
+        rotation: angle
+      } );
+      tickNodes.push( positiveTick );
+
+      const negativeTick = new Line( 0, -GAUGE_RADIUS, 0, -GAUGE_RADIUS + tickLength, {
+        stroke: FELColors.voltmeterGaugeColorProperty,
+        rotation: -angle
+      } );
+      tickNodes.push( negativeTick );
+
+      angle += TICK_SPACING;
+      tickCount++;
+    }
+
+    // '-' and '+' labels, centered in the left and right halves of the gauge.
+    const vector = Vector2.createPolar( GAUGE_RADIUS / 2, Math.PI / 4 );
+    const negativeText = new Text( MathSymbols.MINUS,
+      combineOptions<TextOptions>( {
+        centerX: -vector.x,
+        centerY: -vector.y
+      }, GAUGE_TEXT_OPTIONS ) );
+    const positiveText = new Text( MathSymbols.PLUS,
+      combineOptions<TextOptions>( {
+        centerX: vector.x,
+        centerY: -vector.y
+      }, GAUGE_TEXT_OPTIONS ) );
+
+    super( combineOptions<NodeOptions>( {
+      children: [ gaugePath, ...tickNodes, negativeText, positiveText ],
+      pickable: false
+    }, translationOptions ) );
   }
 }
 
