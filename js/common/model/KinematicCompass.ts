@@ -76,7 +76,7 @@ export default class KinematicCompass extends Compass {
     const angle = fieldVector.angle;
 
     // Difference between the field angle and the compass angle.
-    const phi = ( ( magnitude === 0 ) ? 0 : ( angle - this._angleProperty.value ) );
+    const phi = ( magnitude === 0 ) ? 0 : ( angle - this._angleProperty.value );
 
     if ( Math.abs( phi ) < THRESHOLD ) {
 
