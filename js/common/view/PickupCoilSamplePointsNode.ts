@@ -38,6 +38,8 @@ export default class PickupCoilSamplePointsNode extends Node {
       children: [ path ],
       visibleProperty: pickupCoil.samplePointsVisibleProperty
     } );
+
+    update();
   }
 }
 
