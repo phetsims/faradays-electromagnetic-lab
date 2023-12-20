@@ -85,10 +85,7 @@ export default class VoltmeterNode extends Node {
       voltageText.centerY = displayNode.bottom + ( Math.abs( displayNode.bottom - bodyNode.bottom ) / 2 );
     } );
 
-    const needleNode = new ArrowNode( 0, 0, 0, -NEEDLE_LENGTH, combineOptions<ArrowNodeOptions>( {
-      x: displayNode.centerX,
-      y: displayNode.bottom - Math.abs( ( DISPLAY_BOUNDS.height - NEEDLE_LENGTH ) / 2 )
-    }, NEEDLE_OPTIONS ) );
+    const needleNode = new ArrowNode( 0, 0, 0, -NEEDLE_LENGTH, NEEDLE_OPTIONS );
 
     // Screw that holds the needle in place.
     const screwNode = new Circle( {
@@ -103,10 +100,16 @@ export default class VoltmeterNode extends Node {
       bottom: needleNode.bottom
     } );
 
+    // Stuff that's shown in the display
+    const contentNode = new Node( {
+      children: [ gaugeNode, needleNode, screwNode ],
+      center: displayNode.center
+    } );
+
     const options = optionize<VoltmeterNodeOptions, SelfOptions, NodeOptions>()( {
 
       // NodeOptions
-      children: [ bodyNode, displayNode, voltageText, gaugeNode, needleNode, screwNode ],
+      children: [ bodyNode, displayNode, voltageText, contentNode ],
       visibleProperty: new DerivedProperty( [ indicatorProperty ], indicator => ( indicator === 'voltmeter' ), {
         tandem: providedOptions.tandem.createTandem( 'visibleProperty' ),
         phetioValueType: BooleanIO
