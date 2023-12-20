@@ -17,8 +17,6 @@ import ACPowerSupplyNode from './ACPowerSupplyNode.js';
 import { HBox, RichText } from '../../../../scenery/js/imports.js';
 import FaradaysElectromagneticLabStrings from '../../FaradaysElectromagneticLabStrings.js';
 
-const ICON_SCALE = 0.65;
-
 export default class CurrentSourceControl extends HBox {
 
   public constructor( currentSourceProperty: StringUnionProperty<CurrentSource>, tandem: Tandem ) {
@@ -50,7 +48,7 @@ class CurrentSourceRadioButtonGroup extends RectangularRadioButtonGroup<CurrentS
       },
       {
         value: 'acPowerSupply',
-        createNode: ( tandem: Tandem ) => ACPowerSupplyNode.createIcon( ICON_SCALE ),
+        createNode: ( tandem: Tandem ) => ACPowerSupplyNode.createIcon(),
         tandemName: 'acPowerSupplyRadioButton'
       }
     ];
