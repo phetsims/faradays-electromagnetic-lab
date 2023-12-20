@@ -23,7 +23,8 @@ export default class ElectronNode extends ShadedSphereNode {
 
     super( DIAMETER, {
       visibleProperty: electron.visibleProperty,
-      mainColor: FELColors.electronColorProperty
+      mainColor: FELColors.electronColorProperty,
+      pickable: false
     } );
 
     // Move to the electron's position.

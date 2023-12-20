@@ -105,8 +105,7 @@ export default class CoilNode extends Node {
 
     Multilink.multilink( [ coil.numberOfLoopsProperty, coil.loopRadiusProperty ], () => this.updateCoil() );
 
-    //TODO Is this correct? Not in the Java version.
-    this.coil.currentAmplitudeProperty.link( currentAmplitude => this.updateElectronsSpeedAndDirection() );
+    this.coil.currentAmplitudeProperty.link( () => this.updateElectronsSpeedAndDirection() );
 
     stepEmitter.addListener( dt => this.step( dt ) );
   }
@@ -176,7 +175,9 @@ export default class CoilNode extends Node {
           const shape = new Shape()
             .moveToPoint( curve.startPoint )
             .quadraticCurveToPoint( curve.controlPoint, curve.endPoint );
-          const path = new Path( shape, combineOptions<PathOptions>( { stroke: gradient }, pathOptions ) );
+          const path = new Path( shape, combineOptions<PathOptions>( {
+            stroke: gradient
+          }, pathOptions ) );
           coilSegment.parentNode.addChild( path );
 
           leftEndPoint = startPoint;
@@ -220,7 +221,9 @@ export default class CoilNode extends Node {
         const shape = new Shape()
           .moveToPoint( curve.startPoint )
           .quadraticCurveToPoint( curve.controlPoint, curve.endPoint );
-        const path = new Path( shape, combineOptions<PathOptions>( { stroke: gradient }, pathOptions ) );
+        const path = new Path( shape, combineOptions<PathOptions>( {
+          stroke: gradient
+        }, pathOptions ) );
         coilSegment.parentNode.addChild( path );
       }
 
@@ -242,7 +245,9 @@ export default class CoilNode extends Node {
         const shape = new Shape()
           .moveToPoint( curve.startPoint )
           .quadraticCurveToPoint( curve.controlPoint, curve.endPoint );
-        const path = new Path( shape, combineOptions<PathOptions>( { stroke: gradient }, pathOptions ) );
+        const path = new Path( shape, combineOptions<PathOptions>( {
+          stroke: gradient
+        }, pathOptions ) );
         coilSegment.parentNode.addChild( path );
       }
 
@@ -264,7 +269,9 @@ export default class CoilNode extends Node {
         const shape = new Shape()
           .moveToPoint( curve.startPoint )
           .quadraticCurveToPoint( curve.controlPoint, curve.endPoint );
-        const path = new Path( shape, combineOptions<PathOptions>( { stroke: frontGradient }, pathOptions ) );
+        const path = new Path( shape, combineOptions<PathOptions>( {
+          stroke: frontGradient
+        }, pathOptions ) );
         coilSegment.parentNode.addChild( path );
       }
 
@@ -281,7 +288,9 @@ export default class CoilNode extends Node {
         const shape = new Shape()
           .moveToPoint( curve.startPoint )
           .quadraticCurveToPoint( curve.controlPoint, curve.endPoint );
-        const path = new Path( shape, combineOptions<PathOptions>( { stroke: frontGradient }, pathOptions ) );
+        const path = new Path( shape, combineOptions<PathOptions>( {
+          stroke: frontGradient
+        }, pathOptions ) );
         coilSegment.parentNode.addChild( path );
       }
 
@@ -313,12 +322,9 @@ export default class CoilNode extends Node {
     if ( this.endsConnected ) {
       assert && assert( leftEndPoint && rightEndPoint );
       const shape = new Shape().moveTo( leftEndPoint!.x, leftEndPoint!.y ).lineTo( rightEndPoint!.x, rightEndPoint!.y );
-      const path = new Path( shape, {
-        stroke: FELColors.coilMiddleColorProperty,
-        lineWidth: this.coil.wireWidth,
-        lineCap: 'round',
-        lineJoin: 'bevel'
-      } );
+      const path = new Path( shape, combineOptions<PathOptions>( {
+        stroke: FELColors.coilMiddleColorProperty
+      }, pathOptions ) );
       this.addChild( path );
     }
 
