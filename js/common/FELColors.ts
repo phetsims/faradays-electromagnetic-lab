@@ -160,6 +160,10 @@ const FELColors = {
     default: 'blue'
   } ),
 
+  voltmeterGaugeColorProperty: new ProfileColorProperty( faradaysElectromagneticLab, 'voltmeterGaugeColor', {
+    default: 'black'
+  } ),
+
   voltageLabelColorProperty: new ProfileColorProperty( faradaysElectromagneticLab, 'voltageLabelColor', {
     default: 'white'
   } )

@@ -90,7 +90,7 @@ export default class VoltmeterNode extends Node {
       .moveTo( 0, 0 )
       .lineTo( 0, -NEEDLE_LENGTH );
     const gaugeNode = new Path( gaugeShape, {
-      stroke: 'black', //TODO color profile
+      stroke: FELColors.voltmeterGaugeColorProperty,
       centerX: needleNode.centerX,
       bottom: needleNode.bottom
     } );
