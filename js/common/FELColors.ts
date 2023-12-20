@@ -146,6 +146,22 @@ const FELColors = {
 
   lightRaysColorProperty: new ProfileColorProperty( faradaysElectromagneticLab, 'lightRaysColor', {
     default: 'yellow'
+  } ),
+
+  voltmeterBodyColorProperty: new ProfileColorProperty( faradaysElectromagneticLab, 'voltmeterBodyColor', {
+    default: 'rgb( 13, 0, 160 )'
+  } ),
+
+  voltmeterDisplayColorProperty: new ProfileColorProperty( faradaysElectromagneticLab, 'voltmeterDisplayColor', {
+    default: 'rgb( 255, 255, 213 )'
+  } ),
+
+  voltmeterNeedleColorProperty: new ProfileColorProperty( faradaysElectromagneticLab, 'voltmeterNeedleColor', {
+    default: 'blue'
+  } ),
+
+  voltageLabelColorProperty: new ProfileColorProperty( faradaysElectromagneticLab, 'voltageLabelColor', {
+    default: 'white'
   } )
 };
 

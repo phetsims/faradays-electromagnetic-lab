@@ -19,8 +19,6 @@ import { HBox, Text } from '../../../../scenery/js/imports.js';
 import FaradaysElectromagneticLabStrings from '../../FaradaysElectromagneticLabStrings.js';
 import FELLightBulbNode from './FELLightBulbNode.js';
 
-const ICON_SCALE = 0.65;
-
 export default class IndicatorControl extends HBox {
 
   public constructor( indicatorProperty: StringUnionProperty<Indicator>, tandem: Tandem ) {
@@ -52,7 +50,7 @@ class IndicatorRadioButtonGroup extends RectangularRadioButtonGroup<Indicator> {
       },
       {
         value: 'voltmeter',
-        createNode: ( tandem: Tandem ) => VoltmeterNode.createIcon( ICON_SCALE ),
+        createNode: ( tandem: Tandem ) => VoltmeterNode.createIcon(),
         tandemName: 'voltmeterRadioButton'
       }
     ];
