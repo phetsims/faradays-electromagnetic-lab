@@ -17,7 +17,6 @@ import PickupCoilSamplePointsNode from './PickupCoilSamplePointsNode.js';
 import Emitter from '../../../../axon/js/Emitter.js';
 import FELLightBulbNode from './FELLightBulbNode.js';
 
-
 export default class PickupCoilNode extends FELMovableNode {
 
   private readonly coilNode: CoilNode;
