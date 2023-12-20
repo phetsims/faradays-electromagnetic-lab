@@ -96,11 +96,11 @@ export default class PickupCoil extends Coil {
   public readonly transitionSmoothingScaleProperty: NumberProperty;
 
   // *** Writeable via developer controls only, when running with &dev query parameter. ***
-  // Makes the sample points visible in the view
+  // Makes the sample points visible in the view.
   public readonly samplePointsVisibleProperty: Property<boolean>;
 
   // *** Writeable via developer controls only, when running with &dev query parameter. ***
-  // Makes a flux display visible in the view
+  // Makes a debugging panel visible in the view, which shows important values related to the pickup coil.
   public readonly debuggerPanelVisibleProperty: Property<boolean>;
 
   // Reusable sample point
