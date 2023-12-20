@@ -9,8 +9,14 @@
 import faradaysElectromagneticLab from '../../faradaysElectromagneticLab.js';
 import { Image, Node } from '../../../../scenery/js/imports.js';
 import voltmeterIcon_png from '../../../images/voltmeterIcon_png.js';
+import Voltmeter from '../model/Voltmeter.js';
+import Tandem from '../../../../tandem/js/Tandem.js';
 
 export default class VoltmeterNode extends Node {
+
+  public constructor( voltmeter: Voltmeter, tandem: Tandem ) {
+    super();
+  }
 
   //TODO replace image file with code-generated icon
   public static createIcon( scale = 1 ): Node {
