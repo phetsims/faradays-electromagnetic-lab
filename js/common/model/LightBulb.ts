@@ -1,6 +1,5 @@
 // Copyright 2023, University of Colorado Boulder
 
-//TODO Factor out Indicator base class (with a better name), possibly delete Indicator string union?
 /**
  * LightBulb is the model of the light bulb, as an indicator of current in the pickup coil. Brightness of the light
  * is proportional to the current amplitude in the pickup coil.

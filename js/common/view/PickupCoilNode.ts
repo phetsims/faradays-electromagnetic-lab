@@ -34,10 +34,10 @@ export default class PickupCoilNode extends FELMovableNode {
 
     const samplePointsNode = new PickupCoilSamplePointsNode( pickupCoil );
 
-    const lightBulbNode = new FELLightBulbNode( pickupCoil.lightBulb, pickupCoil.indicatorProperty,
+    const lightBulbNode = new FELLightBulbNode( pickupCoil.lightBulb, pickupCoil.currentIndicatorProperty,
       tandem.createTandem( 'lightBulbNode' ) );
 
-    const voltmeterNode = new VoltmeterNode( pickupCoil.voltmeter, pickupCoil.indicatorProperty,
+    const voltmeterNode = new VoltmeterNode( pickupCoil.voltmeter, pickupCoil.currentIndicatorProperty,
       tandem.createTandem( 'voltmeterNode' ) );
 
     // Dynamically position the light bulb and voltmeter when the size of the coil changes.

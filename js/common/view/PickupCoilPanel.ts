@@ -27,7 +27,7 @@ export default class PickupCoilPanel extends Panel {
       font: FELConstants.TITLE_FONT
     } );
 
-    const indicatorControl = new IndicatorControl( pickupCoil.indicatorProperty,
+    const indicatorControl = new IndicatorControl( pickupCoil.currentIndicatorProperty,
       tandem.createTandem( 'indicatorControl' ) );
 
     const numberOfLoopsControl = new NumberOfLoopsControl( pickupCoil.numberOfLoopsProperty,

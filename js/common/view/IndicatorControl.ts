@@ -13,7 +13,7 @@ import faradaysElectromagneticLab from '../../faradaysElectromagneticLab.js';
 import StringUnionProperty from '../../../../axon/js/StringUnionProperty.js';
 import Tandem from '../../../../tandem/js/Tandem.js';
 import VoltmeterNode from './VoltmeterNode.js';
-import { Indicator } from '../model/Indicator.js';
+import { CurrentIndicator } from '../model/CurrentIndicator.js';
 import FELConstants from '../FELConstants.js';
 import { HBox, Text } from '../../../../scenery/js/imports.js';
 import FaradaysElectromagneticLabStrings from '../../FaradaysElectromagneticLabStrings.js';
@@ -21,13 +21,13 @@ import FELLightBulbNode from './FELLightBulbNode.js';
 
 export default class IndicatorControl extends HBox {
 
-  public constructor( indicatorProperty: StringUnionProperty<Indicator>, tandem: Tandem ) {
+  public constructor( currentIndicatorProperty: StringUnionProperty<CurrentIndicator>, tandem: Tandem ) {
 
     const labelText = new Text( FaradaysElectromagneticLabStrings.indicatorStringProperty, {
       font: FELConstants.CONTROL_FONT
     } );
 
-    const radioButtonGroup = new IndicatorRadioButtonGroup( indicatorProperty, tandem.createTandem( 'radioButtonGroup' ) );
+    const radioButtonGroup = new IndicatorRadioButtonGroup( currentIndicatorProperty, tandem.createTandem( 'radioButtonGroup' ) );
 
     super( {
       spacing: 10,
@@ -38,11 +38,11 @@ export default class IndicatorControl extends HBox {
   }
 }
 
-class IndicatorRadioButtonGroup extends RectangularRadioButtonGroup<Indicator> {
+class IndicatorRadioButtonGroup extends RectangularRadioButtonGroup<CurrentIndicator> {
 
-  public constructor( indicatorProperty: StringUnionProperty<Indicator>, tandem: Tandem ) {
+  public constructor( currentIndicatorProperty: StringUnionProperty<CurrentIndicator>, tandem: Tandem ) {
 
-    const items: RectangularRadioButtonGroupItem<Indicator>[] = [
+    const items: RectangularRadioButtonGroupItem<CurrentIndicator>[] = [
       {
         value: 'lightBulb',
         createNode: ( tandem: Tandem ) => FELLightBulbNode.createIcon(),
@@ -55,7 +55,7 @@ class IndicatorRadioButtonGroup extends RectangularRadioButtonGroup<Indicator> {
       }
     ];
 
-    super( indicatorProperty, items, {
+    super( currentIndicatorProperty, items, {
       isDisposable: false,
       orientation: 'horizontal',
       spacing: 10,
