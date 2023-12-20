@@ -401,7 +401,7 @@ class FixedNumberOfSamplePointsStrategy extends SamplePointsStrategy {
     let index = 0;
     samplePoints[ index++ ] = new Vector2( xOffset, 0 );
 
-    // Points above and below the center
+    // Points below and above the center
     let y = 0;
     for ( let i = 0; i < numberOfSamplePointsOnRadius; i++ ) {
       y += ySpacing;
