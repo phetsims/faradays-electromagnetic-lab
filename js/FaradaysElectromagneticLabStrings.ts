@@ -30,6 +30,7 @@ type StringsType = {
   'electronsStringProperty': LocalizedStringProperty;
   'pickupCoilStringProperty': LocalizedStringProperty;
   'indicatorStringProperty': LocalizedStringProperty;
+  'voltageStringProperty': LocalizedStringProperty;
   'loopsStringProperty': LocalizedStringProperty;
   'loopRadiusStringProperty': LocalizedStringProperty;
   'electromagnetStringProperty': LocalizedStringProperty;

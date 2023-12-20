@@ -16,6 +16,7 @@ import { Node } from '../../../../scenery/js/imports.js';
 import PickupCoilSamplePointsNode from './PickupCoilSamplePointsNode.js';
 import Emitter from '../../../../axon/js/Emitter.js';
 import FELLightBulbNode from './FELLightBulbNode.js';
+import VoltmeterNode from './VoltmeterNode.js';
 
 export default class PickupCoilNode extends FELMovableNode {
 
@@ -41,10 +42,16 @@ export default class PickupCoilNode extends FELMovableNode {
       tandem: tandem.createTandem( 'lightBulbNode' )
     } );
 
+    const voltmeterNode = new VoltmeterNode( pickupCoil.voltmeter, pickupCoil.indicatorProperty, {
+      bottom: coilNode.top + pickupCoil.wireWidth + 2, // cover the coil's top connecting wire
+      centerX: coilNode.centerX,
+      tandem: tandem.createTandem( 'voltmeterNode' )
+    } );
+
     super( pickupCoil, {
 
       // This Node's children are the foreground elements only.
-      children: [ coilNode, samplePointsNode, lightBulbNode ], //TODO add voltmeterNode
+      children: [ coilNode, samplePointsNode, lightBulbNode, voltmeterNode ],
       tandem: tandem
     } );
 
