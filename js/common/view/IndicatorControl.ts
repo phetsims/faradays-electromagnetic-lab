@@ -47,7 +47,7 @@ class IndicatorRadioButtonGroup extends RectangularRadioButtonGroup<Indicator> {
     const items: RectangularRadioButtonGroupItem<Indicator>[] = [
       {
         value: 'lightBulb',
-        createNode: ( tandem: Tandem ) => FELLightBulbNode.createIcon( ICON_SCALE ),
+        createNode: ( tandem: Tandem ) => FELLightBulbNode.createIcon(),
         tandemName: 'lightBulbRadioButton'
       },
       {

@@ -22,7 +22,7 @@ export default class PickupCoilDeveloperAccordionBox extends FELDeveloperAccordi
       children: [
         FELDeveloperAccordionBox.createFieldScaleControl( model.barMagnet.fieldScaleProperty ),
         new HSeparator(),
-        FELDeveloperAccordionBox.createPickupCoilControls( model.pickupCoil, model.lightBulb )
+        FELDeveloperAccordionBox.createPickupCoilControls( model.pickupCoil )
       ]
     } );
 

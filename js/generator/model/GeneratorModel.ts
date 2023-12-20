@@ -15,16 +15,12 @@ import Vector2 from '../../../../dot/js/Vector2.js';
 import Turbine from './Turbine.js';
 import ImmediateCompass from '../../common/model/ImmediateCompass.js';
 import RangeWithValue from '../../../../dot/js/RangeWithValue.js';
-import LightBulb from '../../common/model/LightBulb.js';
 import FELModel from '../../common/model/FELModel.js';
-import Voltmeter from '../../common/model/Voltmeter.js';
 
 export default class GeneratorModel extends FELModel {
 
   public readonly turbine: Turbine;
   public readonly pickupCoil: PickupCoil;
-  public readonly lightBulb: LightBulb;
-  public readonly voltmeter: Voltmeter;
   public readonly compass: Compass;
   public readonly fieldMeter: FieldMeter;
 
@@ -45,13 +41,6 @@ export default class GeneratorModel extends FELModel {
       tandem: tandem.createTandem( 'pickupCoil' )
     } );
 
-    this.lightBulb = new LightBulb( this.pickupCoil, {
-      lightsWhenCurrentChangesDirection: false,
-      tandem: tandem.createTandem( 'lightBulb' )
-    } );
-
-    this.voltmeter = new Voltmeter( this.pickupCoil, tandem.createTandem( 'voltmeter' ) );
-
     this.compass = new ImmediateCompass( this.turbine, {
       position: new Vector2( 350, 175 ),
       tandem: tandem.createTandem( 'compass' )
@@ -66,7 +55,6 @@ export default class GeneratorModel extends FELModel {
     this.stepEmitter.addListener( dt => {
       this.turbine.step( dt );
       this.pickupCoil.step( dt );
-      this.voltmeter.step( dt );
       this.compass.step( dt );
     } );
   }
@@ -75,7 +63,6 @@ export default class GeneratorModel extends FELModel {
     super.reset();
     this.turbine.reset();
     this.pickupCoil.reset();
-    this.lightBulb.reset();
     this.compass.reset();
     this.fieldMeter.reset();
   }

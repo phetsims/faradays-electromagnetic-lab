@@ -22,6 +22,8 @@ import Range from '../../../../dot/js/Range.js';
 import Utils from '../../../../dot/js/Utils.js';
 import createObservableArray, { ObservableArray } from '../../../../axon/js/createObservableArray.js';
 import TReadOnlyProperty from '../../../../axon/js/TReadOnlyProperty.js';
+import LightBulb from './LightBulb.js';
+import Voltmeter from './Voltmeter.js';
 
 const WIRE_WIDTH = 16;
 const LOOP_SPACING = 1.5 * WIRE_WIDTH; // loosely-packed loops
@@ -38,7 +40,9 @@ export type PickupCoilOptions = SelfOptions &
 export default class PickupCoil extends Coil {
 
   private readonly magnet: Magnet;
-  
+  public readonly lightBulb: LightBulb;
+  public readonly voltmeter: Voltmeter;
+
   // Strategy used to create sample points
   private readonly samplePointsStrategy: SamplePointsStrategy;
 
@@ -124,6 +128,13 @@ export default class PickupCoil extends Coil {
 
     this.samplePointsStrategy = options.samplePointsStrategy;
 
+    this.lightBulb = new LightBulb( this, {
+      lightsWhenCurrentChangesDirection: true,
+      tandem: options.tandem.createTandem( 'lightBulb' )
+    } );
+
+    this.voltmeter = new Voltmeter( this, options.tandem.createTandem( 'voltmeter' ) );
+
     this._fluxProperty = new NumberProperty( 0, {
       units: 'Wb',
       tandem: options.tandem.createTandem( 'fluxProperty' ),
@@ -200,6 +211,8 @@ export default class PickupCoil extends Coil {
 
   public override reset(): void {
     super.reset();
+    this.lightBulb.reset();
+    this.voltmeter.reset();
     this._fluxProperty.reset();
     this._emfProperty.reset();
     this._averageBxProperty.reset();
@@ -213,6 +226,7 @@ export default class PickupCoil extends Coil {
   public step( dt: number ): void {
     //TODO beware of dependencies on SwingClock.java !!
     this.updateEMF( dt );
+    this.voltmeter.step( dt );
   }
 
   /**

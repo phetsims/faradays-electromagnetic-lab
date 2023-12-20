@@ -1,7 +1,7 @@
 // Copyright 2023, University of Colorado Boulder
 
 /**
- * TODO
+ * FELLightBulbNode is the visualization of the light bulb, used as an indicator of current in the pickup coil.
  *
  * @author Chris Malley (PixelZoom, Inc.)
  */
@@ -11,24 +11,30 @@ import { Image, Node } from '../../../../scenery/js/imports.js';
 import LightBulb from '../model/LightBulb.js';
 import Tandem from '../../../../tandem/js/Tandem.js';
 import LightBulbNode from '../../../../scenery-phet/js/LightBulbNode.js';
-import lightBulbIcon_png from '../../../images/lightBulbIcon_png.js';
+import TReadOnlyProperty from '../../../../axon/js/TReadOnlyProperty.js';
+import DerivedProperty from '../../../../axon/js/DerivedProperty.js';
+import { Indicator } from '../model/Indicator.js';
+import lightBulbOff_png from '../../../../scenery-phet/mipmaps/lightBulbOff_png.js';
 
 export default class FELLightBulbNode extends Node {
 
-  public constructor( lightBulb: LightBulb, tandem: Tandem ) {
+  public constructor( lightBulb: LightBulb, indicatorProperty: TReadOnlyProperty<Indicator>, tandem: Tandem ) {
 
-    const lightBulbNode = new LightBulbNode( lightBulb.brightnessProperty );
+    const lightBulbNode = new LightBulbNode( lightBulb.brightnessProperty, {
+      bulbImageScale: 0.45
+    } );
 
     //TODO add bulb base
 
     super( {
       children: [ lightBulbNode ],
+      visibleProperty: new DerivedProperty( [ indicatorProperty ], indicator => ( indicator === 'lightBulb' ) ),
       tandem: tandem
     } );
   }
 
-  public static createIcon( scale = 1 ): Node {
-    return new Image( lightBulbIcon_png, {
+  public static createIcon( scale = 0.2 ): Node {
+    return new Image( lightBulbOff_png, {
       scale: scale
     } );
   }

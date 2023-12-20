@@ -23,7 +23,7 @@ export default class TransformerDeveloperAccordionBox extends FELDeveloperAccord
         FELDeveloperAccordionBox.createFieldScaleControl( model.electromagnet.fieldScaleProperty ),
         FELDeveloperAccordionBox.createElectromagnetShapeCheckbox( model.electromagnet.shapeVisibleProperty ),
         new HSeparator(),
-        FELDeveloperAccordionBox.createPickupCoilControls( model.pickupCoil, model.lightBulb )
+        FELDeveloperAccordionBox.createPickupCoilControls( model.pickupCoil )
       ]
     } );
 

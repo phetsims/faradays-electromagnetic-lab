@@ -15,16 +15,12 @@ import PickupCoil from '../../common/model/PickupCoil.js';
 import Vector2 from '../../../../dot/js/Vector2.js';
 import IncrementalCompass from '../../common/model/IncrementalCompass.js';
 import RangeWithValue from '../../../../dot/js/RangeWithValue.js';
-import LightBulb from '../../common/model/LightBulb.js';
 import FELModel from '../../common/model/FELModel.js';
-import Voltmeter from '../../common/model/Voltmeter.js';
 
 export default class TransformerModel extends FELModel {
 
   public readonly electromagnet: Electromagnet;
   public readonly pickupCoil: PickupCoil;
-  public readonly lightBulb: LightBulb;
-  public readonly voltmeter: Voltmeter;
   public readonly compass: Compass;
   public readonly fieldMeter: FieldMeter;
 
@@ -46,13 +42,6 @@ export default class TransformerModel extends FELModel {
       tandem: tandem.createTandem( 'pickupCoil' )
     } );
 
-    this.lightBulb = new LightBulb( this.pickupCoil, {
-      lightsWhenCurrentChangesDirection: false,
-      tandem: tandem.createTandem( 'lightBulb' )
-    } );
-
-    this.voltmeter = new Voltmeter( this.pickupCoil, tandem.createTandem( 'voltmeter' ) );
-
     this.compass = new IncrementalCompass( this.electromagnet, {
       position: new Vector2( 100, 525 ),
       visible: false,
@@ -68,7 +57,6 @@ export default class TransformerModel extends FELModel {
     this.stepEmitter.addListener( dt => {
       this.electromagnet.step( dt );
       this.pickupCoil.step( dt );
-      this.voltmeter.step( dt );
       this.compass.step( dt );
     } );
   }
@@ -80,8 +68,6 @@ export default class TransformerModel extends FELModel {
     super.reset();
     this.electromagnet.reset();
     this.pickupCoil.reset();
-    this.lightBulb.reset();
-    this.voltmeter.reset();
     this.compass.reset();
     this.fieldMeter.reset();
   }

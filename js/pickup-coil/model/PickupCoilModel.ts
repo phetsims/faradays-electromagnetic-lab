@@ -15,16 +15,12 @@ import FieldMeter from '../../common/model/FieldMeter.js';
 import Compass from '../../common/model/Compass.js';
 import KinematicCompass from '../../common/model/KinematicCompass.js';
 import RangeWithValue from '../../../../dot/js/RangeWithValue.js';
-import LightBulb from '../../common/model/LightBulb.js';
 import FELModel from '../../common/model/FELModel.js';
-import Voltmeter from '../../common/model/Voltmeter.js';
 
 export default class PickupCoilModel extends FELModel {
 
   public readonly barMagnet: BarMagnet;
   public readonly pickupCoil: PickupCoil;
-  public readonly lightBulb: LightBulb;
-  public readonly voltmeter: Voltmeter;
   public readonly compass: Compass;
   public readonly fieldMeter: FieldMeter;
 
@@ -47,13 +43,6 @@ export default class PickupCoilModel extends FELModel {
       tandem: tandem.createTandem( 'pickupCoil' )
     } );
 
-    this.lightBulb = new LightBulb( this.pickupCoil, {
-      lightsWhenCurrentChangesDirection: true,
-      tandem: tandem.createTandem( 'lightBulb' )
-    } );
-
-    this.voltmeter = new Voltmeter( this.pickupCoil, tandem.createTandem( 'voltmeter' ) );
-
     this.compass = new KinematicCompass( this.barMagnet, {
       position: new Vector2( 150, 300 ),
       visible: false,
@@ -68,7 +57,6 @@ export default class PickupCoilModel extends FELModel {
 
     this.stepEmitter.addListener( dt => {
       this.pickupCoil.step( dt );
-      this.voltmeter.step( dt );
       this.compass.step( dt );
     } );
   }
@@ -77,8 +65,6 @@ export default class PickupCoilModel extends FELModel {
     super.reset();
     this.barMagnet.reset();
     this.pickupCoil.reset();
-    this.lightBulb.reset();
-    this.voltmeter.reset();
     this.compass.reset();
     this.fieldMeter.reset();
   }

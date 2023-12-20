@@ -27,7 +27,6 @@ import Utils from '../../../../dot/js/Utils.js';
 import Dimension2 from '../../../../dot/js/Dimension2.js';
 import ResetButton from '../../../../scenery-phet/js/buttons/ResetButton.js';
 import PickupCoil from '../model/PickupCoil.js';
-import LightBulb from '../model/LightBulb.js';
 
 // Developer controls are styled independently of controls in the UI, so that we can cram more of them in.
 const CONTROL_FONT_SIZE = 12;
@@ -88,7 +87,7 @@ export default class FELDeveloperAccordionBox extends AccordionBox {
   /**
    * Creates the set of controls related to the pickup coil and its indicators.
    */
-  public static createPickupCoilControls( pickupCoil: PickupCoil, lightBulb: LightBulb ): VBox {
+  public static createPickupCoilControls( pickupCoil: PickupCoil ): VBox {
     return new VBox( {
       align: 'left',
       spacing: VBOX_SPACING,
@@ -97,7 +96,7 @@ export default class FELDeveloperAccordionBox extends AccordionBox {
         new FELDeveloperNumberControl( 'Max EMF:', pickupCoil.maxEMFProperty, 0 /* decimalPlaces */ ),
         new FELDeveloperNumberControl( 'Transition Smoothing Scale:', pickupCoil.transitionSmoothingScaleProperty, 2 /* decimalPlaces */ ),
         new FELDeveloperNumberControl( 'Electron Speed Scale:', pickupCoil.electronSpeedScaleProperty, 1 /* decimalPlaces */ ),
-        new FELDeveloperNumberControl( 'Light Bulb Scale:', lightBulb.glowScaleProperty, 1 /* decimalPlaces */ ),
+        new FELDeveloperNumberControl( 'Light Bulb Scale:', pickupCoil.lightBulb.glowScaleProperty, 1 /* decimalPlaces */ ),
         new FELDeveloperCheckbox( 'Sample Points', pickupCoil.samplePointsVisibleProperty ),
         new FELDeveloperCheckbox( 'Debugger Panel', pickupCoil.debuggerPanelVisibleProperty )
       ]

@@ -22,7 +22,7 @@ export default class GeneratorDeveloperAccordionBox extends FELDeveloperAccordio
       children: [
         FELDeveloperAccordionBox.createFieldScaleControl( model.turbine.fieldScaleProperty ),
         new HSeparator(),
-        FELDeveloperAccordionBox.createPickupCoilControls( model.pickupCoil, model.lightBulb )
+        FELDeveloperAccordionBox.createPickupCoilControls( model.pickupCoil )
       ]
     } );
 
