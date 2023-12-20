@@ -277,8 +277,8 @@ export default class PickupCoil extends Coil {
   }
 
   /**
-   * Provides assistance for calibrating this coil. The easiest way to calibrate is to run the sim in with the
-   * &dev query parameter, then follow these steps for each screen that has a PickupCoil model element.
+   * Provides assistance for calibrating this coil. The easiest way to calibrate is to run the sim with the
+   * &log query parameter, then follow these steps for each screen that has a PickupCoil model element.
    *
    * 1. Set the "Max EMF" developer control to its smallest value.
    * 2. Set the model parameters to their maximums, so that maximum EMF will be generated.
