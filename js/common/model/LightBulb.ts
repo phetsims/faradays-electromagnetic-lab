@@ -34,10 +34,6 @@ export default class LightBulb extends PhetioObject {
   public readonly brightnessProperty: TReadOnlyProperty<number>;
   private readonly _brightnessProperty: NumberProperty;
 
-  // *** Writeable via developer controls only, when running with &dev query parameter. ***
-  // Scales the modulation of alpha that is used to make the light bulb glow.
-  public readonly glowScaleProperty: NumberProperty;
-
   public constructor( pickupCoil: PickupCoil, providedOptions: LightBulbOptions ) {
 
     const options = optionize<LightBulbOptions, SelfOptions, PhetioObjectOptions>()( {
@@ -47,12 +43,6 @@ export default class LightBulb extends PhetioObject {
     }, providedOptions );
 
     super( options );
-
-    //TODO make this [0,1], with default 0.15 ?
-    this.glowScaleProperty = new NumberProperty( 15, {
-      range: new Range( 1, 100 )
-      // Do not instrument. This is a PhET developer Property.
-    } );
 
     // Unfortunately cannot be a DerivedProperty, because the derivation depends on both the new and old value
     // of pickupCoil.currentAmplitudeProperty.
@@ -89,7 +79,6 @@ export default class LightBulb extends PhetioObject {
 
   public reset(): void {
     this._brightnessProperty.reset();
-    // Do not reset glowScaleProperty, it is a developer control.
   }
 }
 
