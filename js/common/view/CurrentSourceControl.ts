@@ -45,7 +45,7 @@ class CurrentSourceRadioButtonGroup extends RectangularRadioButtonGroup<CurrentS
     const items: RectangularRadioButtonGroupItem<CurrentSource>[] = [
       {
         value: 'battery',
-        createNode: ( tandem: Tandem ) => BatteryNode.createIcon( ICON_SCALE ),
+        createNode: ( tandem: Tandem ) => BatteryNode.createIcon(),
         tandemName: 'batteryRadioButton'
       },
       {

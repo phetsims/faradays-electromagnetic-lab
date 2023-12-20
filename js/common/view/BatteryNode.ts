@@ -8,13 +8,12 @@
 
 import faradaysElectromagneticLab from '../../faradaysElectromagneticLab.js';
 import { Image, Node } from '../../../../scenery/js/imports.js';
-import batteryIcon_png from '../../../images/batteryIcon_png.js';
+import batteryDCell_png from '../../../../scenery-phet/images/batteryDCell_png.js';
 
 export default class BatteryNode extends Node {
 
-  //TODO replace image file with code-generated icon
-  public static createIcon( scale = 1 ): Node {
-    return new Image( batteryIcon_png, {
+  public static createIcon( scale = 0.5 ): Node {
+    return new Image( batteryDCell_png, {
       scale: scale
     } );
   }
