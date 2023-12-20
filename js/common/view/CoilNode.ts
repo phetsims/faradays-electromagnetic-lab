@@ -83,7 +83,8 @@ export default class CoilNode extends Node {
       endsConnected: false,
 
       // NodeOptions
-      isDisposable: false
+      isDisposable: false,
+      phetioVisiblePropertyInstrumented: false
     }, providedOptions );
 
     super( options );

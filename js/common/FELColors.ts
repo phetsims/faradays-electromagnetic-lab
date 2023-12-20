@@ -134,6 +134,18 @@ const FELColors = {
 
   coilBackColorProperty: new ProfileColorProperty( faradaysElectromagneticLab, 'coilBackColor', {
     default: 'rgb( 40, 23, 3 )' // darker brown
+  } ),
+
+  lightBulbBaseColorProperty: new ProfileColorProperty( faradaysElectromagneticLab, 'lightBulbBaseColor', {
+    default: Color.grayColor( 153 )
+  } ),
+
+  lightBulbSocketColorProperty: new ProfileColorProperty( faradaysElectromagneticLab, 'lightBulbSocketColor', {
+    default: Color.grayColor( 200 )
+  } ),
+
+  lightRaysColorProperty: new ProfileColorProperty( faradaysElectromagneticLab, 'lightRaysColor', {
+    default: 'yellow'
   } )
 };
 
