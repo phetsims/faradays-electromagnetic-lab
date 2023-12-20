@@ -85,12 +85,14 @@ export default class PickupCoil extends Coil {
   // sample is multiplied by this value.
   //
   // To set this value, follow these steps:
-  // * enable the developer controls for "pickup transition scale" and "display flux"
-  // * move the magnet horizontally through the coil until, by moving it one pixel, you see an abrupt change in the
+  // * Run with &dev query parameter to see developer accordion boxes. For screens that have a pickup coil:
+  // * Check the "Debugger Panel" checkbox to see the "Pickup Coil debugger" panel, which displays flux and other values.
+  // * Move the magnet horizontally through the coil until, by moving it one pixel, you see an abrupt change in the
   //   displayed flux value.
-  // * note the 2 flux values when the abrupt change occurs
-  // * move the magnet so that the largest of the 2 flux values is displayed
-  // * adjust the developer control until the larger value is reduced to approximately the same value as the smaller value.
+  // * Note the 2 flux values when the abrupt change occurs.
+  // * Move the magnet so that the largest of the 2 flux values is displayed.
+  // * Adjust the "Transition Smoothing Scale" developer control until the larger value is reduced to approximately
+  //   the same value as the smaller value.
   public readonly transitionSmoothingScaleProperty: NumberProperty;
 
   // *** Writeable via developer controls only, when running with &dev query parameter. ***
