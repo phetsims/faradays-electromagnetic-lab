@@ -4,6 +4,7 @@
 
 /**
  * VoltmeterNode is the visualization of the voltmeter, used as an indicator of current in the pickup coil.
+ * The origin is at the center bottom of the body.
  *
  * @author Chris Malley (PixelZoom, Inc.)
  */

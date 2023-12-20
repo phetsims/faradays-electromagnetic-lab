@@ -43,13 +43,13 @@ export default class PickupCoilNode extends FELMovableNode {
     // Dynamically position the light bulb and voltmeter when the size of the coil changes.
     coilNode.boundsProperty.link( () => {
 
-      // Position the light bulb.
-      lightBulbNode.bottom = coilNode.top + pickupCoil.wireWidth + 2; // cover the coil's top connecting wire
-      lightBulbNode.centerX = coilNode.centerX;
+      // Position the light bulb using x,y because there may be light rays present.
+      lightBulbNode.x = coilNode.centerX;
+      lightBulbNode.y = coilNode.top + pickupCoil.wireWidth + 2; // cover the coil's top connecting wire
 
       // Position the voltmeter.
-      voltmeterNode.bottom = coilNode.top + pickupCoil.wireWidth + 2; // cover the coil's top connecting wire
       voltmeterNode.centerX = coilNode.centerX;
+      voltmeterNode.bottom = coilNode.top + pickupCoil.wireWidth + 2; // cover the coil's top connecting wire
     } );
 
     super( pickupCoil, {

@@ -2,6 +2,7 @@
 
 /**
  * FELLightBulbNode is the visualization of the light bulb, used as an indicator of current in the pickup coil.
+ * The origin is at the center bottom of the base.
  *
  * @author Chris Malley (PixelZoom, Inc.)
  */
@@ -19,6 +20,7 @@ import Bounds2 from '../../../../dot/js/Bounds2.js';
 import FELColors from '../FELColors.js';
 import BooleanIO from '../../../../tandem/js/types/BooleanIO.js';
 import Tandem from '../../../../tandem/js/Tandem.js';
+import Vector2 from '../../../../dot/js/Vector2.js';
 
 export default class FELLightBulbNode extends Node {
 
@@ -26,7 +28,8 @@ export default class FELLightBulbNode extends Node {
 
     const baseNode = new ShadedRectangle( new Bounds2( 0, 0, 150, 20 ), {
       baseColor: FELColors.lightBulbBaseColorProperty,
-      cornerRadius: 5
+      cornerRadius: 5,
+      centerBottom: Vector2.ZERO // origin at center bottom of the base
     } );
 
     const socketNode = new ShadedRectangle( new Bounds2( 0, 0, 38, 20 ), {
