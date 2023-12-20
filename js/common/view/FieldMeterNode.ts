@@ -26,6 +26,7 @@ import Tandem from '../../../../tandem/js/Tandem.js';
 import Vector2 from '../../../../dot/js/Vector2.js';
 import Dimension2 from '../../../../dot/js/Dimension2.js';
 import StringDisplay, { StringDisplayOptions } from './StringDisplay.js';
+import StringUtils from '../../../../phetcommon/js/util/StringUtils.js';
 
 const BStringProperty = FaradaysElectromagneticLabStrings.symbol.BStringProperty;
 const xStringProperty = FaradaysElectromagneticLabStrings.symbol.xStringProperty;
@@ -166,29 +167,36 @@ export default class FieldMeterNode extends FELMovableNode {
 
 /**
  * Converts a numeric gauss value to a RichText string in gauss, in decimal notation.
+ * If the value is exactly zero, display '0' with no decimal places.
  */
 function toGaussString( gauss: number, G: string ): string {
-  if ( gauss === 0 ) {
-    return `0 ${G}`; // If the value is exactly zero, display '0' with no decimal places.
-  }
-  else {
-    return `${Utils.toFixed( gauss, G_DECIMAL_PLACES )} ${G}`;
-  }
+  const stringValue = ( gauss === 0 ) ? '0' : Utils.toFixed( gauss, G_DECIMAL_PLACES );
+  return StringUtils.fillIn( FaradaysElectromagneticLabStrings.pattern.valueUnitsStringProperty, {
+    value: stringValue,
+    units: G
+  } );
 }
 
 /**
  * Converts a numeric gauss value to a RichText string in tesla, in *normalized* scientific notation (0 <= |mantissa| < 10).
+ * If the value is exactly zero, display '0' with no decimal places.
  */
 function toTeslaString( gauss: number, T: string ): string {
+  let stringValue: string;
   if ( gauss === 0 ) {
-    return `0 ${T}`; // If the value is exactly zero, display '0' with no decimal places.
+    stringValue = '0';
   }
   else {
     const tesla = ( gauss / 10000 ).toExponential( T_DECIMAL_PLACES );
     const tokens = `${tesla}`.split( 'e' );
     assert && assert( tokens.length === 2, `unexpected tokens for ${tesla}` );
-    return `${tokens[ 0 ]} ${MathSymbols.TIMES} 10<sup>${tokens[ 1 ]}</sup> ${T}`;
+    stringValue = `${tokens[ 0 ]} ${MathSymbols.TIMES} 10<sup>${tokens[ 1 ]}</sup>`;
   }
+
+  return StringUtils.fillIn( FaradaysElectromagneticLabStrings.pattern.valueUnitsStringProperty, {
+    value: stringValue,
+    units: T
+  } );
 }
 
 /**
