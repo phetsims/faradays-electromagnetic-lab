@@ -20,13 +20,16 @@ import DerivedProperty from '../../../../axon/js/DerivedProperty.js';
 import BooleanIO from '../../../../tandem/js/types/BooleanIO.js';
 import FaradaysElectromagneticLabStrings from '../../FaradaysElectromagneticLabStrings.js';
 import PhetFont from '../../../../scenery-phet/js/PhetFont.js';
+import ArrowNode from '../../../../scenery-phet/js/ArrowNode.js';
 
+// Body and display area
 const BODY_BOUNDS = new Bounds2( 0, 0, 172, 112 );
 const X_MARGIN = 10;
 const TOP_MARGIN = 10;
 const BOTTOM_MARGIN = 15;
 const DISPLAY_BOUNDS = new Bounds2( X_MARGIN, TOP_MARGIN, BODY_BOUNDS.width - X_MARGIN, BODY_BOUNDS.height - TOP_MARGIN - BOTTOM_MARGIN );
 const CORNER_RADIUS = 10;
+const NEEDLE_LENGTH = ( 0.8 * DISPLAY_BOUNDS.height );
 
 type SelfOptions = EmptySelfOptions;
 
@@ -57,10 +60,19 @@ export default class VoltmeterNode extends Node {
       voltageText.centerY = displayAreaNode.bottom + ( Math.abs( displayAreaNode.bottom - bodyNode.bottom ) / 2 );
     } );
 
+    const needleNode = new ArrowNode( 0, 0, 0, -NEEDLE_LENGTH, {
+      headHeight: 15,
+      headWidth: 13,
+      tailWidth: 3,
+      fill: 'blue', //TODO color profile,
+      x: displayAreaNode.centerX,
+      y: displayAreaNode.bottom - Math.abs( ( DISPLAY_BOUNDS.height - NEEDLE_LENGTH ) / 2 )
+    } );
+
     const options = optionize<VoltmeterNodeOptions, SelfOptions, NodeOptions>()( {
 
       // NodeOptions
-      children: [ bodyNode, displayAreaNode, voltageText ],
+      children: [ bodyNode, displayAreaNode, voltageText, needleNode ],
       visibleProperty: new DerivedProperty( [ indicatorProperty ], indicator => ( indicator === 'voltmeter' ), {
         tandem: providedOptions.tandem.createTandem( 'visibleProperty' ),
         phetioValueType: BooleanIO
@@ -68,6 +80,10 @@ export default class VoltmeterNode extends Node {
     }, providedOptions );
 
     super( options );
+
+    voltmeter.needleAngleProperty.link( needleAngle => {
+      needleNode.rotation = needleAngle;
+    } );
   }
 
   //TODO replace image file with code-generated icon
