@@ -7,7 +7,7 @@
  */
 
 import faradaysElectromagneticLab from '../../faradaysElectromagneticLab.js';
-import { Image, Node, NodeOptions, NodeTranslationOptions } from '../../../../scenery/js/imports.js';
+import { Image, Node } from '../../../../scenery/js/imports.js';
 import LightBulb from '../model/LightBulb.js';
 import LightBulbNode from '../../../../scenery-phet/js/LightBulbNode.js';
 import TReadOnlyProperty from '../../../../axon/js/TReadOnlyProperty.js';
@@ -16,18 +16,13 @@ import { Indicator } from '../model/Indicator.js';
 import lightBulbOff_png from '../../../../scenery-phet/mipmaps/lightBulbOff_png.js';
 import ShadedRectangle from '../../../../scenery-phet/js/ShadedRectangle.js';
 import Bounds2 from '../../../../dot/js/Bounds2.js';
-import optionize, { EmptySelfOptions } from '../../../../phet-core/js/optionize.js';
-import PickRequired from '../../../../phet-core/js/types/PickRequired.js';
 import FELColors from '../FELColors.js';
 import BooleanIO from '../../../../tandem/js/types/BooleanIO.js';
-
-type SelfOptions = EmptySelfOptions;
-
-type FELLightBulbNodeOptions = SelfOptions & NodeTranslationOptions & PickRequired<NodeOptions, 'tandem'>;
+import Tandem from '../../../../tandem/js/Tandem.js';
 
 export default class FELLightBulbNode extends Node {
 
-  public constructor( lightBulb: LightBulb, indicatorProperty: TReadOnlyProperty<Indicator>, providedOptions: FELLightBulbNodeOptions ) {
+  public constructor( lightBulb: LightBulb, indicatorProperty: TReadOnlyProperty<Indicator>, tandem: Tandem ) {
 
     const baseNode = new ShadedRectangle( new Bounds2( 0, 0, 150, 20 ), {
       baseColor: FELColors.lightBulbBaseColorProperty,
@@ -59,17 +54,14 @@ export default class FELLightBulbNode extends Node {
       bottom: socketNode.top + 5 // overlap enough to make the bulb appear to be in the socket
     } );
 
-    const options = optionize<FELLightBulbNodeOptions, SelfOptions, NodeOptions>()( {
-
-      // NodeOptions
+    super( {
       children: [ bulbNode, socketNode, baseNode ],
       visibleProperty: new DerivedProperty( [ indicatorProperty ], indicator => ( indicator === 'lightBulb' ), {
-        tandem: providedOptions.tandem.createTandem( 'visibleProperty' ),
+        tandem: tandem.createTandem( 'visibleProperty' ),
         phetioValueType: BooleanIO
-      } )
-    }, providedOptions );
-
-    super( options );
+      } ),
+      tandem: tandem
+    } );
 
     this.addLinkedElement( lightBulb );
   }

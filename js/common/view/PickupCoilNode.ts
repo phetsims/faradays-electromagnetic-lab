@@ -36,16 +36,22 @@ export default class PickupCoilNode extends FELMovableNode {
 
     const samplePointsNode = new PickupCoilSamplePointsNode( pickupCoil );
 
-    const lightBulbNode = new FELLightBulbNode( pickupCoil.lightBulb, pickupCoil.indicatorProperty, {
-      bottom: coilNode.top + pickupCoil.wireWidth + 2, // cover the coil's top connecting wire
-      centerX: coilNode.centerX,
-      tandem: tandem.createTandem( 'lightBulbNode' )
-    } );
+    const lightBulbNode = new FELLightBulbNode( pickupCoil.lightBulb, pickupCoil.indicatorProperty,
+      tandem.createTandem( 'lightBulbNode' ) );
 
-    const voltmeterNode = new VoltmeterNode( pickupCoil.voltmeter, pickupCoil.indicatorProperty, {
-      bottom: coilNode.top + pickupCoil.wireWidth + 2, // cover the coil's top connecting wire
-      centerX: coilNode.centerX,
-      tandem: tandem.createTandem( 'voltmeterNode' )
+    const voltmeterNode = new VoltmeterNode( pickupCoil.voltmeter, pickupCoil.indicatorProperty,
+      tandem.createTandem( 'voltmeterNode' ) );
+
+    // Dynamically position the light bulb and voltmeter when the size of the coil changes.
+    coilNode.boundsProperty.link( () => {
+
+      // Position the light bulb.
+      lightBulbNode.bottom = coilNode.top + pickupCoil.wireWidth + 2; // cover the coil's top connecting wire
+      lightBulbNode.centerX = coilNode.centerX;
+
+      // Position the voltmeter.
+      voltmeterNode.bottom = coilNode.top + pickupCoil.wireWidth + 2; // cover the coil's top connecting wire
+      voltmeterNode.centerX = coilNode.centerX;
     } );
 
     super( pickupCoil, {

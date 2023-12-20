@@ -13,8 +13,7 @@ import { Circle, Line, Node, NodeOptions, NodeTranslationOptions, Path, Text, Te
 import Voltmeter from '../model/Voltmeter.js';
 import ShadedRectangle, { ShadedRectangleOptions } from '../../../../scenery-phet/js/ShadedRectangle.js';
 import Bounds2 from '../../../../dot/js/Bounds2.js';
-import optionize, { combineOptions, EmptySelfOptions } from '../../../../phet-core/js/optionize.js';
-import PickRequired from '../../../../phet-core/js/types/PickRequired.js';
+import { combineOptions } from '../../../../phet-core/js/optionize.js';
 import TReadOnlyProperty from '../../../../axon/js/TReadOnlyProperty.js';
 import { Indicator } from '../model/Indicator.js';
 import DerivedProperty from '../../../../axon/js/DerivedProperty.js';
@@ -26,6 +25,7 @@ import FELColors from '../FELColors.js';
 import { Shape } from '../../../../kite/js/imports.js';
 import MathSymbols from '../../../../scenery-phet/js/MathSymbols.js';
 import Vector2 from '../../../../dot/js/Vector2.js';
+import Tandem from '../../../../tandem/js/Tandem.js';
 
 // Body and display area
 const BODY_BOUNDS = new Bounds2( 0, 0, 172, 112 );
@@ -67,13 +67,9 @@ const MINOR_TICKS_PER_MAJOR_TICK = 4;
 const MAJOR_TICK_LENGTH = 8;
 const MINOR_TICK_LENGTH = 4;
 
-type SelfOptions = EmptySelfOptions;
-
-type VoltmeterNodeOptions = SelfOptions & NodeTranslationOptions & PickRequired<NodeOptions, 'tandem'>;
-
 export default class VoltmeterNode extends Node {
 
-  public constructor( voltmeter: Voltmeter, indicatorProperty: TReadOnlyProperty<Indicator>, providedOptions: VoltmeterNodeOptions ) {
+  public constructor( voltmeter: Voltmeter, indicatorProperty: TReadOnlyProperty<Indicator>, tandem: Tandem ) {
 
     const bodyNode = new ShadedRectangle( BODY_BOUNDS, BODY_OPTIONS );
 
@@ -108,17 +104,14 @@ export default class VoltmeterNode extends Node {
       bottom: needleNode.bottom
     } );
 
-    const options = optionize<VoltmeterNodeOptions, SelfOptions, NodeOptions>()( {
-
-      // NodeOptions
+    super( {
       children: [ bodyNode, displayNode, voltageText, gaugeNode, needleNode, screwNode ],
       visibleProperty: new DerivedProperty( [ indicatorProperty ], indicator => ( indicator === 'voltmeter' ), {
-        tandem: providedOptions.tandem.createTandem( 'visibleProperty' ),
+        tandem: tandem.createTandem( 'visibleProperty' ),
         phetioValueType: BooleanIO
-      } )
-    }, providedOptions );
-
-    super( options );
+      } ),
+      tandem: tandem
+    } );
 
     voltmeter.needleAngleProperty.link( needleAngle => {
       needleNode.rotation = needleAngle;
