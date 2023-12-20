@@ -37,10 +37,12 @@ const GAUGE_RADIUS = NEEDLE_LENGTH;
 
 // Options shared by VoltmeterNode and its icon
 const BODY_OPTIONS: ShadedRectangleOptions = {
+  lightSource: 'leftTop',
   baseColor: FELColors.voltmeterBodyColorProperty,
   cornerRadius: CORNER_RADIUS
 };
 const DISPLAY_OPTIONS: ShadedRectangleOptions = {
+  lightSource: 'rightBottom', // opposite BODY_OPTIONS.lightSource, so that the display feels inset
   baseColor: FELColors.voltmeterDisplayColorProperty,
   cornerRadius: CORNER_RADIUS
 };
