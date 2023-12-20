@@ -36,8 +36,8 @@ export default class TransformerModel extends FELModel {
 
     this.pickupCoil = new PickupCoil( this.electromagnet, {
       position: new Vector2( 500, 400 ),
-      maxEMF: 3500000,
-      transitionSmoothingScale: 0.56,
+      maxEMF: 3500000, // see PickupCoil.calibrateMaxEMF
+      transitionSmoothingScale: 0.56, // see PickupCoil.transitionSmoothingScaleProperty
       electronSpeedScale: 2,
       //TODO samplePointsStrategy: new FixedSpacingSamplePointsStrategy(...),
       tandem: tandem.createTandem( 'pickupCoil' )

@@ -36,8 +36,8 @@ export default class GeneratorModel extends FELModel {
 
     this.pickupCoil = new PickupCoil( this.turbine, {
       position: new Vector2( 500, 400 ),
-      maxEMF: 26000,
-      transitionSmoothingScale: 1,
+      maxEMF: 26000, // see PickupCoil.calibrateMaxEMF
+      transitionSmoothingScale: 1, // see PickupCoil.transitionSmoothingScaleProperty
       tandem: tandem.createTandem( 'pickupCoil' )
     } );
 
