@@ -1,6 +1,7 @@
 // Copyright 2023, University of Colorado Boulder
 
 //TODO Move electrons and coilSegments to the Coil model, remove stepEmitter
+//TODO Put a drag rectangle over the entire coil, so that it's draggable by foreground and background.
 
 /**
  * CoilNode is the visualization of a coil of wire. In order to simulate objects passing "through" the
