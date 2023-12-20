@@ -35,7 +35,6 @@ const NEEDLE_JIGGLE_THRESHOLD = Utils.toRadians( 0.5 );
 const NEEDLE_LIVELINESS = 0.6;
 assert && assert( NEEDLE_LIVELINESS > 0 && NEEDLE_LIVELINESS < 1 );
 
-
 export default class Voltmeter extends PhetioObject {
 
   // The pickup coil whose current amplitude the voltmeter is measuring

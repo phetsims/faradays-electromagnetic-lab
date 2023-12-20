@@ -22,6 +22,7 @@ import NumberProperty from '../../../../axon/js/NumberProperty.js';
 const MAX_COIL_SEGMENT_POSITION_DELTA = 0.15;
 const COIL_SEGMENT_POSITION_RANGE = new Range( 0, 1 );
 
+//TODO document
 type SelfOptions = {
   coilSegments: CoilSegment[];
   coilSegmentIndex: number;

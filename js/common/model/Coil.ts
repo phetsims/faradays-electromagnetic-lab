@@ -19,9 +19,9 @@ import BooleanProperty from '../../../../axon/js/BooleanProperty.js';
 type SelfOptions = {
   numberOfLoopsRange: RangeWithValue; // range and initial value for numberOfLoopsProperty
   loopRadiusRange: RangeWithValue; // range and initial value for loopRadiusProperty, unitless
-  wireWidth?: number;
-  loopSpacing?: number;
-  electronSpeedScale?: number;
+  wireWidth?: number; //TODO document
+  loopSpacing?: number; //TODO document
+  electronSpeedScale?: number; //TODO document
 };
 
 export type CoilOptions = SelfOptions & FELMovableOptions;
