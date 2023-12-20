@@ -92,7 +92,9 @@ export default class CoilNode extends Node {
 
     this.coil = coil;
 
-    this.backgroundNode = new Node();
+    this.backgroundNode = new Node( {
+      visibleProperty: this.visibleProperty
+    } );
 
     this.electronAnimationEnabled = false;
 
