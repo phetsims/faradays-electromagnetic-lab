@@ -85,7 +85,7 @@ export default class FELDeveloperAccordionBox extends AccordionBox {
   }
 
   /**
-   * Creates the set of controls related to the pickup coil and its indicators.
+   * Creates the set of controls related to the pickup coil.
    */
   public static createPickupCoilControls( pickupCoil: PickupCoil ): VBox {
     return new VBox( {

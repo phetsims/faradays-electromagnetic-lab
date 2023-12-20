@@ -1,9 +1,8 @@
 // Copyright 2023, University of Colorado Boulder
 
-//TODO Give this a more descriptive name.
-
 /**
- * IndicatorControl is the control for choosing an EMF indicator for the pickup coil. It is a labeled radio button group.
+ * CurrentIndicatorControl is the control for choosing a device that detects current in the pickup coil.
+ * It is a labeled radio button group.
  *
  * @author Chris Malley (PixelZoom, Inc.)
  */
@@ -19,7 +18,7 @@ import { HBox, Text } from '../../../../scenery/js/imports.js';
 import FaradaysElectromagneticLabStrings from '../../FaradaysElectromagneticLabStrings.js';
 import FELLightBulbNode from './FELLightBulbNode.js';
 
-export default class IndicatorControl extends HBox {
+export default class CurrentIndicatorControl extends HBox {
 
   public constructor( currentIndicatorProperty: StringUnionProperty<CurrentIndicator>, tandem: Tandem ) {
 
@@ -27,7 +26,7 @@ export default class IndicatorControl extends HBox {
       font: FELConstants.CONTROL_FONT
     } );
 
-    const radioButtonGroup = new IndicatorRadioButtonGroup( currentIndicatorProperty, tandem.createTandem( 'radioButtonGroup' ) );
+    const radioButtonGroup = new CurrentIndicatorRadioButtonGroup( currentIndicatorProperty, tandem.createTandem( 'radioButtonGroup' ) );
 
     super( {
       spacing: 10,
@@ -38,7 +37,7 @@ export default class IndicatorControl extends HBox {
   }
 }
 
-class IndicatorRadioButtonGroup extends RectangularRadioButtonGroup<CurrentIndicator> {
+class CurrentIndicatorRadioButtonGroup extends RectangularRadioButtonGroup<CurrentIndicator> {
 
   public constructor( currentIndicatorProperty: StringUnionProperty<CurrentIndicator>, tandem: Tandem ) {
 
@@ -66,4 +65,4 @@ class IndicatorRadioButtonGroup extends RectangularRadioButtonGroup<CurrentIndic
   }
 }
 
-faradaysElectromagneticLab.register( 'IndicatorControl', IndicatorControl );
+faradaysElectromagneticLab.register( 'CurrentIndicatorControl', CurrentIndicatorControl );
