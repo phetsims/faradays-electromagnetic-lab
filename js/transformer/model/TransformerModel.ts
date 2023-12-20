@@ -39,6 +39,7 @@ export default class TransformerModel extends FELModel {
       maxEMF: 3500000,
       transitionSmoothingScale: 0.56,
       electronSpeedScale: 2,
+      //TODO samplePointsStrategy: new FixedSpacingSamplePointsStrategy(...),
       tandem: tandem.createTandem( 'pickupCoil' )
     } );
 
