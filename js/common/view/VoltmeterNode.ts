@@ -145,7 +145,8 @@ export default class VoltmeterNode extends Node {
 
     return new Node( {
       children: [ bodyNode, displayNode, needleNode ],
-      scale: scale
+      scale: scale,
+      pickable: false
     } );
   }
 }

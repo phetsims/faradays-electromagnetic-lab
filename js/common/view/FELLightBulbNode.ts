@@ -79,7 +79,8 @@ export default class FELLightBulbNode extends Node {
    */
   public static createIcon( scale = 0.2 ): Node {
     return new Image( lightBulbOff_png, {
-      scale: scale
+      scale: scale,
+      pickable: false
     } );
   }
 }
