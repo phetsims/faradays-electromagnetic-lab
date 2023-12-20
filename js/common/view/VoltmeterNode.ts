@@ -50,7 +50,8 @@ const NEEDLE_OPTIONS: ArrowNodeOptions = {
   headHeight: 15,
   headWidth: 12,
   tailWidth: 3,
-  fill: FELColors.voltmeterNeedleColorProperty
+  fill: FELColors.voltmeterNeedleColorProperty,
+  stroke: null
 };
 const GAUGE_TEXT_OPTIONS: TextOptions = {
   font: new PhetFont( { size: 20, weight: 'bold' } ),
@@ -87,7 +88,10 @@ export default class VoltmeterNode extends Node {
       voltageText.centerY = displayNode.bottom + ( Math.abs( displayNode.bottom - bodyNode.bottom ) / 2 );
     } );
 
-    const needleNode = new ArrowNode( 0, 0, 0, -NEEDLE_LENGTH, NEEDLE_OPTIONS );
+    const needleNode = new ArrowNode( 0, 0, 0, -NEEDLE_LENGTH, combineOptions<ArrowNodeOptions>( {
+      x: displayNode.centerX,
+      y: displayNode.bottom - Math.abs( ( DISPLAY_BOUNDS.height - NEEDLE_LENGTH ) / 2 )
+    }, NEEDLE_OPTIONS ) );
 
     // Screw that holds the needle in place.
     const screwNode = new Circle( {
@@ -102,16 +106,10 @@ export default class VoltmeterNode extends Node {
       bottom: needleNode.bottom
     } );
 
-    // Stuff that's shown in the display
-    const contentNode = new Node( {
-      children: [ gaugeNode, needleNode, screwNode ],
-      center: displayNode.center
-    } );
-
     const options = optionize<VoltmeterNodeOptions, SelfOptions, NodeOptions>()( {
 
       // NodeOptions
-      children: [ bodyNode, displayNode, voltageText, contentNode ],
+      children: [ bodyNode, displayNode, voltageText, gaugeNode, needleNode, screwNode ],
       visibleProperty: new DerivedProperty( [ indicatorProperty ], indicator => ( indicator === 'voltmeter' ), {
         tandem: providedOptions.tandem.createTandem( 'visibleProperty' ),
         phetioValueType: BooleanIO
@@ -135,10 +133,13 @@ export default class VoltmeterNode extends Node {
 
     const displayNode = new ShadedRectangle( DISPLAY_BOUNDS, DISPLAY_OPTIONS );
 
-    const needleNode = new ArrowNode( 0, 0, 0, -NEEDLE_LENGTH, {
+    const needleNode = new ArrowNode( 0, 0, 0, -NEEDLE_LENGTH, combineOptions<ArrowNodeOptions>( {}, NEEDLE_OPTIONS, {
+      headHeight: 25,
+      headWidth: 20,
+      tailWidth: 5,
       x: displayNode.centerX,
       y: displayNode.bottom - Math.abs( ( DISPLAY_BOUNDS.height - NEEDLE_LENGTH ) / 2 )
-    } );
+    } ) );
 
     return new Node( {
       children: [ bodyNode, displayNode, needleNode ],
