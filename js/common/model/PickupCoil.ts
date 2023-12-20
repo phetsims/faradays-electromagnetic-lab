@@ -74,7 +74,7 @@ export default class PickupCoil extends Coil {
   // *** Writeable via developer controls only, when running with &dev query parameter. ***
   // Dividing the coil's EMF by this number will give us the coil's current amplitude, a number between 0 and 1 that
   // determines the responsiveness of view components. This number should be set as close as possible to the maximum
-  // EMF that can be induced given the range of all model parameters. See PickupCoil.calibrateEmf for guidance on how
+  // EMF that can be induced given the range of all model parameters. See calibrateMaxEMF for guidance on how
   // to set this.
   public readonly maxEMFProperty: NumberProperty;
 
