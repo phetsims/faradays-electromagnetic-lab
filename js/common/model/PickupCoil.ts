@@ -383,7 +383,7 @@ class FixedNumberOfSamplePointsStrategy extends SamplePointsStrategy {
 
   public constructor( numberOfSamplePoints: number ) {
     assert && assert( Number.isInteger( numberOfSamplePoints ) && numberOfSamplePoints > 0 && numberOfSamplePoints % 2 === 1,
-      `invalid numberOfSamplePoints=${numberOfSamplePoints}, should be an odd integer` );
+      `invalid numberOfSamplePoints=${numberOfSamplePoints}, must be an odd integer` );
     super();
     this.numberOfSamplePoints = numberOfSamplePoints;
   }
