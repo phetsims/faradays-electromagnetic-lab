@@ -20,8 +20,6 @@ import VoltmeterNode from './VoltmeterNode.js';
 
 export default class PickupCoilNode extends FELMovableNode {
 
-  private readonly coilNode: CoilNode;
-
   // The background layer, intended to be added to the scenegraph behind the B-field, magnet, and compass, so that
   // it looks like those things are passing through the coil. It is the responsibility of the instantiator to add
   // backgroundNode to the scenegraph.
@@ -61,8 +59,7 @@ export default class PickupCoilNode extends FELMovableNode {
       tandem: tandem
     } );
 
-    this.coilNode = coilNode;
-    this.backgroundNode = this.coilNode.backgroundNode;
+    this.backgroundNode = coilNode.backgroundNode;
 
     // Because backgroundNode is added to the scenegraph elsewhere, ensure that its visibility remains synchronized with this Node.
     this.visibleProperty.link( visible => {
