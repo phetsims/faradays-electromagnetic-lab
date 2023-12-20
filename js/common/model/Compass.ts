@@ -25,8 +25,8 @@ export type CompassOptions = SelfOptions & FELMovableOptions;
 export default abstract class Compass extends FELMovable {
 
   // The public API is readonly, while the internal API is read + write.
-  public readonly rotationProperty: TReadOnlyProperty<number>; // radians
-  protected readonly _rotationProperty: Property<number>;
+  public readonly angleProperty: TReadOnlyProperty<number>; // radians
+  protected readonly _angleProperty: Property<number>;
 
   public readonly visibleProperty: Property<boolean>;
 
@@ -48,13 +48,14 @@ export default abstract class Compass extends FELMovable {
     this.magnet = magnet;
     this.reusableFieldVector = new Vector2( 0, 0 );
 
-    this._rotationProperty = new NumberProperty( 0, {
+    this._angleProperty = new NumberProperty( 0, {
       units: 'radians',
-      tandem: options.tandem.createTandem( 'rotationProperty' ),
+      tandem: options.tandem.createTandem( 'angleProperty' ),
       phetioReadOnly: true,
-      phetioFeatured: true
+      phetioFeatured: true,
+      phetioDocumentation: 'Angle of the compass needle'
     } );
-    this.rotationProperty = this._rotationProperty;
+    this.angleProperty = this._angleProperty;
 
     this.visibleProperty = new BooleanProperty( options.visible, {
       tandem: options.tandem.createTandem( 'visibleProperty' ),
@@ -64,7 +65,7 @@ export default abstract class Compass extends FELMovable {
 
   public override reset(): void {
     super.reset();
-    this._rotationProperty.reset();
+    this._angleProperty.reset();
     this.visibleProperty.reset();
   }
 

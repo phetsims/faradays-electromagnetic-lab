@@ -21,7 +21,6 @@ import { EmptySelfOptions } from '../../../../phet-core/js/optionize.js';
 const SENSITIVITY = 0.01; // increase this to make the compass more sensitive to smaller fields
 const DAMPING = 0.08; // increase this to make the needle wobble less
 const THRESHOLD = Utils.toRadians( 0.2 ); // angle at which the needle stops wobbling and snaps to the actual field orientation
-const SECONDS_PER_FRAME = 1 / 25; // framerate that updateRotation was step was designed to support
 
 type SelfOptions = EmptySelfOptions;
 
@@ -29,32 +28,19 @@ type KinematicCompassOptions = SelfOptions & CompassOptions;
 
 export default class KinematicCompass extends Compass {
 
-  //TODO Do thetaProperty, omegaProperty, alphaProperty, accumulatedDtProperty really need to be stateful?
+  //TODO Do omegaProperty, alphaProperty, accumulatedDtProperty really need to be stateful?
 
-  // Angle of needle orientation (in radians)
-  private thetaProperty: Property<number>;
-
-  // Angular velocity, the change in angle over time, in radians/s
+  // Angular velocity of the needle, the change in angle over time, in radians/s
   private omegaProperty: Property<number>;
 
-  // Angular acceleration, the change in angular velocity over time, in radians/s^2
+  // Angular acceleration of the needle, the change in angular velocity over time, in radians/s^2
   private alphaProperty: Property<number>;
-
-  // Accumulated dt since the most recent call to this.step, to maintain consistent framerate
-  private accumulatedDtProperty: Property<number>;
 
   public constructor( magnet: Magnet, providedOptions: KinematicCompassOptions ) {
 
     const options = providedOptions;
 
     super( magnet, options );
-
-    this.thetaProperty = new NumberProperty( 0, {
-      units: 'radians',
-      tandem: options.tandem.createTandem( 'thetaProperty' ),
-      phetioReadOnly: true,
-      phetioDocumentation: 'Angle of the compass needle'
-    } );
 
     this.omegaProperty = new NumberProperty( 0, {
       units: 'radians/s',
@@ -69,35 +55,12 @@ export default class KinematicCompass extends Compass {
       phetioReadOnly: true,
       phetioDocumentation: 'Angular acceleration of the compass needle'
     } );
-
-    this.accumulatedDtProperty = new NumberProperty( 0, {
-      units: 's',
-      tandem: options.tandem.createTandem( 'accumulatedDtProperty' ),
-      phetioReadOnly: true,
-      phetioDocumentation: 'For internal use only'
-    } );
   }
 
   public override reset(): void {
     super.reset();
-    this.thetaProperty.reset();
     this.omegaProperty.reset();
     this.alphaProperty.reset();
-    this.accumulatedDtProperty.reset();
-  }
-
-  /**
-   * In the Java version, we used a clock that fired 25 times per second, with constant dt = 1.
-   * In FaradayModule.java: new SwingClock( 1000 / 25, FaradayConstants.CLOCK_STEP )
-   * The implementation of this class was ported from Java, and is tuned to that clock.
-   * So attempt to call this at 25 fps, with a constant dt = 1.
-   */
-  public override step( dt: number ): void {
-    this.accumulatedDtProperty.value += dt;
-    if ( this.accumulatedDtProperty.value > SECONDS_PER_FRAME ) {
-      super.step( 1 );
-      this.accumulatedDtProperty.value -= SECONDS_PER_FRAME;
-    }
   }
 
   //TODO wobble continues for an excessively long time when the compass is placed against either pole of the magnet, also in Java version
@@ -113,27 +76,22 @@ export default class KinematicCompass extends Compass {
     const angle = fieldVector.angle;
 
     // Difference between the field angle and the compass angle.
-    const phi = ( ( magnitude === 0 ) ? 0 : ( angle - this.thetaProperty.value ) );
+    const phi = ( ( magnitude === 0 ) ? 0 : ( angle - this._angleProperty.value ) );
 
     if ( Math.abs( phi ) < THRESHOLD ) {
 
       // When the difference between the field angle and the compass angle is insignificant,
       // simply set the angle and consider the compass to be at rest.
-      this.thetaProperty.value = angle;
+      this._angleProperty.value = angle;
       this.omegaProperty.value = 0;
       this.alphaProperty.value = 0;
-      this._rotationProperty.value = this.thetaProperty.value;
     }
     else {
       // Use the Verlet algorithm to compute angle, angular velocity, and angular acceleration.
 
       // Step 1: rotation
-      const thetaOld = this.thetaProperty.value;
       const alphaTemp = ( SENSITIVITY * Math.sin( phi ) * magnitude ) - ( DAMPING * this.omegaProperty.value );
-      this.thetaProperty.value = this.thetaProperty.value + ( this.omegaProperty.value * dt ) + ( 0.5 * alphaTemp * dt * dt );
-      if ( this.thetaProperty.value !== thetaOld ) {
-        this._rotationProperty.value = this.thetaProperty.value;
-      }
+      this._angleProperty.value = this._angleProperty.value + ( this.omegaProperty.value * dt ) + ( 0.5 * alphaTemp * dt * dt );
 
       // Step 2: angular acceleration
       const omegaTemp = this.omegaProperty.value + ( alphaTemp * dt );

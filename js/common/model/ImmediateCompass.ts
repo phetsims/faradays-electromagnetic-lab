@@ -29,7 +29,7 @@ export default class ImmediateCompass extends Compass {
    * @param dt - time step, in seconds
    */
   protected override updateRotation( fieldVector: Vector2, dt: number ): void {
-    this._rotationProperty.value = fieldVector.angle;
+    this._angleProperty.value = fieldVector.angle;
   }
 }
 

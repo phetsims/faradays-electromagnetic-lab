@@ -36,7 +36,7 @@ export default class IncrementalCompass extends Compass {
 
     // Calculate the delta angle
     const fieldAngle = fieldVector.angle;
-    const needleAngle = this._rotationProperty.value;
+    const needleAngle = this._angleProperty.value;
     let delta = fieldAngle - needleAngle;
     //TODO if delta === 0, return?
 
@@ -57,14 +57,14 @@ export default class IncrementalCompass extends Compass {
     if ( Math.abs( delta ) < MAX_INCREMENT ) {
 
       // If the delta is small, rotate immediately to the field angle.
-      this._rotationProperty.value = fieldAngle;
+      this._angleProperty.value = fieldAngle;
     }
     else {
 
       // If the delta is large, rotate incrementally.
       const sign = ( delta < 0 ) ? -1 : 1;
       delta = sign * MAX_INCREMENT;
-      this._rotationProperty.value = needleAngle + delta;
+      this._angleProperty.value = needleAngle + delta;
     }
   }
 }
