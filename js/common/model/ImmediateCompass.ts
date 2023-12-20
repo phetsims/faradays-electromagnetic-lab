@@ -24,11 +24,11 @@ export default class ImmediateCompass extends Compass {
   }
 
   /**
-   * Updates the compass needle's rotation.
+   * Updates the compass needle's angle.
    * @param fieldVector - the magnet's B-field vector at the compass position
    * @param dt - time step, in seconds
    */
-  protected override updateRotation( fieldVector: Vector2, dt: number ): void {
+  protected override updateAngle( fieldVector: Vector2, dt: number ): void {
     this._angleProperty.value = fieldVector.angle;
   }
 }

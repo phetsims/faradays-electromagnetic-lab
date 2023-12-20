@@ -73,16 +73,16 @@ export default abstract class Compass extends FELMovable {
   public step( dt: number ): void {
     const fieldVector = this.magnet.getFieldVector( this.positionProperty.value, this.reusableFieldVector );
     if ( fieldVector.magnitude !== 0 ) {
-      this.updateRotation( fieldVector, dt );
+      this.updateAngle( fieldVector, dt );
     }
   }
 
   /**
-   * Updates the compass needle's rotation.
+   * Updates the compass needle's angle.
    * @param fieldVector - the magnet's B-field vector at the compass position
    * @param dt - time step, in seconds
    */
-  protected abstract updateRotation( fieldVector: Vector2, dt: number ): void;
+  protected abstract updateAngle( fieldVector: Vector2, dt: number ): void;
 
   /**
    * Starts the compass needle moving immediately.
