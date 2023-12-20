@@ -37,7 +37,7 @@ export default class PickupCoilNode extends FELMovableNode {
     const samplePointsNode = new PickupCoilSamplePointsNode( pickupCoil );
 
     const lightBulbNode = new FELLightBulbNode( pickupCoil.lightBulb, pickupCoil.indicatorProperty, {
-      bottom: coilNode.top + 18, // determined empirically, so that it covers the coil's top connecting wire
+      bottom: coilNode.top + pickupCoil.wireWidth + 2, // cover the coil's top connecting wire
       centerX: coilNode.centerX,
       tandem: tandem.createTandem( 'lightBulbNode' )
     } );
