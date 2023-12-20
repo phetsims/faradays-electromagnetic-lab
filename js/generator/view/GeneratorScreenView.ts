@@ -22,6 +22,7 @@ import Multilink from '../../../../axon/js/Multilink.js';
 import GeneratorDeveloperAccordionBox from './GeneratorDeveloperAccordionBox.js';
 import ToolsPanel from '../../common/view/ToolsPanel.js';
 import PickupCoilDebuggerPanel from '../../common/view/PickupCoilDebuggerPanel.js';
+import PickupCoilNode from '../../common/view/PickupCoilNode.js';
 
 export default class GeneratorScreenView extends ScreenView {
 
@@ -40,7 +41,7 @@ export default class GeneratorScreenView extends ScreenView {
     //TODO turbineNode
 
     //TODO pickupCoilNode should not be movable in this screen.
-    // const pickupCoilNode = new PickupCoilNode( model.pickupCoil, model.stepEmitter, tandem.createTandem( 'pickupCoilNode' ) );
+    const pickupCoilNode = new PickupCoilNode( model.pickupCoil, model.stepEmitter, tandem.createTandem( 'pickupCoilNode' ) );
 
     const pickupCoilDebuggerPanel = new PickupCoilDebuggerPanel( model.pickupCoil );
     pickupCoilDebuggerPanel.centerX = this.layoutBounds.centerX;
@@ -103,10 +104,10 @@ export default class GeneratorScreenView extends ScreenView {
 
     const rootNode = new Node( {
       children: [
-        // pickupCoilNode.backgroundNode,
+        pickupCoilNode.backgroundNode,
         fieldNode,
         //TODO turbineNode,
-        // pickupCoilNode,
+        pickupCoilNode,
         compassNode,
         fieldMeterNode,
         panels,
@@ -119,7 +120,7 @@ export default class GeneratorScreenView extends ScreenView {
 
     rootNode.pdomOrder = [
       //TODO turbineNode,
-      // pickupCoilNode,
+      pickupCoilNode,
       compassNode,
       fieldMeterNode,
       panels,
