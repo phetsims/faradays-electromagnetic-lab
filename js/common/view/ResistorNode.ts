@@ -19,6 +19,7 @@ type SelfOptions = {
   bodyFill?: TPaint;
   bodyStroke?: TPaint;
   bodyLineWidth?: number;
+  bodyCornerRadius?: number;
   bandWidth?: number;
   bandMargin?: number; // margin on left and right ends of the resistor
   bandSpacing?: number; // space between adjacent bands
@@ -40,6 +41,7 @@ export default class ResistorNode extends Node {
       bodyFill: 'rgb( 200, 176, 135 )',
       bodyStroke: 'black',
       bodyLineWidth: 1,
+      bodyCornerRadius: 5,
       bandWidth: 3,
       bandMargin: 10,
       bandSpacing: 4
@@ -50,7 +52,7 @@ export default class ResistorNode extends Node {
         fill: options.bodyFill,
         stroke: options.bodyStroke,
         lineWidth: options.bodyLineWidth,
-        cornerRadius: 5
+        cornerRadius: options.bodyCornerRadius
       }, providedOptions ) );
 
     const bandLength = options.size.height - options.bodyLineWidth;
