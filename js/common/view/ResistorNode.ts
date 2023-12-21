@@ -1,8 +1,8 @@
 // Copyright 2023, University of Colorado Boulder
 
 /**
- * ResistorNode is a 4-band resistor. For details on color coding of resistors, see for example
- * https://www.utmel.com/tools/band-resistor-color-code-calculator?id=20
+ * ResistorNode is a 4-band resistor, which has 3 value bands and 1 tolerance band. For details on color coding of
+ * resistors, see for example https://www.utmel.com/tools/band-resistor-color-code-calculator?id=20
  *
  * @author Chris Malley (PixelZoom, Inc.)
  */
