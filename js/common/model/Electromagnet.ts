@@ -10,12 +10,11 @@ import faradaysElectromagneticLab from '../../faradaysElectromagneticLab.js';
 import Magnet, { MagnetOptions } from './Magnet.js';
 import Vector2 from '../../../../dot/js/Vector2.js';
 import SourceCoil from './SourceCoil.js';
-import StringUnionProperty from '../../../../axon/js/StringUnionProperty.js';
-import { CurrentSourceType, CurrentSourceValues } from './CurrentSourceType.js';
 import Property from '../../../../axon/js/Property.js';
 import BooleanProperty from '../../../../axon/js/BooleanProperty.js';
 import ACPowerSupply from './ACPowerSupply.js';
 import Battery from './Battery.js';
+import CurrentSource from './CurrentSource.js';
 
 type SelfOptions = {
   //TODO
@@ -28,7 +27,7 @@ export default class Electromagnet extends Magnet {
   public readonly battery: Battery;
   public readonly acPowerSupply: ACPowerSupply;
 
-  public readonly currentSourceProperty: Property<CurrentSourceType>;
+  public readonly currentSourceProperty: Property<CurrentSource>;
   public readonly sourceCoil: SourceCoil;
   public readonly electronsVisibleProperty: Property<boolean>;
 
@@ -46,9 +45,10 @@ export default class Electromagnet extends Magnet {
 
     this.acPowerSupply = new ACPowerSupply( options.tandem.createTandem( 'acPowerSupply' ) );
 
-    this.currentSourceProperty = new StringUnionProperty<CurrentSourceType>( 'battery', {
-      validValues: CurrentSourceValues,
+    this.currentSourceProperty = new Property<CurrentSource>( this.battery, {
+      validValues: [ this.battery, this.acPowerSupply ],
       tandem: options.tandem.createTandem( 'currentSourceProperty' ),
+      phetioValueType: CurrentSource.CurrentSourceIO,
       phetioFeatured: true
     } );
 

@@ -8,24 +8,24 @@
 
 import RectangularRadioButtonGroup, { RectangularRadioButtonGroupItem } from '../../../../sun/js/buttons/RectangularRadioButtonGroup.js';
 import faradaysElectromagneticLab from '../../faradaysElectromagneticLab.js';
-import StringUnionProperty from '../../../../axon/js/StringUnionProperty.js';
 import Tandem from '../../../../tandem/js/Tandem.js';
-import { CurrentSourceType } from '../model/CurrentSourceType.js';
 import FELConstants from '../FELConstants.js';
 import BatteryNode from './BatteryNode.js';
 import ACPowerSupplyNode from './ACPowerSupplyNode.js';
 import { HBox, RichText } from '../../../../scenery/js/imports.js';
 import FaradaysElectromagneticLabStrings from '../../FaradaysElectromagneticLabStrings.js';
+import Electromagnet from '../model/Electromagnet.js';
+import CurrentSource from '../model/CurrentSource.js';
 
 export default class CurrentSourceControl extends HBox {
 
-  public constructor( currentSourceProperty: StringUnionProperty<CurrentSourceType>, tandem: Tandem ) {
+  public constructor( electromagnet: Electromagnet, tandem: Tandem ) {
 
     const labelText = new RichText( FaradaysElectromagneticLabStrings.currentSourceStringProperty, {
       font: FELConstants.CONTROL_FONT
     } );
 
-    const radioButtonGroup = new CurrentSourceRadioButtonGroup( currentSourceProperty, tandem.createTandem( 'radioButtonGroup' ) );
+    const radioButtonGroup = new CurrentSourceRadioButtonGroup( electromagnet, tandem.createTandem( 'radioButtonGroup' ) );
 
     super( {
       spacing: 10,
@@ -36,24 +36,24 @@ export default class CurrentSourceControl extends HBox {
   }
 }
 
-class CurrentSourceRadioButtonGroup extends RectangularRadioButtonGroup<CurrentSourceType> {
+class CurrentSourceRadioButtonGroup extends RectangularRadioButtonGroup<CurrentSource> {
 
-  public constructor( currentSourceProperty: StringUnionProperty<CurrentSourceType>, tandem: Tandem ) {
+  public constructor( electromagnet: Electromagnet, tandem: Tandem ) {
 
-    const items: RectangularRadioButtonGroupItem<CurrentSourceType>[] = [
+    const items: RectangularRadioButtonGroupItem<CurrentSource>[] = [
       {
-        value: 'battery',
+        value: electromagnet.battery,
         createNode: ( tandem: Tandem ) => BatteryNode.createIcon(),
         tandemName: 'batteryRadioButton'
       },
       {
-        value: 'acPowerSupply',
+        value: electromagnet.acPowerSupply,
         createNode: ( tandem: Tandem ) => ACPowerSupplyNode.createIcon(),
         tandemName: 'acPowerSupplyRadioButton'
       }
     ];
 
-    super( currentSourceProperty, items, {
+    super( electromagnet.currentSourceProperty, items, {
       isDisposable: false,
       orientation: 'horizontal',
       spacing: 10,

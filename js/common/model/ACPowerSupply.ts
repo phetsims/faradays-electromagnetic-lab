@@ -1,29 +1,29 @@
 // Copyright 2023, University of Colorado Boulder
 
-//TODO Factor out CurrentSourceType base class, possibly delete CurrentSourceType string union?
 /**
- * TODO
+ * ACPowerSupply is the model for an AC power supply, used to power the electromagnet.
  *
  * @author Chris Malley (PixelZoom, Inc.)
  */
 
 import Tandem from '../../../../tandem/js/Tandem.js';
 import faradaysElectromagneticLab from '../../faradaysElectromagneticLab.js';
-import PhetioObject from '../../../../tandem/js/PhetioObject.js';
+import CurrentSource from './CurrentSource.js';
 
-export default class ACPowerSupply extends PhetioObject {
+export default class ACPowerSupply extends CurrentSource {
 
   public constructor( tandem: Tandem ) {
 
     super( {
-      tandem: tandem,
-      phetioState: false
+      maxVoltage: 110, // volts
+      tandem: tandem
     } );
 
     //TODO
   }
 
-  public reset(): void {
+  public override reset(): void {
+    super.reset();
     //TODO
   }
 

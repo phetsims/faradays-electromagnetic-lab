@@ -1,34 +1,23 @@
 // Copyright 2023, University of Colorado Boulder
 
-//TODO Factor out CurrentSourceType base class, possibly delete CurrentSourceType string union?
 /**
- * TODO
+ * Battery is the model for a simple DC battery, used to power the electromagnet.
  *
  * @author Chris Malley (PixelZoom, Inc.)
  */
 
 import Tandem from '../../../../tandem/js/Tandem.js';
 import faradaysElectromagneticLab from '../../faradaysElectromagneticLab.js';
-import PhetioObject from '../../../../tandem/js/PhetioObject.js';
+import CurrentSource from './CurrentSource.js';
 
-export default class Battery extends PhetioObject {
+export default class Battery extends CurrentSource {
 
   public constructor( tandem: Tandem ) {
-
     super( {
-      tandem: tandem,
-      phetioState: false
+      amplitude: 1,
+      maxVoltage: 10, // volts
+      tandem: tandem
     } );
-
-    //TODO
-  }
-
-  public reset(): void {
-    //TODO
-  }
-
-  public step( dt: number ): void {
-    //TODO
   }
 }
 

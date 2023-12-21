@@ -26,7 +26,7 @@ export default class ElectromagnetPanel extends Panel {
       font: FELConstants.TITLE_FONT
     } );
 
-    const currentSourceControl = new CurrentSourceControl( electromagnet.currentSourceProperty,
+    const currentSourceControl = new CurrentSourceControl( electromagnet,
       tandem.createTandem( 'currentSourceControl' ) );
 
     const numberOfLoopsControl = new NumberOfLoopsControl( electromagnet.sourceCoil.numberOfLoopsProperty,
