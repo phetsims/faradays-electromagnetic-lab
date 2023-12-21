@@ -16,17 +16,15 @@ import faradaysElectromagneticLab from '../../faradaysElectromagneticLab.js';
 
 type SelfOptions = {
   size: Dimension2;
+  xMargin?: number; // margin on left and right ends of the resistor
   bodyFill?: TPaint;
   bodyStroke?: TPaint;
   bodyLineWidth?: number;
   bodyCornerRadius?: number;
   bandWidth?: number;
-  bandMargin?: number; // margin on left and right ends of the resistor
   bandSpacing?: number; // space between adjacent bands
-  band1Color: TPaint;
-  band2Color: TPaint;
-  band3Color: TPaint;
-  band4Color: TPaint;
+  valueBandColors: TPaint[];
+  toleranceBandColor: TPaint;
 };
 
 type ResistorNodeOptions = SelfOptions & NodeTranslationOptions & PickOptional<NodeOptions, 'tandem'>;
@@ -38,14 +36,16 @@ export default class ResistorNode extends Node {
     const options = optionize<ResistorNodeOptions, SelfOptions, NodeOptions>()( {
 
       // SelfOptions
+      xMargin: 10,
       bodyFill: 'rgb( 200, 176, 135 )',
       bodyStroke: 'black',
       bodyLineWidth: 1,
       bodyCornerRadius: 5,
       bandWidth: 3,
-      bandMargin: 10,
-      bandSpacing: 4
+      bandSpacing: 6
     }, providedOptions );
+
+    assert && assert( options.valueBandColors.length === 3, 'A 4-band resistor must have 3 value bands' );
 
     const bodyNode = new Rectangle( 0, 0, options.size.width, options.size.height,
       combineOptions<RectangleOptions>( {
@@ -58,39 +58,22 @@ export default class ResistorNode extends Node {
     const bandLength = options.size.height - options.bodyLineWidth;
     const bandTop = bodyNode.top + options.bodyLineWidth;
 
-    // value (x 1)
-    const band1 = new Line( 0, 0, 0, bandLength, {
-      stroke: options.band1Color,
+    const valueBands = options.valueBandColors.map(
+      ( bandColor, index ) => new Line( 0, 0, 0, bandLength, {
+        stroke: bandColor,
+        lineWidth: options.bandWidth,
+        centerX: bodyNode.left + options.xMargin + ( index * options.bandSpacing ),
+        top: bandTop
+      } ) );
+
+    const toleranceBand = new Line( 0, 0, 0, bandLength, {
+      stroke: options.toleranceBandColor,
       lineWidth: options.bandWidth,
-      centerX: bodyNode.left + options.bandMargin,
+      centerX: bodyNode.right - options.xMargin,
       top: bandTop
     } );
 
-    // value (x 10)
-    const band2 = new Line( 0, 0, 0, bandLength, {
-      stroke: options.band2Color,
-      lineWidth: options.bandWidth,
-      centerX: band1.right + options.bandSpacing,
-      top: bandTop
-    } );
-
-    // value (x 100)
-    const band3 = new Line( 0, 0, 0, bandLength, {
-      stroke: options.band3Color,
-      lineWidth: options.bandWidth,
-      centerX: band2.right + options.bandSpacing,
-      top: bandTop
-    } );
-
-    // tolerance (+/- %)
-    const band4 = new Line( 0, 0, 0, bandLength, {
-      stroke: options.band4Color,
-      lineWidth: options.bandWidth,
-      centerX: bodyNode.right - options.bandMargin,
-      top: bandTop
-    } );
-
-    options.children = [ bodyNode, band1, band2, band3, band4 ];
+    options.children = [ bodyNode, ...valueBands, toleranceBand ];
 
     super( options );
   }

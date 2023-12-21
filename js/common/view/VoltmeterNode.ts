@@ -122,10 +122,12 @@ export default class VoltmeterNode extends Node {
       size: RESISTOR_SIZE,
       bodyFill: FELColors.resistorFillProperty,
       bodyStroke: FELColors.resistorStrokeProperty,
-      band1Color: FELColors.resistorBand1ColorProperty,
-      band2Color: FELColors.resistorBand2ColorProperty,
-      band3Color: FELColors.resistorBand3ColorProperty,
-      band4Color: FELColors.resistorBand4ColorProperty,
+      valueBandColors: [
+        FELColors.resistorBand1ColorProperty,
+        FELColors.resistorBand2ColorProperty,
+        FELColors.resistorBand3ColorProperty
+      ],
+      toleranceBandColor: FELColors.resistorBand4ColorProperty,
       centerX: bodyNode.centerX,
       top: positiveProbeNode.bottom - 5
     } );
