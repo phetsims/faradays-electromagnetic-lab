@@ -45,7 +45,7 @@ export default class BarMagnetPanel extends Panel {
       font: FELConstants.TITLE_FONT
     } );
 
-    const strengthControl = new BarMagnetStrengthControl( barMagnet.strengthProperty, barMagnet.strengthRange,
+    const strengthControl = new BarMagnetStrengthControl( barMagnet.barMagnetStrengthProperty, barMagnet.strengthRange,
       options.tandem.createTandem( 'strengthControl' ) );
 
     const contentChildren: Node[] = [

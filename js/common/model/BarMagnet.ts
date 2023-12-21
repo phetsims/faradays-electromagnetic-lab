@@ -14,6 +14,9 @@ import BarMagnetFieldData from './BarMagnetFieldData.js';
 import Vector2 from '../../../../dot/js/Vector2.js';
 import BarMagnetFieldGrid from './BarMagnetFieldGrid.js';
 import { EmptySelfOptions } from '../../../../phet-core/js/optionize.js';
+import NumberProperty from '../../../../axon/js/NumberProperty.js';
+import Range from '../../../../dot/js/Range.js';
+import Property from '../../../../axon/js/Property.js';
 
 type SelfOptions = EmptySelfOptions;
 
@@ -22,12 +25,23 @@ export type BarMagnetOptions = SelfOptions & MagnetOptions;
 
 export default class BarMagnet extends Magnet {
 
+  // A writeable version of this.strengthProperty: TReadOnlyProperty<number>
+  public readonly barMagnetStrengthProperty: Property<number>;
+
   public readonly size: Dimension2; // unitless, width is from the magnet's South to North pole
 
   public constructor( providedOptions: BarMagnetOptions ) {
 
-    super( providedOptions );
+    const strengthProperty = new NumberProperty( 225, {
+      units: 'G',
+      range: new Range( 0, 300 ),
+      tandem: providedOptions.tandem.createTandem( 'strengthProperty' ),
+      phetioFeatured: true
+    } );
 
+    super( strengthProperty, strengthProperty.range, providedOptions );
+
+    this.barMagnetStrengthProperty = strengthProperty;
     this.size = new Dimension2( 250, 50 );
   }
 

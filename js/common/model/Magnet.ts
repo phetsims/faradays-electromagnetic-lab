@@ -11,14 +11,13 @@ import Range from '../../../../dot/js/Range.js';
 import Vector2 from '../../../../dot/js/Vector2.js';
 import Property from '../../../../axon/js/Property.js';
 import NumberProperty from '../../../../axon/js/NumberProperty.js';
-import RangeWithValue from '../../../../dot/js/RangeWithValue.js';
 import optionize from '../../../../phet-core/js/optionize.js';
 import FELMovable, { FELMovableOptions } from './FELMovable.js';
 import BooleanProperty from '../../../../axon/js/BooleanProperty.js';
+import TReadOnlyProperty from '../../../../axon/js/TReadOnlyProperty.js';
 
 type SelfOptions = {
   rotation?: number; // initial value of rotationProperty, radians
-  strengthRange: RangeWithValue; // range and initial value for strengthProperty, in gauss
 };
 
 export type MagnetOptions = SelfOptions & FELMovableOptions;
@@ -26,9 +25,7 @@ export type MagnetOptions = SelfOptions & FELMovableOptions;
 export default abstract class Magnet extends FELMovable {
 
   public readonly strengthRange: Range; // gauss
-
-  //TODO strengthProperty should be writeable only for BarMagnet. For Electromagnet, it should be derived from sourceCoil.currentAmplitudeProperty.
-  public readonly strengthProperty: Property<number>; // gauss
+  public readonly strengthProperty: TReadOnlyProperty<number>; // gauss
 
   public readonly rotationProperty: Property<number>; // radians
 
@@ -44,7 +41,7 @@ export default abstract class Magnet extends FELMovable {
   // reusable vector for transforming a position to the magnet's local coordinate frame
   private readonly reusablePosition: Vector2;
 
-  protected constructor( providedOptions: MagnetOptions ) {
+  protected constructor( strengthProperty: TReadOnlyProperty<number>, strengthRange: Range, providedOptions: MagnetOptions ) {
 
     const options = optionize<MagnetOptions, SelfOptions, FELMovableOptions>()( {
 
@@ -54,14 +51,8 @@ export default abstract class Magnet extends FELMovable {
 
     super( options );
 
-    this.strengthRange = options.strengthRange;
-
-    this.strengthProperty = new NumberProperty( options.strengthRange.defaultValue, {
-      units: 'G',
-      range: options.strengthRange,
-      tandem: options.tandem.createTandem( 'strengthProperty' ),
-      phetioFeatured: true
-    } );
+    this.strengthRange = strengthRange;
+    this.strengthProperty = strengthProperty;
 
     this.rotationProperty = new NumberProperty( options.rotation, {
       units: 'radians',
@@ -86,7 +77,6 @@ export default abstract class Magnet extends FELMovable {
   public override reset(): void {
     super.reset();
     this.rotationProperty.reset();
-    this.strengthProperty.reset();
     this.fieldVisibleProperty.reset();
     // Do not reset developer Properties.
   }

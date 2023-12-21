@@ -14,7 +14,6 @@ import Compass from '../../common/model/Compass.js';
 import PickupCoil from '../../common/model/PickupCoil.js';
 import Vector2 from '../../../../dot/js/Vector2.js';
 import IncrementalCompass from '../../common/model/IncrementalCompass.js';
-import RangeWithValue from '../../../../dot/js/RangeWithValue.js';
 import FELModel from '../../common/model/FELModel.js';
 
 export default class TransformerModel extends FELModel {
@@ -29,7 +28,6 @@ export default class TransformerModel extends FELModel {
     super( tandem );
 
     this.electromagnet = new Electromagnet( {
-      strengthRange: new RangeWithValue( 0, 300, 0 ), // gauss
       position: new Vector2( 200, 400 ),
       tandem: tandem.createTandem( 'electromagnet' )
     } );

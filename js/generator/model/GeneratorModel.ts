@@ -14,7 +14,6 @@ import Compass from '../../common/model/Compass.js';
 import Vector2 from '../../../../dot/js/Vector2.js';
 import Turbine from './Turbine.js';
 import ImmediateCompass from '../../common/model/ImmediateCompass.js';
-import RangeWithValue from '../../../../dot/js/RangeWithValue.js';
 import FELModel from '../../common/model/FELModel.js';
 
 export default class GeneratorModel extends FELModel {
@@ -29,7 +28,6 @@ export default class GeneratorModel extends FELModel {
     super( tandem );
 
     this.turbine = new Turbine( {
-      strengthRange: new RangeWithValue( 0, 300, 225 ), // gauss
       position: new Vector2( 285, 400 ),
       tandem: tandem.createTandem( 'turbine' )
     } );

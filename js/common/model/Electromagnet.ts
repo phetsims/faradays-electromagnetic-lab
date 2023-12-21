@@ -19,6 +19,7 @@ import TReadOnlyProperty from '../../../../axon/js/TReadOnlyProperty.js';
 import DerivedProperty from '../../../../axon/js/DerivedProperty.js';
 import NumberIO from '../../../../tandem/js/types/NumberIO.js';
 import Vector2 from '../../../../dot/js/Vector2.js';
+import Range from '../../../../dot/js/Range.js';
 
 type SelfOptions = {
   //TODO
@@ -28,11 +29,12 @@ export type ElectromagnetOptions = SelfOptions & MagnetOptions;
 
 export default class Electromagnet extends Magnet {
 
+  public readonly sourceCoil: SourceCoil;
+
   public readonly battery: Battery;
   public readonly acPowerSupply: ACPowerSupply;
-
   public readonly currentSourceProperty: Property<CurrentSource>;
-  public readonly sourceCoil: SourceCoil;
+
   public readonly electronsVisibleProperty: Property<boolean>;
 
   // Electromagnet is modeled as a circle
@@ -46,7 +48,20 @@ export default class Electromagnet extends Magnet {
 
     const options = providedOptions;
 
-    super( options );
+    const sourceCoil = new SourceCoil( options.tandem.createTandem( 'sourceCoil' ) );
+
+    const strengthRange = new Range( 0, 300 ); // gauss
+
+    // Strength of the magnet is proportional to its EMF.
+    const strengthProperty = new DerivedProperty( [ sourceCoil.currentAmplitudeProperty ],
+      currentAmplitude => Math.abs( currentAmplitude ) * strengthRange.max, {
+        tandem: options.tandem.createTandem( 'strengthProperty' ),
+        phetioValueType: NumberIO
+      } );
+
+    super( strengthProperty, strengthRange, options );
+
+    this.sourceCoil = sourceCoil;
 
     this.battery = new Battery( options.tandem.createTandem( 'battery' ) );
 
@@ -58,8 +73,6 @@ export default class Electromagnet extends Magnet {
       phetioValueType: CurrentSource.CurrentSourceIO,
       phetioFeatured: true
     } );
-
-    this.sourceCoil = new SourceCoil( options.tandem.createTandem( 'sourceCoil' ) );
 
     //TODO It would be nice to pass currentAmplitudeProperty directly to sourceCoil.
     const amplitudeProperty = new DerivedProperty(
@@ -75,12 +88,6 @@ export default class Electromagnet extends Magnet {
           this.flipPolarity();
         }
       }
-    } );
-
-    // Strength of the magnet is proportional to its EMF.
-    //TODO strengthProperty should be a DerivedProperty for Electromagnet
-    this.sourceCoil.currentAmplitudeProperty.link( currentAmplitude => {
-      this.strengthProperty.value = Math.abs( currentAmplitude ) * this.strengthRange.max;
     } );
 
     this.radiusProperty = new DerivedProperty( [ this.sourceCoil.loopRadiusProperty ],

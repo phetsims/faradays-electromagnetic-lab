@@ -13,7 +13,6 @@ import Compass from '../../common/model/Compass.js';
 import FieldMeter from '../../common/model/FieldMeter.js';
 import Vector2 from '../../../../dot/js/Vector2.js';
 import KinematicCompass from '../../common/model/KinematicCompass.js';
-import RangeWithValue from '../../../../dot/js/RangeWithValue.js';
 import FELModel from '../../common/model/FELModel.js';
 
 export default class BarMagnetModel extends FELModel {
@@ -27,7 +26,6 @@ export default class BarMagnetModel extends FELModel {
     super( tandem );
 
     this.barMagnet = new BarMagnet( {
-      strengthRange: new RangeWithValue( 0, 300, 225 ), // gauss
       position: new Vector2( 450, 300 ),
       tandem: tandem.createTandem( 'barMagnet' )
     } );
