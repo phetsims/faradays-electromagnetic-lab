@@ -173,7 +173,7 @@ const FELColors = {
   } ),
 
   negativeProbeFillProperty: new ProfileColorProperty( faradaysElectromagneticLab, 'negativeProbeFill', {
-    default: 'gray'
+    default: Color.grayColor( 145 )
   } ),
 
   resistorFillProperty: new ProfileColorProperty( faradaysElectromagneticLab, 'resistorFill', {
