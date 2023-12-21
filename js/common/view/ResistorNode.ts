@@ -21,9 +21,9 @@ type SelfOptions = {
   bodyLineWidth?: number;
   bodyCornerRadius?: number;
   bandWidth?: number;
-  bandSpacing?: number; // space between adjacent bands
-  valueBandColors: TPaint[];
-  toleranceBandColor: TPaint;
+  bandSpacing?: number; // space between value bands
+  valueBandColors: TPaint[]; // colors for the 3 values bands (x 1, x 10, x 100)
+  toleranceBandColor: TPaint; // color for the tolerance band (+/- %)
 };
 
 type ResistorNodeOptions = SelfOptions & NodeTranslationOptions & PickOptional<NodeOptions, 'tandem'>;
