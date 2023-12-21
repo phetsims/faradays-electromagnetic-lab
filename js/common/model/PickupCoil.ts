@@ -229,7 +229,9 @@ export default class PickupCoil extends Coil {
     assert && assert( dt === 1, `invalid dt=${dt}, see FELModel step` );
     //TODO beware of dependencies on SwingClock.java !!
     this.updateEMF( dt );
-    this.voltmeter.step( dt );
+    if ( this.currentIndicatorProperty.value === this.voltmeter ) {
+      this.voltmeter.step( dt );
+    }
   }
 
   /**
