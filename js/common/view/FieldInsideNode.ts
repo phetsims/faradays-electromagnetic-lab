@@ -16,11 +16,8 @@ import PickRequired from '../../../../phet-core/js/types/PickRequired.js';
 import FELColors from '../FELColors.js';
 import BarMagnet from '../model/BarMagnet.js';
 
-//TODO compute these values based on magnet size, needle size, and desired xMargin and yMargin
-const FIELD_INSIDE_ROWS = 2;
-const FIELD_INSIDE_COLUMNS = 7;
-const FIELD_INSIDE_X_SPACING = 6;
-const FIELD_INSIDE_Y_SPACING = 12;
+const ROWS = 2;
+const COLUMNS = 7; // determined empirically
 
 type SelfOptions = EmptySelfOptions;
 
@@ -34,12 +31,12 @@ export default class FieldInsideNode extends GridBox {
 
       // GridBoxOptions
       isDisposable: false,
-      children: _.times( FIELD_INSIDE_ROWS * FIELD_INSIDE_COLUMNS, () => new CompassNeedleNode( {
+      children: _.times( ROWS * COLUMNS, () => new CompassNeedleNode( {
         stroke: FELColors.fieldInsideStrokeProperty
       } ) ),
-      autoRows: FIELD_INSIDE_ROWS,
-      xSpacing: FIELD_INSIDE_X_SPACING,
-      ySpacing: FIELD_INSIDE_Y_SPACING
+      autoRows: ROWS,
+      xSpacing: 6, // determined empirically
+      ySpacing: 12 // determined empirically
     }, providedOptions );
 
     super( options );
