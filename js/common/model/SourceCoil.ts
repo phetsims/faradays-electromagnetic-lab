@@ -25,6 +25,10 @@ export default class SourceCoil extends Coil {
       tandem: tandem
     } );
   }
+
+  public setCurrentAmplitude( currentAmplitude: number ): void {
+    this._currentAmplitudeProperty.value = currentAmplitude;
+  }
 }
 
 faradaysElectromagneticLab.register( 'SourceCoil', SourceCoil );

@@ -43,6 +43,7 @@ export default class Coil extends FELMovable {
   // This is a quantity that we made up. It is a percentage that describes the amount of current relative to some
   // maximum current in the model, and direction of that current. View components can use this value to determine
   // how they should behave (eg, how far to move a voltmeter needle, how bright to make a lightbulb, etc.)
+  //TODO Perhaps currentAmplitudeProperty should move to subclasses, so that SourceCoil setCurrentAmplitude is not needed.
   public readonly currentAmplitudeProperty: TReadOnlyProperty<number>;
   protected readonly _currentAmplitudeProperty: NumberProperty;
 
