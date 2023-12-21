@@ -8,7 +8,7 @@
 
 import faradaysElectromagneticLab from '../../faradaysElectromagneticLab.js';
 import NumberControl, { NumberControlOptions } from '../../../../scenery-phet/js/NumberControl.js';
-import NumberProperty from '../../../../axon/js/NumberProperty.js';
+import Range from '../../../../dot/js/Range.js';
 import Tandem from '../../../../tandem/js/Tandem.js';
 import FaradaysElectromagneticLabStrings from '../../FaradaysElectromagneticLabStrings.js';
 import { combineOptions } from '../../../../phet-core/js/optionize.js';
@@ -17,6 +17,7 @@ import PatternStringProperty from '../../../../axon/js/PatternStringProperty.js'
 import Utils from '../../../../dot/js/Utils.js';
 import { RichText } from '../../../../scenery/js/imports.js';
 import StringUtils from '../../../../phetcommon/js/util/StringUtils.js';
+import Property from '../../../../axon/js/Property.js';
 
 const valuePercentStringProperty = FaradaysElectromagneticLabStrings.pattern.valuePercentStringProperty;
 const SLIDER_STEP = 1;
@@ -26,9 +27,8 @@ const TICK_LABEL_OPTIONS = {
 
 export default class BarMagnetStrengthControl extends NumberControl {
 
-  public constructor( strengthProperty: NumberProperty, tandem: Tandem ) {
+  public constructor( strengthProperty: Property<number>, strengthRange: Range, tandem: Tandem ) {
 
-    const strengthRange = strengthProperty.range;
     assert && assert( strengthRange.min === 0 );
 
     const majorTicks = [

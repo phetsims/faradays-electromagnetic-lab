@@ -80,7 +80,7 @@ export default class Electromagnet extends Magnet {
     // Strength of the magnet is proportional to its EMF.
     //TODO strengthProperty should be a DerivedProperty for Electromagnet
     this.sourceCoil.currentAmplitudeProperty.link( currentAmplitude => {
-      this.strengthProperty.value = Math.abs( currentAmplitude ) * this.strengthProperty.range.max;
+      this.strengthProperty.value = Math.abs( currentAmplitude ) * this.strengthRange.max;
     } );
 
     this.radiusProperty = new DerivedProperty( [ this.sourceCoil.loopRadiusProperty ],

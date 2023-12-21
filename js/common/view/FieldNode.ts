@@ -134,7 +134,7 @@ export default class FieldNode extends Sprites {
   private strengthToAlpha( strength: number, fieldIntensityScale: number ): number {
     assert && assert( fieldIntensityScale >= 1, `invalid fieldIntensityScale: ${fieldIntensityScale}` );
 
-    const maxStrength = this.magnet.strengthProperty.rangeProperty.value.max;
+    const maxStrength = this.magnet.strengthRange.max;
     assert && assert( strength >= 0 && strength <= maxStrength, `invalid strength: ${strength}` );
 
     let alpha = ( strength / maxStrength );
