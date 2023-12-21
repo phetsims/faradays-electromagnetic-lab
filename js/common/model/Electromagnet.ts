@@ -62,19 +62,24 @@ export default class Electromagnet extends Magnet {
     this.sourceCoil = new SourceCoil( options.tandem.createTandem( 'sourceCoil' ) );
 
     //TODO It would be nice to pass currentAmplitudeProperty directly to sourceCoil.
-    const currentAmplitudeProperty = new DerivedProperty(
+    const amplitudeProperty = new DerivedProperty(
       [ this.currentSourceProperty, this.battery.amplitudeProperty, this.acPowerSupply.amplitudeProperty ],
       ( currentSource, batteryAmplitude, acPowerSupplyAmplitude ) =>
         ( currentSource === this.battery ) ? batteryAmplitude : acPowerSupplyAmplitude
     );
-    currentAmplitudeProperty.link( ( currentAmplitude, previousCurrentAmplitude ) => {
-      this.sourceCoil.setCurrentAmplitude( currentAmplitude );
-      if ( previousCurrentAmplitude !== null ) {
+    amplitudeProperty.link( ( amplitude, previousAmplitude ) => {
+      this.sourceCoil.setCurrentAmplitude( amplitude );
+      if ( previousAmplitude !== null ) {
         //TODO is this correct? What about Math.sign === 0?
-        if ( Math.sign( currentAmplitude ) !== Math.sign( previousCurrentAmplitude ) ) {
+        if ( Math.sign( amplitude ) !== Math.sign( previousAmplitude ) ) {
           this.flipPolarity();
         }
       }
+    } );
+
+    // Strength of the magnet is proportional to its EMF.
+    this.sourceCoil.currentAmplitudeProperty.link( currentAmplitude => {
+      this.strengthProperty.value = Math.abs( currentAmplitude ) * this.strengthProperty.range.max;
     } );
 
     this.radiusProperty = new DerivedProperty( [ this.sourceCoil.loopRadiusProperty ],

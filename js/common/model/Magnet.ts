@@ -26,6 +26,8 @@ export type MagnetOptions = SelfOptions & FELMovableOptions;
 export default abstract class Magnet extends FELMovable {
 
   public readonly rotationProperty: Property<number>; // radians
+
+  //TODO strengthProperty should be writeable only for BarMagnet. For Electromagnet, it should be derived from sourceCoil.currentAmplitudeProperty.
   public readonly strengthProperty: NumberProperty; // gauss
   public readonly fieldVisibleProperty: Property<boolean>;
 
