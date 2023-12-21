@@ -109,11 +109,11 @@ export default class VoltmeterNode extends Node {
       bottom: needleNode.bottom
     } );
 
-    const positiveProbeNode = new ProbeNode( FELColors.positiveProbeFillProperty, {
+    const positiveProbeNode = new ProbeNode( FELColors.voltMeterPositiveProbeFillProperty, {
       centerX: bodyNode.centerX - RESISTOR_SIZE.width / 2,
       top: bodyNode.bottom - 1
     } );
-    const negativeProbeNode = new ProbeNode( FELColors.negativeProbeFillProperty, {
+    const negativeProbeNode = new ProbeNode( FELColors.voltmeterNegativeProbeFillProperty, {
       centerX: bodyNode.centerX + RESISTOR_SIZE.width / 2,
       top: bodyNode.bottom - 1
     } );
@@ -250,7 +250,7 @@ class ProbeNode extends Path {
 
     super( shape, combineOptions<PathOptions>( {
       fill: fillProperty,
-      stroke: 'black'
+      stroke: FELColors.voltmeterProbeStrokeProperty
     }, translationOptions ) );
   }
 }

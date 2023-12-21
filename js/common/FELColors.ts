@@ -148,6 +148,10 @@ const FELColors = {
     default: 'yellow'
   } ),
 
+  voltageLabelColorProperty: new ProfileColorProperty( faradaysElectromagneticLab, 'voltageLabelColor', {
+    default: 'white'
+  } ),
+
   voltmeterBodyColorProperty: new ProfileColorProperty( faradaysElectromagneticLab, 'voltmeterBodyColor', {
     default: 'rgb( 13, 0, 160 )'
   } ),
@@ -164,16 +168,16 @@ const FELColors = {
     default: 'black'
   } ),
 
-  voltageLabelColorProperty: new ProfileColorProperty( faradaysElectromagneticLab, 'voltageLabelColor', {
+  voltMeterPositiveProbeFillProperty: new ProfileColorProperty( faradaysElectromagneticLab, 'voltMeterPositiveProbeFill', {
     default: 'white'
   } ),
 
-  positiveProbeFillProperty: new ProfileColorProperty( faradaysElectromagneticLab, 'positiveProbeFill', {
-    default: 'white'
-  } ),
-
-  negativeProbeFillProperty: new ProfileColorProperty( faradaysElectromagneticLab, 'negativeProbeFill', {
+  voltmeterNegativeProbeFillProperty: new ProfileColorProperty( faradaysElectromagneticLab, 'voltMeterNegativeProbeFill', {
     default: Color.grayColor( 145 )
+  } ),
+
+  voltmeterProbeStrokeProperty: new ProfileColorProperty( faradaysElectromagneticLab, 'voltmeterProbeStroke', {
+    default: 'black'
   } ),
 
   resistorFillProperty: new ProfileColorProperty( faradaysElectromagneticLab, 'resistorFill', {
