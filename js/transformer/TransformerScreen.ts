@@ -35,6 +35,7 @@ export default class TransformerScreen extends Screen<TransformerModel, Transfor
   }
 }
 
+//TODO https://github.com/phetsims/faradays-electromagnetic-lab/issues/28 screen icon
 function createHomeScreenIcon(): ScreenIcon {
   return new ScreenIcon( new Rectangle( 0, 0, 1, 1 ), {
     fill: FELColors.screenBackgroundColorProperty,
