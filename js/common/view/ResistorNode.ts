@@ -8,11 +8,10 @@
  */
 
 import Dimension2 from '../../../../dot/js/Dimension2.js';
-import { Line, Node, NodeOptions, NodeTranslationOptions, Rectangle, RectangleOptions, TPaint } from '../../../../scenery/js/imports.js';
+import { HBox, Line, Node, NodeOptions, NodeTranslationOptions, Rectangle, RectangleOptions, TPaint } from '../../../../scenery/js/imports.js';
 import PickOptional from '../../../../phet-core/js/types/PickOptional.js';
 import optionize, { combineOptions } from '../../../../phet-core/js/optionize.js';
 import faradaysElectromagneticLab from '../../faradaysElectromagneticLab.js';
-
 
 type SelfOptions = {
   size: Dimension2;
@@ -42,7 +41,7 @@ export default class ResistorNode extends Node {
       bodyLineWidth: 1,
       bodyCornerRadius: 5,
       bandWidth: 3,
-      bandSpacing: 6
+      bandSpacing: 3
     }, providedOptions );
 
     assert && assert( options.valueBandColors.length === 3, 'A 4-band resistor must have 3 value bands' );
@@ -58,13 +57,16 @@ export default class ResistorNode extends Node {
     const bandLength = options.size.height - options.bodyLineWidth;
     const bandTop = bodyNode.top + options.bodyLineWidth;
 
-    const valueBands = options.valueBandColors.map(
-      ( bandColor, index ) => new Line( 0, 0, 0, bandLength, {
-        stroke: bandColor,
-        lineWidth: options.bandWidth,
-        centerX: bodyNode.left + options.xMargin + ( index * options.bandSpacing ),
-        top: bandTop
-      } ) );
+    const valueBands = new HBox( {
+      spacing: options.bandSpacing,
+      children: options.valueBandColors.map(
+        ( bandColor, index ) => new Line( 0, 0, 0, bandLength, {
+          stroke: bandColor,
+          lineWidth: options.bandWidth
+        } ) ),
+      left: bodyNode.left + options.xMargin,
+      top: bandTop
+    } );
 
     const toleranceBand = new Line( 0, 0, 0, bandLength, {
       stroke: options.toleranceBandColor,
@@ -73,7 +75,7 @@ export default class ResistorNode extends Node {
       top: bandTop
     } );
 
-    options.children = [ bodyNode, ...valueBands, toleranceBand ];
+    options.children = [ bodyNode, valueBands, toleranceBand ];
 
     super( options );
   }
