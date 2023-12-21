@@ -1,7 +1,7 @@
 // Copyright 2023, University of Colorado Boulder
 
 /**
- * Coil is the abstract base class for all coils.
+ * Coil is the base class for all coils.
  *
  * @author Chris Malley (PixelZoom, Inc.)
  */
@@ -26,7 +26,7 @@ type SelfOptions = {
 
 export type CoilOptions = SelfOptions & FELMovableOptions;
 
-export default abstract class Coil extends FELMovable {
+export default class Coil extends FELMovable {
 
   // Width of the wire that makes up the coil.
   public readonly wireWidth: number;

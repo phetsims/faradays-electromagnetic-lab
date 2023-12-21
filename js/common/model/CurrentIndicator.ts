@@ -17,7 +17,7 @@ type SelfOptions = EmptySelfOptions;
 
 export type CurrentIndicatorOptions = SelfOptions & PickRequired<PhetioObjectOptions, 'tandem'>;
 
-export default abstract class CurrentIndicator extends PhetioObject {
+export default class CurrentIndicator extends PhetioObject {
 
   protected constructor( providedOptions: CurrentIndicatorOptions ) {
 

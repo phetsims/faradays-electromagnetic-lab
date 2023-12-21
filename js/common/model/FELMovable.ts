@@ -1,7 +1,7 @@
 // Copyright 2023, University of Colorado Boulder
 
 /**
- * FELMovable is the abstract base class for model elements that have a mutable position.
+ * FELMovable is the base class for model elements that have a mutable position.
  *
  * @author Chris Malley (PixelZoom, Inc.)
  */
@@ -20,7 +20,7 @@ type SelfOptions = {
 
 export type FELMovableOptions = SelfOptions & PickRequired<PhetioObjectOptions, 'tandem'>;
 
-export default abstract class FELMovable extends PhetioObject {
+export default class FELMovable extends PhetioObject {
 
   public readonly positionProperty: Property<Vector2>; // unitless
 
