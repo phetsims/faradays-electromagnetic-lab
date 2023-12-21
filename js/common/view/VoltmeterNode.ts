@@ -78,8 +78,10 @@ export default class VoltmeterNode extends Node {
 
     const bodyNode = new ShadedRectangle( BODY_BOUNDS, BODY_OPTIONS );
 
+    // The area where the gauge and needle are displayed
     const displayNode = new ShadedRectangle( DISPLAY_BOUNDS, DISPLAY_OPTIONS );
 
+    // 'voltage' below the display
     const voltageText = new Text( FaradaysElectromagneticLabStrings.voltageStringProperty, {
       font: new PhetFont( 12 ),
       fill: FELColors.voltageLabelColorProperty,
@@ -109,6 +111,7 @@ export default class VoltmeterNode extends Node {
       bottom: needleNode.bottom
     } );
 
+    // Probes below the body of the voltmeter, for connecting the voltmeter to the circuit
     const positiveProbeNode = new ProbeNode( FELColors.voltMeterPositiveProbeFillProperty, {
       centerX: bodyNode.centerX - RESISTOR_SIZE.width / 2,
       top: bodyNode.bottom - 1
@@ -118,6 +121,7 @@ export default class VoltmeterNode extends Node {
       top: bodyNode.bottom - 1
     } );
 
+    // Probes are connect on either side of a resistor
     const resistorNode = new ResistorNode( {
       size: RESISTOR_SIZE,
       bodyFill: FELColors.resistorFillProperty,
