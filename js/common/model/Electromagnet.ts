@@ -1,20 +1,24 @@
 // Copyright 2023, University of Colorado Boulder
 
 /**
- * TODO
+ * Electromagnet is the model of the electromagnet. The shape of the model is a circle, and the calculation of the
+ * magnetic field at some point of interest varies depending on whether the point is inside or outside the circle.
  *
  * @author Chris Malley (PixelZoom, Inc.)
  */
 
 import faradaysElectromagneticLab from '../../faradaysElectromagneticLab.js';
 import Magnet, { MagnetOptions } from './Magnet.js';
-import Vector2 from '../../../../dot/js/Vector2.js';
 import SourceCoil from './SourceCoil.js';
 import Property from '../../../../axon/js/Property.js';
 import BooleanProperty from '../../../../axon/js/BooleanProperty.js';
 import ACPowerSupply from './ACPowerSupply.js';
 import Battery from './Battery.js';
 import CurrentSource from './CurrentSource.js';
+import TReadOnlyProperty from '../../../../axon/js/TReadOnlyProperty.js';
+import DerivedProperty from '../../../../axon/js/DerivedProperty.js';
+import NumberIO from '../../../../tandem/js/types/NumberIO.js';
+import Vector2 from '../../../../dot/js/Vector2.js';
 
 type SelfOptions = {
   //TODO
@@ -30,6 +34,9 @@ export default class Electromagnet extends Magnet {
   public readonly currentSourceProperty: Property<CurrentSource>;
   public readonly sourceCoil: SourceCoil;
   public readonly electronsVisibleProperty: Property<boolean>;
+
+  // Electromagnet is modeled as a circle
+  public readonly radiusProperty: TReadOnlyProperty<number>;
 
   // *** Writeable via developer controls only, when running with &dev query parameter. ***
   // Makes the magnet model shape visible in the view.
@@ -52,9 +59,13 @@ export default class Electromagnet extends Magnet {
       phetioFeatured: true
     } );
 
-    this.sourceCoil = new SourceCoil( this, {
-      tandem: options.tandem.createTandem( 'sourceCoil' )
-    } );
+    this.sourceCoil = new SourceCoil( options.tandem.createTandem( 'sourceCoil' ) );
+
+    this.radiusProperty = new DerivedProperty( [ this.sourceCoil.loopRadiusProperty ],
+      loopRadius => loopRadius + ( this.sourceCoil.wireWidth / 2 ), {
+        tandem: options.tandem.createTandem( 'radiusProperty' ),
+        phetioValueType: NumberIO
+      } );
 
     this.electronsVisibleProperty = new BooleanProperty( true, {
       tandem: options.tandem.createTandem( 'electronsVisibleProperty' ),
@@ -64,15 +75,6 @@ export default class Electromagnet extends Magnet {
     this.shapeVisibleProperty = new BooleanProperty( false, {
       // Do not instrument. This is a PhET developer Property.
     } );
-
-    //TODO
-  }
-
-  /**
-   * TODO
-   */
-  protected override getLocalFieldVector( position: Vector2, outputVector: Vector2 ): Vector2 {
-    return new Vector2( 0, 0 ); //TODO
   }
 
   public override reset(): void {
@@ -82,6 +84,7 @@ export default class Electromagnet extends Magnet {
     this.currentSourceProperty.reset();
     this.sourceCoil.reset();
     this.electronsVisibleProperty.reset();
+    // Do not reset shapeVisibleProperty, it is a developer control.
   }
 
   public step( dt: number ): void {
@@ -89,6 +92,13 @@ export default class Electromagnet extends Magnet {
     if ( this.currentSourceProperty.value === this.acPowerSupply ) {
       this.acPowerSupply.step( dt );
     }
+  }
+
+  /**
+   * TODO
+   */
+  protected override getLocalFieldVector( position: Vector2, outputVector: Vector2 ): Vector2 {
+    return new Vector2( 0, 0 ); //TODO
   }
 }
 
