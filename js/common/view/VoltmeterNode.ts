@@ -16,7 +16,7 @@ import ShadedRectangle, { ShadedRectangleOptions } from '../../../../scenery-phe
 import Bounds2 from '../../../../dot/js/Bounds2.js';
 import { combineOptions } from '../../../../phet-core/js/optionize.js';
 import TReadOnlyProperty from '../../../../axon/js/TReadOnlyProperty.js';
-import { CurrentIndicator } from '../model/CurrentIndicator.js';
+import { CurrentIndicatorType } from '../model/CurrentIndicatorType.js';
 import DerivedProperty from '../../../../axon/js/DerivedProperty.js';
 import BooleanIO from '../../../../tandem/js/types/BooleanIO.js';
 import FaradaysElectromagneticLabStrings from '../../FaradaysElectromagneticLabStrings.js';
@@ -74,7 +74,7 @@ const MINOR_TICK_LENGTH = 4;
 
 export default class VoltmeterNode extends Node {
 
-  public constructor( voltmeter: Voltmeter, currentIndicatorProperty: TReadOnlyProperty<CurrentIndicator>, tandem: Tandem ) {
+  public constructor( voltmeter: Voltmeter, currentIndicatorProperty: TReadOnlyProperty<CurrentIndicatorType>, tandem: Tandem ) {
 
     const bodyNode = new ShadedRectangle( BODY_BOUNDS, BODY_OPTIONS );
 

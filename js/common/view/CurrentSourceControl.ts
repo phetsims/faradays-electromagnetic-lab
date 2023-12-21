@@ -10,7 +10,7 @@ import RectangularRadioButtonGroup, { RectangularRadioButtonGroupItem } from '..
 import faradaysElectromagneticLab from '../../faradaysElectromagneticLab.js';
 import StringUnionProperty from '../../../../axon/js/StringUnionProperty.js';
 import Tandem from '../../../../tandem/js/Tandem.js';
-import { CurrentSource } from '../model/CurrentSource.js';
+import { CurrentSourceType } from '../model/CurrentSourceType.js';
 import FELConstants from '../FELConstants.js';
 import BatteryNode from './BatteryNode.js';
 import ACPowerSupplyNode from './ACPowerSupplyNode.js';
@@ -19,7 +19,7 @@ import FaradaysElectromagneticLabStrings from '../../FaradaysElectromagneticLabS
 
 export default class CurrentSourceControl extends HBox {
 
-  public constructor( currentSourceProperty: StringUnionProperty<CurrentSource>, tandem: Tandem ) {
+  public constructor( currentSourceProperty: StringUnionProperty<CurrentSourceType>, tandem: Tandem ) {
 
     const labelText = new RichText( FaradaysElectromagneticLabStrings.currentSourceStringProperty, {
       font: FELConstants.CONTROL_FONT
@@ -36,11 +36,11 @@ export default class CurrentSourceControl extends HBox {
   }
 }
 
-class CurrentSourceRadioButtonGroup extends RectangularRadioButtonGroup<CurrentSource> {
+class CurrentSourceRadioButtonGroup extends RectangularRadioButtonGroup<CurrentSourceType> {
 
-  public constructor( currentSourceProperty: StringUnionProperty<CurrentSource>, tandem: Tandem ) {
+  public constructor( currentSourceProperty: StringUnionProperty<CurrentSourceType>, tandem: Tandem ) {
 
-    const items: RectangularRadioButtonGroupItem<CurrentSource>[] = [
+    const items: RectangularRadioButtonGroupItem<CurrentSourceType>[] = [
       {
         value: 'battery',
         createNode: ( tandem: Tandem ) => BatteryNode.createIcon(),

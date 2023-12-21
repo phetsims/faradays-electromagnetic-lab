@@ -13,7 +13,7 @@ import LightBulb from '../model/LightBulb.js';
 import LightBulbNode from '../../../../scenery-phet/js/LightBulbNode.js';
 import TReadOnlyProperty from '../../../../axon/js/TReadOnlyProperty.js';
 import DerivedProperty from '../../../../axon/js/DerivedProperty.js';
-import { CurrentIndicator } from '../model/CurrentIndicator.js';
+import { CurrentIndicatorType } from '../model/CurrentIndicatorType.js';
 import lightBulbOff_png from '../../../../scenery-phet/mipmaps/lightBulbOff_png.js';
 import ShadedRectangle from '../../../../scenery-phet/js/ShadedRectangle.js';
 import Bounds2 from '../../../../dot/js/Bounds2.js';
@@ -24,7 +24,7 @@ import Vector2 from '../../../../dot/js/Vector2.js';
 
 export default class FELLightBulbNode extends Node {
 
-  public constructor( lightBulb: LightBulb, currentIndicatorProperty: TReadOnlyProperty<CurrentIndicator>, tandem: Tandem ) {
+  public constructor( lightBulb: LightBulb, currentIndicatorProperty: TReadOnlyProperty<CurrentIndicatorType>, tandem: Tandem ) {
 
     const baseNode = new ShadedRectangle( new Bounds2( 0, 0, 150, 20 ), {
       baseColor: FELColors.lightBulbBaseColorProperty,

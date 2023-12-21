@@ -11,7 +11,7 @@ import Magnet, { MagnetOptions } from './Magnet.js';
 import Vector2 from '../../../../dot/js/Vector2.js';
 import SourceCoil from './SourceCoil.js';
 import StringUnionProperty from '../../../../axon/js/StringUnionProperty.js';
-import { CurrentSource, CurrentSourceValues } from './CurrentSource.js';
+import { CurrentSourceType, CurrentSourceValues } from './CurrentSourceType.js';
 import Property from '../../../../axon/js/Property.js';
 import BooleanProperty from '../../../../axon/js/BooleanProperty.js';
 import ACPowerSupply from './ACPowerSupply.js';
@@ -28,7 +28,7 @@ export default class Electromagnet extends Magnet {
   public readonly battery: Battery;
   public readonly acPowerSupply: ACPowerSupply;
 
-  public readonly currentSourceProperty: Property<CurrentSource>;
+  public readonly currentSourceProperty: Property<CurrentSourceType>;
   public readonly sourceCoil: SourceCoil;
   public readonly electronsVisibleProperty: Property<boolean>;
 
@@ -46,7 +46,7 @@ export default class Electromagnet extends Magnet {
 
     this.acPowerSupply = new ACPowerSupply( options.tandem.createTandem( 'acPowerSupply' ) );
 
-    this.currentSourceProperty = new StringUnionProperty<CurrentSource>( 'battery', {
+    this.currentSourceProperty = new StringUnionProperty<CurrentSourceType>( 'battery', {
       validValues: CurrentSourceValues,
       tandem: options.tandem.createTandem( 'currentSourceProperty' ),
       phetioFeatured: true

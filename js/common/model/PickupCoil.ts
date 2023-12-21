@@ -14,7 +14,7 @@ import StrictOmit from '../../../../phet-core/js/types/StrictOmit.js';
 import Magnet from './Magnet.js';
 import Vector2 from '../../../../dot/js/Vector2.js';
 import Property from '../../../../axon/js/Property.js';
-import { CurrentIndicator, CurrentIndicatorValues } from './CurrentIndicator.js';
+import { CurrentIndicatorType, CurrentIndicatorValues } from './CurrentIndicatorType.js';
 import StringUnionProperty from '../../../../axon/js/StringUnionProperty.js';
 import BooleanProperty from '../../../../axon/js/BooleanProperty.js';
 import NumberProperty from '../../../../axon/js/NumberProperty.js';
@@ -69,7 +69,7 @@ export default class PickupCoil extends Coil {
   public samplePoints: ObservableArray<Vector2>;
 
   // Which EMF indicator is visible in the view
-  public readonly currentIndicatorProperty: Property<CurrentIndicator>;
+  public readonly currentIndicatorProperty: Property<CurrentIndicatorType>;
   
   // *** Writeable via developer controls only, when running with &dev query parameter. ***
   // Dividing the coil's EMF by this number will give us the coil's current amplitude, a number between 0 and 1 that
@@ -180,7 +180,7 @@ export default class PickupCoil extends Coil {
       phetioDocumentation: 'B-field sample points along the vertical axis of the coil'
     } );
 
-    this.currentIndicatorProperty = new StringUnionProperty<CurrentIndicator>( 'lightBulb', {
+    this.currentIndicatorProperty = new StringUnionProperty<CurrentIndicatorType>( 'lightBulb', {
       validValues: CurrentIndicatorValues,
       tandem: options.tandem.createTandem( 'currentIndicatorProperty' ),
       phetioFeatured: true

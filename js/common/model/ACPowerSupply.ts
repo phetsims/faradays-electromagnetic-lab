@@ -1,6 +1,6 @@
 // Copyright 2023, University of Colorado Boulder
 
-//TODO Factor out CurrentSource base class, possibly delete CurrentSource string union?
+//TODO Factor out CurrentSourceType base class, possibly delete CurrentSourceType string union?
 /**
  * TODO
  *

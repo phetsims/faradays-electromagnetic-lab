@@ -12,7 +12,7 @@ import faradaysElectromagneticLab from '../../faradaysElectromagneticLab.js';
 import StringUnionProperty from '../../../../axon/js/StringUnionProperty.js';
 import Tandem from '../../../../tandem/js/Tandem.js';
 import VoltmeterNode from './VoltmeterNode.js';
-import { CurrentIndicator } from '../model/CurrentIndicator.js';
+import { CurrentIndicatorType } from '../model/CurrentIndicatorType.js';
 import FELConstants from '../FELConstants.js';
 import { HBox, Text } from '../../../../scenery/js/imports.js';
 import FaradaysElectromagneticLabStrings from '../../FaradaysElectromagneticLabStrings.js';
@@ -20,7 +20,7 @@ import FELLightBulbNode from './FELLightBulbNode.js';
 
 export default class CurrentIndicatorControl extends HBox {
 
-  public constructor( currentIndicatorProperty: StringUnionProperty<CurrentIndicator>, tandem: Tandem ) {
+  public constructor( currentIndicatorProperty: StringUnionProperty<CurrentIndicatorType>, tandem: Tandem ) {
 
     const labelText = new Text( FaradaysElectromagneticLabStrings.indicatorStringProperty, {
       font: FELConstants.CONTROL_FONT
@@ -37,11 +37,11 @@ export default class CurrentIndicatorControl extends HBox {
   }
 }
 
-class CurrentIndicatorRadioButtonGroup extends RectangularRadioButtonGroup<CurrentIndicator> {
+class CurrentIndicatorRadioButtonGroup extends RectangularRadioButtonGroup<CurrentIndicatorType> {
 
-  public constructor( currentIndicatorProperty: StringUnionProperty<CurrentIndicator>, tandem: Tandem ) {
+  public constructor( currentIndicatorProperty: StringUnionProperty<CurrentIndicatorType>, tandem: Tandem ) {
 
-    const items: RectangularRadioButtonGroupItem<CurrentIndicator>[] = [
+    const items: RectangularRadioButtonGroupItem<CurrentIndicatorType>[] = [
       {
         value: 'lightBulb',
         createNode: ( tandem: Tandem ) => FELLightBulbNode.createIcon(),
