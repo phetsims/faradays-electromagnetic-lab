@@ -10,11 +10,11 @@
 
 import { GridBox, GridBoxOptions } from '../../../../scenery/js/imports.js';
 import faradaysElectromagneticLab from '../../faradaysElectromagneticLab.js';
-import NumberProperty from '../../../../axon/js/NumberProperty.js';
 import CompassNeedleNode from './CompassNeedleNode.js';
 import optionize, { EmptySelfOptions } from '../../../../phet-core/js/optionize.js';
 import PickRequired from '../../../../phet-core/js/types/PickRequired.js';
 import FELColors from '../FELColors.js';
+import BarMagnet from '../model/BarMagnet.js';
 
 //TODO compute these values based on magnet size, needle size, and desired xMargin and yMargin
 const FIELD_INSIDE_ROWS = 2;
@@ -28,7 +28,7 @@ type FieldInsideNodeOptions = SelfOptions & PickRequired<GridBoxOptions, 'tandem
 
 export default class FieldInsideNode extends GridBox {
 
-  public constructor( strengthProperty: NumberProperty, providedOptions: FieldInsideNodeOptions ) {
+  public constructor( barMagnet: BarMagnet, providedOptions: FieldInsideNodeOptions ) {
 
     const options = optionize<FieldInsideNodeOptions, SelfOptions, GridBoxOptions>()( {
 
@@ -45,9 +45,8 @@ export default class FieldInsideNode extends GridBox {
     super( options );
 
     // Visualize field strength by modulating opacity as magnet strength changes.
-    //TODO Is linear modulation OK?
-    strengthProperty.link( strength => {
-      this.opacity = strength / strengthProperty.rangeProperty.value.max;
+    barMagnet.strengthProperty.link( strength => {
+      this.opacity = strength / barMagnet.strengthProperty.rangeProperty.value.max;
     } );
   }
 }

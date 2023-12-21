@@ -85,7 +85,7 @@ export default class BarMagnetNode extends FELMovableNode {
 
     // If seeInsideProperty was provided, then add the visualization of the field inside the bar magnet.
     if ( options.seeInsideProperty ) {
-      this.addChild( new FieldInsideNode( barMagnet.strengthProperty, {
+      this.addChild( new FieldInsideNode( barMagnet, {
         visibleProperty: options.seeInsideProperty,
         center: barNode.center,
         tandem: options.tandem.createTandem( 'fieldInsideNode' )
