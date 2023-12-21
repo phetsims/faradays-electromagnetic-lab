@@ -124,14 +124,6 @@ export default class TransformerScreenView extends ScreenView {
       // Exclude developerAccordionBox and pickupCoilDebuggerPanel from alt input.
     ];
   }
-
-  /**
-   * Steps the view.
-   * @param dt - time step, in seconds
-   */
-  public override step( dt: number ): void {
-    //TODO
-  }
 }
 
 faradaysElectromagneticLab.register( 'TransformerScreenView', TransformerScreenView );

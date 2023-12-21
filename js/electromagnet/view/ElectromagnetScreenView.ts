@@ -109,14 +109,6 @@ export default class ElectromagnetScreenView extends ScreenView {
       // Exclude developerAccordionBox from alt input.
     ];
   }
-
-  /**
-   * Steps the view.
-   * @param dt - time step, in seconds
-   */
-  public override step( dt: number ): void {
-    //TODO
-  }
 }
 
 faradaysElectromagneticLab.register( 'ElectromagnetScreenView', ElectromagnetScreenView );

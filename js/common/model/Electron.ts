@@ -134,6 +134,8 @@ export default class Electron {
    * the "overshoot". The order of curves is determined by the order of elements in the CoilSegment array.
    */
   public step( dt: number ): void {
+    assert && assert( dt === 1, `invalid dt=${dt}, see FELModel step` );
+
     if ( this.visibleProperty.value && this.speedAndDirectionProperty.value !== 0 ) {
 
       // Move the electron along the path.

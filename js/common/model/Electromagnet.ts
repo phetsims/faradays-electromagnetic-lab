@@ -85,6 +85,7 @@ export default class Electromagnet extends Magnet {
   }
 
   public step( dt: number ): void {
+    assert && assert( dt === 1, `invalid dt=${dt}, see FELModel step` );
     //TODO beware of dependencies on SwingClock.java !!
     this.acPowerSupply.step( dt );
   }

@@ -113,6 +113,7 @@ export default class CoilNode extends Node {
   }
 
   private step( dt: number ): void {
+    assert && assert( dt === 1, `invalid dt=${dt}, see FELModel step` );
     this.electrons.forEach( electron => electron.step( dt ) );
   }
 

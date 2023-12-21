@@ -65,6 +65,7 @@ export default class Voltmeter extends CurrentIndicator {
   }
 
   public step( dt: number ): void {
+    assert && assert( dt === 1, `invalid dt=${dt}, see FELModel step` );
 
     // Determine the desired needle deflection angle.
     const needleAngle = this.getDesiredNeedleAngle();

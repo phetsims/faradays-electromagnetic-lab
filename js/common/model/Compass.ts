@@ -71,6 +71,8 @@ export default abstract class Compass extends FELMovable {
 
   //TODO If the clock is paused and the magnet moves, update immediately to match the field vector
   public step( dt: number ): void {
+    assert && assert( dt === 1, `invalid dt=${dt}, see FELModel step` );
+
     const fieldVector = this.magnet.getFieldVector( this.positionProperty.value, this.reusableFieldVector );
     if ( fieldVector.magnitude !== 0 ) {
       this.updateAngle( fieldVector, dt );
