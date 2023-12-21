@@ -8,9 +8,9 @@
  */
 
 import Dimension2 from '../../../../dot/js/Dimension2.js';
-import { HBox, Line, Node, NodeOptions, NodeTranslationOptions, Rectangle, RectangleOptions, TPaint } from '../../../../scenery/js/imports.js';
+import { HBox, Line, Node, NodeOptions, NodeTranslationOptions, Rectangle, TPaint } from '../../../../scenery/js/imports.js';
 import PickOptional from '../../../../phet-core/js/types/PickOptional.js';
-import optionize, { combineOptions } from '../../../../phet-core/js/optionize.js';
+import optionize from '../../../../phet-core/js/optionize.js';
 import faradaysElectromagneticLab from '../../faradaysElectromagneticLab.js';
 
 type SelfOptions = {
@@ -46,15 +46,14 @@ export default class ResistorNode extends Node {
 
     assert && assert( options.valueBandColors.length === 3, 'A 4-band resistor must have 3 value bands' );
 
-    const bodyNode = new Rectangle( 0, 0, options.size.width, options.size.height,
-      combineOptions<RectangleOptions>( {
-        fill: options.bodyFill,
-        stroke: options.bodyStroke,
-        lineWidth: options.bodyLineWidth,
-        cornerRadius: options.bodyCornerRadius
-      }, providedOptions ) );
+    const bodyNode = new Rectangle( 0, 0, options.size.width, options.size.height, {
+      fill: options.bodyFill,
+      stroke: options.bodyStroke,
+      lineWidth: options.bodyLineWidth,
+      cornerRadius: options.bodyCornerRadius
+    } );
 
-    const bandLength = options.size.height - options.bodyLineWidth;
+    const bandLength = options.size.height - options.bodyLineWidth; // prevent bands from bleeding into bodyNode stroke
     const bandTop = bodyNode.top + options.bodyLineWidth;
 
     const valueBands = new HBox( {
