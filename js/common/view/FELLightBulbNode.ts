@@ -13,7 +13,6 @@ import LightBulb from '../model/LightBulb.js';
 import LightBulbNode from '../../../../scenery-phet/js/LightBulbNode.js';
 import TReadOnlyProperty from '../../../../axon/js/TReadOnlyProperty.js';
 import DerivedProperty from '../../../../axon/js/DerivedProperty.js';
-import { CurrentIndicatorType } from '../model/CurrentIndicatorType.js';
 import lightBulbOff_png from '../../../../scenery-phet/mipmaps/lightBulbOff_png.js';
 import ShadedRectangle from '../../../../scenery-phet/js/ShadedRectangle.js';
 import Bounds2 from '../../../../dot/js/Bounds2.js';
@@ -21,10 +20,11 @@ import FELColors from '../FELColors.js';
 import BooleanIO from '../../../../tandem/js/types/BooleanIO.js';
 import Tandem from '../../../../tandem/js/Tandem.js';
 import Vector2 from '../../../../dot/js/Vector2.js';
+import CurrentIndicator from '../model/CurrentIndicator.js';
 
 export default class FELLightBulbNode extends Node {
 
-  public constructor( lightBulb: LightBulb, currentIndicatorProperty: TReadOnlyProperty<CurrentIndicatorType>, tandem: Tandem ) {
+  public constructor( lightBulb: LightBulb, currentIndicatorProperty: TReadOnlyProperty<CurrentIndicator>, tandem: Tandem ) {
 
     const baseNode = new ShadedRectangle( new Bounds2( 0, 0, 150, 20 ), {
       baseColor: FELColors.lightBulbBaseColorProperty,
@@ -59,7 +59,7 @@ export default class FELLightBulbNode extends Node {
 
     super( {
       children: [ bulbNode, socketNode, baseNode ],
-      visibleProperty: new DerivedProperty( [ currentIndicatorProperty ], indicator => ( indicator === 'lightBulb' ), {
+      visibleProperty: new DerivedProperty( [ currentIndicatorProperty ], indicator => ( indicator === lightBulb ), {
         tandem: tandem.createTandem( 'visibleProperty' ),
         phetioValueType: BooleanIO
       } ),

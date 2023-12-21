@@ -16,7 +16,6 @@ import ShadedRectangle, { ShadedRectangleOptions } from '../../../../scenery-phe
 import Bounds2 from '../../../../dot/js/Bounds2.js';
 import { combineOptions } from '../../../../phet-core/js/optionize.js';
 import TReadOnlyProperty from '../../../../axon/js/TReadOnlyProperty.js';
-import { CurrentIndicatorType } from '../model/CurrentIndicatorType.js';
 import DerivedProperty from '../../../../axon/js/DerivedProperty.js';
 import BooleanIO from '../../../../tandem/js/types/BooleanIO.js';
 import FaradaysElectromagneticLabStrings from '../../FaradaysElectromagneticLabStrings.js';
@@ -29,6 +28,7 @@ import MathSymbols from '../../../../scenery-phet/js/MathSymbols.js';
 import Vector2 from '../../../../dot/js/Vector2.js';
 import Tandem from '../../../../tandem/js/Tandem.js';
 import Dimension2 from '../../../../dot/js/Dimension2.js';
+import CurrentIndicator from '../model/CurrentIndicator.js';
 
 // Body and display area
 const BODY_BOUNDS = new Bounds2( 0, 0, 172, 112 );
@@ -74,7 +74,7 @@ const MINOR_TICK_LENGTH = 4;
 
 export default class VoltmeterNode extends Node {
 
-  public constructor( voltmeter: Voltmeter, currentIndicatorProperty: TReadOnlyProperty<CurrentIndicatorType>, tandem: Tandem ) {
+  public constructor( voltmeter: Voltmeter, currentIndicatorProperty: TReadOnlyProperty<CurrentIndicator>, tandem: Tandem ) {
 
     const bodyNode = new ShadedRectangle( BODY_BOUNDS, BODY_OPTIONS );
 
@@ -138,7 +138,7 @@ export default class VoltmeterNode extends Node {
 
     super( {
       children: [ resistorNode, positiveProbeNode, negativeProbeNode, bodyNode, displayNode, voltageText, gaugeNode, needleNode, screwNode ],
-      visibleProperty: new DerivedProperty( [ currentIndicatorProperty ], indicator => ( indicator === 'voltmeter' ), {
+      visibleProperty: new DerivedProperty( [ currentIndicatorProperty ], indicator => ( indicator === voltmeter ), {
         tandem: tandem.createTandem( 'visibleProperty' ),
         phetioValueType: BooleanIO
       } ),

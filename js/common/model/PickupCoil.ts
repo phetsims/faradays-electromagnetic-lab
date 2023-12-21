@@ -14,8 +14,6 @@ import StrictOmit from '../../../../phet-core/js/types/StrictOmit.js';
 import Magnet from './Magnet.js';
 import Vector2 from '../../../../dot/js/Vector2.js';
 import Property from '../../../../axon/js/Property.js';
-import { CurrentIndicatorType, CurrentIndicatorValues } from './CurrentIndicatorType.js';
-import StringUnionProperty from '../../../../axon/js/StringUnionProperty.js';
 import BooleanProperty from '../../../../axon/js/BooleanProperty.js';
 import NumberProperty from '../../../../axon/js/NumberProperty.js';
 import Range from '../../../../dot/js/Range.js';
@@ -24,6 +22,7 @@ import createObservableArray, { ObservableArray } from '../../../../axon/js/crea
 import TReadOnlyProperty from '../../../../axon/js/TReadOnlyProperty.js';
 import LightBulb from './LightBulb.js';
 import Voltmeter from './Voltmeter.js';
+import CurrentIndicator from './CurrentIndicator.js';
 
 const WIRE_WIDTH = 16;
 const LOOP_SPACING = 1.5 * WIRE_WIDTH; // loosely-packed loops
@@ -69,8 +68,8 @@ export default class PickupCoil extends Coil {
   public samplePoints: ObservableArray<Vector2>;
 
   // Which EMF indicator is visible in the view
-  public readonly currentIndicatorProperty: Property<CurrentIndicatorType>;
-  
+  public readonly currentIndicatorProperty: Property<CurrentIndicator>;
+
   // *** Writeable via developer controls only, when running with &dev query parameter. ***
   // Dividing the coil's EMF by this number will give us the coil's current amplitude, a number between 0 and 1 that
   // determines the responsiveness of view components. This number should be set as close as possible to the maximum
@@ -180,9 +179,10 @@ export default class PickupCoil extends Coil {
       phetioDocumentation: 'B-field sample points along the vertical axis of the coil'
     } );
 
-    this.currentIndicatorProperty = new StringUnionProperty<CurrentIndicatorType>( 'lightBulb', {
-      validValues: CurrentIndicatorValues,
+    this.currentIndicatorProperty = new Property<CurrentIndicator>( this.lightBulb, {
+      validValues: [ this.lightBulb, this.voltmeter ],
       tandem: options.tandem.createTandem( 'currentIndicatorProperty' ),
+      phetioValueType: CurrentIndicator.CurrentIndicatorIO,
       phetioFeatured: true
       //TODO phetioDocumentation
     } );

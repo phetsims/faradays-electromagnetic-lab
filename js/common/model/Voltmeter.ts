@@ -10,11 +10,11 @@
 import Tandem from '../../../../tandem/js/Tandem.js';
 import faradaysElectromagneticLab from '../../faradaysElectromagneticLab.js';
 import PickupCoil from './PickupCoil.js';
-import PhetioObject from '../../../../tandem/js/PhetioObject.js';
 import Utils from '../../../../dot/js/Utils.js';
 import FELConstants from '../FELConstants.js';
 import TReadOnlyProperty from '../../../../axon/js/TReadOnlyProperty.js';
 import NumberProperty from '../../../../axon/js/NumberProperty.js';
+import CurrentIndicator from './CurrentIndicator.js';
 
 // Define the zero point of the needle.
 const ZERO_NEEDLE_ANGLE = Utils.toRadians( 0.0 );
@@ -35,7 +35,7 @@ const NEEDLE_JIGGLE_THRESHOLD = Utils.toRadians( 0.5 );
 const NEEDLE_LIVELINESS = 0.6;
 assert && assert( NEEDLE_LIVELINESS > 0 && NEEDLE_LIVELINESS < 1 );
 
-export default class Voltmeter extends PhetioObject {
+export default class Voltmeter extends CurrentIndicator {
 
   // The pickup coil whose current amplitude the voltmeter is measuring
   private readonly pickupCoil: PickupCoil;
@@ -47,8 +47,7 @@ export default class Voltmeter extends PhetioObject {
   public constructor( pickupCoil: PickupCoil, tandem: Tandem ) {
 
     super( {
-      tandem: tandem,
-      phetioState: false
+      tandem: tandem
     } );
 
     this.pickupCoil = pickupCoil;

@@ -9,24 +9,24 @@
 
 import RectangularRadioButtonGroup, { RectangularRadioButtonGroupItem } from '../../../../sun/js/buttons/RectangularRadioButtonGroup.js';
 import faradaysElectromagneticLab from '../../faradaysElectromagneticLab.js';
-import StringUnionProperty from '../../../../axon/js/StringUnionProperty.js';
 import Tandem from '../../../../tandem/js/Tandem.js';
 import VoltmeterNode from './VoltmeterNode.js';
-import { CurrentIndicatorType } from '../model/CurrentIndicatorType.js';
 import FELConstants from '../FELConstants.js';
 import { HBox, Text } from '../../../../scenery/js/imports.js';
 import FaradaysElectromagneticLabStrings from '../../FaradaysElectromagneticLabStrings.js';
 import FELLightBulbNode from './FELLightBulbNode.js';
+import CurrentIndicator from '../model/CurrentIndicator.js';
+import PickupCoil from '../model/PickupCoil.js';
 
 export default class CurrentIndicatorControl extends HBox {
 
-  public constructor( currentIndicatorProperty: StringUnionProperty<CurrentIndicatorType>, tandem: Tandem ) {
+  public constructor( pickupCoil: PickupCoil, tandem: Tandem ) {
 
     const labelText = new Text( FaradaysElectromagneticLabStrings.indicatorStringProperty, {
       font: FELConstants.CONTROL_FONT
     } );
 
-    const radioButtonGroup = new CurrentIndicatorRadioButtonGroup( currentIndicatorProperty, tandem.createTandem( 'radioButtonGroup' ) );
+    const radioButtonGroup = new CurrentIndicatorRadioButtonGroup( pickupCoil, tandem.createTandem( 'radioButtonGroup' ) );
 
     super( {
       spacing: 10,
@@ -37,24 +37,24 @@ export default class CurrentIndicatorControl extends HBox {
   }
 }
 
-class CurrentIndicatorRadioButtonGroup extends RectangularRadioButtonGroup<CurrentIndicatorType> {
+class CurrentIndicatorRadioButtonGroup extends RectangularRadioButtonGroup<CurrentIndicator> {
 
-  public constructor( currentIndicatorProperty: StringUnionProperty<CurrentIndicatorType>, tandem: Tandem ) {
+  public constructor( pickupCoil: PickupCoil, tandem: Tandem ) {
 
-    const items: RectangularRadioButtonGroupItem<CurrentIndicatorType>[] = [
+    const items: RectangularRadioButtonGroupItem<CurrentIndicator>[] = [
       {
-        value: 'lightBulb',
-        createNode: ( tandem: Tandem ) => FELLightBulbNode.createIcon(),
+        value: pickupCoil.lightBulb,
+        createNode: () => FELLightBulbNode.createIcon(),
         tandemName: 'lightBulbRadioButton'
       },
       {
-        value: 'voltmeter',
-        createNode: ( tandem: Tandem ) => VoltmeterNode.createIcon(),
+        value: pickupCoil.voltmeter,
+        createNode: () => VoltmeterNode.createIcon(),
         tandemName: 'voltmeterRadioButton'
       }
     ];
 
-    super( currentIndicatorProperty, items, {
+    super( pickupCoil.currentIndicatorProperty, items, {
       isDisposable: false,
       orientation: 'horizontal',
       spacing: 10,

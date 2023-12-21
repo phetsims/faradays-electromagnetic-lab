@@ -10,12 +10,12 @@
 import faradaysElectromagneticLab from '../../faradaysElectromagneticLab.js';
 import PickupCoil from './PickupCoil.js';
 import NumberProperty from '../../../../axon/js/NumberProperty.js';
-import PhetioObject, { PhetioObjectOptions } from '../../../../tandem/js/PhetioObject.js';
+import { PhetioObjectOptions } from '../../../../tandem/js/PhetioObject.js';
 import Range from '../../../../dot/js/Range.js';
 import PickRequired from '../../../../phet-core/js/types/PickRequired.js';
-import optionize from '../../../../phet-core/js/optionize.js';
 import TReadOnlyProperty from '../../../../axon/js/TReadOnlyProperty.js';
 import FELConstants from '../FELConstants.js';
+import CurrentIndicator from './CurrentIndicator.js';
 
 type SelfOptions = {
 
@@ -27,7 +27,7 @@ type SelfOptions = {
 
 type LightBulbOptions = SelfOptions & PickRequired<PhetioObjectOptions, 'tandem'>;
 
-export default class LightBulb extends PhetioObject {
+export default class LightBulb extends CurrentIndicator {
 
   // The brightness of the light. Fully off is 0.0, fully on is 1.0.
   public readonly brightnessProperty: TReadOnlyProperty<number>;
@@ -35,11 +35,7 @@ export default class LightBulb extends PhetioObject {
 
   public constructor( pickupCoil: PickupCoil, providedOptions: LightBulbOptions ) {
 
-    const options = optionize<LightBulbOptions, SelfOptions, PhetioObjectOptions>()( {
-
-      // PhetioObjectOptions
-      phetioState: false
-    }, providedOptions );
+    const options = providedOptions;
 
     super( options );
 
