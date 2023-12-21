@@ -25,14 +25,12 @@ export type MagnetOptions = SelfOptions & FELMovableOptions;
 
 export default abstract class Magnet extends FELMovable {
 
-  public readonly rotationProperty: Property<number>; // radians
-
   //TODO strengthProperty should be writeable only for BarMagnet. For Electromagnet, it should be derived from sourceCoil.currentAmplitudeProperty.
   public readonly strengthProperty: NumberProperty; // gauss
-  public readonly fieldVisibleProperty: Property<boolean>;
 
-  // reusable vector for transforming a position to the magnet's local coordinate frame
-  private readonly reusablePosition: Vector2;
+  public readonly rotationProperty: Property<number>; // radians
+
+  public readonly fieldVisibleProperty: Property<boolean>;
 
   // *** Writeable via developer controls only, when running with &dev query parameter. ***
   // Scales the modulation of alpha used to render the B-field visualization. In reality, the B-field drops off very
@@ -40,6 +38,9 @@ export default abstract class Magnet extends FELMovable {
   // intensity of the compass needles in our visualization so that we see more of the field. Smaller values make the
   // field appear to drop off more rapidly. Larger values make the field appear to drop off more slowly.
   public readonly fieldScaleProperty: NumberProperty;
+
+  // reusable vector for transforming a position to the magnet's local coordinate frame
+  private readonly reusablePosition: Vector2;
 
   protected constructor( providedOptions: MagnetOptions ) {
 
@@ -51,17 +52,17 @@ export default abstract class Magnet extends FELMovable {
 
     super( options );
 
-    this.rotationProperty = new NumberProperty( options.rotation, {
-      units: 'radians',
-      tandem: options.tandem.createTandem( 'rotationProperty' ),
-      phetioReadOnly: true,
-      phetioFeatured: true
-    } );
-
     this.strengthProperty = new NumberProperty( options.strengthRange.defaultValue, {
       units: 'G',
       range: options.strengthRange,
       tandem: options.tandem.createTandem( 'strengthProperty' ),
+      phetioFeatured: true
+    } );
+
+    this.rotationProperty = new NumberProperty( options.rotation, {
+      units: 'radians',
+      tandem: options.tandem.createTandem( 'rotationProperty' ),
+      phetioReadOnly: true,
       phetioFeatured: true
     } );
 
@@ -70,12 +71,12 @@ export default abstract class Magnet extends FELMovable {
       phetioFeatured: true
     } );
 
-    this.reusablePosition = new Vector2( 0, 0 );
-
     this.fieldScaleProperty = new NumberProperty( 2.7, {
       range: new Range( 1, 6 )
       // Do not instrument. This is a PhET developer Property.
     } );
+
+    this.reusablePosition = new Vector2( 0, 0 );
   }
 
   public override reset(): void {
