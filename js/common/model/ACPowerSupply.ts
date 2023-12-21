@@ -17,6 +17,7 @@ import TReadOnlyProperty from '../../../../axon/js/TReadOnlyProperty.js';
 
 // The minimum number of steps used to approximate one sine wave cycle.
 const MIN_STEPS_PER_CYCLE = 10;
+const ANGLE_RANGE = new Range( 0, 2 * Math.PI );
 
 export default class ACPowerSupply extends CurrentSource {
 
@@ -54,7 +55,7 @@ export default class ACPowerSupply extends CurrentSource {
     } );
 
     this.angleProperty = new NumberProperty( 0, {
-      range: new Range( 0, 2 * Math.PI ),
+      range: ANGLE_RANGE,
       units: 'radians',
       tandem: tandem.createTandem( 'angleProperty' )
     } );
@@ -67,11 +68,13 @@ export default class ACPowerSupply extends CurrentSource {
     this.deltaAngleProperty = new DerivedProperty( [ this.frequencyProperty ],
       frequency => ( 2 * Math.PI * frequency ) / MIN_STEPS_PER_CYCLE, {
         units: 'radians',
+        isValidValue: deltaAngle => ANGLE_RANGE.contains( deltaAngle ),
         tandem: tandem.createTandem( 'deltaAngleProperty' ),
         phetioValueType: NumberIO
       } );
 
     this._stepAngleProperty = new NumberProperty( 0, {
+      range: ANGLE_RANGE,
       units: 'radians',
       tandem: tandem.createTandem( 'stepAngleProperty' )
     } );
