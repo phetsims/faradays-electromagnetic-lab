@@ -10,24 +10,21 @@ import faradaysElectromagneticLab from '../../faradaysElectromagneticLab.js';
 import Coil from './Coil.js';
 import RangeWithValue from '../../../../dot/js/RangeWithValue.js';
 import Tandem from '../../../../tandem/js/Tandem.js';
+import TReadOnlyProperty from '../../../../axon/js/TReadOnlyProperty.js';
 
 const WIRE_WIDTH = 16;
 const LOOP_SPACING = WIRE_WIDTH; // closely-packed loops
 
 export default class SourceCoil extends Coil {
 
-  public constructor( tandem: Tandem ) {
-    super( {
+  public constructor( currentAmplitudeProperty: TReadOnlyProperty<number>, tandem: Tandem ) {
+    super( currentAmplitudeProperty, {
       numberOfLoopsRange: new RangeWithValue( 1, 4, 4 ),
       loopRadiusRange: new RangeWithValue( 50, 50, 50 ), // fixed radius
       wireWidth: WIRE_WIDTH,
       loopSpacing: LOOP_SPACING,
       tandem: tandem
     } );
-  }
-
-  public setCurrentAmplitude( currentAmplitude: number ): void {
-    this._currentAmplitudeProperty.value = currentAmplitude;
   }
 }
 

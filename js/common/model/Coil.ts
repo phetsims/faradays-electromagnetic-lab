@@ -43,9 +43,7 @@ export default class Coil extends FELMovable {
   // This is a quantity that we made up. It is a percentage that describes the amount of current relative to some
   // maximum current in the model, and direction of that current. View components can use this value to determine
   // how they should behave (eg, how far to move a voltmeter needle, how bright to make a lightbulb, etc.)
-  //TODO Perhaps currentAmplitudeProperty should move to subclasses, so that SourceCoil setCurrentAmplitude is not needed.
   public readonly currentAmplitudeProperty: TReadOnlyProperty<number>;
-  protected readonly _currentAmplitudeProperty: NumberProperty;
 
   // *** Writeable via developer controls only, when running with &dev query parameter. ***
   // Scale used for electron speed in the view.
@@ -54,7 +52,7 @@ export default class Coil extends FELMovable {
   // Whether electrons are visible in the coil in the view
   public readonly electronsVisibleProperty: Property<boolean>;
 
-  protected constructor( providedOptions: CoilOptions ) {
+  protected constructor( currentAmplitudeProperty: TReadOnlyProperty<number>, providedOptions: CoilOptions ) {
 
     const options = optionize<CoilOptions, SelfOptions, FELMovableOptions>()( {
 
@@ -85,13 +83,7 @@ export default class Coil extends FELMovable {
       phetioFeatured: true
     } );
 
-    this._currentAmplitudeProperty = new NumberProperty( 0, {
-      range: new Range( -1, 1 ),
-      tandem: options.tandem.createTandem( 'currentAmplitudeProperty' ),
-      phetioReadOnly: true,
-      phetioDocumentation: 'For internal use only'
-    } );
-    this.currentAmplitudeProperty = this._currentAmplitudeProperty;
+    this.currentAmplitudeProperty = currentAmplitudeProperty;
 
     this.electronSpeedScaleProperty = new NumberProperty( options.electronSpeedScale, {
       range: new Range( 1, 100 )
@@ -108,7 +100,6 @@ export default class Coil extends FELMovable {
     super.reset();
     this.numberOfLoopsProperty.reset();
     this.loopRadiusProperty.reset();
-    this._currentAmplitudeProperty.reset();
     this.electronsVisibleProperty.reset();
   }
 }

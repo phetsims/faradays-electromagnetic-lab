@@ -45,6 +45,9 @@ export default class PickupCoil extends Coil {
   // Strategy used to create sample points
   private readonly samplePointsStrategy: SamplePointsStrategy;
 
+  // Writeable version of this.currentAmplitudeProperty: TReadOnlyProperty<number>
+  private readonly _currentAmplitudeProperty: NumberProperty;
+
   //TODO document
   private readonly _fluxProperty: Property<number>;
   public readonly fluxProperty: TReadOnlyProperty<number>;
@@ -123,7 +126,14 @@ export default class PickupCoil extends Coil {
       loopSpacing: LOOP_SPACING
     }, providedOptions );
 
-    super( options );
+    const currentAmplitudeProperty = new NumberProperty( 0, {
+      range: new Range( -1, 1 ),
+      tandem: options.tandem.createTandem( 'currentAmplitudeProperty' ),
+      phetioReadOnly: true,
+      phetioDocumentation: 'For internal use only'
+    } );
+
+    super( currentAmplitudeProperty, options );
 
     this.magnet = magnet;
 
@@ -135,6 +145,8 @@ export default class PickupCoil extends Coil {
     } );
 
     this.voltmeter = new Voltmeter( this, options.tandem.createTandem( 'voltmeter' ) );
+
+    this._currentAmplitudeProperty = currentAmplitudeProperty;
 
     this._fluxProperty = new NumberProperty( 0, {
       units: 'Wb',
@@ -215,6 +227,7 @@ export default class PickupCoil extends Coil {
     super.reset();
     this.lightBulb.reset();
     this.voltmeter.reset();
+    this._currentAmplitudeProperty.reset();
     this._fluxProperty.reset();
     this._emfProperty.reset();
     this._averageBxProperty.reset();

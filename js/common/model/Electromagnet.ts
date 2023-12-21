@@ -48,7 +48,27 @@ export default class Electromagnet extends Magnet {
 
     const options = providedOptions;
 
-    const sourceCoil = new SourceCoil( options.tandem.createTandem( 'sourceCoil' ) );
+    const battery = new Battery( options.tandem.createTandem( 'battery' ) );
+
+    const acPowerSupply = new ACPowerSupply( options.tandem.createTandem( 'acPowerSupply' ) );
+
+    const currentSourceProperty = new Property<CurrentSource>( battery, {
+      validValues: [ battery, acPowerSupply ],
+      tandem: options.tandem.createTandem( 'currentSourceProperty' ),
+      phetioValueType: CurrentSource.CurrentSourceIO,
+      phetioFeatured: true
+    } );
+
+    // Current in the coil is equivalent to amplitude of the selected current source.
+    const currentAmplitudeProperty = new DerivedProperty(
+      [ currentSourceProperty, battery.amplitudeProperty, acPowerSupply.amplitudeProperty ],
+      ( currentSource, batteryAmplitude, acPowerSupplyAmplitude ) =>
+        ( currentSource === battery ) ? batteryAmplitude : acPowerSupplyAmplitude, {
+        tandem: options.tandem.createTandem( 'currentAmplitudeProperty' ),
+        phetioValueType: NumberIO
+      } );
+
+    const sourceCoil = new SourceCoil( currentAmplitudeProperty, options.tandem.createTandem( 'sourceCoil' ) );
 
     const strengthRange = new Range( 0, 300 ); // gauss
 
@@ -62,29 +82,15 @@ export default class Electromagnet extends Magnet {
     super( strengthProperty, strengthRange, options );
 
     this.sourceCoil = sourceCoil;
+    this.battery = battery;
+    this.acPowerSupply = acPowerSupply;
+    this.currentSourceProperty = currentSourceProperty;
 
-    this.battery = new Battery( options.tandem.createTandem( 'battery' ) );
-
-    this.acPowerSupply = new ACPowerSupply( options.tandem.createTandem( 'acPowerSupply' ) );
-
-    this.currentSourceProperty = new Property<CurrentSource>( this.battery, {
-      validValues: [ this.battery, this.acPowerSupply ],
-      tandem: options.tandem.createTandem( 'currentSourceProperty' ),
-      phetioValueType: CurrentSource.CurrentSourceIO,
-      phetioFeatured: true
-    } );
-
-    //TODO It would be nice to pass currentAmplitudeProperty directly to sourceCoil.
-    const amplitudeProperty = new DerivedProperty(
-      [ this.currentSourceProperty, this.battery.amplitudeProperty, this.acPowerSupply.amplitudeProperty ],
-      ( currentSource, batteryAmplitude, acPowerSupplyAmplitude ) =>
-        ( currentSource === this.battery ) ? batteryAmplitude : acPowerSupplyAmplitude
-    );
-    amplitudeProperty.link( ( amplitude, previousAmplitude ) => {
-      this.sourceCoil.setCurrentAmplitude( amplitude );
-      if ( previousAmplitude !== null ) {
+    // Flip polarity when the sign of the current amplitude changes.
+    this.sourceCoil.currentAmplitudeProperty.link( ( currentAmplitude, previousCurrentAmplitude ) => {
+      if ( previousCurrentAmplitude !== null ) {
         //TODO is this correct? What about Math.sign === 0?
-        if ( Math.sign( amplitude ) !== Math.sign( previousAmplitude ) ) {
+        if ( Math.sign( currentAmplitude ) !== Math.sign( previousCurrentAmplitude ) ) {
           this.flipPolarity();
         }
       }
