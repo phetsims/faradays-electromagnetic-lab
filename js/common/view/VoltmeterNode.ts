@@ -1,7 +1,5 @@
 // Copyright 2023, University of Colorado Boulder
 
-//TODO OK to omit probes and resistor that are shown in the Java version?
-
 /**
  * VoltmeterNode is the visualization of the voltmeter, used as an indicator of current in the pickup coil.
  * The origin is at the center bottom of the body.
