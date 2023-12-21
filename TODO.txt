@@ -11,7 +11,7 @@ Collision detection only in Pickup Coil screen, between bar magnet and pickup co
 
 Make compass work inside bar magnet
 
-DESIGN ISSUE: Should we label voltmeter probes with +/- ?  It will be the opposite of the voltmeter gaugue, and opposite of
+DESIGN ISSUE: Should we label voltmeter probes with +/- ?  It will be the opposite of the voltmeter gauge, and opposite of
 faradays-law.
 
 DESIGN ISSUE: Resistor in Java version makes no sense, there is no such thing as a 3-band resistor with a tolerance
