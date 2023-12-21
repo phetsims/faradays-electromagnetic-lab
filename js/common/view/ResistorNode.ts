@@ -20,7 +20,7 @@ type SelfOptions = {
   bodyStroke?: TPaint;
   bodyLineWidth?: number;
   bodyCornerRadius?: number;
-  bandWidth?: number;
+  bandLineWidth?: number; // width of all bands
   bandSpacing?: number; // space between value bands
   valueBandColors: TPaint[]; // colors for the 3 values bands (x 1, x 10, x 100)
   toleranceBandColor: TPaint; // color for the tolerance band (+/- %)
@@ -40,7 +40,7 @@ export default class ResistorNode extends Node {
       bodyStroke: 'black',
       bodyLineWidth: 1,
       bodyCornerRadius: 5,
-      bandWidth: 3,
+      bandLineWidth: 3,
       bandSpacing: 3
     }, providedOptions );
 
@@ -62,7 +62,7 @@ export default class ResistorNode extends Node {
       children: options.valueBandColors.map(
         ( bandColor, index ) => new Line( 0, 0, 0, bandLength, {
           stroke: bandColor,
-          lineWidth: options.bandWidth
+          lineWidth: options.bandLineWidth
         } ) ),
       left: bodyNode.left + options.xMargin,
       top: bandTop
@@ -70,7 +70,7 @@ export default class ResistorNode extends Node {
 
     const toleranceBand = new Line( 0, 0, 0, bandLength, {
       stroke: options.toleranceBandColor,
-      lineWidth: options.bandWidth,
+      lineWidth: options.bandLineWidth,
       centerX: bodyNode.right - options.xMargin,
       top: bandTop
     } );
