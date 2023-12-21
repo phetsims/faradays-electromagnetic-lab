@@ -17,7 +17,6 @@ import TReadOnlyProperty from '../../../../axon/js/TReadOnlyProperty.js';
 
 // The minimum number of steps used to approximate one sine wave cycle.
 const MIN_STEPS_PER_CYCLE = 10;
-const ANGLE_RANGE = new Range( 0, 2 * Math.PI );
 
 export default class ACPowerSupply extends CurrentSource {
 
@@ -55,7 +54,7 @@ export default class ACPowerSupply extends CurrentSource {
     } );
 
     this.angleProperty = new NumberProperty( 0, {
-      range: ANGLE_RANGE,
+      range: new Range( 0, 2 * Math.PI ),
       units: 'radians',
       tandem: tandem.createTandem( 'angleProperty' )
     } );
@@ -68,13 +67,11 @@ export default class ACPowerSupply extends CurrentSource {
     this.deltaAngleProperty = new DerivedProperty( [ this.frequencyProperty ],
       frequency => ( 2 * Math.PI * frequency ) / MIN_STEPS_PER_CYCLE, {
         units: 'radians',
-        isValidValue: deltaAngle => ANGLE_RANGE.contains( deltaAngle ),
         tandem: tandem.createTandem( 'deltaAngleProperty' ),
         phetioValueType: NumberIO
       } );
 
     this._stepAngleProperty = new NumberProperty( 0, {
-      range: ANGLE_RANGE,
       units: 'radians',
       tandem: tandem.createTandem( 'stepAngleProperty' )
     } );
@@ -103,15 +100,15 @@ export default class ACPowerSupply extends CurrentSource {
       const previousAngle = this.angleProperty.value;
 
       // Compute the angle.
-      let newAngle = previousAngle + ( dt * this.deltaAngleProperty.value );
-
-      // Limit the angle to 360 degrees.
-      if ( newAngle >= 2 * Math.PI ) {
-        newAngle = newAngle % ( 2 * Math.PI );
-      }
+      this.angleProperty.value = previousAngle + ( dt * this.deltaAngleProperty.value );
 
       // The actual change in angle on this tick of the simulation clock.
-      this._stepAngleProperty.value = newAngle - previousAngle;
+      this._stepAngleProperty.value = this.angleProperty.value - previousAngle;
+
+      // Limit the angle to 360 degrees.
+      if ( this.angleProperty.value >= 2 * Math.PI ) {
+        this.angleProperty.value = this.angleProperty.value % ( 2 * Math.PI );
+      }
 
       // Calculate and set the amplitude.
       this.amplitudeProperty.value = this.maxAmplitudeProperty.value * Math.sin( this.angleProperty.value );
