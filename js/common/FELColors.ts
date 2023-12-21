@@ -166,6 +166,38 @@ const FELColors = {
 
   voltageLabelColorProperty: new ProfileColorProperty( faradaysElectromagneticLab, 'voltageLabelColor', {
     default: 'white'
+  } ),
+
+  positiveProbeFillProperty: new ProfileColorProperty( faradaysElectromagneticLab, 'positiveProbeFill', {
+    default: 'white'
+  } ),
+
+  negativeProbeFillProperty: new ProfileColorProperty( faradaysElectromagneticLab, 'negativeProbeFill', {
+    default: 'gray'
+  } ),
+
+  resistorFillProperty: new ProfileColorProperty( faradaysElectromagneticLab, 'resistorFill', {
+    default: 'rgb( 210, 168, 84 )' //rgb( 200, 176, 135 )'
+  } ),
+
+  resistorStrokeProperty: new ProfileColorProperty( faradaysElectromagneticLab, 'resistorStroke', {
+    default: 'black'
+  } ),
+
+  resistorBand1ColorProperty: new ProfileColorProperty( faradaysElectromagneticLab, 'resistorBand1Color', {
+    default: 'black'
+  } ),
+
+  resistorBand2ColorProperty: new ProfileColorProperty( faradaysElectromagneticLab, 'resistorBand2Color', {
+    default: 'black'
+  } ),
+
+  resistorBand3ColorProperty: new ProfileColorProperty( faradaysElectromagneticLab, 'resistorBand3Color', {
+    default: 'black'
+  } ),
+
+  resistorBand4ColorProperty: new ProfileColorProperty( faradaysElectromagneticLab, 'resistorBand4Color', {
+    default: 'rgb( 153, 112, 19 )' // gold
   } )
 };
 

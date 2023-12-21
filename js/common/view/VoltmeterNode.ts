@@ -10,7 +10,7 @@
  */
 
 import faradaysElectromagneticLab from '../../faradaysElectromagneticLab.js';
-import { Circle, Line, Node, NodeOptions, NodeTranslationOptions, Path, Text, TextOptions } from '../../../../scenery/js/imports.js';
+import { Circle, Line, Node, NodeOptions, NodeTranslationOptions, Path, PathOptions, ProfileColorProperty, Text, TextOptions } from '../../../../scenery/js/imports.js';
 import Voltmeter from '../model/Voltmeter.js';
 import ShadedRectangle, { ShadedRectangleOptions } from '../../../../scenery-phet/js/ShadedRectangle.js';
 import Bounds2 from '../../../../dot/js/Bounds2.js';
@@ -23,10 +23,12 @@ import FaradaysElectromagneticLabStrings from '../../FaradaysElectromagneticLabS
 import PhetFont from '../../../../scenery-phet/js/PhetFont.js';
 import ArrowNode, { ArrowNodeOptions } from '../../../../scenery-phet/js/ArrowNode.js';
 import FELColors from '../FELColors.js';
+import ResistorNode from './ResistorNode.js';
 import { Shape } from '../../../../kite/js/imports.js';
 import MathSymbols from '../../../../scenery-phet/js/MathSymbols.js';
 import Vector2 from '../../../../dot/js/Vector2.js';
 import Tandem from '../../../../tandem/js/Tandem.js';
+import Dimension2 from '../../../../dot/js/Dimension2.js';
 
 // Body and display area
 const BODY_BOUNDS = new Bounds2( 0, 0, 172, 112 );
@@ -37,6 +39,8 @@ const DISPLAY_BOUNDS = new Bounds2( X_MARGIN, TOP_MARGIN, BODY_BOUNDS.width - X_
 const CORNER_RADIUS = 10;
 const NEEDLE_LENGTH = ( 0.80 * DISPLAY_BOUNDS.height );
 const GAUGE_RADIUS = NEEDLE_LENGTH;
+const PROBE_SIZE = new Dimension2( 12, 25 );
+const RESISTOR_SIZE = new Dimension2( 50, 20 );
 
 // Options shared by VoltmeterNode and its icon
 const BODY_OPTIONS: ShadedRectangleOptions = {
@@ -105,8 +109,29 @@ export default class VoltmeterNode extends Node {
       bottom: needleNode.bottom
     } );
 
+    const positiveProbeNode = new ProbeNode( FELColors.positiveProbeFillProperty, {
+      centerX: bodyNode.centerX - RESISTOR_SIZE.width / 2,
+      top: bodyNode.bottom - 1
+    } );
+    const negativeProbeNode = new ProbeNode( FELColors.negativeProbeFillProperty, {
+      centerX: bodyNode.centerX + RESISTOR_SIZE.width / 2,
+      top: bodyNode.bottom - 1
+    } );
+
+    const resistorNode = new ResistorNode( {
+      size: RESISTOR_SIZE,
+      bodyFill: FELColors.resistorFillProperty,
+      bodyStroke: FELColors.resistorStrokeProperty,
+      band1Color: FELColors.resistorBand1ColorProperty,
+      band2Color: FELColors.resistorBand2ColorProperty,
+      band3Color: FELColors.resistorBand3ColorProperty,
+      band4Color: FELColors.resistorBand4ColorProperty,
+      centerX: bodyNode.centerX,
+      top: positiveProbeNode.bottom - 5
+    } );
+
     super( {
-      children: [ bodyNode, displayNode, voltageText, gaugeNode, needleNode, screwNode ],
+      children: [ resistorNode, positiveProbeNode, negativeProbeNode, bodyNode, displayNode, voltageText, gaugeNode, needleNode, screwNode ],
       visibleProperty: new DerivedProperty( [ currentIndicatorProperty ], indicator => ( indicator === 'voltmeter' ), {
         tandem: tandem.createTandem( 'visibleProperty' ),
         phetioValueType: BooleanIO
@@ -201,6 +226,29 @@ class GaugeNode extends Node {
     super( combineOptions<NodeOptions>( {
       children: [ gaugePath, ...tickNodes, negativeText, positiveText ],
       pickable: false
+    }, translationOptions ) );
+  }
+}
+
+class ProbeNode extends Path {
+
+  public constructor( fillProperty: ProfileColorProperty, translationOptions?: NodeTranslationOptions ) {
+
+    const w = PROBE_SIZE.width;
+    const h = PROBE_SIZE.height;
+
+    // Clockwise from left top
+    const shape = new Shape()
+      .moveTo( 0, 0 )
+      .lineTo( w, 0 )
+      .lineTo( w, 0.5 * h )
+      .lineTo( w / 2, h )
+      .lineTo( 0, 0.5 * h )
+      .close();
+
+    super( shape, combineOptions<PathOptions>( {
+      fill: fillProperty,
+      stroke: 'black'
     }, translationOptions ) );
   }
 }
