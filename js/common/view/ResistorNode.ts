@@ -46,6 +46,7 @@ export default class ResistorNode extends Node {
 
     assert && assert( options.valueBandColors.length === 3, 'A 4-band resistor must have 3 value bands' );
 
+    // The main body of the resistor
     const bodyNode = new Rectangle( 0, 0, options.size.width, options.size.height, {
       fill: options.bodyFill,
       stroke: options.bodyStroke,
@@ -53,9 +54,11 @@ export default class ResistorNode extends Node {
       cornerRadius: options.bodyCornerRadius
     } );
 
-    const bandLength = options.size.height - options.bodyLineWidth; // prevent bands from bleeding into bodyNode stroke
+    // Prevent bands from bleeding into bodyNode stroke.
+    const bandLength = options.size.height - options.bodyLineWidth;
     const bandTop = bodyNode.top + options.bodyLineWidth;
 
+    // Value bands appear on the left end of the resistor.
     const valueBands = new HBox( {
       spacing: options.bandSpacing,
       children: options.valueBandColors.map(
@@ -67,6 +70,7 @@ export default class ResistorNode extends Node {
       top: bandTop
     } );
 
+    // The tolerance bands appears on the right end of the resistor.
     const toleranceBand = new Line( 0, 0, 0, bandLength, {
       stroke: options.toleranceBandColor,
       lineWidth: options.bandLineWidth,
