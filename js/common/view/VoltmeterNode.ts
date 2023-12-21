@@ -121,7 +121,7 @@ export default class VoltmeterNode extends Node {
       top: bodyNode.bottom - 1
     } );
 
-    // Probes are connect on either side of a resistor
+    // Probes are connected on either side of a resistor
     const resistorNode = new ResistorNode( {
       size: RESISTOR_SIZE,
       bodyFill: FELColors.resistorFillProperty,
