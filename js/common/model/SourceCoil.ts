@@ -53,7 +53,7 @@ export default class SourceCoil extends Coil {
 
   public step( dt: number ): void {
     assert && assert( dt === 1, `invalid dt=${dt}, see FELModel step` );
-    //TODO beware of dependencies on SwingClock.java !!
+    //TODO
   }
 }
 
