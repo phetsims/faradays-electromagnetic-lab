@@ -11,6 +11,8 @@ Collision detection only in Pickup Coil screen, between bar magnet and pickup co
 
 Make compass work inside bar magnet
 
+Loop Area instead of Loop Radius
+
 DESIGN ISSUE: Should we label voltmeter probes with +/- ?  It will be the opposite of the voltmeter gauge, and opposite of
 faradays-law.
 
