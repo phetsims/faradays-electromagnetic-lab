@@ -37,13 +37,16 @@ export default class FELMovableNode extends Node {
 
       // NodeOptions
       isDisposable: false,
-      cursor: 'pointer',
-      tagName: 'div', // for KeyboardDragListener
-      focusable: true, // for KeyboardDragListener
       phetioFeatured: true,
       phetioVisiblePropertyInstrumented: false,
       phetioInputEnabledPropertyInstrumented: true
     }, providedOptions );
+
+    if ( options.phetioInputEnabledPropertyInstrumented ) {
+      options.cursor = 'pointer';
+      options.tagName = 'div'; // for KeyboardDragListener
+      options.focusable = true; // for KeyboardDragListener
+    }
 
     super( options );
 

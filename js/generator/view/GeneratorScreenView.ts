@@ -123,7 +123,6 @@ export default class GeneratorScreenView extends ScreenView {
 
     rootNode.pdomOrder = [
       turbineNode,
-      pickupCoilNode,
       compassNode,
       fieldMeterNode,
       panels,

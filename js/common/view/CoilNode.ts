@@ -32,7 +32,6 @@ import PickRequired from '../../../../phet-core/js/types/PickRequired.js';
 import optionize, { combineOptions } from '../../../../phet-core/js/optionize.js';
 import FELConstants from '../FELConstants.js';
 import Multilink from '../../../../axon/js/Multilink.js';
-import { PhetioObjectOptions } from '../../../../tandem/js/PhetioObject.js';
 import Vector2 from '../../../../dot/js/Vector2.js';
 import { Shape } from '../../../../kite/js/imports.js';
 import Electron from '../model/Electron.js';
@@ -42,6 +41,7 @@ import QuadraticBezierSpline from '../model/QuadraticBezierSpline.js';
 import FELColors from '../FELColors.js';
 import Emitter from '../../../../axon/js/Emitter.js';
 import FELMovableNode from './FELMovableNode.js';
+import PickOptional from '../../../../phet-core/js/types/PickOptional.js';
 
 // Space between electrons, determines the number of electrons add to each curve.
 const ELECTRON_SPACING = 25;
@@ -52,7 +52,8 @@ type SelfOptions = {
   endsConnected?: boolean; // Whether to connect the ends of the coil.
 };
 
-type CoilNodeOptions = SelfOptions & PickRequired<PhetioObjectOptions, 'tandem'>;
+type CoilNodeOptions = SelfOptions & PickOptional<NodeOptions, 'phetioInputEnabledPropertyInstrumented'> &
+  PickRequired<NodeOptions, 'tandem'>;
 
 export default class CoilNode extends Node {
 
@@ -94,8 +95,10 @@ export default class CoilNode extends Node {
 
     // This is an FELMovableNode so that the coil can also be dragged via this.backgroundNode.
     this.backgroundNode = new FELMovableNode( coil, {
+      focusable: false,
       visibleProperty: this.visibleProperty,
-      tandem: Tandem.OPT_OUT
+      tandem: Tandem.OPT_OUT,
+      phetioInputEnabledPropertyInstrumented: options.phetioInputEnabledPropertyInstrumented
     } );
 
     this.electronAnimationEnabled = false;

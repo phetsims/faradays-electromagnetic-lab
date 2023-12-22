@@ -35,7 +35,8 @@ export default class PickupCoilNode extends FELMovableNode {
 
     const coilNode = new CoilNode( pickupCoil, stepEmitter, {
       endsConnected: true,
-      tandem: options.tandem.createTandem( 'coilNode' )
+      tandem: options.tandem.createTandem( 'coilNode' ),
+      phetioInputEnabledPropertyInstrumented: options.phetioInputEnabledPropertyInstrumented
     } );
 
     const samplePointsNode = new PickupCoilSamplePointsNode( pickupCoil );
