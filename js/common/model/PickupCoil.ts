@@ -129,6 +129,7 @@ export default class PickupCoil extends Coil {
     const currentAmplitudeProperty = new NumberProperty( 0, {
       range: new Range( -1, 1 ),
       tandem: options.tandem.createTandem( 'currentAmplitudeProperty' ),
+      phetioFeatured: true,
       phetioReadOnly: true,
       phetioDocumentation: 'For internal use only'
     } );

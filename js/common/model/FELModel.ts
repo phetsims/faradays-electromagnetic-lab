@@ -14,10 +14,12 @@ import Tandem from '../../../../tandem/js/Tandem.js';
 import Emitter from '../../../../axon/js/Emitter.js';
 import NumberIO from '../../../../tandem/js/types/NumberIO.js';
 
-const SECONDS_PER_FRAME = 1 / 25; // framerate that step was designed to support
 const DT_PER_FRAME = 1; // dt that step was designed to support
 
 export default class FELModel implements TModel {
+
+  // Frame rate that step method was designed to support in the Java version.
+  public static readonly FRAMES_PER_SECOND = 25;
 
   // Accumulated dt since the most recent call to this.step, to maintain consistent framerate
   private accumulatedDtProperty: Property<number>;
@@ -58,8 +60,8 @@ export default class FELModel implements TModel {
    */
   public step( dt: number ): void {
     this.accumulatedDtProperty.value += dt;
-    if ( this.accumulatedDtProperty.value > SECONDS_PER_FRAME ) {
-      this.accumulatedDtProperty.value -= SECONDS_PER_FRAME;
+    if ( this.accumulatedDtProperty.value > 1 / FELModel.FRAMES_PER_SECOND ) {
+      this.accumulatedDtProperty.value -= 1 / FELModel.FRAMES_PER_SECOND;
       this.stepEmitter.emit( DT_PER_FRAME );
     }
   }

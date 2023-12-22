@@ -65,7 +65,8 @@ export default class Electromagnet extends Magnet {
       ( currentSource, batteryAmplitude, acPowerSupplyAmplitude ) =>
         ( currentSource === battery ) ? batteryAmplitude : acPowerSupplyAmplitude, {
         tandem: options.tandem.createTandem( 'currentAmplitudeProperty' ),
-        phetioValueType: NumberIO
+        phetioValueType: NumberIO,
+        phetioFeatured: true
       } );
 
     const sourceCoil = new SourceCoil( currentAmplitudeProperty, options.tandem.createTandem( 'sourceCoil' ) );
