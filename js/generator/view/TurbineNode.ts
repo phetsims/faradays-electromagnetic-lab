@@ -16,6 +16,7 @@ import Property from '../../../../axon/js/Property.js';
 import Bounds2 from '../../../../dot/js/Bounds2.js';
 import waterWheel_png from '../../../images/waterWheel_png.js';
 import Vector2 from '../../../../dot/js/Vector2.js';
+import RPMDisplay from './RPMDisplay.js';
 
 export default class TurbineNode extends Node {
 
@@ -28,8 +29,14 @@ export default class TurbineNode extends Node {
       phetioInputEnabledPropertyInstrumented: false
     } );
 
+    const rpmDisplay = new RPMDisplay( turbine.rpmProperty, {
+      radius: 0.6 * barMagnetNode.height,
+      center: waterWheelNode.center
+      // No PhET-iO instrumentation. There is nothing interesting here.
+    } );
+
     const faucetNode = new FaucetNode( turbine.speedProperty.rangeProperty.value.max, turbine.speedProperty, new Property( true ), {
-      scale: 0.65,
+      scale: 0.7,
       closeOnRelease: false,
       tapToDispenseEnabled: false,
       horizontalPipeLength: 2000,
@@ -40,7 +47,7 @@ export default class TurbineNode extends Node {
     } );
 
     super( {
-      children: [ waterWheelNode, barMagnetNode, faucetNode ],
+      children: [ waterWheelNode, barMagnetNode, rpmDisplay, faucetNode ],
       tandem: tandem
     } );
   }
