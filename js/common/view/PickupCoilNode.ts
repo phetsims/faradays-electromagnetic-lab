@@ -8,15 +8,19 @@
  */
 
 import faradaysElectromagneticLab from '../../faradaysElectromagneticLab.js';
-import Tandem from '../../../../tandem/js/Tandem.js';
 import PickupCoil from '../model/PickupCoil.js';
 import CoilNode from './CoilNode.js';
-import FELMovableNode from './FELMovableNode.js';
-import { Node } from '../../../../scenery/js/imports.js';
+import FELMovableNode, { FELMovableNodeOptions } from './FELMovableNode.js';
+import { Node, NodeOptions } from '../../../../scenery/js/imports.js';
 import PickupCoilSamplePointsNode from './PickupCoilSamplePointsNode.js';
 import Emitter from '../../../../axon/js/Emitter.js';
 import FELLightBulbNode from './FELLightBulbNode.js';
 import VoltmeterNode from './VoltmeterNode.js';
+import optionize, { EmptySelfOptions } from '../../../../phet-core/js/optionize.js';
+
+type SelfOptions = EmptySelfOptions;
+
+type PickupCoilNodeOptions = SelfOptions & Pick<FELMovableNodeOptions, 'tandem' | 'phetioInputEnabledPropertyInstrumented'>;
 
 export default class PickupCoilNode extends FELMovableNode {
 
@@ -25,20 +29,22 @@ export default class PickupCoilNode extends FELMovableNode {
   // backgroundNode to the scenegraph.
   public readonly backgroundNode: Node;
 
-  public constructor( pickupCoil: PickupCoil, stepEmitter: Emitter<[ number ]>, tandem: Tandem ) {
+  public constructor( pickupCoil: PickupCoil, stepEmitter: Emitter<[ number ]>, providedOptions: PickupCoilNodeOptions ) {
+
+    const options = optionize<PickupCoilNodeOptions, SelfOptions, NodeOptions>()( {}, providedOptions );
 
     const coilNode = new CoilNode( pickupCoil, stepEmitter, {
       endsConnected: true,
-      tandem: tandem.createTandem( 'coilNode' )
+      tandem: options.tandem.createTandem( 'coilNode' )
     } );
 
     const samplePointsNode = new PickupCoilSamplePointsNode( pickupCoil );
 
     const lightBulbNode = new FELLightBulbNode( pickupCoil.lightBulb, pickupCoil.currentIndicatorProperty,
-      tandem.createTandem( 'lightBulbNode' ) );
+      options.tandem.createTandem( 'lightBulbNode' ) );
 
     const voltmeterNode = new VoltmeterNode( pickupCoil.voltmeter, pickupCoil.currentIndicatorProperty,
-      tandem.createTandem( 'voltmeterNode' ) );
+      options.tandem.createTandem( 'voltmeterNode' ) );
 
     // Dynamically position the light bulb and voltmeter when the size of the coil changes.
     coilNode.boundsProperty.link( () => {
@@ -52,12 +58,10 @@ export default class PickupCoilNode extends FELMovableNode {
       voltmeterNode.bottom = coilNode.top + pickupCoil.wireWidth + 2; // cover the coil's top connecting wire
     } );
 
-    super( pickupCoil, {
+    // This Node's children are the foreground elements only.
+    options.children = [ coilNode, samplePointsNode, lightBulbNode, voltmeterNode ];
 
-      // This Node's children are the foreground elements only.
-      children: [ coilNode, samplePointsNode, lightBulbNode, voltmeterNode ],
-      tandem: tandem
-    } );
+    super( pickupCoil, options );
 
     this.backgroundNode = coilNode.backgroundNode;
 

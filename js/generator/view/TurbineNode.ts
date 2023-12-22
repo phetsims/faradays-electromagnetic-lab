@@ -16,9 +16,9 @@ export default class TurbineNode extends Node {
 
   public constructor( turbine: Turbine, tandem: Tandem ) {
 
-    //TODO barMagnetNode should not be draggable in this case
     const barMagnetNode = new BarMagnetNode( turbine, {
-      tandem: tandem.createTandem( 'barMagnetNode' )
+      tandem: tandem.createTandem( 'barMagnetNode' ),
+      phetioInputEnabledPropertyInstrumented: false
     } );
 
     super( {

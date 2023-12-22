@@ -40,7 +40,9 @@ export default class TransformerScreenView extends ScreenView {
 
     //TODO electromagnetNode
 
-    const pickupCoilNode = new PickupCoilNode( model.pickupCoil, model.stepEmitter, tandem.createTandem( 'pickupCoilNode' ) );
+    const pickupCoilNode = new PickupCoilNode( model.pickupCoil, model.stepEmitter, {
+      tandem: tandem.createTandem( 'pickupCoilNode' )
+    } );
 
     const pickupCoilDebuggerPanel = new PickupCoilDebuggerPanel( model.pickupCoil );
     pickupCoilDebuggerPanel.centerX = this.layoutBounds.centerX;

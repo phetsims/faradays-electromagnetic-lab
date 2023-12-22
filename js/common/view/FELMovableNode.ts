@@ -2,6 +2,7 @@
 
 //TODO dragBounds - ala my-solar-system
 //TODO collision detection - see FaradayMouseHandler.java => FELDragListener, FELKeyboardDragListener
+//TODO it is odd to call this FELMovable when is can be set to isMovable:false
 
 /**
  * FELMovableNode is the abstract base class for rendering FELMovable, model elements with a mutable position.
@@ -25,7 +26,7 @@ import soundManager from '../../../../tambo/js/soundManager.js';
 type SelfOptions = EmptySelfOptions;
 
 export type FELMovableNodeOptions = SelfOptions &
-  PickOptional<NodeOptions, 'children' | 'visibleProperty' | 'focusable'> &
+  PickOptional<NodeOptions, 'children' | 'visibleProperty' | 'focusable' | 'phetioInputEnabledPropertyInstrumented'> &
   PickRequired<NodeOptions, 'tandem'>;
 
 export default class FELMovableNode extends Node {
@@ -33,6 +34,8 @@ export default class FELMovableNode extends Node {
   public constructor( movable: FELMovable, providedOptions: FELMovableNodeOptions ) {
 
     const options = optionize<FELMovableNodeOptions, SelfOptions, NodeOptions>()( {
+
+      // NodeOptions
       isDisposable: false,
       cursor: 'pointer',
       tagName: 'div', // for KeyboardDragListener
@@ -50,38 +53,41 @@ export default class FELMovableNode extends Node {
       this.translation = position;
     } );
 
-    // Sounds clips associated with dragging
-    const grabClip = new SoundClip( grab_mp3, FELConstants.GRAB_RELEASE_SOUND_CLIP_OPTIONS );
-    const releaseClip = new SoundClip( release_mp3, FELConstants.GRAB_RELEASE_SOUND_CLIP_OPTIONS );
-    soundManager.addSoundGenerator( grabClip );
-    soundManager.addSoundGenerator( releaseClip );
-
-    const dragListener = new DragListener( {
-      positionProperty: movable.positionProperty,
-      useParentOffset: true,
-      start: () => grabClip.play(),
-      end: () => releaseClip.play(),
-      tandem: options.tandem.createTandem( 'dragListener' )
-    } );
-    this.addInputListener( dragListener );
-
-    if ( options.focusable ) {
-      const keyboardDragListener = new KeyboardDragListener(
-        combineOptions<KeyboardDragListenerOptions>( {}, FELConstants.KEYBOARD_DRAG_LISTENER_OPTIONS, {
-          positionProperty: movable.positionProperty,
-          start: () => grabClip.play(),
-          end: () => releaseClip.play(),
-          tandem: options.tandem.createTandem( 'keyboardDragListener' )
-        } ) );
-      this.addInputListener( keyboardDragListener );
-    }
-
     // If this Node becomes invisible, interrupt user interaction.
     this.visibleProperty.lazyLink( visible => {
       if ( !visible ) {
         this.interruptSubtreeInput();
       }
     } );
+
+    if ( options.phetioInputEnabledPropertyInstrumented ) {
+
+      // Sounds clips associated with dragging
+      const grabClip = new SoundClip( grab_mp3, FELConstants.GRAB_RELEASE_SOUND_CLIP_OPTIONS );
+      const releaseClip = new SoundClip( release_mp3, FELConstants.GRAB_RELEASE_SOUND_CLIP_OPTIONS );
+      soundManager.addSoundGenerator( grabClip );
+      soundManager.addSoundGenerator( releaseClip );
+
+      const dragListener = new DragListener( {
+        positionProperty: movable.positionProperty,
+        useParentOffset: true,
+        start: () => grabClip.play(),
+        end: () => releaseClip.play(),
+        tandem: options.tandem.createTandem( 'dragListener' )
+      } );
+      this.addInputListener( dragListener );
+
+      if ( options.focusable ) {
+        const keyboardDragListener = new KeyboardDragListener(
+          combineOptions<KeyboardDragListenerOptions>( {}, FELConstants.KEYBOARD_DRAG_LISTENER_OPTIONS, {
+            positionProperty: movable.positionProperty,
+            start: () => grabClip.play(),
+            end: () => releaseClip.play(),
+            tandem: options.tandem.createTandem( 'keyboardDragListener' )
+          } ) );
+        this.addInputListener( keyboardDragListener );
+      }
+    }
   }
 }
 

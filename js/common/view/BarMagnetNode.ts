@@ -31,7 +31,7 @@ type SelfOptions = {
   seeInsideProperty?: TReadOnlyProperty<boolean>;
 };
 
-type BarMagnetNodeOptions = SelfOptions & StrictOmit<FELMovableNodeOptions, 'children'>;
+type BarMagnetNodeOptions = SelfOptions & Pick<FELMovableNodeOptions, 'tandem' | 'phetioInputEnabledPropertyInstrumented'>;
 
 export default class BarMagnetNode extends FELMovableNode {
 

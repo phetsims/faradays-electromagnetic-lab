@@ -41,8 +41,10 @@ export default class GeneratorScreenView extends ScreenView {
 
     const turbineNode = new TurbineNode( model.turbine, tandem.createTandem( 'turbineNode' ) );
 
-    //TODO pickupCoilNode should not be movable in this screen.
-    const pickupCoilNode = new PickupCoilNode( model.pickupCoil, model.stepEmitter, tandem.createTandem( 'pickupCoilNode' ) );
+    const pickupCoilNode = new PickupCoilNode( model.pickupCoil, model.stepEmitter, {
+      tandem: tandem.createTandem( 'pickupCoilNode' ),
+      phetioInputEnabledPropertyInstrumented: false // pickupCoilNode is not movable in this screen.
+    } );
 
     const pickupCoilDebuggerPanel = new PickupCoilDebuggerPanel( model.pickupCoil );
     pickupCoilDebuggerPanel.centerX = this.layoutBounds.centerX;
