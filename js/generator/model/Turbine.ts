@@ -40,8 +40,7 @@ export default class Turbine extends BarMagnet {
     this.speedProperty = new NumberProperty( 0, {
       range: new Range( -1, 1 ),
       tandem: options.tandem.createTandem( 'speedProperty' ),
-      phetioFeatured: true,
-      phetioReadOnly: true
+      phetioFeatured: true
     } );
 
     this.rpmProperty = new DerivedProperty( [ this.speedProperty ], speed => Math.abs( speed * MAX_RPM ), {
