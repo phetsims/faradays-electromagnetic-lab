@@ -45,7 +45,7 @@ export default class GeneratorModel extends FELModel {
     } );
 
     this.fieldMeter = new FieldMeter( this.turbine, {
-      position: new Vector2( 450, 460 ),
+      position: new Vector2( 650, 300 ),
       visible: false,
       tandem: tandem.createTandem( 'fieldMeter' )
     } );
