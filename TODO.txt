@@ -15,9 +15,9 @@ Loop Area instead of Loop Radius
 
 Reset All in Generator screen should not light the bulb
 
-For RPMDisplay, make number larger than 'RPM'
-
 Change initial position of FieldMeter in Generator screen
+
+One model element to describe all electrons, one view element to render all electrons
 
 DESIGN ISSUE: Should we label voltmeter probes with +/- ?  It will be the opposite of the voltmeter gauge, and opposite of
 faradays-law.

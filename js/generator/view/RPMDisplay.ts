@@ -1,12 +1,12 @@
 // Copyright 2023, University of Colorado Boulder
 
 /**
- * TODO
+ * RPMDisplay is the display of RPM (rotations per minute) that appears on the turbine generator.
  *
  * @author Chris Malley (PixelZoom, Inc.)
  */
 
-import { Circle, Node, NodeOptions, NodeTranslationOptions, RichText } from '../../../../scenery/js/imports.js';
+import { Circle, Node, NodeOptions, NodeTranslationOptions, Text, VBox } from '../../../../scenery/js/imports.js';
 import TReadOnlyProperty from '../../../../axon/js/TReadOnlyProperty.js';
 import optionize from '../../../../phet-core/js/optionize.js';
 import DerivedStringProperty from '../../../../axon/js/DerivedStringProperty.js';
@@ -41,21 +41,31 @@ export default class RPMDisplay extends Node {
       fill: FELColors.rpmDisplayCenterColorProperty
     } );
 
-    const rpmStringProperty = new DerivedStringProperty(
-      [ rpmProperty, FaradaysElectromagneticLabStrings.units.RPMStringProperty ],
-      ( rpm, RPMString ) => `${Utils.toFixed( rpm, 0 )}<br>${RPMString}` );
+    const rpmValueStringProperty = new DerivedStringProperty( [ rpmProperty ], rpm => `${Utils.toFixed( rpm, 0 )}` );
 
-    const rpmText = new RichText( rpmStringProperty, {
-      align: 'center',
-      font: new PhetFont( 14 ),
+    // RPM value in a larger font
+    const rpmValueText = new Text( rpmValueStringProperty, {
+      font: new PhetFont( 20 ),
       fill: FELColors.rpmDisplayTextColorProperty
-      //TODO maxWidth
-    } );
-    rpmText.boundsProperty.link( () => {
-      rpmText.center = circle.center;
     } );
 
-    options.children = [ circle, rpmText ];
+    // 'RPM' units in a smaller font
+    const rpmUnitsText = new Text( FaradaysElectromagneticLabStrings.units.RPMStringProperty, {
+      font: new PhetFont( 10 ),
+      fill: FELColors.rpmDisplayTextColorProperty,
+      maxWidth: 24
+    } );
+
+    const rpmVBox = new VBox( {
+      children: [ rpmValueText, rpmUnitsText ],
+      spacing: 2,
+      align: 'center'
+    } );
+    rpmVBox.boundsProperty.link( () => {
+      rpmVBox.center = circle.center;
+    } );
+
+    options.children = [ circle, rpmVBox ];
 
     super( options );
   }
