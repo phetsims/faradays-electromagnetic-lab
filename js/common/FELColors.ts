@@ -202,6 +202,18 @@ const FELColors = {
 
   resistorBand4ColorProperty: new ProfileColorProperty( faradaysElectromagneticLab, 'resistorBand4Color', {
     default: 'rgb( 153, 112, 19 )' // gold
+  } ),
+
+  rpmDisplayCenterColorProperty: new ProfileColorProperty( faradaysElectromagneticLab, 'rpmDisplayCenterColor', {
+    default: 'black'
+  } ),
+
+  rpmDisplayRingColorProperty: new ProfileColorProperty( faradaysElectromagneticLab, 'rpmDisplayRingColor', {
+    default: Color.grayColor( 150 )
+  } ),
+
+  rpmDisplayTextColorProperty: new ProfileColorProperty( faradaysElectromagneticLab, 'rpmDisplayTextColor', {
+    default: 'white'
   } )
 };
 

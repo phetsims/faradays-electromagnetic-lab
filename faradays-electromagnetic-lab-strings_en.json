@@ -95,6 +95,9 @@
   "units.T": {
     "value": "T"
   },
+  "units.RPM": {
+    "value": "RPM"
+  },
   "magneticUnitsPreferencesLabel": {
     "value": "Magnetic Units"
   },

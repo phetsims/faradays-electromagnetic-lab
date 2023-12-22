@@ -13,6 +13,8 @@ import DerivedStringProperty from '../../../../axon/js/DerivedStringProperty.js'
 import Utils from '../../../../dot/js/Utils.js';
 import PhetFont from '../../../../scenery-phet/js/PhetFont.js';
 import faradaysElectromagneticLab from '../../faradaysElectromagneticLab.js';
+import FELColors from '../../common/FELColors.js';
+import FaradaysElectromagneticLabStrings from '../../FaradaysElectromagneticLabStrings.js';
 
 type SelfOptions = {
   radius?: number;
@@ -35,18 +37,18 @@ export default class RPMDisplay extends Node {
     const circle = new Circle( {
       radius: options.radius,
       lineWidth: options.outerRingWidth,
-      stroke: 'rgb( 150, 150, 15 )', //TODO color profile
-      fill: 'black' //TODO color profile
+      stroke: FELColors.rpmDisplayRingColorProperty,
+      fill: FELColors.rpmDisplayCenterColorProperty
     } );
 
-    //TODO localization
-    const rpmStringProperty = new DerivedStringProperty( [ rpmProperty ],
-      rpm => `${Utils.toFixed( rpm, 0 )}<br>RPM` );
+    const rpmStringProperty = new DerivedStringProperty(
+      [ rpmProperty, FaradaysElectromagneticLabStrings.units.RPMStringProperty ],
+      ( rpm, RPMString ) => `${Utils.toFixed( rpm, 0 )}<br>${RPMString}` );
 
     const rpmText = new RichText( rpmStringProperty, {
       align: 'center',
       font: new PhetFont( 14 ),
-      fill: 'white' //TODO color profile
+      fill: FELColors.rpmDisplayTextColorProperty
       //TODO maxWidth
     } );
     rpmText.boundsProperty.link( () => {

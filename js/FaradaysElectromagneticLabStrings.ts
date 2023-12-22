@@ -50,6 +50,7 @@ type StringsType = {
   'units': {
     'GStringProperty': LocalizedStringProperty;
     'TStringProperty': LocalizedStringProperty;
+    'RPMStringProperty': LocalizedStringProperty;
   };
   'magneticUnitsPreferencesLabelStringProperty': LocalizedStringProperty;
   'gaussPreferenceStringProperty': LocalizedStringProperty;
