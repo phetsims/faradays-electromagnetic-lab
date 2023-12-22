@@ -17,13 +17,16 @@ import FaradaysElectromagneticLabStrings from '../../FaradaysElectromagneticLabS
 import Compass from '../model/Compass.js';
 import FieldMeter from '../model/FieldMeter.js';
 
+const CHECKBOX_TEXT_MAX_WIDTH = 165;
+
 export default class ToolsPanel extends Panel {
 
   public constructor( compass: Compass, fieldMeter: FieldMeter, tandem: Tandem ) {
 
     // 'Compass' checkbox
     const compassText = new Text( FaradaysElectromagneticLabStrings.compassStringProperty, {
-      font: FELConstants.CONTROL_FONT
+      font: FELConstants.CONTROL_FONT,
+      maxWidth: CHECKBOX_TEXT_MAX_WIDTH
     } );
     const compassCheckbox = new Checkbox( compass.visibleProperty, compassText,
       combineOptions<CheckboxOptions>( {}, FELConstants.CHECKBOX_OPTIONS, {
@@ -32,7 +35,8 @@ export default class ToolsPanel extends Panel {
 
     // 'Field Meter' checkbox
     const fieldMeterText = new Text( FaradaysElectromagneticLabStrings.fieldMeterStringProperty, {
-      font: FELConstants.CONTROL_FONT
+      font: FELConstants.CONTROL_FONT,
+      maxWidth: CHECKBOX_TEXT_MAX_WIDTH
     } );
     const fieldMeterCheckbox = new Checkbox( fieldMeter.visibleProperty, fieldMeterText,
       combineOptions<CheckboxOptions>( {}, FELConstants.CHECKBOX_OPTIONS, {

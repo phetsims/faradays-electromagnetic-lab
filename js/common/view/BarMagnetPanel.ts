@@ -22,6 +22,8 @@ import StrictOmit from '../../../../phet-core/js/types/StrictOmit.js';
 import Property from '../../../../axon/js/Property.js';
 import FELPreferences from '../model/FELPreferences.js';
 
+const CHECKBOX_TEXT_MAX_WIDTH = 165;
+
 type SelfOptions = {
   hasFlipPolarityButton?: boolean;
   seeInsideProperty?: Property<boolean>;
@@ -42,7 +44,8 @@ export default class BarMagnetPanel extends Panel {
       }, providedOptions );
 
     const titleText = new Text( FaradaysElectromagneticLabStrings.barMagnetStringProperty, {
-      font: FELConstants.TITLE_FONT
+      font: FELConstants.TITLE_FONT,
+      maxWidth: 200
     } );
 
     const strengthControl = new BarMagnetStrengthControl( barMagnet.barMagnetStrengthProperty, barMagnet.strengthRange,
@@ -56,6 +59,9 @@ export default class BarMagnetPanel extends Panel {
     if ( options.hasFlipPolarityButton ) {
       const flipPolarityButton = new TextPushButton( FaradaysElectromagneticLabStrings.flipPolarityStringProperty, {
         font: FELConstants.CONTROL_FONT,
+        textNodeOptions: {
+          maxWidth: 180
+        },
         listener: () => {
           barMagnet.flipPolarity();
           compass.startMovingNow();
@@ -68,7 +74,8 @@ export default class BarMagnetPanel extends Panel {
 
     // 'Magnetic Field' checkbox
     const magneticFieldText = new Text( FaradaysElectromagneticLabStrings.magneticFieldStringProperty, {
-      font: FELConstants.CONTROL_FONT
+      font: FELConstants.CONTROL_FONT,
+      maxWidth: CHECKBOX_TEXT_MAX_WIDTH
     } );
     const magneticFieldCheckbox = new Checkbox( barMagnet.fieldVisibleProperty, magneticFieldText,
       combineOptions<CheckboxOptions>( {}, FELConstants.CHECKBOX_OPTIONS, {
@@ -79,7 +86,8 @@ export default class BarMagnetPanel extends Panel {
     // Optional 'See Inside' checkbox
     if ( options.seeInsideProperty ) {
       const seeInsideText = new Text( FaradaysElectromagneticLabStrings.seeInsideStringProperty, {
-        font: FELConstants.CONTROL_FONT
+        font: FELConstants.CONTROL_FONT,
+        maxWidth: CHECKBOX_TEXT_MAX_WIDTH
       } );
       const seeInsideCheckbox = new Checkbox( options.seeInsideProperty, seeInsideText,
         combineOptions<CheckboxOptions>( {}, FELConstants.CHECKBOX_OPTIONS, {
@@ -91,7 +99,8 @@ export default class BarMagnetPanel extends Panel {
     // Optional 'Earth' checkbox
     if ( options.earthVisibleProperty ) {
       const earthText = new Text( FaradaysElectromagneticLabStrings.earthStringProperty, {
-        font: FELConstants.CONTROL_FONT
+        font: FELConstants.CONTROL_FONT,
+        maxWidth: CHECKBOX_TEXT_MAX_WIDTH
       } );
       const earthCheckbox = new Checkbox( options.earthVisibleProperty, earthText,
         combineOptions<CheckboxOptions>( {}, FELConstants.CHECKBOX_OPTIONS, {
