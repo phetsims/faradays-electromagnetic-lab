@@ -23,7 +23,10 @@ export default class BarMagnetModel extends FELModel {
 
   public constructor( tandem: Tandem ) {
 
-    super( tandem );
+    super( {
+      tandem: tandem,
+      isPlayingPropertyInstrumented: false // because this screen has no time controls
+    } );
 
     this.barMagnet = new BarMagnet( {
       position: new Vector2( 450, 300 ),

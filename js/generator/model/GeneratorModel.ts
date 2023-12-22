@@ -25,7 +25,9 @@ export default class GeneratorModel extends FELModel {
 
   public constructor( tandem: Tandem ) {
 
-    super( tandem );
+    super( {
+      tandem: tandem
+    } );
 
     this.turbine = new Turbine( {
       position: new Vector2( 285, 400 ),

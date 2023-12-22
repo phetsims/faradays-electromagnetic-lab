@@ -24,6 +24,7 @@ import ToolsPanel from '../../common/view/ToolsPanel.js';
 import PickupCoilDebuggerPanel from '../../common/view/PickupCoilDebuggerPanel.js';
 import PickupCoilNode from '../../common/view/PickupCoilNode.js';
 import TurbineNode from './TurbineNode.js';
+import TimeControlNode from '../../../../scenery-phet/js/TimeControlNode.js';
 
 export default class GeneratorScreenView extends ScreenView {
 
@@ -78,8 +79,8 @@ export default class GeneratorScreenView extends ScreenView {
     } );
 
     // Adjust position of the control panels
-    Multilink.multilink( [ panels.boundsProperty, this.visibleBoundsProperty ],
-      ( panelsBounds, visibleBounds ) => {
+    Multilink.multilink( [ this.visibleBoundsProperty, panels.boundsProperty ],
+      ( visibleBounds, panelsBounds ) => {
         panels.right = visibleBounds.right - FELConstants.SCREEN_VIEW_X_MARGIN;
         panels.top = this.layoutBounds.top + FELConstants.SCREEN_VIEW_Y_MARGIN;
       } );
@@ -91,10 +92,27 @@ export default class GeneratorScreenView extends ScreenView {
       },
       tandem: tandem.createTandem( 'resetAllButton' )
     } );
-    this.visibleBoundsProperty.link( visibleBounds => {
-      resetAllButton.right = visibleBounds.maxX - FELConstants.SCREEN_VIEW_X_MARGIN;
-      resetAllButton.bottom = visibleBounds.maxY - FELConstants.SCREEN_VIEW_Y_MARGIN;
+
+    const timeControlNode = new TimeControlNode( model.isPlayingProperty, {
+      playPauseStepButtonOptions: {
+        stepForwardButtonOptions: {
+          listener: () => model.stepOnce()
+        }
+      },
+      tandem: tandem.createTandem( 'timeControlNode' )
     } );
+
+    Multilink.multilink( [ this.visibleBoundsProperty, panels.boundsProperty ],
+      ( visibleBounds, panelsBounds ) => {
+
+        // resetAllButton in right bottom corner
+        resetAllButton.right = visibleBounds.maxX - FELConstants.SCREEN_VIEW_X_MARGIN;
+        resetAllButton.bottom = visibleBounds.maxY - FELConstants.SCREEN_VIEW_Y_MARGIN;
+
+        // timeControlNode to the left of resetAllButton
+        timeControlNode.left = panelsBounds.left;
+        timeControlNode.centerY = resetAllButton.centerY;
+      } );
 
     // Developer controls are always created, to prevent them from becoming broken over time.
     // But they are visible only when running with &dev query parameter.
@@ -114,6 +132,7 @@ export default class GeneratorScreenView extends ScreenView {
         compassNode,
         fieldMeterNode,
         panels,
+        timeControlNode,
         resetAllButton,
         developerAccordionBox,
         pickupCoilDebuggerPanel
@@ -126,6 +145,7 @@ export default class GeneratorScreenView extends ScreenView {
       compassNode,
       fieldMeterNode,
       panels,
+      timeControlNode,
       resetAllButton
       // Exclude developerAccordionBox and pickupCoilDebuggerPanel from alt input.
     ];

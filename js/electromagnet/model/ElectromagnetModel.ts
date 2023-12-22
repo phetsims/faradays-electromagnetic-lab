@@ -23,7 +23,9 @@ export default class ElectromagnetModel extends FELModel {
 
   public constructor( tandem: Tandem ) {
 
-    super( tandem );
+    super( {
+      tandem: tandem
+    } );
 
     this.electromagnet = new Electromagnet( {
       position: new Vector2( 400, 400 ),
