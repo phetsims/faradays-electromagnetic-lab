@@ -45,7 +45,9 @@ const LABEL_TEXT_OPTIONS: RichTextOptions = {
   fill: FELColors.fieldMeterLabelsColorProperty,
   layoutOptions: {
     xAlign: 'left'
-  }
+  },
+  maxWidth: 16,
+  maxHeight: 20 // RichText may be multiline
 };
 
 const STRING_DISPLAY_OPTIONS: StringDisplayOptions = {
