@@ -63,7 +63,8 @@ class WaterWheelNode extends Node {
 
     super( {
       children: [ imageNode ],
-      tandem: tandem
+      tandem: tandem,
+      phetioVisiblePropertyInstrumented: false
     } );
 
     turbine.positionProperty.link( position => {
