@@ -12,7 +12,7 @@ import faradaysElectromagneticLab from '../../faradaysElectromagneticLab.js';
 import Tandem from '../../../../tandem/js/Tandem.js';
 import VoltmeterNode from './VoltmeterNode.js';
 import FELConstants from '../FELConstants.js';
-import { HBox, Text } from '../../../../scenery/js/imports.js';
+import { HBox, RichText } from '../../../../scenery/js/imports.js';
 import FaradaysElectromagneticLabStrings from '../../FaradaysElectromagneticLabStrings.js';
 import FELLightBulbNode from './FELLightBulbNode.js';
 import CurrentIndicator from '../model/CurrentIndicator.js';
@@ -22,8 +22,10 @@ export default class CurrentIndicatorControl extends HBox {
 
   public constructor( pickupCoil: PickupCoil, tandem: Tandem ) {
 
-    const labelText = new Text( FaradaysElectromagneticLabStrings.indicatorStringProperty, {
-      font: FELConstants.CONTROL_FONT
+    const labelText = new RichText( FaradaysElectromagneticLabStrings.indicatorStringProperty, {
+      font: FELConstants.CONTROL_FONT,
+      maxWidth: 60,
+      maxHeight: 40
     } );
 
     const radioButtonGroup = new CurrentIndicatorRadioButtonGroup( pickupCoil, tandem.createTandem( 'radioButtonGroup' ) );

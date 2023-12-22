@@ -22,7 +22,8 @@ import StringUtils from '../../../../phetcommon/js/util/StringUtils.js';
 const valuePercentStringProperty = FaradaysElectromagneticLabStrings.pattern.valuePercentStringProperty;
 const SLIDER_STEP = 1;
 const TICK_LABEL_OPTIONS = {
-  font: FELConstants.TICK_LABEL_FONT
+  font: FELConstants.TICK_LABEL_FONT,
+  maxWidth: 25
 };
 
 export default class LoopRadiusControl extends NumberControl {
@@ -53,6 +54,9 @@ export default class LoopRadiusControl extends NumberControl {
     const options = combineOptions<NumberControlOptions>( {}, FELConstants.NUMBER_CONTROL_OPTIONS, {
       isDisposable: false,
       delta: SLIDER_STEP,
+      titleNodeOptions: {
+        maxWidth: 120
+      },
       numberDisplayOptions: {
         decimalPlaces: 0,
 

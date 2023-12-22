@@ -19,12 +19,15 @@ import LoopRadiusControl from './LoopRadiusControl.js';
 import NumberOfLoopsControl from './NumberOfLoopsControl.js';
 import CurrentIndicatorControl from './CurrentIndicatorControl.js';
 
+const CHECKBOX_TEXT_MAX_WIDTH = 165;
+
 export default class PickupCoilPanel extends Panel {
 
   public constructor( pickupCoil: PickupCoil, tandem: Tandem ) {
 
     const titleText = new Text( FaradaysElectromagneticLabStrings.pickupCoilStringProperty, {
-      font: FELConstants.TITLE_FONT
+      font: FELConstants.TITLE_FONT,
+      maxWidth: 200
     } );
 
     const currentIndicatorControl = new CurrentIndicatorControl( pickupCoil,
@@ -38,7 +41,8 @@ export default class PickupCoilPanel extends Panel {
 
     // 'Electrons' checkbox
     const electronsText = new Text( FaradaysElectromagneticLabStrings.electronsStringProperty, {
-      font: FELConstants.CONTROL_FONT
+      font: FELConstants.CONTROL_FONT,
+      maxWidth: CHECKBOX_TEXT_MAX_WIDTH
     } );
     const electronsCheckbox = new Checkbox( pickupCoil.electronsVisibleProperty, electronsText,
       combineOptions<CheckboxOptions>( {}, FELConstants.CHECKBOX_OPTIONS, {

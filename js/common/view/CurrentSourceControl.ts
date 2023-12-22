@@ -22,7 +22,9 @@ export default class CurrentSourceControl extends HBox {
   public constructor( electromagnet: Electromagnet, tandem: Tandem ) {
 
     const labelText = new RichText( FaradaysElectromagneticLabStrings.currentSourceStringProperty, {
-      font: FELConstants.CONTROL_FONT
+      font: FELConstants.CONTROL_FONT,
+      maxWidth: 60,
+      maxHeight: 40
     } );
 
     const radioButtonGroup = new CurrentSourceRadioButtonGroup( electromagnet, tandem.createTandem( 'radioButtonGroup' ) );

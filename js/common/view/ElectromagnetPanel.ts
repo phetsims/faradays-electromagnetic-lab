@@ -18,12 +18,15 @@ import NumberOfLoopsControl from './NumberOfLoopsControl.js';
 import Electromagnet from '../model/Electromagnet.js';
 import CurrentSourceControl from './CurrentSourceControl.js';
 
+const CHECKBOX_TEXT_MAX_WIDTH = 165;
+
 export default class ElectromagnetPanel extends Panel {
 
   public constructor( electromagnet: Electromagnet, tandem: Tandem ) {
 
     const titleText = new Text( FaradaysElectromagneticLabStrings.electromagnetStringProperty, {
-      font: FELConstants.TITLE_FONT
+      font: FELConstants.TITLE_FONT,
+      maxWidth: 200
     } );
 
     const currentSourceControl = new CurrentSourceControl( electromagnet,
@@ -34,7 +37,8 @@ export default class ElectromagnetPanel extends Panel {
 
     // 'Magnetic Field' checkbox
     const magneticFieldText = new Text( FaradaysElectromagneticLabStrings.magneticFieldStringProperty, {
-      font: FELConstants.CONTROL_FONT
+      font: FELConstants.CONTROL_FONT,
+      maxWidth: CHECKBOX_TEXT_MAX_WIDTH
     } );
     const magneticFieldCheckbox = new Checkbox( electromagnet.fieldVisibleProperty, magneticFieldText,
       combineOptions<CheckboxOptions>( {}, FELConstants.CHECKBOX_OPTIONS, {
@@ -43,7 +47,8 @@ export default class ElectromagnetPanel extends Panel {
 
     // 'Electrons' checkbox
     const electronsText = new Text( FaradaysElectromagneticLabStrings.electronsStringProperty, {
-      font: FELConstants.CONTROL_FONT
+      font: FELConstants.CONTROL_FONT,
+      maxWidth: CHECKBOX_TEXT_MAX_WIDTH
     } );
     const electronsCheckbox = new Checkbox( electromagnet.electronsVisibleProperty, electronsText,
       combineOptions<CheckboxOptions>( {}, FELConstants.CHECKBOX_OPTIONS, {

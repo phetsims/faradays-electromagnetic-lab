@@ -19,7 +19,8 @@ export default class NumberOfLoopsControl extends HBox {
   public constructor( numberOfLoopsProperty: NumberProperty, tandem: Tandem ) {
 
     const labelText = new Text( FaradaysElectromagneticLabStrings.loopsStringProperty, {
-      font: FELConstants.CONTROL_FONT
+      font: FELConstants.CONTROL_FONT,
+      maxWidth: 100
     } );
 
     const spinner = new NumberSpinner( numberOfLoopsProperty, numberOfLoopsProperty.rangeProperty, {
