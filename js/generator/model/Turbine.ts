@@ -59,9 +59,11 @@ export default class Turbine extends BarMagnet {
     assert && assert( dt === 1, `invalid dt=${dt}, see FELModel step` );
     if ( this.speedProperty.value !== 0 ) {
 
-      // Determine the new rotation angle
+      // Determine the change in rotation angle.
       const deltaAngle = dt * this.speedProperty.value * MAX_DELTA_ANGLE;
-      let newAngle = this.rotationProperty.value + deltaAngle;
+
+      // Subtract to rotate counterclockwise.
+      let newAngle = this.rotationProperty.value - deltaAngle;
 
       // Limit angles to [-360,+360] degrees.
       const sign = ( newAngle < 0 ) ? -1 : +1;
