@@ -17,6 +17,7 @@ import Bounds2 from '../../../../dot/js/Bounds2.js';
 import waterWheel_png from '../../../images/waterWheel_png.js';
 import Vector2 from '../../../../dot/js/Vector2.js';
 import RPMDisplay from './RPMDisplay.js';
+import FluidNode from './FluidNode.js';
 
 export default class TurbineNode extends Node {
 
@@ -39,15 +40,19 @@ export default class TurbineNode extends Node {
       scale: 0.7,
       closeOnRelease: false,
       tapToDispenseEnabled: false,
-      horizontalPipeLength: 2000,
+      horizontalPipeLength: 1800,
       right: layoutBounds.left + 225,
       top: layoutBounds.top + 50,
       tandem: tandem.createTandem( 'faucetNode' ),
       phetioVisiblePropertyInstrumented: false
     } );
 
+    const fluidNode = new FluidNode( turbine.speedProperty, turbine.speedProperty.range.max );
+    fluidNode.centerX = faucetNode.x;
+    fluidNode.top = faucetNode.y - 2;
+
     super( {
-      children: [ waterWheelNode, barMagnetNode, rpmDisplay, faucetNode ],
+      children: [ waterWheelNode, barMagnetNode, rpmDisplay, fluidNode, faucetNode ],
       tandem: tandem
     } );
   }
