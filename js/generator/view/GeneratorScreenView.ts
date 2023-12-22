@@ -23,6 +23,7 @@ import GeneratorDeveloperAccordionBox from './GeneratorDeveloperAccordionBox.js'
 import ToolsPanel from '../../common/view/ToolsPanel.js';
 import PickupCoilDebuggerPanel from '../../common/view/PickupCoilDebuggerPanel.js';
 import PickupCoilNode from '../../common/view/PickupCoilNode.js';
+import TurbineNode from './TurbineNode.js';
 
 export default class GeneratorScreenView extends ScreenView {
 
@@ -38,7 +39,7 @@ export default class GeneratorScreenView extends ScreenView {
       tandem: tandem.createTandem( 'fieldNode' )
     } );
 
-    //TODO turbineNode
+    const turbineNode = new TurbineNode( model.turbine, tandem.createTandem( 'turbineNode' ) );
 
     //TODO pickupCoilNode should not be movable in this screen.
     const pickupCoilNode = new PickupCoilNode( model.pickupCoil, model.stepEmitter, tandem.createTandem( 'pickupCoilNode' ) );
@@ -106,7 +107,7 @@ export default class GeneratorScreenView extends ScreenView {
       children: [
         pickupCoilNode.backgroundNode,
         fieldNode,
-        //TODO turbineNode,
+        turbineNode,
         pickupCoilNode,
         compassNode,
         fieldMeterNode,
@@ -119,7 +120,7 @@ export default class GeneratorScreenView extends ScreenView {
     this.addChild( rootNode );
 
     rootNode.pdomOrder = [
-      //TODO turbineNode,
+      turbineNode,
       pickupCoilNode,
       compassNode,
       fieldMeterNode,
