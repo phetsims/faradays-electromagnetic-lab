@@ -1,8 +1,7 @@
 // Copyright 2023, University of Colorado Boulder
 
 /**
- * Turbine is the model of a simple turbine, a specialization of a bar magnet. It rotates at some speed, and its
- * rotation is measured in RPM (rotations per minute).
+ * Turbine is the model of a simple turbine generator, where fluid flow rotates a bar magnet.
  *
  * @author Chris Malley (PixelZoom, Inc.)
  */
