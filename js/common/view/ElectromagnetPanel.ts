@@ -18,16 +18,11 @@ import NumberOfLoopsControl from './NumberOfLoopsControl.js';
 import Electromagnet from '../model/Electromagnet.js';
 import CurrentSourceControl from './CurrentSourceControl.js';
 
-const CHECKBOX_TEXT_MAX_WIDTH = 165;
-
 export default class ElectromagnetPanel extends Panel {
 
   public constructor( electromagnet: Electromagnet, tandem: Tandem ) {
 
-    const titleText = new Text( FaradaysElectromagneticLabStrings.electromagnetStringProperty, {
-      font: FELConstants.TITLE_FONT,
-      maxWidth: 200
-    } );
+    const titleText = new Text( FaradaysElectromagneticLabStrings.electromagnetStringProperty, FELConstants.PANEL_TITLE_OPTIONS );
 
     const currentSourceControl = new CurrentSourceControl( electromagnet,
       tandem.createTandem( 'currentSourceControl' ) );
@@ -36,20 +31,14 @@ export default class ElectromagnetPanel extends Panel {
       tandem.createTandem( 'numberOfLoopsControl' ) );
 
     // 'Magnetic Field' checkbox
-    const magneticFieldText = new Text( FaradaysElectromagneticLabStrings.magneticFieldStringProperty, {
-      font: FELConstants.CONTROL_FONT,
-      maxWidth: CHECKBOX_TEXT_MAX_WIDTH
-    } );
+    const magneticFieldText = new Text( FaradaysElectromagneticLabStrings.magneticFieldStringProperty, FELConstants.CHECKBOX_TEXT_OPTIONS );
     const magneticFieldCheckbox = new Checkbox( electromagnet.fieldVisibleProperty, magneticFieldText,
       combineOptions<CheckboxOptions>( {}, FELConstants.CHECKBOX_OPTIONS, {
         tandem: tandem.createTandem( 'magneticFieldCheckbox' )
       } ) );
 
     // 'Electrons' checkbox
-    const electronsText = new Text( FaradaysElectromagneticLabStrings.electronsStringProperty, {
-      font: FELConstants.CONTROL_FONT,
-      maxWidth: CHECKBOX_TEXT_MAX_WIDTH
-    } );
+    const electronsText = new Text( FaradaysElectromagneticLabStrings.electronsStringProperty, FELConstants.CHECKBOX_TEXT_OPTIONS );
     const electronsCheckbox = new Checkbox( electromagnet.electronsVisibleProperty, electronsText,
       combineOptions<CheckboxOptions>( {}, FELConstants.CHECKBOX_OPTIONS, {
         tandem: tandem.createTandem( 'electronsCheckbox' )

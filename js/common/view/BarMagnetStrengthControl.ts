@@ -21,10 +21,6 @@ import Property from '../../../../axon/js/Property.js';
 
 const valuePercentStringProperty = FaradaysElectromagneticLabStrings.pattern.valuePercentStringProperty;
 const SLIDER_STEP = 1;
-const TICK_LABEL_OPTIONS = {
-  font: FELConstants.TICK_LABEL_FONT,
-  maxWidth: 25
-};
 
 export default class BarMagnetStrengthControl extends NumberControl {
 
@@ -39,7 +35,7 @@ export default class BarMagnetStrengthControl extends NumberControl {
         value: strengthRange.min,
         label: new RichText( new PatternStringProperty( valuePercentStringProperty, {
           value: 0
-        } ), TICK_LABEL_OPTIONS )
+        } ), FELConstants.TICK_LABEL_OPTIONS )
       },
 
       // 50%
@@ -47,7 +43,7 @@ export default class BarMagnetStrengthControl extends NumberControl {
         value: strengthRange.min + strengthRange.getLength() / 2,
         label: new RichText( new PatternStringProperty( valuePercentStringProperty, {
           value: 50
-        } ), TICK_LABEL_OPTIONS )
+        } ), FELConstants.TICK_LABEL_OPTIONS )
       },
 
       // 100%
@@ -55,15 +51,12 @@ export default class BarMagnetStrengthControl extends NumberControl {
         value: strengthRange.max,
         label: new RichText( new PatternStringProperty( valuePercentStringProperty, {
           value: 100
-        } ), TICK_LABEL_OPTIONS )
+        } ), FELConstants.TICK_LABEL_OPTIONS )
       }
     ];
 
     const options = combineOptions<NumberControlOptions>( {}, FELConstants.NUMBER_CONTROL_OPTIONS, {
       delta: SLIDER_STEP,
-      titleNodeOptions: {
-        maxWidth: 120
-      },
       numberDisplayOptions: {
         decimalPlaces: 0,
 

@@ -25,7 +25,7 @@ export default class CurrentIndicatorControl extends HBox {
     const labelText = new RichText( FaradaysElectromagneticLabStrings.indicatorStringProperty, {
       font: FELConstants.CONTROL_FONT,
       maxWidth: 60,
-      maxHeight: 40
+      maxHeight: 40 // RichText may be multiline
     } );
 
     const radioButtonGroup = new CurrentIndicatorRadioButtonGroup( pickupCoil, tandem.createTandem( 'radioButtonGroup' ) );

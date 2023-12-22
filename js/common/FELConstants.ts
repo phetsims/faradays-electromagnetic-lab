@@ -13,7 +13,7 @@ import { CreditsData } from '../../../joist/js/CreditsNode.js';
 import { PanelOptions } from '../../../sun/js/Panel.js';
 import PhetFont from '../../../scenery-phet/js/PhetFont.js';
 import { CheckboxOptions } from '../../../sun/js/Checkbox.js';
-import { KeyboardDragListenerOptions, Text, VBoxOptions } from '../../../scenery/js/imports.js';
+import { KeyboardDragListenerOptions, RichTextOptions, Text, TextOptions, VBoxOptions } from '../../../scenery/js/imports.js';
 import NumberControl, { NumberControlOptions } from '../../../scenery-phet/js/NumberControl.js';
 import Dimension2 from '../../../dot/js/Dimension2.js';
 import { RectangularRadioButtonOptions } from '../../../sun/js/buttons/RectangularRadioButton.js';
@@ -32,11 +32,18 @@ const CREDITS: CreditsData = {
   thanks: ''
 };
 
+const TITLE_FONT = new PhetFont( { size: 16, weight: 'bold' } );
 const CONTROL_FONT = new PhetFont( 14 );
+const TICK_LABEL_FONT = new PhetFont( 10 );
 
 const CHECKBOX_OPTIONS: CheckboxOptions = {
   isDisposable: false,
   boxWidth: new Text( 'X', { font: CONTROL_FONT } ).height // Size the box to the height of a typical text label.
+};
+
+const CHECKBOX_TEXT_OPTIONS: TextOptions = {
+  font: CONTROL_FONT,
+  maxWidth: 165
 };
 
 const NUMBER_CONTROL_OPTIONS: NumberControlOptions = {
@@ -48,7 +55,7 @@ const NUMBER_CONTROL_OPTIONS: NumberControlOptions = {
   } ),
   titleNodeOptions: {
     font: CONTROL_FONT,
-    maxWidth: 140
+    maxWidth: 120
   },
   sliderOptions: {
     trackSize: new Dimension2( 140, 4 ),
@@ -77,6 +84,16 @@ const SCREEN_OPTIONS: Partial<ScreenOptions> = {
   isDisposable: false,
   backgroundColorProperty: FELColors.screenBackgroundColorProperty,
   showUnselectedHomeScreenIconFrame: true
+};
+
+const TICK_LABEL_OPTIONS: RichTextOptions = {
+  font: TICK_LABEL_FONT,
+  maxWidth: 25
+};
+
+const PANEL_TITLE_OPTIONS: TextOptions = {
+  font: TITLE_FONT,
+  maxWidth: 200
 };
 
 const KEYBOARD_DRAG_LISTENER_OPTIONS: KeyboardDragListenerOptions = {
@@ -126,17 +143,17 @@ const FELConstants = {
   RECTANGULAR_RADIO_BUTTON_OPTIONS: RECTANGULAR_RADIO_BUTTON_OPTIONS,
 
   // Other options
+  PANEL_TITLE_OPTIONS: PANEL_TITLE_OPTIONS,
+  CHECKBOX_TEXT_OPTIONS: CHECKBOX_TEXT_OPTIONS,
+  TICK_LABEL_OPTIONS: TICK_LABEL_OPTIONS,
   KEYBOARD_DRAG_LISTENER_OPTIONS: KEYBOARD_DRAG_LISTENER_OPTIONS,
   VBOX_OPTIONS: VBOX_OPTIONS,
   GRAB_RELEASE_SOUND_CLIP_OPTIONS: GRAB_RELEASE_SOUND_CLIP_OPTIONS,
 
   // Fonts
-  TITLE_FONT: new PhetFont( {
-    size: 16,
-    weight: 'bold'
-  } ),
+  TITLE_FONT: TITLE_FONT,
   CONTROL_FONT: CONTROL_FONT,
-  TICK_LABEL_FONT: new PhetFont( 10 ),
+  TICK_LABEL_FONT: TICK_LABEL_FONT,
 
   // Preferences
   PREFERENCES_LABEL_FONT: new PhetFont( {
