@@ -24,7 +24,7 @@ import ToolsPanel from '../../common/view/ToolsPanel.js';
 import PickupCoilDebuggerPanel from '../../common/view/PickupCoilDebuggerPanel.js';
 import PickupCoilNode from '../../common/view/PickupCoilNode.js';
 import TurbineNode from './TurbineNode.js';
-import TimeControlNode from '../../../../scenery-phet/js/TimeControlNode.js';
+import FELTimeControlNode from '../../common/view/FELTimeControlNode.js';
 
 export default class GeneratorScreenView extends ScreenView {
 
@@ -93,14 +93,7 @@ export default class GeneratorScreenView extends ScreenView {
       tandem: tandem.createTandem( 'resetAllButton' )
     } );
 
-    const timeControlNode = new TimeControlNode( model.isPlayingProperty, {
-      playPauseStepButtonOptions: {
-        stepForwardButtonOptions: {
-          listener: () => model.stepOnce()
-        }
-      },
-      tandem: tandem.createTandem( 'timeControlNode' )
-    } );
+    const timeControlNode = new FELTimeControlNode( model, tandem.createTandem( 'timeControlNode' ) );
 
     Multilink.multilink( [ this.visibleBoundsProperty, panels.boundsProperty ],
       ( visibleBounds, panelsBounds ) => {
