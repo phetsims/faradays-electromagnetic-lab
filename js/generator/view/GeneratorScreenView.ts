@@ -85,6 +85,8 @@ export default class GeneratorScreenView extends ScreenView {
         panels.top = this.layoutBounds.top + FELConstants.SCREEN_VIEW_Y_MARGIN;
       } );
 
+    const timeControlNode = new FELTimeControlNode( model, tandem.createTandem( 'timeControlNode' ) );
+
     const resetAllButton = new ResetAllButton( {
       listener: () => {
         model.reset();
@@ -92,8 +94,6 @@ export default class GeneratorScreenView extends ScreenView {
       },
       tandem: tandem.createTandem( 'resetAllButton' )
     } );
-
-    const timeControlNode = new FELTimeControlNode( model, tandem.createTandem( 'timeControlNode' ) );
 
     Multilink.multilink( [ this.visibleBoundsProperty, panels.boundsProperty ],
       ( visibleBounds, panelsBounds ) => {

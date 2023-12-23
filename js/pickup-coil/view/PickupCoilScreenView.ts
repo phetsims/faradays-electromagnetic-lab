@@ -78,8 +78,8 @@ export default class PickupCoilScreenView extends ScreenView {
     } );
 
     // Adjust position of the control panels
-    Multilink.multilink( [ panels.boundsProperty, this.visibleBoundsProperty ],
-      ( panelsBounds, visibleBounds ) => {
+    Multilink.multilink( [ this.visibleBoundsProperty, panels.boundsProperty ],
+      ( visibleBounds, panelsBounds ) => {
         panels.right = visibleBounds.right - FELConstants.SCREEN_VIEW_X_MARGIN;
         panels.top = this.layoutBounds.top + FELConstants.SCREEN_VIEW_Y_MARGIN;
       } );

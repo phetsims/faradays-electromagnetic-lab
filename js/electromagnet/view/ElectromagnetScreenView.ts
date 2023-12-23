@@ -20,6 +20,8 @@ import Multilink from '../../../../axon/js/Multilink.js';
 import ElectromagnetPanel from '../../common/view/ElectromagnetPanel.js';
 import ElectromagnetDeveloperAccordionBox from './ElectromagnetDeveloperAccordionBox.js';
 import ToolsPanel from '../../common/view/ToolsPanel.js';
+import FELTimeControlNode from '../../common/view/FELTimeControlNode.js';
+import ElectromagnetNode from '../../common/view/ElectromagnetNode.js';
 
 export default class ElectromagnetScreenView extends ScreenView {
 
@@ -35,7 +37,7 @@ export default class ElectromagnetScreenView extends ScreenView {
       tandem: tandem.createTandem( 'fieldNode' )
     } );
 
-    //TODO electromagnetNode
+    const electromagnetNode = new ElectromagnetNode( model.electromagnet, tandem.createTandem( 'electromagnetNode' ) );
 
     const fieldMeterNode = new FieldMeterNode( model.fieldMeter, tandem.createTandem( 'fieldMeterNode' ) );
 
@@ -60,11 +62,13 @@ export default class ElectromagnetScreenView extends ScreenView {
     } );
 
     // Adjust position of the control panels
-    Multilink.multilink( [ panels.boundsProperty, this.visibleBoundsProperty ],
-      ( panelsBounds, visibleBounds ) => {
+    Multilink.multilink( [ this.visibleBoundsProperty, panels.boundsProperty ],
+      ( visibleBounds, panelsBounds ) => {
         panels.right = visibleBounds.right - FELConstants.SCREEN_VIEW_X_MARGIN;
         panels.top = this.layoutBounds.top + FELConstants.SCREEN_VIEW_Y_MARGIN;
       } );
+
+    const timeControlNode = new FELTimeControlNode( model, tandem.createTandem( 'timeControlNode' ) );
 
     const resetAllButton = new ResetAllButton( {
       listener: () => {
@@ -73,10 +77,18 @@ export default class ElectromagnetScreenView extends ScreenView {
       },
       tandem: tandem.createTandem( 'resetAllButton' )
     } );
-    this.visibleBoundsProperty.link( visibleBounds => {
-      resetAllButton.right = visibleBounds.maxX - FELConstants.SCREEN_VIEW_X_MARGIN;
-      resetAllButton.bottom = visibleBounds.maxY - FELConstants.SCREEN_VIEW_Y_MARGIN;
-    } );
+
+    Multilink.multilink( [ this.visibleBoundsProperty, panels.boundsProperty ],
+      ( visibleBounds, panelsBounds ) => {
+
+        // resetAllButton in right bottom corner
+        resetAllButton.right = visibleBounds.maxX - FELConstants.SCREEN_VIEW_X_MARGIN;
+        resetAllButton.bottom = visibleBounds.maxY - FELConstants.SCREEN_VIEW_Y_MARGIN;
+
+        // timeControlNode to the left of resetAllButton
+        timeControlNode.left = panelsBounds.left;
+        timeControlNode.centerY = resetAllButton.centerY;
+      } );
 
     // Developer controls are always created, to prevent them from becoming broken over time.
     // But they are visible only when running with &dev query parameter.
@@ -90,10 +102,11 @@ export default class ElectromagnetScreenView extends ScreenView {
     const rootNode = new Node( {
       children: [
         fieldNode,
-        //TODO electromagnetNode
+        electromagnetNode,
         compassNode,
         fieldMeterNode,
         panels,
+        timeControlNode,
         resetAllButton,
         developerAccordionBox
       ]
@@ -101,10 +114,11 @@ export default class ElectromagnetScreenView extends ScreenView {
     this.addChild( rootNode );
 
     rootNode.pdomOrder = [
-      //TODO electromagnetNode
+      electromagnetNode,
       compassNode,
       fieldMeterNode,
       panels,
+      timeControlNode,
       resetAllButton
       // Exclude developerAccordionBox from alt input.
     ];
