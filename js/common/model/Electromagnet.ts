@@ -87,14 +87,9 @@ export default class Electromagnet extends Magnet {
     this.acPowerSupply = acPowerSupply;
     this.currentSourceProperty = currentSourceProperty;
 
-    // Flip polarity when the sign of the current amplitude changes.
-    this.sourceCoil.currentAmplitudeProperty.link( ( currentAmplitude, previousCurrentAmplitude ) => {
-      if ( previousCurrentAmplitude !== null ) {
-        //TODO is this correct? What about Math.sign === 0?
-        if ( Math.sign( currentAmplitude ) !== Math.sign( previousCurrentAmplitude ) ) {
-          this.flipPolarity();
-        }
-      }
+    // Polarity is determined by the sign of the current amplitude.
+    this.sourceCoil.currentAmplitudeProperty.link( currentAmplitude => {
+      this.rotationProperty.value = ( currentAmplitude >= 0 ) ? 0 : Math.PI;
     } );
 
     this.radiusProperty = new DerivedProperty( [ this.sourceCoil.loopRadiusProperty ],
