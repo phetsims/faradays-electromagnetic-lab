@@ -38,6 +38,8 @@ export default class BatteryNode extends Node {
       center: Vector2.ZERO
     } );
 
+    //TODO Add bracket around batteryImage.
+
     const sliderStep = battery.amplitudeProperty.range.max / battery.maxVoltage;
     const slider = new HSlider( battery.amplitudeProperty, battery.amplitudeProperty.range, {
       constrainValue: ( value: number ) => Utils.roundToInterval( value, sliderStep ),
