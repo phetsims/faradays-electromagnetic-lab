@@ -218,6 +218,22 @@ const FELColors = {
 
   acPowerSupplyBodyColorProperty: new ProfileColorProperty( faradaysElectromagneticLab, 'acPowerSupplyBodyColor', {
     default: 'rgb( 90, 152, 255 )'
+  } ),
+
+  acPowerSupplyDisplayColorProperty: new ProfileColorProperty( faradaysElectromagneticLab, 'acPowerSupplyDisplayColor', {
+    default: 'black'
+  } ),
+
+  acPowerSupplyTextColorProperty: new ProfileColorProperty( faradaysElectromagneticLab, 'acPowerSupplyTextColor', {
+    default: 'rgb( 0, 255, 0 )'
+  } ),
+
+  acPowerSupplyWaveColorProperty: new ProfileColorProperty( faradaysElectromagneticLab, 'acPowerSupplyWaveColor', {
+    default: 'rgb( 0, 255, 0 )'
+  } ),
+
+  acPowerSupplyAxesColorProperty: new ProfileColorProperty( faradaysElectromagneticLab, 'acPowerSupplyAxesColor', {
+    default: 'white'
   } )
 };
 
