@@ -48,7 +48,7 @@ export default class ACPowerSupplyNode extends Node {
 
     const circle = new Circle( {
       radius: 18,
-      fill: 'black' //TODO color profile
+      fill: FELColors.acPowerSupplyDisplayColorProperty
     } );
 
     // Sine wave symbol
@@ -58,7 +58,7 @@ export default class ACPowerSupplyNode extends Node {
       sineShape.lineToPoint( sineDataSet[ i ] );
     }
     const sinePath = new Path( sineShape, {
-      stroke: 'rgb( 121, 201, 90 )', //TODO color profile
+      stroke: FELColors.acPowerSupplyWaveColorProperty,
       lineWidth: 3,
       center: circle.center
     } );
