@@ -98,6 +98,9 @@
   "units.RPM": {
     "value": "RPM"
   },
+  "units.V": {
+    "value": "V"
+  },
   "magneticUnitsPreferencesLabel": {
     "value": "Magnetic Units"
   },

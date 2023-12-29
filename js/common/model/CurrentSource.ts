@@ -29,6 +29,7 @@ export default class CurrentSource extends PhetioObject {
 
   public readonly amplitudeProperty: NumberProperty;
   public readonly voltageProperty: TReadOnlyProperty<number>;
+  public readonly maxVoltage: number;
 
   protected constructor( providedOptions: CurrentSourceOptions ) {
 
@@ -62,6 +63,8 @@ export default class CurrentSource extends PhetioObject {
         tandem: options.tandem.createTandem( 'voltageProperty' ),
         phetioFeatured: true
       } );
+
+    this.maxVoltage = options.maxVoltage;
   }
 
   public reset(): void {

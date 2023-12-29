@@ -51,6 +51,7 @@ type StringsType = {
     'GStringProperty': LocalizedStringProperty;
     'TStringProperty': LocalizedStringProperty;
     'RPMStringProperty': LocalizedStringProperty;
+    'VStringProperty': LocalizedStringProperty;
   };
   'magneticUnitsPreferencesLabelStringProperty': LocalizedStringProperty;
   'gaussPreferenceStringProperty': LocalizedStringProperty;

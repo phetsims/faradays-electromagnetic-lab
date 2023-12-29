@@ -18,6 +18,17 @@ import TReadOnlyProperty from '../../../../axon/js/TReadOnlyProperty.js';
 import CurrentSource from '../model/CurrentSource.js';
 import HSlider from '../../../../sun/js/HSlider.js';
 import Vector2 from '../../../../dot/js/Vector2.js';
+import FaradaysElectromagneticLabStrings from '../../FaradaysElectromagneticLabStrings.js';
+import Utils from '../../../../dot/js/Utils.js';
+import StringDisplay from './StringDisplay.js';
+import PatternStringProperty from '../../../../axon/js/PatternStringProperty.js';
+import Multilink from '../../../../axon/js/Multilink.js';
+import Dimension2 from '../../../../dot/js/Dimension2.js';
+import PhetFont from '../../../../scenery-phet/js/PhetFont.js';
+
+const valueUnitsStringProperty = FaradaysElectromagneticLabStrings.pattern.valueUnitsStringProperty;
+const VStringProperty = FaradaysElectromagneticLabStrings.units.VStringProperty;
+const FONT = new PhetFont( 16 );
 
 export default class BatteryNode extends Node {
 
@@ -28,12 +39,41 @@ export default class BatteryNode extends Node {
       center: Vector2.ZERO
     } );
 
+    const sliderStep = battery.amplitudeProperty.range.max / battery.maxVoltage;
     const slider = new HSlider( battery.amplitudeProperty, battery.amplitudeProperty.range, {
+      constrainValue: ( value: number ) => Utils.roundToInterval( value, sliderStep ),
+      majorTickLength: 18,
+      //TODO thumbFill, thumbFillHighlighted?
+      //TODO alt input options
+      // keyboardStep: ?,
+      // shiftKeyboardStep: ?,
+      // pageKeyboardStep: ?,
       center: batteryImage.center
+    } );
+    slider.addMajorTick( battery.amplitudeProperty.range.min );
+    slider.addMajorTick( 0 );
+    slider.addMajorTick( battery.amplitudeProperty.range.max );
+
+    const voltageStringProperty = new PatternStringProperty( valueUnitsStringProperty, {
+      value: new DerivedProperty( [ battery.amplitudeProperty ], amplitude => Math.abs( amplitude * battery.maxVoltage ) ),
+      units: VStringProperty
+    } );
+    const voltageDisplay = new StringDisplay( voltageStringProperty, {
+      size: new Dimension2( 100, 50 ),
+      xMargin: 0,
+      yMargin: 0,
+      rectangleOptions: {
+        fill: null,
+        stroke: null
+      },
+      textOptions: {
+        font: FONT,
+        fill: 'red' //TODO
+      }
     } );
 
     super( {
-      children: [ batteryImage, slider ],
+      children: [ batteryImage, slider, voltageDisplay ],
       visibleProperty: new DerivedProperty( [ currentSourceProperty ], currentSource => ( currentSource === battery ), {
         tandem: tandem.createTandem( 'visibleProperty' ),
         phetioValueType: BooleanIO
@@ -42,12 +82,27 @@ export default class BatteryNode extends Node {
     } );
 
     // Reflect the battery about the y-axis to change its polarity.
+    //TODO This is no behaving as expected.
     battery.amplitudeProperty.link( amplitude => {
       batteryImage.matrix.setToIdentity();
       const xScale = ( amplitude >= 0 ) ? 1 : -1; // Sign of the amplitude determines the polarity of the battery.
       batteryImage.setScaleMagnitude( xScale, 1 );
       batteryImage.center = Vector2.ZERO;
     } );
+
+    //TODO Position of voltageDisplay is not as expected.
+    Multilink.multilink(
+      [ battery.amplitudeProperty, voltageDisplay.boundsProperty ],
+      ( amplitude, bounds ) => {
+        const xOffset = 10; //TODO
+        if ( amplitude >= 0 ) {
+          voltageDisplay.right = batteryImage.right - xOffset;
+        }
+        else {
+          voltageDisplay.left = batteryImage.left + xOffset;
+        }
+        voltageDisplay.bottom = slider.top - 5;
+      } );
   }
 
   public static createIcon( scale = 0.5 ): Node {
