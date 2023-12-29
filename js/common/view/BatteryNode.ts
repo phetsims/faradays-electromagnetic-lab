@@ -26,8 +26,7 @@ import Multilink from '../../../../axon/js/Multilink.js';
 import Dimension2 from '../../../../dot/js/Dimension2.js';
 import PhetFont from '../../../../scenery-phet/js/PhetFont.js';
 
-const valueUnitsStringProperty = FaradaysElectromagneticLabStrings.pattern.valueUnitsStringProperty;
-const VStringProperty = FaradaysElectromagneticLabStrings.units.VStringProperty;
+const VOLTAGE_DISPLAY_SIZE = new Dimension2( 100, 50 );
 const FONT = new PhetFont( 16 );
 
 export default class BatteryNode extends Node {
@@ -48,18 +47,19 @@ export default class BatteryNode extends Node {
       // keyboardStep: ?,
       // shiftKeyboardStep: ?,
       // pageKeyboardStep: ?,
-      center: batteryImage.center
+      centerX: batteryImage.centerX,
+      bottom: batteryImage.bottom - 6
     } );
     slider.addMajorTick( battery.amplitudeProperty.range.min );
     slider.addMajorTick( 0 );
     slider.addMajorTick( battery.amplitudeProperty.range.max );
 
-    const voltageStringProperty = new PatternStringProperty( valueUnitsStringProperty, {
+    const voltageStringProperty = new PatternStringProperty( FaradaysElectromagneticLabStrings.pattern.valueUnitsStringProperty, {
       value: new DerivedProperty( [ battery.amplitudeProperty ], amplitude => Math.abs( amplitude * battery.maxVoltage ) ),
-      units: VStringProperty
+      units: FaradaysElectromagneticLabStrings.units.VStringProperty
     } );
     const voltageDisplay = new StringDisplay( voltageStringProperty, {
-      size: new Dimension2( 100, 50 ),
+      size: VOLTAGE_DISPLAY_SIZE,
       xMargin: 0,
       yMargin: 0,
       rectangleOptions: {
@@ -68,7 +68,7 @@ export default class BatteryNode extends Node {
       },
       textOptions: {
         font: FONT,
-        fill: 'red' //TODO
+        fill: 'red' //TODO color profile
       }
     } );
 
