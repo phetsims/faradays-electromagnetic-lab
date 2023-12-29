@@ -10,8 +10,39 @@ import faradaysElectromagneticLab from '../../faradaysElectromagneticLab.js';
 import { Circle, Node, Path } from '../../../../scenery/js/imports.js';
 import Vector2 from '../../../../dot/js/Vector2.js';
 import { Shape } from '../../../../kite/js/imports.js';
+import TReadOnlyProperty from '../../../../axon/js/TReadOnlyProperty.js';
+import CurrentSource from '../model/CurrentSource.js';
+import Tandem from '../../../../tandem/js/Tandem.js';
+import ACPowerSupply from '../model/ACPowerSupply.js';
+import DerivedProperty from '../../../../axon/js/DerivedProperty.js';
+import BooleanIO from '../../../../tandem/js/types/BooleanIO.js';
+import ShadedRectangle, { ShadedRectangleOptions } from '../../../../scenery-phet/js/ShadedRectangle.js';
+import Bounds2 from '../../../../dot/js/Bounds2.js';
+import FELColors from '../FELColors.js';
+
+const BODY_BOUNDS = new Bounds2( 0, 0, 230, 210 );
+const CORNER_RADIUS = 10;
+const BODY_OPTIONS: ShadedRectangleOptions = {
+  lightSource: 'leftTop',
+  baseColor: FELColors.acPowerSupplyBodyColorProperty,
+  cornerRadius: CORNER_RADIUS
+};
 
 export default class ACPowerSupplyNode extends Node {
+
+  public constructor( acPowerSupply: ACPowerSupply, currentSourceProperty: TReadOnlyProperty<CurrentSource>, tandem: Tandem ) {
+
+    const bodyNode = new ShadedRectangle( BODY_BOUNDS, BODY_OPTIONS );
+
+    super( {
+      children: [ bodyNode ],
+      visibleProperty: new DerivedProperty( [ currentSourceProperty ], currentSource => ( currentSource === acPowerSupply ), {
+        tandem: tandem.createTandem( 'visibleProperty' ),
+        phetioValueType: BooleanIO
+      } ),
+      tandem: tandem
+    } );
+  }
 
   public static createIcon( scale = 1 ): Node {
 

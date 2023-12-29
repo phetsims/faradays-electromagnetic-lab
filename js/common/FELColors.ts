@@ -214,6 +214,10 @@ const FELColors = {
 
   rpmDisplayTextColorProperty: new ProfileColorProperty( faradaysElectromagneticLab, 'rpmDisplayTextColor', {
     default: 'white'
+  } ),
+
+  acPowerSupplyBodyColorProperty: new ProfileColorProperty( faradaysElectromagneticLab, 'acPowerSupplyBodyColor', {
+    default: 'rgb( 90, 152, 255 )'
   } )
 };
 

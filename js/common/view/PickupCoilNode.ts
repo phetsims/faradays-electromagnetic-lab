@@ -71,8 +71,9 @@ export default class PickupCoilNode extends FELMovableNode {
       this.backgroundNode.visible = visible;
     } );
 
+    // Superclass FELMovableNode handles positioning this Node. But because backgroundNode is added to the scenegraph
+    // elsewhere, we also need to handle positioning of backgroundNode.
     pickupCoil.positionProperty.link( position => {
-      this.translation = position;
       this.backgroundNode.translation = position;
     } );
   }

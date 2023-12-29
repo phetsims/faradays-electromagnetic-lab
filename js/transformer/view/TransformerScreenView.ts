@@ -40,7 +40,8 @@ export default class TransformerScreenView extends ScreenView {
       tandem: tandem.createTandem( 'fieldNode' )
     } );
 
-    const electromagnetNode = new ElectromagnetNode( model.electromagnet, tandem.createTandem( 'electromagnetNode' ) );
+    const electromagnetNode = new ElectromagnetNode( model.electromagnet, model.stepEmitter,
+      tandem.createTandem( 'electromagnetNode' ) );
 
     const pickupCoilNode = new PickupCoilNode( model.pickupCoil, model.stepEmitter, {
       tandem: tandem.createTandem( 'pickupCoilNode' )
@@ -115,6 +116,7 @@ export default class TransformerScreenView extends ScreenView {
     const rootNode = new Node( {
       children: [
         pickupCoilNode.backgroundNode,
+        //TODO electromagnetNode.backgroundNode,
         fieldNode,
         electromagnetNode,
         pickupCoilNode,

@@ -37,7 +37,8 @@ export default class ElectromagnetScreenView extends ScreenView {
       tandem: tandem.createTandem( 'fieldNode' )
     } );
 
-    const electromagnetNode = new ElectromagnetNode( model.electromagnet, tandem.createTandem( 'electromagnetNode' ) );
+    const electromagnetNode = new ElectromagnetNode( model.electromagnet, model.stepEmitter,
+      tandem.createTandem( 'electromagnetNode' ) );
 
     const fieldMeterNode = new FieldMeterNode( model.fieldMeter, tandem.createTandem( 'fieldMeterNode' ) );
 
@@ -101,6 +102,7 @@ export default class ElectromagnetScreenView extends ScreenView {
 
     const rootNode = new Node( {
       children: [
+        //TODO electromagnetNode.backgroundNode,
         fieldNode,
         electromagnetNode,
         compassNode,
