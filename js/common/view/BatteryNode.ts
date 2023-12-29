@@ -84,7 +84,7 @@ export default class BatteryNode extends Node {
     } );
 
     // Reflect the battery about the y-axis to change its polarity.
-    //TODO This is no behaving as expected.
+    //TODO This is not behaving as expected.
     battery.amplitudeProperty.link( amplitude => {
       batteryImage.matrix.setToIdentity();
       const xScale = ( amplitude >= 0 ) ? 1 : -1; // Sign of the amplitude determines the polarity of the battery.
