@@ -43,12 +43,12 @@ export default class ACPowerSupply extends CurrentSource {
       tandem: tandem
     } );
 
-    this.maxAmplitudeProperty = new NumberProperty( 1, {
+    this.maxAmplitudeProperty = new NumberProperty( 0.5, {
       range: new Range( 0, 1 ),
       tandem: tandem.createTandem( 'maxAmplitudeProperty' )
     } );
 
-    this.frequencyProperty = new NumberProperty( 1, {
+    this.frequencyProperty = new NumberProperty( 0.5, {
       range: new Range( 0, 1 ),
       tandem: tandem.createTandem( 'frequencyProperty' )
     } );
