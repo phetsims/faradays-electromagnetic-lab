@@ -242,6 +242,14 @@ const FELColors = {
 
   batteryVoltsColorProperty: new ProfileColorProperty( faradaysElectromagneticLab, 'batteryVoltsColor', {
     default: 'black'
+  } ),
+
+  batteryBracketColorProperty: new ProfileColorProperty( faradaysElectromagneticLab, 'batteryBracketColor', {
+    default: Color.grayColor( 172 )
+  } ),
+
+  batteryContactColorProperty: new ProfileColorProperty( faradaysElectromagneticLab, 'batteryContactColor', {
+    default: Color.grayColor( 108 )
   } )
 };
 

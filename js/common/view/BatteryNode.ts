@@ -8,7 +8,7 @@
  */
 
 import faradaysElectromagneticLab from '../../faradaysElectromagneticLab.js';
-import { Image, Node, Text } from '../../../../scenery/js/imports.js';
+import { Image, Node, Path, Rectangle, Text } from '../../../../scenery/js/imports.js';
 import batteryDCell_png from '../../../../scenery-phet/images/batteryDCell_png.js';
 import Battery from '../model/Battery.js';
 import Tandem from '../../../../tandem/js/Tandem.js';
@@ -26,6 +26,7 @@ import Multilink from '../../../../axon/js/Multilink.js';
 import PhetFont from '../../../../scenery-phet/js/PhetFont.js';
 import Matrix3 from '../../../../dot/js/Matrix3.js';
 import FELColors from '../FELColors.js';
+import { Shape } from '../../../../kite/js/imports.js';
 
 export default class BatteryNode extends Node {
 
@@ -36,7 +37,10 @@ export default class BatteryNode extends Node {
       center: Vector2.ZERO
     } );
 
-    //TODO Add bracket around batteryImage.
+    // Bracket that holds the battery and connects it to the coil.
+    const bracketNode = new BracketNode( batteryImage.width, batteryImage.height );
+    bracketNode.centerX = batteryImage.centerX;
+    bracketNode.top = batteryImage.top + 10;
 
     const sliderStep = battery.amplitudeProperty.range.max / battery.maxVoltage;
     const slider = new HSlider( battery.amplitudeProperty, battery.amplitudeProperty.range, {
@@ -55,6 +59,7 @@ export default class BatteryNode extends Node {
     slider.addMajorTick( 0 );
     slider.addMajorTick( battery.amplitudeProperty.range.max );
 
+    // Volts display, absolute value
     const voltsStringProperty = new PatternStringProperty( FaradaysElectromagneticLabStrings.pattern.valueUnitsStringProperty, {
       value: new DerivedProperty( [ battery.amplitudeProperty ], amplitude => Math.abs( amplitude * battery.maxVoltage ) ),
       units: FaradaysElectromagneticLabStrings.units.VStringProperty
@@ -65,7 +70,7 @@ export default class BatteryNode extends Node {
     } );
 
     super( {
-      children: [ batteryImage, slider, voltsText ],
+      children: [ bracketNode, batteryImage, slider, voltsText ],
       visibleProperty: new DerivedProperty( [ currentSourceProperty ], currentSource => ( currentSource === battery ), {
         tandem: tandem.createTandem( 'visibleProperty' ),
         phetioValueType: BooleanIO
@@ -105,6 +110,54 @@ export default class BatteryNode extends Node {
   public static createIcon( scale = 0.5 ): Node {
     return new Image( batteryDCell_png, {
       scale: scale
+    } );
+  }
+}
+
+/**
+ * BracketNode is the bracket that holds the battery and connects it to the coil.
+ */
+class BracketNode extends Node {
+
+  public constructor( batteryWidth: number, batteryHeight: number ) {
+
+    const bracketThickness = 8;
+    const gapWidth = 4; // gap between the 2 sections of the bracket
+    const contactWidth = 12;
+    const contactHeight = 40;
+
+    const width = batteryWidth + bracketThickness + contactWidth;
+    const bracketShape = new Shape()
+      .moveTo( 0, 0 )
+      .lineTo( 0, batteryHeight )
+      .lineTo( ( 0.5 * width ) - gapWidth, batteryHeight )
+      .moveTo( ( 0.5 * width ) + gapWidth, batteryHeight )
+      .lineTo( width, batteryHeight )
+      .lineTo( width, 0 );
+
+    const bracketPath = new Path( bracketShape, {
+      stroke: FELColors.batteryBracketColorProperty,
+      lineWidth: bracketThickness
+    } );
+
+    const contactCornerRadius = 5;
+
+    const leftContact = new Rectangle( 0, 0, contactWidth, contactHeight, {
+      cornerRadius: contactCornerRadius,
+      fill: FELColors.batteryContactColorProperty,
+      centerX: bracketPath.left + bracketThickness,
+      top: bracketPath.top + 11 // empirically lined up with the battery's positive terminal
+    } );
+
+    const rightContact = new Rectangle( 0, 0, contactWidth, contactHeight, {
+      cornerRadius: contactCornerRadius,
+      fill: FELColors.batteryContactColorProperty,
+      centerX: bracketPath.right - bracketThickness,
+      top: leftContact.top
+    } );
+
+    super( {
+      children: [ leftContact, rightContact, bracketPath ]
     } );
   }
 }
