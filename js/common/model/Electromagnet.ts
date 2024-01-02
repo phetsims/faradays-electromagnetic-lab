@@ -14,7 +14,6 @@ import BooleanProperty from '../../../../axon/js/BooleanProperty.js';
 import ACPowerSupply from './ACPowerSupply.js';
 import Battery from './Battery.js';
 import CurrentSource from './CurrentSource.js';
-import TReadOnlyProperty from '../../../../axon/js/TReadOnlyProperty.js';
 import DerivedProperty from '../../../../axon/js/DerivedProperty.js';
 import NumberIO from '../../../../tandem/js/types/NumberIO.js';
 import Range from '../../../../dot/js/Range.js';
@@ -34,9 +33,6 @@ export default class Electromagnet extends CoilMagnet {
   public readonly currentSourceProperty: Property<CurrentSource>;
 
   public readonly electronsVisibleProperty: Property<boolean>;
-
-  // Electromagnet is modeled as a circle
-  public readonly radiusProperty: TReadOnlyProperty<number>;
 
   // *** Writeable via developer controls only, when running with &dev query parameter. ***
   // Makes the magnet model shape visible in the view.
@@ -89,12 +85,6 @@ export default class Electromagnet extends CoilMagnet {
     this.sourceCoil.currentAmplitudeProperty.link( currentAmplitude => {
       this.rotationProperty.value = ( currentAmplitude >= 0 ) ? 0 : Math.PI;
     } );
-
-    this.radiusProperty = new DerivedProperty( [ this.sourceCoil.loopRadiusProperty ],
-      loopRadius => loopRadius + ( this.sourceCoil.wireWidth / 2 ), {
-        tandem: options.tandem.createTandem( 'radiusProperty' ),
-        phetioValueType: NumberIO
-      } );
 
     this.electronsVisibleProperty = new BooleanProperty( true, {
       tandem: options.tandem.createTandem( 'electronsVisibleProperty' ),
