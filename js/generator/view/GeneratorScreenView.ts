@@ -40,7 +40,8 @@ export default class GeneratorScreenView extends ScreenView {
       tandem: tandem.createTandem( 'fieldNode' )
     } );
 
-    const turbineNode = new TurbineNode( model.turbine, this.layoutBounds, tandem.createTandem( 'turbineNode' ) );
+    const turbineNode = new TurbineNode( model.turbine, this.layoutBounds, this.visibleBoundsProperty,
+      tandem.createTandem( 'turbineNode' ) );
 
     const pickupCoilNode = new PickupCoilNode( model.pickupCoil, model.stepEmitter, {
       tandem: tandem.createTandem( 'pickupCoilNode' ),

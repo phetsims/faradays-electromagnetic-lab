@@ -234,6 +234,10 @@ const FELColors = {
 
   acPowerSupplyAxesColorProperty: new ProfileColorProperty( faradaysElectromagneticLab, 'acPowerSupplyAxesColor', {
     default: 'white'
+  } ),
+
+  waterColorProperty: new ProfileColorProperty( faradaysElectromagneticLab, 'waterColor', {
+    default: 'rgba( 194, 234, 255, 0.7 )'
   } )
 };
 

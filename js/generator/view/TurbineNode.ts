@@ -18,11 +18,12 @@ import Bounds2 from '../../../../dot/js/Bounds2.js';
 import waterWheel_png from '../../../images/waterWheel_png.js';
 import Vector2 from '../../../../dot/js/Vector2.js';
 import RPMDisplay from './RPMDisplay.js';
-import FluidNode from './FluidNode.js';
+import WaterNode from './WaterNode.js';
+import TReadOnlyProperty from '../../../../axon/js/TReadOnlyProperty.js';
 
 export default class TurbineNode extends Node {
 
-  public constructor( turbine: Turbine, layoutBounds: Bounds2, tandem: Tandem ) {
+  public constructor( turbine: Turbine, layoutBounds: Bounds2, visibleBoundsProperty: TReadOnlyProperty<Bounds2>, tandem: Tandem ) {
 
     const waterWheelNode = new WaterWheelNode( turbine, tandem.createTandem( 'waterWheelNode' ) );
 
@@ -48,12 +49,13 @@ export default class TurbineNode extends Node {
       phetioVisiblePropertyInstrumented: false
     } );
 
-    const fluidNode = new FluidNode( turbine.speedProperty, turbine.speedProperty.range.max );
-    fluidNode.centerX = faucetNode.x;
-    fluidNode.top = faucetNode.y - 2;
+    const waterNode = new WaterNode( turbine.speedProperty, turbine.speedProperty.range.max, visibleBoundsProperty, {
+      centerX: faucetNode.x,
+      top: faucetNode.y - 2
+    } );
 
     super( {
-      children: [ waterWheelNode, barMagnetNode, rpmDisplay, fluidNode, faucetNode ],
+      children: [ waterWheelNode, barMagnetNode, rpmDisplay, waterNode, faucetNode ],
       tandem: tandem
     } );
   }
