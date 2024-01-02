@@ -9,7 +9,6 @@
 
 import faradaysElectromagneticLab from '../../faradaysElectromagneticLab.js';
 import { Circle, Node, Path } from '../../../../scenery/js/imports.js';
-import Range from '../../../../dot/js/Range.js';
 import Vector2 from '../../../../dot/js/Vector2.js';
 import { Shape } from '../../../../kite/js/imports.js';
 import TReadOnlyProperty from '../../../../axon/js/TReadOnlyProperty.js';
@@ -38,7 +37,7 @@ export default class ACPowerSupplyNode extends Node {
 
     const bodyNode = new ShadedRectangle( BODY_BOUNDS, BODY_OPTIONS );
 
-    const maxVoltageSlider = new VSlider( acPowerSupply.maxVoltageProperty, new Range( 0, acPowerSupply.maxVoltageProperty.range.max ), {
+    const maxVoltageSlider = new VSlider( acPowerSupply.maxVoltageProperty, acPowerSupply.maxVoltageProperty.range, {
       //TODO thumbFill, thumbFillHighlighted?
       //TODO alt input options
       // keyboardStep: ?,

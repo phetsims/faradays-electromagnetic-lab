@@ -49,7 +49,7 @@ export default class ACPowerSupply extends CurrentSource {
     super( options );
 
     this.maxVoltageProperty = new NumberProperty( options.initialVoltage, {
-      range: new Range( -options.maxVoltage, options.maxVoltage ),
+      range: new Range( 0, options.maxVoltage ),
       tandem: tandem.createTandem( 'maxVoltageProperty' ),
       phetioFeatured: true
     } );
