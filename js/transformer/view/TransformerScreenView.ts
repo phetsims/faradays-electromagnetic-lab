@@ -15,16 +15,14 @@ import Tandem from '../../../../tandem/js/Tandem.js';
 import FieldNode from '../../common/view/FieldNode.js';
 import FieldMeterNode from '../../common/view/FieldMeterNode.js';
 import CompassNode from '../../common/view/CompassNode.js';
-import ElectromagnetPanel from '../../common/view/ElectromagnetPanel.js';
-import { Node, VBox } from '../../../../scenery/js/imports.js';
+import { Node } from '../../../../scenery/js/imports.js';
 import Multilink from '../../../../axon/js/Multilink.js';
-import PickupCoilPanel from '../../common/view/PickupCoilPanel.js';
 import TransformerDeveloperAccordionBox from './TransformerDeveloperAccordionBox.js';
-import ToolsPanel from '../../common/view/ToolsPanel.js';
 import PickupCoilDebuggerPanel from '../../common/view/PickupCoilDebuggerPanel.js';
 import PickupCoilNode from '../../common/view/PickupCoilNode.js';
 import FELTimeControlNode from '../../common/view/FELTimeControlNode.js';
 import ElectromagnetNode from '../../common/view/ElectromagnetNode.js';
+import TransformerPanels from './TransformerPanels.js';
 
 export default class TransformerScreenView extends ScreenView {
 
@@ -55,25 +53,8 @@ export default class TransformerScreenView extends ScreenView {
 
     const compassNode = new CompassNode( model.compass, tandem.createTandem( 'compassNode' ) );
 
-    const panelsTandem = tandem.createTandem( 'panels' );
-
-    const electromagnetPanel = new ElectromagnetPanel( model.electromagnet, panelsTandem.createTandem( 'electromagnetPanel' ) );
-
-    const pickupCoilPanel = new PickupCoilPanel( model.pickupCoil, panelsTandem.createTandem( 'pickupCoilPanel' ) );
-
-    const toolsPanel = new ToolsPanel( model.compass, model.fieldMeter, panelsTandem.createTandem( 'toolsPanel' ) );
-
-    const panels = new VBox( {
-      stretch: true,
-      spacing: 10,
-      children: [
-        electromagnetPanel,
-        pickupCoilPanel,
-        toolsPanel
-      ],
-      tandem: panelsTandem,
-      phetioVisiblePropertyInstrumented: true
-    } );
+    const panels = new TransformerPanels( model.electromagnet, model.pickupCoil, model.compass, model.fieldMeter,
+      tandem.createTandem( 'panels' ) );
 
     // Adjust position of the control panels
     Multilink.multilink( [ this.visibleBoundsProperty, panels.boundsProperty ],
