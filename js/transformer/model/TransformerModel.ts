@@ -11,7 +11,7 @@ import Tandem from '../../../../tandem/js/Tandem.js';
 import Electromagnet from '../../common/model/Electromagnet.js';
 import FieldMeter from '../../common/model/FieldMeter.js';
 import Compass from '../../common/model/Compass.js';
-import PickupCoil from '../../common/model/PickupCoil.js';
+import PickupCoil, { FixedSpacingSamplePointsStrategy } from '../../common/model/PickupCoil.js';
 import Vector2 from '../../../../dot/js/Vector2.js';
 import IncrementalCompass from '../../common/model/IncrementalCompass.js';
 import FELModel from '../../common/model/FELModel.js';
@@ -39,7 +39,7 @@ export default class TransformerModel extends FELModel {
       maxEMF: 3500000, // see PickupCoil.calibrateMaxEMF
       transitionSmoothingScale: 0.56, // see PickupCoil.transitionSmoothingScaleProperty
       electronSpeedScale: 2,
-      //TODO samplePointsStrategy: new FixedSpacingSamplePointsStrategy(...),
+      samplePointsStrategy: new FixedSpacingSamplePointsStrategy( 5.4 ), // same as Java version
       tandem: tandem.createTandem( 'pickupCoil' )
     } );
 
