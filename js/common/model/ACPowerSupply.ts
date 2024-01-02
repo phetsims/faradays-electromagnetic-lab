@@ -21,8 +21,8 @@ const MIN_STEPS_PER_CYCLE = 10;
 
 export default class ACPowerSupply extends CurrentSource {
 
-  // Determines how high the amplitude can go. (0...1 inclusive)
-  public readonly maxAmplitudeProperty: NumberProperty;
+  // Determines how high the voltage can go.
+  public readonly maxVoltageProperty: NumberProperty;
 
   // Determines how fast the amplitude will vary. (0...1 inclusive)
   public readonly frequencyProperty: NumberProperty;
@@ -39,14 +39,18 @@ export default class ACPowerSupply extends CurrentSource {
 
   public constructor( tandem: Tandem ) {
 
-    super( {
+    const options = {
       maxVoltage: 110, // volts
+      initialVoltage: 55, // volts
+      voltagePropertyReadOnly: true, // because voltage is varied over time by the power supply
       tandem: tandem
-    } );
+    };
 
-    this.maxAmplitudeProperty = new NumberProperty( 0.5, {
-      range: new Range( 0, 1 ),
-      tandem: tandem.createTandem( 'maxAmplitudeProperty' )
+    super( options );
+
+    this.maxVoltageProperty = new NumberProperty( options.initialVoltage, {
+      range: new Range( -options.maxVoltage, options.maxVoltage ),
+      tandem: tandem.createTandem( 'maxVoltageProperty' )
     } );
 
     this.frequencyProperty = new NumberProperty( 0.5, {
@@ -81,7 +85,7 @@ export default class ACPowerSupply extends CurrentSource {
 
   public override reset(): void {
     super.reset();
-    this.maxAmplitudeProperty.reset();
+    this.maxVoltageProperty.reset();
     this.frequencyProperty.reset();
     this.angleProperty.reset();
     this._stepAngleProperty.reset();
@@ -94,8 +98,8 @@ export default class ACPowerSupply extends CurrentSource {
   public step( dt: number ): void {
     assert && assert( dt === 1, `invalid dt=${dt}, see FELModel step` );
 
-    if ( this.maxAmplitudeProperty.value === 0 ) {
-      this.amplitudeProperty.value = 0;
+    if ( this.maxVoltageProperty.value === 0 ) {
+      this.voltageProperty.value = 0;
     }
     else {
       const previousAngle = this.angleProperty.value;
@@ -111,8 +115,8 @@ export default class ACPowerSupply extends CurrentSource {
         this.angleProperty.value = this.angleProperty.value % ( 2 * Math.PI );
       }
 
-      // Calculate and set the amplitude.
-      this.amplitudeProperty.value = this.maxAmplitudeProperty.value * Math.sin( this.angleProperty.value );
+      // Calculate and set the voltage.
+      this.voltageProperty.value = this.maxVoltageProperty.value * Math.sin( this.angleProperty.value );
     }
   }
 }

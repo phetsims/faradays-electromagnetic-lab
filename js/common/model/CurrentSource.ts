@@ -16,19 +16,19 @@ import NumberProperty from '../../../../axon/js/NumberProperty.js';
 import Range from '../../../../dot/js/Range.js';
 import DerivedProperty from '../../../../axon/js/DerivedProperty.js';
 import TReadOnlyProperty from '../../../../axon/js/TReadOnlyProperty.js';
-import NumberIO from '../../../../tandem/js/types/NumberIO.js';
 
 type SelfOptions = {
-  amplitude?: number; // the amplitude of the current, [-1,1]
-  maxVoltage?: number; // the voltage when amplitude === 1
+  initialVoltage: number; // initial value of voltageProperty
+  maxVoltage: number; // range of voltageProperty is [-maxVoltage,maxVoltage]
+  voltagePropertyReadOnly?: boolean; // phetioReadOnly value for voltageProperty
 };
 
 export type CurrentSourceOptions = SelfOptions & PickRequired<PhetioObjectOptions, 'tandem'>;
 
 export default class CurrentSource extends PhetioObject {
 
-  public readonly amplitudeProperty: NumberProperty;
-  public readonly voltageProperty: TReadOnlyProperty<number>;
+  public readonly voltageProperty: NumberProperty;
+  public readonly amplitudeProperty: TReadOnlyProperty<number>;
   public readonly maxVoltage: number;
 
   protected constructor( providedOptions: CurrentSourceOptions ) {
@@ -36,8 +36,7 @@ export default class CurrentSource extends PhetioObject {
     const options = optionize<CurrentSourceOptions, SelfOptions, PhetioObjectOptions>()( {
 
       // SelfOptions
-      amplitude: 0,
-      maxVoltage: 1,
+      voltagePropertyReadOnly: false,
 
       // PhetioObjectOptions
       isDisposable: false,
@@ -49,26 +48,20 @@ export default class CurrentSource extends PhetioObject {
 
     super( options );
 
-    this.amplitudeProperty = new NumberProperty( options.amplitude, {
-      range: new Range( -1, 1 ),
-      tandem: options.tandem.createTandem( 'amplitudeProperty' ),
-      phetioFeatured: true
-      //TODO phetioReadOnly?
+    this.maxVoltage = options.maxVoltage;
+
+    this.voltageProperty = new NumberProperty( options.initialVoltage, {
+      range: new Range( -options.maxVoltage, options.maxVoltage ),
+      tandem: options.tandem.createTandem( 'voltageProperty' ),
+      phetioFeatured: true,
+      phetioReadOnly: options.voltagePropertyReadOnly
     } );
 
-    this.voltageProperty = new DerivedProperty( [ this.amplitudeProperty ],
-      amplitude => amplitude * options.maxVoltage, {
-        phetioValueType: NumberIO,
-        isValidValue: voltage => ( voltage >= -options.maxVoltage && voltage <= options.maxVoltage ),
-        tandem: options.tandem.createTandem( 'voltageProperty' ),
-        phetioFeatured: true
-      } );
-
-    this.maxVoltage = options.maxVoltage;
+    this.amplitudeProperty = new DerivedProperty( [ this.voltageProperty ], voltage => voltage / this.maxVoltage );
   }
 
   public reset(): void {
-    this.amplitudeProperty.reset();
+    this.voltageProperty.reset();
   }
 
   /**

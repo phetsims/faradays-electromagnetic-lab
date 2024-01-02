@@ -14,8 +14,8 @@ export default class Battery extends CurrentSource {
 
   public constructor( tandem: Tandem ) {
     super( {
-      amplitude: 1,
       maxVoltage: 10, // volts
+      initialVoltage: 10, // volts
       tandem: tandem
     } );
   }

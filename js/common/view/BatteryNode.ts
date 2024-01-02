@@ -42,8 +42,8 @@ export default class BatteryNode extends Node {
     bracketNode.centerX = batteryImage.centerX;
     bracketNode.top = batteryImage.top + 10;
 
-    const sliderStep = battery.amplitudeProperty.range.max / battery.maxVoltage;
-    const slider = new HSlider( battery.amplitudeProperty, battery.amplitudeProperty.range, {
+    const sliderStep = battery.voltageProperty.range.max / battery.maxVoltage;
+    const slider = new HSlider( battery.voltageProperty, battery.voltageProperty.range, {
       constrainValue: ( value: number ) => Utils.roundToInterval( value, sliderStep ),
       majorTickLength: 18,
       //TODO thumbFill, thumbFillHighlighted?
@@ -55,13 +55,13 @@ export default class BatteryNode extends Node {
       bottom: batteryImage.bottom - 6,
       tandem: tandem.createTandem( 'slider' )
     } );
-    slider.addMajorTick( battery.amplitudeProperty.range.min );
+    slider.addMajorTick( battery.voltageProperty.range.min );
     slider.addMajorTick( 0 );
-    slider.addMajorTick( battery.amplitudeProperty.range.max );
+    slider.addMajorTick( battery.voltageProperty.range.max );
 
     // Volts display, absolute value
     const voltsStringProperty = new PatternStringProperty( FaradaysElectromagneticLabStrings.pattern.valueUnitsStringProperty, {
-      value: new DerivedProperty( [ battery.amplitudeProperty ], amplitude => Math.abs( amplitude * battery.maxVoltage ) ),
+      value: new DerivedProperty( [ battery.voltageProperty ], voltage => Math.abs( voltage ) ),
       units: FaradaysElectromagneticLabStrings.units.VStringProperty
     } );
     const voltsText = new Text( voltsStringProperty, {
