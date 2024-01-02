@@ -15,16 +15,14 @@ import Tandem from '../../../../tandem/js/Tandem.js';
 import FieldNode from '../../common/view/FieldNode.js';
 import FieldMeterNode from '../../common/view/FieldMeterNode.js';
 import CompassNode from '../../common/view/CompassNode.js';
-import BarMagnetPanel from '../../common/view/BarMagnetPanel.js';
-import PickupCoilPanel from '../../common/view/PickupCoilPanel.js';
-import { Node, VBox } from '../../../../scenery/js/imports.js';
+import { Node } from '../../../../scenery/js/imports.js';
 import Multilink from '../../../../axon/js/Multilink.js';
 import GeneratorDeveloperAccordionBox from './GeneratorDeveloperAccordionBox.js';
-import ToolsPanel from '../../common/view/ToolsPanel.js';
 import PickupCoilDebuggerPanel from '../../common/view/PickupCoilDebuggerPanel.js';
 import PickupCoilNode from '../../common/view/PickupCoilNode.js';
 import TurbineNode from './TurbineNode.js';
 import FELTimeControlNode from '../../common/view/FELTimeControlNode.js';
+import GeneratorPanels from './GeneratorPanels.js';
 
 export default class GeneratorScreenView extends ScreenView {
 
@@ -56,28 +54,8 @@ export default class GeneratorScreenView extends ScreenView {
 
     const compassNode = new CompassNode( model.compass, tandem.createTandem( 'compassNode' ) );
 
-    const panelsTandem = tandem.createTandem( 'panels' );
-
-    const barMagnetPanel = new BarMagnetPanel( model.turbine, model.compass, {
-      hasFlipPolarityButton: false,
-      tandem: panelsTandem.createTandem( 'barMagnetPanel' )
-    } );
-
-    const pickupCoilPanel = new PickupCoilPanel( model.pickupCoil, panelsTandem.createTandem( 'pickupCoilPanel' ) );
-
-    const toolsPanel = new ToolsPanel( model.compass, model.fieldMeter, panelsTandem.createTandem( 'toolsPanel' ) );
-
-    const panels = new VBox( {
-      stretch: true,
-      spacing: 10,
-      children: [
-        barMagnetPanel,
-        pickupCoilPanel,
-        toolsPanel
-      ],
-      tandem: panelsTandem,
-      phetioVisiblePropertyInstrumented: true
-    } );
+    const panels = new GeneratorPanels( model.turbine, model.pickupCoil, model.compass, model.fieldMeter,
+      tandem.createTandem( 'panels' ) );
 
     // Adjust position of the control panels
     Multilink.multilink( [ this.visibleBoundsProperty, panels.boundsProperty ],
