@@ -1,4 +1,4 @@
-// Copyright 2023, University of Colorado Boulder
+// Copyright 2024, University of Colorado Boulder
 
 //TODO Is CoilMagnet useful as a separate class, or should it be folded into Electromagnet?
 

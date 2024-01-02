@@ -1,4 +1,4 @@
-// Copyright 2023, University of Colorado Boulder
+// Copyright 2023-2024, University of Colorado Boulder
 
 /**
  * Electromagnet is the model of the electromagnet. The shape of the model is a circle, and the calculation of the
