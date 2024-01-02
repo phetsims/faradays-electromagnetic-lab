@@ -150,7 +150,7 @@ export default class CoilNode extends Node {
       lineWidth: this.coil.wireWidth,
       lineCap: 'round',
       lineJoin: 'bevel',
-      boundsMethod: 'accurate' //TODO This is not working. The bounds do not include the stroke, and it's difficult to drag.
+      boundsMethod: 'accurate' //TODO JO This is not working. The bounds do not include the stroke, and it's difficult to drag.
     };
 
     // Create the wire ends & loops from left to right.

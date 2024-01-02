@@ -116,7 +116,7 @@ export default class TransformerScreenView extends ScreenView {
     const rootNode = new Node( {
       children: [
         pickupCoilNode.backgroundNode,
-        //TODO This fails in scenery: electromagnetNode.backgroundNode,
+        //TODO JO This fails in scenery: electromagnetNode.backgroundNode,
         fieldNode,
         electromagnetNode,
         pickupCoilNode,
