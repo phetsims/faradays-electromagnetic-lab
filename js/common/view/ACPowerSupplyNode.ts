@@ -1,5 +1,7 @@
 // Copyright 2023, University of Colorado Boulder
 
+//TODO Use MappedProperty here for converting maxVoltageProperty and frequencyProperty to percent?
+
 /**
  * ACPowerSupplyNode is the view of the AC power supply. It provides sliders for changing the maximum voltage
  * and frequency, and depicts the current settings as a sine wave.
