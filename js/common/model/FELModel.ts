@@ -38,11 +38,11 @@ export default class FELModel implements TModel {
   // Whether time is progressing in the sim
   public readonly isPlayingProperty: Property<boolean>;
 
-  // Accumulated dt since the most recent call to this.step, to maintain consistent framerate
-  private accumulatedDtProperty: Property<number>;
-
   // Fires at a constant rate, with a constant dt. Subclass should listen to this instead of overriding step.
   public readonly stepEmitter: Emitter<[ number ]>;
+  
+  // Accumulated time since stepEmitter fired, to maintain consistent framerate
+  private accumulatedTimeProperty: Property<number>;
 
   protected constructor( providedOptions: FELModelOptions ) {
 
@@ -56,25 +56,26 @@ export default class FELModel implements TModel {
       tandem: options.isPlayingPropertyInstrumented ? options.tandem.createTandem( 'isPlayingProperty' ) : Tandem.OPT_OUT
     } );
 
-    this.accumulatedDtProperty = new NumberProperty( 0, {
-      units: 's',
-      tandem: options.tandem.createTandem( 'accumulatedDtProperty' ),
-      phetioReadOnly: true,
-      phetioDocumentation: 'For internal use only'
-    } );
-
     this.stepEmitter = new Emitter( {
-      tandem: options.tandem.createTandem( 'stepEmitter' ),
-      phetioReadOnly: true, //TODO Is the relevant for an Emitter? Does it prevent clients from calling emit?
       parameters: [
         { name: 'dt', phetioType: NumberIO }
-      ]
+      ],
+      tandem: options.tandem.createTandem( 'stepEmitter' ),
+      phetioReadOnly: true, //TODO Is the relevant for an Emitter? Does it prevent clients from calling emit?
+      phetioDocumentation: 'Fires when the model is to be stepped.'
+    } );
+
+    this.accumulatedTimeProperty = new NumberProperty( 0, {
+      units: 's',
+      tandem: options.tandem.createTandem( 'accumulatedTimeProperty' ),
+      phetioReadOnly: true,
+      phetioDocumentation: 'Time since stepEmitter last fired. For internal use only'
     } );
   }
 
   public reset(): void {
     this.isPlayingProperty.reset();
-    this.accumulatedDtProperty.reset();
+    this.accumulatedTimeProperty.reset();
   }
 
   //TODO Should I actually port SwingClock?
@@ -88,9 +89,9 @@ export default class FELModel implements TModel {
    */
   public step( dt: number ): void {
     if ( this.isPlayingProperty.value ) {
-      this.accumulatedDtProperty.value += dt;
-      if ( this.accumulatedDtProperty.value > 1 / FELModel.FRAMES_PER_SECOND ) {
-        this.accumulatedDtProperty.value -= 1 / FELModel.FRAMES_PER_SECOND;
+      this.accumulatedTimeProperty.value += dt;
+      if ( this.accumulatedTimeProperty.value > 1 / FELModel.FRAMES_PER_SECOND ) {
+        this.accumulatedTimeProperty.value -= 1 / FELModel.FRAMES_PER_SECOND;
         this.stepOnce();
       }
     }
