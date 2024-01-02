@@ -61,7 +61,8 @@ export default class ACPowerSupply extends CurrentSource {
     this.angleProperty = new NumberProperty( 0, {
       range: new Range( 0, 2 * Math.PI ),
       units: 'radians',
-      tandem: tandem.createTandem( 'angleProperty' )
+      tandem: tandem.createTandem( 'angleProperty' ),
+      phetioReadOnly: true
     } );
 
     // Reset angle when frequency is changed.
@@ -78,7 +79,8 @@ export default class ACPowerSupply extends CurrentSource {
 
     this._stepAngleProperty = new NumberProperty( 0, {
       units: 'radians',
-      tandem: tandem.createTandem( 'stepAngleProperty' )
+      tandem: tandem.createTandem( 'stepAngleProperty' ),
+      phetioReadOnly: true
     } );
     this.stepAngleProperty = this._stepAngleProperty;
   }
@@ -92,8 +94,7 @@ export default class ACPowerSupply extends CurrentSource {
   }
 
   /**
-   * Varies the amplitude over time, based on maxAmplitude and frequency.
-   * Guaranteed to hit all peaks and zero crossings.
+   * Varies the amplitude over time. Guaranteed to hit all peaks and zero crossings.
    */
   public step( dt: number ): void {
     assert && assert( dt === 1, `invalid dt=${dt}, see FELModel step` );
