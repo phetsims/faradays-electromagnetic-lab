@@ -8,7 +8,7 @@
  */
 
 import faradaysElectromagneticLab from '../../faradaysElectromagneticLab.js';
-import { Circle, Node, Path } from '../../../../scenery/js/imports.js';
+import { Circle, Node, Path, VBox } from '../../../../scenery/js/imports.js';
 import Vector2 from '../../../../dot/js/Vector2.js';
 import { Shape } from '../../../../kite/js/imports.js';
 import TReadOnlyProperty from '../../../../axon/js/TReadOnlyProperty.js';
@@ -22,6 +22,12 @@ import Bounds2 from '../../../../dot/js/Bounds2.js';
 import FELColors from '../FELColors.js';
 import HSlider from '../../../../sun/js/HSlider.js';
 import VSlider from '../../../../sun/js/VSlider.js';
+import PatternStringProperty from '../../../../axon/js/PatternStringProperty.js';
+import FaradaysElectromagneticLabStrings from '../../FaradaysElectromagneticLabStrings.js';
+import Utils from '../../../../dot/js/Utils.js';
+import StringDisplay from './StringDisplay.js';
+import Dimension2 from '../../../../dot/js/Dimension2.js';
+import PhetFont from '../../../../scenery-phet/js/PhetFont.js';
 
 const BODY_BOUNDS = new Bounds2( 0, 0, 230, 210 );
 const CORNER_RADIUS = 10;
@@ -30,12 +36,28 @@ const BODY_OPTIONS: ShadedRectangleOptions = {
   baseColor: FELColors.acPowerSupplyBodyColorProperty,
   cornerRadius: CORNER_RADIUS
 };
+const FONT = new PhetFont( 12 );
 
 export default class ACPowerSupplyNode extends Node {
 
   public constructor( acPowerSupply: ACPowerSupply, currentSourceProperty: TReadOnlyProperty<CurrentSource>, tandem: Tandem ) {
 
     const bodyNode = new ShadedRectangle( BODY_BOUNDS, BODY_OPTIONS );
+
+    const maxVoltageStringProperty = new PatternStringProperty( FaradaysElectromagneticLabStrings.pattern.valuePercentStringProperty, {
+      value: new DerivedProperty( [ acPowerSupply.maxVoltageProperty, acPowerSupply.maxVoltageProperty.rangeProperty ],
+        ( maxVoltage, range ) => Utils.toFixed( 100 * maxVoltage / range.max, 0 ) )
+    } );
+    const maxVoltageDisplay = new StringDisplay( maxVoltageStringProperty, {
+      size: new Dimension2( 25, 15 ),
+      rectangleOptions: {
+        fill: FELColors.acPowerSupplyDisplayColorProperty
+      },
+      textOptions: {
+        fill: FELColors.acPowerSupplyTextColorProperty,
+        font: FONT
+      }
+    } );
 
     const maxVoltageSlider = new VSlider( acPowerSupply.maxVoltageProperty, acPowerSupply.maxVoltageProperty.range, {
       //TODO thumbFill, thumbFillHighlighted?
@@ -46,6 +68,14 @@ export default class ACPowerSupplyNode extends Node {
       left: bodyNode.left + 10,
       centerY: bodyNode.centerY,
       tandem: tandem.createTandem( 'maxVoltageSlider' )
+    } );
+
+    const maxVoltageBox = new VBox( {
+      children: [ maxVoltageDisplay, maxVoltageSlider ],
+      spacing: 5,
+      align: 'center',
+      left: bodyNode.left + 10,
+      centerY: bodyNode.centerY
     } );
 
     const frequencySlider = new HSlider( acPowerSupply.frequencyProperty, acPowerSupply.frequencyProperty.range, {
@@ -60,7 +90,7 @@ export default class ACPowerSupplyNode extends Node {
     } );
 
     super( {
-      children: [ bodyNode, maxVoltageSlider, frequencySlider ],
+      children: [ bodyNode, maxVoltageBox, frequencySlider ],
       visibleProperty: new DerivedProperty( [ currentSourceProperty ], currentSource => ( currentSource === acPowerSupply ), {
         tandem: tandem.createTandem( 'visibleProperty' ),
         phetioValueType: BooleanIO
