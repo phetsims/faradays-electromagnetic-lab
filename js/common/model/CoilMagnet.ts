@@ -16,11 +16,9 @@ import NumberProperty from '../../../../axon/js/NumberProperty.js';
 import TReadOnlyProperty from '../../../../axon/js/TReadOnlyProperty.js';
 import Range from '../../../../dot/js/Range.js';
 import Vector2 from '../../../../dot/js/Vector2.js';
-import SourceCoil from './SourceCoil.js';
 import { EmptySelfOptions } from '../../../../phet-core/js/optionize.js';
-import Dimension2 from '../../../../dot/js/Dimension2.js';
-import DerivedProperty from '../../../../axon/js/DerivedProperty.js';
 import { Shape } from '../../../../kite/js/imports.js';
+import Coil from './Coil.js';
 
 type SelfOptions = EmptySelfOptions;
 
@@ -28,25 +26,22 @@ export type CoilMagnetOptions = SelfOptions & MagnetOptions;
 
 export default class CoilMagnet extends Magnet {
 
-  private readonly sizeProperty: TReadOnlyProperty<Dimension2>;
-  public readonly shapeProperty: TReadOnlyProperty<Shape>;
+  private readonly loopRadius: number;
+  public readonly shape: Shape;
   private readonly maxStrengthOutsideProperty: Property<number>;
 
-  protected constructor( sourceCoil: SourceCoil, strengthProperty: TReadOnlyProperty<number>, strengthRange: Range, providedOptions: CoilMagnetOptions ) {
+  protected constructor( coil: Coil, strengthProperty: TReadOnlyProperty<number>, strengthRange: Range, providedOptions: CoilMagnetOptions ) {
 
     const options = providedOptions;
 
     super( strengthProperty, strengthRange, options );
 
-    this.sizeProperty = new DerivedProperty( [ sourceCoil.loopRadiusProperty ],
-      loopRadius => {
-        const length = ( 2 * loopRadius ) + ( 0.5 * sourceCoil.wireWidth );
-        return new Dimension2( length, length );
-      } );
+    assert && assert( coil.loopRadiusProperty.rangeProperty.value.getLength() === 0,
+      'This model does not support dynamic radius for the coil.' );
+    this.loopRadius = coil.loopRadiusProperty.value;
 
-    this.shapeProperty = new DerivedProperty( [ this.sizeProperty ],
-      size => new Shape().rect( -size.width / 2, -size.height / 2, size.width, size.height )
-    );
+    const R = this.loopRadius;
+    this.shape = new Shape().rect( -R, -R, 2 * R, 2 * R );
 
     this.maxStrengthOutsideProperty = new NumberProperty( 0, {
       tandem: options.tandem.createTandem( 'maxStrengthOutsideProperty' ),
@@ -61,7 +56,7 @@ export default class CoilMagnet extends Magnet {
   }
 
   private isInside( point: Vector2 ): boolean {
-    return this.shapeProperty.value.containsPoint( point );
+    return this.shape.containsPoint( point );
   }
 
   /**
@@ -115,13 +110,12 @@ export default class CoilMagnet extends Magnet {
    * sin(theta) = y / r
    */
   private getLocalFieldVectorOutside( position: Vector2, outputVector: Vector2 ): Vector2 {
-    assert && assert( this.sizeProperty.value.width === this.sizeProperty.value.height );
 
     // Elemental terms
     const x = position.x;
     const y = position.y;
     const r = Math.sqrt( ( x * x ) + ( y * y ) );
-    const R = this.sizeProperty.value.width / 2;
+    const R = this.loopRadius;
     const distanceExponent = 3;
 
     // Inside the magnet, Bx = magnet strength = (2 * m) / (R^3).
@@ -141,7 +135,7 @@ export default class CoilMagnet extends Magnet {
     outputVector.setXY( Bx, By );
 
     // Use this to calibrate.
-    //TODO What should we do about this?
+    //TODO What should we do about this? There is no calibration here or in the Java version.
     if ( outputVector.magnitude > this.maxStrengthOutsideProperty.value ) {
       this.maxStrengthOutsideProperty.value = outputVector.magnitude;
       phet.log && phet.log( `CoilMagnet: maxStrengthOutside=${this.maxStrengthOutsideProperty.value}` );
