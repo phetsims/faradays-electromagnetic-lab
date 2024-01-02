@@ -1,5 +1,7 @@
 // Copyright 2023, University of Colorado Boulder
 
+//TODO move compass and fieldMeter to FELModel?
+
 /**
  * FELModel is the abstract base class for all top-level models in the simulation.  It implements a
  *

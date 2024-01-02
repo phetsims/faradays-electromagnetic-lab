@@ -1,5 +1,7 @@
 // Copyright 2023, University of Colorado Boulder
 
+//TODO Move fieldNode, compassNode, fieldMeterNode, resetAllButton, and positioning of panels to a base class?
+
 /**
  * BarMagnetScreenView is the top-level view for the 'Bar Magnet' screen.
  *
