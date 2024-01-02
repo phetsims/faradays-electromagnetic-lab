@@ -43,6 +43,8 @@ export default class ACPowerSupplyNode extends Node {
       } ),
       tandem: tandem
     } );
+
+    this.addLinkedElement( acPowerSupply );
   }
 
   public static createIcon( scale = 1 ): Node {

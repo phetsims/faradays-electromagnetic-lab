@@ -86,6 +86,8 @@ export default class BatteryNode extends Node {
       tandem: tandem
     } );
 
+    this.addLinkedElement( battery );
+
     // Reflect the battery about the y-axis to change its polarity.
     battery.amplitudeProperty.link( amplitude => {
       batteryImage.matrix = ( amplitude >= 0 ) ? Matrix3.IDENTITY : Matrix3.X_REFLECTION;

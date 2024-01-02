@@ -143,6 +143,8 @@ export default class VoltmeterNode extends Node {
       tandem: tandem
     } );
 
+    this.addLinkedElement( voltmeter );
+
     voltmeter.needleAngleProperty.link( needleAngle => {
       needleNode.rotation = needleAngle;
     } );

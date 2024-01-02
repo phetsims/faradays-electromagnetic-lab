@@ -92,6 +92,7 @@ export default class CoilNode extends Node {
     super( options );
 
     this.coil = coil;
+    this.addLinkedElement( this.coil );
 
     // This is an FELMovableNode so that the coil can also be dragged via this.backgroundNode.
     this.backgroundNode = new FELMovableNode( coil, {
