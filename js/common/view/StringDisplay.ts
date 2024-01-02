@@ -3,9 +3,8 @@
 //TODO migrate to scenery-phet?
 
 /**
- * TODO
- * NumberDisplay has gotten way too complicated, and does not deal with dynamic strings well. Since they do not
- * be instrumented in this sim, roll our own lighter-weight implementation that works well with dynamic strings.
+ * StringDisplay displays the value of a string Property in a fixed-size display area.  It is used as a substitute
+ * for NumberDisplay, which has gotten too complicated and is in need of replacement.
  */
 
 import TReadOnlyProperty from '../../../../axon/js/TReadOnlyProperty.js';

@@ -1,7 +1,8 @@
 // Copyright 2023, University of Colorado Boulder
 
 /**
- * TODO
+ * TurbineNode is the view of a turbine generator. A bar magnet is attached to a water wheel, which turns when water
+ * is dispensed from a faucet. This rotation modulates this magnetic field around the bar magnet.
  *
  * @author Chris Malley (PixelZoom, Inc.)
  */

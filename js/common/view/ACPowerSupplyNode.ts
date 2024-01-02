@@ -1,7 +1,8 @@
 // Copyright 2023, University of Colorado Boulder
 
 /**
- * TODO
+ * ACPowerSupplyNode is the view of the AC power supply. It provides sliders for changing the maximum voltage amplitude
+ * and frequency, and depicts the current settings as a sine wave.
  *
  * @author Chris Malley (PixelZoom, Inc.)
  */

@@ -1,7 +1,8 @@
 // Copyright 2023, University of Colorado Boulder
 
 /**
- * ACPowerSupply is the model for an AC power supply, used to power the electromagnet.
+ * ACPowerSupply is the model for an AC power supply, used to power the electromagnet. The maximum voltage amplitude
+ * and frequency are mutable, and the voltage amplitude varies over time.
  *
  * @author Chris Malley (PixelZoom, Inc.)
  */

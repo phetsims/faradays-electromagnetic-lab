@@ -1,7 +1,7 @@
 // Copyright 2023-2024, University of Colorado Boulder
 
 /**
- * TODO
+ * ElectromagnetNode is the view of the electromagnet. It consists of a source coil, DC battery, and AC power supply.
  *
  * @author Chris Malley (PixelZoom, Inc.)
  */
