@@ -1,14 +1,14 @@
 // Copyright 2023, University of Colorado Boulder
 
 /**
- * ACPowerSupplyNode is the view of the AC power supply. It provides sliders for changing the maximum voltage amplitude
+ * ACPowerSupplyNode is the view of the AC power supply. It provides sliders for changing the maximum voltage
  * and frequency, and depicts the current settings as a sine wave.
  *
  * @author Chris Malley (PixelZoom, Inc.)
  */
 
 import faradaysElectromagneticLab from '../../faradaysElectromagneticLab.js';
-import { Circle, Node, Path, VBox } from '../../../../scenery/js/imports.js';
+import { Circle, HBox, Node, Path, VBox } from '../../../../scenery/js/imports.js';
 import Vector2 from '../../../../dot/js/Vector2.js';
 import { Shape } from '../../../../kite/js/imports.js';
 import TReadOnlyProperty from '../../../../axon/js/TReadOnlyProperty.js';
@@ -37,19 +37,22 @@ const BODY_OPTIONS: ShadedRectangleOptions = {
   cornerRadius: CORNER_RADIUS
 };
 const FONT = new PhetFont( 12 );
+const STRING_DISPLAY_SIZE = new Dimension2( 38, 20 );
 
 export default class ACPowerSupplyNode extends Node {
 
   public constructor( acPowerSupply: ACPowerSupply, currentSourceProperty: TReadOnlyProperty<CurrentSource>, tandem: Tandem ) {
 
+    // Body of the AC power supply
     const bodyNode = new ShadedRectangle( BODY_BOUNDS, BODY_OPTIONS );
 
+    // Display for max voltage value, in percent
     const maxVoltageStringProperty = new PatternStringProperty( FaradaysElectromagneticLabStrings.pattern.valuePercentStringProperty, {
       value: new DerivedProperty( [ acPowerSupply.maxVoltageProperty, acPowerSupply.maxVoltageProperty.rangeProperty ],
         ( maxVoltage, range ) => Utils.toFixed( 100 * maxVoltage / range.max, 0 ) )
     } );
     const maxVoltageDisplay = new StringDisplay( maxVoltageStringProperty, {
-      size: new Dimension2( 25, 15 ),
+      size: STRING_DISPLAY_SIZE,
       rectangleOptions: {
         fill: FELColors.acPowerSupplyDisplayColorProperty
       },
@@ -59,6 +62,7 @@ export default class ACPowerSupplyNode extends Node {
       }
     } );
 
+    // Slider for max voltage
     const maxVoltageSlider = new VSlider( acPowerSupply.maxVoltageProperty, acPowerSupply.maxVoltageProperty.range, {
       //TODO thumbFill, thumbFillHighlighted?
       //TODO alt input options
@@ -70,6 +74,7 @@ export default class ACPowerSupplyNode extends Node {
       tandem: tandem.createTandem( 'maxVoltageSlider' )
     } );
 
+    // Layout for max voltage display and slider
     const maxVoltageBox = new VBox( {
       children: [ maxVoltageDisplay, maxVoltageSlider ],
       spacing: 5,
@@ -78,19 +83,43 @@ export default class ACPowerSupplyNode extends Node {
       centerY: bodyNode.centerY
     } );
 
+    // Display for frequency value, in percent
+    const frequencyStringProperty = new PatternStringProperty( FaradaysElectromagneticLabStrings.pattern.valuePercentStringProperty, {
+      value: new DerivedProperty( [ acPowerSupply.frequencyProperty, acPowerSupply.frequencyProperty.rangeProperty ],
+        ( frequency, range ) => Utils.toFixed( 100 * frequency / range.max, 0 ) )
+    } );
+    const frequencyDisplay = new StringDisplay( frequencyStringProperty, {
+      size: STRING_DISPLAY_SIZE,
+      rectangleOptions: {
+        fill: FELColors.acPowerSupplyDisplayColorProperty
+      },
+      textOptions: {
+        fill: FELColors.acPowerSupplyTextColorProperty,
+        font: FONT
+      }
+    } );
+
+    // Slider for frequency
     const frequencySlider = new HSlider( acPowerSupply.frequencyProperty, acPowerSupply.frequencyProperty.range, {
       //TODO thumbFill, thumbFillHighlighted?
       //TODO alt input options
       // keyboardStep: ?,
       // shiftKeyboardStep: ?,
       // pageKeyboardStep: ?,
-      centerX: bodyNode.centerX,
-      bottom: bodyNode.bottom - 10,
       tandem: tandem.createTandem( 'frequencySlider' )
     } );
 
+    // Layout for frequency display and slider
+    const frequencyBox = new HBox( {
+      children: [ frequencySlider, frequencyDisplay ],
+      spacing: 5,
+      align: 'center',
+      centerX: bodyNode.centerX,
+      bottom: bodyNode.bottom - 10
+    } );
+
     super( {
-      children: [ bodyNode, maxVoltageBox, frequencySlider ],
+      children: [ bodyNode, maxVoltageBox, frequencyBox ],
       visibleProperty: new DerivedProperty( [ currentSourceProperty ], currentSource => ( currentSource === acPowerSupply ), {
         tandem: tandem.createTandem( 'visibleProperty' ),
         phetioValueType: BooleanIO
@@ -101,6 +130,9 @@ export default class ACPowerSupplyNode extends Node {
     this.addLinkedElement( acPowerSupply );
   }
 
+  /**
+   * Creates an icon for the AC power supply. This is the universal symbol for AC power.
+   */
   public static createIcon( scale = 1 ): Node {
 
     const circle = new Circle( {
