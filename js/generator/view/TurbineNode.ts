@@ -11,15 +11,14 @@ import faradaysElectromagneticLab from '../../faradaysElectromagneticLab.js';
 import Turbine from '../model/Turbine.js';
 import Tandem from '../../../../tandem/js/Tandem.js';
 import BarMagnetNode from '../../common/view/BarMagnetNode.js';
-import { Image, Node } from '../../../../scenery/js/imports.js';
+import { Node } from '../../../../scenery/js/imports.js';
 import FaucetNode from '../../../../scenery-phet/js/FaucetNode.js';
 import Property from '../../../../axon/js/Property.js';
 import Bounds2 from '../../../../dot/js/Bounds2.js';
-import waterWheel_png from '../../../images/waterWheel_png.js';
-import Vector2 from '../../../../dot/js/Vector2.js';
 import RPMDisplay from './RPMDisplay.js';
 import WaterNode from './WaterNode.js';
 import TReadOnlyProperty from '../../../../axon/js/TReadOnlyProperty.js';
+import WaterWheelNode from './WaterWheelNode.js';
 
 export default class TurbineNode extends Node {
 
@@ -57,30 +56,6 @@ export default class TurbineNode extends Node {
     super( {
       children: [ waterWheelNode, barMagnetNode, rpmDisplay, waterNode, faucetNode ],
       tandem: tandem
-    } );
-  }
-}
-
-class WaterWheelNode extends Node {
-  public constructor( turbine: Turbine, tandem: Tandem ) {
-
-    //TODO Replace waterWheel_png
-    const imageNode = new Image( waterWheel_png, {
-      center: Vector2.ZERO
-    } );
-
-    super( {
-      children: [ imageNode ],
-      tandem: tandem,
-      phetioVisiblePropertyInstrumented: false
-    } );
-
-    turbine.positionProperty.link( position => {
-      this.translation = position;
-    } );
-
-    turbine.rotationProperty.link( rotation => {
-      this.rotateAround( this.center, rotation - this.rotation );
     } );
   }
 }
