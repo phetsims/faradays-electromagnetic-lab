@@ -96,7 +96,7 @@ export default class CoilNode extends Node {
 
     // This is an FELMovableNode so that the coil can also be dragged via this.backgroundNode.
     this.backgroundNode = new FELMovableNode( coil, {
-      focusable: false,
+      hasKeyboardDragListener: false,
       visibleProperty: this.visibleProperty,
       tandem: Tandem.OPT_OUT,
       isMovable: options.isMovable

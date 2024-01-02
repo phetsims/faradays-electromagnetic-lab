@@ -25,10 +25,11 @@ import soundManager from '../../../../tambo/js/soundManager.js';
 
 type SelfOptions = {
   isMovable?: boolean; // Is this Node movable?
+  hasKeyboardDragListener?: boolean;
 };
 
 export type FELMovableNodeOptions = SelfOptions &
-  PickOptional<NodeOptions, 'children' | 'visibleProperty' | 'focusable'> &
+  PickOptional<NodeOptions, 'children' | 'visibleProperty'> &
   PickRequired<NodeOptions, 'tandem'>;
 
 export default class FELMovableNode extends Node {
@@ -39,6 +40,7 @@ export default class FELMovableNode extends Node {
 
       // SelfOptions
       isMovable: true,
+      hasKeyboardDragListener: true,
 
       // NodeOptions
       isDisposable: false,
@@ -48,9 +50,12 @@ export default class FELMovableNode extends Node {
 
     if ( options.isMovable ) {
       options.cursor = 'pointer';
+      options.phetioInputEnabledPropertyInstrumented = true;
+    }
+
+    if ( options.isMovable && options.hasKeyboardDragListener ) {
       options.tagName = 'div'; // for KeyboardDragListener
       options.focusable = true; // for KeyboardDragListener
-      options.phetioInputEnabledPropertyInstrumented = true;
     }
 
     super( options );
@@ -85,7 +90,7 @@ export default class FELMovableNode extends Node {
       } );
       this.addInputListener( dragListener );
 
-      if ( options.focusable ) {
+      if ( options.focusable && options.hasKeyboardDragListener ) {
         const keyboardDragListener = new KeyboardDragListener(
           combineOptions<KeyboardDragListenerOptions>( {}, FELConstants.KEYBOARD_DRAG_LISTENER_OPTIONS, {
             positionProperty: movable.positionProperty,

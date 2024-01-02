@@ -10,13 +10,13 @@
  */
 
 import faradaysElectromagneticLab from '../../faradaysElectromagneticLab.js';
-import { Image, NodeOptions, Path } from '../../../../scenery/js/imports.js';
+import { Image, Path } from '../../../../scenery/js/imports.js';
 import BarMagnet from '../model/BarMagnet.js';
 import earth_png from '../../../images/earth_png.js';
 import { Shape } from '../../../../kite/js/imports.js';
 import PickRequired from '../../../../phet-core/js/types/PickRequired.js';
 import optionize, { EmptySelfOptions } from '../../../../phet-core/js/optionize.js';
-import FELMovableNode from './FELMovableNode.js';
+import FELMovableNode, { FELMovableNodeOptions } from './FELMovableNode.js';
 import Vector2 from '../../../../dot/js/Vector2.js';
 
 type SelfOptions = EmptySelfOptions;
@@ -41,9 +41,9 @@ export default class EarthNode extends FELMovableNode {
       center: earthImage.center
     } );
 
-    const options = optionize<EarthNodeOptions, SelfOptions, NodeOptions>()( {
-      children: [ earthPath, earthImage ],
-      focusable: false // alt input is unnecessary for EarthNode, since BarMagnetNode has a KeyboardDragListener.
+    const options = optionize<EarthNodeOptions, SelfOptions, FELMovableNodeOptions>()( {
+      hasKeyboardDragListener: false, // unnecessary for EarthNode, since BarMagnetNode has a KeyboardDragListener.
+      children: [ earthPath, earthImage ]
     }, providedOptions );
 
     super( barMagnet, options );
