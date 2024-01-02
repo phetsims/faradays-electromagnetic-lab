@@ -102,7 +102,7 @@ export default class ElectromagnetScreenView extends ScreenView {
 
     const rootNode = new Node( {
       children: [
-        //TODO JO This fails in scenery: electromagnetNode.backgroundNode,
+        electromagnetNode.backgroundNode,
         fieldNode,
         electromagnetNode,
         compassNode,
