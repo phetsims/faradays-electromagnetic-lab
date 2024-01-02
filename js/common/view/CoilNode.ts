@@ -26,7 +26,7 @@
 
 import faradaysElectromagneticLab from '../../faradaysElectromagneticLab.js';
 import Coil from '../model/Coil.js';
-import { LinearGradient, Node, NodeOptions, Path, PathOptions, Rectangle } from '../../../../scenery/js/imports.js';
+import { LinearGradient, Node, NodeOptions, Path, PathOptions } from '../../../../scenery/js/imports.js';
 import CoilSegment from '../model/CoilSegment.js';
 import PickRequired from '../../../../phet-core/js/types/PickRequired.js';
 import optionize, { combineOptions } from '../../../../phet-core/js/optionize.js';
@@ -150,7 +150,7 @@ export default class CoilNode extends Node {
       lineWidth: this.coil.wireWidth,
       lineCap: 'round',
       lineJoin: 'bevel',
-      boundsMethod: 'accurate' //TODO JO This is not working. The bounds do not include the stroke, and it's difficult to drag.
+      strokePickable: true
     };
 
     // Create the wire ends & loops from left to right.
@@ -383,9 +383,6 @@ export default class CoilNode extends Node {
       }
       assert && assert( this.electrons.length === this.electronNodes.length );
     }
-
-    //TODO JO Until boundsMethod: 'accurate' is working above, add an invisible rectangle to make dragging usable.
-    this.addChild( new Rectangle( this.bounds ) );
   }
 
   /**
