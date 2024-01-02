@@ -12,8 +12,7 @@ import FELConstants from '../../common/FELConstants.js';
 import faradaysElectromagneticLab from '../../faradaysElectromagneticLab.js';
 import BarMagnetModel from '../model/BarMagnetModel.js';
 import Tandem from '../../../../tandem/js/Tandem.js';
-import BarMagnetPanel from '../../common/view/BarMagnetPanel.js';
-import { Node, VBox } from '../../../../scenery/js/imports.js';
+import { Node } from '../../../../scenery/js/imports.js';
 import BarMagnetViewProperties from './BarMagnetViewProperties.js';
 import Multilink from '../../../../axon/js/Multilink.js';
 import BarMagnetNode from '../../common/view/BarMagnetNode.js';
@@ -22,7 +21,7 @@ import FieldNode from '../../common/view/FieldNode.js';
 import FieldMeterNode from '../../common/view/FieldMeterNode.js';
 import CompassNode from '../../common/view/CompassNode.js';
 import BarMagnetDeveloperAccordionBox from './BarMagnetDeveloperAccordionBox.js';
-import ToolsPanel from '../../common/view/ToolsPanel.js';
+import BarMagnetPanels from './BarMagnetPanels.js';
 
 export default class BarMagnetScreenView extends ScreenView {
 
@@ -63,26 +62,7 @@ export default class BarMagnetScreenView extends ScreenView {
       tandem: tandem.createTandem( 'earthNode' )
     } );
 
-    const panelsTandem = tandem.createTandem( 'panels' );
-
-    const barMagnetPanel = new BarMagnetPanel( model.barMagnet, model.compass, {
-      seeInsideProperty: viewProperties.seeInsideBarMagnetProperty,
-      earthVisibleProperty: viewProperties.earthVisibleProperty,
-      tandem: panelsTandem.createTandem( 'barMagnetPanel' )
-    } );
-
-    const toolsPanel = new ToolsPanel( model.compass, model.fieldMeter, panelsTandem.createTandem( 'toolsPanel' ) );
-
-    const panels = new VBox( {
-      stretch: true,
-      spacing: 10,
-      children: [
-        barMagnetPanel,
-        toolsPanel
-      ],
-      tandem: panelsTandem,
-      phetioVisiblePropertyInstrumented: true
-    } );
+    const panels = new BarMagnetPanels( model.barMagnet, model.compass, model.fieldMeter, viewProperties, tandem.createTandem( 'panels' ) );
 
     // Adjust position of the control panels
     Multilink.multilink( [ this.visibleBoundsProperty, panels.boundsProperty ],
