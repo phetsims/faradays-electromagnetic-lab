@@ -27,9 +27,11 @@ export type CurrentSourceOptions = SelfOptions & PickRequired<PhetioObjectOption
 
 export default class CurrentSource extends PhetioObject {
 
+  // Voltage of the current source
   public readonly voltageProperty: NumberProperty;
+
+  // Amplitude [-1,1] relative to the range of voltageProperty.
   public readonly amplitudeProperty: TReadOnlyProperty<number>;
-  public readonly maxVoltage: number;
 
   protected constructor( providedOptions: CurrentSourceOptions ) {
 
@@ -48,8 +50,6 @@ export default class CurrentSource extends PhetioObject {
 
     super( options );
 
-    this.maxVoltage = options.maxVoltage;
-
     this.voltageProperty = new NumberProperty( options.initialVoltage, {
       range: new Range( -options.maxVoltage, options.maxVoltage ),
       tandem: options.tandem.createTandem( 'voltageProperty' ),
@@ -57,7 +57,10 @@ export default class CurrentSource extends PhetioObject {
       phetioReadOnly: options.voltagePropertyReadOnly
     } );
 
-    this.amplitudeProperty = new DerivedProperty( [ this.voltageProperty ], voltage => voltage / this.maxVoltage );
+    this.amplitudeProperty = new DerivedProperty( [ this.voltageProperty ],
+      voltage => voltage / options.maxVoltage, {
+        isValidValue: amplitude => ( amplitude >= -1 && amplitude <= 1 ) // [-1,1]
+      } );
   }
 
   public reset(): void {

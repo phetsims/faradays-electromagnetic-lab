@@ -42,9 +42,8 @@ export default class BatteryNode extends Node {
     bracketNode.centerX = batteryImage.centerX;
     bracketNode.top = batteryImage.top + 10;
 
-    const sliderStep = battery.voltageProperty.range.max / battery.maxVoltage;
     const slider = new HSlider( battery.voltageProperty, battery.voltageProperty.range, {
-      constrainValue: ( value: number ) => Utils.roundToInterval( value, sliderStep ),
+      constrainValue: ( value: number ) => Utils.roundToInterval( value, 1 ), // 1 V steps
       majorTickLength: 18,
       //TODO thumbFill, thumbFillHighlighted?
       //TODO alt input options
