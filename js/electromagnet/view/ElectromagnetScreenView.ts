@@ -46,7 +46,7 @@ export default class ElectromagnetScreenView extends ScreenView {
 
     const panelsTandem = tandem.createTandem( 'panels' );
 
-    const electromagnetPanel = new ElectromagnetPanel( model.electromagnet, tandem.createTandem( 'electromagnetPanel' ) );
+    const electromagnetPanel = new ElectromagnetPanel( model.electromagnet, panelsTandem.createTandem( 'electromagnetPanel' ) );
 
     const toolsPanel = new ToolsPanel( model.compass, model.fieldMeter, panelsTandem.createTandem( 'toolsPanel' )
     );

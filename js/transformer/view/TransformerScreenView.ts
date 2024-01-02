@@ -57,7 +57,7 @@ export default class TransformerScreenView extends ScreenView {
 
     const panelsTandem = tandem.createTandem( 'panels' );
 
-    const electromagnetPanel = new ElectromagnetPanel( model.electromagnet, tandem.createTandem( 'electromagnetPanel' ) );
+    const electromagnetPanel = new ElectromagnetPanel( model.electromagnet, panelsTandem.createTandem( 'electromagnetPanel' ) );
 
     const pickupCoilPanel = new PickupCoilPanel( model.pickupCoil, panelsTandem.createTandem( 'pickupCoilPanel' ) );
 
