@@ -12,13 +12,12 @@ import Turbine from '../model/Turbine.js';
 import Tandem from '../../../../tandem/js/Tandem.js';
 import BarMagnetNode from '../../common/view/BarMagnetNode.js';
 import { Node } from '../../../../scenery/js/imports.js';
-import FaucetNode from '../../../../scenery-phet/js/FaucetNode.js';
-import Property from '../../../../axon/js/Property.js';
 import Bounds2 from '../../../../dot/js/Bounds2.js';
 import RPMDisplay from './RPMDisplay.js';
 import WaterNode from './WaterNode.js';
 import TReadOnlyProperty from '../../../../axon/js/TReadOnlyProperty.js';
 import WaterWheelNode from './WaterWheelNode.js';
+import WaterFaucetNode from './WaterFaucetNode.js';
 
 export default class TurbineNode extends Node {
 
@@ -37,15 +36,10 @@ export default class TurbineNode extends Node {
       // No PhET-iO instrumentation. There is nothing interesting here.
     } );
 
-    const faucetNode = new FaucetNode( turbine.speedProperty.rangeProperty.value.max, turbine.speedProperty, new Property( true ), {
-      scale: 0.7,
-      closeOnRelease: false,
-      tapToDispenseEnabled: false,
-      horizontalPipeLength: 1800,
+    const faucetNode = new WaterFaucetNode( turbine.speedProperty, {
       right: layoutBounds.left + 225,
       top: layoutBounds.top + 50,
-      tandem: tandem.createTandem( 'faucetNode' ),
-      phetioVisiblePropertyInstrumented: false
+      tandem: tandem.createTandem( 'faucetNode' )
     } );
 
     const waterNode = new WaterNode( turbine.speedProperty, turbine.speedProperty.range.max, visibleBoundsProperty, {
