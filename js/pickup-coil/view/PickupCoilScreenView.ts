@@ -15,15 +15,13 @@ import FieldNode from '../../common/view/FieldNode.js';
 import BarMagnetNode from '../../common/view/BarMagnetNode.js';
 import FieldMeterNode from '../../common/view/FieldMeterNode.js';
 import CompassNode from '../../common/view/CompassNode.js';
-import BarMagnetPanel from '../../common/view/BarMagnetPanel.js';
-import { Node, VBox } from '../../../../scenery/js/imports.js';
+import { Node } from '../../../../scenery/js/imports.js';
 import Multilink from '../../../../axon/js/Multilink.js';
-import PickupCoilPanel from '../../common/view/PickupCoilPanel.js';
 import PickupCoilModel from '../model/PickupCoilModel.js';
 import PickupCoilDeveloperAccordionBox from './PickupCoilDeveloperAccordionBox.js';
 import PickupCoilDebuggerPanel from '../../common/view/PickupCoilDebuggerPanel.js';
-import ToolsPanel from '../../common/view/ToolsPanel.js';
 import PickupCoilNode from '../../common/view/PickupCoilNode.js';
+import PickupCoilPanels from './PickupCoilPanels.js';
 
 export default class PickupCoilScreenView extends ScreenView {
 
@@ -55,27 +53,8 @@ export default class PickupCoilScreenView extends ScreenView {
 
     const compassNode = new CompassNode( model.compass, tandem.createTandem( 'compassNode' ) );
 
-    const panelsTandem = tandem.createTandem( 'panels' );
-
-    const barMagnetPanel = new BarMagnetPanel( model.barMagnet, model.compass, {
-      tandem: panelsTandem.createTandem( 'barMagnetPanel' )
-    } );
-
-    const pickupCoilPanel = new PickupCoilPanel( model.pickupCoil, panelsTandem.createTandem( 'pickupCoilPanel' ) );
-
-    const toolsPanel = new ToolsPanel( model.compass, model.fieldMeter, panelsTandem.createTandem( 'toolsPanel' ) );
-
-    const panels = new VBox( {
-      stretch: true,
-      spacing: 10,
-      children: [
-        barMagnetPanel,
-        pickupCoilPanel,
-        toolsPanel
-      ],
-      tandem: panelsTandem,
-      phetioVisiblePropertyInstrumented: true
-    } );
+    const panels = new PickupCoilPanels( model.barMagnet, model.pickupCoil, model.compass, model.fieldMeter,
+      tandem.createTandem( 'panels' ) );
 
     // Adjust position of the control panels
     Multilink.multilink( [ this.visibleBoundsProperty, panels.boundsProperty ],
