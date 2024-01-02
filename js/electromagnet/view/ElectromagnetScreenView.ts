@@ -15,13 +15,12 @@ import Tandem from '../../../../tandem/js/Tandem.js';
 import FieldNode from '../../common/view/FieldNode.js';
 import FieldMeterNode from '../../common/view/FieldMeterNode.js';
 import CompassNode from '../../common/view/CompassNode.js';
-import { Node, VBox } from '../../../../scenery/js/imports.js';
+import { Node } from '../../../../scenery/js/imports.js';
 import Multilink from '../../../../axon/js/Multilink.js';
-import ElectromagnetPanel from '../../common/view/ElectromagnetPanel.js';
 import ElectromagnetDeveloperAccordionBox from './ElectromagnetDeveloperAccordionBox.js';
-import ToolsPanel from '../../common/view/ToolsPanel.js';
 import FELTimeControlNode from '../../common/view/FELTimeControlNode.js';
 import ElectromagnetNode from '../../common/view/ElectromagnetNode.js';
+import ElectromagnetPanels from './ElectromagnetPanels.js';
 
 export default class ElectromagnetScreenView extends ScreenView {
 
@@ -44,23 +43,7 @@ export default class ElectromagnetScreenView extends ScreenView {
 
     const compassNode = new CompassNode( model.compass, tandem.createTandem( 'compassNode' ) );
 
-    const panelsTandem = tandem.createTandem( 'panels' );
-
-    const electromagnetPanel = new ElectromagnetPanel( model.electromagnet, panelsTandem.createTandem( 'electromagnetPanel' ) );
-
-    const toolsPanel = new ToolsPanel( model.compass, model.fieldMeter, panelsTandem.createTandem( 'toolsPanel' )
-    );
-
-    const panels = new VBox( {
-      stretch: true,
-      spacing: 10,
-      children: [
-        electromagnetPanel,
-        toolsPanel
-      ],
-      tandem: panelsTandem,
-      phetioVisiblePropertyInstrumented: true
-    } );
+    const panels = new ElectromagnetPanels( model.electromagnet, model.compass, model.fieldMeter, tandem.createTandem( 'panels' ) );
 
     // Adjust position of the control panels
     Multilink.multilink( [ this.visibleBoundsProperty, panels.boundsProperty ],
