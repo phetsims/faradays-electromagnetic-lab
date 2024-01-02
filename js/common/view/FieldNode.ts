@@ -177,7 +177,6 @@ class CompassNeedleSpriteInstance extends SpriteInstance {
     this.rotationProperty.dispose();
   }
 
-  //TODO JO Needles are not rotating about their centers, and shift position when magnet polarity is flipped.
   /**
    * Updates the matrix to match the needle's position and rotation.
    */
