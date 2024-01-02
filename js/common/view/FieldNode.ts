@@ -45,9 +45,8 @@ export default class FieldNode extends Sprites {
 
     // Convert the CompassNeedleNode to a Sprite.
     let spriteImage: SpriteImage;
-    const spriteImageOffset = new Vector2( compassNeedleNode.width / 2, compassNeedleNode.height / 2 );
-    compassNeedleNode.toCanvas( canvas => {
-      spriteImage = new SpriteImage( canvas, spriteImageOffset );
+    compassNeedleNode.toCanvas( ( canvas, x, y, width, height ) => {
+      spriteImage = new SpriteImage( canvas, new Vector2( ( x + compassNeedleNode.width / 2 ), ( y + compassNeedleNode.height / 2 ) ) );
     } );
     const sprite = new Sprite( spriteImage! );
 
@@ -86,8 +85,8 @@ export default class FieldNode extends Sprites {
 
     // If the colors change, update the sprite and redraw.
     Multilink.multilink( [ FELColors.compassNeedleNorthColorProperty, FELColors.compassNeedleSouthColorProperty ], () => {
-      compassNeedleNode.toCanvas( canvas => {
-        sprite.imageProperty.value = new SpriteImage( canvas, spriteImageOffset );
+      compassNeedleNode.toCanvas( ( canvas, x, y, width, height ) => {
+        spriteImage = new SpriteImage( canvas, new Vector2( ( x + compassNeedleNode.width / 2 ), ( y + compassNeedleNode.height / 2 ) ) );
         this.invalidatePaint();
       } );
     } );
