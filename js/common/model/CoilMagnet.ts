@@ -15,12 +15,12 @@ import Property from '../../../../axon/js/Property.js';
 import NumberProperty from '../../../../axon/js/NumberProperty.js';
 import TReadOnlyProperty from '../../../../axon/js/TReadOnlyProperty.js';
 import Range from '../../../../dot/js/Range.js';
-import Rectangle from '../../../../dot/js/Rectangle.js';
 import Vector2 from '../../../../dot/js/Vector2.js';
 import SourceCoil from './SourceCoil.js';
 import { EmptySelfOptions } from '../../../../phet-core/js/optionize.js';
 import Dimension2 from '../../../../dot/js/Dimension2.js';
 import DerivedProperty from '../../../../axon/js/DerivedProperty.js';
+import { Shape } from '../../../../kite/js/imports.js';
 
 type SelfOptions = EmptySelfOptions;
 
@@ -29,7 +29,7 @@ export type CoilMagnetOptions = SelfOptions & MagnetOptions;
 export default class CoilMagnet extends Magnet {
 
   private readonly sizeProperty: TReadOnlyProperty<Dimension2>;
-  private readonly shapeProperty: TReadOnlyProperty<Rectangle>;
+  public readonly shapeProperty: TReadOnlyProperty<Shape>;
   private readonly maxStrengthOutsideProperty: Property<number>;
 
   protected constructor( sourceCoil: SourceCoil, strengthProperty: TReadOnlyProperty<number>, strengthRange: Range, providedOptions: CoilMagnetOptions ) {
@@ -45,7 +45,7 @@ export default class CoilMagnet extends Magnet {
       } );
 
     this.shapeProperty = new DerivedProperty( [ this.sizeProperty ],
-      size => new Rectangle( -size.width / 2, -size.height / 2, size.width, size.height )
+      size => new Shape().rect( -size.width / 2, -size.height / 2, size.width, size.height )
     );
 
     this.maxStrengthOutsideProperty = new NumberProperty( 0, {

@@ -13,7 +13,7 @@ import FELMovableNode from './FELMovableNode.js';
 import BatteryNode from './BatteryNode.js';
 import Emitter from '../../../../axon/js/Emitter.js';
 import CoilNode from './CoilNode.js';
-import { Node } from '../../../../scenery/js/imports.js';
+import { Node, Path } from '../../../../scenery/js/imports.js';
 import ACPowerSupplyNode from './ACPowerSupplyNode.js';
 
 export default class ElectromagnetNode extends FELMovableNode {
@@ -47,8 +47,14 @@ export default class ElectromagnetNode extends FELMovableNode {
       acPowerSupplyNode.bottom = coilNode.top + electromagnet.sourceCoil.wireWidth / 2; // overlap end of coil
     } );
 
+    // Debug: Show the shape used to determine whether a B-field position is inside or outside the source coil.
+    const magnetShapeNode = new Path( electromagnet.shapeProperty.value, {
+      visibleProperty: electromagnet.shapeVisibleProperty,
+      stroke: 'yellow'
+    } );
+
     super( electromagnet, {
-      children: [ coilNode, batteryNode, acPowerSupplyNode ],
+      children: [ coilNode, batteryNode, acPowerSupplyNode, magnetShapeNode ],
       tandem: tandem
     } );
 

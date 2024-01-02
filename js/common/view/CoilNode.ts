@@ -385,9 +385,7 @@ export default class CoilNode extends Node {
     }
 
     //TODO Until boundsMethod: 'accurate' is working above, add an invisible rectangle to make dragging usable.
-    this.addChild( new Rectangle( this.bounds, {
-      stroke: phet.chipper.queryParameters.dev ? 'yellow' : null
-    } ) );
+    this.addChild( new Rectangle( this.bounds ) );
   }
 
   /**
