@@ -384,7 +384,7 @@ export default class CoilNode extends Node {
       assert && assert( this.electrons.length === this.electronNodes.length );
     }
 
-    //TODO Until boundsMethod: 'accurate' is working above, add an invisible rectangle to make dragging usable.
+    //TODO JO Until boundsMethod: 'accurate' is working above, add an invisible rectangle to make dragging usable.
     this.addChild( new Rectangle( this.bounds ) );
   }
 
