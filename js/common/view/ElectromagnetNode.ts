@@ -47,10 +47,13 @@ export default class ElectromagnetNode extends FELMovableNode {
       acPowerSupplyNode.bottom = coilNode.top + electromagnet.sourceCoil.wireWidth / 2; // overlap end of coil
     } );
 
-    // Debug: Show the shape used to determine whether a B-field position is inside or outside the source coil.
+    // Debug: Show the shape used to determine whether a B-field position is inside or outside the electromagnet.
     const magnetShapeNode = new Path( electromagnet.shapeProperty.value, {
       visibleProperty: electromagnet.shapeVisibleProperty,
       stroke: 'yellow'
+    } );
+    electromagnet.shapeProperty.lazyLink( shape => {
+      magnetShapeNode.shape = shape;
     } );
 
     super( electromagnet, {
