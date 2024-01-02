@@ -24,11 +24,23 @@ const COIL_SEGMENT_POSITION_RANGE = new Range( 0, 1 );
 
 //TODO document
 type SelfOptions = {
+
+  // Ordered collection of the curves that make up the coil
   coilSegments: CoilSegment[];
+
+  // Initial value of coilSegmentIndexProperty
   coilSegmentIndex: number;
+
+  // Initial value of coilSegmentPositionProperty
   coilSegmentPosition: number;
+
+  // Initial value of speedAndDirectionProperty
   speedAndDirection: number;
+
+  // Developer control used to scale the electron speed in the view.
   speedScaleProperty: TReadOnlyProperty<number>;
+
+  // Whether electrons are visible.
   visibleProperty: TReadOnlyProperty<boolean>;
 };
 

@@ -19,10 +19,9 @@ import DerivedProperty from '../../../../axon/js/DerivedProperty.js';
 import NumberIO from '../../../../tandem/js/types/NumberIO.js';
 import Range from '../../../../dot/js/Range.js';
 import CoilMagnet, { CoilMagnetOptions } from './CoilMagnet.js';
+import { EmptySelfOptions } from '../../../../phet-core/js/optionize.js';
 
-type SelfOptions = {
-  //TODO
-};
+type SelfOptions = EmptySelfOptions;
 
 export type ElectromagnetOptions = SelfOptions & CoilMagnetOptions;
 
