@@ -50,12 +50,14 @@ export default class ACPowerSupply extends CurrentSource {
 
     this.maxVoltageProperty = new NumberProperty( options.initialVoltage, {
       range: new Range( -options.maxVoltage, options.maxVoltage ),
-      tandem: tandem.createTandem( 'maxVoltageProperty' )
+      tandem: tandem.createTandem( 'maxVoltageProperty' ),
+      phetioFeatured: true
     } );
 
     this.frequencyProperty = new NumberProperty( 0.5, {
       range: new Range( 0, 1 ),
-      tandem: tandem.createTandem( 'frequencyProperty' )
+      tandem: tandem.createTandem( 'frequencyProperty' ),
+      phetioFeatured: true
     } );
 
     this.angleProperty = new NumberProperty( 0, {
