@@ -9,14 +9,13 @@
 
 import { Image, Node } from '../../../../scenery/js/imports.js';
 import Turbine from '../model/Turbine.js';
-import Tandem from '../../../../tandem/js/Tandem.js';
 import waterWheel_png from '../../../images/waterWheel_png.js';
 import Vector2 from '../../../../dot/js/Vector2.js';
 import faradaysElectromagneticLab from '../../faradaysElectromagneticLab.js';
 
 export default class WaterWheelNode extends Node {
 
-  public constructor( turbine: Turbine, tandem: Tandem ) {
+  public constructor( turbine: Turbine ) {
 
     //TODO Replace waterWheel_png
     const imageNode = new Image( waterWheel_png, {
@@ -24,9 +23,7 @@ export default class WaterWheelNode extends Node {
     } );
 
     super( {
-      children: [ imageNode ],
-      tandem: tandem,
-      phetioVisiblePropertyInstrumented: false
+      children: [ imageNode ]
     } );
 
     turbine.positionProperty.link( position => {

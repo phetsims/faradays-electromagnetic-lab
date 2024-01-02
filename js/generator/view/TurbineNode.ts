@@ -23,11 +23,11 @@ export default class TurbineNode extends Node {
 
   public constructor( turbine: Turbine, layoutBounds: Bounds2, visibleBoundsProperty: TReadOnlyProperty<Bounds2>, tandem: Tandem ) {
 
-    const waterWheelNode = new WaterWheelNode( turbine, tandem.createTandem( 'waterWheelNode' ) );
+    const waterWheelNode = new WaterWheelNode( turbine );
 
     const barMagnetNode = new BarMagnetNode( turbine, {
-      tandem: tandem.createTandem( 'barMagnetNode' ),
-      phetioInputEnabledPropertyInstrumented: false
+      isMovable: false, // this bar magnet cannot be dragged
+      tandem: Tandem.OPT_OUT
     } );
 
     const rpmDisplay = new RPMDisplay( turbine.rpmProperty, {

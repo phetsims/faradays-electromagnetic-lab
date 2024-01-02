@@ -41,7 +41,6 @@ import QuadraticBezierSpline from '../model/QuadraticBezierSpline.js';
 import FELColors from '../FELColors.js';
 import Emitter from '../../../../axon/js/Emitter.js';
 import FELMovableNode from './FELMovableNode.js';
-import PickOptional from '../../../../phet-core/js/types/PickOptional.js';
 
 // Space between electrons, determines the number of electrons add to each curve.
 const ELECTRON_SPACING = 25;
@@ -50,10 +49,10 @@ const ELECTRONS_IN_RIGHT_END = 2;
 
 type SelfOptions = {
   endsConnected?: boolean; // Whether to connect the ends of the coil.
+  isMovable?: boolean; // Whether the coil is movable.
 };
 
-type CoilNodeOptions = SelfOptions & PickOptional<NodeOptions, 'phetioInputEnabledPropertyInstrumented'> &
-  PickRequired<NodeOptions, 'tandem'>;
+type CoilNodeOptions = SelfOptions & PickRequired<NodeOptions, 'tandem'>;
 
 export default class CoilNode extends Node {
 
@@ -83,6 +82,7 @@ export default class CoilNode extends Node {
 
       // SelfOptions
       endsConnected: false,
+      isMovable: true,
 
       // NodeOptions
       isDisposable: false,
@@ -98,7 +98,7 @@ export default class CoilNode extends Node {
       focusable: false,
       visibleProperty: this.visibleProperty,
       tandem: Tandem.OPT_OUT,
-      phetioInputEnabledPropertyInstrumented: options.phetioInputEnabledPropertyInstrumented
+      isMovable: options.isMovable
     } );
 
     this.electronAnimationEnabled = false;

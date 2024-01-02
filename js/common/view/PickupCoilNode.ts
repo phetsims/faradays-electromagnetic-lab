@@ -20,7 +20,7 @@ import optionize, { EmptySelfOptions } from '../../../../phet-core/js/optionize.
 
 type SelfOptions = EmptySelfOptions;
 
-type PickupCoilNodeOptions = SelfOptions & Pick<FELMovableNodeOptions, 'tandem' | 'phetioInputEnabledPropertyInstrumented'>;
+type PickupCoilNodeOptions = SelfOptions & Pick<FELMovableNodeOptions, 'tandem' | 'isMovable'>;
 
 export default class PickupCoilNode extends FELMovableNode {
 
@@ -35,8 +35,8 @@ export default class PickupCoilNode extends FELMovableNode {
 
     const coilNode = new CoilNode( pickupCoil, stepEmitter, {
       endsConnected: true,
-      tandem: options.tandem.createTandem( 'coilNode' ),
-      phetioInputEnabledPropertyInstrumented: options.phetioInputEnabledPropertyInstrumented
+      isMovable: options.isMovable,
+      tandem: options.tandem.createTandem( 'coilNode' )
     } );
 
     const samplePointsNode = new PickupCoilSamplePointsNode( pickupCoil );

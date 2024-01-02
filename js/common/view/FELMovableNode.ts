@@ -13,7 +13,7 @@
 
 import faradaysElectromagneticLab from '../../faradaysElectromagneticLab.js';
 import { DragListener, KeyboardDragListener, KeyboardDragListenerOptions, Node, NodeOptions } from '../../../../scenery/js/imports.js';
-import optionize, { combineOptions, EmptySelfOptions } from '../../../../phet-core/js/optionize.js';
+import optionize, { combineOptions } from '../../../../phet-core/js/optionize.js';
 import FELConstants from '../FELConstants.js';
 import FELMovable from '../model/FELMovable.js';
 import PickOptional from '../../../../phet-core/js/types/PickOptional.js';
@@ -23,10 +23,12 @@ import grab_mp3 from '../../../../tambo/sounds/grab_mp3.js';
 import release_mp3 from '../../../../tambo/sounds/release_mp3.js';
 import soundManager from '../../../../tambo/js/soundManager.js';
 
-type SelfOptions = EmptySelfOptions;
+type SelfOptions = {
+  isMovable?: boolean; // Is this Node movable?
+};
 
 export type FELMovableNodeOptions = SelfOptions &
-  PickOptional<NodeOptions, 'children' | 'visibleProperty' | 'focusable' | 'phetioInputEnabledPropertyInstrumented'> &
+  PickOptional<NodeOptions, 'children' | 'visibleProperty' | 'focusable'> &
   PickRequired<NodeOptions, 'tandem'>;
 
 export default class FELMovableNode extends Node {
@@ -35,17 +37,20 @@ export default class FELMovableNode extends Node {
 
     const options = optionize<FELMovableNodeOptions, SelfOptions, NodeOptions>()( {
 
+      // SelfOptions
+      isMovable: true,
+
       // NodeOptions
       isDisposable: false,
       phetioFeatured: true,
-      phetioVisiblePropertyInstrumented: false,
-      phetioInputEnabledPropertyInstrumented: true
+      phetioVisiblePropertyInstrumented: false
     }, providedOptions );
 
-    if ( options.phetioInputEnabledPropertyInstrumented ) {
+    if ( options.isMovable ) {
       options.cursor = 'pointer';
       options.tagName = 'div'; // for KeyboardDragListener
       options.focusable = true; // for KeyboardDragListener
+      options.phetioInputEnabledPropertyInstrumented = true;
     }
 
     super( options );
@@ -63,7 +68,7 @@ export default class FELMovableNode extends Node {
       }
     } );
 
-    if ( options.phetioInputEnabledPropertyInstrumented ) {
+    if ( options.isMovable ) {
 
       // Sounds clips associated with dragging
       const grabClip = new SoundClip( grab_mp3, FELConstants.GRAB_RELEASE_SOUND_CLIP_OPTIONS );

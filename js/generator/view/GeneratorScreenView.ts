@@ -45,7 +45,7 @@ export default class GeneratorScreenView extends ScreenView {
 
     const pickupCoilNode = new PickupCoilNode( model.pickupCoil, model.stepEmitter, {
       tandem: tandem.createTandem( 'pickupCoilNode' ),
-      phetioInputEnabledPropertyInstrumented: false // pickupCoilNode is not movable in this screen.
+      isMovable: false // pickupCoilNode is not movable in this screen.
     } );
 
     const pickupCoilDebuggerPanel = new PickupCoilDebuggerPanel( model.pickupCoil );
