@@ -238,6 +238,10 @@ const FELColors = {
 
   waterColorProperty: new ProfileColorProperty( faradaysElectromagneticLab, 'waterColor', {
     default: 'rgba( 194, 234, 255, 0.7 )'
+  } ),
+
+  batteryVoltsColorProperty: new ProfileColorProperty( faradaysElectromagneticLab, 'batteryVoltsColor', {
+    default: 'black'
   } )
 };
 

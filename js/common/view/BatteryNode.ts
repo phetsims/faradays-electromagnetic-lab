@@ -8,7 +8,7 @@
  */
 
 import faradaysElectromagneticLab from '../../faradaysElectromagneticLab.js';
-import { Image, Node } from '../../../../scenery/js/imports.js';
+import { Image, Node, Text } from '../../../../scenery/js/imports.js';
 import batteryDCell_png from '../../../../scenery-phet/images/batteryDCell_png.js';
 import Battery from '../model/Battery.js';
 import Tandem from '../../../../tandem/js/Tandem.js';
@@ -21,15 +21,11 @@ import HSlider from '../../../../sun/js/HSlider.js';
 import Vector2 from '../../../../dot/js/Vector2.js';
 import FaradaysElectromagneticLabStrings from '../../FaradaysElectromagneticLabStrings.js';
 import Utils from '../../../../dot/js/Utils.js';
-import StringDisplay from './StringDisplay.js';
 import PatternStringProperty from '../../../../axon/js/PatternStringProperty.js';
 import Multilink from '../../../../axon/js/Multilink.js';
-import Dimension2 from '../../../../dot/js/Dimension2.js';
 import PhetFont from '../../../../scenery-phet/js/PhetFont.js';
 import Matrix3 from '../../../../dot/js/Matrix3.js';
-
-const VOLTAGE_DISPLAY_SIZE = new Dimension2( 100, 50 );
-const FONT = new PhetFont( 16 );
+import FELColors from '../FELColors.js';
 
 export default class BatteryNode extends Node {
 
@@ -59,26 +55,17 @@ export default class BatteryNode extends Node {
     slider.addMajorTick( 0 );
     slider.addMajorTick( battery.amplitudeProperty.range.max );
 
-    const voltageStringProperty = new PatternStringProperty( FaradaysElectromagneticLabStrings.pattern.valueUnitsStringProperty, {
+    const voltsStringProperty = new PatternStringProperty( FaradaysElectromagneticLabStrings.pattern.valueUnitsStringProperty, {
       value: new DerivedProperty( [ battery.amplitudeProperty ], amplitude => Math.abs( amplitude * battery.maxVoltage ) ),
       units: FaradaysElectromagneticLabStrings.units.VStringProperty
     } );
-    const voltageDisplay = new StringDisplay( voltageStringProperty, {
-      size: VOLTAGE_DISPLAY_SIZE,
-      xMargin: 0,
-      yMargin: 0,
-      rectangleOptions: {
-        fill: null,
-        stroke: null
-      },
-      textOptions: {
-        font: FONT,
-        fill: 'red' //TODO color profile
-      }
+    const voltsText = new Text( voltsStringProperty, {
+      font: new PhetFont( 16 ),
+      fill: FELColors.batteryVoltsColorProperty
     } );
 
     super( {
-      children: [ batteryImage, slider, voltageDisplay ],
+      children: [ batteryImage, slider, voltsText ],
       visibleProperty: new DerivedProperty( [ currentSourceProperty ], currentSource => ( currentSource === battery ), {
         tandem: tandem.createTandem( 'visibleProperty' ),
         phetioValueType: BooleanIO
@@ -89,23 +76,29 @@ export default class BatteryNode extends Node {
     this.addLinkedElement( battery );
 
     // Reflect the battery about the y-axis to change its polarity.
-    battery.amplitudeProperty.link( amplitude => {
-      batteryImage.matrix = ( amplitude >= 0 ) ? Matrix3.IDENTITY : Matrix3.X_REFLECTION;
-      batteryImage.center = Vector2.ZERO;
+    battery.amplitudeProperty.link( ( amplitude, previousAmplitude ) => {
+      if ( amplitude >= 0 && ( previousAmplitude === null || previousAmplitude < 0 ) ) {
+        batteryImage.matrix = Matrix3.IDENTITY;
+        batteryImage.center = Vector2.ZERO;
+      }
+      else if ( amplitude < 0 && ( previousAmplitude === null || previousAmplitude >= 0 ) ) {
+        batteryImage.matrix = Matrix3.X_REFLECTION;
+        batteryImage.center = Vector2.ZERO;
+      }
     } );
 
-    //TODO Position of voltageDisplay is not as expected.
+    // Position the volts value at the correct end of the battery.
     Multilink.multilink(
-      [ battery.amplitudeProperty, voltageDisplay.boundsProperty ],
+      [ battery.amplitudeProperty, voltsText.boundsProperty ],
       ( amplitude, bounds ) => {
-        const xOffset = 10; //TODO
+        const xMargin = 15;
         if ( amplitude >= 0 ) {
-          voltageDisplay.right = batteryImage.right - xOffset;
+          voltsText.right = batteryImage.right - xMargin;
         }
         else {
-          voltageDisplay.left = batteryImage.left + xOffset;
+          voltsText.left = batteryImage.left + xMargin;
         }
-        voltageDisplay.bottom = slider.top - 5;
+        voltsText.centerY = batteryImage.top + ( slider.top - batteryImage.top ) / 2;
       } );
   }
 
