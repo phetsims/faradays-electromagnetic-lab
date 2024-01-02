@@ -1,6 +1,8 @@
 // Copyright 2023, University of Colorado Boulder
 
 //TODO This was 'Loop Area' in the Java version, but loop area was only used to derive loop radius. Is this change OK?
+//TODO Use MappedProperty here to convert from loopRadiusProperty to percent?
+
 /**
  * LoopRadiusControl controls the radius of all loops in a pickup coil. The control shows values in %.
  *
