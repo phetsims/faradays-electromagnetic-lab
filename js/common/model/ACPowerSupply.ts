@@ -24,7 +24,7 @@ export default class ACPowerSupply extends CurrentSource {
   // Determines how high the voltage can go.
   public readonly maxVoltageProperty: NumberProperty;
 
-  // Determines how fast the amplitude will vary. (0...1 inclusive)
+  // Determines how fast the amplitude will vary.
   public readonly frequencyProperty: NumberProperty;
 
   // The current angle of the sine wave that describes the AC (in radians)
@@ -55,7 +55,7 @@ export default class ACPowerSupply extends CurrentSource {
     } );
 
     this.frequencyProperty = new NumberProperty( 0.5, {
-      range: new Range( 0, 1 ),
+      range: new Range( 0.05, 1 ),
       tandem: tandem.createTandem( 'frequencyProperty' ),
       phetioFeatured: true
     } );
@@ -105,18 +105,15 @@ export default class ACPowerSupply extends CurrentSource {
       this.voltageProperty.value = 0;
     }
     else {
-      const previousAngle = this.angleProperty.value;
 
-      // Compute the angle.
-      this.angleProperty.value = previousAngle + ( dt * this.deltaAngleProperty.value );
+      // Compute the next angle.
+      const nextAngle = this.angleProperty.value + ( dt * this.deltaAngleProperty.value );
 
-      // The actual change in angle on this tick of the simulation clock.
-      this._stepAngleProperty.value = this.angleProperty.value - previousAngle;
+      // The change in angle on this tick of the simulation clock.
+      this._stepAngleProperty.value = nextAngle - this.angleProperty.value;
 
       // Limit the angle to 360 degrees.
-      if ( this.angleProperty.value >= 2 * Math.PI ) {
-        this.angleProperty.value = this.angleProperty.value % ( 2 * Math.PI );
-      }
+      this.angleProperty.value = nextAngle % ( 2 * Math.PI );
 
       // Calculate and set the voltage.
       this.voltageProperty.value = this.maxVoltageProperty.value * Math.sin( this.angleProperty.value );
