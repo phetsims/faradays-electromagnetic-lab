@@ -8,7 +8,6 @@
  */
 
 import faradaysElectromagneticLab from '../../faradaysElectromagneticLab.js';
-import Magnet, { MagnetOptions } from './Magnet.js';
 import SourceCoil from './SourceCoil.js';
 import Property from '../../../../axon/js/Property.js';
 import BooleanProperty from '../../../../axon/js/BooleanProperty.js';
@@ -18,16 +17,16 @@ import CurrentSource from './CurrentSource.js';
 import TReadOnlyProperty from '../../../../axon/js/TReadOnlyProperty.js';
 import DerivedProperty from '../../../../axon/js/DerivedProperty.js';
 import NumberIO from '../../../../tandem/js/types/NumberIO.js';
-import Vector2 from '../../../../dot/js/Vector2.js';
 import Range from '../../../../dot/js/Range.js';
+import CoilMagnet, { CoilMagnetOptions } from './CoilMagnet.js';
 
 type SelfOptions = {
   //TODO
 };
 
-export type ElectromagnetOptions = SelfOptions & MagnetOptions;
+export type ElectromagnetOptions = SelfOptions & CoilMagnetOptions;
 
-export default class Electromagnet extends Magnet {
+export default class Electromagnet extends CoilMagnet {
 
   public readonly sourceCoil: SourceCoil;
 
@@ -80,7 +79,7 @@ export default class Electromagnet extends Magnet {
         phetioValueType: NumberIO
       } );
 
-    super( strengthProperty, strengthRange, options );
+    super( sourceCoil, strengthProperty, strengthRange, options );
 
     this.sourceCoil = sourceCoil;
     this.battery = battery;
@@ -123,13 +122,6 @@ export default class Electromagnet extends Magnet {
     if ( this.currentSourceProperty.value === this.acPowerSupply ) {
       this.acPowerSupply.step( dt );
     }
-  }
-
-  /**
-   * TODO
-   */
-  protected override getLocalFieldVector( position: Vector2, outputVector: Vector2 ): Vector2 {
-    return new Vector2( 0, 0 ); //TODO
   }
 }
 
