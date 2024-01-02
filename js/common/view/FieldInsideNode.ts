@@ -1,5 +1,7 @@
 // Copyright 2023, University of Colorado Boulder
 
+//TODO Use a more specific class name, since this is the field inside a bar magnet.
+
 /**
  * FieldInsideNode is the visualization of the field inside the bar magnet. It is a grid of compass needles inside
  * the bounds of the bar magnet. Alpha is modulated as the strength of the magnet changes.  It is assumed that this
