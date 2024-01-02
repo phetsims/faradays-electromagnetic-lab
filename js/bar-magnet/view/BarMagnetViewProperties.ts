@@ -1,17 +1,15 @@
 // Copyright 2023, University of Colorado Boulder
 
-//TODO move these to a subclass of BarMagnet that is used for the 'Bar Magnet' screen
-
-import faradaysElectromagneticLab from '../../faradaysElectromagneticLab.js';
-import Tandem from '../../../../tandem/js/Tandem.js';
-import BooleanProperty from '../../../../axon/js/BooleanProperty.js';
-import Property from '../../../../axon/js/Property.js';
-
 /**
  * BarMagnetViewProperties is the set of view-specific Properties for the 'Bar Magnet' screen.
  *
  * @author Chris Malley (PixelZoom, Inc.)
  */
+
+import faradaysElectromagneticLab from '../../faradaysElectromagneticLab.js';
+import Tandem from '../../../../tandem/js/Tandem.js';
+import BooleanProperty from '../../../../axon/js/BooleanProperty.js';
+import Property from '../../../../axon/js/Property.js';
 
 export default class BarMagnetViewProperties {
 
