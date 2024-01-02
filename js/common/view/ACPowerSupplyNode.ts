@@ -9,6 +9,7 @@
 
 import faradaysElectromagneticLab from '../../faradaysElectromagneticLab.js';
 import { Circle, Node, Path } from '../../../../scenery/js/imports.js';
+import Range from '../../../../dot/js/Range.js';
 import Vector2 from '../../../../dot/js/Vector2.js';
 import { Shape } from '../../../../kite/js/imports.js';
 import TReadOnlyProperty from '../../../../axon/js/TReadOnlyProperty.js';
@@ -20,6 +21,8 @@ import BooleanIO from '../../../../tandem/js/types/BooleanIO.js';
 import ShadedRectangle, { ShadedRectangleOptions } from '../../../../scenery-phet/js/ShadedRectangle.js';
 import Bounds2 from '../../../../dot/js/Bounds2.js';
 import FELColors from '../FELColors.js';
+import HSlider from '../../../../sun/js/HSlider.js';
+import VSlider from '../../../../sun/js/VSlider.js';
 
 const BODY_BOUNDS = new Bounds2( 0, 0, 230, 210 );
 const CORNER_RADIUS = 10;
@@ -35,8 +38,30 @@ export default class ACPowerSupplyNode extends Node {
 
     const bodyNode = new ShadedRectangle( BODY_BOUNDS, BODY_OPTIONS );
 
+    const maxVoltageSlider = new VSlider( acPowerSupply.maxVoltageProperty, new Range( 0, acPowerSupply.maxVoltageProperty.range.max ), {
+      //TODO thumbFill, thumbFillHighlighted?
+      //TODO alt input options
+      // keyboardStep: ?,
+      // shiftKeyboardStep: ?,
+      // pageKeyboardStep: ?,
+      left: bodyNode.left + 10,
+      centerY: bodyNode.centerY,
+      tandem: tandem.createTandem( 'maxVoltageSlider' )
+    } );
+
+    const frequencySlider = new HSlider( acPowerSupply.frequencyProperty, acPowerSupply.frequencyProperty.range, {
+      //TODO thumbFill, thumbFillHighlighted?
+      //TODO alt input options
+      // keyboardStep: ?,
+      // shiftKeyboardStep: ?,
+      // pageKeyboardStep: ?,
+      centerX: bodyNode.centerX,
+      bottom: bodyNode.bottom - 10,
+      tandem: tandem.createTandem( 'frequencySlider' )
+    } );
+
     super( {
-      children: [ bodyNode ],
+      children: [ bodyNode, maxVoltageSlider, frequencySlider ],
       visibleProperty: new DerivedProperty( [ currentSourceProperty ], currentSource => ( currentSource === acPowerSupply ), {
         tandem: tandem.createTandem( 'visibleProperty' ),
         phetioValueType: BooleanIO
