@@ -50,7 +50,8 @@ export default class BatteryNode extends Node {
       // shiftKeyboardStep: ?,
       // pageKeyboardStep: ?,
       centerX: batteryImage.centerX,
-      bottom: batteryImage.bottom - 6
+      bottom: batteryImage.bottom - 6,
+      tandem: tandem.createTandem( 'slider' )
     } );
     slider.addMajorTick( battery.amplitudeProperty.range.min );
     slider.addMajorTick( 0 );
