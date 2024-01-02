@@ -21,6 +21,8 @@ import Tandem from '../../../../tandem/js/Tandem.js';
 import optionize from '../../../../phet-core/js/optionize.js';
 
 const DT_PER_FRAME = 1; // dt that step was designed to support
+const FRAMES_PER_SECOND = 25;
+const SECONDS_PER_FRAME = 1 / FRAMES_PER_SECOND;
 
 type SelfOptions = {
 
@@ -33,7 +35,7 @@ export type FELModelOptions = SelfOptions & PickRequired<PhetioObjectOptions, 't
 export default class FELModel implements TModel {
 
   // Frame rate that step method was designed to support in the Java version.
-  public static readonly FRAMES_PER_SECOND = 25;
+  public static readonly FRAMES_PER_SECOND = FRAMES_PER_SECOND;
 
   // Whether time is progressing in the sim
   public readonly isPlayingProperty: Property<boolean>;
@@ -78,7 +80,6 @@ export default class FELModel implements TModel {
     this.accumulatedTimeProperty.reset();
   }
 
-  //TODO Should I actually port SwingClock?
   /**
    * In the Java version, we used a clock that fired 25 times per second, with constant dt = 1.
    * See FaradayModule.java: new SwingClock( 1000 / 25, FaradayConstants.CLOCK_STEP )
@@ -90,8 +91,8 @@ export default class FELModel implements TModel {
   public step( dt: number ): void {
     if ( this.isPlayingProperty.value ) {
       this.accumulatedTimeProperty.value += dt;
-      if ( this.accumulatedTimeProperty.value > 1 / FELModel.FRAMES_PER_SECOND ) {
-        this.accumulatedTimeProperty.value -= 1 / FELModel.FRAMES_PER_SECOND;
+      if ( this.accumulatedTimeProperty.value > SECONDS_PER_FRAME ) {
+        this.accumulatedTimeProperty.value -= SECONDS_PER_FRAME;
         this.stepOnce();
       }
     }
