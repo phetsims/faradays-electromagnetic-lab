@@ -25,6 +25,7 @@ import PatternStringProperty from '../../../../axon/js/PatternStringProperty.js'
 import Multilink from '../../../../axon/js/Multilink.js';
 import Dimension2 from '../../../../dot/js/Dimension2.js';
 import PhetFont from '../../../../scenery-phet/js/PhetFont.js';
+import Matrix3 from '../../../../dot/js/Matrix3.js';
 
 const VOLTAGE_DISPLAY_SIZE = new Dimension2( 100, 50 );
 const FONT = new PhetFont( 16 );
@@ -85,11 +86,8 @@ export default class BatteryNode extends Node {
     } );
 
     // Reflect the battery about the y-axis to change its polarity.
-    //TODO JO This is not behaving as expected.
     battery.amplitudeProperty.link( amplitude => {
-      batteryImage.matrix.setToIdentity();
-      const xScale = ( amplitude >= 0 ) ? 1 : -1; // Sign of the amplitude determines the polarity of the battery.
-      batteryImage.setScaleMagnitude( xScale, 1 );
+      batteryImage.matrix = ( amplitude >= 0 ) ? Matrix3.IDENTITY : Matrix3.X_REFLECTION;
       batteryImage.center = Vector2.ZERO;
     } );
 
