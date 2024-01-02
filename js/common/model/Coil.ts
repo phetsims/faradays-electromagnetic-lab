@@ -17,11 +17,21 @@ import Property from '../../../../axon/js/Property.js';
 import BooleanProperty from '../../../../axon/js/BooleanProperty.js';
 
 type SelfOptions = {
-  numberOfLoopsRange: RangeWithValue; // range and initial value for numberOfLoopsProperty
-  loopRadiusRange: RangeWithValue; // range and initial value for loopRadiusProperty, unitless
-  wireWidth?: number; //TODO document
-  loopSpacing?: number; //TODO document
-  electronSpeedScale?: number; //TODO document
+
+  // range and initial value for numberOfLoopsProperty
+  numberOfLoopsRange: RangeWithValue;
+
+  // range and initial value for loopRadiusProperty, unitless
+  loopRadiusRange: RangeWithValue;
+
+  // the width of the wire that makes up the coil
+  wireWidth?: number;
+
+  // Horizontal spacing between loops in the coil. Values that are closer to wireWidth result in more closely-packed loops.
+  loopSpacing?: number;
+
+  // Initial value of electronSpeedScaleProperty, a developer control.
+  electronSpeedScale?: number;
 };
 
 export type CoilOptions = SelfOptions & FELMovableOptions;
