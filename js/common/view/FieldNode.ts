@@ -169,7 +169,7 @@ class CompassNeedleSpriteInstance extends SpriteInstance {
     this.transformType = SpriteInstanceTransformType.TRANSLATION_AND_ROTATION;
 
     this.position = position;
-    this.rotationProperty = new NumberProperty( 0 );
+    this.rotationProperty = new NumberProperty( 0 ); //TODO PhET-iO instrumentation?
     this.rotationProperty.link( () => this.updateMatrix() );
   }
 
