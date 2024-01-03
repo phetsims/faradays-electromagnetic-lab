@@ -16,12 +16,3 @@ Loop Area instead of Loop Radius
 Reset All in Generator screen should not light the bulb
 
 One model element to describe all electrons, one view element to render all electrons
-
-DESIGN ISSUE: Should we label voltmeter probes with +/- ?  It will be the opposite of the voltmeter gauge, and opposite of
-faradays-law.
-
-DESIGN ISSUE: Resistor in Java version makes no sense, there is no such thing as a 3-band resistor with a tolerance
-band, and its value was 0. I've implemented a 4-band resistor, whose color-coding is currently 0 +-5%.  So the color
-coding needs to be set, see https://www.utmel.com/tools/band-resistor-color-code-calculator?id=20.
-I've also made the resistor flat, without rounded ends, which I think works better in the limited space available
-(worst case 1 loop).
