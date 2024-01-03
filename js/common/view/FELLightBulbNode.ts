@@ -39,6 +39,7 @@ export default class FELLightBulbNode extends Node {
       bottom: baseNode.top + 14 // overlap enough to hide the bottom rounded corners
     } );
 
+    //TODO Perspective of LightBulbNode is a little off for this sim.
     const bulbNode = new LightBulbNode( lightBulb.brightnessProperty, {
       bulbImageScale: 0.45,
 
