@@ -19,6 +19,8 @@ import faradaysElectromagneticLab from '../faradaysElectromagneticLab.js';
 import PhetColorScheme from '../../../scenery-phet/js/PhetColorScheme.js';
 
 const PANEL_FILL_PROJECTOR = new Color( 222, 234, 255 );
+const BAR_MAGNET_NORTH_COLOR = 'rgb( 219, 30, 34 )';
+const BAR_MAGNET_SOUTH_COLOR = 'rgb( 48, 69, 138 )';
 
 const FELColors = {
 
@@ -39,11 +41,11 @@ const FELColors = {
   } ),
 
   barMagnetNorthColorProperty: new ProfileColorProperty( faradaysElectromagneticLab, 'barMagnetNorthColor', {
-    default: 'rgb( 219, 30, 34 )'
+    default: BAR_MAGNET_NORTH_COLOR
   } ),
 
   barMagnetSouthColorProperty: new ProfileColorProperty( faradaysElectromagneticLab, 'barMagnetSouthColor', {
-    default: 'rgb( 48, 69, 138 )'
+    default: BAR_MAGNET_SOUTH_COLOR
   } ),
 
   barMagnetNorthTextColorProperty: new ProfileColorProperty( faradaysElectromagneticLab, 'barMagnetNorthTextColor', {
@@ -88,12 +90,12 @@ const FELColors = {
   } ),
 
   compassNeedleNorthColorProperty: new ProfileColorProperty( faradaysElectromagneticLab, 'compassNeedleNorthColor', {
-    default: 'red'
+    default: BAR_MAGNET_NORTH_COLOR
   } ),
 
   compassNeedleSouthColorProperty: new ProfileColorProperty( faradaysElectromagneticLab, 'compassNeedleSouthColor', {
     default: 'white',
-    projector: Color.grayColor( 200 )
+    projector: BAR_MAGNET_SOUTH_COLOR
   } ),
 
   compassRingColorProperty: new ProfileColorProperty( faradaysElectromagneticLab, 'compassRingColor', {

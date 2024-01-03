@@ -20,6 +20,8 @@ const NEEDLE_ASPECT_RATIO = 25 / 7; // length:waist
 type SelfOptions = {
   length?: number;
   stroke?: TColor;
+  northFill?: TColor;
+  southFill?: TColor;
 };
 
 type CompassNeedleNodeOptions = SelfOptions;
@@ -32,7 +34,9 @@ export default class CompassNeedleNode extends Node {
 
       // SelfOptions
       length: FELQueryParameters.needleLength,
-      stroke: null
+      stroke: null,
+      northFill: FELColors.compassNeedleNorthColorProperty,
+      southFill: FELColors.compassNeedleSouthColorProperty
     }, providedOptions );
 
     const w = options.length;
@@ -45,11 +49,11 @@ export default class CompassNeedleNode extends Node {
     const northShape = new Shape().moveTo( w, h / 2 ).lineTo( w / 2, h ).lineTo( w / 2, 0 ).close();
 
     const southPath = new Path( southShape, {
-      fill: FELColors.compassNeedleSouthColorProperty
+      fill: options.southFill
     } );
 
     const northPath = new Path( northShape, {
-      fill: FELColors.compassNeedleNorthColorProperty,
+      fill: options.northFill,
       left: southPath.right,
       centerY: southPath.centerY
     } );

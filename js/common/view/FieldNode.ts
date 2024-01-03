@@ -41,9 +41,11 @@ export default class FieldNode extends Sprites {
   public constructor( magnet: Magnet, providedOptions: FieldNodeOptions ) {
 
     // A vector in the field is visualized as a compass needle.
-    const compassNeedleNode = new CompassNeedleNode();
-
-    // Convert the CompassNeedleNode to a Sprite.
+    // Convert a CompassNeedleNode to a Sprite.
+    const compassNeedleNode = new CompassNeedleNode( {
+      northFill: FELColors.compassNeedleNorthColorProperty.value,
+      southFill: FELColors.compassNeedleSouthColorProperty.value
+    } );
     let spriteImage: SpriteImage;
     compassNeedleNode.toCanvas( ( canvas, x, y, width, height ) => {
       spriteImage = new SpriteImage( canvas, new Vector2( ( x + compassNeedleNode.width / 2 ), ( y + compassNeedleNode.height / 2 ) ) );
@@ -84,12 +86,17 @@ export default class FieldNode extends Sprites {
     this.visibleBoundsProperty.link( visibleBoundsListener );
 
     // If the colors change, update the sprite and redraw.
-    Multilink.multilink( [ FELColors.compassNeedleNorthColorProperty, FELColors.compassNeedleSouthColorProperty ], () => {
-      compassNeedleNode.toCanvas( ( canvas, x, y, width, height ) => {
-        spriteImage = new SpriteImage( canvas, new Vector2( ( x + compassNeedleNode.width / 2 ), ( y + compassNeedleNode.height / 2 ) ) );
-        this.invalidatePaint();
+    Multilink.multilink( [ FELColors.compassNeedleNorthColorProperty, FELColors.compassNeedleSouthColorProperty ],
+      ( compassNeedleNorthColor, compassNeedleSouthColor ) => {
+        const compassNeedleNode = new CompassNeedleNode( {
+          northFill: compassNeedleNorthColor,
+          southFill: compassNeedleSouthColor
+        } );
+        compassNeedleNode.toCanvas( ( canvas, x, y, width, height ) => {
+          sprite.imageProperty.value = new SpriteImage( canvas, new Vector2( ( x + compassNeedleNode.width / 2 ), ( y + compassNeedleNode.height / 2 ) ) );
+          this.invalidatePaint();
+        } );
       } );
-    } );
   }
 
   /**
