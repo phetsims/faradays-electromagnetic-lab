@@ -1,4 +1,4 @@
-// Copyright 2023, University of Colorado Boulder
+// Copyright 2023-2024, University of Colorado Boulder
 
 /**
  * CurrentSource is the base class for all devices that are capable of acting as a current source for an electromagnet.

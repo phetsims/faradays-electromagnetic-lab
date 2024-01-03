@@ -1,4 +1,4 @@
-// Copyright 2023, University of Colorado Boulder
+// Copyright 2024, University of Colorado Boulder
 
 /**
  * GeneratorPanels is the set of control panels for the 'Generator' screen.

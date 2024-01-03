@@ -1,4 +1,4 @@
-// Copyright 2023, University of Colorado Boulder
+// Copyright 2023-2024, University of Colorado Boulder
 
 /**
  * ACPowerSupply is the model for an AC power supply, used to power the electromagnet. The maximum voltage amplitude

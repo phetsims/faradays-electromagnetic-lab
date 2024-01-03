@@ -1,4 +1,4 @@
-// Copyright 2023, University of Colorado Boulder
+// Copyright 2023-2024, University of Colorado Boulder
 
 //TODO https://github.com/phetsims/faradays-electromagnetic-lab/issues/27 Replace earth_png with something less Americas-centric?
 

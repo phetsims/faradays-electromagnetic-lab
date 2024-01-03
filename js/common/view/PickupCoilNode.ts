@@ -1,4 +1,4 @@
-// Copyright 2023, University of Colorado Boulder
+// Copyright 2023-2024, University of Colorado Boulder
 
 /**
  * PickupCoilGraphic is the visual representation of a pickup coil, with indicators (lightbulb and voltmeter )

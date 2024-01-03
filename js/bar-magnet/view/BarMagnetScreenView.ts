@@ -1,4 +1,4 @@
-// Copyright 2023, University of Colorado Boulder
+// Copyright 2023-2024, University of Colorado Boulder
 
 //TODO Move fieldNode, compassNode, fieldMeterNode, resetAllButton, and positioning of panels to a base class?
 

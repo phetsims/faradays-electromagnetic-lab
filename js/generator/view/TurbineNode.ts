@@ -1,4 +1,4 @@
-// Copyright 2023, University of Colorado Boulder
+// Copyright 2023-2024, University of Colorado Boulder
 
 /**
  * TurbineNode is the view of a turbine generator. A bar magnet is attached to a water wheel, which turns when water
