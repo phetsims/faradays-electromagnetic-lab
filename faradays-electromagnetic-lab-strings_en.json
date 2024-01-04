@@ -65,6 +65,9 @@
   "currentSource": {
     "value": "Current<br>Source"
   },
+  "acPowerSupply": {
+    "value": "AC Power Supply"
+  },
   "pattern.valuePercent": {
     "value": "{{value}}%"
   },

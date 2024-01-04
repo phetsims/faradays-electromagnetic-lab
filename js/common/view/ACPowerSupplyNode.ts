@@ -10,7 +10,7 @@
  */
 
 import faradaysElectromagneticLab from '../../faradaysElectromagneticLab.js';
-import { Circle, HBox, Node, Path, VBox } from '../../../../scenery/js/imports.js';
+import { Circle, HBox, Node, Path, Text, VBox } from '../../../../scenery/js/imports.js';
 import Vector2 from '../../../../dot/js/Vector2.js';
 import { Shape } from '../../../../kite/js/imports.js';
 import TReadOnlyProperty from '../../../../axon/js/TReadOnlyProperty.js';
@@ -30,6 +30,7 @@ import Utils from '../../../../dot/js/Utils.js';
 import StringDisplay from './StringDisplay.js';
 import Dimension2 from '../../../../dot/js/Dimension2.js';
 import PhetFont from '../../../../scenery-phet/js/PhetFont.js';
+import FELConstants from '../FELConstants.js';
 
 const BODY_BOUNDS = new Bounds2( 0, 0, 230, 210 );
 const CORNER_RADIUS = 10;
@@ -47,6 +48,14 @@ export default class ACPowerSupplyNode extends Node {
 
     // Body of the AC power supply
     const bodyNode = new ShadedRectangle( BODY_BOUNDS, BODY_OPTIONS );
+
+    // Title at the center top of the body
+    const titleText = new Text( FaradaysElectromagneticLabStrings.acPowerSupplyStringProperty, {
+      font: FELConstants.TITLE_FONT,
+      maxWidth: 0.85 * bodyNode.width,
+      centerX: bodyNode.centerX,
+      top: bodyNode.top + 8
+    } );
 
     // Display for max voltage value, in percent
     const maxVoltageStringProperty = new PatternStringProperty( FaradaysElectromagneticLabStrings.pattern.valuePercentStringProperty, {
@@ -121,7 +130,7 @@ export default class ACPowerSupplyNode extends Node {
     } );
 
     super( {
-      children: [ bodyNode, maxVoltageBox, frequencyBox ],
+      children: [ bodyNode, titleText, maxVoltageBox, frequencyBox ],
       visibleProperty: new DerivedProperty( [ currentSourceProperty ], currentSource => ( currentSource === acPowerSupply ), {
         tandem: tandem.createTandem( 'visibleProperty' ),
         phetioValueType: BooleanIO

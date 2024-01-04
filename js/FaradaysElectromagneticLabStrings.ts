@@ -35,6 +35,7 @@ type StringsType = {
   'loopRadiusStringProperty': LocalizedStringProperty;
   'electromagnetStringProperty': LocalizedStringProperty;
   'currentSourceStringProperty': LocalizedStringProperty;
+  'acPowerSupplyStringProperty': LocalizedStringProperty;
   'pattern': {
     'valuePercentStringProperty': LocalizedStringProperty;
     'valueUnitsStringProperty': LocalizedStringProperty;
