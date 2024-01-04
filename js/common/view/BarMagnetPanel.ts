@@ -53,32 +53,6 @@ export default class BarMagnetPanel extends Panel {
       strengthControl
     ];
 
-    if ( options.hasFlipPolarityButton ) {
-
-      // When 'Earth' checkbox is checked, change button label from 'Flip Polarity' to 'Flip Earth'.
-      // See https://github.com/phetsims/faradays-electromagnetic-lab/issues/43
-      let flipStringProperty: TReadOnlyProperty<string> = FaradaysElectromagneticLabStrings.flipPolarityStringProperty;
-      if ( options.earthVisibleProperty ) {
-        flipStringProperty = new DerivedStringProperty(
-          [ options.earthVisibleProperty, FaradaysElectromagneticLabStrings.flipEarthStringProperty, FaradaysElectromagneticLabStrings.flipPolarityStringProperty ],
-          ( earthVisible, flipEarthString, flipPolarityString ) => earthVisible ? flipEarthString : flipPolarityString );
-      }
-
-      const flipPolarityButton = new TextPushButton( flipStringProperty, {
-        font: FELConstants.CONTROL_FONT,
-        textNodeOptions: {
-          maxWidth: 180
-        },
-        listener: () => {
-          barMagnet.flipPolarity();
-          compass.startMovingNow();
-        },
-        layoutOptions: { stretch: false },
-        tandem: options.tandem.createTandem( 'flipPolarityButton' )
-      } );
-      contentChildren.push( flipPolarityButton );
-    }
-
     // 'Magnetic Field' checkbox
     const magneticFieldText = new Text( FaradaysElectromagneticLabStrings.magneticFieldStringProperty, FELConstants.CHECKBOX_TEXT_OPTIONS );
     const magneticFieldCheckbox = new Checkbox( barMagnet.fieldVisibleProperty, magneticFieldText,
@@ -107,6 +81,34 @@ export default class BarMagnetPanel extends Panel {
         } ) );
       contentChildren.push( earthCheckbox );
     }
+
+    // Optional 'Flip Polarity' button
+    if ( options.hasFlipPolarityButton ) {
+
+      // When 'Earth' checkbox is checked, change button label from 'Flip Polarity' to 'Flip Earth'.
+      // See https://github.com/phetsims/faradays-electromagnetic-lab/issues/43
+      let flipStringProperty: TReadOnlyProperty<string> = FaradaysElectromagneticLabStrings.flipPolarityStringProperty;
+      if ( options.earthVisibleProperty ) {
+        flipStringProperty = new DerivedStringProperty(
+          [ options.earthVisibleProperty, FaradaysElectromagneticLabStrings.flipEarthStringProperty, FaradaysElectromagneticLabStrings.flipPolarityStringProperty ],
+          ( earthVisible, flipEarthString, flipPolarityString ) => earthVisible ? flipEarthString : flipPolarityString );
+      }
+
+      const flipPolarityButton = new TextPushButton( flipStringProperty, {
+        font: FELConstants.CONTROL_FONT,
+        textNodeOptions: {
+          maxWidth: 180
+        },
+        listener: () => {
+          barMagnet.flipPolarity();
+          compass.startMovingNow();
+        },
+        layoutOptions: { stretch: false },
+        tandem: options.tandem.createTandem( 'flipPolarityButton' )
+      } );
+      contentChildren.push( flipPolarityButton );
+    }
+
 
     const content = new VBox( combineOptions<VBoxOptions>( {}, FELConstants.VBOX_OPTIONS, {
       children: contentChildren
