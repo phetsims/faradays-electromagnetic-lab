@@ -50,8 +50,10 @@ export default class VoltageChartNode extends Node {
   private readonly maxVoltageProperty: TReadOnlyProperty<number>;
 
   private readonly chartTransform: ChartTransform;
-  private readonly plot: LinePlot;
-  private readonly dataSet: Vector2[];
+
+  // Plot and dataSet for the wave
+  private readonly wavePlot: LinePlot;
+  private readonly waveDataSet: Vector2[];
 
   //TODO document
   public readonly startAngleProperty: TReadOnlyProperty<number>;
@@ -82,18 +84,19 @@ export default class VoltageChartNode extends Node {
       cornerYRadius: 6
     } );
 
-    // Create a dataSet with a fixed number of points and fixed x values. We'll recompute the y values and call plot.update.
-    const dataSet: Vector2[] = [];
+    // Create a dataSet with a fixed number of points and fixed x values, with x=0 at the center point.
+    // We'll recompute the y values and call wavePlot.update.
+    const waveDataSet: Vector2[] = [];
     const dx = chartTransform.modelXRange.getLength() / NUMBER_OF_POINTS;
     const maxX = chartTransform.modelXRange.max + dx; // Go one point beyond modelXRange. Plot will be clipped to the chart.
     for ( let x = 0; x <= maxX; x += dx ) {
-      dataSet.push( new Vector2( x, 0 ) );
+      waveDataSet.push( new Vector2( x, 0 ) );
       if ( x !== 0 ) {
-        dataSet.unshift( new Vector2( -x, 0 ) );
+        waveDataSet.unshift( new Vector2( -x, 0 ) );
       }
     }
 
-    const plot = new LinePlot( chartTransform, dataSet, {
+    const wavePlot = new LinePlot( chartTransform, waveDataSet, {
       stroke: FELColors.acPowerSupplyWaveColorProperty,
       lineWidth: 1.5
     } );
@@ -113,7 +116,7 @@ export default class VoltageChartNode extends Node {
         new AxisLine( chartTransform, Orientation.VERTICAL, AXIS_LINE_OPTIONS ),
 
         // plot
-        plot
+        wavePlot
       ]
     } );
 
@@ -130,8 +133,8 @@ export default class VoltageChartNode extends Node {
     this.maxVoltageProperty = maxVoltageProperty;
 
     this.chartTransform = chartTransform;
-    this.plot = plot;
-    this.dataSet = dataSet;
+    this.wavePlot = wavePlot;
+    this.waveDataSet = waveDataSet;
 
     this._startAngleProperty = new NumberProperty( 0, {
       tandem: options.tandem.createTandem( 'startAngleProperty' ),
@@ -158,16 +161,16 @@ export default class VoltageChartNode extends Node {
     // Change in angle per change in x.
     const deltaAngle = ( 2 * Math.PI * numberOfCycles ) / this.chartTransform.modelXRange.getLength();
 
-    // Mutate the dataSet
+    // Mutate the waveDataSet
     let angle = 0;
-    this.dataSet.forEach( point => {
+    this.waveDataSet.forEach( point => {
       angle = PHASE_ANGLE + ( point.x * deltaAngle );
       const y = ( this.maxVoltageProperty.value ) * Math.sin( angle );
       point.setY( y );
     } );
 
-    // Since we mutated the dataSet, this is our responsibility.
-    this.plot.update();
+    // Since we mutated the waveDataSet, this is our responsibility.
+    this.wavePlot.update();
 
     // Make the start & end angles positive values, maintaining phase.
     this._startAngleProperty.value = ( ( 2 * Math.PI ) - ( angle % ( 2 * Math.PI ) ) ) % ( 2 * Math.PI );
