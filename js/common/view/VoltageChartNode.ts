@@ -36,7 +36,8 @@ const TICK_MARK_SET_OPTIONS: TickMarkSetOptions = {
 const VIEW_SIZE = new Dimension2( 156, 122 );
 const X_AXIS_TICK_SPACING = 10;
 const Y_AXIS_TICK_SPACING = 10;
-const NUMBER_OF_POINTS = 2000;
+const MAX_CYCLES = 10; //TODO This was 20, frequencyRange.max / frequencyRange.min, in the Java version
+const NUMBER_OF_POINTS = 1000; // The larger MAX_CYCLES is, the larger NUMBER_OF_POINTS must be to draw smooth sines.
 const PHASE_ANGLE = Math.PI; // 180-degree phase angle at (0,0).
 
 type SelfOptions = EmptySelfOptions;
@@ -47,7 +48,6 @@ export default class VoltageChartNode extends Node {
 
   private readonly frequencyProperty: TReadOnlyProperty<number>;
   private readonly maxVoltageProperty: TReadOnlyProperty<number>;
-  private readonly maxCycles: number;
 
   private readonly chartTransform: ChartTransform;
   private readonly plot: LinePlot;
@@ -129,9 +129,6 @@ export default class VoltageChartNode extends Node {
     this.frequencyProperty = frequencyProperty;
     this.maxVoltageProperty = maxVoltageProperty;
 
-    assert && assert( frequencyRange.min !== 0 );
-    this.maxCycles = frequencyRange.max / frequencyRange.min;
-
     this.chartTransform = chartTransform;
     this.plot = plot;
     this.dataSet = dataSet;
@@ -156,7 +153,7 @@ export default class VoltageChartNode extends Node {
   private update(): void {
 
     // Number of wave cycles to plot at the current frequency.
-    const numberOfCycles = this.frequencyProperty.value * this.maxCycles;
+    const numberOfCycles = this.frequencyProperty.value * MAX_CYCLES;
 
     // Change in angle per change in x.
     const deltaAngle = ( 2 * Math.PI * numberOfCycles ) / this.chartTransform.modelXRange.getLength();
