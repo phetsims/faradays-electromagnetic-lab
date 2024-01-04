@@ -133,18 +133,18 @@ export default class ACPowerSupplyNode extends Node {
     } );
 
     // Voltage display
-    const voltageChartNode = new VoltageChartNode(
+    const chartNode = new VoltageChartNode(
       acPowerSupply.frequencyProperty,
       acPowerSupply.frequencyProperty.range,
       acPowerSupply.maxVoltageProperty,
       acPowerSupply.voltageProperty.range, {
         right: bodyNode.right - 10,
         top: titleText.bottom + 5,
-        tandem: tandem.createTandem( 'voltageChartNode' )
+        tandem: tandem.createTandem( 'chartNode' )
       } );
 
     super( {
-      children: [ bodyNode, titleText, voltageChartNode, maxVoltageBox, frequencyBox ],
+      children: [ bodyNode, titleText, chartNode, maxVoltageBox, frequencyBox ],
       visibleProperty: new DerivedProperty( [ currentSourceProperty ], currentSource => ( currentSource === acPowerSupply ), {
         tandem: tandem.createTandem( 'visibleProperty' ),
         phetioValueType: BooleanIO
