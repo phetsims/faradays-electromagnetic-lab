@@ -16,3 +16,5 @@ Loop Area instead of Loop Radius
 Reset All in Generator screen should not light the bulb
 
 One model element to describe all electrons, one view element to render all electrons
+
+How to interact with sliders on battery and AC power supply, when they have keyboard focus
