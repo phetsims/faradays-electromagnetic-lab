@@ -56,7 +56,7 @@ export default class ElectronNode extends ShadedSphereNode {
 
     this.disposeElectronNode = () => {
       electron.positionProperty.unlink( positionListener );
-      // electron.coilSegmentIndexProperty.unlink( coilSegmentIndexListener );
+      electron.coilSegmentIndexProperty.unlink( coilSegmentIndexListener );
     };
   }
 
