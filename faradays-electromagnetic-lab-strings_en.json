@@ -29,6 +29,9 @@
   "flipPolarity": {
     "value": "Flip Polarity"
   },
+  "flipEarth": {
+    "value": "Flip Earth"
+  },
   "earth": {
     "value": "Earth"
   },

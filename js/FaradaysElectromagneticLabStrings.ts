@@ -23,6 +23,7 @@ type StringsType = {
   'strengthColonStringProperty': LocalizedStringProperty;
   'seeInsideStringProperty': LocalizedStringProperty;
   'flipPolarityStringProperty': LocalizedStringProperty;
+  'flipEarthStringProperty': LocalizedStringProperty;
   'earthStringProperty': LocalizedStringProperty;
   'magneticFieldStringProperty': LocalizedStringProperty;
   'compassStringProperty': LocalizedStringProperty;

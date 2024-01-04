@@ -21,6 +21,8 @@ import PickRequired from '../../../../phet-core/js/types/PickRequired.js';
 import StrictOmit from '../../../../phet-core/js/types/StrictOmit.js';
 import Property from '../../../../axon/js/Property.js';
 import FELPreferences from '../model/FELPreferences.js';
+import DerivedStringProperty from '../../../../axon/js/DerivedStringProperty.js';
+import TReadOnlyProperty from '../../../../axon/js/TReadOnlyProperty.js';
 
 type SelfOptions = {
   hasFlipPolarityButton?: boolean;
@@ -52,7 +54,17 @@ export default class BarMagnetPanel extends Panel {
     ];
 
     if ( options.hasFlipPolarityButton ) {
-      const flipPolarityButton = new TextPushButton( FaradaysElectromagneticLabStrings.flipPolarityStringProperty, {
+
+      // When 'Earth' checkbox is checked, change button label from 'Flip Polarity' to 'Flip Earth'.
+      // See https://github.com/phetsims/faradays-electromagnetic-lab/issues/43
+      let flipStringProperty: TReadOnlyProperty<string> = FaradaysElectromagneticLabStrings.flipPolarityStringProperty;
+      if ( options.earthVisibleProperty ) {
+        flipStringProperty = new DerivedStringProperty(
+          [ options.earthVisibleProperty, FaradaysElectromagneticLabStrings.flipEarthStringProperty, FaradaysElectromagneticLabStrings.flipPolarityStringProperty ],
+          ( earthVisible, flipEarthString, flipPolarityString ) => earthVisible ? flipEarthString : flipPolarityString );
+      }
+
+      const flipPolarityButton = new TextPushButton( flipStringProperty, {
         font: FELConstants.CONTROL_FONT,
         textNodeOptions: {
           maxWidth: 180
