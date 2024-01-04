@@ -36,7 +36,7 @@ const TICK_MARK_SET_OPTIONS: TickMarkSetOptions = {
 const VIEW_SIZE = new Dimension2( 156, 122 );
 const X_AXIS_TICK_SPACING = 10;
 const Y_AXIS_TICK_SPACING = 10;
-const NUMBER_OF_POINTS = 100;
+const NUMBER_OF_POINTS_PER_CYCLE = 100;
 
 type SelfOptions = EmptySelfOptions;
 
@@ -83,7 +83,7 @@ export default class VoltageChartNode extends Node {
     //TODO Create a dataSet with a fixed number of points and fixed x values, then reuse it and call plot.update.
     const plot = new LinePlot( chartTransform, [], {
       stroke: FELColors.acPowerSupplyWaveColorProperty,
-      lineWidth: 2
+      lineWidth: 1.5
     } );
 
     const decorationsNode = new Node( {
@@ -148,13 +148,16 @@ export default class VoltageChartNode extends Node {
     // Number of wave cycles to plot at the current frequency.
     const numberOfCycles = this.frequencyProperty.value * this.maxCycles;
 
+    // Number of points increases as we need to draw more cycles.
+    const numberOfPoints = ( numberOfCycles * NUMBER_OF_POINTS_PER_CYCLE );
+
     // Change in angle per change in x.
     const deltaAngle = ( 2 * Math.PI * numberOfCycles ) / this.chartTransform.modelXRange.getLength();
 
     // 180-degree phase angle at (0,0).
     const phaseAngle = Math.PI;
 
-    const dx = this.chartTransform.modelXRange.getLength() / NUMBER_OF_POINTS;
+    const dx = this.chartTransform.modelXRange.getLength() / numberOfPoints;
 
     // Go one point beyond modelXRange. Plot will be clipped to the chart.
     const maxX = this.chartTransform.modelXRange.max + dx;
