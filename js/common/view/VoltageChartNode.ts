@@ -124,7 +124,8 @@ export default class VoltageChartNode extends Node {
 
       // NodeOptions
       isDisposable: false,
-      children: [ chartRectangle, decorationsNode ]
+      children: [ chartRectangle, decorationsNode ],
+      phetioVisiblePropertyInstrumented: false
     }, providedOptions );
 
     super( options );
