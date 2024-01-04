@@ -139,7 +139,8 @@ export default class ACPowerSupplyNode extends Node {
       acPowerSupply.maxVoltageProperty,
       acPowerSupply.voltageProperty.range, {
         right: bodyNode.right - 10,
-        top: titleText.bottom + 5
+        top: titleText.bottom + 5,
+        tandem: tandem.createTandem( 'voltageChartNode' )
       } );
 
     super( {
