@@ -52,6 +52,7 @@ export default class ACPowerSupplyNode extends Node {
     const bodyNode = new ShadedRectangle( BODY_BOUNDS, BODY_OPTIONS );
 
     // Title at the center top of the body
+    //TODO Verify that changing title to 'AC Power Supply' is OK.
     const titleText = new Text( FaradaysElectromagneticLabStrings.acPowerSupplyStringProperty, {
       font: FELConstants.TITLE_FONT,
       maxWidth: 0.85 * bodyNode.width,
