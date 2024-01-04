@@ -47,6 +47,7 @@ export default class ACPowerSupplyNode extends Node {
   public constructor( acPowerSupply: ACPowerSupply, currentSourceProperty: TReadOnlyProperty<CurrentSource>, tandem: Tandem ) {
 
     // Body of the AC power supply
+    //TODO Create bodyNode last, sized to fit its subcomponents and their layout.
     const bodyNode = new ShadedRectangle( BODY_BOUNDS, BODY_OPTIONS );
 
     // Title at the center top of the body
@@ -125,7 +126,7 @@ export default class ACPowerSupplyNode extends Node {
       children: [ frequencySlider, frequencyDisplay ],
       spacing: 5,
       align: 'center',
-      centerX: bodyNode.centerX,
+      right: bodyNode.right - 15,
       bottom: bodyNode.bottom - 10
     } );
 
