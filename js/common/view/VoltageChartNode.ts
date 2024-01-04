@@ -1,4 +1,4 @@
-// Copyright 2023-2024, University of Colorado Boulder
+// Copyright 2024, University of Colorado Boulder
 
 /**
  * VoltageChartNode is the voltage chart that appears on the AC power supply. It shows voltage over time as a sine wave.

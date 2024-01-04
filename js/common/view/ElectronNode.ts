@@ -1,4 +1,4 @@
-// Copyright 2023, University of Colorado Boulder
+// Copyright 2023-2024, University of Colorado Boulder
 
 /**
  * ElectronGraphic is the visual representation of an electron in a coil. It is responsible for moving the electron,

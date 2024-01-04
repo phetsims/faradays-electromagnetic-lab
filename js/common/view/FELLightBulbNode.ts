@@ -1,4 +1,4 @@
-// Copyright 2023, University of Colorado Boulder
+// Copyright 2023-2024, University of Colorado Boulder
 
 /**
  * FELLightBulbNode is the visualization of the light bulb, used as an indicator of current in the pickup coil.
