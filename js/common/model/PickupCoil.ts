@@ -120,7 +120,7 @@ export default class PickupCoil extends Coil {
       samplePointsStrategy: new FixedNumberOfSamplePointsStrategy( 9 /* numberOfSamplePoints */ ),
 
       // CoilOptions
-      numberOfLoopsRange: new RangeWithValue( 1, 3, 2 ),
+      numberOfLoopsRange: new RangeWithValue( 1, 4, 2 ),
       loopRadiusRange: new RangeWithValue( 68, 150, 109 ),
       wireWidth: WIRE_WIDTH,
       loopSpacing: LOOP_SPACING
