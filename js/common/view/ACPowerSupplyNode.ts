@@ -90,6 +90,7 @@ export default class ACPowerSupplyNode extends Node {
 
     // Layout for max voltage display and slider
     const maxVoltageBox = new VBox( {
+      excludeInvisibleChildrenFromBounds: false,
       children: [ maxVoltageDisplay, maxVoltageSlider ],
       spacing: 5,
       align: 'center',
@@ -125,6 +126,7 @@ export default class ACPowerSupplyNode extends Node {
 
     // Layout for frequency display and slider
     const frequencyBox = new HBox( {
+      excludeInvisibleChildrenFromBounds: false,
       children: [ frequencySlider, frequencyDisplay ],
       spacing: 5,
       align: 'center',
