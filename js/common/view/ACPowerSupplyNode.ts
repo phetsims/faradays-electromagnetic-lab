@@ -21,6 +21,7 @@ import DerivedProperty from '../../../../axon/js/DerivedProperty.js';
 import BooleanIO from '../../../../tandem/js/types/BooleanIO.js';
 import ShadedRectangle, { ShadedRectangleOptions } from '../../../../scenery-phet/js/ShadedRectangle.js';
 import Bounds2 from '../../../../dot/js/Bounds2.js';
+import Range from '../../../../dot/js/Range.js';
 import FELColors from '../FELColors.js';
 import HSlider from '../../../../sun/js/HSlider.js';
 import VSlider from '../../../../sun/js/VSlider.js';
@@ -31,6 +32,7 @@ import StringDisplay from './StringDisplay.js';
 import Dimension2 from '../../../../dot/js/Dimension2.js';
 import PhetFont from '../../../../scenery-phet/js/PhetFont.js';
 import FELConstants from '../FELConstants.js';
+import VoltageChartNode from './VoltageChartNode.js';
 
 const BODY_BOUNDS = new Bounds2( 0, 0, 230, 210 );
 const CORNER_RADIUS = 10;
@@ -130,8 +132,18 @@ export default class ACPowerSupplyNode extends Node {
       bottom: bodyNode.bottom - 10
     } );
 
+    // Voltage display
+    const voltageChartNode = new VoltageChartNode(
+      acPowerSupply.frequencyProperty,
+      new Range( -acPowerSupply.frequencyProperty.range.max, acPowerSupply.frequencyProperty.range.max ),
+      acPowerSupply.maxVoltageProperty,
+      acPowerSupply.voltageProperty.range, {
+        right: bodyNode.right - 10,
+        top: titleText.bottom + 5
+      } );
+
     super( {
-      children: [ bodyNode, titleText, maxVoltageBox, frequencyBox ],
+      children: [ bodyNode, titleText, voltageChartNode, maxVoltageBox, frequencyBox ],
       visibleProperty: new DerivedProperty( [ currentSourceProperty ], currentSource => ( currentSource === acPowerSupply ), {
         tandem: tandem.createTandem( 'visibleProperty' ),
         phetioValueType: BooleanIO

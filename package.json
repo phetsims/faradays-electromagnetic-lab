@@ -18,6 +18,9 @@
       "phet-io",
       "adapted-from-phet"
     ],
+    "phetLibs": [
+      "bamboo"
+    ],
     "supportsOutputJS": true,
     "simFeatures": {
       "supportsSound": true,
