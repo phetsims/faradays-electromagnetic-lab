@@ -36,7 +36,8 @@ const TICK_MARK_SET_OPTIONS: TickMarkSetOptions = {
 const VIEW_SIZE = new Dimension2( 156, 122 );
 const X_AXIS_TICK_SPACING = 10;
 const Y_AXIS_TICK_SPACING = 10;
-const NUMBER_OF_POINTS_PER_CYCLE = 100;
+const NUMBER_OF_POINTS = 2000;
+const PHASE_ANGLE = Math.PI; // 180-degree phase angle at (0,0).
 
 type SelfOptions = EmptySelfOptions;
 
@@ -50,6 +51,7 @@ export default class VoltageChartNode extends Node {
 
   private readonly chartTransform: ChartTransform;
   private readonly plot: LinePlot;
+  private readonly dataSet: Vector2[];
 
   //TODO document
   public readonly startAngleProperty: TReadOnlyProperty<number>;
@@ -80,8 +82,18 @@ export default class VoltageChartNode extends Node {
       cornerYRadius: 6
     } );
 
-    //TODO Create a dataSet with a fixed number of points and fixed x values, then reuse it and call plot.update.
-    const plot = new LinePlot( chartTransform, [], {
+    // Create a dataSet with a fixed number of points and fixed x values. We'll recompute the y values and call plot.update.
+    const dataSet: Vector2[] = [];
+    const dx = chartTransform.modelXRange.getLength() / NUMBER_OF_POINTS;
+    const maxX = chartTransform.modelXRange.max + dx; // Go one point beyond modelXRange. Plot will be clipped to the chart.
+    for ( let x = 0; x <= maxX; x += dx ) {
+      dataSet.push( new Vector2( x, 0 ) );
+      if ( x !== 0 ) {
+        dataSet.unshift( new Vector2( -x, 0 ) );
+      }
+    }
+
+    const plot = new LinePlot( chartTransform, dataSet, {
       stroke: FELColors.acPowerSupplyWaveColorProperty,
       lineWidth: 1.5
     } );
@@ -122,6 +134,7 @@ export default class VoltageChartNode extends Node {
 
     this.chartTransform = chartTransform;
     this.plot = plot;
+    this.dataSet = dataSet;
 
     this._startAngleProperty = new NumberProperty( 0, {
       tandem: options.tandem.createTandem( 'startAngleProperty' ),
@@ -142,41 +155,26 @@ export default class VoltageChartNode extends Node {
 
   private update(): void {
 
-    // The dataSet that we'll populate.
-    const dataSet: Vector2[] = [];
-
     // Number of wave cycles to plot at the current frequency.
     const numberOfCycles = this.frequencyProperty.value * this.maxCycles;
-
-    // Number of points increases as we need to draw more cycles.
-    const numberOfPoints = ( numberOfCycles * NUMBER_OF_POINTS_PER_CYCLE );
 
     // Change in angle per change in x.
     const deltaAngle = ( 2 * Math.PI * numberOfCycles ) / this.chartTransform.modelXRange.getLength();
 
-    // 180-degree phase angle at (0,0).
-    const phaseAngle = Math.PI;
-
-    const dx = this.chartTransform.modelXRange.getLength() / numberOfPoints;
-
-    // Go one point beyond modelXRange. Plot will be clipped to the chart.
-    const maxX = this.chartTransform.modelXRange.max + dx;
-
-    // Populate the dataSet by starting at x=0 and working outwards in positive and negative directions.
+    // Mutate the dataSet
     let angle = 0;
-    for ( let x = 0; x <= maxX; x += dx ) {
-      angle = phaseAngle + ( x * deltaAngle );
+    this.dataSet.forEach( point => {
+      angle = PHASE_ANGLE + ( point.x * deltaAngle );
       const y = ( this.maxVoltageProperty.value ) * Math.sin( angle );
-      dataSet.push( new Vector2( x, -y ) ); //TODO +y is up
-      if ( x !== 0 ) {
-        dataSet.unshift( new Vector2( -x, y ) ); //TODO +y is up
-      }
-    }
-    this.plot.setDataSet( dataSet );
+      point.setY( y );
+    } );
+
+    // Since we mutated the dataSet, this is our responsibility.
+    this.plot.update();
 
     // Make the start & end angles positive values, maintaining phase.
     this._startAngleProperty.value = ( ( 2 * Math.PI ) - ( angle % ( 2 * Math.PI ) ) ) % ( 2 * Math.PI );
-    this._endAngleProperty.value = this._startAngleProperty.value + ( 2 * ( angle - phaseAngle ) );
+    this._endAngleProperty.value = this._startAngleProperty.value + ( 2 * ( angle - PHASE_ANGLE ) );
   }
 }
 
