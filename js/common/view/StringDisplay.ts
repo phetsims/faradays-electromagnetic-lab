@@ -5,6 +5,8 @@
 /**
  * StringDisplay displays the value of a string Property in a fixed-size display area.  It is used as a substitute
  * for NumberDisplay, which has gotten too complicated and is in need of replacement.
+ *
+ * @author Chris Malley (PixelZoom, Inc.)
  */
 
 import TReadOnlyProperty from '../../../../axon/js/TReadOnlyProperty.js';
