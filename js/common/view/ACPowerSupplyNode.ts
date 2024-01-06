@@ -135,15 +135,11 @@ export default class ACPowerSupplyNode extends Node {
     } );
 
     // Voltage display
-    const chartNode = new VoltageChartNode(
-      acPowerSupply.frequencyProperty,
-      acPowerSupply.frequencyProperty.range,
-      acPowerSupply.maxVoltageProperty,
-      acPowerSupply.voltageProperty.range, {
-        right: bodyNode.right - 10,
-        top: titleText.bottom + 5,
-        tandem: tandem.createTandem( 'chartNode' )
-      } );
+    const chartNode = new VoltageChartNode( acPowerSupply, {
+      right: bodyNode.right - 10,
+      top: titleText.bottom + 5,
+      tandem: tandem.createTandem( 'chartNode' )
+    } );
 
     super( {
       children: [ bodyNode, titleText, chartNode, maxVoltageBox, frequencyBox ],

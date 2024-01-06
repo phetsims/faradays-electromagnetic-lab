@@ -23,6 +23,7 @@ import Vector2 from '../../../../dot/js/Vector2.js';
 import LinePlot from '../../../../bamboo/js/LinePlot.js';
 import Dimension2 from '../../../../dot/js/Dimension2.js';
 import FELColors from '../FELColors.js';
+import ACPowerSupply from '../model/ACPowerSupply.js';
 
 const AXIS_LINE_OPTIONS: AxisLineOptions = {
   stroke: Color.grayColor( 200 ), //TODO color profile
@@ -46,8 +47,7 @@ type VoltageChartNodeOptions = SelfOptions & NodeTranslationOptions & PickRequir
 
 export default class VoltageChartNode extends Node {
 
-  private readonly frequencyProperty: TReadOnlyProperty<number>;
-  private readonly maxVoltageProperty: TReadOnlyProperty<number>;
+  private readonly acPowerSupply: ACPowerSupply;
 
   private readonly chartTransform: ChartTransform;
 
@@ -63,18 +63,16 @@ export default class VoltageChartNode extends Node {
   public readonly endAngleProperty: TReadOnlyProperty<number>;
   private readonly _endAngleProperty: NumberProperty;
 
-  public constructor( frequencyProperty: TReadOnlyProperty<number>, frequencyRange: Range,
-                      maxVoltageProperty: TReadOnlyProperty<number>, voltageRange: Range,
-                      providedOptions?: VoltageChartNodeOptions ) {
+  public constructor( acPowerSupply: ACPowerSupply, providedOptions?: VoltageChartNodeOptions ) {
 
     // Vertical space above and below the largest waveform
-    const yMargin = 0.05 * voltageRange.getLength();
+    const yMargin = 0.05 * acPowerSupply.voltageProperty.range.getLength();
 
     const chartTransform = new ChartTransform( {
       viewWidth: VIEW_SIZE.width,
       viewHeight: VIEW_SIZE.height,
       modelXRange: new Range( -VIEW_SIZE.width / 2, VIEW_SIZE.width / 2 ),
-      modelYRange: new Range( voltageRange.min - yMargin, voltageRange.max + yMargin )
+      modelYRange: new Range( acPowerSupply.voltageProperty.range.min - yMargin, acPowerSupply.voltageProperty.range.max + yMargin )
     } );
 
     const chartRectangle = new ChartRectangle( chartTransform, {
@@ -130,8 +128,7 @@ export default class VoltageChartNode extends Node {
 
     super( options );
 
-    this.frequencyProperty = frequencyProperty;
-    this.maxVoltageProperty = maxVoltageProperty;
+    this.acPowerSupply = acPowerSupply;
 
     this.chartTransform = chartTransform;
     this.wavePlot = wavePlot;
@@ -151,13 +148,13 @@ export default class VoltageChartNode extends Node {
     } );
     this.endAngleProperty = this._endAngleProperty;
 
-    Multilink.multilink( [ frequencyProperty, maxVoltageProperty ], () => this.update() );
+    Multilink.multilink( [ acPowerSupply.frequencyProperty, acPowerSupply.maxVoltageProperty ], () => this.update() );
   }
 
   private update(): void {
 
     // Number of wave cycles to plot at the current frequency.
-    const numberOfCycles = this.frequencyProperty.value * MAX_CYCLES;
+    const numberOfCycles = this.acPowerSupply.frequencyProperty.value * MAX_CYCLES;
 
     // Change in angle per change in x.
     const deltaAngle = ( 2 * Math.PI * numberOfCycles ) / this.chartTransform.modelXRange.getLength();
@@ -166,7 +163,7 @@ export default class VoltageChartNode extends Node {
     let angle = 0;
     this.waveDataSet.forEach( point => {
       angle = PHASE_ANGLE + ( point.x * deltaAngle );
-      const y = ( this.maxVoltageProperty.value ) * Math.sin( angle );
+      const y = ( this.acPowerSupply.maxVoltageProperty.value ) * Math.sin( angle );
       point.setY( y );
     } );
 
