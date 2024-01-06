@@ -1,7 +1,8 @@
 // Copyright 2024, University of Colorado Boulder
 
 /**
- * VoltageChartNode is the voltage chart that appears on the AC power supply. It shows voltage over time as a sine wave.
+ * VoltageChartNode is the voltage chart that appears on the AC power supply.
+ * It shows voltage (y-axis) vs time (x-axis) as a sine wave.
  *
  * @author Chris Malley (PixelZoom, Inc.)
  */
@@ -24,6 +25,7 @@ import LinePlot from '../../../../bamboo/js/LinePlot.js';
 import Dimension2 from '../../../../dot/js/Dimension2.js';
 import FELColors from '../FELColors.js';
 import ACPowerSupply from '../model/ACPowerSupply.js';
+import Utils from '../../../../dot/js/Utils.js';
 
 const AXIS_LINE_OPTIONS: AxisLineOptions = {
   stroke: Color.grayColor( 200 ), //TODO color profile
@@ -40,6 +42,7 @@ const Y_AXIS_TICK_SPACING = 10;
 const MAX_CYCLES = 10; //TODO This was 20, frequencyRange.max / frequencyRange.min, in the Java version
 const NUMBER_OF_POINTS = 1000; // The larger MAX_CYCLES is, the larger NUMBER_OF_POINTS must be to draw smooth sines.
 const PHASE_ANGLE = Math.PI; // 180-degree phase angle at (0,0).
+const CURSOR_WRAP_AROUND_TOLERANCE = Utils.toRadians( 5 /* degrees */ );
 
 type SelfOptions = EmptySelfOptions;
 
@@ -54,6 +57,13 @@ export default class VoltageChartNode extends Node {
   // Plot and dataSet for the wave
   private readonly wavePlot: LinePlot;
   private readonly waveDataSet: Vector2[];
+
+  // Plot and dataSet for the cursor
+  private readonly cursorPlot: LinePlot;
+  private readonly cursorDataSet: Vector2[];
+
+  //TODO document
+  private readonly cursorAngleProperty: NumberProperty;
 
   //TODO document
   public readonly startAngleProperty: TReadOnlyProperty<number>;
@@ -99,6 +109,17 @@ export default class VoltageChartNode extends Node {
       lineWidth: 1.5
     } );
 
+    // Create a dataSet with 2 points that describe the vertical cursor line.
+    const cursorDataSet = [
+      new Vector2( 0, chartTransform.modelYRange.min ),
+      new Vector2( 0, chartTransform.modelYRange.max )
+    ];
+
+    const cursorPlot = new LinePlot( chartTransform, cursorDataSet, {
+      stroke: FELColors.acPowerSupplyCursorColorProperty,
+      lineWidth: 1
+    } );
+
     const decorationsNode = new Node( {
       clipArea: chartRectangle.getShape(),
       children: [
@@ -113,8 +134,9 @@ export default class VoltageChartNode extends Node {
         new AxisLine( chartTransform, Orientation.HORIZONTAL, AXIS_LINE_OPTIONS ),
         new AxisLine( chartTransform, Orientation.VERTICAL, AXIS_LINE_OPTIONS ),
 
-        // plot
-        wavePlot
+        // plots
+        wavePlot,
+        cursorPlot
       ]
     } );
 
@@ -133,6 +155,8 @@ export default class VoltageChartNode extends Node {
     this.chartTransform = chartTransform;
     this.wavePlot = wavePlot;
     this.waveDataSet = waveDataSet;
+    this.cursorPlot = cursorPlot;
+    this.cursorDataSet = cursorDataSet;
 
     this._startAngleProperty = new NumberProperty( 0, {
       tandem: options.tandem.createTandem( 'startAngleProperty' ),
@@ -148,7 +172,21 @@ export default class VoltageChartNode extends Node {
     } );
     this.endAngleProperty = this._endAngleProperty;
 
+    this.cursorAngleProperty = new NumberProperty( 0, {
+      tandem: options.tandem.createTandem( 'cursorAngleProperty' ),
+      phetioReadOnly: true,
+      phetioDocumentation: 'For internal use only'
+    } );
+
     Multilink.multilink( [ acPowerSupply.frequencyProperty, acPowerSupply.maxVoltageProperty ], () => this.updateWave() );
+
+    Multilink.multilink( [ this.startAngleProperty, this.endAngleProperty ],
+      () => {
+        this.cursorAngleProperty.reset();
+        this.updateCursor();
+      } );
+
+    acPowerSupply.stepAngleProperty.link( () => this.updateCursor() );
   }
 
   /**
@@ -176,6 +214,37 @@ export default class VoltageChartNode extends Node {
     // Make the start & end angles positive values, maintaining phase.
     this._startAngleProperty.value = ( ( 2 * Math.PI ) - ( angle % ( 2 * Math.PI ) ) ) % ( 2 * Math.PI );
     this._endAngleProperty.value = this._startAngleProperty.value + ( 2 * ( angle - PHASE_ANGLE ) );
+  }
+
+  //TODO This is not behaving as expected.
+  /**
+   * Updates the cursor to indicate where time === now.
+   */
+  private updateCursor(): void {
+
+    let cursorAngle = this.cursorAngleProperty.value + this.acPowerSupply.stepAngleProperty.value;
+
+    const startAngle = this.startAngleProperty.value;
+    const endAngle = this.endAngleProperty.value;
+
+    // Wrap around.
+    if ( cursorAngle >= endAngle ) {
+      cursorAngle = ( cursorAngle % ( 2 * Math.PI ) );
+      if ( cursorAngle > startAngle + CURSOR_WRAP_AROUND_TOLERANCE ) {
+        cursorAngle -= ( 2 * Math.PI );
+      }
+    }
+
+    // The cursor is visible in the chart.
+    if ( cursorAngle >= startAngle && cursorAngle < endAngle ) {
+      const percent = ( cursorAngle - startAngle ) / ( endAngle - startAngle );
+      const x = this.chartTransform.modelXRange.min + ( percent * this.chartTransform.modelXRange.getLength() );
+      this.cursorDataSet[ 0 ].setX( x );
+      this.cursorDataSet[ 1 ].setX( x );
+      this.cursorPlot.update();
+    }
+
+    this.cursorAngleProperty.value = cursorAngle;
   }
 }
 

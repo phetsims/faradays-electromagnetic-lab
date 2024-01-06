@@ -238,6 +238,10 @@ const FELColors = {
     default: 'white'
   } ),
 
+  acPowerSupplyCursorColorProperty: new ProfileColorProperty( faradaysElectromagneticLab, 'acPowerSupplyCursorColor', {
+    default: 'red'
+  } ),
+
   waterColorProperty: new ProfileColorProperty( faradaysElectromagneticLab, 'waterColor', {
     default: 'rgba( 194, 234, 255, 0.7 )'
   } ),
