@@ -148,10 +148,13 @@ export default class VoltageChartNode extends Node {
     } );
     this.endAngleProperty = this._endAngleProperty;
 
-    Multilink.multilink( [ acPowerSupply.frequencyProperty, acPowerSupply.maxVoltageProperty ], () => this.update() );
+    Multilink.multilink( [ acPowerSupply.frequencyProperty, acPowerSupply.maxVoltageProperty ], () => this.updateWave() );
   }
 
-  private update(): void {
+  /**
+   * Updates the wave shown on the chart.
+   */
+  private updateWave(): void {
 
     // Number of wave cycles to plot at the current frequency.
     const numberOfCycles = this.acPowerSupply.frequencyProperty.value * MAX_CYCLES;
