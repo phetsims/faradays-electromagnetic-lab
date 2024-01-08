@@ -11,7 +11,7 @@ import faradaysElectromagneticLab from '../../faradaysElectromagneticLab.js';
 import BooleanProperty from '../../../../axon/js/BooleanProperty.js';
 import Tandem from '../../../../tandem/js/Tandem.js';
 import StringUnionProperty from '../../../../axon/js/StringUnionProperty.js';
-import FELQueryParameters, { MagneticUnits, MagneticUnitsValues } from '../FELQueryParameters.js';
+import FELQueryParameters, { EarthImage, EarthImageValues, MagneticUnits, MagneticUnitsValues } from '../FELQueryParameters.js';
 
 const FELPreferences = {
 
@@ -25,6 +25,12 @@ const FELPreferences = {
   // Whether an "Earth" checkbox will be added to relevant screens
   addEarthCheckboxProperty: new BooleanProperty( FELQueryParameters.addEarthCheckbox, {
     tandem: Tandem.PREFERENCES.createTandem( 'addEarthCheckboxProperty' ),
+    phetioFeatured: true
+  } ),
+
+  earthImageProperty: new StringUnionProperty<EarthImage>( FELQueryParameters.earthImage as EarthImage, {
+    validValues: EarthImageValues,
+    tandem: Tandem.PREFERENCES.createTandem( 'earthViewProperty' ),
     phetioFeatured: true
   } )
 };
