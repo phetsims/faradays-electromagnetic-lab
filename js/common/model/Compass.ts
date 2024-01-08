@@ -67,7 +67,9 @@ export default abstract class Compass extends FELMovable {
     Multilink.multilink( [ magnet.positionProperty, magnet.rotationProperty, magnet.strengthProperty ], () => {
       if ( !isPlayingProperty.value ) {
         const fieldVector = this.magnet.getFieldVector( this.positionProperty.value, this.reusableFieldVector );
-        this._angleProperty.value = fieldVector.angle;
+        if ( fieldVector.magnitude !== 0 ) {
+          this._angleProperty.value = fieldVector.angle;
+        }
       }
     } );
   }
