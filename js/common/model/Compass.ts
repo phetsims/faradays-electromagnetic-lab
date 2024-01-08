@@ -64,7 +64,7 @@ export default abstract class Compass extends FELMovable {
     } );
 
     // If the clock is paused, update immediately to match the field vector.
-    Multilink.multilink( [ magnet.strengthProperty, magnet.positionProperty, magnet.rotationProperty ], () => {
+    Multilink.multilink( [ magnet.positionProperty, magnet.rotationProperty, magnet.strengthProperty ], () => {
       if ( !isPlayingProperty.value ) {
         const fieldVector = this.magnet.getFieldVector( this.positionProperty.value, this.reusableFieldVector );
         this._angleProperty.value = fieldVector.angle;
