@@ -44,7 +44,7 @@ export default class PickupCoilModel extends FELModel {
       tandem: tandem.createTandem( 'pickupCoil' )
     } );
 
-    this.compass = new KinematicCompass( this.barMagnet, {
+    this.compass = new KinematicCompass( this.barMagnet, this.isPlayingProperty, {
       position: new Vector2( 150, 300 ),
       visible: false,
       tandem: tandem.createTandem( 'compass' )

@@ -41,7 +41,7 @@ export default class GeneratorModel extends FELModel {
       tandem: tandem.createTandem( 'pickupCoil' )
     } );
 
-    this.compass = new ImmediateCompass( this.turbine, {
+    this.compass = new ImmediateCompass( this.turbine, this.isPlayingProperty, {
       position: new Vector2( 350, 175 ),
       tandem: tandem.createTandem( 'compass' )
     } );

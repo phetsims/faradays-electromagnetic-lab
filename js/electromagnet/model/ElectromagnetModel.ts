@@ -32,7 +32,7 @@ export default class ElectromagnetModel extends FELModel {
       tandem: tandem.createTandem( 'electromagnet' )
     } );
 
-    this.compass = new IncrementalCompass( this.electromagnet, {
+    this.compass = new IncrementalCompass( this.electromagnet, this.isPlayingProperty, {
       position: new Vector2( 150, 200 ),
       tandem: tandem.createTandem( 'compass' )
     } );

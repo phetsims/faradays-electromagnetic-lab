@@ -17,6 +17,7 @@ import Utils from '../../../../dot/js/Utils.js';
 import Property from '../../../../axon/js/Property.js';
 import NumberProperty from '../../../../axon/js/NumberProperty.js';
 import { EmptySelfOptions } from '../../../../phet-core/js/optionize.js';
+import TReadOnlyProperty from '../../../../axon/js/TReadOnlyProperty.js';
 
 const SENSITIVITY = 0.01; // increase this to make the compass more sensitive to smaller fields
 const DAMPING = 0.08; // increase this to make the needle wobble less
@@ -36,11 +37,11 @@ export default class KinematicCompass extends Compass {
   // Angular acceleration of the needle, the change in angular velocity over time, in radians/s^2
   private alphaProperty: Property<number>;
 
-  public constructor( magnet: Magnet, providedOptions: KinematicCompassOptions ) {
+  public constructor( magnet: Magnet, isPlayingProperty: TReadOnlyProperty<boolean>, providedOptions: KinematicCompassOptions ) {
 
     const options = providedOptions;
 
-    super( magnet, options );
+    super( magnet, isPlayingProperty, options );
 
     this.omegaProperty = new NumberProperty( 0, {
       units: 'radians/s',

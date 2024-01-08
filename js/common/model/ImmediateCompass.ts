@@ -12,6 +12,7 @@ import faradaysElectromagneticLab from '../../faradaysElectromagneticLab.js';
 import Magnet from './Magnet.js';
 import Vector2 from '../../../../dot/js/Vector2.js';
 import { EmptySelfOptions } from '../../../../phet-core/js/optionize.js';
+import TReadOnlyProperty from '../../../../axon/js/TReadOnlyProperty.js';
 
 type SelfOptions = EmptySelfOptions;
 
@@ -19,8 +20,8 @@ type ImmediateCompassOptions = SelfOptions & CompassOptions;
 
 export default class ImmediateCompass extends Compass {
 
-  public constructor( magnet: Magnet, providedOptions: ImmediateCompassOptions ) {
-    super( magnet, providedOptions );
+  public constructor( magnet: Magnet, isPlayingProperty: TReadOnlyProperty<boolean>, providedOptions: ImmediateCompassOptions ) {
+    super( magnet, isPlayingProperty, providedOptions );
   }
 
   /**

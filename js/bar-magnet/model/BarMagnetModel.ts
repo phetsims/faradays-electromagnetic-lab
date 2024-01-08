@@ -33,7 +33,7 @@ export default class BarMagnetModel extends FELModel {
       tandem: tandem.createTandem( 'barMagnet' )
     } );
 
-    this.compass = new KinematicCompass( this.barMagnet, {
+    this.compass = new KinematicCompass( this.barMagnet, this.isPlayingProperty, {
       position: new Vector2( 150, 300 ),
       tandem: tandem.createTandem( 'compass' )
     } );

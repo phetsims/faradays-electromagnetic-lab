@@ -43,7 +43,7 @@ export default class TransformerModel extends FELModel {
       tandem: tandem.createTandem( 'pickupCoil' )
     } );
 
-    this.compass = new IncrementalCompass( this.electromagnet, {
+    this.compass = new IncrementalCompass( this.electromagnet, this.isPlayingProperty, {
       position: new Vector2( 100, 525 ),
       visible: false,
       tandem: tandem.createTandem( 'compass' )

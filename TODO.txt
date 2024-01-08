@@ -1,8 +1,6 @@
 
 In Java version, (0,0) is in upper-left of screen, +x is right, +y is down.  Change this for HTML5 version.
 
-Make compass follow B-field immediately when clock is paused
-
 Drag bounds for magnets and coils constrained to layoutBounds
 
 Drag bounds for compass and field meter constrained to visibleBounds, move inside if needed
