@@ -1,18 +1,2 @@
 
-In Java version, (0,0) is in upper-left of screen, +x is right, +y is down.  Change this for HTML5 version.
-
-Drag bounds for magnets and coils constrained to layoutBounds
-
-Drag bounds for compass and field meter constrained to visibleBounds, move inside if needed
-
-Collision detection only in Pickup Coil screen, between bar magnet and pickup coil,
-
-Make compass work inside bar magnet
-
-Loop Area instead of Loop Radius
-
-Reset All in Generator screen should not light the bulb
-
 One model element to describe all electrons, one view element to render all electrons
-
-How to interact with sliders on battery and AC power supply, when they have keyboard focus
