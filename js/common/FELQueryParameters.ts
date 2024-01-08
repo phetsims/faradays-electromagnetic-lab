@@ -30,7 +30,7 @@ const SCHEMA_MAP = {
   // Adds an "Earth" checkbox to screens where it is relevant. Initializes FELPreferences.addEarthCheckboxProperty.
   addEarthCheckbox: {
     type: 'boolean',
-    defaultValue: true, //TODO default false
+    defaultValue: false,
     public: true
   },
 
