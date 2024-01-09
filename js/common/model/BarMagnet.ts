@@ -47,6 +47,9 @@ export default class BarMagnet extends Magnet {
 
   /**
    * Gets the B-field vector at a point in the magnet's local 2D coordinate frame.
+   *
+   * @param position - in the magnet's local coordinate frame
+   * @param outputVector - result is written to this vector
    */
   protected override getLocalFieldVector( position: Vector2, outputVector: Vector2 ): Vector2 {
 
@@ -62,7 +65,7 @@ export default class BarMagnet extends Magnet {
   }
 
   /**
-   * Gets the B-field x component for a position relative to the magnet's origin.
+   * Gets the B-field x component for a position in the magnet's locale coordinate frame.
    * This component is identical in all 4 quadrants.
    */
   private getBx( x: number, y: number ): number {
@@ -70,7 +73,7 @@ export default class BarMagnet extends Magnet {
   }
 
   /**
-   * Gets the B-field y component for a position relative to the magnet's origin.
+   * Gets the B-field y component for a position in magnet's locale coordinate frame.
    * This component is the same in 2 quadrants, but must be reflected about the y-axis for 2 quadrants.
    */
   private getBy( x: number, y: number ): number {
@@ -82,7 +85,7 @@ export default class BarMagnet extends Magnet {
   }
 
   /**
-   * Chooses the appropriate grid of precomputed B-field data.
+   * Chooses the appropriate grid of precomputed B-field data, for a position in the magnet's locale coordinate frame.
    */
   private chooseGrid( x: number, y: number ): BarMagnetFieldGrid {
 

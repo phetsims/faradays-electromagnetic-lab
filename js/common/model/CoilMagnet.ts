@@ -11,8 +11,6 @@
 
 import faradaysElectromagneticLab from '../../faradaysElectromagneticLab.js';
 import Magnet, { MagnetOptions } from './Magnet.js';
-import Property from '../../../../axon/js/Property.js';
-import NumberProperty from '../../../../axon/js/NumberProperty.js';
 import TReadOnlyProperty from '../../../../axon/js/TReadOnlyProperty.js';
 import Range from '../../../../dot/js/Range.js';
 import Vector2 from '../../../../dot/js/Vector2.js';
@@ -26,9 +24,11 @@ export type CoilMagnetOptions = SelfOptions & MagnetOptions;
 
 export default class CoilMagnet extends Magnet {
 
+  // Loop radius, unitless
   private readonly loopRadius: number;
+
+  // Shape of the coil in the magnet's local coordinate frame
   public readonly shape: Shape;
-  private readonly maxStrengthOutsideProperty: Property<number>;
 
   protected constructor( coil: Coil, strengthProperty: TReadOnlyProperty<number>, strengthRange: Range, providedOptions: CoilMagnetOptions ) {
 
@@ -42,29 +42,17 @@ export default class CoilMagnet extends Magnet {
 
     const R = this.loopRadius;
     this.shape = new Shape().rect( -R, -R, 2 * R, 2 * R );
-
-    this.maxStrengthOutsideProperty = new NumberProperty( 0, {
-      tandem: options.tandem.createTandem( 'maxStrengthOutsideProperty' ),
-      phetioReadOnly: true,
-      phetioDocumentation: 'For internal use only'
-    } );
-  }
-
-  public override reset(): void {
-    super.reset();
-    this.maxStrengthOutsideProperty.reset();
-  }
-
-  private isInside( point: Vector2 ): boolean {
-    return this.shape.containsPoint( point );
   }
 
   /**
    * Gets the B-field vector at a point in the magnet's local 2D coordinate frame.
+   *
+   * @param position - in the magnet's local coordinate frame
+   * @param outputVector - result is written to this vector
    */
   protected override getLocalFieldVector( position: Vector2, outputVector: Vector2 ): Vector2 {
-    return ( this.isInside( position ) ) ?
-           this.getLocalFieldVectorInside( position, outputVector ) :
+    return ( this.shape.containsPoint( position ) ) ?
+           this.getLocalFieldVectorInside( outputVector ) :
            this.getLocalFieldVectorOutside( position, outputVector );
   }
 
@@ -78,8 +66,10 @@ export default class CoilMagnet extends Magnet {
    * Outside the coil, where r <= R:
    * Bx = ( 2 * m ) / R^e = magnet strength
    * By = 0
+   *
+   * @param outputVector - result is written to this vector
    */
-  private getLocalFieldVectorInside( position: Vector2, outputVector: Vector2 ): Vector2 {
+  private getLocalFieldVectorInside( outputVector: Vector2 ): Vector2 {
     return outputVector.setPolar( this.strengthProperty.value, 0 );
   }
 
@@ -108,6 +98,9 @@ export default class CoilMagnet extends Magnet {
    * r = sqrt( x^2 + y^2 )
    * cos(theta) = x / r
    * sin(theta) = y / r
+   *
+   * @param position - in the magnet's local coordinate frame
+   * @param outputVector - result is written to this vector
    */
   private getLocalFieldVectorOutside( position: Vector2, outputVector: Vector2 ): Vector2 {
 
@@ -133,13 +126,6 @@ export default class CoilMagnet extends Magnet {
 
     // B-field vector
     outputVector.setXY( Bx, By );
-
-    // Use this to calibrate.
-    //TODO What should we do about this? There is no calibration here or in the Java version.
-    if ( outputVector.magnitude > this.maxStrengthOutsideProperty.value ) {
-      this.maxStrengthOutsideProperty.value = outputVector.magnitude;
-      phet.log && phet.log( `CoilMagnet: maxStrengthOutside=${this.maxStrengthOutsideProperty.value}` );
-    }
 
     return outputVector;
   }

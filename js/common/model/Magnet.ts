@@ -90,7 +90,9 @@ export default abstract class Magnet extends FELMovable {
 
   /**
    * Gets the B-field vector at the specified point in the global coordinate frame.
-   * If outputField is not provided, this method allocates a Vector2.
+   *
+   * @param position - in the global coordinate frame
+   * @param [outputVector] - result is written to this vector, or a Vector2 is allocated if not provided
    */
   public getFieldVector( position: Vector2, outputVector = new Vector2( 0, 0 ) ): Vector2 {
 
@@ -122,6 +124,9 @@ export default abstract class Magnet extends FELMovable {
    * That is, the point is relative to the magnet's origin.
    * In the magnet's local 2D coordinate frame, it is located at (0,0),
    * and its north pole is pointing down the positive x-axis.
+   *
+   * @param position - in the magnet's local coordinate frame
+   * @param outputVector - result is written to this vector
    */
   protected abstract getLocalFieldVector( position: Vector2, outputVector: Vector2 ): Vector2;
 }
