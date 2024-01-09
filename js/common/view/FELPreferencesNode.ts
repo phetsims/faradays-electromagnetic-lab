@@ -12,7 +12,7 @@
 
 import { VBox } from '../../../../scenery/js/imports.js';
 import Tandem from '../../../../tandem/js/Tandem.js';
-import EarthPreferencesControl from './EarthPreferencesControl.js';
+import AddEarthCheckboxPreferencesControl from './AddEarthCheckboxPreferencesControl.js';
 import FELPreferences from '../model/FELPreferences.js';
 import faradaysElectromagneticLab from '../../faradaysElectromagneticLab.js';
 import MagneticUnitsPreferencesControl from './MagneticUnitsPreferencesControl.js';
@@ -26,8 +26,8 @@ export default class FELPreferencesNode extends VBox {
     const controls = [
       new MagneticUnitsPreferencesControl( FELPreferences.magneticUnitsProperty,
         tandem.createTandem( 'magneticUnitsPreferencesControl' ) ),
-      new EarthPreferencesControl( FELPreferences.addEarthCheckboxProperty,
-        tandem.createTandem( 'earthPreferencesControl' ) ),
+      new AddEarthCheckboxPreferencesControl( FELPreferences.addEarthCheckboxProperty,
+        tandem.createTandem( 'addEarthCheckboxPreferencesControl' ) ),
       new EarthImagePreferencesControl( FELPreferences.earthImageProperty,
         tandem.createTandem( 'earthImagePreferencesControl' ) )
     ];

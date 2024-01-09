@@ -1,7 +1,7 @@
 // Copyright 2023, University of Colorado Boulder
 
 /**
- * EarthPreferencesControl is the control in the Preferences dialog for setting whether the 'Earth' checkbox
+ * AddEarthCheckboxPreferencesControl is the control in the Preferences dialog for setting whether the 'Earth' checkbox
  * is available in screens where it is relevant.
  *
  * @author Chris Malley (PixelZoom, Inc.)
@@ -18,7 +18,7 @@ import { combineOptions } from '../../../../phet-core/js/optionize.js';
 import { RichText, Text } from '../../../../scenery/js/imports.js';
 import FaradaysElectromagneticLabStrings from '../../FaradaysElectromagneticLabStrings.js';
 
-export default class EarthPreferencesControl extends PreferencesControl {
+export default class AddEarthCheckboxPreferencesControl extends PreferencesControl {
 
   private readonly disposeEarthPreferencesControl: () => void;
 
@@ -67,4 +67,4 @@ export default class EarthPreferencesControl extends PreferencesControl {
   }
 }
 
-faradaysElectromagneticLab.register( 'EarthPreferencesControl', EarthPreferencesControl );
+faradaysElectromagneticLab.register( 'AddEarthCheckboxPreferencesControl', AddEarthCheckboxPreferencesControl );
