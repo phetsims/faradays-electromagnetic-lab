@@ -16,6 +16,8 @@ import DerivedProperty from '../../../../axon/js/DerivedProperty.js';
 import NumberIO from '../../../../tandem/js/types/NumberIO.js';
 import TReadOnlyProperty from '../../../../axon/js/TReadOnlyProperty.js';
 import FELModel from './FELModel.js';
+import PhetioProperty from '../../../../axon/js/PhetioProperty.js';
+import MappedProperty from '../../../../axon/js/MappedProperty.js';
 
 // The minimum number of steps used to approximate one sine wave cycle.
 const MIN_STEPS_PER_CYCLE = 10;
@@ -24,9 +26,13 @@ export default class ACPowerSupply extends CurrentSource {
 
   // Determines how high the voltage can go.
   public readonly maxVoltageProperty: NumberProperty;
+  public readonly maxVoltagePercentProperty: PhetioProperty<number>;
+  public readonly maxVoltagePercentRange: Range;
 
   // Determines how fast the amplitude will vary.
   public readonly frequencyProperty: NumberProperty;
+  public readonly frequencyPercentProperty: PhetioProperty<number>;
+  public readonly frequencyPercentRange: Range;
 
   // The current angle of the sine wave that describes the AC (in radians)
   private readonly angleProperty: NumberProperty;
@@ -55,10 +61,38 @@ export default class ACPowerSupply extends CurrentSource {
       phetioFeatured: true
     } );
 
+    this.maxVoltagePercentRange = new Range( 100 * this.maxVoltageProperty.range.min / this.maxVoltageProperty.range.max, 100 );
+
+    this.maxVoltagePercentProperty = new MappedProperty<number, number>( this.maxVoltageProperty, {
+      bidirectional: true,
+      map: ( maxVoltage: number ) => 100 * maxVoltage / this.maxVoltageProperty.range.max,
+      inverseMap: ( percent: number ) => percent * this.maxVoltageProperty.range.max / 100,
+      isValidValue: percent => this.maxVoltagePercentRange.contains( percent ),
+      tandem: options.tandem.createTandem( 'maxVoltagePercentProperty' ),
+      phetioValueType: NumberIO,
+      phetioReadOnly: true, // use maxVoltageProperty
+      phetioDocumentation: 'Max voltage as a percentage, which is how the UI sets and views it. ' +
+                           'If you want to change this, use the sim or see maxVoltageProperty.'
+    } );
+
     this.frequencyProperty = new NumberProperty( 0.5, {
       range: new Range( 0.05, 1 ),
       tandem: tandem.createTandem( 'frequencyProperty' ),
       phetioFeatured: true
+    } );
+
+    this.frequencyPercentRange = new Range( 100 * this.frequencyProperty.range.min / this.frequencyProperty.range.max, 100 );
+
+    this.frequencyPercentProperty = new MappedProperty<number, number>( this.frequencyProperty, {
+      bidirectional: true,
+      map: ( frequency: number ) => 100 * frequency / this.frequencyProperty.range.max,
+      inverseMap: ( percent: number ) => percent * this.frequencyProperty.range.max / 100,
+      isValidValue: percent => this.frequencyPercentRange.contains( percent ),
+      tandem: options.tandem.createTandem( 'frequencyPercentProperty' ),
+      phetioValueType: NumberIO,
+      phetioReadOnly: true, // use loopAreaProperty
+      phetioDocumentation: 'Frequency as a percentage, which is how the UI sets and views it. ' +
+                           'If you want to change this, use the sim or see frequencyProperty.'
     } );
 
     this.angleProperty = new NumberProperty( 0, {

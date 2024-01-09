@@ -1,7 +1,5 @@
 // Copyright 2023-2024, University of Colorado Boulder
 
-//TODO Use MappedProperty here for converting maxVoltageProperty and frequencyProperty to percent, for slider alt input?
-
 /**
  * ACPowerSupplyNode is the view of the AC power supply. It provides sliders for changing the maximum voltage
  * and frequency, and depicts the current settings as a sine wave.
@@ -26,13 +24,14 @@ import HSlider from '../../../../sun/js/HSlider.js';
 import VSlider from '../../../../sun/js/VSlider.js';
 import PatternStringProperty from '../../../../axon/js/PatternStringProperty.js';
 import FaradaysElectromagneticLabStrings from '../../FaradaysElectromagneticLabStrings.js';
-import Utils from '../../../../dot/js/Utils.js';
 import StringDisplay from './StringDisplay.js';
 import Dimension2 from '../../../../dot/js/Dimension2.js';
 import PhetFont from '../../../../scenery-phet/js/PhetFont.js';
 import FELConstants from '../FELConstants.js';
 import VoltageChartNode from './VoltageChartNode.js';
+import Utils from '../../../../dot/js/Utils.js';
 
+const SLIDER_STEP = 1;
 const BODY_BOUNDS = new Bounds2( 0, 0, 230, 210 );
 const CORNER_RADIUS = 10;
 const BODY_OPTIONS: ShadedRectangleOptions = {
@@ -62,8 +61,8 @@ export default class ACPowerSupplyNode extends Node {
 
     // Display for max voltage value, in percent
     const maxVoltageStringProperty = new PatternStringProperty( FaradaysElectromagneticLabStrings.pattern.valuePercentStringProperty, {
-      value: new DerivedProperty( [ acPowerSupply.maxVoltageProperty, acPowerSupply.maxVoltageProperty.rangeProperty ],
-        ( maxVoltage, range ) => Utils.toFixed( 100 * maxVoltage / range.max, 0 ) )
+      value: new DerivedProperty( [ acPowerSupply.maxVoltagePercentProperty ],
+        maxVoltagePercent => Utils.toFixed( maxVoltagePercent, 0 ) )
     } );
     const maxVoltageDisplay = new StringDisplay( maxVoltageStringProperty, {
       size: STRING_DISPLAY_SIZE,
@@ -77,11 +76,11 @@ export default class ACPowerSupplyNode extends Node {
     } );
 
     // Slider for max voltage
-    const maxVoltageSlider = new VSlider( acPowerSupply.maxVoltageProperty, acPowerSupply.maxVoltageProperty.range, {
-      //TODO alt input options
-      // keyboardStep: ?,
-      // shiftKeyboardStep: ?,
-      // pageKeyboardStep: ?,
+    const maxVoltageSlider = new VSlider( acPowerSupply.maxVoltagePercentProperty, acPowerSupply.maxVoltagePercentRange, {
+      constrainValue: ( value: number ) => Utils.roundToInterval( value, SLIDER_STEP ),
+      keyboardStep: 5,
+      shiftKeyboardStep: 1,
+      pageKeyboardStep: 10,
       left: bodyNode.left + 10,
       centerY: bodyNode.centerY,
       tandem: tandem.createTandem( 'maxVoltageSlider' )
@@ -99,8 +98,8 @@ export default class ACPowerSupplyNode extends Node {
 
     // Display for frequency value, in percent
     const frequencyStringProperty = new PatternStringProperty( FaradaysElectromagneticLabStrings.pattern.valuePercentStringProperty, {
-      value: new DerivedProperty( [ acPowerSupply.frequencyProperty, acPowerSupply.frequencyProperty.rangeProperty ],
-        ( frequency, range ) => Utils.toFixed( 100 * frequency / range.max, 0 ) )
+      value: new DerivedProperty( [ acPowerSupply.frequencyPercentProperty ],
+        frequencyPercent => Utils.toFixed( frequencyPercent, 0 ) )
     } );
     const frequencyDisplay = new StringDisplay( frequencyStringProperty, {
       size: STRING_DISPLAY_SIZE,
@@ -114,11 +113,11 @@ export default class ACPowerSupplyNode extends Node {
     } );
 
     // Slider for frequency
-    const frequencySlider = new HSlider( acPowerSupply.frequencyProperty, acPowerSupply.frequencyProperty.range, {
-      //TODO alt input options
-      // keyboardStep: ?,
-      // shiftKeyboardStep: ?,
-      // pageKeyboardStep: ?,
+    const frequencySlider = new HSlider( acPowerSupply.frequencyPercentProperty, acPowerSupply.frequencyPercentRange, {
+      constrainValue: ( value: number ) => Utils.roundToInterval( value, SLIDER_STEP ),
+      keyboardStep: 5,
+      shiftKeyboardStep: 1,
+      pageKeyboardStep: 10,
       tandem: tandem.createTandem( 'frequencySlider' )
     } );
 
