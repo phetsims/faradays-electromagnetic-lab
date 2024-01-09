@@ -189,6 +189,7 @@ export default class VoltageChartNode extends Node {
     acPowerSupply.stepAngleProperty.link( () => this.updateCursor() );
   }
 
+  //TODO Start in middle and work out to do half as many computations.
   /**
    * Updates the wave shown on the chart.
    */
