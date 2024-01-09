@@ -40,7 +40,9 @@ simLauncher.launch( () => {
       },
       simulationOptions: {
         customPreferences: [ {
-          createContent: tandem => new FELPreferencesNode( tandem.createTandem( 'simPreferences' ) )
+          createContent: tandem => new FELPreferencesNode( {
+            tandem: tandem.createTandem( 'simPreferences' )
+          } )
         } ]
       }
     } )
