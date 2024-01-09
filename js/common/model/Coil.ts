@@ -21,8 +21,8 @@ type SelfOptions = {
   // range and initial value for numberOfLoopsProperty
   numberOfLoopsRange: RangeWithValue;
 
-  // range and initial value for loopRadiusProperty, unitless
-  loopRadiusRange: RangeWithValue;
+  // range and initial value of loopAreaProperty, unitless
+  loopAreaRange: RangeWithValue;
 
   // the width of the wire that makes up the coil
   wireWidth?: number;
@@ -47,8 +47,8 @@ export default class Coil extends FELMovable {
   // Number of loops in the coil
   public readonly numberOfLoopsProperty: NumberProperty;
 
-  // Radius of one loop
-  public readonly loopRadiusProperty: NumberProperty;
+  // Area of one loop
+  public readonly loopAreaProperty: NumberProperty;
 
   // This is a quantity that we made up. It is a percentage that describes the amount of current relative to some
   // maximum current in the model, and direction of that current. View components can use this value to determine
@@ -87,9 +87,9 @@ export default class Coil extends FELMovable {
       phetioFeatured: true
     } );
 
-    this.loopRadiusProperty = new NumberProperty( options.loopRadiusRange.defaultValue, {
-      range: options.loopRadiusRange,
-      tandem: options.tandem.createTandem( 'loopRadiusProperty' ),
+    this.loopAreaProperty = new NumberProperty( options.loopAreaRange.defaultValue, {
+      range: options.loopAreaRange,
+      tandem: options.tandem.createTandem( 'loopAreaProperty' ),
       phetioFeatured: true
     } );
 
@@ -109,8 +109,16 @@ export default class Coil extends FELMovable {
   public override reset(): void {
     super.reset();
     this.numberOfLoopsProperty.reset();
-    this.loopRadiusProperty.reset();
+    this.loopAreaProperty.reset();
     this.electronsVisibleProperty.reset();
+  }
+
+  public getLoopRadius(): number {
+    return Math.sqrt( this.loopAreaProperty.value / Math.PI );
+  }
+
+  public getMinLoopRadius(): number {
+    return Math.sqrt( this.loopAreaProperty.rangeProperty.value.min / Math.PI );
   }
 }
 

@@ -32,16 +32,14 @@ export default class CoilMagnet extends Magnet {
 
   protected constructor( coil: Coil, strengthProperty: TReadOnlyProperty<number>, strengthRange: Range, providedOptions: CoilMagnetOptions ) {
 
-    const options = providedOptions;
+    super( strengthProperty, strengthRange, providedOptions );
 
-    super( strengthProperty, strengthRange, options );
+    assert && assert( coil.loopAreaProperty.rangeProperty.value.getLength() === 0,
+      'This model does not support dynamic loop area for the coil magnet.' );
+    this.loopRadius = coil.getLoopRadius();
 
-    assert && assert( coil.loopRadiusProperty.rangeProperty.value.getLength() === 0,
-      'This model does not support dynamic radius for the coil.' );
-    this.loopRadius = coil.loopRadiusProperty.value;
-
-    const R = this.loopRadius;
-    this.localBounds = new Bounds2( -R, -R, R, R );
+    // Square, with origin at the center
+    this.localBounds = new Bounds2( -this.loopRadius, -this.loopRadius, this.loopRadius, this.loopRadius );
   }
 
   /**

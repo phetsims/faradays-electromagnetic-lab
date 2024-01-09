@@ -20,7 +20,7 @@ export default class SourceCoil extends Coil {
   public constructor( currentAmplitudeProperty: TReadOnlyProperty<number>, tandem: Tandem ) {
     super( currentAmplitudeProperty, {
       numberOfLoopsRange: new RangeWithValue( 1, 4, 4 ),
-      loopRadiusRange: new RangeWithValue( 50, 50, 50 ), // fixed radius
+      loopAreaRange: new RangeWithValue( 7854, 7854, 7854 ), // fixed area
       wireWidth: WIRE_WIDTH,
       loopSpacing: LOOP_SPACING,
       tandem: tandem

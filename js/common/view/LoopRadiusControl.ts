@@ -1,7 +1,6 @@
 // Copyright 2023-2024, University of Colorado Boulder
 
-//TODO Change to 'Loop Area'.
-//TODO Use MappedProperty here to convert from loopRadiusProperty to percent?
+//TODO Use MappedProperty here to convert from loopAreaProperty to percent?
 
 /**
  * LoopRadiusControl controls the radius of all loops in a pickup coil. The control shows values in %.
@@ -26,23 +25,23 @@ const SLIDER_STEP = 1;
 
 export default class LoopRadiusControl extends NumberControl {
 
-  public constructor( loopRadiusProperty: NumberProperty, tandem: Tandem ) {
+  public constructor( loopAreaProperty: NumberProperty, tandem: Tandem ) {
 
-    const loopRadiusRange = loopRadiusProperty.rangeProperty.value;
+    const loopAreaRange = loopAreaProperty.rangeProperty.value;
 
     const majorTicks = [
 
-      // 45%
+      // 20%
       {
-        value: loopRadiusRange.min,
+        value: loopAreaRange.min,
         label: new RichText( new PatternStringProperty( valuePercentStringProperty, {
-          value: Utils.roundToInterval( 100 * loopRadiusRange.min / loopRadiusRange.max, 1 )
+          value: Utils.roundToInterval( 100 * loopAreaRange.min / loopAreaRange.max, 1 )
         } ), FELConstants.TICK_LABEL_OPTIONS )
       },
 
       // 100%
       {
-        value: loopRadiusRange.max,
+        value: loopAreaRange.max,
         label: new RichText( new PatternStringProperty( valuePercentStringProperty, {
           value: 100
         } ), FELConstants.TICK_LABEL_OPTIONS )
@@ -54,11 +53,10 @@ export default class LoopRadiusControl extends NumberControl {
       delta: SLIDER_STEP,
       numberDisplayOptions: {
         decimalPlaces: 0,
-
-        //TODO This will not immediately update when valuePercentStringProperty changes.
-        numberFormatter: loopRadius => StringUtils.fillIn( valuePercentStringProperty, {
-          value: Utils.roundToInterval( 100 * loopRadius / loopRadiusRange.max, 1 )
-        } )
+        numberFormatter: loopArea => StringUtils.fillIn( valuePercentStringProperty, {
+          value: Utils.roundToInterval( 100 * loopArea / loopAreaRange.max, 1 )
+        } ),
+        numberFormatterDependencies: [ valuePercentStringProperty ]
       },
       sliderOptions: {
         constrainValue: ( value: number ) => Utils.roundToInterval( value, SLIDER_STEP ),
@@ -70,7 +68,7 @@ export default class LoopRadiusControl extends NumberControl {
       tandem: tandem
     } );
 
-    super( FaradaysElectromagneticLabStrings.loopRadiusStringProperty, loopRadiusProperty, loopRadiusRange, options );
+    super( FaradaysElectromagneticLabStrings.loopAreaStringProperty, loopAreaProperty, loopAreaRange, options );
   }
 }
 

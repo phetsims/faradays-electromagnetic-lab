@@ -109,7 +109,7 @@ export default class CoilNode extends Node {
     this.electronNodes = [];
     this.endsConnected = options.endsConnected;
 
-    Multilink.multilink( [ coil.numberOfLoopsProperty, coil.loopRadiusProperty ], () => this.updateCoil() );
+    Multilink.multilink( [ coil.numberOfLoopsProperty, coil.loopAreaProperty ], () => this.updateCoil() );
 
     this.coil.currentAmplitudeProperty.link( () => this.updateElectronsSpeedAndDirection() );
 
@@ -136,7 +136,7 @@ export default class CoilNode extends Node {
     this.electronNodes.length = 0;
 
     // Get some coil model values, to improve code readability.
-    const radius = this.coil.loopRadiusProperty.value;
+    const radius = this.coil.getLoopRadius();
     const numberOfLoops = this.coil.numberOfLoopsProperty.value;
     const loopSpacing = this.coil.loopSpacing;
 

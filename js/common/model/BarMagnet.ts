@@ -48,6 +48,8 @@ export default class BarMagnet extends Magnet {
 
     this.barMagnetStrengthProperty = strengthProperty;
     this.size = new Dimension2( 250, 50 );
+
+    // Rectangular, with origin at the center
     this.localBounds = new Bounds2( -this.size.width / 2, -this.size.height / 2, this.size.width / 2, this.size.height / 2 );
   }
 

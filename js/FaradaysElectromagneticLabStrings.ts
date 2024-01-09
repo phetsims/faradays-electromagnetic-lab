@@ -33,7 +33,7 @@ type StringsType = {
   'indicatorStringProperty': LocalizedStringProperty;
   'voltageStringProperty': LocalizedStringProperty;
   'loopsStringProperty': LocalizedStringProperty;
-  'loopRadiusStringProperty': LocalizedStringProperty;
+  'loopAreaStringProperty': LocalizedStringProperty;
   'electromagnetStringProperty': LocalizedStringProperty;
   'currentSourceStringProperty': LocalizedStringProperty;
   'acPowerSupplyStringProperty': LocalizedStringProperty;

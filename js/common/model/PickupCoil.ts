@@ -34,7 +34,7 @@ type SelfOptions = {
 };
 
 export type PickupCoilOptions = SelfOptions &
-  StrictOmit<CoilOptions, 'numberOfLoopsRange' | 'loopRadiusRange' | 'wireWidth' | 'loopSpacing'>;
+  StrictOmit<CoilOptions, 'numberOfLoopsRange' | 'loopAreaRange' | 'wireWidth' | 'loopSpacing'>;
 
 export default class PickupCoil extends Coil {
 
@@ -121,7 +121,7 @@ export default class PickupCoil extends Coil {
 
       // CoilOptions
       numberOfLoopsRange: new RangeWithValue( 1, 4, 2 ),
-      loopRadiusRange: new RangeWithValue( 68, 150, 109 ),
+      loopAreaRange: new RangeWithValue( 14120, 70600, 35300 ),
       wireWidth: WIRE_WIDTH,
       loopSpacing: LOOP_SPACING
     }, providedOptions );
@@ -221,7 +221,7 @@ export default class PickupCoil extends Coil {
     this.reusableSamplePoint = new Vector2( 0, 0 );
     this.reusableFieldVector = new Vector2( 0, 0 );
 
-    this.loopRadiusProperty.link( () => this.updateSamplePoints() );
+    this.loopAreaProperty.link( () => this.updateSamplePoints() );
   }
 
   public override reset(): void {
@@ -374,8 +374,8 @@ export default class PickupCoil extends Coil {
    * NOTE: This fix required recalibration of all the scaling factors accessible via developer controls.
    */
   private getEffectiveLoopArea(): number {
-    const width = this.loopRadiusProperty.rangeProperty.value.min;
-    const height = 2 * this.loopRadiusProperty.value;
+    const width = this.getMinLoopRadius();
+    const height = 2 * this.getLoopRadius();
     return width * height;
   }
 }
@@ -408,7 +408,7 @@ class FixedNumberOfSamplePointsStrategy extends SamplePointsStrategy {
 
     const samplePoints: Vector2[] = [];
     const numberOfSamplePointsOnRadius = ( this.numberOfSamplePoints - 1 ) / 2;
-    const ySpacing = pickupCoil.loopRadiusProperty.value / numberOfSamplePointsOnRadius;
+    const ySpacing = pickupCoil.getLoopRadius() / numberOfSamplePointsOnRadius;
 
     // All sample points share the same x offset.
     const xOffset = 0;
@@ -449,7 +449,7 @@ export class FixedSpacingSamplePointsStrategy extends SamplePointsStrategy {
   //TODO Lots of duplication with FixedNumberOfSamplePointsStrategy here.
   public override createSamplePoints( pickupCoil: PickupCoil ): Vector2[] {
 
-    const numberOfSamplePointsOnRadius = Math.trunc( pickupCoil.loopRadiusProperty.value / this.ySpacing );
+    const numberOfSamplePointsOnRadius = Math.trunc( pickupCoil.getLoopRadius() / this.ySpacing );
 
     const samplePoints: Vector2[] = [];
 
