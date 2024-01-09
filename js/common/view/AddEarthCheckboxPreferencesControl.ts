@@ -20,8 +20,6 @@ import FaradaysElectromagneticLabStrings from '../../FaradaysElectromagneticLabS
 
 export default class AddEarthCheckboxPreferencesControl extends PreferencesControl {
 
-  private readonly disposeEarthPreferencesControl: () => void;
-
   public constructor( earthCheckboxVisibleProperty: Property<boolean>, tandem: Tandem ) {
 
     const labelText = new Text( FaradaysElectromagneticLabStrings.earthPreferencesLabelStringProperty, {
@@ -44,6 +42,7 @@ export default class AddEarthCheckboxPreferencesControl extends PreferencesContr
     } );
 
     super( {
+      isDisposable: false,
       labelNode: labelText,
       controlNode: toggleSwitch,
       descriptionNode: descriptionText,
@@ -53,17 +52,6 @@ export default class AddEarthCheckboxPreferencesControl extends PreferencesContr
         phetioFeatured: true
       }
     } );
-
-    this.disposeEarthPreferencesControl = () => {
-      labelText.dispose();
-      toggleSwitch.dispose();
-      descriptionText.dispose();
-    };
-  }
-
-  public override dispose(): void {
-    this.disposeEarthPreferencesControl();
-    super.dispose();
   }
 }
 
