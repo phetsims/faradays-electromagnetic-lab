@@ -27,7 +27,7 @@ export default class CoilMagnet extends Magnet {
   // Loop radius, unitless
   private readonly loopRadius: number;
 
-  // Shape of the coil in the magnet's local coordinate frame
+  // Shape of the magnet in its local coordinate frame
   public readonly shape: Shape;
 
   protected constructor( coil: Coil, strengthProperty: TReadOnlyProperty<number>, strengthRange: Range, providedOptions: CoilMagnetOptions ) {
@@ -42,6 +42,13 @@ export default class CoilMagnet extends Magnet {
 
     const R = this.loopRadius;
     this.shape = new Shape().rect( -R, -R, 2 * R, 2 * R );
+  }
+
+  /**
+   * Is the specific point, in global coordinates, inside the magnet?
+   */
+  public override isInside( position: Vector2 ): boolean {
+    return this.shape.containsPoint( position.minus( this.positionProperty.value ) );
   }
 
   /**

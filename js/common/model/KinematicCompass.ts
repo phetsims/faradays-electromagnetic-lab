@@ -79,10 +79,10 @@ export default class KinematicCompass extends Compass {
     // Difference between the field angle and the compass angle.
     const phi = ( magnitude === 0 ) ? 0 : ( angle - this._angleProperty.value );
 
-    if ( Math.abs( phi ) < THRESHOLD ) {
+    if ( Math.abs( phi ) < THRESHOLD || this.magnet.isInside( this.positionProperty.value ) ) {
 
-      // When the difference between the field angle and the compass angle is insignificant,
-      // simply set the angle and consider the compass to be at rest.
+      // When the difference between the field angle and the compass angle is insignificant, or the compass is inside
+      // the magnet, then simply set the angle and consider the compass to be at rest.
       this._angleProperty.value = angle;
       this.omegaProperty.value = 0;
       this.alphaProperty.value = 0;

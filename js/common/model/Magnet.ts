@@ -89,6 +89,11 @@ export default abstract class Magnet extends FELMovable {
   }
 
   /**
+   * Is the specific point, in global coordinates, inside the magnet?
+   */
+  public abstract isInside( position: Vector2 ): boolean;
+
+  /**
    * Gets the B-field vector at the specified point in the global coordinate frame.
    *
    * @param position - in the global coordinate frame

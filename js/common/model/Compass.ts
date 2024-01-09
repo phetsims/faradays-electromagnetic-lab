@@ -31,7 +31,7 @@ export default abstract class Compass extends FELMovable {
 
   public readonly visibleProperty: Property<boolean>;
 
-  private readonly magnet: Magnet;
+  protected readonly magnet: Magnet;
 
   // A reusable vector instance, for getting the field vector value at the compass' position
   private readonly reusableFieldVector: Vector2;
