@@ -31,7 +31,7 @@ export default class PickupCoilPanel extends Panel {
     const numberOfLoopsControl = new NumberOfLoopsControl( pickupCoil.numberOfLoopsProperty,
       tandem.createTandem( 'numberOfLoopsControl' ) );
 
-    const loopAreaControl = new LoopAreaControl( pickupCoil.loopAreaProperty,
+    const loopAreaControl = new LoopAreaControl( pickupCoil.loopAreaPercentProperty, pickupCoil.loopAreaPercentRange,
       tandem.createTandem( 'loopAreaControl' ) );
 
     // 'Electrons' checkbox

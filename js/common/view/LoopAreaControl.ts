@@ -8,7 +8,6 @@
 
 import faradaysElectromagneticLab from '../../faradaysElectromagneticLab.js';
 import NumberControl, { NumberControlOptions } from '../../../../scenery-phet/js/NumberControl.js';
-import NumberProperty from '../../../../axon/js/NumberProperty.js';
 import Tandem from '../../../../tandem/js/Tandem.js';
 import FaradaysElectromagneticLabStrings from '../../FaradaysElectromagneticLabStrings.js';
 import { combineOptions } from '../../../../phet-core/js/optionize.js';
@@ -18,46 +17,27 @@ import Range from '../../../../dot/js/Range.js';
 import Utils from '../../../../dot/js/Utils.js';
 import { RichText } from '../../../../scenery/js/imports.js';
 import StringUtils from '../../../../phetcommon/js/util/StringUtils.js';
-import MappedProperty from '../../../../axon/js/MappedProperty.js';
-import NumberIO from '../../../../tandem/js/types/NumberIO.js';
+import PhetioProperty from '../../../../axon/js/PhetioProperty.js';
 
 const valuePercentStringProperty = FaradaysElectromagneticLabStrings.pattern.valuePercentStringProperty;
 const SLIDER_STEP = 1; // %
 
 export default class LoopAreaControl extends NumberControl {
 
-  public constructor( loopAreaProperty: NumberProperty, tandem: Tandem ) {
+  public constructor( loopAreaPercentProperty: PhetioProperty<number>, loopAreaPercentRange: Range, tandem: Tandem ) {
 
-    const loopAreaRange = loopAreaProperty.rangeProperty.value;
-
-    const minPercent = Utils.roundToInterval( 100 * loopAreaRange.min / loopAreaRange.max, 1 );
-    const maxPercent = 100;
-    const percentRange = new Range( minPercent, maxPercent );
-
-    const loopAreaPercentProperty = new MappedProperty<number, number>( loopAreaProperty, {
-      bidirectional: true,
-      map: ( loopArea: number ) => 100 * loopArea / loopAreaRange.max,
-      inverseMap: ( percent: number ) => percent * loopAreaRange.max / 100,
-      tandem: tandem.createTandem( 'loopAreaPercentProperty' ),
-      phetioValueType: NumberIO,
-      phetioReadOnly: true // use loopAreaProperty
-    } );
-
+    // Tick marks at min and max.
     const majorTicks = [
-
-      // 20%
       {
-        value: minPercent,
+        value: loopAreaPercentRange.min,
         label: new RichText( new PatternStringProperty( valuePercentStringProperty, {
-          value: minPercent
+          value: loopAreaPercentRange.min
         } ), FELConstants.TICK_LABEL_OPTIONS )
       },
-
-      // 100%
       {
-        value: maxPercent,
+        value: loopAreaPercentRange.max,
         label: new RichText( new PatternStringProperty( valuePercentStringProperty, {
-          value: maxPercent
+          value: loopAreaPercentRange.max
         } ), FELConstants.TICK_LABEL_OPTIONS )
       }
     ];
@@ -82,9 +62,9 @@ export default class LoopAreaControl extends NumberControl {
       tandem: tandem
     } );
 
-    super( FaradaysElectromagneticLabStrings.loopAreaStringProperty, loopAreaPercentProperty, percentRange, options );
+    super( FaradaysElectromagneticLabStrings.loopAreaStringProperty, loopAreaPercentProperty, loopAreaPercentRange, options );
 
-    this.addLinkedElement( loopAreaProperty );
+    this.addLinkedElement( loopAreaPercentProperty );
   }
 }
 

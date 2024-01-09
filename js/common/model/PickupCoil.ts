@@ -24,6 +24,9 @@ import LightBulb from './LightBulb.js';
 import Voltmeter from './Voltmeter.js';
 import CurrentIndicator from './CurrentIndicator.js';
 import FELModel from './FELModel.js';
+import MappedProperty from '../../../../axon/js/MappedProperty.js';
+import NumberIO from '../../../../tandem/js/types/NumberIO.js';
+import PhetioProperty from '../../../../axon/js/PhetioProperty.js';
 
 const WIRE_WIDTH = 16;
 const LOOP_SPACING = 1.5 * WIRE_WIDTH; // loosely-packed loops
@@ -48,6 +51,10 @@ export default class PickupCoil extends Coil {
 
   // Writeable version of this.currentAmplitudeProperty: TReadOnlyProperty<number>
   private readonly _currentAmplitudeProperty: NumberProperty;
+
+  // Loop area as a percentage, which is how the UI sets and views it.
+  public readonly loopAreaPercentProperty: PhetioProperty<number>;
+  public readonly loopAreaPercentRange: Range;
 
   //TODO document
   private readonly _fluxProperty: Property<number>;
@@ -155,6 +162,21 @@ export default class PickupCoil extends Coil {
     this.voltmeter = new Voltmeter( this, options.tandem.createTandem( 'voltmeter' ) );
 
     this._currentAmplitudeProperty = currentAmplitudeProperty;
+
+    this.loopAreaPercentProperty = new MappedProperty<number, number>( this.loopAreaProperty, {
+      bidirectional: true,
+      map: ( loopArea: number ) => 100 * loopArea / this.loopAreaProperty.range.max,
+      inverseMap: ( percent: number ) => percent * this.loopAreaProperty.range.max / 100,
+      tandem: options.tandem.createTandem( 'loopAreaPercentProperty' ),
+      phetioValueType: NumberIO,
+      phetioReadOnly: true, // use loopAreaProperty
+      phetioDocumentation: 'Loop area as a percentage, which is how the UI sets and views it. ' +
+                           'If you want to change this, use the sim or see loopAreaProperty.'
+    } );
+
+    const minPercent = 100 * this.loopAreaProperty.range.min / this.loopAreaProperty.range.max;
+    const maxPercent = 100;
+    this.loopAreaPercentRange = new Range( minPercent, maxPercent );
 
     this._fluxProperty = new NumberProperty( 0, {
       units: 'Wb',
