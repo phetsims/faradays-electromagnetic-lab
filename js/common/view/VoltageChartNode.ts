@@ -88,6 +88,7 @@ export default class VoltageChartNode extends Node {
     // Create a dataSet with a fixed number of points and fixed x values, with x=0 at the center point.
     // We'll recompute the y values and call wavePlot.update.
     const waveDataSet: Vector2[] = [];
+    //TODO dx was 1 in the Java version, and in view coordinates, so might be the problem with updateCursor.
     const dx = chartTransform.modelXRange.getLength() / NUMBER_OF_POINTS;
     const maxX = chartTransform.modelXRange.max + dx; // Go one point beyond modelXRange. Plot will be clipped to the chart.
     for ( let x = 0; x <= maxX; x += dx ) {
