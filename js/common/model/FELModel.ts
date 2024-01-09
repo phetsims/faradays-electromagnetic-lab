@@ -28,10 +28,10 @@ export type FELModelOptions = SelfOptions & PickRequired<PhetioObjectOptions, 't
 
 export default class FELModel implements TModel {
 
-  // Constant dt (per frame) that step method was designed to support in the Java version.
+  // Constant dt (per frame) that the step method was designed to support in the Java version.
   public static readonly CONSTANT_DT = 1;
 
-  // Frame rate that step method was designed to support in the Java version.
+  // Frame rate that the step method was designed to support in the Java version.
   public static readonly FRAMES_PER_SECOND = 25;
   private static readonly SECONDS_PER_FRAME = 1 / FELModel.FRAMES_PER_SECOND;
 
