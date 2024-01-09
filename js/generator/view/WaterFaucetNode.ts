@@ -1,7 +1,7 @@
 // Copyright 2024, University of Colorado Boulder
 
 /**
- * TODO
+ * WaterFaucetNode is the water faucet used to power the generator.
  *
  * @author Chris Malley (PixelZoom, Inc.)
  */
