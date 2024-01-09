@@ -15,6 +15,7 @@ import FELConstants from '../FELConstants.js';
 import TReadOnlyProperty from '../../../../axon/js/TReadOnlyProperty.js';
 import NumberProperty from '../../../../axon/js/NumberProperty.js';
 import CurrentIndicator from './CurrentIndicator.js';
+import FELModel from './FELModel.js';
 
 // Define the zero point of the needle.
 const ZERO_NEEDLE_ANGLE = Utils.toRadians( 0.0 );
@@ -65,7 +66,7 @@ export default class Voltmeter extends CurrentIndicator {
   }
 
   public step( dt: number ): void {
-    assert && assert( dt === 1, `invalid dt=${dt}, see FELModel step` );
+    assert && assert( dt === FELModel.CONSTANT_DT, `invalid dt=${dt}, see FELModel step` );
 
     // Determine the desired needle deflection angle.
     const needleAngle = this.getDesiredNeedleAngle();

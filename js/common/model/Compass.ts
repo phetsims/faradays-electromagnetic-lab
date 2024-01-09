@@ -16,6 +16,7 @@ import FELMovable, { FELMovableOptions } from './FELMovable.js';
 import BooleanProperty from '../../../../axon/js/BooleanProperty.js';
 import optionize from '../../../../phet-core/js/optionize.js';
 import Multilink from '../../../../axon/js/Multilink.js';
+import FELModel from './FELModel.js';
 
 type SelfOptions = {
   visible?: boolean;
@@ -81,7 +82,7 @@ export default abstract class Compass extends FELMovable {
   }
 
   public step( dt: number ): void {
-    assert && assert( dt === 1, `invalid dt=${dt}, see FELModel step` );
+    assert && assert( dt === FELModel.CONSTANT_DT, `invalid dt=${dt}, see FELModel step` );
 
     const fieldVector = this.magnet.getFieldVector( this.positionProperty.value, this.reusableFieldVector );
     if ( fieldVector.magnitude !== 0 ) {

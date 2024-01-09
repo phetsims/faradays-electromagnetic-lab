@@ -15,6 +15,7 @@ import Range from '../../../../dot/js/Range.js';
 import DerivedProperty from '../../../../axon/js/DerivedProperty.js';
 import NumberIO from '../../../../tandem/js/types/NumberIO.js';
 import TReadOnlyProperty from '../../../../axon/js/TReadOnlyProperty.js';
+import FELModel from './FELModel.js';
 
 // The minimum number of steps used to approximate one sine wave cycle.
 const MIN_STEPS_PER_CYCLE = 10;
@@ -99,7 +100,7 @@ export default class ACPowerSupply extends CurrentSource {
    * Varies the amplitude over time. Guaranteed to hit all peaks and zero crossings.
    */
   public step( dt: number ): void {
-    assert && assert( dt === 1, `invalid dt=${dt}, see FELModel step` );
+    assert && assert( dt === FELModel.CONSTANT_DT, `invalid dt=${dt}, see FELModel step` );
 
     if ( this.maxVoltageProperty.value === 0 ) {
       this.voltageProperty.value = 0;

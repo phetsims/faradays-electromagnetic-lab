@@ -23,6 +23,7 @@ import TReadOnlyProperty from '../../../../axon/js/TReadOnlyProperty.js';
 import LightBulb from './LightBulb.js';
 import Voltmeter from './Voltmeter.js';
 import CurrentIndicator from './CurrentIndicator.js';
+import FELModel from './FELModel.js';
 
 const WIRE_WIDTH = 16;
 const LOOP_SPACING = 1.5 * WIRE_WIDTH; // loosely-packed loops
@@ -246,7 +247,7 @@ export default class PickupCoil extends Coil {
   }
 
   public step( dt: number ): void {
-    assert && assert( dt === 1, `invalid dt=${dt}, see FELModel step` );
+    assert && assert( dt === FELModel.CONSTANT_DT, `invalid dt=${dt}, see FELModel step` );
     this.updateEMF( dt );
     if ( this.currentIndicatorProperty.value === this.voltmeter ) {
       this.voltmeter.step( dt );

@@ -18,10 +18,6 @@ import { PhetioObjectOptions } from '../../../../tandem/js/PhetioObject.js';
 import Tandem from '../../../../tandem/js/Tandem.js';
 import optionize from '../../../../phet-core/js/optionize.js';
 
-const DT_PER_FRAME = 1; // dt that step was designed to support
-const FRAMES_PER_SECOND = 25;
-const SECONDS_PER_FRAME = 1 / FRAMES_PER_SECOND;
-
 type SelfOptions = {
 
   // Screens that do not have a time control should set this to false.
@@ -32,8 +28,12 @@ export type FELModelOptions = SelfOptions & PickRequired<PhetioObjectOptions, 't
 
 export default class FELModel implements TModel {
 
+  // Constant dt (per frame) that step method was designed to support in the Java version.
+  public static readonly CONSTANT_DT = 1;
+
   // Frame rate that step method was designed to support in the Java version.
-  public static readonly FRAMES_PER_SECOND = FRAMES_PER_SECOND;
+  public static readonly FRAMES_PER_SECOND = 25;
+  private static readonly SECONDS_PER_FRAME = 1 / FELModel.FRAMES_PER_SECOND;
 
   // Whether time is progressing in the sim
   public readonly isPlayingProperty: Property<boolean>;
@@ -90,15 +90,15 @@ export default class FELModel implements TModel {
   public step( dt: number ): void {
     if ( this.isPlayingProperty.value ) {
       this.accumulatedTimeProperty.value += dt;
-      if ( this.accumulatedTimeProperty.value > SECONDS_PER_FRAME ) {
-        this.accumulatedTimeProperty.value -= SECONDS_PER_FRAME;
+      if ( this.accumulatedTimeProperty.value > FELModel.SECONDS_PER_FRAME ) {
+        this.accumulatedTimeProperty.value -= FELModel.SECONDS_PER_FRAME;
         this.stepOnce();
       }
     }
   }
 
   public stepOnce(): void {
-    this.stepEmitter.emit( DT_PER_FRAME );
+    this.stepEmitter.emit( FELModel.CONSTANT_DT );
   }
 }
 

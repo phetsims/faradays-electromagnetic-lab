@@ -19,6 +19,7 @@ import NumberIO from '../../../../tandem/js/types/NumberIO.js';
 import Range from '../../../../dot/js/Range.js';
 import CoilMagnet, { CoilMagnetOptions } from './CoilMagnet.js';
 import { EmptySelfOptions } from '../../../../phet-core/js/optionize.js';
+import FELModel from './FELModel.js';
 
 type SelfOptions = EmptySelfOptions;
 
@@ -107,7 +108,7 @@ export default class Electromagnet extends CoilMagnet {
   }
 
   public step( dt: number ): void {
-    assert && assert( dt === 1, `invalid dt=${dt}, see FELModel step` );
+    assert && assert( dt === FELModel.CONSTANT_DT, `invalid dt=${dt}, see FELModel step` );
     if ( this.currentSourceProperty.value === this.acPowerSupply ) {
       this.acPowerSupply.step( dt );
     }
