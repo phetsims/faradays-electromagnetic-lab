@@ -13,7 +13,6 @@ import ChartRectangle from '../../../../bamboo/js/ChartRectangle.js';
 import ChartTransform from '../../../../bamboo/js/ChartTransform.js';
 import faradaysElectromagneticLab from '../../faradaysElectromagneticLab.js';
 import NumberProperty from '../../../../axon/js/NumberProperty.js';
-import TReadOnlyProperty from '../../../../axon/js/TReadOnlyProperty.js';
 import Orientation from '../../../../phet-core/js/Orientation.js';
 import AxisLine, { AxisLineOptions } from '../../../../bamboo/js/AxisLine.js';
 import TickMarkSet, { TickMarkSetOptions } from '../../../../bamboo/js/TickMarkSet.js';
@@ -64,14 +63,8 @@ export default class VoltageChartNode extends Node {
 
   //TODO document
   private readonly cursorAngleProperty: NumberProperty;
-
-  //TODO document
-  public readonly startAngleProperty: TReadOnlyProperty<number>;
-  private readonly _startAngleProperty: NumberProperty;
-
-  //TODO document
-  public readonly endAngleProperty: TReadOnlyProperty<number>;
-  private readonly _endAngleProperty: NumberProperty;
+  private readonly startAngleProperty: NumberProperty;
+  private readonly endAngleProperty: NumberProperty;
 
   public constructor( acPowerSupply: ACPowerSupply, providedOptions?: VoltageChartNodeOptions ) {
 
@@ -158,19 +151,17 @@ export default class VoltageChartNode extends Node {
     this.cursorPlot = cursorPlot;
     this.cursorDataSet = cursorDataSet;
 
-    this._startAngleProperty = new NumberProperty( 0, {
+    this.startAngleProperty = new NumberProperty( 0, {
       tandem: options.tandem.createTandem( 'startAngleProperty' ),
       phetioReadOnly: true,
       phetioDocumentation: 'For internal use only'
     } );
-    this.startAngleProperty = this._startAngleProperty;
 
-    this._endAngleProperty = new NumberProperty( 0, {
+    this.endAngleProperty = new NumberProperty( 0, {
       tandem: options.tandem.createTandem( 'endAngleProperty' ),
       phetioReadOnly: true,
       phetioDocumentation: 'For internal use only'
     } );
-    this.endAngleProperty = this._endAngleProperty;
 
     this.cursorAngleProperty = new NumberProperty( 0, {
       tandem: options.tandem.createTandem( 'cursorAngleProperty' ),
@@ -213,8 +204,8 @@ export default class VoltageChartNode extends Node {
     this.wavePlot.update();
 
     // Make the start & end angles positive values, maintaining phase.
-    this._startAngleProperty.value = ( ( 2 * Math.PI ) - ( angle % ( 2 * Math.PI ) ) ) % ( 2 * Math.PI );
-    this._endAngleProperty.value = this._startAngleProperty.value + ( 2 * ( angle - PHASE_ANGLE ) );
+    this.startAngleProperty.value = ( ( 2 * Math.PI ) - ( angle % ( 2 * Math.PI ) ) ) % ( 2 * Math.PI );
+    this.endAngleProperty.value = this.startAngleProperty.value + ( 2 * ( angle - PHASE_ANGLE ) );
   }
 
   //TODO This is not behaving as expected.
