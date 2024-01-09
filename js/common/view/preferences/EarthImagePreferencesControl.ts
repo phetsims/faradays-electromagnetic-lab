@@ -85,7 +85,7 @@ class EarthImageRadioButtonGroup extends RectangularRadioButtonGroup<EarthImage>
 class EarthImageRadioButtonLabel extends Image {
 
   public constructor( value: EarthImage ) {
-    super( ( value === 'africa' ) ? earthAfrica_png : earthAmericas_png, {
+    super( ( value === 'Africa' ) ? earthAfrica_png : earthAmericas_png, {
       scale: 0.1
     } );
   }

@@ -13,7 +13,7 @@ import faradaysElectromagneticLab from '../faradaysElectromagneticLab.js';
 export const MagneticUnitsValues = [ 'G', 'T' ] as const;
 export type MagneticUnits = ( typeof MagneticUnitsValues )[number];
 
-export const EarthImageValues = [ 'americas', 'africa' ] as const;
+export const EarthImageValues = [ 'Americas', 'Africa' ] as const;
 export type EarthImage = ( typeof EarthImageValues )[number];
 
 const SCHEMA_MAP = {
@@ -39,7 +39,7 @@ const SCHEMA_MAP = {
 
   earthImage: {
     type: 'string',
-    defaultValue: 'americas',
+    defaultValue: 'Americas',
     validValues: EarthImageValues,
     public: true
   },

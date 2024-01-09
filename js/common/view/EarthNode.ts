@@ -38,7 +38,7 @@ export default class EarthNode extends FELMovableNode {
     } );
 
     FELPreferences.earthImageProperty.link( earthView => {
-      if ( earthView === 'africa' ) {
+      if ( earthView === 'Africa' ) {
         earthImage.image = earthAfrica_png;
       }
       else {
