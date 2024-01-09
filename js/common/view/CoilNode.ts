@@ -180,10 +180,7 @@ export default class CoilNode extends Node {
             .addColorStop( 0, FELColors.coilMiddleColorProperty )
             .addColorStop( 1, FELColors.coilBackColorProperty );
 
-          const shape = new Shape()
-            .moveToPoint( curve.startPoint )
-            .quadraticCurveToPoint( curve.controlPoint, curve.endPoint );
-          const path = new Path( shape, combineOptions<PathOptions>( {
+          const path = new Path( curve.toShape(), combineOptions<PathOptions>( {
             stroke: gradient
           }, pathOptions ) );
           coilSegment.parentNode.addChild( path );
@@ -201,10 +198,7 @@ export default class CoilNode extends Node {
           const coilSegment = new CoilSegment( curve, this.backgroundNode );
           this.coilSegments.push( coilSegment );
 
-          const shape = new Shape()
-            .moveToPoint( curve.startPoint )
-            .quadraticCurveToPoint( curve.controlPoint, curve.endPoint );
-          const path = new Path( shape, combineOptions<PathOptions>( {
+          const path = new Path( curve.toShape(), combineOptions<PathOptions>( {
             stroke: FELColors.coilBackColorProperty
           }, pathOptions ) );
           coilSegment.parentNode.addChild( path );
@@ -226,10 +220,7 @@ export default class CoilNode extends Node {
           .addColorStop( 0, FELColors.coilMiddleColorProperty )
           .addColorStop( 1, FELColors.coilBackColorProperty );
 
-        const shape = new Shape()
-          .moveToPoint( curve.startPoint )
-          .quadraticCurveToPoint( curve.controlPoint, curve.endPoint );
-        const path = new Path( shape, combineOptions<PathOptions>( {
+        const path = new Path( curve.toShape(), combineOptions<PathOptions>( {
           stroke: gradient
         }, pathOptions ) );
         coilSegment.parentNode.addChild( path );
@@ -250,10 +241,7 @@ export default class CoilNode extends Node {
           .addColorStop( 0, FELColors.coilBackColorProperty )
           .addColorStop( 1, FELColors.coilMiddleColorProperty );
 
-        const shape = new Shape()
-          .moveToPoint( curve.startPoint )
-          .quadraticCurveToPoint( curve.controlPoint, curve.endPoint );
-        const path = new Path( shape, combineOptions<PathOptions>( {
+        const path = new Path( curve.toShape(), combineOptions<PathOptions>( {
           stroke: gradient
         }, pathOptions ) );
         coilSegment.parentNode.addChild( path );
@@ -274,10 +262,7 @@ export default class CoilNode extends Node {
         const coilSegment = new CoilSegment( curve, this );
         this.coilSegments.push( coilSegment );
 
-        const shape = new Shape()
-          .moveToPoint( curve.startPoint )
-          .quadraticCurveToPoint( curve.controlPoint, curve.endPoint );
-        const path = new Path( shape, combineOptions<PathOptions>( {
+        const path = new Path( curve.toShape(), combineOptions<PathOptions>( {
           stroke: frontGradient
         }, pathOptions ) );
         coilSegment.parentNode.addChild( path );
@@ -293,10 +278,7 @@ export default class CoilNode extends Node {
         const coilSegment = new CoilSegment( curve, this );
         this.coilSegments.push( coilSegment );
 
-        const shape = new Shape()
-          .moveToPoint( curve.startPoint )
-          .quadraticCurveToPoint( curve.controlPoint, curve.endPoint );
-        const path = new Path( shape, combineOptions<PathOptions>( {
+        const path = new Path( curve.toShape(), combineOptions<PathOptions>( {
           stroke: frontGradient
         }, pathOptions ) );
         coilSegment.parentNode.addChild( path );
@@ -314,10 +296,7 @@ export default class CoilNode extends Node {
         const coilSegment = new CoilSegment( curve, this, speedScale );
         this.coilSegments.push( coilSegment );
 
-        const shape = new Shape()
-          .moveToPoint( curve.startPoint )
-          .quadraticCurveToPoint( curve.controlPoint, curve.endPoint );
-        const path = new Path( shape, combineOptions<PathOptions>( {
+        const path = new Path( curve.toShape(), combineOptions<PathOptions>( {
           stroke: FELColors.coilMiddleColorProperty
         }, pathOptions ) );
         coilSegment.parentNode.addChild( path );

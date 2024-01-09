@@ -9,6 +9,7 @@
 
 import faradaysElectromagneticLab from '../../faradaysElectromagneticLab.js';
 import Vector2 from '../../../../dot/js/Vector2.js';
+import { Shape } from '../../../../kite/js/imports.js';
 
 
 export default class QuadraticBezierSpline {
@@ -44,6 +45,15 @@ export default class QuadraticBezierSpline {
     const y = ( y1 * t * t ) + ( cy * 2 * t * ( 1 - t ) ) + ( y2 * ( 1 - t ) * ( 1 - t ) );
 
     return new Vector2( x, y );
+  }
+
+  /**
+   * Gets the Shape used to render this curve. Allocates a Shape instance.
+   */
+  public toShape(): Shape {
+    return new Shape()
+      .moveToPoint( this.startPoint )
+      .quadraticCurveToPoint( this.controlPoint, this.endPoint );
   }
 }
 
