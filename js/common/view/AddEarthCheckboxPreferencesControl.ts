@@ -22,7 +22,7 @@ export default class AddEarthCheckboxPreferencesControl extends PreferencesContr
 
   public constructor( earthCheckboxVisibleProperty: Property<boolean>, tandem: Tandem ) {
 
-    const labelText = new Text( FaradaysElectromagneticLabStrings.earthPreferencesLabelStringProperty, {
+    const labelText = new Text( FaradaysElectromagneticLabStrings.addEarthCheckboxStringProperty, {
       font: FELConstants.PREFERENCES_LABEL_FONT,
       maxWidth: FELConstants.PREFERENCES_LABEL_MAX_WIDTH,
       tandem: tandem.createTandem( 'labelText' )
@@ -34,7 +34,7 @@ export default class AddEarthCheckboxPreferencesControl extends PreferencesContr
         phetioVisiblePropertyInstrumented: false
       } ) );
 
-    const descriptionText = new RichText( FaradaysElectromagneticLabStrings.earthPreferencesDescriptionStringProperty, {
+    const descriptionText = new RichText( FaradaysElectromagneticLabStrings.addEarthCheckboxDescriptionStringProperty, {
       lineWrap: FELConstants.PREFERENCES_DESCRIPTION_LINE_WRAP,
       maxHeight: 50,
       font: FELConstants.PREFERENCES_DESCRIPTION_FONT,

@@ -25,7 +25,7 @@ export default class EarthImagePreferencesControl extends PreferencesControl {
 
   public constructor( earthImageProperty: StringUnionProperty<EarthImage>, tandem: Tandem ) {
 
-    const labelText = new Text( FaradaysElectromagneticLabStrings.earthImageLabelStringProperty, {
+    const labelText = new Text( FaradaysElectromagneticLabStrings.earthImageStringProperty, {
       font: FELConstants.PREFERENCES_LABEL_FONT,
       maxWidth: FELConstants.PREFERENCES_LABEL_MAX_WIDTH,
       tandem: tandem.createTandem( 'labelText' )

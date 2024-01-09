@@ -26,7 +26,7 @@ export default class MagneticUnitsPreferencesControl extends PreferencesControl 
 
   public constructor( magneticUnitsProperty: StringUnionProperty<MagneticUnits>, tandem: Tandem ) {
 
-    const labelText = new Text( FaradaysElectromagneticLabStrings.magneticUnitsPreferencesLabelStringProperty, {
+    const labelText = new Text( FaradaysElectromagneticLabStrings.magneticUnitsStringProperty, {
       font: FELConstants.PREFERENCES_LABEL_FONT,
       maxWidth: FELConstants.PREFERENCES_LABEL_MAX_WIDTH,
       tandem: tandem.createTandem( 'labelText' )

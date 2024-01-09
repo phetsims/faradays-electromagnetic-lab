@@ -55,12 +55,12 @@ type StringsType = {
     'RPMStringProperty': LocalizedStringProperty;
     'VStringProperty': LocalizedStringProperty;
   };
-  'magneticUnitsPreferencesLabelStringProperty': LocalizedStringProperty;
+  'magneticUnitsStringProperty': LocalizedStringProperty;
   'gaussPreferenceStringProperty': LocalizedStringProperty;
   'teslaPreferenceStringProperty': LocalizedStringProperty;
-  'earthPreferencesLabelStringProperty': LocalizedStringProperty;
-  'earthPreferencesDescriptionStringProperty': LocalizedStringProperty;
-  'earthImageLabelStringProperty': LocalizedStringProperty;
+  'addEarthCheckboxStringProperty': LocalizedStringProperty;
+  'addEarthCheckboxDescriptionStringProperty': LocalizedStringProperty;
+  'earthImageStringProperty': LocalizedStringProperty;
 };
 
 const FaradaysElectromagneticLabStrings = getStringModule( 'FARADAYS_ELECTROMAGNETIC_LAB' ) as StringsType;
