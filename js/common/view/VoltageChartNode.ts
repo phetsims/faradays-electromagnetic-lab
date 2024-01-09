@@ -7,7 +7,7 @@
  * @author Chris Malley (PixelZoom, Inc.)
  */
 
-import { Color, Node, NodeOptions, NodeTranslationOptions } from '../../../../scenery/js/imports.js';
+import { Node, NodeOptions, NodeTranslationOptions } from '../../../../scenery/js/imports.js';
 import Range from '../../../../dot/js/Range.js';
 import ChartRectangle from '../../../../bamboo/js/ChartRectangle.js';
 import ChartTransform from '../../../../bamboo/js/ChartTransform.js';
@@ -28,11 +28,11 @@ import ACPowerSupply from '../model/ACPowerSupply.js';
 import Utils from '../../../../dot/js/Utils.js';
 
 const AXIS_LINE_OPTIONS: AxisLineOptions = {
-  stroke: Color.grayColor( 200 ), //TODO color profile
+  stroke: FELColors.acPowerSupplyAxesColorProperty,
   lineWidth: 0.5
 };
 const TICK_MARK_SET_OPTIONS: TickMarkSetOptions = {
-  stroke: Color.grayColor( 200 ), //TODO color profile
+  stroke: FELColors.acPowerSupplyAxesColorProperty,
   lineWidth: 0.5,
   extent: 10
 };
