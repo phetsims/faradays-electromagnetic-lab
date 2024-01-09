@@ -105,12 +105,13 @@ export default class ACPowerSupply extends CurrentSource {
       this.voltageProperty.value = 0;
     }
     else {
+      const previousAngle = this.angleProperty.value;
 
       // Compute the next angle.
-      const nextAngle = this.angleProperty.value + ( dt * this.deltaAngleProperty.value );
+      const nextAngle = previousAngle + ( dt * this.deltaAngleProperty.value );
 
       // The change in angle on this tick of the simulation clock.
-      this._stepAngleProperty.value = nextAngle - this.angleProperty.value;
+      this._stepAngleProperty.value = nextAngle - previousAngle;
 
       // Limit the angle to 360 degrees.
       this.angleProperty.value = nextAngle % ( 2 * Math.PI );
