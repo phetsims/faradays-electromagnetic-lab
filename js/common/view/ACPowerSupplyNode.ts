@@ -1,6 +1,6 @@
 // Copyright 2023-2024, University of Colorado Boulder
 
-//TODO Use MappedProperty here for converting maxVoltageProperty and frequencyProperty to percent?
+//TODO Use MappedProperty here for converting maxVoltageProperty and frequencyProperty to percent, for slider alt input?
 
 /**
  * ACPowerSupplyNode is the view of the AC power supply. It provides sliders for changing the maximum voltage
@@ -78,7 +78,6 @@ export default class ACPowerSupplyNode extends Node {
 
     // Slider for max voltage
     const maxVoltageSlider = new VSlider( acPowerSupply.maxVoltageProperty, acPowerSupply.maxVoltageProperty.range, {
-      //TODO thumbFill, thumbFillHighlighted?
       //TODO alt input options
       // keyboardStep: ?,
       // shiftKeyboardStep: ?,
@@ -116,7 +115,6 @@ export default class ACPowerSupplyNode extends Node {
 
     // Slider for frequency
     const frequencySlider = new HSlider( acPowerSupply.frequencyProperty, acPowerSupply.frequencyProperty.range, {
-      //TODO thumbFill, thumbFillHighlighted?
       //TODO alt input options
       // keyboardStep: ?,
       // shiftKeyboardStep: ?,

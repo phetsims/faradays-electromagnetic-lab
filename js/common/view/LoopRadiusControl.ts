@@ -1,6 +1,6 @@
 // Copyright 2023-2024, University of Colorado Boulder
 
-//TODO Use MappedProperty here to convert from loopAreaProperty to percent?
+//TODO Use MappedProperty here to convert from loopAreaProperty to percent, for slider alt input?
 
 /**
  * LoopRadiusControl controls the radius of all loops in a pickup coil. The control shows values in %.
@@ -60,10 +60,11 @@ export default class LoopRadiusControl extends NumberControl {
       },
       sliderOptions: {
         constrainValue: ( value: number ) => Utils.roundToInterval( value, SLIDER_STEP ),
-        keyboardStep: 5,
-        shiftKeyboardStep: 1,
-        pageKeyboardStep: 10,
         majorTicks: majorTicks
+        //TODO alt input options
+        // keyboardStep: ?,
+        // shiftKeyboardStep: ?,
+        // pageKeyboardStep: ?
       },
       tandem: tandem
     } );
