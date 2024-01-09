@@ -201,7 +201,7 @@ export default class VoltageChartNode extends Node {
     // Change in angle per change in x.
     const deltaAngle = ( 2 * Math.PI * numberOfCycles ) / this.chartTransform.modelXRange.getLength();
 
-    // Mutate the waveDataSet
+    // Mutate waveDataSet
     let angle = 0;
     this.waveDataSet.forEach( point => {
       angle = PHASE_ANGLE + ( point.x * deltaAngle );
@@ -209,7 +209,7 @@ export default class VoltageChartNode extends Node {
       point.setY( y );
     } );
 
-    // Since we mutated the waveDataSet, this is our responsibility.
+    // Since we mutated waveDataSet, calling update is our responsibility.
     this.wavePlot.update();
 
     // Make the start & end angles positive values, maintaining phase.
@@ -230,20 +230,18 @@ export default class VoltageChartNode extends Node {
 
     // Wrap around.
     if ( cursorAngle >= endAngle ) {
-      cursorAngle = ( cursorAngle % ( 2 * Math.PI ) );
+      cursorAngle = cursorAngle % ( 2 * Math.PI );
       if ( cursorAngle > startAngle + CURSOR_WRAP_AROUND_TOLERANCE ) {
         cursorAngle -= ( 2 * Math.PI );
       }
     }
 
-    // The cursor is visible in the chart.
-    if ( cursorAngle >= startAngle && cursorAngle < endAngle ) {
-      const percent = ( cursorAngle - startAngle ) / ( endAngle - startAngle );
-      const x = this.chartTransform.modelXRange.min + ( percent * this.chartTransform.modelXRange.getLength() );
-      this.cursorDataSet[ 0 ].setX( x );
-      this.cursorDataSet[ 1 ].setX( x );
-      this.cursorPlot.update();
-    }
+    // Update the dataSet used to draw the cursor.
+    const percent = ( cursorAngle - startAngle ) / ( endAngle - startAngle );
+    const x = this.chartTransform.modelXRange.min + ( percent * this.chartTransform.modelXRange.getLength() );
+    this.cursorDataSet[ 0 ].setX( x );
+    this.cursorDataSet[ 1 ].setX( x );
+    this.cursorPlot.update();
 
     this.cursorAngleProperty.value = cursorAngle;
   }
