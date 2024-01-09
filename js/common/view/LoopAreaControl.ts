@@ -7,7 +7,7 @@
  */
 
 import faradaysElectromagneticLab from '../../faradaysElectromagneticLab.js';
-import NumberControl, { NumberControlOptions } from '../../../../scenery-phet/js/NumberControl.js';
+import NumberControl, { NumberControlOptions, NumberControlSliderOptions } from '../../../../scenery-phet/js/NumberControl.js';
 import Tandem from '../../../../tandem/js/Tandem.js';
 import FaradaysElectromagneticLabStrings from '../../FaradaysElectromagneticLabStrings.js';
 import { combineOptions } from '../../../../phet-core/js/optionize.js';
@@ -52,13 +52,10 @@ export default class LoopAreaControl extends NumberControl {
         } ),
         numberFormatterDependencies: [ valuePercentStringProperty ]
       },
-      sliderOptions: {
+      sliderOptions: combineOptions<NumberControlSliderOptions>( {
         constrainValue: ( value: number ) => Utils.roundToInterval( value, SLIDER_STEP ),
-        majorTicks: majorTicks,
-        keyboardStep: 5,
-        shiftKeyboardStep: 1,
-        pageKeyboardStep: 10
-      },
+        majorTicks: majorTicks
+      }, FELConstants.PERCENT_SLIDER_OPTIONS ),
       tandem: tandem
     } );
 

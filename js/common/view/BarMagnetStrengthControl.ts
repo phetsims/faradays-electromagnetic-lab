@@ -7,7 +7,7 @@
  */
 
 import faradaysElectromagneticLab from '../../faradaysElectromagneticLab.js';
-import NumberControl, { NumberControlOptions } from '../../../../scenery-phet/js/NumberControl.js';
+import NumberControl, { NumberControlOptions, NumberControlSliderOptions } from '../../../../scenery-phet/js/NumberControl.js';
 import Range from '../../../../dot/js/Range.js';
 import Tandem from '../../../../tandem/js/Tandem.js';
 import FaradaysElectromagneticLabStrings from '../../FaradaysElectromagneticLabStrings.js';
@@ -64,13 +64,10 @@ export default class BarMagnetStrengthControl extends NumberControl {
         } ),
         numberFormatterDependencies: [ FaradaysElectromagneticLabStrings.pattern.valuePercentStringProperty ]
       },
-      sliderOptions: {
+      sliderOptions: combineOptions<NumberControlSliderOptions>( {
         constrainValue: ( value: number ) => Utils.roundToInterval( value, SLIDER_STEP ),
-        keyboardStep: 5,
-        shiftKeyboardStep: 1,
-        pageKeyboardStep: 10,
         majorTicks: majorTicks
-      },
+      }, FELConstants.PERCENT_SLIDER_OPTIONS ),
       tandem: tandem
     } );
 

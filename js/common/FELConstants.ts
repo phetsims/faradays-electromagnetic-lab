@@ -18,6 +18,7 @@ import NumberControl, { NumberControlOptions } from '../../../scenery-phet/js/Nu
 import Dimension2 from '../../../dot/js/Dimension2.js';
 import { RectangularRadioButtonOptions } from '../../../sun/js/buttons/RectangularRadioButton.js';
 import { SoundClipOptions } from '../../../tambo/js/sound-generators/SoundClip.js';
+import { SliderOptions } from '../../../sun/js/Slider.js';
 
 // Credits are shared by all sims in this family.
 //TODO https://github.com/phetsims/faradays-electromagnetic-lab/issues/2 fill in credits
@@ -124,6 +125,12 @@ const GRAB_RELEASE_SOUND_CLIP_OPTIONS: SoundClipOptions = {
   initialOutputLevel: 0.4
 };
 
+const PERCENT_SLIDER_OPTIONS: SliderOptions = {
+  keyboardStep: 5,
+  shiftKeyboardStep: 1,
+  pageKeyboardStep: 10
+};
+
 const FELConstants = {
 
   // Sim
@@ -149,6 +156,7 @@ const FELConstants = {
   KEYBOARD_DRAG_LISTENER_OPTIONS: KEYBOARD_DRAG_LISTENER_OPTIONS,
   VBOX_OPTIONS: VBOX_OPTIONS,
   GRAB_RELEASE_SOUND_CLIP_OPTIONS: GRAB_RELEASE_SOUND_CLIP_OPTIONS,
+  PERCENT_SLIDER_OPTIONS: PERCENT_SLIDER_OPTIONS,
 
   // Fonts
   TITLE_FONT: TITLE_FONT,

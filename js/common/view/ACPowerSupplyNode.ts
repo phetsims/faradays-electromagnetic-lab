@@ -20,8 +20,8 @@ import BooleanIO from '../../../../tandem/js/types/BooleanIO.js';
 import ShadedRectangle, { ShadedRectangleOptions } from '../../../../scenery-phet/js/ShadedRectangle.js';
 import Bounds2 from '../../../../dot/js/Bounds2.js';
 import FELColors from '../FELColors.js';
-import HSlider from '../../../../sun/js/HSlider.js';
-import VSlider from '../../../../sun/js/VSlider.js';
+import HSlider, { HSliderOptions } from '../../../../sun/js/HSlider.js';
+import VSlider, { VSliderOptions } from '../../../../sun/js/VSlider.js';
 import PatternStringProperty from '../../../../axon/js/PatternStringProperty.js';
 import FaradaysElectromagneticLabStrings from '../../FaradaysElectromagneticLabStrings.js';
 import StringDisplay from './StringDisplay.js';
@@ -30,6 +30,7 @@ import PhetFont from '../../../../scenery-phet/js/PhetFont.js';
 import FELConstants from '../FELConstants.js';
 import VoltageChartNode from './VoltageChartNode.js';
 import Utils from '../../../../dot/js/Utils.js';
+import { combineOptions } from '../../../../phet-core/js/optionize.js';
 
 const SLIDER_STEP = 1;
 const BODY_BOUNDS = new Bounds2( 0, 0, 230, 210 );
@@ -76,15 +77,13 @@ export default class ACPowerSupplyNode extends Node {
     } );
 
     // Slider for max voltage
-    const maxVoltageSlider = new VSlider( acPowerSupply.maxVoltagePercentProperty, acPowerSupply.maxVoltagePercentRange, {
-      constrainValue: ( value: number ) => Utils.roundToInterval( value, SLIDER_STEP ),
-      keyboardStep: 5,
-      shiftKeyboardStep: 1,
-      pageKeyboardStep: 10,
-      left: bodyNode.left + 10,
-      centerY: bodyNode.centerY,
-      tandem: tandem.createTandem( 'maxVoltageSlider' )
-    } );
+    const maxVoltageSlider = new VSlider( acPowerSupply.maxVoltagePercentProperty, acPowerSupply.maxVoltagePercentRange,
+      combineOptions<VSliderOptions>( {
+        constrainValue: ( value: number ) => Utils.roundToInterval( value, SLIDER_STEP ),
+        left: bodyNode.left + 10,
+        centerY: bodyNode.centerY,
+        tandem: tandem.createTandem( 'maxVoltageSlider' )
+      }, FELConstants.PERCENT_SLIDER_OPTIONS ) );
 
     // Layout for max voltage display and slider
     const maxVoltageBox = new VBox( {
@@ -113,13 +112,11 @@ export default class ACPowerSupplyNode extends Node {
     } );
 
     // Slider for frequency
-    const frequencySlider = new HSlider( acPowerSupply.frequencyPercentProperty, acPowerSupply.frequencyPercentRange, {
-      constrainValue: ( value: number ) => Utils.roundToInterval( value, SLIDER_STEP ),
-      keyboardStep: 5,
-      shiftKeyboardStep: 1,
-      pageKeyboardStep: 10,
-      tandem: tandem.createTandem( 'frequencySlider' )
-    } );
+    const frequencySlider = new HSlider( acPowerSupply.frequencyPercentProperty, acPowerSupply.frequencyPercentRange,
+      combineOptions<HSliderOptions>( {
+        constrainValue: ( value: number ) => Utils.roundToInterval( value, SLIDER_STEP ),
+        tandem: tandem.createTandem( 'frequencySlider' )
+      }, FELConstants.PERCENT_SLIDER_OPTIONS ) );
 
     // Layout for frequency display and slider
     const frequencyBox = new HBox( {
