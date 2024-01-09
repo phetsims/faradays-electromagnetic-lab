@@ -15,8 +15,8 @@ import TReadOnlyProperty from '../../../../axon/js/TReadOnlyProperty.js';
 import Range from '../../../../dot/js/Range.js';
 import Vector2 from '../../../../dot/js/Vector2.js';
 import { EmptySelfOptions } from '../../../../phet-core/js/optionize.js';
-import { Shape } from '../../../../kite/js/imports.js';
 import Coil from './Coil.js';
+import Bounds2 from '../../../../dot/js/Bounds2.js';
 
 type SelfOptions = EmptySelfOptions;
 
@@ -27,8 +27,8 @@ export default class CoilMagnet extends Magnet {
   // Loop radius, unitless
   private readonly loopRadius: number;
 
-  // Shape of the magnet in its local coordinate frame
-  public readonly shape: Shape;
+  // Bounds of the magnet in its local coordinate frame
+  public readonly localBounds: Bounds2;
 
   protected constructor( coil: Coil, strengthProperty: TReadOnlyProperty<number>, strengthRange: Range, providedOptions: CoilMagnetOptions ) {
 
@@ -41,14 +41,14 @@ export default class CoilMagnet extends Magnet {
     this.loopRadius = coil.loopRadiusProperty.value;
 
     const R = this.loopRadius;
-    this.shape = new Shape().rect( -R, -R, 2 * R, 2 * R );
+    this.localBounds = new Bounds2( -R, -R, R, R );
   }
 
   /**
    * Is the specific point, in global coordinates, inside the magnet?
    */
   public override isInside( position: Vector2 ): boolean {
-    return this.shape.containsPoint( position.minus( this.positionProperty.value ) );
+    return this.localBounds.containsCoordinates( position.x - this.positionProperty.value.x, position.y - this.positionProperty.value.y );
   }
 
   /**
@@ -58,7 +58,7 @@ export default class CoilMagnet extends Magnet {
    * @param outputVector - result is written to this vector
    */
   protected override getLocalFieldVector( position: Vector2, outputVector: Vector2 ): Vector2 {
-    return ( this.shape.containsPoint( position ) ) ?
+    return ( this.localBounds.containsPoint( position ) ) ?
            this.getLocalFieldVectorInside( outputVector ) :
            this.getLocalFieldVectorOutside( position, outputVector );
   }

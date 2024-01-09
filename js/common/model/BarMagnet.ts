@@ -17,7 +17,7 @@ import { EmptySelfOptions } from '../../../../phet-core/js/optionize.js';
 import NumberProperty from '../../../../axon/js/NumberProperty.js';
 import Range from '../../../../dot/js/Range.js';
 import Property from '../../../../axon/js/Property.js';
-import { Shape } from '../../../../kite/js/imports.js';
+import Bounds2 from '../../../../dot/js/Bounds2.js';
 
 type SelfOptions = EmptySelfOptions;
 
@@ -32,8 +32,8 @@ export default class BarMagnet extends Magnet {
   // unitless, width is from the magnet's South to North pole
   public readonly size: Dimension2;
 
-  // Shape of the magnet in its local coordinate frame
-  private readonly shape: Shape;
+  // Bounds of the magnet in its local coordinate frame
+  private readonly localBounds: Bounds2;
 
   public constructor( providedOptions: BarMagnetOptions ) {
 
@@ -48,14 +48,14 @@ export default class BarMagnet extends Magnet {
 
     this.barMagnetStrengthProperty = strengthProperty;
     this.size = new Dimension2( 250, 50 );
-    this.shape = new Shape().rect( -this.size.width / 2, -this.size.height / 2, this.size.width, this.size.height );
+    this.localBounds = new Bounds2( -this.size.width / 2, -this.size.height / 2, this.size.width / 2, this.size.height / 2 );
   }
 
   /**
    * Is the specific point, in global coordinates, inside the magnet?
    */
   public override isInside( position: Vector2 ): boolean {
-    return this.shape.containsPoint( position.minus( this.positionProperty.value ) );
+    return this.localBounds.containsCoordinates( position.x - this.positionProperty.value.x, position.y - this.positionProperty.value.y );
   }
 
   /**

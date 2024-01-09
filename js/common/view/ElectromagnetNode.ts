@@ -15,6 +15,7 @@ import Emitter from '../../../../axon/js/Emitter.js';
 import CoilNode from './CoilNode.js';
 import { Node, Path } from '../../../../scenery/js/imports.js';
 import ACPowerSupplyNode from './ACPowerSupplyNode.js';
+import { Shape } from '../../../../kite/js/imports.js';
 
 export default class ElectromagnetNode extends FELMovableNode {
 
@@ -48,7 +49,7 @@ export default class ElectromagnetNode extends FELMovableNode {
     } );
 
     // Debug: Show the shape used to determine whether a B-field position is inside or outside the electromagnet.
-    const magnetShapeNode = new Path( electromagnet.shape, {
+    const magnetShapeNode = new Path( Shape.bounds( electromagnet.localBounds ), {
       visibleProperty: electromagnet.shapeVisibleProperty,
       stroke: 'yellow'
     } );
