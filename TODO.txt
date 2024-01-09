@@ -1,2 +1,0 @@
-
-One model element to describe all electrons, one view element to render all electrons
