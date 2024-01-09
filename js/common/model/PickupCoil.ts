@@ -371,7 +371,8 @@ export default class PickupCoil extends Coil {
    * so Mike Dubson came up with this workaround. By fudging the area using a thin vertical rectangle, the results are
    * qualitatively (but not quantitatively) correct.
    *
-   * NOTE: This fix required recalibration of all the scaling factors accessible via developer controls.
+   * NOTE from the Java version:
+   * This fix required recalibration of all the scaling factors accessible via developer controls.
    */
   private getEffectiveLoopArea(): number {
     const width = this.getMinLoopRadius();
