@@ -56,6 +56,7 @@ export default class FELModel implements TModel {
       tandem: options.isPlayingPropertyInstrumented ? options.tandem.createTandem( 'isPlayingProperty' ) : Tandem.OPT_OUT
     } );
 
+    //TODO Does stepEmitter need to be instrumented? If so, should it be phetioHighFrequency:true?
     this.stepEmitter = new Emitter( {
       parameters: [
         { name: 'dt', phetioType: NumberIO }
