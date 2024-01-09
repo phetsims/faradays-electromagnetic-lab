@@ -3,7 +3,7 @@
 //TODO Use MappedProperty here to convert from loopAreaProperty to percent, for slider alt input?
 
 /**
- * LoopRadiusControl controls the radius of all loops in a pickup coil. The control shows values in %.
+ * LoopAreaControl controls the radius of all loops in a pickup coil. The control shows values in %.
  *
  * @author Chris Malley (PixelZoom, Inc.)
  */
@@ -23,7 +23,7 @@ import StringUtils from '../../../../phetcommon/js/util/StringUtils.js';
 const valuePercentStringProperty = FaradaysElectromagneticLabStrings.pattern.valuePercentStringProperty;
 const SLIDER_STEP = 1;
 
-export default class LoopRadiusControl extends NumberControl {
+export default class LoopAreaControl extends NumberControl {
 
   public constructor( loopAreaProperty: NumberProperty, tandem: Tandem ) {
 
@@ -73,4 +73,4 @@ export default class LoopRadiusControl extends NumberControl {
   }
 }
 
-faradaysElectromagneticLab.register( 'LoopRadiusControl', LoopRadiusControl );
+faradaysElectromagneticLab.register( 'LoopAreaControl', LoopAreaControl );

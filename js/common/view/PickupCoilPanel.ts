@@ -15,7 +15,7 @@ import FaradaysElectromagneticLabStrings from '../../FaradaysElectromagneticLabS
 import Tandem from '../../../../tandem/js/Tandem.js';
 import PickupCoil from '../model/PickupCoil.js';
 import Checkbox, { CheckboxOptions } from '../../../../sun/js/Checkbox.js';
-import LoopRadiusControl from './LoopRadiusControl.js';
+import LoopAreaControl from './LoopAreaControl.js';
 import NumberOfLoopsControl from './NumberOfLoopsControl.js';
 import CurrentIndicatorControl from './CurrentIndicatorControl.js';
 
@@ -31,7 +31,7 @@ export default class PickupCoilPanel extends Panel {
     const numberOfLoopsControl = new NumberOfLoopsControl( pickupCoil.numberOfLoopsProperty,
       tandem.createTandem( 'numberOfLoopsControl' ) );
 
-    const loopAreaControl = new LoopRadiusControl( pickupCoil.loopAreaProperty,
+    const loopAreaControl = new LoopAreaControl( pickupCoil.loopAreaProperty,
       tandem.createTandem( 'loopAreaControl' ) );
 
     // 'Electrons' checkbox
