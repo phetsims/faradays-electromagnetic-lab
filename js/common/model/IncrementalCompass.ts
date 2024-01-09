@@ -38,34 +38,36 @@ export default class IncrementalCompass extends Compass {
     // Calculate the delta angle
     const fieldAngle = fieldVector.angle;
     const needleAngle = this._angleProperty.value;
-    let delta = fieldAngle - needleAngle;
-    //TODO if delta === 0, return?
+    let deltaAngle = fieldAngle - needleAngle;
 
-    // Normalize the angle to the range -355...+355 degrees
-    if ( Math.abs( delta ) >= ( 2 * Math.PI ) ) {
-      const sign = ( delta < 0 ) ? -1 : +1;
-      delta = sign * ( delta % ( 2 * Math.PI ) );
-    }
+    if ( deltaAngle !== 0 ) {
 
-    // Convert to an equivalent angle in the range -180...+180 degrees.
-    if ( delta > Math.PI ) {
-      delta = delta - ( 2 * Math.PI );
-    }
-    else if ( delta < -Math.PI ) {
-      delta = delta + ( 2 * Math.PI );
-    }
+      // Normalize the angle to the range -355...+355 degrees
+      if ( Math.abs( deltaAngle ) >= ( 2 * Math.PI ) ) {
+        const sign = ( deltaAngle < 0 ) ? -1 : +1;
+        deltaAngle = sign * ( deltaAngle % ( 2 * Math.PI ) );
+      }
 
-    if ( Math.abs( delta ) < MAX_INCREMENT ) {
+      // Convert to an equivalent angle in the range -180...+180 degrees.
+      if ( deltaAngle > Math.PI ) {
+        deltaAngle = deltaAngle - ( 2 * Math.PI );
+      }
+      else if ( deltaAngle < -Math.PI ) {
+        deltaAngle = deltaAngle + ( 2 * Math.PI );
+      }
 
-      // If the delta is small, rotate immediately to the field angle.
-      this._angleProperty.value = fieldAngle;
-    }
-    else {
+      if ( Math.abs( deltaAngle ) < MAX_INCREMENT ) {
 
-      // If the delta is large, rotate incrementally.
-      const sign = ( delta < 0 ) ? -1 : 1;
-      delta = sign * MAX_INCREMENT;
-      this._angleProperty.value = needleAngle + delta;
+        // If the delta is small, rotate immediately to the field angle.
+        this._angleProperty.value = fieldAngle;
+      }
+      else {
+
+        // If the delta is large, rotate incrementally.
+        const sign = ( deltaAngle < 0 ) ? -1 : 1;
+        deltaAngle = sign * MAX_INCREMENT;
+        this._angleProperty.value = needleAngle + deltaAngle;
+      }
     }
   }
 }
