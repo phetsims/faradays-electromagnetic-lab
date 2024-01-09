@@ -7,19 +7,19 @@
  * @author Chris Malley (PixelZoom, Inc.)
  */
 
-import { EarthImage, EarthImageValues } from '../FELQueryParameters.js';
-import StringUnionProperty from '../../../../axon/js/StringUnionProperty.js';
-import Tandem from '../../../../tandem/js/Tandem.js';
-import PreferencesControl from '../../../../joist/js/preferences/PreferencesControl.js';
-import { Image, Text } from '../../../../scenery/js/imports.js';
-import FELConstants from '../FELConstants.js';
-import RectangularRadioButtonGroup, { RectangularRadioButtonGroupItem } from '../../../../sun/js/buttons/RectangularRadioButtonGroup.js';
-import RectangularRadioButton from '../../../../sun/js/buttons/RectangularRadioButton.js';
-import FELColors from '../FELColors.js';
-import earthAfrica_png from '../../../images/earthAfrica_png.js';
-import earthAmericas_png from '../../../images/earthAmericas_png.js';
-import faradaysElectromagneticLab from '../../faradaysElectromagneticLab.js';
-import FaradaysElectromagneticLabStrings from '../../FaradaysElectromagneticLabStrings.js';
+import { EarthImage, EarthImageValues } from '../../FELQueryParameters.js';
+import StringUnionProperty from '../../../../../axon/js/StringUnionProperty.js';
+import Tandem from '../../../../../tandem/js/Tandem.js';
+import PreferencesControl from '../../../../../joist/js/preferences/PreferencesControl.js';
+import { Image, Text } from '../../../../../scenery/js/imports.js';
+import FELConstants from '../../FELConstants.js';
+import RectangularRadioButtonGroup, { RectangularRadioButtonGroupItem } from '../../../../../sun/js/buttons/RectangularRadioButtonGroup.js';
+import RectangularRadioButton from '../../../../../sun/js/buttons/RectangularRadioButton.js';
+import FELColors from '../../FELColors.js';
+import earthAfrica_png from '../../../../images/earthAfrica_png.js';
+import earthAmericas_png from '../../../../images/earthAmericas_png.js';
+import faradaysElectromagneticLab from '../../../faradaysElectromagneticLab.js';
+import FaradaysElectromagneticLabStrings from '../../../FaradaysElectromagneticLabStrings.js';
 
 export default class EarthImagePreferencesControl extends PreferencesControl {
 

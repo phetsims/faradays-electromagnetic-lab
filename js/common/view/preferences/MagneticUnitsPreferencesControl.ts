@@ -7,18 +7,18 @@
  * @author Chris Malley (PixelZoom, Inc.)
  */
 
-import { RichText, Text } from '../../../../scenery/js/imports.js';
-import StringUnionProperty from '../../../../axon/js/StringUnionProperty.js';
-import AquaRadioButton from '../../../../sun/js/AquaRadioButton.js';
-import TReadOnlyProperty from '../../../../axon/js/TReadOnlyProperty.js';
-import PreferencesDialog from '../../../../joist/js/preferences/PreferencesDialog.js';
-import Tandem from '../../../../tandem/js/Tandem.js';
-import PreferencesControl from '../../../../joist/js/preferences/PreferencesControl.js';
-import FaradaysElectromagneticLabStrings from '../../FaradaysElectromagneticLabStrings.js';
-import faradaysElectromagneticLab from '../../faradaysElectromagneticLab.js';
-import AquaRadioButtonGroup, { AquaRadioButtonGroupItem } from '../../../../sun/js/AquaRadioButtonGroup.js';
-import { MagneticUnits } from '../FELQueryParameters.js';
-import FELConstants from '../FELConstants.js';
+import { RichText, Text } from '../../../../../scenery/js/imports.js';
+import StringUnionProperty from '../../../../../axon/js/StringUnionProperty.js';
+import AquaRadioButton from '../../../../../sun/js/AquaRadioButton.js';
+import TReadOnlyProperty from '../../../../../axon/js/TReadOnlyProperty.js';
+import PreferencesDialog from '../../../../../joist/js/preferences/PreferencesDialog.js';
+import Tandem from '../../../../../tandem/js/Tandem.js';
+import PreferencesControl from '../../../../../joist/js/preferences/PreferencesControl.js';
+import FaradaysElectromagneticLabStrings from '../../../FaradaysElectromagneticLabStrings.js';
+import faradaysElectromagneticLab from '../../../faradaysElectromagneticLab.js';
+import AquaRadioButtonGroup, { AquaRadioButtonGroupItem } from '../../../../../sun/js/AquaRadioButtonGroup.js';
+import { MagneticUnits } from '../../FELQueryParameters.js';
+import FELConstants from '../../FELConstants.js';
 
 export default class MagneticUnitsPreferencesControl extends PreferencesControl {
 

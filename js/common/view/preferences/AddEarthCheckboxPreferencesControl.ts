@@ -7,16 +7,16 @@
  * @author Chris Malley (PixelZoom, Inc.)
  */
 
-import PreferencesControl from '../../../../joist/js/preferences/PreferencesControl.js';
-import faradaysElectromagneticLab from '../../faradaysElectromagneticLab.js';
-import Property from '../../../../axon/js/Property.js';
-import Tandem from '../../../../tandem/js/Tandem.js';
-import FELConstants from '../FELConstants.js';
-import PreferencesDialogConstants from '../../../../joist/js/preferences/PreferencesDialogConstants.js';
-import ToggleSwitch, { ToggleSwitchOptions } from '../../../../sun/js/ToggleSwitch.js';
-import { combineOptions } from '../../../../phet-core/js/optionize.js';
-import { RichText, Text } from '../../../../scenery/js/imports.js';
-import FaradaysElectromagneticLabStrings from '../../FaradaysElectromagneticLabStrings.js';
+import PreferencesControl from '../../../../../joist/js/preferences/PreferencesControl.js';
+import faradaysElectromagneticLab from '../../../faradaysElectromagneticLab.js';
+import Property from '../../../../../axon/js/Property.js';
+import Tandem from '../../../../../tandem/js/Tandem.js';
+import FELConstants from '../../FELConstants.js';
+import PreferencesDialogConstants from '../../../../../joist/js/preferences/PreferencesDialogConstants.js';
+import ToggleSwitch, { ToggleSwitchOptions } from '../../../../../sun/js/ToggleSwitch.js';
+import { combineOptions } from '../../../../../phet-core/js/optionize.js';
+import { RichText, Text } from '../../../../../scenery/js/imports.js';
+import FaradaysElectromagneticLabStrings from '../../../FaradaysElectromagneticLabStrings.js';
 
 export default class AddEarthCheckboxPreferencesControl extends PreferencesControl {
 
