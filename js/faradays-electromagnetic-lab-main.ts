@@ -18,7 +18,7 @@ import TransformerScreen from './transformer/TransformerScreen.js';
 import GeneratorScreen from './generator/GeneratorScreen.js';
 import PreferencesModel from '../../joist/js/preferences/PreferencesModel.js';
 import FELConstants from './common/FELConstants.js';
-import FELPreferencesNode from './common/view/FELPreferencesNode.js';
+import FELPreferencesNode from './common/view/preferences/FELPreferencesNode.js';
 
 simLauncher.launch( () => {
 
