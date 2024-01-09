@@ -180,7 +180,6 @@ export default class VoltageChartNode extends Node {
     acPowerSupply.stepAngleProperty.link( () => this.updateCursor() );
   }
 
-  //TODO Start in middle and work out to do half as many computations.
   /**
    * Updates the wave shown on the chart.
    */
@@ -193,6 +192,7 @@ export default class VoltageChartNode extends Node {
     const deltaAngle = ( 2 * Math.PI * numberOfCycles ) / this.chartTransform.modelXRange.getLength();
 
     // Mutate waveDataSet
+    //TODO Start in middle and work out to do half as many computations.
     let angle = 0;
     this.waveDataSet.forEach( point => {
       angle = PHASE_ANGLE + ( point.x * deltaAngle );
