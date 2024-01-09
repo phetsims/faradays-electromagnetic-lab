@@ -27,7 +27,7 @@
 import faradaysElectromagneticLab from '../../faradaysElectromagneticLab.js';
 import Coil from '../model/Coil.js';
 import { LinearGradient, Node, NodeOptions, Path, PathOptions } from '../../../../scenery/js/imports.js';
-import CoilSegment from '../model/CoilSegment.js';
+import CoilSegment, { CoilSegmentOptions } from '../model/CoilSegment.js';
 import PickRequired from '../../../../phet-core/js/types/PickRequired.js';
 import optionize, { combineOptions } from '../../../../phet-core/js/optionize.js';
 import FELConstants from '../FELConstants.js';
@@ -170,20 +170,19 @@ export default class CoilNode extends Node {
           const controlPoint = new Vector2( endPoint.x - 20, endPoint.y - 20 );
           const curve = new QuadraticBezierSpline( startPoint, controlPoint, endPoint );
 
-          // Scale the speed, since this curve is different from the others in the coil.
-          const speedScale = ( radius / ELECTRON_SPACING ) / ELECTRONS_IN_LEFT_END;
-          const coilSegment = new CoilSegment( curve, this.backgroundNode, speedScale );
-          this.coilSegments.push( coilSegment );
-
           // Horizontal gradient, left to right.
           const gradient = new LinearGradient( startPoint.x, 0, endPoint.x, 0 )
             .addColorStop( 0, FELColors.coilMiddleColorProperty )
             .addColorStop( 1, FELColors.coilBackColorProperty );
 
-          const path = new Path( curve.toShape(), combineOptions<PathOptions>( {
+          // Scale the speed, since this curve is different from the others in the coil.
+          const speedScale = ( radius / ELECTRON_SPACING ) / ELECTRONS_IN_LEFT_END;
+          const coilSegment = new CoilSegment( curve, this.backgroundNode, combineOptions<CoilSegmentOptions>( {
+            speedScale: speedScale,
             stroke: gradient
           }, pathOptions ) );
-          coilSegment.parentNode.addChild( path );
+          this.coilSegments.push( coilSegment );
+          coilSegment.parentNode.addChild( coilSegment );
 
           leftEndPoint = startPoint;
         }
@@ -195,13 +194,11 @@ export default class CoilNode extends Node {
           const controlPoint = new Vector2( ( radius * 0.15 ) + xOffset, ( -radius * 0.70 ) );
           const curve = new QuadraticBezierSpline( startPoint, controlPoint, endPoint );
 
-          const coilSegment = new CoilSegment( curve, this.backgroundNode );
-          this.coilSegments.push( coilSegment );
-
-          const path = new Path( curve.toShape(), combineOptions<PathOptions>( {
+          const coilSegment = new CoilSegment( curve, this.backgroundNode, combineOptions<CoilSegmentOptions>( {
             stroke: FELColors.coilBackColorProperty
           }, pathOptions ) );
-          coilSegment.parentNode.addChild( path );
+          this.coilSegments.push( coilSegment );
+          coilSegment.parentNode.addChild( coilSegment );
         }
       }
       else {
@@ -212,18 +209,16 @@ export default class CoilNode extends Node {
         const controlPoint = new Vector2( ( radius * 0.15 ) + xOffset, ( -radius * 1.20 ) );
         const curve = new QuadraticBezierSpline( startPoint, controlPoint, endPoint );
 
-        const coilSegment = new CoilSegment( curve, this.backgroundNode );
-        this.coilSegments.push( coilSegment );
-
         // Diagonal gradient, upper left to lower right.
         const gradient = new LinearGradient( startPoint.x + ( radius * 0.10 ), -radius, xOffset, -radius * 0.92 )
           .addColorStop( 0, FELColors.coilMiddleColorProperty )
           .addColorStop( 1, FELColors.coilBackColorProperty );
 
-        const path = new Path( curve.toShape(), combineOptions<PathOptions>( {
+        const coilSegment = new CoilSegment( curve, this.backgroundNode, combineOptions<CoilSegmentOptions>( {
           stroke: gradient
         }, pathOptions ) );
-        coilSegment.parentNode.addChild( path );
+        this.coilSegments.push( coilSegment );
+        coilSegment.parentNode.addChild( coilSegment );
       }
 
       // Back bottom
@@ -233,18 +228,16 @@ export default class CoilNode extends Node {
         const controlPoint = new Vector2( ( radius * 0.35 ) + xOffset, ( radius * 1.20 ) );
         const curve = new QuadraticBezierSpline( startPoint, controlPoint, endPoint );
 
-        const coilSegment = new CoilSegment( curve, this.backgroundNode );
-        this.coilSegments.push( coilSegment );
-
         // Vertical gradient, upper to lower
         const gradient = new LinearGradient( 0, radius * 0.92, 0, radius )
           .addColorStop( 0, FELColors.coilBackColorProperty )
           .addColorStop( 1, FELColors.coilMiddleColorProperty );
 
-        const path = new Path( curve.toShape(), combineOptions<PathOptions>( {
+        const coilSegment = new CoilSegment( curve, this.backgroundNode, combineOptions<CoilSegmentOptions>( {
           stroke: gradient
         }, pathOptions ) );
-        coilSegment.parentNode.addChild( path );
+        this.coilSegments.push( coilSegment );
+        coilSegment.parentNode.addChild( coilSegment );
       }
 
       // Horizontal gradient, left to right, for the front segments
@@ -259,13 +252,11 @@ export default class CoilNode extends Node {
         const controlPoint = new Vector2( ( -radius * 0.25 ) + xOffset, ( radius * 0.80 ) );
         const curve = new QuadraticBezierSpline( startPoint, controlPoint, endPoint );
 
-        const coilSegment = new CoilSegment( curve, this );
-        this.coilSegments.push( coilSegment );
-
-        const path = new Path( curve.toShape(), combineOptions<PathOptions>( {
+        const coilSegment = new CoilSegment( curve, this, combineOptions<CoilSegmentOptions>( {
           stroke: frontGradient
         }, pathOptions ) );
-        coilSegment.parentNode.addChild( path );
+        this.coilSegments.push( coilSegment );
+        coilSegment.parentNode.addChild( coilSegment );
       }
 
       // Front top
@@ -275,13 +266,12 @@ export default class CoilNode extends Node {
         const controlPoint = new Vector2( ( -radius * 0.25 ) + xOffset, ( -radius * 0.80 ) );
         const curve = new QuadraticBezierSpline( startPoint, controlPoint, endPoint );
 
-        const coilSegment = new CoilSegment( curve, this );
-        this.coilSegments.push( coilSegment );
-
-        const path = new Path( curve.toShape(), combineOptions<PathOptions>( {
+        const coilSegment = new CoilSegment( curve, this, combineOptions<CoilSegmentOptions>( {
+          lineWidth: this.coil.wireWidth,
           stroke: frontGradient
         }, pathOptions ) );
-        coilSegment.parentNode.addChild( path );
+        this.coilSegments.push( coilSegment );
+        coilSegment.parentNode.addChild( coilSegment );
       }
 
       // For the rightmost loop.... Right wire end in foreground
@@ -293,13 +283,12 @@ export default class CoilNode extends Node {
 
         // Scale the speed, since this curve is different from the others in the coil.
         const speedScale = ( radius / ELECTRON_SPACING ) / ELECTRONS_IN_RIGHT_END;
-        const coilSegment = new CoilSegment( curve, this, speedScale );
-        this.coilSegments.push( coilSegment );
-
-        const path = new Path( curve.toShape(), combineOptions<PathOptions>( {
+        const coilSegment = new CoilSegment( curve, this, combineOptions<CoilSegmentOptions>( {
+          speedScale: speedScale,
           stroke: FELColors.coilMiddleColorProperty
         }, pathOptions ) );
-        coilSegment.parentNode.addChild( path );
+        this.coilSegments.push( coilSegment );
+        coilSegment.parentNode.addChild( coilSegment );
 
         rightEndPoint = endPoint;
       }

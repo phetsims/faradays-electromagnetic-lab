@@ -8,10 +8,17 @@
  */
 
 import faradaysElectromagneticLab from '../../faradaysElectromagneticLab.js';
-import { Node } from '../../../../scenery/js/imports.js';
+import { Node, Path, PathOptions } from '../../../../scenery/js/imports.js';
 import QuadraticBezierSpline from './QuadraticBezierSpline.js';
+import optionize from '../../../../phet-core/js/optionize.js';
 
-export default class CoilSegment {
+type SelfOptions = {
+  speedScale?: number; // see field speedScale
+};
+
+export type CoilSegmentOptions = SelfOptions & PathOptions;
+
+export default class CoilSegment extends Path {
 
   // The default speed scale
   public static readonly DEFAULT_SPEED_SCALE = 1.0;
@@ -27,11 +34,21 @@ export default class CoilSegment {
   // and the speed needs to be scaled in order to make electron "speed" appear the same on all curves.
   public readonly speedScale;
 
-  public constructor( curve: QuadraticBezierSpline, parentNode: Node, speedScale = CoilSegment.DEFAULT_SPEED_SCALE ) {
-    assert && assert( speedScale > 0, `invalid speedScale: ${speedScale}` );
+  public constructor( curve: QuadraticBezierSpline, parentNode: Node, providedOptions: CoilSegmentOptions ) {
+
+    const options = optionize<CoilSegmentOptions, SelfOptions, PathOptions>()( {
+
+      // SelfOptions
+      speedScale: CoilSegment.DEFAULT_SPEED_SCALE
+    }, providedOptions );
+
+    assert && assert( options.speedScale > 0, `invalid speedScale: ${options.speedScale}` );
+
+    super( curve.toShape(), options );
+
     this.curve = curve;
     this.parentNode = parentNode;
-    this.speedScale = speedScale;
+    this.speedScale = options.speedScale;
   }
 }
 
