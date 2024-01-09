@@ -19,8 +19,12 @@ export default class SourceCoil extends Coil {
 
   public constructor( currentAmplitudeProperty: TReadOnlyProperty<number>, tandem: Tandem ) {
     super( currentAmplitudeProperty, {
+
+      // Loop area is fixed for a source coil.  In the Java version, loop area was computed from loop radius 50,
+      // resulting in Math.PI * 50 * 50 = 7853.981633974483. Here we have rounded to the nearest integer.
+      // See https://github.com/phetsims/faradays-electromagnetic-lab/issues/48
+      loopAreaRange: new RangeWithValue( 7854, 7854, 7854 ),
       numberOfLoopsRange: new RangeWithValue( 1, 4, 4 ),
-      loopAreaRange: new RangeWithValue( 7854, 7854, 7854 ), // fixed area
       wireWidth: WIRE_WIDTH,
       loopSpacing: LOOP_SPACING,
       tandem: tandem

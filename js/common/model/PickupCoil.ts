@@ -120,8 +120,14 @@ export default class PickupCoil extends Coil {
       samplePointsStrategy: new FixedNumberOfSamplePointsStrategy( 9 /* numberOfSamplePoints */ ),
 
       // CoilOptions
+
+      // In the Java version, loopAreaRange was computed from loop radius range [68, 150, 75], resulting in
+      // [14526.724430199205, 70685.83470577035, 35342.917352885175]. To avoid problems, we have rounded the max
+      // to an integer that results in the min (20%) and default (50%) both being integers. This should be close
+      // enough to the Java version to avoid having to recalibrate the model.
+      // See https://github.com/phetsims/faradays-electromagnetic-lab/issues/48
+      loopAreaRange: new RangeWithValue( 14138, 70690, 35345 ),
       numberOfLoopsRange: new RangeWithValue( 1, 4, 2 ),
-      loopAreaRange: new RangeWithValue( 14120, 70600, 35300 ),
       wireWidth: WIRE_WIDTH,
       loopSpacing: LOOP_SPACING
     }, providedOptions );
