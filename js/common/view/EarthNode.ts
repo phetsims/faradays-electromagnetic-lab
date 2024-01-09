@@ -1,7 +1,5 @@
 // Copyright 2023-2024, University of Colorado Boulder
 
-//TODO https://github.com/phetsims/faradays-electromagnetic-lab/issues/27 Replace earth_png with something less Americas-centric?
-
 /**
  * EarthNode is the view of planet earth, which aligns itself the poles of a bar magnet.
  * Origin is at the center.
