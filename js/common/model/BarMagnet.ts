@@ -18,6 +18,9 @@ import NumberProperty from '../../../../axon/js/NumberProperty.js';
 import Range from '../../../../dot/js/Range.js';
 import Property from '../../../../axon/js/Property.js';
 import Bounds2 from '../../../../dot/js/Bounds2.js';
+import PhetioProperty from '../../../../axon/js/PhetioProperty.js';
+import MappedProperty from '../../../../axon/js/MappedProperty.js';
+import NumberIO from '../../../../tandem/js/types/NumberIO.js';
 
 type SelfOptions = EmptySelfOptions;
 
@@ -28,6 +31,10 @@ export default class BarMagnet extends Magnet {
 
   // A writeable version of this.strengthProperty: TReadOnlyProperty<number>
   public readonly barMagnetStrengthProperty: Property<number>;
+
+  // Strength as a percentage
+  public readonly strengthPercentProperty: PhetioProperty<number>;
+  public readonly strengthPercentRange: Range;
 
   // unitless, width is from the magnet's South to North pole
   public readonly size: Dimension2;
@@ -51,6 +58,20 @@ export default class BarMagnet extends Magnet {
 
     // Rectangular, with origin at the center
     this.localBounds = new Bounds2( -this.size.width / 2, -this.size.height / 2, this.size.width / 2, this.size.height / 2 );
+
+    this.strengthPercentRange = new Range( 100 * strengthProperty.range.min / strengthProperty.range.max, 100 );
+
+    this.strengthPercentProperty = new MappedProperty<number, number>( strengthProperty, {
+      bidirectional: true,
+      map: ( loopArea: number ) => 100 * loopArea / strengthProperty.range.max,
+      inverseMap: ( percent: number ) => percent * strengthProperty.range.max / 100,
+      isValidValue: percent => this.strengthPercentRange.contains( percent ),
+      tandem: providedOptions.tandem.createTandem( 'strengthPercentProperty' ),
+      phetioValueType: NumberIO,
+      phetioReadOnly: true, // use loopAreaProperty
+      phetioDocumentation: 'Strength as a percentage, which is how the UI sets and views it. ' +
+                           'If you want to change this, use the sim or see strengthProperty.'
+    } );
   }
 
   /**

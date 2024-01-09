@@ -17,30 +17,32 @@ import PatternStringProperty from '../../../../axon/js/PatternStringProperty.js'
 import Utils from '../../../../dot/js/Utils.js';
 import { RichText } from '../../../../scenery/js/imports.js';
 import StringUtils from '../../../../phetcommon/js/util/StringUtils.js';
-import Property from '../../../../axon/js/Property.js';
+import PhetioProperty from '../../../../axon/js/PhetioProperty.js';
+import DerivedProperty from '../../../../axon/js/DerivedProperty.js';
 
 const valuePercentStringProperty = FaradaysElectromagneticLabStrings.pattern.valuePercentStringProperty;
 const SLIDER_STEP = 1;
 
 export default class BarMagnetStrengthControl extends NumberControl {
 
-  public constructor( strengthProperty: Property<number>, strengthRange: Range, tandem: Tandem ) {
+  public constructor( strengthPercentProperty: PhetioProperty<number>, strengthPercentRange: Range, tandem: Tandem ) {
 
-    assert && assert( strengthRange.min === 0 );
+    assert && assert( strengthPercentRange.min === 0 );
 
+    // Ticks at min, max, middle
     const majorTicks = [
 
       // 0%
       {
-        value: strengthRange.min,
+        value: strengthPercentRange.min,
         label: new RichText( new PatternStringProperty( valuePercentStringProperty, {
-          value: 0
+          value: strengthPercentRange.min
         } ), FELConstants.TICK_LABEL_OPTIONS )
       },
 
       // 50%
       {
-        value: strengthRange.min + strengthRange.getLength() / 2,
+        value: strengthPercentRange.min + strengthPercentRange.getLength() / 2,
         label: new RichText( new PatternStringProperty( valuePercentStringProperty, {
           value: 50
         } ), FELConstants.TICK_LABEL_OPTIONS )
@@ -48,7 +50,7 @@ export default class BarMagnetStrengthControl extends NumberControl {
 
       // 100%
       {
-        value: strengthRange.max,
+        value: strengthPercentRange.max,
         label: new RichText( new PatternStringProperty( valuePercentStringProperty, {
           value: 100
         } ), FELConstants.TICK_LABEL_OPTIONS )
@@ -60,7 +62,7 @@ export default class BarMagnetStrengthControl extends NumberControl {
       numberDisplayOptions: {
         decimalPlaces: 0,
         numberFormatter: strength => StringUtils.fillIn( FaradaysElectromagneticLabStrings.pattern.valuePercentStringProperty, {
-          value: Utils.roundToInterval( 100 * strength / strengthRange.max, 1 )
+          value: new DerivedProperty( [ strengthPercentProperty ], percent => Utils.toFixed( percent, 0 ) )
         } ),
         numberFormatterDependencies: [ FaradaysElectromagneticLabStrings.pattern.valuePercentStringProperty ]
       },
@@ -71,7 +73,7 @@ export default class BarMagnetStrengthControl extends NumberControl {
       tandem: tandem
     } );
 
-    super( FaradaysElectromagneticLabStrings.strengthColonStringProperty, strengthProperty, strengthRange, options );
+    super( FaradaysElectromagneticLabStrings.strengthColonStringProperty, strengthPercentProperty, strengthPercentRange, options );
   }
 }
 

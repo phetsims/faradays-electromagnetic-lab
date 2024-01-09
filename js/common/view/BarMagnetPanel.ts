@@ -45,7 +45,7 @@ export default class BarMagnetPanel extends Panel {
 
     const titleText = new Text( FaradaysElectromagneticLabStrings.barMagnetStringProperty, FELConstants.PANEL_TITLE_OPTIONS );
 
-    const strengthControl = new BarMagnetStrengthControl( barMagnet.barMagnetStrengthProperty, barMagnet.strengthRange,
+    const strengthControl = new BarMagnetStrengthControl( barMagnet.strengthPercentProperty, barMagnet.strengthPercentRange,
       options.tandem.createTandem( 'strengthControl' ) );
 
     const contentChildren: Node[] = [
