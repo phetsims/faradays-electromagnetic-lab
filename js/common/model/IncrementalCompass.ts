@@ -16,7 +16,7 @@ import Utils from '../../../../dot/js/Utils.js';
 import { EmptySelfOptions } from '../../../../phet-core/js/optionize.js';
 import TReadOnlyProperty from '../../../../axon/js/TReadOnlyProperty.js';
 
-const MAX_INCREMENT = Utils.toRadians( 45 );
+const MAX_DELTA_ANGLE = Utils.toRadians( 45 );
 
 type SelfOptions = EmptySelfOptions;
 
@@ -56,7 +56,7 @@ export default class IncrementalCompass extends Compass {
         deltaAngle = deltaAngle + ( 2 * Math.PI );
       }
 
-      if ( Math.abs( deltaAngle ) < MAX_INCREMENT ) {
+      if ( Math.abs( deltaAngle ) < MAX_DELTA_ANGLE ) {
 
         // If the delta is small, rotate immediately to the field angle.
         this._angleProperty.value = fieldAngle;
@@ -65,7 +65,7 @@ export default class IncrementalCompass extends Compass {
 
         // If the delta is large, rotate incrementally.
         const sign = ( deltaAngle < 0 ) ? -1 : 1;
-        deltaAngle = sign * MAX_INCREMENT;
+        deltaAngle = sign * MAX_DELTA_ANGLE;
         this._angleProperty.value = needleAngle + deltaAngle;
       }
     }
