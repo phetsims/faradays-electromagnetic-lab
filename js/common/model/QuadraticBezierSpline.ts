@@ -1,4 +1,4 @@
-// Copyright 2023, University of Colorado Boulder
+// Copyright 2023-2024, University of Colorado Boulder
 
 /**
  * QuadraticBezierSpline is a quadratic bezier spline, described by a start point, an end point, and a control point.

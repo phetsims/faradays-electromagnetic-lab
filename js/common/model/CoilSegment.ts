@@ -1,4 +1,4 @@
-// Copyright 2023, University of Colorado Boulder
+// Copyright 2023-2024, University of Colorado Boulder
 
 /**
  * CoilSegment is one segment of a coil, described by a quadratic bezier spline. An array of CoilSegment is used to
