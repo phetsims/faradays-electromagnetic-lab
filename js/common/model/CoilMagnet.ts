@@ -42,11 +42,12 @@ export default class CoilMagnet extends Magnet {
     this.localBounds = new Bounds2( -this.loopRadius, -this.loopRadius, this.loopRadius, this.loopRadius );
   }
 
+  //TODO Implementation is identical to BarMagnet.isInside
   /**
    * Is the specific point, in global coordinates, inside the magnet?
    */
   public override isInside( position: Vector2 ): boolean {
-    return this.localBounds.containsCoordinates( position.x - this.positionProperty.value.x, position.y - this.positionProperty.value.y );
+    return this.localBounds.containsPoint( this.globalToLocalPosition( position, this.reusablePosition ) );
   }
 
   /**

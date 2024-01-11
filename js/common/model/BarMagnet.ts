@@ -78,7 +78,7 @@ export default class BarMagnet extends Magnet {
    * Is the specific point, in global coordinates, inside the magnet?
    */
   public override isInside( position: Vector2 ): boolean {
-    return this.localBounds.containsCoordinates( position.x - this.positionProperty.value.x, position.y - this.positionProperty.value.y );
+    return this.localBounds.containsPoint( this.globalToLocalPosition( position, this.reusablePosition ) );
   }
 
   /**

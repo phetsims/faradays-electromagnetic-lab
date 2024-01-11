@@ -39,7 +39,7 @@ export default abstract class Magnet extends FELMovable {
   public readonly fieldScaleProperty: NumberProperty;
 
   // reusable vector for transforming a position to the magnet's local coordinate frame
-  private readonly reusablePosition: Vector2;
+  protected readonly reusablePosition: Vector2;
 
   protected constructor( strengthProperty: TReadOnlyProperty<number>, strengthRange: Range, providedOptions: MagnetOptions ) {
 
