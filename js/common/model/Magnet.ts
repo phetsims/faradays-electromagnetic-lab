@@ -103,14 +103,10 @@ export default abstract class Magnet extends FELMovable {
 
     outputVector = outputVector || new Vector2( 0, 0 );
 
-    // Our models are based on a magnet located at the origin, with the North pole pointing down the positive x-axis.
-    // The position argument for this method is in the global coordinate frame. So transform that position to the
-    // magnet's local coordinate frame, adjusting for the magnet's position and rotation.
-    this.reusablePosition.set( position );
-    this.reusablePosition.rotateAboutPoint( this.positionProperty.value, -this.rotationProperty.value );
-    this.reusablePosition.subtract( this.positionProperty.value );
+    // Convert to the magnet's local coordinate frame, writes to this.reusablePosition.
+    this.globalToLocalPosition( position, this.reusablePosition );
 
-    // Get strength in magnet's local coordinate frame, writes to outputVector.
+    // Get strength in the magnet's local coordinate frame, writes to outputVector.
     this.getLocalFieldVector( this.reusablePosition, outputVector );
 
     // Adjust the field vector to match the magnet's direction.
@@ -136,6 +132,18 @@ export default abstract class Magnet extends FELMovable {
    * @param outputVector - result is written to this vector
    */
   protected abstract getLocalFieldVector( position: Vector2, outputVector: Vector2 ): Vector2;
+
+  /**
+   * Converts a position from the global coordinate frame to the magnet's local coordinate frame. This is essential
+   * because our B-field model is in the magnet's local coordinate frame.
+   */
+  protected globalToLocalPosition( localPosition: Vector2, globalPosition?: Vector2 ): Vector2 {
+    globalPosition = globalPosition || new Vector2( 0, 0 );
+    globalPosition.set( localPosition );
+    globalPosition.rotateAboutPoint( this.positionProperty.value, -this.rotationProperty.value );
+    globalPosition.subtract( this.positionProperty.value );
+    return globalPosition;
+  }
 }
 
 faradaysElectromagneticLab.register( 'Magnet', Magnet );
