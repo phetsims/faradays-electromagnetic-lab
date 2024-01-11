@@ -18,7 +18,7 @@ const FELPreferences = {
   // Magnetic units to be displayed
   magneticUnitsProperty: new StringUnionProperty<MagneticUnits>( FELQueryParameters.magneticUnits as MagneticUnits, {
     validValues: MagneticUnitsValues,
-    tandem: Tandem.PREFERENCES.createTandem( 'functionVariableProperty' ),
+    tandem: Tandem.PREFERENCES.createTandem( 'magneticUnitsProperty' ),
     phetioFeatured: true
   } ),
 
