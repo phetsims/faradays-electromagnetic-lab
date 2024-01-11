@@ -99,7 +99,9 @@ export default abstract class Magnet extends FELMovable {
    * @param position - in the global coordinate frame
    * @param [outputVector] - result is written to this vector, or a Vector2 is allocated if not provided
    */
-  public getFieldVector( position: Vector2, outputVector = new Vector2( 0, 0 ) ): Vector2 {
+  public getFieldVector( position: Vector2, outputVector?: Vector2 ): Vector2 {
+
+    outputVector = outputVector || new Vector2( 0, 0 );
 
     // Our models are based on a magnet located at the origin, with the North pole pointing down the positive x-axis.
     // The position argument for this method is in the global coordinate frame. So transform that position to the
