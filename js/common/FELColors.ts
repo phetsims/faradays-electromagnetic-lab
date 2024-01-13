@@ -182,8 +182,9 @@ const FELColors = {
     default: 'black'
   } ),
 
+  // For design of resistor colors, see https://github.com/phetsims/faradays-electromagnetic-lab/issues/29
   resistorFillProperty: new ProfileColorProperty( faradaysElectromagneticLab, 'resistorFill', {
-    default: 'rgb( 210, 168, 84 )' //rgb( 200, 176, 135 )'
+    default: 'rgb( 195, 136, 89 )'
   } ),
 
   resistorStrokeProperty: new ProfileColorProperty( faradaysElectromagneticLab, 'resistorStroke', {
@@ -195,15 +196,15 @@ const FELColors = {
   } ),
 
   resistorBand2ColorProperty: new ProfileColorProperty( faradaysElectromagneticLab, 'resistorBand2Color', {
-    default: 'black'
+    default: 'rgb( 150, 75, 1 )'
   } ),
 
   resistorBand3ColorProperty: new ProfileColorProperty( faradaysElectromagneticLab, 'resistorBand3Color', {
-    default: 'black'
+    default: 'rgb( 230, 182, 1 )'
   } ),
 
   resistorBand4ColorProperty: new ProfileColorProperty( faradaysElectromagneticLab, 'resistorBand4Color', {
-    default: 'rgb( 153, 112, 19 )' // gold
+    default: 'rgb( 230, 182, 1 )'
   } ),
 
   rpmDisplayCenterColorProperty: new ProfileColorProperty( faradaysElectromagneticLab, 'rpmDisplayCenterColor', {
