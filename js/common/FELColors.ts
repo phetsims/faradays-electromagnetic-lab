@@ -182,7 +182,7 @@ const FELColors = {
     default: 'black'
   } ),
 
-  // For design of resistor colors, see https://github.com/phetsims/faradays-electromagnetic-lab/issues/29
+  // For design of resistor colors, see https://github.com/phetsims/faradays-electromagnetic-lab/issues/29#issuecomment-1890128720
   resistorFillProperty: new ProfileColorProperty( faradaysElectromagneticLab, 'resistorFill', {
     default: 'rgb( 195, 136, 89 )'
   } ),
