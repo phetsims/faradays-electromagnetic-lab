@@ -23,9 +23,9 @@ import { SliderOptions } from '../../../sun/js/Slider.js';
 // Credits are shared by all sims in this family.
 //TODO https://github.com/phetsims/faradays-electromagnetic-lab/issues/2 fill in credits
 const CREDITS: CreditsData = {
-  leadDesign: '',
-  softwareDevelopment: '',
-  team: '',
+  leadDesign: 'Amy Rouinfar',
+  softwareDevelopment: 'Chris Malley (PixelZoom, Inc.)',
+  team: 'Wendy Adams, Mike Dubson, Danielle Harlow, Archie Paulson, Kathy Perkins, Carl Weiman',
   contributors: '',
   qualityAssurance: '',
   graphicArts: '',
