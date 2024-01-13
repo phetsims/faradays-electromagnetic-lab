@@ -11,7 +11,7 @@ import { EarthHemisphere, EarthHemisphereValues } from '../../FELQueryParameters
 import StringUnionProperty from '../../../../../axon/js/StringUnionProperty.js';
 import Tandem from '../../../../../tandem/js/Tandem.js';
 import PreferencesControl from '../../../../../joist/js/preferences/PreferencesControl.js';
-import { HighlightPath, Image, Text } from '../../../../../scenery/js/imports.js';
+import { Image, Text } from '../../../../../scenery/js/imports.js';
 import FELConstants from '../../FELConstants.js';
 import RectangularRadioButtonGroup, { RectangularRadioButtonGroupItem } from '../../../../../sun/js/buttons/RectangularRadioButtonGroup.js';
 import RectangularRadioButton from '../../../../../sun/js/buttons/RectangularRadioButton.js';
