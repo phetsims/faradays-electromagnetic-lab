@@ -15,7 +15,7 @@ import AddEarthCheckboxPreferencesControl from './AddEarthCheckboxPreferencesCon
 import FELPreferences from '../../model/FELPreferences.js';
 import faradaysElectromagneticLab from '../../../faradaysElectromagneticLab.js';
 import MagneticUnitsPreferencesControl from './MagneticUnitsPreferencesControl.js';
-import EarthImagePreferencesControl from './EarthImagePreferencesControl.js';
+import EarthHemispherePreferencesControl from './EarthHemispherePreferencesControl.js';
 import PickRequired from '../../../../../phet-core/js/types/PickRequired.js';
 import optionize from '../../../../../phet-core/js/optionize.js';
 
@@ -56,9 +56,9 @@ export default class FELPreferencesNode extends VBox {
         options.tandem.createTandem( 'addEarthCheckboxPreferencesControl' ) );
       children.push( addEarthCheckboxPreferencesControl );
 
-      const earthImagePreferencesControl = new EarthImagePreferencesControl( FELPreferences.earthImageProperty,
+      const earthHemispherePreferencesControl = new EarthHemispherePreferencesControl( FELPreferences.earthHemisphereProperty,
         options.tandem.createTandem( 'earthImagePreferencesControl' ) );
-      children.push( earthImagePreferencesControl );
+      children.push( earthHemispherePreferencesControl );
     }
 
     options.children = children;

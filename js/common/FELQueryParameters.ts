@@ -13,8 +13,8 @@ import faradaysElectromagneticLab from '../faradaysElectromagneticLab.js';
 export const MagneticUnitsValues = [ 'G', 'T' ] as const;
 export type MagneticUnits = ( typeof MagneticUnitsValues )[number];
 
-export const EarthImageValues = [ 'Americas', 'Africa' ] as const;
-export type EarthImage = ( typeof EarthImageValues )[number];
+export const EarthHemisphereValues = [ 'western', 'eastern' ] as const;
+export type EarthHemisphere = ( typeof EarthHemisphereValues )[number];
 
 const SCHEMA_MAP = {
 
@@ -37,10 +37,11 @@ const SCHEMA_MAP = {
     public: true
   },
 
-  earthImage: {
+  // Which hemisphere of the Earth to show
+  earthHemisphere: {
     type: 'string',
-    defaultValue: 'Americas',
-    validValues: EarthImageValues,
+    defaultValue: 'western',
+    validValues: EarthHemisphereValues,
     public: true
   },
 

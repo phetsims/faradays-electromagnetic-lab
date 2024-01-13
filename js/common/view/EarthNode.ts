@@ -15,9 +15,9 @@ import PickRequired from '../../../../phet-core/js/types/PickRequired.js';
 import optionize, { EmptySelfOptions } from '../../../../phet-core/js/optionize.js';
 import FELMovableNode, { FELMovableNodeOptions } from './FELMovableNode.js';
 import Vector2 from '../../../../dot/js/Vector2.js';
-import earthAmericas_png from '../../../images/earthAmericas_png.js';
 import FELPreferences from '../model/FELPreferences.js';
-import earthAfrica_png from '../../../images/earthAfrica_png.js';
+import earthWesternHemisphere_svg from '../../../images/earthWesternHemisphere_svg.js';
+import earthEasternHemisphere_svg from '../../../images/earthEasternHemisphere_svg.js';
 
 type SelfOptions = EmptySelfOptions;
 
@@ -27,7 +27,7 @@ export default class EarthNode extends FELMovableNode {
 
   public constructor( barMagnet: BarMagnet, providedOptions: EarthNodeOptions ) {
 
-    const earthImage = new Image( earthAmericas_png, {
+    const earthImage = new Image( earthWesternHemisphere_svg, {
       scale: 0.6,
       opacity: 0.75,
       rotation: Math.PI / 2, // earth_png has north up, bar magnet has north to the right
@@ -35,12 +35,12 @@ export default class EarthNode extends FELMovableNode {
       center: Vector2.ZERO
     } );
 
-    FELPreferences.earthImageProperty.link( earthView => {
-      if ( earthView === 'Africa' ) {
-        earthImage.image = earthAfrica_png;
+    FELPreferences.earthHemisphereProperty.link( earthHemisphere => {
+      if ( earthHemisphere === 'western' ) {
+        earthImage.image = earthWesternHemisphere_svg;
       }
       else {
-        earthImage.image = earthAmericas_png;
+        earthImage.image = earthEasternHemisphere_svg;
       }
     } );
 

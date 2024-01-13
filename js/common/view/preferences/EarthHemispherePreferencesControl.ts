@@ -1,13 +1,13 @@
 // Copyright 2024, University of Colorado Boulder
 
 /**
- * EarthImagePreferencesControl is the control in the Preferences dialog for selecting the Earth image.
+ * EarthHemispherePreferencesControl is the control in the Preferences dialog for selecting the Earth image.
  * It is a labeled group of radio buttons.
  *
  * @author Chris Malley (PixelZoom, Inc.)
  */
 
-import { EarthImage, EarthImageValues } from '../../FELQueryParameters.js';
+import { EarthHemisphere, EarthHemisphereValues } from '../../FELQueryParameters.js';
 import StringUnionProperty from '../../../../../axon/js/StringUnionProperty.js';
 import Tandem from '../../../../../tandem/js/Tandem.js';
 import PreferencesControl from '../../../../../joist/js/preferences/PreferencesControl.js';
@@ -16,22 +16,22 @@ import FELConstants from '../../FELConstants.js';
 import RectangularRadioButtonGroup, { RectangularRadioButtonGroupItem } from '../../../../../sun/js/buttons/RectangularRadioButtonGroup.js';
 import RectangularRadioButton from '../../../../../sun/js/buttons/RectangularRadioButton.js';
 import FELColors from '../../FELColors.js';
-import earthAfrica_png from '../../../../images/earthAfrica_png.js';
-import earthAmericas_png from '../../../../images/earthAmericas_png.js';
 import faradaysElectromagneticLab from '../../../faradaysElectromagneticLab.js';
 import FaradaysElectromagneticLabStrings from '../../../FaradaysElectromagneticLabStrings.js';
+import earthEasternHemisphere_svg from '../../../../images/earthEasternHemisphere_svg.js';
+import earthWesternHemisphere_svg from '../../../../images/earthWesternHemisphere_svg.js';
 
-export default class EarthImagePreferencesControl extends PreferencesControl {
+export default class EarthHemispherePreferencesControl extends PreferencesControl {
 
-  public constructor( earthImageProperty: StringUnionProperty<EarthImage>, tandem: Tandem ) {
+  public constructor( earthImageProperty: StringUnionProperty<EarthHemisphere>, tandem: Tandem ) {
 
-    const labelText = new Text( FaradaysElectromagneticLabStrings.earthImageStringProperty, {
+    const labelText = new Text( FaradaysElectromagneticLabStrings.earthHemisphereStringProperty, {
       font: FELConstants.PREFERENCES_LABEL_FONT,
       maxWidth: FELConstants.PREFERENCES_LABEL_MAX_WIDTH,
       tandem: tandem.createTandem( 'labelText' )
     } );
 
-    const radioButtonGroup = new EarthImageRadioButtonGroup( earthImageProperty,
+    const radioButtonGroup = new EarthHemisphereRadioButtonGroup( earthImageProperty,
       tandem.createTandem( 'radioButtonGroup' ) );
 
     super( {
@@ -50,14 +50,14 @@ export default class EarthImagePreferencesControl extends PreferencesControl {
 /**
  * The radio button group for this control.
  */
-class EarthImageRadioButtonGroup extends RectangularRadioButtonGroup<EarthImage> {
+class EarthHemisphereRadioButtonGroup extends RectangularRadioButtonGroup<EarthHemisphere> {
 
-  public constructor( earthImageProperty: StringUnionProperty<EarthImage>, tandem: Tandem ) {
+  public constructor( earthImageProperty: StringUnionProperty<EarthHemisphere>, tandem: Tandem ) {
 
-    const items: RectangularRadioButtonGroupItem<EarthImage>[] = EarthImageValues.map( value => {
+    const items: RectangularRadioButtonGroupItem<EarthHemisphere>[] = EarthHemisphereValues.map( value => {
       return {
         value: value,
-        createNode: () => new EarthImageRadioButtonLabel( value ),
+        createNode: () => new EarthHemisphereRadioButtonLabel( value ),
         tandemName: `${value}${RectangularRadioButton.TANDEM_NAME_SUFFIX}`
       };
     } );
@@ -66,11 +66,12 @@ class EarthImageRadioButtonGroup extends RectangularRadioButtonGroup<EarthImage>
       orientation: 'horizontal',
       radioButtonOptions: {
         baseColor: FELColors.screenBackgroundColorProperty,
+        buttonAppearanceStrategyOptions: {
+          selectedLineWidth: 4,
+          selectedStroke: 'rgb( 262, 68, 147 )'
+        },
         xMargin: 7,
         yMargin: 7,
-        buttonAppearanceStrategyOptions: {
-          selectedLineWidth: 2
-        },
         phetioVisiblePropertyInstrumented: false
       },
       phetioVisiblePropertyInstrumented: false,
@@ -82,13 +83,13 @@ class EarthImageRadioButtonGroup extends RectangularRadioButtonGroup<EarthImage>
 /**
  * Labels for the radio buttons.
  */
-class EarthImageRadioButtonLabel extends Image {
+class EarthHemisphereRadioButtonLabel extends Image {
 
-  public constructor( value: EarthImage ) {
-    super( ( value === 'Africa' ) ? earthAfrica_png : earthAmericas_png, {
+  public constructor( value: EarthHemisphere ) {
+    super( ( value === 'western' ) ? earthWesternHemisphere_svg : earthEasternHemisphere_svg, {
       scale: 0.1
     } );
   }
 }
 
-faradaysElectromagneticLab.register( 'EarthImagePreferencesControl', EarthImagePreferencesControl );
+faradaysElectromagneticLab.register( 'EarthHemispherePreferencesControl', EarthHemispherePreferencesControl );

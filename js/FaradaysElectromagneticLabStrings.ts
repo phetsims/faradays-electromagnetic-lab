@@ -60,7 +60,7 @@ type StringsType = {
   'teslaPreferenceStringProperty': LocalizedStringProperty;
   'addEarthCheckboxStringProperty': LocalizedStringProperty;
   'addEarthCheckboxDescriptionStringProperty': LocalizedStringProperty;
-  'earthImageStringProperty': LocalizedStringProperty;
+  'earthHemisphereStringProperty': LocalizedStringProperty;
 };
 
 const FaradaysElectromagneticLabStrings = getStringModule( 'FARADAYS_ELECTROMAGNETIC_LAB' ) as StringsType;

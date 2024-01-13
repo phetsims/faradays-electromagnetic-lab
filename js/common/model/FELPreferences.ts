@@ -11,7 +11,7 @@ import faradaysElectromagneticLab from '../../faradaysElectromagneticLab.js';
 import BooleanProperty from '../../../../axon/js/BooleanProperty.js';
 import Tandem from '../../../../tandem/js/Tandem.js';
 import StringUnionProperty from '../../../../axon/js/StringUnionProperty.js';
-import FELQueryParameters, { EarthImage, EarthImageValues, MagneticUnits, MagneticUnitsValues } from '../FELQueryParameters.js';
+import FELQueryParameters, { EarthHemisphere, EarthHemisphereValues, MagneticUnits, MagneticUnitsValues } from '../FELQueryParameters.js';
 
 const FELPreferences = {
 
@@ -28,9 +28,10 @@ const FELPreferences = {
     phetioFeatured: true
   } ),
 
-  earthImageProperty: new StringUnionProperty<EarthImage>( FELQueryParameters.earthImage as EarthImage, {
-    validValues: EarthImageValues,
-    tandem: Tandem.PREFERENCES.createTandem( 'earthViewProperty' ),
+  // Which hemisphere of the Earth to show
+  earthHemisphereProperty: new StringUnionProperty<EarthHemisphere>( FELQueryParameters.earthHemisphere as EarthHemisphere, {
+    validValues: EarthHemisphereValues,
+    tandem: Tandem.PREFERENCES.createTandem( 'earthHemisphereProperty' ),
     phetioFeatured: true
   } )
 };
