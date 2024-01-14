@@ -16,11 +16,11 @@ import BarMagnetFieldGrid from './BarMagnetFieldGrid.js';
 import { EmptySelfOptions } from '../../../../phet-core/js/optionize.js';
 import NumberProperty from '../../../../axon/js/NumberProperty.js';
 import Range from '../../../../dot/js/Range.js';
-import Property from '../../../../axon/js/Property.js';
 import Bounds2 from '../../../../dot/js/Bounds2.js';
-import PhetioProperty from '../../../../axon/js/PhetioProperty.js';
-import MappedProperty from '../../../../axon/js/MappedProperty.js';
+import DerivedProperty from '../../../../axon/js/DerivedProperty.js';
 import NumberIO from '../../../../tandem/js/types/NumberIO.js';
+
+const MAX_STRENGTH = 300;
 
 type SelfOptions = EmptySelfOptions;
 
@@ -29,12 +29,8 @@ export type BarMagnetOptions = SelfOptions & MagnetOptions;
 
 export default class BarMagnet extends Magnet {
 
-  // A writeable version of this.strengthProperty: TReadOnlyProperty<number>
-  public readonly barMagnetStrengthProperty: Property<number>;
-
   // Strength as a percentage
-  public readonly strengthPercentProperty: PhetioProperty<number>;
-  public readonly strengthPercentRange: Range;
+  public readonly strengthPercentProperty: NumberProperty;
 
   // unitless, width is from the magnet's South to North pole
   public readonly size: Dimension2;
@@ -44,34 +40,32 @@ export default class BarMagnet extends Magnet {
 
   public constructor( providedOptions: BarMagnetOptions ) {
 
-    const strengthProperty = new NumberProperty( 225, {
-      units: 'G',
-      range: new Range( 0, 300 ),
-      tandem: providedOptions.tandem.createTandem( 'strengthProperty' ),
+    const strengthPercentRange = new Range( 0, 100 );
+
+    const strengthPercentProperty = new NumberProperty( 75, {
+      units: '%',
+      range: strengthPercentRange,
+      tandem: providedOptions.tandem.createTandem( 'strengthPercentProperty' ),
       phetioFeatured: true
     } );
 
-    super( strengthProperty, strengthProperty.range, providedOptions );
+    const strengthProperty = new DerivedProperty( [ strengthPercentProperty ],
+      strengthPercent => strengthPercent * MAX_STRENGTH / 100, {
+        units: 'G',
+        tandem: providedOptions.tandem.createTandem( 'strengthProperty' ),
+        phetioValueType: NumberIO,
+        phetioFeatured: true
+      } );
 
-    this.barMagnetStrengthProperty = strengthProperty;
+    const strengthRange = new Range( strengthPercentRange.min * MAX_STRENGTH / 100, strengthPercentRange.max * MAX_STRENGTH / 100 );
+
+    super( strengthProperty, strengthRange, providedOptions );
+
+    this.strengthPercentProperty = strengthPercentProperty;
     this.size = new Dimension2( 250, 50 );
 
     // Rectangular, with origin at the center
     this.localBounds = new Bounds2( -this.size.width / 2, -this.size.height / 2, this.size.width / 2, this.size.height / 2 );
-
-    this.strengthPercentRange = new Range( 100 * strengthProperty.range.min / strengthProperty.range.max, 100 );
-
-    this.strengthPercentProperty = new MappedProperty<number, number>( strengthProperty, {
-      bidirectional: true,
-      map: ( loopArea: number ) => 100 * loopArea / strengthProperty.range.max,
-      inverseMap: ( percent: number ) => percent * strengthProperty.range.max / 100,
-      isValidValue: percent => this.strengthPercentRange.contains( percent ),
-      tandem: providedOptions.tandem.createTandem( 'strengthPercentProperty' ),
-      phetioValueType: NumberIO,
-      phetioReadOnly: true, // use loopAreaProperty
-      phetioDocumentation: 'Strength as a percentage, which is how the UI sets and views it. ' +
-                           'If you want to change this, use the sim or see strengthProperty.'
-    } );
   }
 
   /**
