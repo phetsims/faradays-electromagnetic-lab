@@ -20,7 +20,8 @@ import Bounds2 from '../../../../dot/js/Bounds2.js';
 import DerivedProperty from '../../../../axon/js/DerivedProperty.js';
 import NumberIO from '../../../../tandem/js/types/NumberIO.js';
 
-const MAX_STRENGTH = 300;
+const MAX_STRENGTH = 300; // G
+const STRENGTH_PERCENT_RANGE = new Range( 0, 100 ); // %
 
 type SelfOptions = EmptySelfOptions;
 
@@ -40,11 +41,9 @@ export default class BarMagnet extends Magnet {
 
   public constructor( providedOptions: BarMagnetOptions ) {
 
-    const strengthPercentRange = new Range( 0, 100 );
-
     const strengthPercentProperty = new NumberProperty( 75, {
       units: '%',
-      range: strengthPercentRange,
+      range: STRENGTH_PERCENT_RANGE,
       tandem: providedOptions.tandem.createTandem( 'strengthPercentProperty' ),
       phetioFeatured: true
     } );
@@ -57,7 +56,7 @@ export default class BarMagnet extends Magnet {
         phetioFeatured: true
       } );
 
-    const strengthRange = new Range( strengthPercentRange.min * MAX_STRENGTH / 100, strengthPercentRange.max * MAX_STRENGTH / 100 );
+    const strengthRange = new Range( STRENGTH_PERCENT_RANGE.min * MAX_STRENGTH / 100, STRENGTH_PERCENT_RANGE.max * MAX_STRENGTH / 100 );
 
     super( strengthProperty, strengthRange, providedOptions );
 
