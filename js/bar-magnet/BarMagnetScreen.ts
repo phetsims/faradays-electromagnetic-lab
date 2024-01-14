@@ -19,6 +19,7 @@ import FELConstants from '../common/FELConstants.js';
 import FELKeyboardHelpContent from '../common/view/FELKeyboardHelpContent.js';
 import BarMagnet from '../common/model/BarMagnet.js';
 import BarMagnetNode from '../common/view/BarMagnetNode.js';
+import Dimension2 from '../../../dot/js/Dimension2.js';
 
 export default class BarMagnetScreen extends Screen<BarMagnetModel, BarMagnetScreenView> {
 
@@ -42,6 +43,7 @@ export default class BarMagnetScreen extends Screen<BarMagnetModel, BarMagnetScr
 function createScreenIcon(): ScreenIcon {
 
   const barMagnet = new BarMagnet( {
+    size: new Dimension2( 150, 50 ),
     tandem: Tandem.OPT_OUT
   } );
 

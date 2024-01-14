@@ -13,55 +13,65 @@ import Dimension2 from '../../../../dot/js/Dimension2.js';
 import BarMagnetFieldData from './BarMagnetFieldData.js';
 import Vector2 from '../../../../dot/js/Vector2.js';
 import BarMagnetFieldGrid from './BarMagnetFieldGrid.js';
-import { EmptySelfOptions } from '../../../../phet-core/js/optionize.js';
+import optionize from '../../../../phet-core/js/optionize.js';
 import NumberProperty from '../../../../axon/js/NumberProperty.js';
 import Range from '../../../../dot/js/Range.js';
 import Bounds2 from '../../../../dot/js/Bounds2.js';
 import DerivedProperty from '../../../../axon/js/DerivedProperty.js';
 import NumberIO from '../../../../tandem/js/types/NumberIO.js';
 
+const DEFAULT_SIZE = new Dimension2( 250, 50 );
 const MAX_STRENGTH = 300; // G
 const STRENGTH_PERCENT_RANGE = new Range( 0, 100 ); // %
 
-type SelfOptions = EmptySelfOptions;
+type SelfOptions = {
+  size?: Dimension2;
+};
 
 export type BarMagnetOptions = SelfOptions & MagnetOptions;
 
 
 export default class BarMagnet extends Magnet {
 
-  // Strength as a percentage
-  public readonly strengthPercentProperty: NumberProperty;
-
   // unitless, width is from the magnet's South to North pole
   public readonly size: Dimension2;
+
+  // Strength as a percentage
+  public readonly strengthPercentProperty: NumberProperty;
 
   // Bounds of the magnet in its local coordinate frame
   private readonly localBounds: Bounds2;
 
   public constructor( providedOptions: BarMagnetOptions ) {
 
+    const options = optionize<BarMagnetOptions, SelfOptions, MagnetOptions>()( {
+
+      // SelfOptions
+      size: DEFAULT_SIZE
+    }, providedOptions );
+
     const strengthPercentProperty = new NumberProperty( 75, {
       units: '%',
       range: STRENGTH_PERCENT_RANGE,
-      tandem: providedOptions.tandem.createTandem( 'strengthPercentProperty' ),
+      tandem: options.tandem.createTandem( 'strengthPercentProperty' ),
       phetioFeatured: true
     } );
 
     const strengthProperty = new DerivedProperty( [ strengthPercentProperty ],
       strengthPercent => strengthPercent * MAX_STRENGTH / 100, {
         units: 'G',
-        tandem: providedOptions.tandem.createTandem( 'strengthProperty' ),
+        tandem: options.tandem.createTandem( 'strengthProperty' ),
         phetioValueType: NumberIO,
         phetioFeatured: true
       } );
 
     const strengthRange = new Range( STRENGTH_PERCENT_RANGE.min * MAX_STRENGTH / 100, STRENGTH_PERCENT_RANGE.max * MAX_STRENGTH / 100 );
 
-    super( strengthProperty, strengthRange, providedOptions );
+    super( strengthProperty, strengthRange, options );
+
+    this.size = options.size;
 
     this.strengthPercentProperty = strengthPercentProperty;
-    this.size = new Dimension2( 250, 50 );
 
     // Rectangular, with origin at the center
     this.localBounds = new Bounds2( -this.size.width / 2, -this.size.height / 2, this.size.width / 2, this.size.height / 2 );
