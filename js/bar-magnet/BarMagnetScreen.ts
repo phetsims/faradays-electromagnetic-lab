@@ -12,12 +12,13 @@ import faradaysElectromagneticLab from '../faradaysElectromagneticLab.js';
 import BarMagnetScreenView from './view/BarMagnetScreenView.js';
 import FaradaysElectromagneticLabStrings from '../FaradaysElectromagneticLabStrings.js';
 import BarMagnetModel from './model/BarMagnetModel.js';
-import { Rectangle } from '../../../scenery/js/imports.js';
 import ScreenIcon from '../../../joist/js/ScreenIcon.js';
 import Tandem from '../../../tandem/js/Tandem.js';
 import { combineOptions } from '../../../phet-core/js/optionize.js';
 import FELConstants from '../common/FELConstants.js';
 import FELKeyboardHelpContent from '../common/view/FELKeyboardHelpContent.js';
+import BarMagnet from '../common/model/BarMagnet.js';
+import BarMagnetNode from '../common/view/BarMagnetNode.js';
 
 export default class BarMagnetScreen extends Screen<BarMagnetModel, BarMagnetScreenView> {
 
@@ -27,7 +28,7 @@ export default class BarMagnetScreen extends Screen<BarMagnetModel, BarMagnetScr
       model => new BarMagnetScreenView( model, tandem.createTandem( 'view' ) ),
       combineOptions<ScreenOptions>( {}, FELConstants.SCREEN_OPTIONS, {
           name: FaradaysElectromagneticLabStrings.screen.barMagnetStringProperty,
-          homeScreenIcon: createHomeScreenIcon(),
+          homeScreenIcon: createScreenIcon(),
           createKeyboardHelpNode: () => new FELKeyboardHelpContent(),
           tandem: tandem
         }
@@ -35,11 +36,23 @@ export default class BarMagnetScreen extends Screen<BarMagnetModel, BarMagnetScr
   }
 }
 
-//TODO https://github.com/phetsims/faradays-electromagnetic-lab/issues/28 screen icon
-function createHomeScreenIcon(): ScreenIcon {
-  return new ScreenIcon( new Rectangle( 0, 0, 1, 1 ), {
+/**
+ * Creates the icon for this screen.
+ */
+function createScreenIcon(): ScreenIcon {
+
+  const barMagnet = new BarMagnet( {
+    tandem: Tandem.OPT_OUT
+  } );
+
+  const barMagnetNode = new BarMagnetNode( barMagnet, {
+    isMovable: false,
+    tandem: Tandem.OPT_OUT
+  } );
+
+  return new ScreenIcon( barMagnetNode, {
     fill: FELColors.screenBackgroundColorProperty,
-    maxIconWidthProportion: 1,
+    maxIconWidthProportion: 0.85,
     maxIconHeightProportion: 1
   } );
 }
