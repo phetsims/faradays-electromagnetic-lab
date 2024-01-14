@@ -59,7 +59,8 @@ export default class CompassNeedleNode extends Node {
     } );
 
     const unionPath = new Path( southShape.shapeUnion( northShape ), {
-      stroke: options.stroke
+      stroke: options.stroke,
+      lineWidth: 0.5
     } );
 
     super( {
