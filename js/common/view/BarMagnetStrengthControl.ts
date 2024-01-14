@@ -16,7 +16,6 @@ import PatternStringProperty from '../../../../axon/js/PatternStringProperty.js'
 import Utils from '../../../../dot/js/Utils.js';
 import { RichText } from '../../../../scenery/js/imports.js';
 import StringUtils from '../../../../phetcommon/js/util/StringUtils.js';
-import DerivedProperty from '../../../../axon/js/DerivedProperty.js';
 import NumberProperty from '../../../../axon/js/NumberProperty.js';
 
 const valuePercentStringProperty = FaradaysElectromagneticLabStrings.pattern.valuePercentStringProperty;
@@ -60,8 +59,8 @@ export default class BarMagnetStrengthControl extends NumberControl {
       delta: SLIDER_STEP,
       numberDisplayOptions: {
         decimalPlaces: 0,
-        numberFormatter: strength => StringUtils.fillIn( FaradaysElectromagneticLabStrings.pattern.valuePercentStringProperty, {
-          value: new DerivedProperty( [ strengthPercentProperty ], percent => Utils.toFixed( percent, 0 ) )
+        numberFormatter: strengthPercent => StringUtils.fillIn( FaradaysElectromagneticLabStrings.pattern.valuePercentStringProperty, {
+          value: Utils.toFixed( strengthPercent, 0 )
         } ),
         numberFormatterDependencies: [ FaradaysElectromagneticLabStrings.pattern.valuePercentStringProperty ]
       },
