@@ -13,11 +13,12 @@ import PickupCoilScreenView from './view/PickupCoilScreenView.js';
 import FaradaysElectromagneticLabStrings from '../FaradaysElectromagneticLabStrings.js';
 import FELColors from '../common/FELColors.js';
 import ScreenIcon from '../../../joist/js/ScreenIcon.js';
-import { Rectangle } from '../../../scenery/js/imports.js';
+import { Image } from '../../../scenery/js/imports.js';
 import Tandem from '../../../tandem/js/Tandem.js';
 import { combineOptions } from '../../../phet-core/js/optionize.js';
 import FELConstants from '../common/FELConstants.js';
 import FELKeyboardHelpContent from '../common/view/FELKeyboardHelpContent.js';
+import lightBulbOn_png from '../../../scenery-phet/mipmaps/lightBulbOn_png.js';
 
 export default class PickupCoilScreen extends Screen<PickupCoilModel, PickupCoilScreenView> {
 
@@ -27,7 +28,7 @@ export default class PickupCoilScreen extends Screen<PickupCoilModel, PickupCoil
       model => new PickupCoilScreenView( model, tandem.createTandem( 'view' ) ),
       combineOptions<ScreenOptions>( {}, FELConstants.SCREEN_OPTIONS, {
           name: FaradaysElectromagneticLabStrings.screen.pickupCoilStringProperty,
-          homeScreenIcon: createHomeScreenIcon(),
+          homeScreenIcon: createScreenIcon(),
           createKeyboardHelpNode: () => new FELKeyboardHelpContent(),
           tandem: tandem
         }
@@ -35,12 +36,15 @@ export default class PickupCoilScreen extends Screen<PickupCoilModel, PickupCoil
   }
 }
 
-//TODO https://github.com/phetsims/faradays-electromagnetic-lab/issues/28 screen icon
-function createHomeScreenIcon(): ScreenIcon {
-  return new ScreenIcon( new Rectangle( 0, 0, 1, 1 ), {
+/**
+ * Creates the icon for this screen.
+ */
+function createScreenIcon(): ScreenIcon {
+  const lightBulbImage = new Image( lightBulbOn_png );
+  return new ScreenIcon( lightBulbImage, {
     fill: FELColors.screenBackgroundColorProperty,
     maxIconWidthProportion: 1,
-    maxIconHeightProportion: 1
+    maxIconHeightProportion: 0.85
   } );
 }
 

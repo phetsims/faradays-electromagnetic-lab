@@ -13,11 +13,14 @@ import GeneratorScreenView from './view/GeneratorScreenView.js';
 import FaradaysElectromagneticLabStrings from '../FaradaysElectromagneticLabStrings.js';
 import FELColors from '../common/FELColors.js';
 import ScreenIcon from '../../../joist/js/ScreenIcon.js';
-import { Rectangle } from '../../../scenery/js/imports.js';
 import Tandem from '../../../tandem/js/Tandem.js';
+import { Image, Node } from '../../../scenery/js/imports.js';
 import { combineOptions } from '../../../phet-core/js/optionize.js';
 import FELConstants from '../common/FELConstants.js';
 import FELKeyboardHelpContent from '../common/view/FELKeyboardHelpContent.js';
+import waterWheel_png from '../../images/waterWheel_png.js';
+import BarMagnet from '../common/model/BarMagnet.js';
+import BarMagnetNode from '../common/view/BarMagnetNode.js';
 
 export default class GeneratorScreen extends Screen<GeneratorModel, GeneratorScreenView> {
 
@@ -27,7 +30,7 @@ export default class GeneratorScreen extends Screen<GeneratorModel, GeneratorScr
       model => new GeneratorScreenView( model, tandem.createTandem( 'view' ) ),
       combineOptions<ScreenOptions>( {}, FELConstants.SCREEN_OPTIONS, {
           name: FaradaysElectromagneticLabStrings.screen.generatorStringProperty,
-          homeScreenIcon: createHomeScreenIcon(),
+          homeScreenIcon: createScreenIcon(),
           createKeyboardHelpNode: () => new FELKeyboardHelpContent(),
           tandem: tandem
         }
@@ -35,12 +38,33 @@ export default class GeneratorScreen extends Screen<GeneratorModel, GeneratorScr
   }
 }
 
-//TODO https://github.com/phetsims/faradays-electromagnetic-lab/issues/28 screen icon
-function createHomeScreenIcon(): ScreenIcon {
-  return new ScreenIcon( new Rectangle( 0, 0, 1, 1 ), {
+/**
+ * Creates the icon for this screen.
+ */
+function createScreenIcon(): ScreenIcon {
+
+  const waterWheelImage = new Image( waterWheel_png );
+
+  const barMagnet = new BarMagnet( {
+    tandem: Tandem.OPT_OUT
+  } );
+
+  const barMagnetNode = new BarMagnetNode( barMagnet, {
+    isMovable: false,
+    tandem: Tandem.OPT_OUT
+  } );
+
+  barMagnetNode.setScaleMagnitude( 0.95 * waterWheelImage.width / barMagnetNode.width );
+  barMagnetNode.center = waterWheelImage.center;
+
+  const iconNode = new Node( {
+    children: [ waterWheelImage, barMagnetNode ]
+  } );
+
+  return new ScreenIcon( iconNode, {
     fill: FELColors.screenBackgroundColorProperty,
     maxIconWidthProportion: 1,
-    maxIconHeightProportion: 1
+    maxIconHeightProportion: 0.9
   } );
 }
 

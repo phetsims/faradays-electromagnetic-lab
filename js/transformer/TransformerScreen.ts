@@ -13,11 +13,13 @@ import TransformerScreenView from './view/TransformerScreenView.js';
 import FaradaysElectromagneticLabStrings from '../FaradaysElectromagneticLabStrings.js';
 import FELColors from '../common/FELColors.js';
 import ScreenIcon from '../../../joist/js/ScreenIcon.js';
-import { Rectangle } from '../../../scenery/js/imports.js';
+import { HBox, Image } from '../../../scenery/js/imports.js';
 import Tandem from '../../../tandem/js/Tandem.js';
 import { combineOptions } from '../../../phet-core/js/optionize.js';
 import FELConstants from '../common/FELConstants.js';
 import FELKeyboardHelpContent from '../common/view/FELKeyboardHelpContent.js';
+import lightBulbOn_png from '../../../scenery-phet/mipmaps/lightBulbOn_png.js';
+import battery_png from '../../images/battery_png.js';
 
 export default class TransformerScreen extends Screen<TransformerModel, TransformerScreenView> {
 
@@ -27,7 +29,7 @@ export default class TransformerScreen extends Screen<TransformerModel, Transfor
       model => new TransformerScreenView( model, tandem.createTandem( 'view' ) ),
       combineOptions<ScreenOptions>( {}, FELConstants.SCREEN_OPTIONS, {
           name: FaradaysElectromagneticLabStrings.screen.transformerStringProperty,
-          homeScreenIcon: createHomeScreenIcon(),
+          homeScreenIcon: createScreenIcon(),
           createKeyboardHelpNode: () => new FELKeyboardHelpContent(),
           tandem: tandem
         }
@@ -35,12 +37,20 @@ export default class TransformerScreen extends Screen<TransformerModel, Transfor
   }
 }
 
-//TODO https://github.com/phetsims/faradays-electromagnetic-lab/issues/28 screen icon
-function createHomeScreenIcon(): ScreenIcon {
-  return new ScreenIcon( new Rectangle( 0, 0, 1, 1 ), {
+/**
+ * Creates the icon for this screen.
+ */
+function createScreenIcon(): ScreenIcon {
+
+  const iconNode = new HBox( {
+    spacing: 5,
+    children: [ new Image( battery_png ), new Image( lightBulbOn_png ) ]
+  } );
+
+  return new ScreenIcon( iconNode, {
     fill: FELColors.screenBackgroundColorProperty,
-    maxIconWidthProportion: 1,
-    maxIconHeightProportion: 1
+    maxIconWidthProportion: 0.85,
+    maxIconHeightProportion: 0.85
   } );
 }
 

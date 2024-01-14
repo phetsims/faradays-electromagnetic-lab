@@ -13,11 +13,12 @@ import ElectromagnetScreenView from './view/ElectromagnetScreenView.js';
 import FaradaysElectromagneticLabStrings from '../FaradaysElectromagneticLabStrings.js';
 import FELColors from '../common/FELColors.js';
 import ScreenIcon from '../../../joist/js/ScreenIcon.js';
-import { Rectangle } from '../../../scenery/js/imports.js';
+import { Image } from '../../../scenery/js/imports.js';
 import Tandem from '../../../tandem/js/Tandem.js';
 import { combineOptions } from '../../../phet-core/js/optionize.js';
 import FELConstants from '../common/FELConstants.js';
 import FELKeyboardHelpContent from '../common/view/FELKeyboardHelpContent.js';
+import battery_png from '../../images/battery_png.js';
 
 export default class ElectromagnetScreen extends Screen<ElectromagnetModel, ElectromagnetScreenView> {
 
@@ -27,7 +28,7 @@ export default class ElectromagnetScreen extends Screen<ElectromagnetModel, Elec
       model => new ElectromagnetScreenView( model, tandem.createTandem( 'view' ) ),
       combineOptions<ScreenOptions>( {}, FELConstants.SCREEN_OPTIONS, {
           name: FaradaysElectromagneticLabStrings.screen.electromagnetStringProperty,
-          homeScreenIcon: createHomeScreenIcon(),
+          homeScreenIcon: createScreenIcon(),
           createKeyboardHelpNode: () => new FELKeyboardHelpContent(),
           tandem: tandem
         }
@@ -35,11 +36,14 @@ export default class ElectromagnetScreen extends Screen<ElectromagnetModel, Elec
   }
 }
 
-//TODO https://github.com/phetsims/faradays-electromagnetic-lab/issues/28 screen icon
-function createHomeScreenIcon(): ScreenIcon {
-  return new ScreenIcon( new Rectangle( 0, 0, 1, 1 ), {
+/**
+ * Creates the icon for this screen.
+ */
+function createScreenIcon(): ScreenIcon {
+  const batteryImage = new Image( battery_png );
+  return new ScreenIcon( batteryImage, {
     fill: FELColors.screenBackgroundColorProperty,
-    maxIconWidthProportion: 1,
+    maxIconWidthProportion: 0.75,
     maxIconHeightProportion: 1
   } );
 }
