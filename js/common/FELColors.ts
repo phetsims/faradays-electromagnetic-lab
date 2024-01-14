@@ -94,8 +94,11 @@ const FELColors = {
   } ),
 
   compassNeedleSouthColorProperty: new ProfileColorProperty( faradaysElectromagneticLab, 'compassNeedleSouthColor', {
-    default: 'white',
-    projector: BAR_MAGNET_SOUTH_COLOR
+    default: 'white'
+  } ),
+
+  compassNeedleStrokeProperty: new ProfileColorProperty( faradaysElectromagneticLab, 'compassNeedleStroke', {
+    default: 'black'
   } ),
 
   compassRingColorProperty: new ProfileColorProperty( faradaysElectromagneticLab, 'compassRingColor', {

@@ -34,7 +34,7 @@ export default class CompassNeedleNode extends Node {
 
       // SelfOptions
       length: FELQueryParameters.needleLength,
-      stroke: null,
+      stroke: FELColors.compassNeedleStrokeProperty,
       northFill: FELColors.compassNeedleNorthColorProperty,
       southFill: FELColors.compassNeedleSouthColorProperty
     }, providedOptions );

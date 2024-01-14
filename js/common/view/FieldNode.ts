@@ -42,10 +42,7 @@ export default class FieldNode extends Sprites {
 
     // A vector in the field is visualized as a compass needle.
     // Convert a CompassNeedleNode to a Sprite.
-    const compassNeedleNode = new CompassNeedleNode( {
-      northFill: FELColors.compassNeedleNorthColorProperty.value,
-      southFill: FELColors.compassNeedleSouthColorProperty.value
-    } );
+    const compassNeedleNode = new CompassNeedleNode();
     let spriteImage: SpriteImage;
     compassNeedleNode.toCanvas( ( canvas, x, y, width, height ) => {
       spriteImage = new SpriteImage( canvas, new Vector2( ( x + compassNeedleNode.width / 2 ), ( y + compassNeedleNode.height / 2 ) ) );

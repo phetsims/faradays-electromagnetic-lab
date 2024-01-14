@@ -15,7 +15,6 @@ import faradaysElectromagneticLab from '../../faradaysElectromagneticLab.js';
 import CompassNeedleNode from './CompassNeedleNode.js';
 import optionize, { EmptySelfOptions } from '../../../../phet-core/js/optionize.js';
 import PickRequired from '../../../../phet-core/js/types/PickRequired.js';
-import FELColors from '../FELColors.js';
 import BarMagnet from '../model/BarMagnet.js';
 
 const ROWS = 2;
@@ -33,9 +32,7 @@ export default class FieldInsideNode extends GridBox {
 
       // GridBoxOptions
       isDisposable: false,
-      children: _.times( ROWS * COLUMNS, () => new CompassNeedleNode( {
-        stroke: FELColors.fieldInsideStrokeProperty
-      } ) ),
+      children: _.times( ROWS * COLUMNS, () => new CompassNeedleNode() ),
       autoRows: ROWS,
       xSpacing: 6, // determined empirically
       ySpacing: 12 // determined empirically
