@@ -64,7 +64,7 @@ export default class KinematicCompass extends Compass {
     this.alphaProperty.reset();
   }
 
-  //TODO wobble continues for an excessively long time when the compass is placed against either pole of the magnet, also in Java version
+  //TODO Misbehaves when the compass is placed against either pole of the magnet, also in Java version.
   /**
    * Updates the compass needle's angle.
    * @param fieldVector - the magnet's B-field vector at the compass position
