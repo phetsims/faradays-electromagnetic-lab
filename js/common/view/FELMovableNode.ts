@@ -66,13 +66,6 @@ export default class FELMovableNode extends Node {
       this.translation = position;
     } );
 
-    // If this Node becomes invisible, interrupt user interaction.
-    this.visibleProperty.lazyLink( visible => {
-      if ( !visible ) {
-        this.interruptSubtreeInput();
-      }
-    } );
-
     if ( options.isMovable ) {
 
       // Sounds clips associated with dragging
@@ -100,6 +93,13 @@ export default class FELMovableNode extends Node {
           } ) );
         this.addInputListener( keyboardDragListener );
       }
+
+      // If this Node becomes invisible, interrupt user interaction.
+      this.visibleProperty.lazyLink( visible => {
+        if ( !visible ) {
+          this.interruptSubtreeInput();
+        }
+      } );
     }
   }
 }
