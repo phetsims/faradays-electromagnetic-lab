@@ -446,7 +446,7 @@ class FixedNumberOfSamplePointsStrategy extends SamplePointsStrategy {
     // All sample points share the same x offset.
     const xOffset = 0;
 
-    // A point a the center of the coil
+    // A point at the center of the coil
     let index = 0;
     samplePoints[ index++ ] = new Vector2( xOffset, 0 );
 
@@ -489,7 +489,7 @@ export class FixedSpacingSamplePointsStrategy extends SamplePointsStrategy {
     // All sample points share the same x offset.
     const xOffset = 0;
 
-    // A point a the center of the coil
+    // A point at the center of the coil
     let index = 0;
     samplePoints[ index++ ] = new Vector2( xOffset, 0 );
 
