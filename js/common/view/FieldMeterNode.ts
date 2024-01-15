@@ -33,6 +33,8 @@ const xStringProperty = FaradaysElectromagneticLabStrings.symbol.xStringProperty
 const yStringProperty = FaradaysElectromagneticLabStrings.symbol.yStringProperty;
 const GStringProperty = FaradaysElectromagneticLabStrings.units.GStringProperty;
 const TStringProperty = FaradaysElectromagneticLabStrings.units.TStringProperty;
+const valueUnitsStringProperty = FaradaysElectromagneticLabStrings.pattern.valueUnitsStringProperty;
+const valueDegreesStringProperty = FaradaysElectromagneticLabStrings.pattern.valueDegreesStringProperty;
 
 const G_DECIMAL_PLACES = 2;
 const T_DECIMAL_PLACES = 2;
@@ -109,26 +111,26 @@ export default class FieldMeterNode extends FELMovableNode {
 
     // Dynamic values. We decided that Bx and By should be signed.
     const stringBValueProperty = new DerivedProperty(
-      [ FELPreferences.magneticUnitsProperty, fieldMeter.fieldVectorProperty, GStringProperty, TStringProperty ],
+      [ FELPreferences.magneticUnitsProperty, fieldMeter.fieldVectorProperty, GStringProperty, TStringProperty, valueUnitsStringProperty ],
       ( magneticUnits, fieldVector, G, T ) =>
         ( magneticUnits === 'G' ) ? `${toGaussString( fieldVector.magnitude, G )}`
                                   : `${toTeslaString( fieldVector.magnitude, T )}`
     );
     const stringBxValueProperty = new DerivedProperty(
-      [ FELPreferences.magneticUnitsProperty, fieldMeter.fieldVectorProperty, GStringProperty, TStringProperty ],
+      [ FELPreferences.magneticUnitsProperty, fieldMeter.fieldVectorProperty, GStringProperty, TStringProperty, valueUnitsStringProperty ],
       ( magneticUnits, fieldVector, G, T ) =>
         ( magneticUnits === 'G' ) ? `${toGaussString( fieldVector.x, G )}`
                                   : `${toTeslaString( fieldVector.x, T )}`
     );
     const stringByValueProperty = new DerivedProperty(
-      [ FELPreferences.magneticUnitsProperty, fieldMeter.fieldVectorProperty, GStringProperty, TStringProperty ],
+      [ FELPreferences.magneticUnitsProperty, fieldMeter.fieldVectorProperty, GStringProperty, TStringProperty, valueUnitsStringProperty ],
       //TODO -fieldVector.y to convert to +y up, should be done in the model
       ( magneticUnits, fieldVector, G, T ) =>
         ( magneticUnits === 'G' ) ? `${toGaussString( -fieldVector.y, G )}`
                                   : `${toTeslaString( fieldVector.y, T )}`
     );
     const stringThetaValueProperty = new DerivedProperty(
-      [ fieldMeter.fieldVectorProperty ],
+      [ fieldMeter.fieldVectorProperty, valueDegreesStringProperty ],
       fieldVector => `${toDegreesString( fieldVector )}`
     );
 
