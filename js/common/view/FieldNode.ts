@@ -8,7 +8,7 @@
  */
 
 import faradaysElectromagneticLab from '../../faradaysElectromagneticLab.js';
-import { Sprite, SpriteImage, SpriteInstance, SpriteInstanceTransformType, Sprites, SpritesOptions } from '../../../../scenery/js/imports.js';
+import { Sprite, SpriteImage, SpriteInstance, SpriteInstanceTransformType, Sprites } from '../../../../scenery/js/imports.js';
 import Vector2 from '../../../../dot/js/Vector2.js';
 import Property from '../../../../axon/js/Property.js';
 import NumberProperty from '../../../../axon/js/NumberProperty.js';
@@ -19,16 +19,9 @@ import CompassNeedleNode from './CompassNeedleNode.js';
 import FELQueryParameters from '../FELQueryParameters.js';
 import Magnet from '../model/Magnet.js';
 import FELColors from '../FELColors.js';
-import PickRequired from '../../../../phet-core/js/types/PickRequired.js';
-import optionize from '../../../../phet-core/js/optionize.js';
+import Tandem from '../../../../tandem/js/Tandem.js';
 
 const NEEDLE_SPACING = FELQueryParameters.needleSpacing;
-
-type SelfOptions = {
-  visibleBoundsProperty: TReadOnlyProperty<Bounds2>; // the visible bounds of the browser window
-};
-
-type FieldNodeOptions = SelfOptions & PickRequired<SpritesOptions, 'tandem'>;
 
 export default class FieldNode extends Sprites {
 
@@ -38,7 +31,7 @@ export default class FieldNode extends Sprites {
   private readonly spriteInstances: CompassNeedleSpriteInstance[]; // the individual compass needles in the grid
   private readonly reusableFieldVector: Vector2; // a reusable instance for getting field vectors
 
-  public constructor( magnet: Magnet, providedOptions: FieldNodeOptions ) {
+  public constructor( magnet: Magnet, visibleBoundsProperty: TReadOnlyProperty<Bounds2>, tandem: Tandem ) {
 
     // A vector in the field is visualized as a compass needle.
     // Convert a CompassNeedleNode to a Sprite.
@@ -51,20 +44,17 @@ export default class FieldNode extends Sprites {
 
     const spriteInstances: CompassNeedleSpriteInstance[] = [];
 
-    const options = optionize<FieldNodeOptions, SelfOptions, SpritesOptions>()( {
-
-      // SpritesOptions
+    super( {
       isDisposable: false,
       visibleProperty: magnet.fieldVisibleProperty,
       sprites: [ sprite ], // the set of Sprites used to render this Node, must be set at instantiation
       spriteInstances: spriteInstances, // the set of SpriteInstances, one per compass needle in the grid
-      hitTestSprites: false
-    }, providedOptions );
-
-    super( options );
+      hitTestSprites: false,
+      tandem: tandem
+    } );
 
     this.magnet = magnet;
-    this.visibleBoundsProperty = options.visibleBoundsProperty;
+    this.visibleBoundsProperty = visibleBoundsProperty;
     this.sprite = sprite;
     this.spriteInstances = spriteInstances;
     this.reusableFieldVector = new Vector2( 0, 0 );

@@ -55,10 +55,7 @@ export default class FELScreenView extends ScreenView {
 
     super( options );
 
-    this.fieldNode = new FieldNode( options.magnet, {
-      visibleBoundsProperty: this.visibleBoundsProperty,
-      tandem: options.tandem.createTandem( 'fieldNode' )
-    } );
+    this.fieldNode = new FieldNode( options.magnet, this.visibleBoundsProperty, options.tandem.createTandem( 'fieldNode' ) );
 
     this.compassNode = new CompassNode( options.compass, options.tandem.createTandem( 'compassNode' ) );
 
@@ -86,19 +83,18 @@ export default class FELScreenView extends ScreenView {
     } );
 
     // Developer accordion box in the left top corner of the visible bounds.
-    Multilink.multilink( [ options.developerAccordionBox.boundsProperty, this.visibleBoundsProperty ],
-      ( bounds, visibleBounds ) => {
+    Multilink.multilink( [ this.visibleBoundsProperty, options.developerAccordionBox.boundsProperty ],
+      ( visibleBounds, developerAccordionBoxBounds ) => {
         options.developerAccordionBox.left = visibleBounds.left + FELConstants.SCREEN_VIEW_X_MARGIN;
         options.developerAccordionBox.top = visibleBounds.top + FELConstants.SCREEN_VIEW_Y_MARGIN;
       } );
 
-    // timeControlNode at center bottom.
+    // Time control at center bottom of the visible bounds.
     if ( options.timeControlNode ) {
-      Multilink.multilink( [ this.visibleBoundsProperty, options.panels.boundsProperty ],
-        ( visibleBounds, panelsBounds ) => {
-          options.timeControlNode!.centerX = this.layoutBounds.centerX;
-          options.timeControlNode!.bottom = visibleBounds.bottom - FELConstants.SCREEN_VIEW_Y_MARGIN;
-        } );
+      this.visibleBoundsProperty.link( visibleBounds => {
+        options.timeControlNode!.centerX = visibleBounds.centerX;
+        options.timeControlNode!.bottom = visibleBounds.bottom - FELConstants.SCREEN_VIEW_Y_MARGIN;
+      } );
     }
   }
 }
