@@ -41,6 +41,8 @@ const T_DECIMAL_PLACES = 2;
 const ANGLE_DECIMAL_PLACES = 2;
 const CROSSHAIRS_RADIUS = 10;
 const PROBE_RADIUS = CROSSHAIRS_RADIUS + 8;
+const BODY_X_MARGIN = 12;
+const BODY_Y_MARGIN = 8;
 
 const LABEL_TEXT_OPTIONS: RichTextOptions = {
   font: new PhetFont( 14 ),
@@ -93,14 +95,6 @@ export default class FieldMeterNode extends FELMovableNode {
     const probeNode = new Path( probeShape, {
       stroke: FELColors.fieldMeterProbeColorProperty,
       lineWidth: 5
-    } );
-
-    //TODO Create bodyNode last, sized to fit its subcomponents and their layout.
-    const bodyNode = new ShadedRectangle( new Bounds2( 0, 0, 135, 120 ), {
-      cornerRadius: 10,
-      baseColor: FELColors.fieldMeterBodyColorProperty,
-      centerX: probeNode.centerX,
-      top: probeNode.bottom - 2
     } );
 
     // Dynamic labels. The Java version showed a line over 'B' for these labels, presumably indicating magnitude.
@@ -156,6 +150,14 @@ export default class FieldMeterNode extends FELMovableNode {
           new StringDisplay( stringThetaValueProperty, STRING_DISPLAY_OPTIONS )
         ]
       ]
+    } );
+
+    // Size the body to fit.
+    const bodyNode = new ShadedRectangle( new Bounds2( 0, 0, gridBox.width + ( 2 * BODY_X_MARGIN ), gridBox.height + ( 2 * BODY_Y_MARGIN ) ), {
+      cornerRadius: 10,
+      baseColor: FELColors.fieldMeterBodyColorProperty,
+      centerX: probeNode.centerX,
+      top: probeNode.bottom - 2
     } );
 
     gridBox.boundsProperty.link( bounds => {
