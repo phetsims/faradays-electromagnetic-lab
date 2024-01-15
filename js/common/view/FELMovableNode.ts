@@ -51,11 +51,11 @@ export default class FELMovableNode extends Node {
     if ( options.isMovable ) {
       options.cursor = 'pointer';
       options.phetioInputEnabledPropertyInstrumented = true;
-    }
 
-    if ( options.isMovable && options.hasKeyboardDragListener ) {
-      options.tagName = 'div'; // for KeyboardDragListener
-      options.focusable = true; // for KeyboardDragListener
+      if ( options.hasKeyboardDragListener ) {
+        options.tagName = 'div'; // for KeyboardDragListener
+        options.focusable = true; // for KeyboardDragListener
+      }
     }
 
     super( options );
