@@ -16,7 +16,7 @@ import NumberProperty from '../../../../axon/js/NumberProperty.js';
 import Orientation from '../../../../phet-core/js/Orientation.js';
 import AxisLine, { AxisLineOptions } from '../../../../bamboo/js/AxisLine.js';
 import TickMarkSet, { TickMarkSetOptions } from '../../../../bamboo/js/TickMarkSet.js';
-import optionize, { EmptySelfOptions } from '../../../../phet-core/js/optionize.js';
+import optionize from '../../../../phet-core/js/optionize.js';
 import PickRequired from '../../../../phet-core/js/types/PickRequired.js';
 import Multilink from '../../../../axon/js/Multilink.js';
 import Vector2 from '../../../../dot/js/Vector2.js';
@@ -35,7 +35,6 @@ const TICK_MARK_SET_OPTIONS: TickMarkSetOptions = {
   lineWidth: 0.5,
   extent: 10
 };
-const VIEW_SIZE = new Dimension2( 156, 122 );
 const X_AXIS_TICK_SPACING = 10;
 const Y_AXIS_TICK_SPACING = 10;
 const MAX_CYCLES = 10; //TODO This was 20, frequencyRange.max / frequencyRange.min, in the Java version
@@ -43,7 +42,9 @@ const NUMBER_OF_POINTS = 1000; // The larger MAX_CYCLES is, the larger NUMBER_OF
 const PHASE_ANGLE = Math.PI; // 180-degree phase angle at (0,0).
 const CURSOR_WRAP_AROUND_TOLERANCE = Utils.toRadians( 5 /* degrees */ );
 
-type SelfOptions = EmptySelfOptions;
+type SelfOptions = {
+  viewSize: Dimension2;
+};
 
 type VoltageChartNodeOptions = SelfOptions & NodeTranslationOptions & PickRequired<NodeOptions, 'tandem'>;
 
@@ -66,15 +67,22 @@ export default class VoltageChartNode extends Node {
   private readonly startAngleProperty: NumberProperty;
   private readonly endAngleProperty: NumberProperty;
 
-  public constructor( acPowerSupply: ACPowerSupply, providedOptions?: VoltageChartNodeOptions ) {
+  public constructor( acPowerSupply: ACPowerSupply, providedOptions: VoltageChartNodeOptions ) {
+
+    const options = optionize<VoltageChartNodeOptions, SelfOptions, NodeOptions>()( {
+
+      // NodeOptions
+      isDisposable: false,
+      phetioVisiblePropertyInstrumented: false
+    }, providedOptions );
 
     // Vertical space above and below the largest waveform
     const yMargin = 0.05 * acPowerSupply.voltageProperty.range.getLength();
 
     const chartTransform = new ChartTransform( {
-      viewWidth: VIEW_SIZE.width,
-      viewHeight: VIEW_SIZE.height,
-      modelXRange: new Range( -VIEW_SIZE.width / 2, VIEW_SIZE.width / 2 ),
+      viewWidth: options.viewSize.width,
+      viewHeight: options.viewSize.height,
+      modelXRange: new Range( -options.viewSize.width / 2, options.viewSize.width / 2 ),
       modelYRange: new Range( acPowerSupply.voltageProperty.range.min - yMargin, acPowerSupply.voltageProperty.range.max + yMargin )
     } );
 
@@ -134,13 +142,7 @@ export default class VoltageChartNode extends Node {
       ]
     } );
 
-    const options = optionize<VoltageChartNodeOptions, SelfOptions, NodeOptions>()( {
-
-      // NodeOptions
-      isDisposable: false,
-      children: [ chartRectangle, decorationsNode ],
-      phetioVisiblePropertyInstrumented: false
-    }, providedOptions );
+    options.children = [ chartRectangle, decorationsNode ];
 
     super( options );
 

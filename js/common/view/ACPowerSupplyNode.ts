@@ -33,8 +33,11 @@ import Utils from '../../../../dot/js/Utils.js';
 import { combineOptions } from '../../../../phet-core/js/optionize.js';
 
 const SLIDER_STEP = 1;
-const BODY_BOUNDS = new Bounds2( 0, 0, 230, 210 );
 const CORNER_RADIUS = 10;
+const X_SPACING = 10;
+const Y_SPACING = 8;
+const BODY_X_MARGIN = 12;
+const BODY_Y_MARGIN = 8;
 const BODY_OPTIONS: ShadedRectangleOptions = {
   lightSource: 'leftTop',
   baseColor: FELColors.acPowerSupplyBodyColorProperty,
@@ -47,16 +50,10 @@ export default class ACPowerSupplyNode extends Node {
 
   public constructor( acPowerSupply: ACPowerSupply, currentSourceProperty: TReadOnlyProperty<CurrentSource>, tandem: Tandem ) {
 
-    // Body of the AC power supply
-    //TODO Create bodyNode last, sized to fit its subcomponents and their layout.
-    const bodyNode = new ShadedRectangle( BODY_BOUNDS, BODY_OPTIONS );
-
-    // Title at the center top of the body
-    const titleText = new Text( FaradaysElectromagneticLabStrings.acPowerSupplyStringProperty, {
-      font: FELConstants.TITLE_FONT,
-      maxWidth: 0.85 * bodyNode.width,
-      centerX: bodyNode.centerX,
-      top: bodyNode.top + 8
+    // Chart of voltage over time.
+    const chartNode = new VoltageChartNode( acPowerSupply, {
+      viewSize: new Dimension2( 156, 122 ),
+      tandem: tandem.createTandem( 'chartNode' )
     } );
 
     // Display for max voltage value, in percent
@@ -79,8 +76,6 @@ export default class ACPowerSupplyNode extends Node {
     const maxVoltageSlider = new VSlider( acPowerSupply.maxVoltagePercentProperty, acPowerSupply.maxVoltagePercentRange,
       combineOptions<VSliderOptions>( {
         constrainValue: ( value: number ) => Utils.roundToInterval( value, SLIDER_STEP ),
-        left: bodyNode.left + 10,
-        centerY: bodyNode.centerY,
         tandem: tandem.createTandem( 'maxVoltageSlider' )
       }, FELConstants.PERCENT_SLIDER_OPTIONS ) );
 
@@ -88,10 +83,10 @@ export default class ACPowerSupplyNode extends Node {
     const maxVoltageBox = new VBox( {
       excludeInvisibleChildrenFromBounds: false,
       children: [ maxVoltageDisplay, maxVoltageSlider ],
-      spacing: 5,
+      spacing: Y_SPACING,
       align: 'center',
-      left: bodyNode.left + 10,
-      centerY: bodyNode.centerY
+      right: chartNode.left - X_SPACING,
+      top: chartNode.top
     } );
 
     // Display for frequency value, in percent
@@ -123,19 +118,34 @@ export default class ACPowerSupplyNode extends Node {
       children: [ frequencySlider, frequencyDisplay ],
       spacing: 5,
       align: 'center',
-      right: bodyNode.right - 15,
-      bottom: bodyNode.bottom - 10
+      right: chartNode.right,
+      top: chartNode.bottom + X_SPACING
     } );
 
-    // Voltage display
-    const chartNode = new VoltageChartNode( acPowerSupply, {
-      right: bodyNode.right - 10,
-      top: titleText.bottom + 5,
-      tandem: tandem.createTandem( 'chartNode' )
+    const chartAndSliders = new Node( {
+      children: [ chartNode, frequencyBox, maxVoltageBox ]
     } );
+
+    const titleText = new Text( FaradaysElectromagneticLabStrings.acPowerSupplyStringProperty, {
+      font: FELConstants.TITLE_FONT,
+      maxWidth: chartNode.width
+    } );
+
+    const contentNode = new VBox( {
+      children: [
+        titleText,
+        chartAndSliders
+      ],
+      spacing: Y_SPACING,
+      align: 'center'
+    } );
+
+    // Body of the AC power supply, sized to fit.
+    const bodyNode = new ShadedRectangle( new Bounds2( 0, 0, contentNode.width + ( 2 * BODY_X_MARGIN ), contentNode.height + ( 2 * BODY_Y_MARGIN ) ), BODY_OPTIONS );
+    contentNode.center = bodyNode.center;
 
     super( {
-      children: [ bodyNode, titleText, chartNode, maxVoltageBox, frequencyBox ],
+      children: [ bodyNode, contentNode ],
       visibleProperty: new DerivedProperty( [ currentSourceProperty ], currentSource => ( currentSource === acPowerSupply ), {
         tandem: tandem.createTandem( 'visibleProperty' ),
         phetioValueType: BooleanIO
