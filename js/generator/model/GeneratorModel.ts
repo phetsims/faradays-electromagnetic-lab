@@ -15,6 +15,7 @@ import Vector2 from '../../../../dot/js/Vector2.js';
 import Turbine from './Turbine.js';
 import ImmediateCompass from '../../common/model/ImmediateCompass.js';
 import FELModel from '../../common/model/FELModel.js';
+import { FixedNumberOfSamplePointsStrategy } from '../../common/model/PickupCoilSamplePointsStrategy.js';
 
 export default class GeneratorModel extends FELModel {
 
@@ -38,6 +39,7 @@ export default class GeneratorModel extends FELModel {
       position: new Vector2( 500, 400 ),
       maxEMF: 26000, // see PickupCoil.calibrateMaxEMF
       transitionSmoothingScale: 1, // see PickupCoil.transitionSmoothingScaleProperty
+      samplePointsStrategy: new FixedNumberOfSamplePointsStrategy( 9 /* numberOfSamplePoints */ ),
       tandem: tandem.createTandem( 'pickupCoil' )
     } );
 

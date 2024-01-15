@@ -8,13 +8,14 @@
 
 import faradaysElectromagneticLab from '../../faradaysElectromagneticLab.js';
 import Tandem from '../../../../tandem/js/Tandem.js';
-import PickupCoil, { FixedSpacingSamplePointsStrategy } from '../../common/model/PickupCoil.js';
+import PickupCoil from '../../common/model/PickupCoil.js';
 import Vector2 from '../../../../dot/js/Vector2.js';
 import BarMagnet from '../../common/model/BarMagnet.js';
 import FieldMeter from '../../common/model/FieldMeter.js';
 import Compass from '../../common/model/Compass.js';
 import KinematicCompass from '../../common/model/KinematicCompass.js';
 import FELModel from '../../common/model/FELModel.js';
+import { FixedSpacingSamplePointsStrategy } from '../../common/model/PickupCoilSamplePointsStrategy.js';
 
 export default class PickupCoilModel extends FELModel {
 
