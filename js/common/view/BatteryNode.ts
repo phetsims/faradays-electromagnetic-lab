@@ -45,10 +45,9 @@ export default class BatteryNode extends Node {
     const slider = new HSlider( battery.voltageProperty, battery.voltageProperty.range, {
       constrainValue: ( value: number ) => Utils.roundToInterval( value, 1 ), // 1 V steps
       majorTickLength: 18,
-      //TODO alt input options
-      // keyboardStep: ?,
-      // shiftKeyboardStep: ?,
-      // pageKeyboardStep: ?,
+      keyboardStep: 2,
+      shiftKeyboardStep: 1,
+      pageKeyboardStep: 5,
       centerX: batteryImage.centerX,
       bottom: batteryImage.bottom - 6,
       tandem: tandem.createTandem( 'slider' )
