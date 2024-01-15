@@ -58,7 +58,6 @@ export default class Electron {
   public readonly coilSegmentIndexProperty: NumberProperty;
 
   // Electron's position along the coil segment that it occupies (1=startPoint, 0=endPoint)
-  //TODO Flip the semantics to be a percent along a coil segment, 0=start, 1=end.
   private coilSegmentPositionProperty: NumberProperty;
 
   // Electron's speed & direction (-1...+1)
