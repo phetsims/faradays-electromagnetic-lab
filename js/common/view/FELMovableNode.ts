@@ -48,6 +48,7 @@ export default class FELMovableNode extends Node {
       phetioVisiblePropertyInstrumented: false
     }, providedOptions );
 
+    // Add options related to input listeners.
     if ( options.isMovable ) {
       options.cursor = 'pointer';
       options.phetioInputEnabledPropertyInstrumented = true;
