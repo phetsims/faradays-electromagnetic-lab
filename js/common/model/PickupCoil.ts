@@ -285,7 +285,7 @@ export default class PickupCoil extends Coil {
    */
   private updateSamplePoints(): void {
     this.samplePoints.clear();
-    this.samplePoints.push( ...this.samplePointsStrategy.createSamplePoints( this ) );
+    this.samplePoints.push( ...this.samplePointsStrategy.createSamplePoints( this.getLoopRadius() ) );
   }
 
   /**
@@ -413,12 +413,34 @@ export default class PickupCoil extends Coil {
   }
 }
 
-//TODO This seems like overkill, and should be simplified.
 /**
  * SamplePointsStrategy is the abstract base class for a strategy that creates B-field sample points for a pickup coil.
  */
 abstract class SamplePointsStrategy {
-  public abstract createSamplePoints( pickupCoil: PickupCoil ): Vector2[];
+
+  public abstract createSamplePoints( loopRadius: number ): Vector2[];
+
+  protected static createSamplePoints( numberOfSamplePointsOnRadius: number, ySpacing: number ): Vector2[] {
+
+    const samplePoints: Vector2[] = [];
+
+    // All sample points share the same x offset.
+    const xOffset = 0;
+
+    // A point at the center of the coil
+    let index = 0;
+    samplePoints[ index++ ] = new Vector2( xOffset, 0 );
+
+    // Points below and above the center
+    let y = 0;
+    for ( let i = 0; i < numberOfSamplePointsOnRadius; i++ ) {
+      y += ySpacing;
+      samplePoints[ index++ ] = new Vector2( xOffset, y );
+      samplePoints[ index++ ] = new Vector2( xOffset, -y );
+    }
+
+    return samplePoints;
+  }
 }
 
 /**
@@ -437,35 +459,17 @@ class FixedNumberOfSamplePointsStrategy extends SamplePointsStrategy {
     this.numberOfSamplePoints = numberOfSamplePoints;
   }
 
-  public override createSamplePoints( pickupCoil: PickupCoil ): Vector2[] {
-
-    const samplePoints: Vector2[] = [];
+  public override createSamplePoints( loopRadius: number ): Vector2[] {
     const numberOfSamplePointsOnRadius = ( this.numberOfSamplePoints - 1 ) / 2;
-    const ySpacing = pickupCoil.getLoopRadius() / numberOfSamplePointsOnRadius;
-
-    // All sample points share the same x offset.
-    const xOffset = 0;
-
-    // A point at the center of the coil
-    let index = 0;
-    samplePoints[ index++ ] = new Vector2( xOffset, 0 );
-
-    // Points below and above the center
-    let y = 0;
-    for ( let i = 0; i < numberOfSamplePointsOnRadius; i++ ) {
-      y += ySpacing;
-      samplePoints[ index++ ] = new Vector2( xOffset, y );
-      samplePoints[ index++ ] = new Vector2( xOffset, -y );
-    }
-    assert && assert( samplePoints.length === this.numberOfSamplePoints );
-
-    phet.log && phet.log( `FixedNumberOfSamplePointsStrategy.createSamplePoints: count=${samplePoints.length} spacing=${ySpacing}` );
+    const ySpacing = loopRadius / numberOfSamplePointsOnRadius;
+    const samplePoints = SamplePointsStrategy.createSamplePoints( numberOfSamplePointsOnRadius, ySpacing );
+    phet.log && phet.log( `FixedNumberOfSamplePointsStrategy.createSamplePoints: numberOfSamplePoints=${samplePoints.length} ySpacing=${ySpacing}` );
     return samplePoints;
   }
 }
 
 /**
- * FixedSpacingSamplePointsStrategy has a fixed spacing and variable number of points. Points are distributed along
+ * FixedSpacingSamplePointsStrategy has a fixed y-spacing and variable number of points. Points are distributed along
  * a vertical line that goes through the center of a pickup coil. One point is at the center of the coil. Points will
  * be on the edge of the coil only if the coil's radius is an integer multiple of the spacing.
  */
@@ -479,32 +483,12 @@ export class FixedSpacingSamplePointsStrategy extends SamplePointsStrategy {
     this.ySpacing = ySpacing;
   }
 
-  //TODO Lots of duplication with FixedNumberOfSamplePointsStrategy here.
-  public override createSamplePoints( pickupCoil: PickupCoil ): Vector2[] {
-
-    const numberOfSamplePointsOnRadius = Math.trunc( pickupCoil.getLoopRadius() / this.ySpacing );
-
-    const samplePoints: Vector2[] = [];
-
-    // All sample points share the same x offset.
-    const xOffset = 0;
-
-    // A point at the center of the coil
-    let index = 0;
-    samplePoints[ index++ ] = new Vector2( xOffset, 0 );
-
-    // Offsets below & above the center
-    let y = 0;
-    for ( let i = 0; i < numberOfSamplePointsOnRadius; i++ ) {
-      y += this.ySpacing;
-      samplePoints[ index++ ] = new Vector2( xOffset, y );
-      samplePoints[ index++ ] = new Vector2( xOffset, -y );
-    }
-
-    phet.log && phet.log( `FixedSpacingSamplePointsStrategy.createSamplePoints: count=${samplePoints.length} spacing=${this.ySpacing}` );
+  public override createSamplePoints( loopRadius: number ): Vector2[] {
+    const numberOfSamplePointsOnRadius = Math.trunc( loopRadius / this.ySpacing );
+    const samplePoints = SamplePointsStrategy.createSamplePoints( numberOfSamplePointsOnRadius, this.ySpacing );
+    phet.log && phet.log( `FixedSpacingSamplePointsStrategy.createSamplePoints: numberOfSamplePoints=${samplePoints.length} ySpacing=${this.ySpacing}` );
     return samplePoints;
   }
 }
-
 
 faradaysElectromagneticLab.register( 'PickupCoil', PickupCoil );
