@@ -14,10 +14,20 @@ import Vector2 from '../../../../dot/js/Vector2.js';
 export default abstract class PickupCoilSamplePointsStrategy {
 
   /**
-   * Give the loop radius of the pickup coil, create the sample points along a vertical line that goes through
+   * Given the loop radius of the pickup coil, create the sample points along a vertical line that goes through
    * the center of the pickup coil. One point is guaranteed to be at the center of the coil.
    */
-  public abstract createSamplePoints( loopRadius: number ): Vector2[];
+  public createSamplePoints( loopRadius: number ): Vector2[] {
+    const samplePoints = this.createSamplePointsProtected( loopRadius );
+    assert && assert( _.find( samplePoints, samplePoint => samplePoint.x === 0 && samplePoint.y === 0 ),
+      'One sample point is required to be at the center of the coil.' );
+    return samplePoints;
+  }
+
+  /**
+   * The implementation of createSamplePoints, to be implemented by subclasses.
+   */
+  protected abstract createSamplePointsProtected( loopRadius: number ): Vector2[];
 }
 
 /**
@@ -36,7 +46,7 @@ export class FixedNumberOfSamplePointsStrategy extends PickupCoilSamplePointsStr
     this.numberOfSamplePoints = numberOfSamplePoints;
   }
 
-  public override createSamplePoints( loopRadius: number ): Vector2[] {
+  public override createSamplePointsProtected( loopRadius: number ): Vector2[] {
     const numberOfSamplePointsOnRadius = ( this.numberOfSamplePoints - 1 ) / 2;
     const ySpacing = loopRadius / numberOfSamplePointsOnRadius;
     const samplePoints = createSamplePoints( numberOfSamplePointsOnRadius, ySpacing );
@@ -60,7 +70,7 @@ export class FixedSpacingSamplePointsStrategy extends PickupCoilSamplePointsStra
     this.ySpacing = ySpacing;
   }
 
-  public override createSamplePoints( loopRadius: number ): Vector2[] {
+  public override createSamplePointsProtected( loopRadius: number ): Vector2[] {
     const numberOfSamplePointsOnRadius = Math.trunc( loopRadius / this.ySpacing );
     const samplePoints = createSamplePoints( numberOfSamplePointsOnRadius, this.ySpacing );
     phet.log && phet.log( `FixedSpacingSamplePointsStrategy.createSamplePoints: numberOfSamplePoints=${samplePoints.length} ySpacing=${this.ySpacing}` );
@@ -75,19 +85,19 @@ function createSamplePoints( numberOfSamplePointsOnRadius: number, ySpacing: num
 
   const samplePoints: Vector2[] = [];
 
-  // All sample points share the same x offset.
-  const xOffset = 0;
+  // All sample points share the same x coordinate, at the pickup coil's origin.
+  const x = 0;
 
   // A point at the center of the coil
   let index = 0;
-  samplePoints[ index++ ] = new Vector2( xOffset, 0 );
+  samplePoints[ index++ ] = new Vector2( x, 0 );
 
   // Points below and above the center
   let y = 0;
   for ( let i = 0; i < numberOfSamplePointsOnRadius; i++ ) {
     y += ySpacing;
-    samplePoints[ index++ ] = new Vector2( xOffset, y );
-    samplePoints[ index++ ] = new Vector2( xOffset, -y );
+    samplePoints[ index++ ] = new Vector2( x, y );
+    samplePoints[ index++ ] = new Vector2( x, -y );
   }
 
   return samplePoints;
