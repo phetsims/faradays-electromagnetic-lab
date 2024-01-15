@@ -62,7 +62,7 @@ export default class FELModel implements TModel {
         { name: 'dt', phetioType: NumberIO }
       ],
       tandem: options.tandem.createTandem( 'stepEmitter' ),
-      phetioReadOnly: true, //TODO Is phetioReadOnly relevant for an Emitter? Does it prevent clients from calling emit?
+      phetioReadOnly: true, // ... so that PhET-iO clients cannot call emit
       phetioDocumentation: 'Fires when the model is to be stepped.'
     } );
 
