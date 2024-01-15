@@ -76,7 +76,7 @@ export default class Electron {
 
     const descriptor = options.coilSegments[ options.coilSegmentIndex ];
     const initialPosition = descriptor.curve.evaluate( options.coilSegmentPosition );
-    
+
     this._positionProperty = new Vector2Property( initialPosition, {
       tandem: options.tandem.createTandem( 'positionProperty' ),
       phetioReadOnly: true
@@ -175,7 +175,8 @@ export default class Electron {
    * If curves have different lengths, it is possible that we may totally skip a curve.This is handled via
    * recursive calls to switchCurves.
    */
-  private switchCurves( coilSegmentPosition: number ): void {
+  private switchCurves( coilSegmentPosition: number, recursion = 0 ): void {
+    assert && assert( recursion < this.coilSegments.length, `infinite loop? recursion=${recursion}` );
 
     const oldPathSpeedScale = this.getCoilSegmentSpeedScale();
 
@@ -196,7 +197,7 @@ export default class Electron {
 
       // Did we overshoot the curve? If so, call this method recursively.
       if ( coilSegmentPosition < 0.0 ) {
-        this.switchCurves( coilSegmentPosition ); //TODO guard against infinite recursion?
+        this.switchCurves( coilSegmentPosition, ++recursion );
       }
       else {
         this.coilSegmentPositionProperty.value = coilSegmentPosition;
@@ -218,7 +219,7 @@ export default class Electron {
 
       // Did we overshoot the curve? If so, call this method recursively.
       if ( coilSegmentPosition > 1.0 ) {
-        this.switchCurves( coilSegmentPosition ); //TODO guard against infinite recursion?
+        this.switchCurves( coilSegmentPosition, ++recursion );
       }
       else {
         this.coilSegmentPositionProperty.value = coilSegmentPosition;
