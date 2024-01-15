@@ -95,6 +95,7 @@ export default class FieldMeterNode extends FELMovableNode {
       lineWidth: 5
     } );
 
+    //TODO Create bodyNode last, sized to fit its subcomponents and their layout.
     const bodyNode = new ShadedRectangle( new Bounds2( 0, 0, 135, 120 ), {
       cornerRadius: 10,
       baseColor: FELColors.fieldMeterBodyColorProperty,
