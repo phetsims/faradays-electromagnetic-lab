@@ -37,7 +37,7 @@ const TICK_MARK_SET_OPTIONS: TickMarkSetOptions = {
 };
 const X_AXIS_TICK_SPACING = 10;
 const Y_AXIS_TICK_SPACING = 10;
-const MAX_CYCLES = 10; //TODO This was 20, frequencyRange.max / frequencyRange.min, in the Java version
+const MAX_CYCLES = 10; // This was 20 in the Java version, but looked very jagged. We decreased to smooth it out.
 const NUMBER_OF_POINTS = 1000; // The larger MAX_CYCLES is, the larger NUMBER_OF_POINTS must be to draw smooth sines.
 const PHASE_ANGLE = Math.PI; // 180-degree phase angle at (0,0).
 const CURSOR_WRAP_AROUND_TOLERANCE = Utils.toRadians( 5 /* degrees */ );
