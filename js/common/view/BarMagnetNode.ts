@@ -12,7 +12,7 @@ import BarMagnet from '../model/BarMagnet.js';
 import { Node, Text, TextOptions } from '../../../../scenery/js/imports.js';
 import optionize, { combineOptions } from '../../../../phet-core/js/optionize.js';
 import TReadOnlyProperty from '../../../../axon/js/TReadOnlyProperty.js';
-import FieldInsideNode from './FieldInsideNode.js';
+import FieldInsideBarMagnetNode from './FieldInsideBarMagnetNode.js';
 import FELMovableNode, { FELMovableNodeOptions } from './FELMovableNode.js';
 import StrictOmit from '../../../../phet-core/js/types/StrictOmit.js';
 import Vector2 from '../../../../dot/js/Vector2.js';
@@ -85,7 +85,7 @@ export default class BarMagnetNode extends FELMovableNode {
 
     // If seeInsideProperty was provided, then add the visualization of the field inside the bar magnet.
     if ( options.seeInsideProperty ) {
-      this.addChild( new FieldInsideNode( barMagnet, {
+      this.addChild( new FieldInsideBarMagnetNode( barMagnet, {
         visibleProperty: options.seeInsideProperty,
         center: barNode.center,
         tandem: options.tandem.createTandem( 'fieldInsideNode' )
