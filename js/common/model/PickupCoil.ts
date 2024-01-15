@@ -275,6 +275,10 @@ export default class PickupCoil extends Coil {
     }
   }
 
+  public getMinLoopRadius(): number {
+    return Math.sqrt( this.loopAreaProperty.rangeProperty.value.min / Math.PI );
+  }
+
   /**
    * Updates the sample points for the coil.
    * The samples points are used to measure the B-field in the calculation of EMF.

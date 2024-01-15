@@ -116,10 +116,6 @@ export default class Coil extends FELMovable {
   public getLoopRadius(): number {
     return Math.sqrt( this.loopAreaProperty.value / Math.PI );
   }
-
-  public getMinLoopRadius(): number {
-    return Math.sqrt( this.loopAreaProperty.rangeProperty.value.min / Math.PI );
-  }
 }
 
 faradaysElectromagneticLab.register( 'Coil', Coil );
