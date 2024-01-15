@@ -112,12 +112,10 @@ export default abstract class Magnet extends FELMovable {
     // Adjust the field vector to match the magnet's direction.
     outputVector.rotate( this.rotationProperty.value );
 
-    // Clamp magnitude to magnet strength.
-    //TODO Why do we need to do this? Why would outputVector.magnitude be out of range?
-    const magnetStrength = this.strengthProperty.value;
-    const magnitude = outputVector.magnitude;
-    if ( magnitude > magnetStrength ) {
-      outputVector.setMagnitude( magnetStrength );
+    // Do not allow field vector magnitude to exceed magnet strength, due to small floating-point error.
+    // This was a problem in both the Java and HTML5 versions of the sim.
+    if ( outputVector.magnitude > this.strengthProperty.value ) {
+      outputVector.setMagnitude( this.strengthProperty.value );
     }
     return outputVector;
   }
