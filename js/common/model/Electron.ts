@@ -175,8 +175,8 @@ export default class Electron {
    * If curves have different lengths, it is possible that we may totally skip a curve.This is handled via
    * recursive calls to switchCurves.
    */
-  private switchCurves( coilSegmentPosition: number, recursion = 0 ): void {
-    assert && assert( recursion < this.coilSegments.length, `infinite loop? recursion=${recursion}` );
+  private switchCurves( coilSegmentPosition: number, recursionDepth = 0 ): void {
+    assert && assert( recursionDepth < this.coilSegments.length, `infinite loop? recursionDepth=${recursionDepth}` );
 
     const oldPathSpeedScale = this.getCoilSegmentSpeedScale();
 
@@ -197,7 +197,7 @@ export default class Electron {
 
       // Did we overshoot the curve? If so, call this method recursively.
       if ( coilSegmentPosition < 0.0 ) {
-        this.switchCurves( coilSegmentPosition, ++recursion );
+        this.switchCurves( coilSegmentPosition, ++recursionDepth );
       }
       else {
         this.coilSegmentPositionProperty.value = coilSegmentPosition;
@@ -219,7 +219,7 @@ export default class Electron {
 
       // Did we overshoot the curve? If so, call this method recursively.
       if ( coilSegmentPosition > 1.0 ) {
-        this.switchCurves( coilSegmentPosition, ++recursion );
+        this.switchCurves( coilSegmentPosition, ++recursionDepth );
       }
       else {
         this.coilSegmentPositionProperty.value = coilSegmentPosition;
