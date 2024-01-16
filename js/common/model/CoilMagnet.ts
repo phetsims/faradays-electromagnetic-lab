@@ -1,10 +1,12 @@
 // Copyright 2024, University of Colorado Boulder
 
-//TODO Is CoilMagnet useful as a separate class, or should it be folded into Electromagnet?
-
 /**
- * Electromagnet is the model of the electromagnet. The shape of the model is a circle, and the calculation of the
- * magnetic field at some point of interest varies depending on whether the point is inside or outside the circle.
+ * CoilMagnet is the base class for magnets that are based on a coil.  The shape of the model is a rectangle, and the
+ * calculation of the magnetic field at some point of interest varies depending on whether the point is inside or
+ * outside the rectangle.
+ *
+ * Note that Electromagnet is currently the only concrete subclass of CoilMagnet. So CoilMagnet could be absorbed
+ * into Electromagnet. But as in the Java version, we've chosen to keep them separate.
  *
  * @author Chris Malley (PixelZoom, Inc.)
  */
