@@ -55,7 +55,10 @@ export default class FELLightBulbNode extends Node {
         stroke: FELColors.lightRaysColorProperty
       },
       centerX: socketNode.centerX,
-      bottom: socketNode.top + 5 // overlap enough to make the bulb appear to be in the socket
+
+      // Overlap enough to hide the bulb's base inside the socket, so we don't see the perspective problem
+      // with LightBulbNode's default images. See https://github.com/phetsims/faradays-electromagnetic-lab/issues/52.
+      bottom: socketNode.top + 18
     } );
 
     super( {
