@@ -32,11 +32,17 @@ export default class GeneratorModel extends FELModel {
 
     this.turbine = new Turbine( {
       position: new Vector2( 285, 400 ),
+      positionPropertyOptions: {
+        phetioReadOnly: true
+      },
       tandem: tandem.createTandem( 'turbine' )
     } );
 
     this.pickupCoil = new PickupCoil( this.turbine, {
       position: new Vector2( 500, 400 ),
+      positionPropertyOptions: {
+        phetioReadOnly: true
+      },
       maxEMF: 26000, // see PickupCoil.calibrateMaxEMF
       transitionSmoothingScale: 1, // see PickupCoil.transitionSmoothingScaleProperty
       samplePointsStrategy: new FixedNumberOfSamplePointsStrategy( 9 /* numberOfSamplePoints */ ),

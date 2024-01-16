@@ -11,11 +11,13 @@ import Vector2 from '../../../../dot/js/Vector2.js';
 import PickRequired from '../../../../phet-core/js/types/PickRequired.js';
 import faradaysElectromagneticLab from '../../faradaysElectromagneticLab.js';
 import Property from '../../../../axon/js/Property.js';
-import optionize from '../../../../phet-core/js/optionize.js';
-import Vector2Property from '../../../../dot/js/Vector2Property.js';
+import optionize, { combineOptions } from '../../../../phet-core/js/optionize.js';
+import Vector2Property, { Vector2PropertyOptions } from '../../../../dot/js/Vector2Property.js';
+import StrictOmit from '../../../../phet-core/js/types/StrictOmit.js';
 
 type SelfOptions = {
   position?: Vector2; // initial value of positionProperty, unitless
+  positionPropertyOptions?: Vector2PropertyOptions;
 };
 
 export type FELMovableOptions = SelfOptions & PickRequired<PhetioObjectOptions, 'tandem'>;
@@ -26,7 +28,7 @@ export default class FELMovable extends PhetioObject {
 
   protected constructor( providedOptions: FELMovableOptions ) {
 
-    const options = optionize<FELMovableOptions, SelfOptions, PhetioObjectOptions>()( {
+    const options = optionize<FELMovableOptions, StrictOmit<SelfOptions, 'positionPropertyOptions'>, PhetioObjectOptions>()( {
 
       // SelfOptions
       position: Vector2.ZERO,
@@ -39,10 +41,10 @@ export default class FELMovable extends PhetioObject {
 
     super( options );
 
-    this.positionProperty = new Vector2Property( options.position, {
+    this.positionProperty = new Vector2Property( options.position, combineOptions<Vector2PropertyOptions>( {
       tandem: options.tandem.createTandem( 'positionProperty' ),
       phetioFeatured: true
-    } );
+    }, options.positionPropertyOptions ) );
   }
 
   public reset(): void {
