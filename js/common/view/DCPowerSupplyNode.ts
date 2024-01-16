@@ -102,7 +102,7 @@ export default class DCPowerSupplyNode extends Node {
       } );
   }
 
-  public static createIcon( scale = 0.3 ): Node {
+  public static createIcon( scale = 1 ): Node {
     return new BatteryNode( {
       scale: scale
     } );

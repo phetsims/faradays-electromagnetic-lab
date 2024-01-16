@@ -44,7 +44,7 @@ function createScreenIcon(): ScreenIcon {
 
   const iconNode = new HBox( {
     spacing: 5,
-    children: [ DCPowerSupplyNode.createIcon( 1 ), new Image( lightBulbOn_png ) ]
+    children: [ DCPowerSupplyNode.createIcon(), new Image( lightBulbOn_png ) ]
   } );
 
   return new ScreenIcon( iconNode, {
