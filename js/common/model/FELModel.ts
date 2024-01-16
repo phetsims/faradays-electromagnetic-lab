@@ -12,16 +12,15 @@ import Property from '../../../../axon/js/Property.js';
 import NumberProperty from '../../../../axon/js/NumberProperty.js';
 import Emitter from '../../../../axon/js/Emitter.js';
 import NumberIO from '../../../../tandem/js/types/NumberIO.js';
-import BooleanProperty from '../../../../axon/js/BooleanProperty.js';
+import BooleanProperty, { BooleanPropertyOptions } from '../../../../axon/js/BooleanProperty.js';
 import PickRequired from '../../../../phet-core/js/types/PickRequired.js';
 import { PhetioObjectOptions } from '../../../../tandem/js/PhetioObject.js';
-import Tandem from '../../../../tandem/js/Tandem.js';
-import optionize from '../../../../phet-core/js/optionize.js';
+import { combineOptions } from '../../../../phet-core/js/optionize.js';
 
 type SelfOptions = {
 
-  // Screens that do not have a time control should set this to false.
-  isPlayingPropertyInstrumented?: boolean;
+  // Options that will be passed to isPlayingProperty
+  isPlayingPropertyOptions?: BooleanPropertyOptions;
 };
 
 export type FELModelOptions = SelfOptions & PickRequired<PhetioObjectOptions, 'tandem'>;
@@ -40,21 +39,17 @@ export default class FELModel implements TModel {
 
   // Fires at a constant rate, with a constant dt. Subclass should listen to this instead of overriding step.
   public readonly stepEmitter: Emitter<[ number ]>;
-  
+
   // Accumulated time since stepEmitter fired, to maintain consistent framerate
   private accumulatedTimeProperty: Property<number>;
 
   protected constructor( providedOptions: FELModelOptions ) {
 
-    const options = optionize<FELModelOptions, SelfOptions>()( {
+    const options = providedOptions;
 
-      // SelfOptions
-      isPlayingPropertyInstrumented: true
-    }, providedOptions );
-
-    this.isPlayingProperty = new BooleanProperty( true, {
-      tandem: options.isPlayingPropertyInstrumented ? options.tandem.createTandem( 'isPlayingProperty' ) : Tandem.OPT_OUT
-    } );
+    this.isPlayingProperty = new BooleanProperty( true, combineOptions<BooleanPropertyOptions>( {
+      tandem: options.tandem.createTandem( 'isPlayingProperty' )
+    }, options.isPlayingPropertyOptions ) );
 
     //TODO Does stepEmitter need to be instrumented? If so, should it be phetioHighFrequency:true?
     this.stepEmitter = new Emitter( {

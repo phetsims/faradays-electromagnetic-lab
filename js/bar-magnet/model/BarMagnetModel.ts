@@ -25,7 +25,9 @@ export default class BarMagnetModel extends FELModel {
 
     super( {
       tandem: tandem,
-      isPlayingPropertyInstrumented: false // because this screen has no time controls
+      isPlayingPropertyOptions: {
+        tandem: Tandem.OPT_OUT // because this screen has no time controls
+      }
     } );
 
     this.barMagnet = new BarMagnet( {
