@@ -17,7 +17,6 @@ export default class WaterWheelNode extends Node {
 
   public constructor( turbine: Turbine ) {
 
-    //TODO Replace waterWheel_png
     const imageNode = new Image( waterWheel_png, {
       center: Vector2.ZERO
     } );
