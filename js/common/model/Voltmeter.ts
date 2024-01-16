@@ -18,13 +18,13 @@ import CurrentIndicator from './CurrentIndicator.js';
 import FELModel from './FELModel.js';
 
 // Define the zero point of the needle.
-const ZERO_NEEDLE_ANGLE = Utils.toRadians( 0.0 );
+const ZERO_NEEDLE_ANGLE = Utils.toRadians( 0 );
 
 // The needle deflection range is this much on either side of the zero point.
-const MAX_NEEDLE_ANGLE = Utils.toRadians( 90.0 );
+const MAX_NEEDLE_ANGLE = Utils.toRadians( 90 );
 
 // If rotational kinematics is enabled, the needle will jiggle this much around the zero reading.
-const NEEDLE_JIGGLE_ANGLE = Utils.toRadians( 3.0 );
+const NEEDLE_JIGGLE_ANGLE = Utils.toRadians( 3 );
 
 // When the angle is this close to zero, the needle stops jiggling.
 const NEEDLE_JIGGLE_THRESHOLD = Utils.toRadians( 0.5 );
