@@ -12,7 +12,7 @@ import SourceCoil from './SourceCoil.js';
 import Property from '../../../../axon/js/Property.js';
 import BooleanProperty from '../../../../axon/js/BooleanProperty.js';
 import ACPowerSupply from './ACPowerSupply.js';
-import Battery from './Battery.js';
+import DCPowerSupply from './DCPowerSupply.js';
 import CurrentSource from './CurrentSource.js';
 import DerivedProperty from '../../../../axon/js/DerivedProperty.js';
 import NumberIO from '../../../../tandem/js/types/NumberIO.js';
@@ -29,7 +29,7 @@ export default class Electromagnet extends CoilMagnet {
 
   public readonly sourceCoil: SourceCoil;
 
-  public readonly battery: Battery;
+  public readonly dcPowerSupply: DCPowerSupply;
   public readonly acPowerSupply: ACPowerSupply;
   public readonly currentSourceProperty: Property<CurrentSource>;
 
@@ -43,12 +43,12 @@ export default class Electromagnet extends CoilMagnet {
 
     const options = providedOptions;
 
-    const battery = new Battery( options.tandem.createTandem( 'battery' ) );
+    const dcPowerSupply = new DCPowerSupply( options.tandem.createTandem( 'dcPowerSupply' ) );
 
     const acPowerSupply = new ACPowerSupply( options.tandem.createTandem( 'acPowerSupply' ) );
 
-    const currentSourceProperty = new Property<CurrentSource>( battery, {
-      validValues: [ battery, acPowerSupply ],
+    const currentSourceProperty = new Property<CurrentSource>( dcPowerSupply, {
+      validValues: [ dcPowerSupply, acPowerSupply ],
       tandem: options.tandem.createTandem( 'currentSourceProperty' ),
       phetioValueType: CurrentSource.CurrentSourceIO,
       phetioFeatured: true
@@ -56,9 +56,9 @@ export default class Electromagnet extends CoilMagnet {
 
     // Current in the coil is equivalent to amplitude of the selected current source.
     const currentAmplitudeProperty = new DerivedProperty(
-      [ currentSourceProperty, battery.amplitudeProperty, acPowerSupply.amplitudeProperty ],
+      [ currentSourceProperty, dcPowerSupply.amplitudeProperty, acPowerSupply.amplitudeProperty ],
       ( currentSource, batteryAmplitude, acPowerSupplyAmplitude ) =>
-        ( currentSource === battery ) ? batteryAmplitude : acPowerSupplyAmplitude, {
+        ( currentSource === dcPowerSupply ) ? batteryAmplitude : acPowerSupplyAmplitude, {
         tandem: options.tandem.createTandem( 'currentAmplitudeProperty' ),
         phetioValueType: NumberIO,
         phetioFeatured: true
@@ -78,7 +78,7 @@ export default class Electromagnet extends CoilMagnet {
     super( sourceCoil, strengthProperty, strengthRange, options );
 
     this.sourceCoil = sourceCoil;
-    this.battery = battery;
+    this.dcPowerSupply = dcPowerSupply;
     this.acPowerSupply = acPowerSupply;
     this.currentSourceProperty = currentSourceProperty;
 
@@ -99,7 +99,7 @@ export default class Electromagnet extends CoilMagnet {
 
   public override reset(): void {
     super.reset();
-    this.battery.reset();
+    this.dcPowerSupply.reset();
     this.acPowerSupply.reset();
     this.currentSourceProperty.reset();
     this.sourceCoil.reset();

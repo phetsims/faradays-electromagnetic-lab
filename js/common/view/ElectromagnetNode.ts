@@ -30,7 +30,7 @@ export default class ElectromagnetNode extends FELMovableNode {
       tandem: tandem.createTandem( 'coilNode' )
     } );
 
-    const dcPowerSupplyNode = new DCPowerSupplyNode( electromagnet.battery, electromagnet.currentSourceProperty,
+    const dcPowerSupplyNode = new DCPowerSupplyNode( electromagnet.dcPowerSupply, electromagnet.currentSourceProperty,
       tandem.createTandem( 'dcPowerSupplyNode' ) );
 
     const acPowerSupplyNode = new ACPowerSupplyNode( electromagnet.acPowerSupply, electromagnet.currentSourceProperty,

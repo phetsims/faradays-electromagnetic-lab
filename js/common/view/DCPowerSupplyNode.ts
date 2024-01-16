@@ -9,7 +9,7 @@
 
 import faradaysElectromagneticLab from '../../faradaysElectromagneticLab.js';
 import { Node, Path, Rectangle, Text } from '../../../../scenery/js/imports.js';
-import Battery from '../model/Battery.js';
+import DCPowerSupply from '../model/DCPowerSupply.js';
 import Tandem from '../../../../tandem/js/Tandem.js';
 import DerivedProperty from '../../../../axon/js/DerivedProperty.js';
 import BooleanIO from '../../../../tandem/js/types/BooleanIO.js';
@@ -29,7 +29,7 @@ import BatteryNode from './BatteryNode.js';
 
 export default class DCPowerSupplyNode extends Node {
 
-  public constructor( battery: Battery, currentSourceProperty: TReadOnlyProperty<CurrentSource>, tandem: Tandem ) {
+  public constructor( battery: DCPowerSupply, currentSourceProperty: TReadOnlyProperty<CurrentSource>, tandem: Tandem ) {
 
     const batteryNode = new BatteryNode( {
       center: Vector2.ZERO
