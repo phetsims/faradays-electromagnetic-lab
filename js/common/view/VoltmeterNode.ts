@@ -191,7 +191,7 @@ class GaugeNode extends Node {
       lineWidth: 1
     } );
 
-    // Major and minor tick marks around the outer edge of the arc
+    // Major and minor tick marks around the inside of the gauge.
     //TODO draw ticks with one Path
     const tickNodes: Node[] = [];
     let angle = TICK_SPACING;
