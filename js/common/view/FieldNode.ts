@@ -10,8 +10,6 @@
 import faradaysElectromagneticLab from '../../faradaysElectromagneticLab.js';
 import { Sprite, SpriteImage, SpriteInstance, SpriteInstanceTransformType, Sprites } from '../../../../scenery/js/imports.js';
 import Vector2 from '../../../../dot/js/Vector2.js';
-import Property from '../../../../axon/js/Property.js';
-import NumberProperty from '../../../../axon/js/NumberProperty.js';
 import TReadOnlyProperty from '../../../../axon/js/TReadOnlyProperty.js';
 import Bounds2 from '../../../../dot/js/Bounds2.js';
 import Multilink from '../../../../axon/js/Multilink.js';
@@ -101,7 +99,7 @@ export default class FieldNode extends Sprites {
     const margin = NEEDLE_SPACING / 4;
     for ( let x = visibleBounds.left + margin; x <= visibleBounds.right; x = x + NEEDLE_SPACING ) {
       for ( let y = visibleBounds.top + margin; y <= visibleBounds.bottom; y = y + NEEDLE_SPACING ) {
-        this.spriteInstances.push( new CompassNeedleSpriteInstance( this.sprite, new Vector2( x, y ) ) );
+        this.spriteInstances.push( new CompassNeedleSpriteInstance( new Vector2( x, y ), this.sprite ) );
       }
     }
 
@@ -115,7 +113,7 @@ export default class FieldNode extends Sprites {
   private update(): void {
     this.spriteInstances.forEach( spriteInstance => {
       const fieldVector = this.magnet.getFieldVector( spriteInstance.position, this.reusableFieldVector );
-      spriteInstance.rotationProperty.value = fieldVector.angle;
+      spriteInstance.setRotation( fieldVector.angle );
       spriteInstance.alpha = this.strengthToAlpha( fieldVector.magnitude, this.magnet.fieldScaleProperty.value );
     } );
     this.invalidatePaint();
@@ -152,30 +150,27 @@ export default class FieldNode extends Sprites {
 class CompassNeedleSpriteInstance extends SpriteInstance {
 
   public readonly position: Vector2;
-  public readonly rotationProperty: Property<number>;
 
-  public constructor( sprite: Sprite, position: Vector2 ) {
+  public constructor( position: Vector2, sprite: Sprite ) {
 
     super();
+
+    this.position = position;
 
     // Fields in superclass SpriteInstance that must be set
     this.sprite = sprite;
     this.transformType = SpriteInstanceTransformType.TRANSLATION_AND_ROTATION;
-
-    this.position = position;
-    this.rotationProperty = new NumberProperty( 0 ); //TODO PhET-iO instrumentation?
-    this.rotationProperty.link( () => this.updateMatrix() );
   }
 
   public dispose(): void {
-    this.rotationProperty.dispose();
+    // Nothing to do currently. But keep this method as a bit of defensive programming for rebuild method.
   }
 
   /**
    * Updates the matrix to match the needle's position and rotation.
    */
-  private updateMatrix(): void {
-    this.matrix.setToTranslationRotationPoint( this.position, this.rotationProperty.value );
+  public setRotation( rotation: number ): void {
+    this.matrix.setToTranslationRotationPoint( this.position, rotation );
     assert && assert( this.matrix.isFinite(), 'expected matrix to be finite' );
   }
 }
