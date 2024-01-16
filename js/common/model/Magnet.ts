@@ -15,14 +15,28 @@ import optionize from '../../../../phet-core/js/optionize.js';
 import FELMovable, { FELMovableOptions } from './FELMovable.js';
 import BooleanProperty from '../../../../axon/js/BooleanProperty.js';
 import TReadOnlyProperty from '../../../../axon/js/TReadOnlyProperty.js';
+import Dimension2 from '../../../../dot/js/Dimension2.js';
+import Bounds2 from '../../../../dot/js/Bounds2.js';
 
 type SelfOptions = {
-  rotation?: number; // initial value of rotationProperty, radians
+
+  // initial value of rotationProperty, radians
+  rotation?: number;
+
+  // All of our magnets are rectangular shaped. size describes the bounds of that rectangle in local coordinates,
+  // with the origin at the center.
+  size: Dimension2;
 };
 
 export type MagnetOptions = SelfOptions & FELMovableOptions;
 
 export default abstract class Magnet extends FELMovable {
+
+  // Dimensions of the magnet, with origin at its center.
+  public readonly size: Dimension2;
+
+  // Bounds of the magnet in its local coordinate frame
+  public readonly localBounds: Bounds2;
 
   public readonly strengthRange: Range; // gauss
   public readonly strengthProperty: TReadOnlyProperty<number>; // gauss
@@ -50,6 +64,11 @@ export default abstract class Magnet extends FELMovable {
     }, providedOptions );
 
     super( options );
+
+    this.size = options.size;
+
+    // Rectangular, with origin at the center
+    this.localBounds = new Bounds2( -this.size.width / 2, -this.size.height / 2, this.size.width / 2, this.size.height / 2 );
 
     this.strengthRange = strengthRange;
     this.strengthProperty = strengthProperty;
@@ -91,7 +110,9 @@ export default abstract class Magnet extends FELMovable {
   /**
    * Is the specific point, in global coordinates, inside the magnet?
    */
-  public abstract isInside( position: Vector2 ): boolean;
+  public isInside( position: Vector2 ): boolean {
+    return this.localBounds.containsPoint( this.globalToLocalPosition( position, this.reusablePosition ) );
+  }
 
   /**
    * Gets the B-field vector at the specified point in the global coordinate frame.
@@ -135,7 +156,7 @@ export default abstract class Magnet extends FELMovable {
    * Converts a position from the global coordinate frame to the magnet's local coordinate frame. This is essential
    * because our B-field model is in the magnet's local coordinate frame.
    */
-  protected globalToLocalPosition( localPosition: Vector2, globalPosition?: Vector2 ): Vector2 {
+  private globalToLocalPosition( localPosition: Vector2, globalPosition?: Vector2 ): Vector2 {
     globalPosition = globalPosition || new Vector2( 0, 0 );
     globalPosition.set( localPosition );
     globalPosition.rotateAboutPoint( this.positionProperty.value, -this.rotationProperty.value );

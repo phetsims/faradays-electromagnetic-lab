@@ -1,9 +1,9 @@
 // Copyright 2024, University of Colorado Boulder
 
 /**
- * CoilMagnet is the base class for magnets that are based on a coil.  The shape of the model is a rectangle, and the
+ * CoilMagnet is the base class for magnets that are based on a coil.  The shape of the model is a square, and the
  * calculation of the magnetic field at some point of interest varies depending on whether the point is inside or
- * outside the rectangle.
+ * outside the square.
  *
  * Note that Electromagnet is currently the only concrete subclass of CoilMagnet. So CoilMagnet could be absorbed
  * into Electromagnet. But as in the Java version, we've chosen to keep them separate.
@@ -16,40 +16,35 @@ import Magnet, { MagnetOptions } from './Magnet.js';
 import TReadOnlyProperty from '../../../../axon/js/TReadOnlyProperty.js';
 import Range from '../../../../dot/js/Range.js';
 import Vector2 from '../../../../dot/js/Vector2.js';
-import { EmptySelfOptions } from '../../../../phet-core/js/optionize.js';
+import optionize, { EmptySelfOptions } from '../../../../phet-core/js/optionize.js';
 import Coil from './Coil.js';
-import Bounds2 from '../../../../dot/js/Bounds2.js';
+import StrictOmit from '../../../../phet-core/js/types/StrictOmit.js';
+import Dimension2 from '../../../../dot/js/Dimension2.js';
 
 type SelfOptions = EmptySelfOptions;
 
-export type CoilMagnetOptions = SelfOptions & MagnetOptions;
+export type CoilMagnetOptions = SelfOptions & StrictOmit<MagnetOptions, 'size'>;
 
 export default class CoilMagnet extends Magnet {
 
   // Loop radius, unitless
   private readonly loopRadius: number;
 
-  // Bounds of the magnet in its local coordinate frame
-  public readonly localBounds: Bounds2;
-
   protected constructor( coil: Coil, strengthProperty: TReadOnlyProperty<number>, strengthRange: Range, providedOptions: CoilMagnetOptions ) {
-
-    super( strengthProperty, strengthRange, providedOptions );
 
     assert && assert( coil.loopAreaProperty.rangeProperty.value.getLength() === 0,
       'This model does not support dynamic loop area for the coil magnet.' );
-    this.loopRadius = coil.getLoopRadius();
+    const loopRadius = coil.getLoopRadius();
 
-    // Square, with origin at the center
-    this.localBounds = new Bounds2( -this.loopRadius, -this.loopRadius, this.loopRadius, this.loopRadius );
-  }
+    const options = optionize<CoilMagnetOptions, SelfOptions, MagnetOptions>()( {
 
-  //TODO Implementation is identical to BarMagnet.isInside
-  /**
-   * Is the specific point, in global coordinates, inside the magnet?
-   */
-  public override isInside( position: Vector2 ): boolean {
-    return this.localBounds.containsPoint( this.globalToLocalPosition( position, this.reusablePosition ) );
+      // MagnetOptions
+      size: new Dimension2( 2 * loopRadius, 2 * loopRadius )
+    }, providedOptions );
+
+    super( strengthProperty, strengthRange, options );
+
+    this.loopRadius = loopRadius;
   }
 
   /**
