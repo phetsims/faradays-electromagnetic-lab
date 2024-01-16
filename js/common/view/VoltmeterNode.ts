@@ -198,7 +198,7 @@ class GaugeNode extends Node {
     // This starts at the vertical center and works out in the positive and negative directions simultaneously.
     const tickShapes: Shape[] = [];
     let angle = TICK_SPACING;
-    let tickCount = 1;
+    let tickCount = 1; // Skip the major tick that overlaps the vertical line in the center of the gauge.
     while ( angle < Math.PI / 2 ) {
       const tickShape = ( tickCount % MINOR_TICKS_PER_MAJOR_TICK === 0 ) ? MAJOR_TICK_SHAPE : MINOR_TICK_SHAPE;
       tickShapes.push( tickShape.transformed( Matrix3.rotationAround( angle, 0, 0 ) ) ); // positive tick
