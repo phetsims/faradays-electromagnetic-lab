@@ -17,7 +17,7 @@ import Tandem from '../../../tandem/js/Tandem.js';
 import { combineOptions } from '../../../phet-core/js/optionize.js';
 import FELConstants from '../common/FELConstants.js';
 import FELKeyboardHelpContent from '../common/view/FELKeyboardHelpContent.js';
-import BatteryNode from '../common/view/BatteryNode.js';
+import DCPowerSupplyNode from '../common/view/DCPowerSupplyNode.js';
 
 export default class ElectromagnetScreen extends Screen<ElectromagnetModel, ElectromagnetScreenView> {
 
@@ -39,7 +39,7 @@ export default class ElectromagnetScreen extends Screen<ElectromagnetModel, Elec
  * Creates the icon for this screen.
  */
 function createScreenIcon(): ScreenIcon {
-  const batteryIcon = BatteryNode.createIcon();
+  const batteryIcon = DCPowerSupplyNode.createIcon();
   return new ScreenIcon( batteryIcon, {
     fill: FELColors.screenBackgroundColorProperty,
     maxIconWidthProportion: 0.75,

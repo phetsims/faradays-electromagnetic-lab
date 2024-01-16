@@ -10,7 +10,7 @@ import faradaysElectromagneticLab from '../../faradaysElectromagneticLab.js';
 import Electromagnet from '../model/Electromagnet.js';
 import Tandem from '../../../../tandem/js/Tandem.js';
 import FELMovableNode from './FELMovableNode.js';
-import BatteryNode from './BatteryNode.js';
+import DCPowerSupplyNode from './DCPowerSupplyNode.js';
 import Emitter from '../../../../axon/js/Emitter.js';
 import CoilNode from './CoilNode.js';
 import { Node, Path } from '../../../../scenery/js/imports.js';
@@ -30,8 +30,8 @@ export default class ElectromagnetNode extends FELMovableNode {
       tandem: tandem.createTandem( 'coilNode' )
     } );
 
-    const batteryNode = new BatteryNode( electromagnet.battery, electromagnet.currentSourceProperty,
-      tandem.createTandem( 'batteryNode' ) );
+    const dcPowerSupplyNode = new DCPowerSupplyNode( electromagnet.battery, electromagnet.currentSourceProperty,
+      tandem.createTandem( 'dcPowerSupplyNode' ) );
 
     const acPowerSupplyNode = new ACPowerSupplyNode( electromagnet.acPowerSupply, electromagnet.currentSourceProperty,
       tandem.createTandem( 'acPowerSupplyNode' ) );
@@ -39,11 +39,11 @@ export default class ElectromagnetNode extends FELMovableNode {
     // Dynamically position the battery and power supply when the size of the coil changes.
     coilNode.boundsProperty.link( () => {
 
-      // Position battery.
-      batteryNode.centerX = coilNode.centerX;
-      batteryNode.bottom = coilNode.top + electromagnet.sourceCoil.wireWidth / 2; // overlap end of coil
+      // Position the DC power supply.
+      dcPowerSupplyNode.centerX = coilNode.centerX;
+      dcPowerSupplyNode.bottom = coilNode.top + electromagnet.sourceCoil.wireWidth / 2; // overlap end of coil
 
-      // Position the power supply.
+      // Position the AC power supply.
       acPowerSupplyNode.centerX = coilNode.centerX;
       acPowerSupplyNode.bottom = coilNode.top + electromagnet.sourceCoil.wireWidth / 2; // overlap end of coil
     } );
@@ -55,7 +55,7 @@ export default class ElectromagnetNode extends FELMovableNode {
     } );
 
     super( electromagnet, {
-      children: [ coilNode, batteryNode, acPowerSupplyNode, magnetShapeNode ],
+      children: [ coilNode, dcPowerSupplyNode, acPowerSupplyNode, magnetShapeNode ],
       tandem: tandem
     } );
 

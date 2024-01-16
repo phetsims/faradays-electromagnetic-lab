@@ -1,7 +1,7 @@
 // Copyright 2023-2024, University of Colorado Boulder
 
 /**
- * BatteryNode is the view of a DC battery, used to power the electromagnet. It has a slider for changing the battery
+ * DCPowerSupplyNode is the view of a DC battery, used to power the electromagnet. It has a slider for changing the battery
  * voltage and polarity, and displays the voltage value.
  *
  * @author Chris Malley (PixelZoom, Inc.)
@@ -29,7 +29,7 @@ import Dimension2 from '../../../../dot/js/Dimension2.js';
 import optionize from '../../../../phet-core/js/optionize.js';
 import PickOptional from '../../../../phet-core/js/types/PickOptional.js';
 
-export default class BatteryNode extends Node {
+export default class DCPowerSupplyNode extends Node {
 
   public constructor( battery: Battery, currentSourceProperty: TReadOnlyProperty<CurrentSource>, tandem: Tandem ) {
 
@@ -229,4 +229,4 @@ class CopperTopNode extends Node {
   }
 }
 
-faradaysElectromagneticLab.register( 'BatteryNode', BatteryNode );
+faradaysElectromagneticLab.register( 'DCPowerSupplyNode', DCPowerSupplyNode );

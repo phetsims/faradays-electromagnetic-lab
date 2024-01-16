@@ -19,7 +19,7 @@ import { combineOptions } from '../../../phet-core/js/optionize.js';
 import FELConstants from '../common/FELConstants.js';
 import FELKeyboardHelpContent from '../common/view/FELKeyboardHelpContent.js';
 import lightBulbOn_png from '../../../scenery-phet/mipmaps/lightBulbOn_png.js';
-import BatteryNode from '../common/view/BatteryNode.js';
+import DCPowerSupplyNode from '../common/view/DCPowerSupplyNode.js';
 
 export default class TransformerScreen extends Screen<TransformerModel, TransformerScreenView> {
 
@@ -44,7 +44,7 @@ function createScreenIcon(): ScreenIcon {
 
   const iconNode = new HBox( {
     spacing: 5,
-    children: [ BatteryNode.createIcon( 1 ), new Image( lightBulbOn_png ) ]
+    children: [ DCPowerSupplyNode.createIcon( 1 ), new Image( lightBulbOn_png ) ]
   } );
 
   return new ScreenIcon( iconNode, {

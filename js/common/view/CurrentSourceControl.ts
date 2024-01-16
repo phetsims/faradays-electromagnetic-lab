@@ -10,7 +10,7 @@ import RectangularRadioButtonGroup, { RectangularRadioButtonGroupItem } from '..
 import faradaysElectromagneticLab from '../../faradaysElectromagneticLab.js';
 import Tandem from '../../../../tandem/js/Tandem.js';
 import FELConstants from '../FELConstants.js';
-import BatteryNode from './BatteryNode.js';
+import DCPowerSupplyNode from './DCPowerSupplyNode.js';
 import ACPowerSupplyNode from './ACPowerSupplyNode.js';
 import { HBox, RichText } from '../../../../scenery/js/imports.js';
 import FaradaysElectromagneticLabStrings from '../../FaradaysElectromagneticLabStrings.js';
@@ -45,7 +45,7 @@ class CurrentSourceRadioButtonGroup extends RectangularRadioButtonGroup<CurrentS
     const items: RectangularRadioButtonGroupItem<CurrentSource>[] = [
       {
         value: electromagnet.battery,
-        createNode: ( tandem: Tandem ) => BatteryNode.createIcon(),
+        createNode: ( tandem: Tandem ) => DCPowerSupplyNode.createIcon(),
         tandemName: 'batteryRadioButton'
       },
       {
