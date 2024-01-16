@@ -29,8 +29,6 @@ type KinematicCompassOptions = SelfOptions & CompassOptions;
 
 export default class KinematicCompass extends Compass {
 
-  //TODO Do omegaProperty and alphaProperty really need to be stateful?
-
   // Angular velocity of the needle, the change in angle over time, in radians/s
   private omegaProperty: Property<number>;
 
