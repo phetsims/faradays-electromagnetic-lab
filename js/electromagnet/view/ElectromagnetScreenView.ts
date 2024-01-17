@@ -47,9 +47,9 @@ export default class ElectromagnetScreenView extends FELScreenView {
         electromagnetNode.backgroundNode,
         this.fieldNode,
         electromagnetNode,
+        panels,
         this.compassNode,
         this.fieldMeterNode,
-        panels,
         timeControlNode,
         this.resetAllButton,
         developerAccordionBox

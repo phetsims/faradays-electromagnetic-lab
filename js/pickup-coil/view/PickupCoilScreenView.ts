@@ -58,9 +58,9 @@ export default class PickupCoilScreenView extends FELScreenView {
         this.fieldNode,
         barMagnetNode,
         pickupCoilNode,
+        panels,
         this.compassNode,
         this.fieldMeterNode,
-        panels,
         this.resetAllButton,
         developerAccordionBox,
         pickupCoilDebuggerPanel

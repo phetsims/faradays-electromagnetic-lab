@@ -15,8 +15,8 @@ import CompassNeedleNode from './CompassNeedleNode.js';
 import { Shape } from '../../../../kite/js/imports.js';
 import Utils from '../../../../dot/js/Utils.js';
 import FELColors from '../FELColors.js';
-import FELMovableNode from './FELMovableNode.js';
-import Tandem from '../../../../tandem/js/Tandem.js';
+import FELMovableNode, { FELMovableNodeOptions } from './FELMovableNode.js';
+import optionize, { EmptySelfOptions } from '../../../../phet-core/js/optionize.js';
 
 const NEEDLE_LENGTH = 55;
 const NEEDLE_ANCHOR_RADIUS = 3;
@@ -26,9 +26,19 @@ const RING_CENTER_RADIUS = RING_OUTER_RADIUS - ( RING_LINE_WIDTH / 2 ); // adjus
 const INDICATOR_RADIUS = 3;
 const INDICATOR_SPACING = Utils.toRadians( 45 );
 
+type SelfOptions = EmptySelfOptions;
+
+type CompassNodeOptions = SelfOptions & Pick<FELMovableNodeOptions, 'tandem' | 'dragBoundsProperty'>;
+
 export default class CompassNode extends FELMovableNode {
 
-  public constructor( compass: Compass, tandem: Tandem ) {
+  public constructor( compass: Compass, providedOptions: CompassNodeOptions ) {
+
+    const options = optionize<CompassNodeOptions, SelfOptions, FELMovableNodeOptions>()( {
+
+      // FELMovableNodeOptions
+      visibleProperty: compass.visibleProperty
+    }, providedOptions );
 
     const ringNode = new Circle( RING_CENTER_RADIUS, {
       stroke: FELColors.compassRingColorProperty,
@@ -68,11 +78,9 @@ export default class CompassNode extends FELMovableNode {
       center: ringNode.center
     } );
 
-    super( compass, {
-      children: [ notPickableNodes, dragPath ],
-      visibleProperty: compass.visibleProperty,
-      tandem: tandem
-    } );
+    options.children = [ notPickableNodes, dragPath ];
+
+    super( compass, options );
 
     compass.angleProperty.link( angle => {
       needleNode.rotation = angle;

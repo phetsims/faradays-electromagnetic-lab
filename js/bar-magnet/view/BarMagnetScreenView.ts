@@ -68,9 +68,9 @@ export default class BarMagnetScreenView extends FELScreenView {
         this.fieldNode,
         barMagnetNode,
         earthNode,
+        panels,
         this.compassNode,
         this.fieldMeterNode,
-        panels,
         this.resetAllButton,
         developerAccordionBox
       ]

@@ -39,13 +39,13 @@ type FELScreenViewOptions = SelfOptions & PickRequired<ScreenViewOptions, 'tande
 
 export default class FELScreenView extends ScreenView {
 
+  protected readonly dragBoundsProperty: TReadOnlyProperty<Bounds2>;
+
   // It is the subclass' responsibility to add these to the scenegraph and pdomOrder.
   protected readonly fieldNode: Node;
   protected readonly fieldMeterNode: Node;
   protected readonly compassNode: Node;
   protected readonly resetAllButton: Node;
-
-  protected readonly dragBoundsProperty: TReadOnlyProperty<Bounds2>;
 
   public constructor( providedOptions: FELScreenViewOptions ) {
 
@@ -60,9 +60,20 @@ export default class FELScreenView extends ScreenView {
 
     super( options );
 
+    this.dragBoundsProperty = new DerivedProperty( [ options.panels.boundsProperty ],
+      panelsBounds => new Bounds2(
+        this.layoutBounds.left,
+        this.layoutBounds.top,
+        panelsBounds.left,
+        this.layoutBounds.bottom
+      ) );
+
     this.fieldNode = new FieldNode( options.magnet, this.visibleBoundsProperty, options.tandem.createTandem( 'fieldNode' ) );
 
-    this.compassNode = new CompassNode( options.compass, options.tandem.createTandem( 'compassNode' ) );
+    this.compassNode = new CompassNode( options.compass, {
+      dragBoundsProperty: this.visibleBoundsProperty,
+      tandem: options.tandem.createTandem( 'compassNode' )
+    } );
 
     this.fieldMeterNode = new FieldMeterNode( options.fieldMeter, options.tandem.createTandem( 'fieldMeterNode' ) );
 
@@ -73,14 +84,6 @@ export default class FELScreenView extends ScreenView {
       },
       tandem: options.tandem.createTandem( 'resetAllButton' )
     } );
-
-    this.dragBoundsProperty = new DerivedProperty( [ options.panels.boundsProperty ],
-      panelsBounds => new Bounds2(
-        this.layoutBounds.left,
-        this.layoutBounds.top,
-        panelsBounds.left,
-        this.layoutBounds.bottom
-      ) );
 
     // Panels top aligned with layoutBounds, right aligned with visible bounds.
     Multilink.multilink( [ this.visibleBoundsProperty, options.panels.boundsProperty ],
