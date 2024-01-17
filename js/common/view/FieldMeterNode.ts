@@ -21,12 +21,12 @@ import ShadedRectangle from '../../../../scenery-phet/js/ShadedRectangle.js';
 import Bounds2 from '../../../../dot/js/Bounds2.js';
 import FELColors from '../FELColors.js';
 import FELPreferences from '../model/FELPreferences.js';
-import FELMovableNode from './FELMovableNode.js';
-import Tandem from '../../../../tandem/js/Tandem.js';
+import FELMovableNode, { FELMovableNodeOptions } from './FELMovableNode.js';
 import Vector2 from '../../../../dot/js/Vector2.js';
 import Dimension2 from '../../../../dot/js/Dimension2.js';
 import StringDisplay, { StringDisplayOptions } from './StringDisplay.js';
 import StringUtils from '../../../../phetcommon/js/util/StringUtils.js';
+import optionize, { EmptySelfOptions } from '../../../../phet-core/js/optionize.js';
 
 const BStringProperty = FaradaysElectromagneticLabStrings.symbol.BStringProperty;
 const xStringProperty = FaradaysElectromagneticLabStrings.symbol.xStringProperty;
@@ -71,9 +71,19 @@ const STRING_DISPLAY_OPTIONS: StringDisplayOptions = {
   }
 };
 
+type SelfOptions = EmptySelfOptions;
+
+type FieldMeterNodeOptions = SelfOptions & Pick<FELMovableNodeOptions, 'tandem' | 'dragBoundsProperty'>;
+
 export default class FieldMeterNode extends FELMovableNode {
 
-  public constructor( fieldMeter: FieldMeter, tandem: Tandem ) {
+  public constructor( fieldMeter: FieldMeter, providedOptions: FieldMeterNodeOptions ) {
+
+    const options = optionize<FieldMeterNodeOptions, SelfOptions, FELMovableNodeOptions>()( {
+
+      // FELMovableNodeOptions
+      visibleProperty: fieldMeter.visibleProperty
+    }, providedOptions );
 
     // Origin is at the center of the crosshairs.
     // Draw the horizontal line from left to right, then the vertical line from top to bottom.
@@ -164,11 +174,9 @@ export default class FieldMeterNode extends FELMovableNode {
       gridBox.center = bodyNode.center;
     } );
 
-    super( fieldMeter, {
-      children: [ probeNode, crosshairsNode, bodyNode, gridBox ],
-      visibleProperty: fieldMeter.visibleProperty,
-      tandem: tandem
-    } );
+    options.children = [ probeNode, crosshairsNode, bodyNode, gridBox ];
+
+    super( fieldMeter, options );
   }
 }
 

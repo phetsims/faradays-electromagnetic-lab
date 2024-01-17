@@ -75,7 +75,10 @@ export default class FELScreenView extends ScreenView {
       tandem: options.tandem.createTandem( 'compassNode' )
     } );
 
-    this.fieldMeterNode = new FieldMeterNode( options.fieldMeter, options.tandem.createTandem( 'fieldMeterNode' ) );
+    this.fieldMeterNode = new FieldMeterNode( options.fieldMeter, {
+      dragBoundsProperty: this.visibleBoundsProperty,
+      tandem: options.tandem.createTandem( 'fieldMeterNode' )
+    } );
 
     this.resetAllButton = new ResetAllButton( {
       listener: () => {
