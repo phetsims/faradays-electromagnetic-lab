@@ -12,31 +12,33 @@
  */
 
 import faradaysElectromagneticLab from '../../faradaysElectromagneticLab.js';
-import { DragListener, KeyboardDragListener, KeyboardDragListenerOptions, Node, NodeOptions } from '../../../../scenery/js/imports.js';
+import { DragListener, InteractiveHighlighting, InteractiveHighlightingOptions, KeyboardDragListener, KeyboardDragListenerOptions, Node, NodeOptions } from '../../../../scenery/js/imports.js';
 import optionize, { combineOptions } from '../../../../phet-core/js/optionize.js';
 import FELConstants from '../FELConstants.js';
 import FELMovable from '../model/FELMovable.js';
 import PickOptional from '../../../../phet-core/js/types/PickOptional.js';
-import PickRequired from '../../../../phet-core/js/types/PickRequired.js';
 import SoundClip from '../../../../tambo/js/sound-generators/SoundClip.js';
 import grab_mp3 from '../../../../tambo/sounds/grab_mp3.js';
 import release_mp3 from '../../../../tambo/sounds/release_mp3.js';
 import soundManager from '../../../../tambo/js/soundManager.js';
+import PickRequired from '../../../../phet-core/js/types/PickRequired.js';
 
 type SelfOptions = {
   isMovable?: boolean; // Is this Node movable?
   hasKeyboardDragListener?: boolean;
 };
 
-export type FELMovableNodeOptions = SelfOptions &
-  PickOptional<NodeOptions, 'children' | 'visibleProperty'> &
-  PickRequired<NodeOptions, 'tandem'>;
+type ParentOptions = InteractiveHighlightingOptions & NodeOptions;
 
-export default class FELMovableNode extends Node {
+export type FELMovableNodeOptions = SelfOptions &
+  PickOptional<ParentOptions, 'children' | 'visibleProperty'> &
+  PickRequired<ParentOptions, 'tandem'>;
+
+export default class FELMovableNode extends InteractiveHighlighting( Node ) {
 
   public constructor( movable: FELMovable, providedOptions: FELMovableNodeOptions ) {
 
-    const options = optionize<FELMovableNodeOptions, SelfOptions, NodeOptions>()( {
+    const options = optionize<FELMovableNodeOptions, SelfOptions, ParentOptions>()( {
 
       // SelfOptions
       isMovable: true,
@@ -57,6 +59,9 @@ export default class FELMovableNode extends Node {
         options.tagName = 'div'; // for KeyboardDragListener
         options.focusable = true; // for KeyboardDragListener
       }
+    }
+    else {
+      options.interactiveHighlightEnabled = false;
     }
 
     super( options );
