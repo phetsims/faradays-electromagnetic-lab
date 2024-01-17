@@ -47,8 +47,8 @@ export default class GeneratorScreenView extends FELScreenView {
       tandem.createTandem( 'turbineNode' ) );
 
     const pickupCoilNode = new PickupCoilNode( model.pickupCoil, model.stepEmitter, {
-      tandem: tandem.createTandem( 'pickupCoilNode' ),
-      isMovable: false // pickupCoilNode is not movable in this screen.
+      isMovable: false, // pickupCoilNode is not movable in this screen.
+      tandem: tandem.createTandem( 'pickupCoilNode' )
     } );
 
     const pickupCoilDebuggerPanel = new PickupCoilDebuggerPanel( model.pickupCoil );

@@ -45,6 +45,7 @@ export default class PickupCoilScreenView extends FELScreenView {
     } );
 
     const pickupCoilNode = new PickupCoilNode( model.pickupCoil, model.stepEmitter, {
+      dragBoundsProperty: this.dragBoundsProperty,
       tandem: tandem.createTandem( 'pickupCoilNode' )
     } );
 

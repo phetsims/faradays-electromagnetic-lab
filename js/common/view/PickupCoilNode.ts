@@ -17,10 +17,13 @@ import Emitter from '../../../../axon/js/Emitter.js';
 import FELLightBulbNode from './FELLightBulbNode.js';
 import VoltmeterNode from './VoltmeterNode.js';
 import optionize, { EmptySelfOptions } from '../../../../phet-core/js/optionize.js';
+import PickRequired from '../../../../phet-core/js/types/PickRequired.js';
 
 type SelfOptions = EmptySelfOptions;
 
-type PickupCoilNodeOptions = SelfOptions & Pick<FELMovableNodeOptions, 'tandem' | 'isMovable'>;
+type PickupCoilNodeOptions = SelfOptions &
+  Pick<FELMovableNodeOptions, 'isMovable' | 'dragBoundsProperty'> &
+  PickRequired<FELMovableNodeOptions, 'tandem'>;
 
 export default class PickupCoilNode extends FELMovableNode {
 
