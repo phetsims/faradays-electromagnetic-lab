@@ -83,7 +83,7 @@ export default class TransformerScreenView extends FELScreenView {
       panels,
       timeControlNode,
       this.resetAllButton
-      // Exclude developerAccordionBox and pickupCoilDebuggerPanel from alt input.
+      // Exclude developerAccordionBox from alt input because it is present it is not part of the production UI.
     ];
   }
 }

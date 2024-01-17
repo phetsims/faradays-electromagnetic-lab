@@ -79,11 +79,12 @@ export default class BarMagnetScreenView extends FELScreenView {
 
     rootNode.pdomOrder = [
       barMagnetNode,
+      // Exclude earthNode from alt input because barMagnetNode is draggable with the keyboard, and earthNode follows it.
       this.compassNode,
       this.fieldMeterNode,
       panels,
       this.resetAllButton
-      // Exclude earthNode and developerAccordionBox from alt input.
+      // Exclude developerAccordionBox from alt input because it is present it is not part of the production UI.
     ];
   }
 }

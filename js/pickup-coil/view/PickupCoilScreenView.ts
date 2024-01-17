@@ -76,7 +76,7 @@ export default class PickupCoilScreenView extends FELScreenView {
       this.fieldMeterNode,
       panels,
       this.resetAllButton
-      // Exclude developerAccordionBox and pickupCoilDebuggerPanel from alt input.
+      // Exclude developerAccordionBox from alt input because it is present it is not part of the production UI.
     ];
   }
 }
