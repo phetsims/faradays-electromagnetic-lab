@@ -53,10 +53,12 @@ export default class BarMagnetScreenView extends FELScreenView {
 
     const barMagnetNode = new BarMagnetNode( model.barMagnet, {
       seeInsideProperty: viewProperties.seeInsideBarMagnetProperty,
+      dragBoundsProperty: this.dragBoundsProperty,
       tandem: tandem.createTandem( 'barMagnetNode' )
     } );
 
     const earthNode = new EarthNode( model.barMagnet, {
+      dragBoundsProperty: this.dragBoundsProperty,
       visibleProperty: viewProperties.earthVisibleProperty,
       tandem: tandem.createTandem( 'earthNode' )
     } );

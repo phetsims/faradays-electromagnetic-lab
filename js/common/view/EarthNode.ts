@@ -21,7 +21,7 @@ import earthEasternHemisphere_svg from '../../../images/earthEasternHemisphere_s
 
 type SelfOptions = EmptySelfOptions;
 
-type EarthNodeOptions = SelfOptions & PickRequired<FELMovableNode, 'visibleProperty' | 'tandem'>;
+type EarthNodeOptions = SelfOptions & PickRequired<FELMovableNodeOptions, 'tandem' | 'visibleProperty' | 'dragBoundsProperty'>;
 
 export default class EarthNode extends FELMovableNode {
 

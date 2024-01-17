@@ -31,7 +31,7 @@ type SelfOptions = {
   seeInsideProperty?: TReadOnlyProperty<boolean>;
 };
 
-type BarMagnetNodeOptions = SelfOptions & Pick<FELMovableNodeOptions, 'tandem' | 'isMovable'>;
+type BarMagnetNodeOptions = SelfOptions & Pick<FELMovableNodeOptions, 'tandem' | 'isMovable' | 'dragBoundsProperty'>;
 
 export default class BarMagnetNode extends FELMovableNode {
 

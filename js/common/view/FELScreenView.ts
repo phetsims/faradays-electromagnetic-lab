@@ -21,6 +21,9 @@ import Compass from '../model/Compass.js';
 import FieldMeter from '../model/FieldMeter.js';
 import PickRequired from '../../../../phet-core/js/types/PickRequired.js';
 import optionize from '../../../../phet-core/js/optionize.js';
+import TReadOnlyProperty from '../../../../axon/js/TReadOnlyProperty.js';
+import Bounds2 from '../../../../dot/js/Bounds2.js';
+import DerivedProperty from '../../../../axon/js/DerivedProperty.js';
 
 type SelfOptions = {
   magnet: Magnet;
@@ -41,6 +44,8 @@ export default class FELScreenView extends ScreenView {
   protected readonly fieldMeterNode: Node;
   protected readonly compassNode: Node;
   protected readonly resetAllButton: Node;
+
+  protected readonly dragBoundsProperty: TReadOnlyProperty<Bounds2>;
 
   public constructor( providedOptions: FELScreenViewOptions ) {
 
@@ -68,6 +73,14 @@ export default class FELScreenView extends ScreenView {
       },
       tandem: options.tandem.createTandem( 'resetAllButton' )
     } );
+
+    this.dragBoundsProperty = new DerivedProperty( [ options.panels.boundsProperty ],
+      panelsBounds => new Bounds2(
+        this.layoutBounds.left,
+        this.layoutBounds.top,
+        panelsBounds.left,
+        this.layoutBounds.bottom
+      ) );
 
     // Panels top aligned with layoutBounds, right aligned with visible bounds.
     Multilink.multilink( [ this.visibleBoundsProperty, options.panels.boundsProperty ],

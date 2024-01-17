@@ -22,10 +22,13 @@ import grab_mp3 from '../../../../tambo/sounds/grab_mp3.js';
 import release_mp3 from '../../../../tambo/sounds/release_mp3.js';
 import soundManager from '../../../../tambo/js/soundManager.js';
 import PickRequired from '../../../../phet-core/js/types/PickRequired.js';
+import TReadOnlyProperty from '../../../../axon/js/TReadOnlyProperty.js';
+import Bounds2 from '../../../../dot/js/Bounds2.js';
 
 type SelfOptions = {
   isMovable?: boolean; // Is this Node movable?
   hasKeyboardDragListener?: boolean;
+  dragBoundsProperty?: TReadOnlyProperty<Bounds2 | null> | null;
 };
 
 type ParentOptions = InteractiveHighlightingOptions & NodeOptions;
@@ -43,6 +46,7 @@ export default class FELMovableNode extends InteractiveHighlighting( Node ) {
       // SelfOptions
       isMovable: true,
       hasKeyboardDragListener: true,
+      dragBoundsProperty: null,
 
       // NodeOptions
       isDisposable: false,
@@ -82,6 +86,7 @@ export default class FELMovableNode extends InteractiveHighlighting( Node ) {
 
       const dragListener = new DragListener( {
         positionProperty: movable.positionProperty,
+        dragBoundsProperty: options.dragBoundsProperty,
         useParentOffset: true,
         start: () => grabClip.play(),
         end: () => releaseClip.play(),
@@ -93,6 +98,7 @@ export default class FELMovableNode extends InteractiveHighlighting( Node ) {
         const keyboardDragListener = new KeyboardDragListener(
           combineOptions<KeyboardDragListenerOptions>( {}, FELConstants.KEYBOARD_DRAG_LISTENER_OPTIONS, {
             positionProperty: movable.positionProperty,
+            dragBoundsProperty: options.dragBoundsProperty,
             start: () => grabClip.play(),
             end: () => releaseClip.play(),
             tandem: options.tandem.createTandem( 'keyboardDragListener' )
