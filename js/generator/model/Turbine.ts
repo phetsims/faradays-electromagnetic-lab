@@ -1,7 +1,8 @@
 // Copyright 2023, University of Colorado Boulder
 
 /**
- * Turbine is the model of a simple turbine generator, where fluid flow rotates a bar magnet.
+ * Turbine is the model of a simple turbine generator, where water flow rotates a bar magnet, causing the magnetic
+ * field to modulate.
  *
  * @author Chris Malley (PixelZoom, Inc.)
  */
@@ -28,7 +29,10 @@ export type TurbineOptions = SelfOptions & BarMagnetOptions;
 
 export default class Turbine extends BarMagnet {
 
-  public readonly speedProperty: NumberProperty;
+  // Flow rate of water that turns the turbine
+  public readonly waterFlowRateProperty: NumberProperty;
+
+  // Rotational speed of the turbine
   public readonly rpmProperty: TReadOnlyProperty<number>;
 
   public constructor( providedOptions: TurbineOptions ) {
@@ -37,13 +41,14 @@ export default class Turbine extends BarMagnet {
 
     super( options );
 
-    this.speedProperty = new NumberProperty( 0, {
-      range: new Range( -1, 1 ),
-      tandem: options.tandem.createTandem( 'speedProperty' ),
+    this.waterFlowRateProperty = new NumberProperty( 0, {
+      range: new Range( 0, 1 ),
+      tandem: options.tandem.createTandem( 'waterFlowRateProperty' ),
       phetioFeatured: true
     } );
 
-    this.rpmProperty = new DerivedProperty( [ this.speedProperty ], speed => Math.abs( speed * MAX_RPM ), {
+    this.rpmProperty = new DerivedProperty( [ this.waterFlowRateProperty ], speed => speed * MAX_RPM, {
+      units: 'rpm',
       tandem: options.tandem.createTandem( 'rpmProperty' ),
       phetioValueType: NumberIO,
       phetioFeatured: true
@@ -52,15 +57,15 @@ export default class Turbine extends BarMagnet {
 
   public override reset(): void {
     super.reset();
-    this.speedProperty.reset();
+    this.waterFlowRateProperty.reset();
   }
 
   public step( dt: number ): void {
     assert && assert( dt === 1, `invalid dt=${dt}, see FELModel step` );
-    if ( this.speedProperty.value !== 0 ) {
+    if ( this.waterFlowRateProperty.value !== 0 ) {
 
       // Determine the change in rotation angle.
-      const deltaAngle = dt * this.speedProperty.value * MAX_DELTA_ANGLE;
+      const deltaAngle = dt * this.waterFlowRateProperty.value * MAX_DELTA_ANGLE;
 
       // Subtract to rotate counterclockwise.
       let newAngle = this.rotationProperty.value - deltaAngle;

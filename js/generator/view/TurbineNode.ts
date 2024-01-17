@@ -36,13 +36,13 @@ export default class TurbineNode extends Node {
       // No PhET-iO instrumentation. There is nothing interesting here.
     } );
 
-    const faucetNode = new WaterFaucetNode( turbine.speedProperty, {
+    const faucetNode = new WaterFaucetNode( turbine.waterFlowRateProperty, {
       right: layoutBounds.left + 225,
       top: layoutBounds.top + 50,
       tandem: tandem.createTandem( 'faucetNode' )
     } );
 
-    const waterNode = new WaterNode( turbine.speedProperty, turbine.speedProperty.range.max, visibleBoundsProperty, {
+    const waterNode = new WaterNode( turbine.waterFlowRateProperty, turbine.waterFlowRateProperty.range.max, visibleBoundsProperty, {
       centerX: faucetNode.x,
       top: faucetNode.y - 2
     } );

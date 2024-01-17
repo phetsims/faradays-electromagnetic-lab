@@ -20,7 +20,7 @@ type WaterFaucetNodeOptions = SelfOptions & NodeTranslationOptions & PickRequire
 
 export default class WaterFaucetNode extends FaucetNode {
   
-  public constructor( speedProperty: NumberProperty, providedOptions: WaterFaucetNodeOptions ) {
+  public constructor( waterFlowRateProperty: NumberProperty, providedOptions: WaterFaucetNodeOptions ) {
     
     const options = optionize<WaterFaucetNodeOptions, SelfOptions, FaucetNodeOptions>()( {
       
@@ -32,7 +32,7 @@ export default class WaterFaucetNode extends FaucetNode {
       phetioVisiblePropertyInstrumented: false
     }, providedOptions );
     
-    super( speedProperty.rangeProperty.value.max, speedProperty, new Property( true ), options );
+    super( waterFlowRateProperty.rangeProperty.value.max, waterFlowRateProperty, new Property( true ), options );
   }
 }
 
