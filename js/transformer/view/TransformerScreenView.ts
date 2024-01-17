@@ -43,8 +43,10 @@ export default class TransformerScreenView extends FELScreenView {
       tandem: tandem
     } );
 
-    const electromagnetNode = new ElectromagnetNode( model.electromagnet, model.stepEmitter,
-      tandem.createTandem( 'electromagnetNode' ) );
+    const electromagnetNode = new ElectromagnetNode( model.electromagnet, model.stepEmitter, {
+      dragBoundsProperty: this.dragBoundsProperty,
+      tandem: tandem.createTandem( 'electromagnetNode' )
+    } );
 
     const pickupCoilNode = new PickupCoilNode( model.pickupCoil, model.stepEmitter, {
       tandem: tandem.createTandem( 'pickupCoilNode' )

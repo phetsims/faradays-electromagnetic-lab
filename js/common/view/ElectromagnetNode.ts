@@ -8,14 +8,19 @@
 
 import faradaysElectromagneticLab from '../../faradaysElectromagneticLab.js';
 import Electromagnet from '../model/Electromagnet.js';
-import Tandem from '../../../../tandem/js/Tandem.js';
-import FELMovableNode from './FELMovableNode.js';
+import FELMovableNode, { FELMovableNodeOptions } from './FELMovableNode.js';
 import DCPowerSupplyNode from './DCPowerSupplyNode.js';
 import Emitter from '../../../../axon/js/Emitter.js';
 import CoilNode from './CoilNode.js';
 import { Node, Path } from '../../../../scenery/js/imports.js';
 import ACPowerSupplyNode from './ACPowerSupplyNode.js';
 import { Shape } from '../../../../kite/js/imports.js';
+import optionize, { EmptySelfOptions } from '../../../../phet-core/js/optionize.js';
+import PickRequired from '../../../../phet-core/js/types/PickRequired.js';
+
+type SelfOptions = EmptySelfOptions;
+
+type ElectromagnetNodeOptions = SelfOptions & PickRequired<FELMovableNodeOptions, 'tandem' | 'dragBoundsProperty'>;
 
 export default class ElectromagnetNode extends FELMovableNode {
 
@@ -24,17 +29,19 @@ export default class ElectromagnetNode extends FELMovableNode {
   // backgroundNode to the scenegraph.
   public readonly backgroundNode: Node;
 
-  public constructor( electromagnet: Electromagnet, stepEmitter: Emitter<[ number ]>, tandem: Tandem ) {
+  public constructor( electromagnet: Electromagnet, stepEmitter: Emitter<[ number ]>, providedOptions: ElectromagnetNodeOptions ) {
+
+    const options = optionize<ElectromagnetNodeOptions, SelfOptions, FELMovableNodeOptions>()( {}, providedOptions );
 
     const coilNode = new CoilNode( electromagnet.sourceCoil, stepEmitter, {
-      tandem: tandem.createTandem( 'coilNode' )
+      tandem: options.tandem.createTandem( 'coilNode' )
     } );
 
     const dcPowerSupplyNode = new DCPowerSupplyNode( electromagnet.dcPowerSupply, electromagnet.currentSourceProperty,
-      tandem.createTandem( 'dcPowerSupplyNode' ) );
+      options.tandem.createTandem( 'dcPowerSupplyNode' ) );
 
     const acPowerSupplyNode = new ACPowerSupplyNode( electromagnet.acPowerSupply, electromagnet.currentSourceProperty,
-      tandem.createTandem( 'acPowerSupplyNode' ) );
+      options.tandem.createTandem( 'acPowerSupplyNode' ) );
 
     // Dynamically position the battery and power supply when the size of the coil changes.
     coilNode.boundsProperty.link( () => {
@@ -54,10 +61,9 @@ export default class ElectromagnetNode extends FELMovableNode {
       stroke: 'yellow'
     } );
 
-    super( electromagnet, {
-      children: [ coilNode, dcPowerSupplyNode, acPowerSupplyNode, magnetShapeNode ],
-      tandem: tandem
-    } );
+    options.children = [ coilNode, dcPowerSupplyNode, acPowerSupplyNode, magnetShapeNode ];
+
+    super( electromagnet, options );
 
     this.backgroundNode = coilNode.backgroundNode;
 

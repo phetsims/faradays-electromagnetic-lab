@@ -23,6 +23,8 @@ import ShadedRectangle from '../../../../scenery-phet/js/ShadedRectangle.js';
 import Bounds2 from '../../../../dot/js/Bounds2.js';
 import FaradaysElectromagneticLabStrings from '../../FaradaysElectromagneticLabStrings.js';
 import Dimension2 from '../../../../dot/js/Dimension2.js';
+import PickOptional from '../../../../phet-core/js/types/PickOptional.js';
+import PickRequired from '../../../../phet-core/js/types/PickRequired.js';
 
 const CORNER_RADIUS = 10;
 const FONT = new PhetFont( { size: 30, weight: 'bold' } );
@@ -31,7 +33,9 @@ type SelfOptions = {
   seeInsideProperty?: TReadOnlyProperty<boolean>;
 };
 
-type BarMagnetNodeOptions = SelfOptions & Pick<FELMovableNodeOptions, 'tandem' | 'isMovable' | 'dragBoundsProperty'>;
+type BarMagnetNodeOptions = SelfOptions &
+  PickOptional<FELMovableNodeOptions, 'isMovable' | 'dragBoundsProperty'> &
+  PickRequired<FELMovableNodeOptions, 'tandem'>;
 
 export default class BarMagnetNode extends FELMovableNode {
 

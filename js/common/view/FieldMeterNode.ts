@@ -27,6 +27,7 @@ import Dimension2 from '../../../../dot/js/Dimension2.js';
 import StringDisplay, { StringDisplayOptions } from './StringDisplay.js';
 import StringUtils from '../../../../phetcommon/js/util/StringUtils.js';
 import optionize, { EmptySelfOptions } from '../../../../phet-core/js/optionize.js';
+import PickRequired from '../../../../phet-core/js/types/PickRequired.js';
 
 const BStringProperty = FaradaysElectromagneticLabStrings.symbol.BStringProperty;
 const xStringProperty = FaradaysElectromagneticLabStrings.symbol.xStringProperty;
@@ -73,7 +74,7 @@ const STRING_DISPLAY_OPTIONS: StringDisplayOptions = {
 
 type SelfOptions = EmptySelfOptions;
 
-type FieldMeterNodeOptions = SelfOptions & Pick<FELMovableNodeOptions, 'tandem' | 'dragBoundsProperty'>;
+type FieldMeterNodeOptions = SelfOptions & PickRequired<FELMovableNodeOptions, 'tandem' | 'dragBoundsProperty'>;
 
 export default class FieldMeterNode extends FELMovableNode {
 

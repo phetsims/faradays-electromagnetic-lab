@@ -17,6 +17,7 @@ import Utils from '../../../../dot/js/Utils.js';
 import FELColors from '../FELColors.js';
 import FELMovableNode, { FELMovableNodeOptions } from './FELMovableNode.js';
 import optionize, { EmptySelfOptions } from '../../../../phet-core/js/optionize.js';
+import PickRequired from '../../../../phet-core/js/types/PickRequired.js';
 
 const NEEDLE_LENGTH = 55;
 const NEEDLE_ANCHOR_RADIUS = 3;
@@ -28,7 +29,7 @@ const INDICATOR_SPACING = Utils.toRadians( 45 );
 
 type SelfOptions = EmptySelfOptions;
 
-type CompassNodeOptions = SelfOptions & Pick<FELMovableNodeOptions, 'tandem' | 'dragBoundsProperty'>;
+type CompassNodeOptions = SelfOptions & PickRequired<FELMovableNodeOptions, 'tandem' | 'dragBoundsProperty'>;
 
 export default class CompassNode extends FELMovableNode {
 

@@ -39,8 +39,10 @@ export default class ElectromagnetScreenView extends FELScreenView {
       tandem: tandem
     } );
 
-    const electromagnetNode = new ElectromagnetNode( model.electromagnet, model.stepEmitter,
-      tandem.createTandem( 'electromagnetNode' ) );
+    const electromagnetNode = new ElectromagnetNode( model.electromagnet, model.stepEmitter, {
+      dragBoundsProperty: this.dragBoundsProperty,
+      tandem: tandem.createTandem( 'electromagnetNode' )
+    } );
 
     const rootNode = new Node( {
       children: [
