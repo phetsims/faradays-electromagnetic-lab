@@ -1,4 +1,4 @@
-// Copyright 2023, University of Colorado Boulder
+// Copyright 2023-2024, University of Colorado Boulder
 
 /**
  * Turbine is the model of a simple turbine generator, where water flow rotates a bar magnet, causing the magnetic
