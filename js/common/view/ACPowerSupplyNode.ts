@@ -31,6 +31,7 @@ import FELConstants from '../FELConstants.js';
 import VoltageChartNode from './VoltageChartNode.js';
 import Utils from '../../../../dot/js/Utils.js';
 import { combineOptions } from '../../../../phet-core/js/optionize.js';
+import DerivedStringProperty from '../../../../axon/js/DerivedStringProperty.js';
 
 const SLIDER_STEP = 1;
 const CORNER_RADIUS = 10;
@@ -58,7 +59,7 @@ export default class ACPowerSupplyNode extends Node {
 
     // Display for max voltage value, in percent
     const maxVoltageStringProperty = new PatternStringProperty( FaradaysElectromagneticLabStrings.pattern.valuePercentStringProperty, {
-      value: new DerivedProperty( [ acPowerSupply.maxVoltagePercentProperty ],
+      value: new DerivedStringProperty( [ acPowerSupply.maxVoltagePercentProperty ],
         maxVoltagePercent => Utils.toFixed( maxVoltagePercent, 0 ) )
     } );
     const maxVoltageDisplay = new StringDisplay( maxVoltageStringProperty, {
@@ -91,7 +92,7 @@ export default class ACPowerSupplyNode extends Node {
 
     // Display for frequency value, in percent
     const frequencyStringProperty = new PatternStringProperty( FaradaysElectromagneticLabStrings.pattern.valuePercentStringProperty, {
-      value: new DerivedProperty( [ acPowerSupply.frequencyProperty ],
+      value: new DerivedStringProperty( [ acPowerSupply.frequencyProperty ],
         frequencyPercent => Utils.toFixed( frequencyPercent, 0 ) )
     } );
     const frequencyDisplay = new StringDisplay( frequencyStringProperty, {

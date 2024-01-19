@@ -21,6 +21,9 @@ import CoilMagnet, { CoilMagnetOptions } from './CoilMagnet.js';
 import { EmptySelfOptions } from '../../../../phet-core/js/optionize.js';
 import FELModel from './FELModel.js';
 
+const STRENGTH_RANGE = new Range( 0, 300 ); // gauss
+const CURRENT_AMPLITUDE_RANGE = new Range( -1, 1 );
+
 type SelfOptions = EmptySelfOptions;
 
 export type ElectromagnetOptions = SelfOptions & CoilMagnetOptions;
@@ -59,6 +62,7 @@ export default class Electromagnet extends CoilMagnet {
       [ currentSourceProperty, dcPowerSupply.amplitudeProperty, acPowerSupply.amplitudeProperty ],
       ( currentSource, batteryAmplitude, acPowerSupplyAmplitude ) =>
         ( currentSource === dcPowerSupply ) ? batteryAmplitude : acPowerSupplyAmplitude, {
+        isValidValue: currentAmplitude => CURRENT_AMPLITUDE_RANGE.contains( currentAmplitude ),
         tandem: options.tandem.createTandem( 'currentAmplitudeProperty' ),
         phetioValueType: NumberIO,
         phetioFeatured: true
@@ -66,16 +70,15 @@ export default class Electromagnet extends CoilMagnet {
 
     const sourceCoil = new SourceCoil( currentAmplitudeProperty, options.tandem.createTandem( 'sourceCoil' ) );
 
-    const strengthRange = new Range( 0, 300 ); // gauss
-
     // Strength of the magnet is proportional to its EMF.
     const strengthProperty = new DerivedProperty( [ sourceCoil.currentAmplitudeProperty ],
-      currentAmplitude => Math.abs( currentAmplitude ) * strengthRange.max, {
+      currentAmplitude => Math.abs( currentAmplitude ) * STRENGTH_RANGE.max, {
+        isValidValue: strength => STRENGTH_RANGE.contains( strength ),
         tandem: options.tandem.createTandem( 'strengthProperty' ),
         phetioValueType: NumberIO
       } );
 
-    super( sourceCoil, strengthProperty, strengthRange, options );
+    super( sourceCoil, strengthProperty, STRENGTH_RANGE, options );
 
     this.sourceCoil = sourceCoil;
     this.dcPowerSupply = dcPowerSupply;

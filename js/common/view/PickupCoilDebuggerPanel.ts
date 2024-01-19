@@ -11,13 +11,13 @@
 import faradaysElectromagneticLab from '../../faradaysElectromagneticLab.js';
 import { DragListener, GridBox, RichText, RichTextOptions, Text, VBox } from '../../../../scenery/js/imports.js';
 import PickupCoil from '../model/PickupCoil.js';
-import DerivedProperty from '../../../../axon/js/DerivedProperty.js';
 import PhetFont from '../../../../scenery-phet/js/PhetFont.js';
 import Panel, { PanelOptions } from '../../../../sun/js/Panel.js';
 import { combineOptions } from '../../../../phet-core/js/optionize.js';
 import FELConstants from '../FELConstants.js';
 import Utils from '../../../../dot/js/Utils.js';
 import Tandem from '../../../../tandem/js/Tandem.js';
+import DerivedStringProperty from '../../../../axon/js/DerivedStringProperty.js';
 
 const PHI = '\u03A6';
 const DELTA_PHI = `\u2206${PHI}`;
@@ -40,16 +40,16 @@ export default class PickupCoilDebuggerPanel extends Panel {
 
   public constructor( pickupCoil: PickupCoil ) {
 
-    const averageBxStringProperty = new DerivedProperty( [ pickupCoil.averageBxProperty ],
+    const averageBxStringProperty = new DerivedStringProperty( [ pickupCoil.averageBxProperty ],
       averageBx => `${Utils.toFixed( averageBx, 2 )} G` );
 
-    const fluxStringProperty = new DerivedProperty( [ pickupCoil.fluxProperty ],
+    const fluxStringProperty = new DerivedStringProperty( [ pickupCoil.fluxProperty ],
       flux => `${Utils.toFixed( flux, 0 )} Wb` );
 
-    const deltaFluxStringProperty = new DerivedProperty( [ pickupCoil.deltaFluxProperty ],
+    const deltaFluxStringProperty = new DerivedStringProperty( [ pickupCoil.deltaFluxProperty ],
       deltaFlux => `${Utils.toFixed( deltaFlux, 0 )} Wb` );
 
-    const emfStringProperty = new DerivedProperty( [ pickupCoil.emfProperty ],
+    const emfStringProperty = new DerivedStringProperty( [ pickupCoil.emfProperty ],
       emf => `${Utils.toFixed( emf, 0 )} V` );
 
     const titleText = new Text( 'Pickup Coil debugger', {

@@ -12,7 +12,6 @@ import faradaysElectromagneticLab from '../../faradaysElectromagneticLab.js';
 import FieldMeter from '../model/FieldMeter.js';
 import { GridBox, Path, RichText, RichTextOptions } from '../../../../scenery/js/imports.js';
 import { Shape } from '../../../../kite/js/imports.js';
-import DerivedProperty from '../../../../axon/js/DerivedProperty.js';
 import Utils from '../../../../dot/js/Utils.js';
 import MathSymbols from '../../../../scenery-phet/js/MathSymbols.js';
 import FaradaysElectromagneticLabStrings from '../../FaradaysElectromagneticLabStrings.js';
@@ -28,6 +27,7 @@ import StringDisplay, { StringDisplayOptions } from './StringDisplay.js';
 import StringUtils from '../../../../phetcommon/js/util/StringUtils.js';
 import optionize, { EmptySelfOptions } from '../../../../phet-core/js/optionize.js';
 import PickRequired from '../../../../phet-core/js/types/PickRequired.js';
+import DerivedStringProperty from '../../../../axon/js/DerivedStringProperty.js';
 
 const BStringProperty = FaradaysElectromagneticLabStrings.symbol.BStringProperty;
 const xStringProperty = FaradaysElectromagneticLabStrings.symbol.xStringProperty;
@@ -111,31 +111,31 @@ export default class FieldMeterNode extends FELMovableNode {
     // Dynamic labels. The Java version showed a line over 'B' for these labels, presumably indicating magnitude.
     // That notation was incorrect, since 'B' is (by definition) the *magnitude* of the magnetic field. See for
     // example https://en.wikipedia.org/wiki/Magnetic_flux.
-    const stringBLabelProperty = new DerivedProperty( [ BStringProperty ], B => `${B}` );
-    const stringBxLabelProperty = new DerivedProperty( [ BStringProperty, xStringProperty ], ( B, x ) => `${B}<sub>${x}</sub>` );
-    const stringByLabelProperty = new DerivedProperty( [ BStringProperty, yStringProperty ], ( B, y ) => `${B}<sub>${y}</sub>` );
+    const stringBLabelProperty = new DerivedStringProperty( [ BStringProperty ], B => `${B}` );
+    const stringBxLabelProperty = new DerivedStringProperty( [ BStringProperty, xStringProperty ], ( B, x ) => `${B}<sub>${x}</sub>` );
+    const stringByLabelProperty = new DerivedStringProperty( [ BStringProperty, yStringProperty ], ( B, y ) => `${B}<sub>${y}</sub>` );
 
     // Dynamic values. We decided that Bx and By should be signed.
-    const stringBValueProperty = new DerivedProperty(
+    const stringBValueProperty = new DerivedStringProperty(
       [ FELPreferences.magneticUnitsProperty, fieldMeter.fieldVectorProperty, GStringProperty, TStringProperty, valueUnitsStringProperty ],
       ( magneticUnits, fieldVector, G, T ) =>
         ( magneticUnits === 'G' ) ? `${toGaussString( fieldVector.magnitude, G )}`
                                   : `${toTeslaString( fieldVector.magnitude, T )}`
     );
-    const stringBxValueProperty = new DerivedProperty(
+    const stringBxValueProperty = new DerivedStringProperty(
       [ FELPreferences.magneticUnitsProperty, fieldMeter.fieldVectorProperty, GStringProperty, TStringProperty, valueUnitsStringProperty ],
       ( magneticUnits, fieldVector, G, T ) =>
         ( magneticUnits === 'G' ) ? `${toGaussString( fieldVector.x, G )}`
                                   : `${toTeslaString( fieldVector.x, T )}`
     );
-    const stringByValueProperty = new DerivedProperty(
+    const stringByValueProperty = new DerivedStringProperty(
       [ FELPreferences.magneticUnitsProperty, fieldMeter.fieldVectorProperty, GStringProperty, TStringProperty, valueUnitsStringProperty ],
       //TODO -fieldVector.y to convert to +y up, should be done in the model
       ( magneticUnits, fieldVector, G, T ) =>
         ( magneticUnits === 'G' ) ? `${toGaussString( -fieldVector.y, G )}`
                                   : `${toTeslaString( fieldVector.y, T )}`
     );
-    const stringThetaValueProperty = new DerivedProperty(
+    const stringThetaValueProperty = new DerivedStringProperty(
       [ fieldMeter.fieldVectorProperty, valueDegreesStringProperty ],
       fieldVector => `${toDegreesString( fieldVector )}`
     );

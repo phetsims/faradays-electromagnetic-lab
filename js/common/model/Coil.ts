@@ -102,9 +102,12 @@ export default class Coil extends FELMovable {
       phetioReadOnly: ( options.loopAreaPercentRange.getLength() === 0 ) // readonly if loop area is fixed
     } );
 
+    const loopAreaRange = new Range( this.loopAreaPercentProperty.range.min * this.maxLoopArea / 100,
+      this.loopAreaPercentProperty.range.max * this.maxLoopArea / 100 );
+
     this.loopAreaProperty = new DerivedProperty( [ this.loopAreaPercentProperty ],
       loopAreaPercent => loopAreaPercent * this.maxLoopArea / 100, {
-        //TODO isValidValue
+        isValidValue: loopArea => loopAreaRange.contains( loopArea ),
         tandem: options.tandem.createTandem( 'loopAreaProperty' ),
         phetioFeatured: true,
         phetioValueType: NumberIO,

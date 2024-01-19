@@ -26,6 +26,7 @@ import Matrix3 from '../../../../dot/js/Matrix3.js';
 import FELColors from '../FELColors.js';
 import { Shape } from '../../../../kite/js/imports.js';
 import BatteryNode from './BatteryNode.js';
+import DerivedStringProperty from '../../../../axon/js/DerivedStringProperty.js';
 
 export default class DCPowerSupplyNode extends Node {
 
@@ -56,7 +57,7 @@ export default class DCPowerSupplyNode extends Node {
 
     // Volts display, absolute value
     const voltsStringProperty = new PatternStringProperty( FaradaysElectromagneticLabStrings.pattern.valueUnitsStringProperty, {
-      value: new DerivedProperty( [ dcPowerSupply.voltageProperty ], voltage => Math.abs( voltage ) ),
+      value: new DerivedStringProperty( [ dcPowerSupply.voltageProperty ], voltage => `${Math.abs( voltage )}` ),
       units: FaradaysElectromagneticLabStrings.units.VStringProperty
     } );
     const voltsText = new Text( voltsStringProperty, {

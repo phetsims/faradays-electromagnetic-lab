@@ -19,11 +19,11 @@ type SelfOptions = EmptySelfOptions;
 type WaterFaucetNodeOptions = SelfOptions & NodeTranslationOptions & PickRequired<FaucetNodeOptions, 'tandem'>;
 
 export default class WaterFaucetNode extends FaucetNode {
-  
+
   public constructor( waterFlowRateProperty: NumberProperty, providedOptions: WaterFaucetNodeOptions ) {
-    
+
     const options = optionize<WaterFaucetNodeOptions, SelfOptions, FaucetNodeOptions>()( {
-      
+
       // FaucetNodeOptions
       scale: 0.7,
       closeOnRelease: false,
@@ -31,8 +31,8 @@ export default class WaterFaucetNode extends FaucetNode {
       horizontalPipeLength: 1800, // set empirically, for an extremely wide browser window
       phetioVisiblePropertyInstrumented: false
     }, providedOptions );
-    
-    super( waterFlowRateProperty.rangeProperty.value.max, waterFlowRateProperty, new Property( true ), options );
+
+    super( waterFlowRateProperty.range.max, waterFlowRateProperty, new Property( true ), options );
   }
 }
 

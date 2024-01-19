@@ -19,6 +19,8 @@ import FELModel from './FELModel.js';
 import Property from '../../../../axon/js/Property.js';
 
 const MAX_VOLTAGE = 110; // V
+const MAX_VOLTAGE_PERCENT_RANGE = new Range( 0, 100 ); // %
+const MAX_VOLTAGE_RANGE = new Range( MAX_VOLTAGE_PERCENT_RANGE.min * MAX_VOLTAGE / 100, MAX_VOLTAGE_PERCENT_RANGE.max * MAX_VOLTAGE / 100 );
 
 // The minimum number of steps used to approximate one sine wave cycle.
 const MIN_STEPS_PER_CYCLE = 10;
@@ -66,14 +68,14 @@ export default class ACPowerSupply extends CurrentSource {
 
     this.maxVoltagePercentProperty = new NumberProperty( 50, {
       units: '%',
-      range: new Range( 0, 100 ),
+      range: MAX_VOLTAGE_PERCENT_RANGE,
       tandem: tandem.createTandem( 'maxVoltagePercentProperty' ),
       phetioFeatured: true
     } );
 
     this.maxVoltageProperty = new DerivedProperty( [ this.maxVoltagePercentProperty ],
       maxVoltagePercent => maxVoltagePercent * MAX_VOLTAGE / 100, {
-        //TODO isValidValue
+        isValidValue: maxVoltage => MAX_VOLTAGE_RANGE.contains( maxVoltage ),
         units: 'V',
         tandem: tandem.createTandem( 'maxVoltageProperty' ),
         phetioFeatured: true,

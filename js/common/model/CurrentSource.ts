@@ -14,6 +14,9 @@ import optionize from '../../../../phet-core/js/optionize.js';
 import PickRequired from '../../../../phet-core/js/types/PickRequired.js';
 import DerivedProperty from '../../../../axon/js/DerivedProperty.js';
 import TReadOnlyProperty from '../../../../axon/js/TReadOnlyProperty.js';
+import Range from '../../../../dot/js/Range.js';
+
+const AMPLITUDE_RANGE = new Range( -1, 1 );
 
 type SelfOptions = {
   maxVoltage: number; // range of voltageProperty is [-maxVoltage,maxVoltage]
@@ -46,7 +49,7 @@ export default class CurrentSource extends PhetioObject {
 
     this.amplitudeProperty = new DerivedProperty( [ voltageProperty ],
       voltage => voltage / options.maxVoltage, {
-        isValidValue: amplitude => ( amplitude >= -1 && amplitude <= 1 ) // [-1,1]
+        isValidValue: amplitude => AMPLITUDE_RANGE.contains( amplitude )
       } );
   }
 
