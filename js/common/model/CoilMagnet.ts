@@ -32,7 +32,7 @@ export default class CoilMagnet extends Magnet {
 
   protected constructor( coil: Coil, strengthProperty: TReadOnlyProperty<number>, strengthRange: Range, providedOptions: CoilMagnetOptions ) {
 
-    assert && assert( coil.loopAreaProperty.rangeProperty.value.getLength() === 0,
+    assert && assert( coil.loopAreaPercentProperty.rangeProperty.value.getLength() === 0,
       'This model does not support dynamic loop area for the coil magnet.' );
     const loopRadius = coil.getLoopRadius();
 

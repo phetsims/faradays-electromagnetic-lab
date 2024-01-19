@@ -13,31 +13,32 @@ import FaradaysElectromagneticLabStrings from '../../FaradaysElectromagneticLabS
 import { combineOptions } from '../../../../phet-core/js/optionize.js';
 import FELConstants from '../FELConstants.js';
 import PatternStringProperty from '../../../../axon/js/PatternStringProperty.js';
-import Range from '../../../../dot/js/Range.js';
 import Utils from '../../../../dot/js/Utils.js';
 import { RichText } from '../../../../scenery/js/imports.js';
 import StringUtils from '../../../../phetcommon/js/util/StringUtils.js';
-import PhetioProperty from '../../../../axon/js/PhetioProperty.js';
+import NumberProperty from '../../../../axon/js/NumberProperty.js';
 
 const valuePercentStringProperty = FaradaysElectromagneticLabStrings.pattern.valuePercentStringProperty;
 const SLIDER_STEP = 1; // %
 
 export default class LoopAreaControl extends NumberControl {
 
-  public constructor( loopAreaPercentProperty: PhetioProperty<number>, loopAreaPercentRange: Range, tandem: Tandem ) {
+  public constructor( loopAreaPercentProperty: NumberProperty, tandem: Tandem ) {
+
+    const range = loopAreaPercentProperty.range;
 
     // Tick marks at min and max.
     const majorTicks = [
       {
-        value: loopAreaPercentRange.min,
+        value: range.min,
         label: new RichText( new PatternStringProperty( valuePercentStringProperty, {
-          value: loopAreaPercentRange.min
+          value: range.min
         } ), FELConstants.TICK_LABEL_OPTIONS )
       },
       {
-        value: loopAreaPercentRange.max,
+        value: range.max,
         label: new RichText( new PatternStringProperty( valuePercentStringProperty, {
-          value: loopAreaPercentRange.max
+          value: range.max
         } ), FELConstants.TICK_LABEL_OPTIONS )
       }
     ];
@@ -59,7 +60,7 @@ export default class LoopAreaControl extends NumberControl {
       tandem: tandem
     } );
 
-    super( FaradaysElectromagneticLabStrings.loopAreaStringProperty, loopAreaPercentProperty, loopAreaPercentRange, options );
+    super( FaradaysElectromagneticLabStrings.loopAreaStringProperty, loopAreaPercentProperty, range, options );
 
     this.addLinkedElement( loopAreaPercentProperty );
   }

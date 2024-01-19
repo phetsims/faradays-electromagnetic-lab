@@ -15,14 +15,19 @@ import optionize from '../../../../phet-core/js/optionize.js';
 import FELMovable, { FELMovableOptions } from './FELMovable.js';
 import Property from '../../../../axon/js/Property.js';
 import BooleanProperty from '../../../../axon/js/BooleanProperty.js';
+import DerivedProperty from '../../../../axon/js/DerivedProperty.js';
+import NumberIO from '../../../../tandem/js/types/NumberIO.js';
 
 type SelfOptions = {
 
   // range and initial value for numberOfLoopsProperty
   numberOfLoopsRange: RangeWithValue;
 
-  // range and initial value of loopAreaProperty, unitless
-  loopAreaRange: RangeWithValue;
+  // Maximum value of loopAreaProperty, unitless
+  maxLoopArea: number;
+
+  // range and initial value of loopAreaPercentProperty
+  loopAreaPercentRange: RangeWithValue;
 
   // the width of the wire that makes up the coil
   wireWidth?: number;
@@ -48,7 +53,9 @@ export default class Coil extends FELMovable {
   public readonly numberOfLoopsProperty: NumberProperty;
 
   // Area of one loop
-  public readonly loopAreaProperty: NumberProperty;
+  public readonly loopAreaPercentProperty: NumberProperty;
+  public readonly loopAreaProperty: TReadOnlyProperty<number>;
+  private readonly maxLoopArea: number;
 
   // This is a quantity that we made up. It is a percentage that describes the amount of current relative to some
   // maximum current in the model, and direction of that current. View components can use this value to determine
@@ -77,8 +84,8 @@ export default class Coil extends FELMovable {
     super( options );
 
     this.wireWidth = options.wireWidth;
-
     this.loopSpacing = options.loopSpacing;
+    this.maxLoopArea = options.maxLoopArea;
 
     this.numberOfLoopsProperty = new NumberProperty( options.numberOfLoopsRange.defaultValue, {
       numberType: 'Integer',
@@ -87,11 +94,20 @@ export default class Coil extends FELMovable {
       phetioFeatured: true
     } );
 
-    this.loopAreaProperty = new NumberProperty( options.loopAreaRange.defaultValue, {
-      range: options.loopAreaRange,
-      tandem: options.tandem.createTandem( 'loopAreaProperty' ),
-      phetioFeatured: true
+    this.loopAreaPercentProperty = new NumberProperty( options.loopAreaPercentRange.defaultValue, {
+      range: options.loopAreaPercentRange,
+      tandem: options.tandem.createTandem( 'loopAreaPercentProperty' ),
+      phetioFeatured: true,
+      phetioReadOnly: ( options.loopAreaPercentRange.getLength() === 0 ) // readonly if loop area is fixed
     } );
+
+    this.loopAreaProperty = new DerivedProperty( [ this.loopAreaPercentProperty ],
+      loopAreaPercent => loopAreaPercent * this.maxLoopArea / 100, {
+        tandem: options.tandem.createTandem( 'loopAreaProperty' ),
+        phetioFeatured: true,
+        phetioValueType: NumberIO,
+        phetioDocumentation: 'To change loop area, use loopAreaPercentProperty'
+      } );
 
     this.currentAmplitudeProperty = currentAmplitudeProperty;
 
@@ -109,12 +125,18 @@ export default class Coil extends FELMovable {
   public override reset(): void {
     super.reset();
     this.numberOfLoopsProperty.reset();
-    this.loopAreaProperty.reset();
+    this.loopAreaPercentProperty.reset();
     this.electronsVisibleProperty.reset();
   }
 
   public getLoopRadius(): number {
-    return Math.sqrt( this.loopAreaProperty.value / Math.PI );
+    const loopArea = this.loopAreaPercentProperty.value * this.maxLoopArea / 100;
+    return Math.sqrt( loopArea / Math.PI );
+  }
+
+  public getMinLoopRadius(): number {
+    const minLoopArea = this.loopAreaPercentProperty.rangeProperty.value.min * this.maxLoopArea / 100;
+    return Math.sqrt( minLoopArea / Math.PI );
   }
 }
 

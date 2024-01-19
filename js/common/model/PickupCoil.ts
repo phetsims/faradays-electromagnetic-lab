@@ -24,9 +24,6 @@ import LightBulb from './LightBulb.js';
 import Voltmeter from './Voltmeter.js';
 import CurrentIndicator from './CurrentIndicator.js';
 import FELModel from './FELModel.js';
-import MappedProperty from '../../../../axon/js/MappedProperty.js';
-import NumberIO from '../../../../tandem/js/types/NumberIO.js';
-import PhetioProperty from '../../../../axon/js/PhetioProperty.js';
 import PickupCoilSamplePointsStrategy from './PickupCoilSamplePointsStrategy.js';
 
 const WIRE_WIDTH = 16;
@@ -39,7 +36,7 @@ type SelfOptions = {
 };
 
 export type PickupCoilOptions = SelfOptions &
-  StrictOmit<CoilOptions, 'numberOfLoopsRange' | 'loopAreaRange' | 'wireWidth' | 'loopSpacing'>;
+  StrictOmit<CoilOptions, 'numberOfLoopsRange' | 'maxLoopArea' | 'loopAreaPercentRange' | 'wireWidth' | 'loopSpacing'>;
 
 export default class PickupCoil extends Coil {
 
@@ -52,10 +49,6 @@ export default class PickupCoil extends Coil {
 
   // Writeable version of this.currentAmplitudeProperty: TReadOnlyProperty<number>
   private readonly _currentAmplitudeProperty: NumberProperty;
-
-  // Loop area as a percentage, which is how the UI sets and views it.
-  public readonly loopAreaPercentProperty: PhetioProperty<number>;
-  public readonly loopAreaPercentRange: Range;
 
   //TODO document
   private readonly _fluxProperty: Property<number>;
@@ -128,13 +121,8 @@ export default class PickupCoil extends Coil {
       transitionSmoothingScale: 1, // no smoothing
 
       // CoilOptions
-
-      // In the Java version, loopAreaRange was computed from loop radius range [68, 150, 75], resulting in
-      // [14526.724430199205, 70685.83470577035, 35342.917352885175]. To avoid problems, we have rounded the max
-      // to an integer that results in the min (20%) and default (50%) both being integers. This should be close
-      // enough to the Java version to avoid having to recalibrate the model.
-      // See https://github.com/phetsims/faradays-electromagnetic-lab/issues/48
-      loopAreaRange: new RangeWithValue( 14138, 70690, 35345 ),
+      maxLoopArea: 35345, // in the Java version, max radius was 75, so max area was 35342.917352885175
+      loopAreaPercentRange: new RangeWithValue( 20, 100, 50 ),
       numberOfLoopsRange: new RangeWithValue( 1, 4, 2 ),
       wireWidth: WIRE_WIDTH,
       loopSpacing: LOOP_SPACING
@@ -162,20 +150,6 @@ export default class PickupCoil extends Coil {
     this.voltmeter = new Voltmeter( this, options.tandem.createTandem( 'voltmeter' ) );
 
     this._currentAmplitudeProperty = currentAmplitudeProperty;
-
-    this.loopAreaPercentRange = new Range( 100 * this.loopAreaProperty.range.min / this.loopAreaProperty.range.max, 100 );
-
-    this.loopAreaPercentProperty = new MappedProperty<number, number>( this.loopAreaProperty, {
-      bidirectional: true,
-      map: ( loopArea: number ) => 100 * loopArea / this.loopAreaProperty.range.max,
-      inverseMap: ( percent: number ) => percent * this.loopAreaProperty.range.max / 100,
-      isValidValue: percent => this.loopAreaPercentRange.contains( percent ),
-      tandem: options.tandem.createTandem( 'loopAreaPercentProperty' ),
-      phetioValueType: NumberIO,
-      phetioReadOnly: true, // use loopAreaProperty
-      phetioDocumentation: 'Loop area as a percentage, which is how the UI sets and views it. ' +
-                           'If you want to change this, use the sim or see loopAreaProperty.'
-    } );
 
     this._fluxProperty = new NumberProperty( 0, {
       units: 'Wb',
@@ -273,10 +247,6 @@ export default class PickupCoil extends Coil {
     if ( this.currentIndicatorProperty.value === this.voltmeter ) {
       this.voltmeter.step( dt );
     }
-  }
-
-  public getMinLoopRadius(): number {
-    return Math.sqrt( this.loopAreaProperty.rangeProperty.value.min / Math.PI );
   }
 
   /**
