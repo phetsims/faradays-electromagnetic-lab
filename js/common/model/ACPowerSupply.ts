@@ -91,25 +91,28 @@ export default class ACPowerSupply extends CurrentSource {
       range: new Range( 0, 2 * Math.PI ),
       units: 'radians',
       tandem: tandem.createTandem( 'angleProperty' ),
-      phetioReadOnly: true
-    } );
-
-    // Reset angle when frequency is changed.
-    this.frequencyProperty.link( () => {
-      this.angleProperty.value = 0;
+      phetioReadOnly: true,
+      phetioDocumentation: 'For internal use'
     } );
 
     this.deltaAngleProperty = new DerivedProperty( [ this.frequencyProperty ],
       frequencyPercent => ( 2 * Math.PI * frequencyPercent / 100 ) / MIN_STEPS_PER_CYCLE, {
         units: 'radians',
         tandem: tandem.createTandem( 'deltaAngleProperty' ),
-        phetioValueType: NumberIO
+        phetioValueType: NumberIO,
+        phetioDocumentation: 'For internal use'
       } );
+
+    // Reset angle when delta angle is changed.
+    this.deltaAngleProperty.link( () => {
+      this.angleProperty.value = 0;
+    } );
 
     this._stepAngleProperty = new NumberProperty( 0, {
       units: 'radians',
       tandem: tandem.createTandem( 'stepAngleProperty' ),
-      phetioReadOnly: true
+      phetioReadOnly: true,
+      phetioDocumentation: 'For internal use'
     } );
     this.stepAngleProperty = this._stepAngleProperty;
   }
