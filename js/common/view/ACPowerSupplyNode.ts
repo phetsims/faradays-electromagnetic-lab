@@ -73,7 +73,7 @@ export default class ACPowerSupplyNode extends Node {
     } );
 
     // Slider for max voltage
-    const maxVoltageSlider = new VSlider( acPowerSupply.maxVoltagePercentProperty, acPowerSupply.maxVoltagePercentRange,
+    const maxVoltageSlider = new VSlider( acPowerSupply.maxVoltagePercentProperty, acPowerSupply.maxVoltagePercentProperty.range,
       combineOptions<VSliderOptions>( {
         constrainValue: ( value: number ) => Utils.roundToInterval( value, SLIDER_STEP ),
         tandem: tandem.createTandem( 'maxVoltageSlider' )
@@ -106,7 +106,7 @@ export default class ACPowerSupplyNode extends Node {
     } );
 
     // Slider for frequency
-    const frequencySlider = new HSlider( acPowerSupply.frequencyPercentProperty, acPowerSupply.frequencyPercentRange,
+    const frequencySlider = new HSlider( acPowerSupply.frequencyPercentProperty, acPowerSupply.frequencyPercentProperty.range,
       combineOptions<HSliderOptions>( {
         constrainValue: ( value: number ) => Utils.roundToInterval( value, SLIDER_STEP ),
         tandem: tandem.createTandem( 'frequencySlider' )

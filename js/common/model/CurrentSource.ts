@@ -12,13 +12,10 @@ import ReferenceIO from '../../../../tandem/js/types/ReferenceIO.js';
 import faradaysElectromagneticLab from '../../faradaysElectromagneticLab.js';
 import optionize from '../../../../phet-core/js/optionize.js';
 import PickRequired from '../../../../phet-core/js/types/PickRequired.js';
-import NumberProperty from '../../../../axon/js/NumberProperty.js';
-import Range from '../../../../dot/js/Range.js';
 import DerivedProperty from '../../../../axon/js/DerivedProperty.js';
 import TReadOnlyProperty from '../../../../axon/js/TReadOnlyProperty.js';
 
 type SelfOptions = {
-  initialVoltage: number; // initial value of voltageProperty
   maxVoltage: number; // range of voltageProperty is [-maxVoltage,maxVoltage]
   voltagePropertyReadOnly?: boolean; // phetioReadOnly value for voltageProperty
 };
@@ -27,13 +24,10 @@ export type CurrentSourceOptions = SelfOptions & PickRequired<PhetioObjectOption
 
 export default class CurrentSource extends PhetioObject {
 
-  // Voltage of the current source
-  public readonly voltageProperty: NumberProperty;
-
   // Amplitude [-1,1] relative to the range of voltageProperty.
   public readonly amplitudeProperty: TReadOnlyProperty<number>;
 
-  protected constructor( providedOptions: CurrentSourceOptions ) {
+  protected constructor( voltageProperty: TReadOnlyProperty<number>, providedOptions: CurrentSourceOptions ) {
 
     const options = optionize<CurrentSourceOptions, SelfOptions, PhetioObjectOptions>()( {
 
@@ -50,21 +44,10 @@ export default class CurrentSource extends PhetioObject {
 
     super( options );
 
-    this.voltageProperty = new NumberProperty( options.initialVoltage, {
-      range: new Range( -options.maxVoltage, options.maxVoltage ),
-      tandem: options.tandem.createTandem( 'voltageProperty' ),
-      phetioFeatured: true,
-      phetioReadOnly: options.voltagePropertyReadOnly
-    } );
-
-    this.amplitudeProperty = new DerivedProperty( [ this.voltageProperty ],
+    this.amplitudeProperty = new DerivedProperty( [ voltageProperty ],
       voltage => voltage / options.maxVoltage, {
         isValidValue: amplitude => ( amplitude >= -1 && amplitude <= 1 ) // [-1,1]
       } );
-  }
-
-  public reset(): void {
-    this.voltageProperty.reset();
   }
 
   /**

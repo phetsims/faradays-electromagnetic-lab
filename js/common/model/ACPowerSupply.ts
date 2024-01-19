@@ -16,23 +16,27 @@ import DerivedProperty from '../../../../axon/js/DerivedProperty.js';
 import NumberIO from '../../../../tandem/js/types/NumberIO.js';
 import TReadOnlyProperty from '../../../../axon/js/TReadOnlyProperty.js';
 import FELModel from './FELModel.js';
-import PhetioProperty from '../../../../axon/js/PhetioProperty.js';
-import MappedProperty from '../../../../axon/js/MappedProperty.js';
+import Property from '../../../../axon/js/Property.js';
+
+const MAX_VOLTAGE = 110; // V
 
 // The minimum number of steps used to approximate one sine wave cycle.
 const MIN_STEPS_PER_CYCLE = 10;
 
 export default class ACPowerSupply extends CurrentSource {
 
-  // Determines how high the voltage can go.
-  public readonly maxVoltageProperty: NumberProperty;
-  public readonly maxVoltagePercentProperty: PhetioProperty<number>;
-  public readonly maxVoltagePercentRange: Range;
+  // Voltage at time === now
+  public readonly voltageProperty: TReadOnlyProperty<number>;
+  private readonly _voltageProperty: Property<number>;
+  public readonly voltageRange: Range;
 
-  // Determines how fast the amplitude will vary.
-  public readonly frequencyProperty: NumberProperty;
-  public readonly frequencyPercentProperty: PhetioProperty<number>;
-  public readonly frequencyPercentRange: Range;
+  // How high the voltage can go.
+  public readonly maxVoltagePercentProperty: NumberProperty;
+  public readonly maxVoltageProperty: TReadOnlyProperty<number>;
+
+  // How fast the voltage will vary.
+  public readonly frequencyPercentProperty: NumberProperty;
+  public readonly frequencyProperty: TReadOnlyProperty<number>;
 
   // The current angle of the sine wave that describes the AC (in radians)
   private readonly angleProperty: NumberProperty;
@@ -46,54 +50,52 @@ export default class ACPowerSupply extends CurrentSource {
 
   public constructor( tandem: Tandem ) {
 
-    const options = {
-      maxVoltage: 110, // volts
-      initialVoltage: 55, // volts
-      voltagePropertyReadOnly: true, // because voltage is varied over time by the power supply
+    const voltageProperty = new NumberProperty( 0, {
+      range: new Range( -MAX_VOLTAGE, MAX_VOLTAGE ),
+      tandem: tandem.createTandem( 'voltageProperty' ),
+      phetioReadOnly: true
+    } );
+
+    super( voltageProperty, {
+      maxVoltage: MAX_VOLTAGE, // volts
       tandem: tandem
-    };
+    } );
 
-    super( options );
+    this.voltageProperty = voltageProperty;
+    this._voltageProperty = voltageProperty;
+    this.voltageRange = voltageProperty.range;
 
-    this.maxVoltageProperty = new NumberProperty( options.initialVoltage, {
-      range: new Range( 0, options.maxVoltage ),
-      tandem: tandem.createTandem( 'maxVoltageProperty' ),
+    this.maxVoltagePercentProperty = new NumberProperty( 50, {
+      units: '%',
+      range: new Range( 0, 100 ),
+      tandem: tandem.createTandem( 'maxVoltagePercentProperty' ),
       phetioFeatured: true
     } );
 
-    this.maxVoltagePercentRange = new Range( 100 * this.maxVoltageProperty.range.min / this.maxVoltageProperty.range.max, 100 );
+    this.maxVoltageProperty = new DerivedProperty( [ this.maxVoltagePercentProperty ],
+      maxVoltagePercent => maxVoltagePercent * MAX_VOLTAGE / 100, {
+        units: 'V',
+        tandem: tandem.createTandem( 'maxVoltageProperty' ),
+        phetioFeatured: true,
+        phetioValueType: NumberIO,
+        phetioDocumentation: 'To change maximum voltage, use maxVoltagePercentProperty'
+      } );
 
-    this.maxVoltagePercentProperty = new MappedProperty<number, number>( this.maxVoltageProperty, {
-      bidirectional: true,
-      map: ( maxVoltage: number ) => 100 * maxVoltage / this.maxVoltageProperty.range.max,
-      inverseMap: ( percent: number ) => percent * this.maxVoltageProperty.range.max / 100,
-      isValidValue: percent => this.maxVoltagePercentRange.contains( percent ),
-      tandem: options.tandem.createTandem( 'maxVoltagePercentProperty' ),
-      phetioValueType: NumberIO,
-      phetioReadOnly: true, // use maxVoltageProperty
-      phetioDocumentation: 'Max voltage as a percentage, which is how the UI sets and views it. ' +
-                           'If you want to change this, use the sim or see maxVoltageProperty.'
-    } );
-
-    this.frequencyProperty = new NumberProperty( 0.5, {
-      range: new Range( 0.05, 1 ),
-      tandem: tandem.createTandem( 'frequencyProperty' ),
+    this.frequencyPercentProperty = new NumberProperty( 50, {
+      units: '%',
+      range: new Range( 5, 100 ),
+      tandem: tandem.createTandem( 'frequencyPercentProperty' ),
       phetioFeatured: true
     } );
 
-    this.frequencyPercentRange = new Range( 100 * this.frequencyProperty.range.min / this.frequencyProperty.range.max, 100 );
-
-    this.frequencyPercentProperty = new MappedProperty<number, number>( this.frequencyProperty, {
-      bidirectional: true,
-      map: ( frequency: number ) => 100 * frequency / this.frequencyProperty.range.max,
-      inverseMap: ( percent: number ) => percent * this.frequencyProperty.range.max / 100,
-      isValidValue: percent => this.frequencyPercentRange.contains( percent ),
-      tandem: options.tandem.createTandem( 'frequencyPercentProperty' ),
-      phetioValueType: NumberIO,
-      phetioReadOnly: true, // use loopAreaProperty
-      phetioDocumentation: 'Frequency as a percentage, which is how the UI sets and views it. ' +
-                           'If you want to change this, use the sim or see frequencyProperty.'
-    } );
+    this.frequencyProperty = new DerivedProperty( [ this.frequencyPercentProperty ],
+      frequencyPercent => frequencyPercent / 100, {
+        //TODO units?
+        //TODO range is [0.5,1], should it be real units?
+        tandem: tandem.createTandem( 'frequencyProperty' ),
+        phetioValueType: NumberIO,
+        phetioDocumentation: 'To change frequency, use frequencyPercentProperty'
+      } );
 
     this.angleProperty = new NumberProperty( 0, {
       range: new Range( 0, 2 * Math.PI ),
@@ -122,10 +124,10 @@ export default class ACPowerSupply extends CurrentSource {
     this.stepAngleProperty = this._stepAngleProperty;
   }
 
-  public override reset(): void {
-    super.reset();
-    this.maxVoltageProperty.reset();
-    this.frequencyProperty.reset();
+  public reset(): void {
+    this._voltageProperty.reset();
+    this.maxVoltagePercentProperty.reset();
+    this.frequencyPercentProperty.reset();
     this.angleProperty.reset();
     this._stepAngleProperty.reset();
   }
@@ -137,7 +139,7 @@ export default class ACPowerSupply extends CurrentSource {
     assert && assert( dt === FELModel.CONSTANT_DT, `invalid dt=${dt}, see FELModel step` );
 
     if ( this.maxVoltageProperty.value === 0 ) {
-      this.voltageProperty.value = 0;
+      this._voltageProperty.value = 0;
     }
     else {
       const previousAngle = this.angleProperty.value;
@@ -152,7 +154,7 @@ export default class ACPowerSupply extends CurrentSource {
       this.angleProperty.value = nextAngle % ( 2 * Math.PI );
 
       // Calculate and set the voltage.
-      this.voltageProperty.value = this.maxVoltageProperty.value * Math.sin( this.angleProperty.value );
+      this._voltageProperty.value = this.maxVoltageProperty.value * Math.sin( this.angleProperty.value );
     }
   }
 }

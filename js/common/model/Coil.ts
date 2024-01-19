@@ -96,6 +96,7 @@ export default class Coil extends FELMovable {
 
     this.loopAreaPercentProperty = new NumberProperty( options.loopAreaPercentRange.defaultValue, {
       range: options.loopAreaPercentRange,
+      units: '%',
       tandem: options.tandem.createTandem( 'loopAreaPercentProperty' ),
       phetioFeatured: true,
       phetioReadOnly: ( options.loopAreaPercentRange.getLength() === 0 ) // readonly if loop area is fixed

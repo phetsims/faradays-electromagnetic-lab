@@ -29,7 +29,7 @@ import BatteryNode from './BatteryNode.js';
 
 export default class DCPowerSupplyNode extends Node {
 
-  public constructor( battery: DCPowerSupply, currentSourceProperty: TReadOnlyProperty<CurrentSource>, tandem: Tandem ) {
+  public constructor( dcPowerSupply: DCPowerSupply, currentSourceProperty: TReadOnlyProperty<CurrentSource>, tandem: Tandem ) {
 
     const batteryNode = new BatteryNode( {
       center: Vector2.ZERO
@@ -40,7 +40,7 @@ export default class DCPowerSupplyNode extends Node {
     bracketNode.centerX = batteryNode.centerX;
     bracketNode.top = batteryNode.top + 10;
 
-    const slider = new HSlider( battery.voltageProperty, battery.voltageProperty.range, {
+    const slider = new HSlider( dcPowerSupply.voltageProperty, dcPowerSupply.voltageProperty.range, {
       constrainValue: ( value: number ) => Utils.roundToInterval( value, 1 ), // 1 V steps
       majorTickLength: 18,
       keyboardStep: 2,
@@ -50,13 +50,13 @@ export default class DCPowerSupplyNode extends Node {
       bottom: batteryNode.bottom - 6,
       tandem: tandem.createTandem( 'slider' )
     } );
-    slider.addMajorTick( battery.voltageProperty.range.min );
+    slider.addMajorTick( dcPowerSupply.voltageProperty.range.min );
     slider.addMajorTick( 0 );
-    slider.addMajorTick( battery.voltageProperty.range.max );
+    slider.addMajorTick( dcPowerSupply.voltageProperty.range.max );
 
     // Volts display, absolute value
     const voltsStringProperty = new PatternStringProperty( FaradaysElectromagneticLabStrings.pattern.valueUnitsStringProperty, {
-      value: new DerivedProperty( [ battery.voltageProperty ], voltage => Math.abs( voltage ) ),
+      value: new DerivedProperty( [ dcPowerSupply.voltageProperty ], voltage => Math.abs( voltage ) ),
       units: FaradaysElectromagneticLabStrings.units.VStringProperty
     } );
     const voltsText = new Text( voltsStringProperty, {
@@ -66,17 +66,17 @@ export default class DCPowerSupplyNode extends Node {
 
     super( {
       children: [ bracketNode, batteryNode, slider, voltsText ],
-      visibleProperty: new DerivedProperty( [ currentSourceProperty ], currentSource => ( currentSource === battery ), {
+      visibleProperty: new DerivedProperty( [ currentSourceProperty ], currentSource => ( currentSource === dcPowerSupply ), {
         tandem: tandem.createTandem( 'visibleProperty' ),
         phetioValueType: BooleanIO
       } ),
       tandem: tandem
     } );
 
-    this.addLinkedElement( battery );
+    this.addLinkedElement( dcPowerSupply );
 
     // Reflect the battery about the y-axis to change its polarity.
-    battery.amplitudeProperty.link( ( amplitude, previousAmplitude ) => {
+    dcPowerSupply.amplitudeProperty.link( ( amplitude, previousAmplitude ) => {
       if ( amplitude >= 0 && ( previousAmplitude === null || previousAmplitude < 0 ) ) {
         batteryNode.matrix = Matrix3.IDENTITY;
         batteryNode.center = Vector2.ZERO;
@@ -89,7 +89,7 @@ export default class DCPowerSupplyNode extends Node {
 
     // Position the volts value at the correct end of the battery.
     Multilink.multilink(
-      [ battery.amplitudeProperty, voltsText.boundsProperty ],
+      [ dcPowerSupply.amplitudeProperty, voltsText.boundsProperty ],
       ( amplitude, bounds ) => {
         const xMargin = 15;
         if ( amplitude >= 0 ) {
