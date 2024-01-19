@@ -102,11 +102,11 @@ export default class Coil extends FELMovable {
       phetioReadOnly: ( options.loopAreaPercentRange.getLength() === 0 ) // readonly if loop area is fixed
     } );
 
-    const loopAreaRange = new Range( this.loopAreaPercentProperty.range.min * this.maxLoopArea / 100,
-      this.loopAreaPercentProperty.range.max * this.maxLoopArea / 100 );
+    const loopAreaRange = new Range( ( this.loopAreaPercentProperty.range.min / 100 ) * this.maxLoopArea,
+      ( this.loopAreaPercentProperty.range.max / 100 ) * this.maxLoopArea );
 
     this.loopAreaProperty = new DerivedProperty( [ this.loopAreaPercentProperty ],
-      loopAreaPercent => loopAreaPercent * this.maxLoopArea / 100, {
+      loopAreaPercent => ( loopAreaPercent / 100 ) * this.maxLoopArea, {
         isValidValue: loopArea => loopAreaRange.contains( loopArea ),
         tandem: options.tandem.createTandem( 'loopAreaProperty' ),
         phetioFeatured: true,
@@ -135,12 +135,12 @@ export default class Coil extends FELMovable {
   }
 
   public getLoopRadius(): number {
-    const loopArea = this.loopAreaPercentProperty.value * this.maxLoopArea / 100;
+    const loopArea = ( this.loopAreaPercentProperty.value / 100 ) * this.maxLoopArea;
     return Math.sqrt( loopArea / Math.PI );
   }
 
   public getMinLoopRadius(): number {
-    const minLoopArea = this.loopAreaPercentProperty.rangeProperty.value.min * this.maxLoopArea / 100;
+    const minLoopArea = ( this.loopAreaPercentProperty.range.min / 100 ) * this.maxLoopArea;
     return Math.sqrt( minLoopArea / Math.PI );
   }
 }

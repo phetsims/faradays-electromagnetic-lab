@@ -20,7 +20,7 @@ import Property from '../../../../axon/js/Property.js';
 
 const MAX_VOLTAGE = 110; // V
 const MAX_VOLTAGE_PERCENT_RANGE = new Range( 0, 100 ); // %
-const MAX_VOLTAGE_RANGE = new Range( MAX_VOLTAGE_PERCENT_RANGE.min * MAX_VOLTAGE / 100, MAX_VOLTAGE_PERCENT_RANGE.max * MAX_VOLTAGE / 100 );
+const MAX_VOLTAGE_RANGE = new Range( ( MAX_VOLTAGE_PERCENT_RANGE.min / 100 ) * MAX_VOLTAGE, ( MAX_VOLTAGE_PERCENT_RANGE.max / 100 ) * MAX_VOLTAGE );
 
 // The minimum number of steps used to approximate one sine wave cycle.
 const MIN_STEPS_PER_CYCLE = 10;
@@ -74,7 +74,7 @@ export default class ACPowerSupply extends CurrentSource {
     } );
 
     this.maxVoltageProperty = new DerivedProperty( [ this.maxVoltagePercentProperty ],
-      maxVoltagePercent => maxVoltagePercent * MAX_VOLTAGE / 100, {
+      maxVoltagePercent => ( maxVoltagePercent / 100 ) * MAX_VOLTAGE, {
         isValidValue: maxVoltage => MAX_VOLTAGE_RANGE.contains( maxVoltage ),
         units: 'V',
         tandem: tandem.createTandem( 'maxVoltageProperty' ),

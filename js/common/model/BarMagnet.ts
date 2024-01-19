@@ -23,7 +23,7 @@ import WithOptional from '../../../../phet-core/js/types/WithOptional.js';
 const DEFAULT_SIZE = new Dimension2( 250, 50 );
 const MAX_STRENGTH = 300; // G
 const STRENGTH_PERCENT_RANGE = new Range( 0, 100 ); // %
-const STRENGTH_RANGE = new Range( STRENGTH_PERCENT_RANGE.min * MAX_STRENGTH / 100, STRENGTH_PERCENT_RANGE.max * MAX_STRENGTH / 100 ); // G
+const STRENGTH_RANGE = new Range( ( STRENGTH_PERCENT_RANGE.min / 100 ) * MAX_STRENGTH, ( STRENGTH_PERCENT_RANGE.max / 100 ) * MAX_STRENGTH ); // G
 
 type SelfOptions = EmptySelfOptions;
 
@@ -50,7 +50,7 @@ export default class BarMagnet extends Magnet {
     } );
 
     const strengthProperty = new DerivedProperty( [ strengthPercentProperty ],
-      strengthPercent => strengthPercent * MAX_STRENGTH / 100, {
+      strengthPercent => ( strengthPercent / 100 ) * MAX_STRENGTH, {
         isValidValue: strength => STRENGTH_RANGE.contains( strength ),
         units: 'G',
         tandem: options.tandem.createTandem( 'strengthProperty' ),
@@ -59,7 +59,7 @@ export default class BarMagnet extends Magnet {
         phetioDocumentation: 'To change strength, use strengthPercentProperty'
       } );
 
-    const strengthRange = new Range( STRENGTH_PERCENT_RANGE.min * MAX_STRENGTH / 100, STRENGTH_PERCENT_RANGE.max * MAX_STRENGTH / 100 );
+    const strengthRange = new Range( ( STRENGTH_PERCENT_RANGE.min / 100 ) * MAX_STRENGTH, ( STRENGTH_PERCENT_RANGE.max / 100 ) * MAX_STRENGTH );
 
     super( strengthProperty, strengthRange, options );
 

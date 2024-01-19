@@ -189,7 +189,7 @@ export default class VoltageChartNode extends Node {
   private updateWave(): void {
 
     // Number of wave cycles to plot.
-    const numberOfCycles = this.acPowerSupply.frequencyProperty.value * MAX_CYCLES / 100;
+    const numberOfCycles = ( this.acPowerSupply.frequencyProperty.value / 100 ) * MAX_CYCLES;
 
     // Change in angle per change in x.
     const deltaAngle = ( 2 * Math.PI * numberOfCycles ) / this.chartTransform.modelXRange.getLength();

@@ -19,7 +19,7 @@ import FELModel from '../../common/model/FELModel.js';
 
 const MAX_RPM = 100;
 const WATER_FLOW_RATE_RANGE = new Range( 0, 100 ); // %
-const RPM_RANGE = new Range( WATER_FLOW_RATE_RANGE.min * MAX_RPM / 100, WATER_FLOW_RATE_RANGE.max * MAX_RPM / 100 );
+const RPM_RANGE = new Range( ( WATER_FLOW_RATE_RANGE.min / 100 ) * MAX_RPM, ( WATER_FLOW_RATE_RANGE.max / 100 ) * MAX_RPM );
 
 // Maximum change in angle per clock tick.
 const MAX_DELTA_ANGLE = ( 2 * Math.PI ) * ( MAX_RPM / ( FELModel.FRAMES_PER_SECOND * 60 ) );
