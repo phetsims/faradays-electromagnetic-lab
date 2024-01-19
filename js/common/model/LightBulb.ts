@@ -49,7 +49,7 @@ export default class LightBulb extends CurrentIndicator {
     } );
     this.brightnessProperty = this._brightnessProperty;
 
-    pickupCoil.currentAmplitudeProperty.link( ( currentAmplitude, previousCurrentAmplitude ) => {
+    pickupCoil.coil.currentAmplitudeProperty.link( ( currentAmplitude, previousCurrentAmplitude ) => {
       let brightness = 0;
 
       if ( !options.lightsWhenCurrentChangesDirection && ( previousCurrentAmplitude !== null ) &&

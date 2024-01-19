@@ -33,7 +33,7 @@ export default class ElectromagnetNode extends FELMovableNode {
 
     const options = optionize<ElectromagnetNodeOptions, SelfOptions, FELMovableNodeOptions>()( {}, providedOptions );
 
-    const coilNode = new CoilNode( electromagnet.sourceCoil, stepEmitter, {
+    const coilNode = new CoilNode( electromagnet.sourceCoil, electromagnet, stepEmitter, {
       tandem: options.tandem.createTandem( 'coilNode' )
     } );
 

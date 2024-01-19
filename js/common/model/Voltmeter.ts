@@ -102,7 +102,7 @@ export default class Voltmeter extends CurrentIndicator {
   private getDesiredNeedleAngle(): number {
 
     // Use amplitude of the voltage source as our signal.
-    let currentAmplitude = this.pickupCoil.currentAmplitudeProperty.value;
+    let currentAmplitude = this.pickupCoil.coil.currentAmplitudeProperty.value;
 
     // Absolute amplitude below the threshold is effectively zero.
     if ( Math.abs( currentAmplitude ) < FELConstants.CURRENT_AMPLITUDE_THRESHOLD ) {

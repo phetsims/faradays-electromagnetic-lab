@@ -94,7 +94,7 @@ export default class FELMovableNode extends InteractiveHighlighting( Node ) {
       } );
       this.addInputListener( dragListener );
 
-      if ( options.focusable && options.hasKeyboardDragListener ) {
+      if ( options.hasKeyboardDragListener ) {
         const keyboardDragListener = new KeyboardDragListener(
           combineOptions<KeyboardDragListenerOptions>( {}, FELConstants.KEYBOARD_DRAG_LISTENER_OPTIONS, {
             positionProperty: movable.positionProperty,

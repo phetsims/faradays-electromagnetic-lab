@@ -8,9 +8,8 @@
 
 import faradaysElectromagneticLab from '../../faradaysElectromagneticLab.js';
 import optionize from '../../../../phet-core/js/optionize.js';
-import Coil, { CoilOptions } from './Coil.js';
+import Coil from './Coil.js';
 import RangeWithValue from '../../../../dot/js/RangeWithValue.js';
-import StrictOmit from '../../../../phet-core/js/types/StrictOmit.js';
 import Magnet from './Magnet.js';
 import Vector2 from '../../../../dot/js/Vector2.js';
 import Property from '../../../../axon/js/Property.js';
@@ -25,6 +24,7 @@ import Voltmeter from './Voltmeter.js';
 import CurrentIndicator from './CurrentIndicator.js';
 import FELModel from './FELModel.js';
 import PickupCoilSamplePointsStrategy from './PickupCoilSamplePointsStrategy.js';
+import FELMovable, { FELMovableOptions } from './FELMovable.js';
 
 const WIRE_WIDTH = 16;
 const LOOP_SPACING = 1.5 * WIRE_WIDTH; // loosely-packed loops
@@ -33,14 +33,15 @@ type SelfOptions = {
   maxEMF: number; // the initial value of maxEMFProperty
   transitionSmoothingScale?: number; // the initial value of transitionSmoothingScaleProperty
   samplePointsStrategy: PickupCoilSamplePointsStrategy; // see PickupCoilSamplePointsStrategy.ts
+  electronSpeedScale?: number; // passed to Coil
 };
 
-export type PickupCoilOptions = SelfOptions &
-  StrictOmit<CoilOptions, 'numberOfLoopsRange' | 'maxLoopArea' | 'loopAreaPercentRange' | 'wireWidth' | 'loopSpacing'>;
+export type PickupCoilOptions = SelfOptions & FELMovableOptions;
 
-export default class PickupCoil extends Coil {
+export default class PickupCoil extends FELMovable {
 
   private readonly magnet: Magnet;
+  public readonly coil: Coil;
   public readonly lightBulb: LightBulb;
   public readonly voltmeter: Voltmeter;
 
@@ -115,18 +116,18 @@ export default class PickupCoil extends Coil {
 
   public constructor( magnet: Magnet, providedOptions: PickupCoilOptions ) {
 
-    const options = optionize<PickupCoilOptions, SelfOptions, CoilOptions>()( {
+    const options = optionize<PickupCoilOptions, SelfOptions, FELMovableOptions>()( {
 
       // SelfOptions
       transitionSmoothingScale: 1, // no smoothing
-
-      // CoilOptions
-      maxLoopArea: 35345, // in the Java version, max radius was 75, so max area was 35342.917352885175
-      loopAreaPercentRange: new RangeWithValue( 20, 100, 50 ),
-      numberOfLoopsRange: new RangeWithValue( 1, 4, 2 ),
-      wireWidth: WIRE_WIDTH,
-      loopSpacing: LOOP_SPACING
+      electronSpeedScale: 1
     }, providedOptions );
+
+    super( options );
+
+    this.magnet = magnet;
+
+    this.samplePointsStrategy = options.samplePointsStrategy;
 
     const currentAmplitudeProperty = new NumberProperty( 0, {
       range: new Range( -1, 1 ),
@@ -136,11 +137,14 @@ export default class PickupCoil extends Coil {
       phetioDocumentation: 'For internal use only'
     } );
 
-    super( currentAmplitudeProperty, options );
-
-    this.magnet = magnet;
-
-    this.samplePointsStrategy = options.samplePointsStrategy;
+    this.coil = new Coil( currentAmplitudeProperty, {
+      maxLoopArea: 35345, // in the Java version, max radius was 75, so max area was 35342.917352885175
+      loopAreaPercentRange: new RangeWithValue( 20, 100, 50 ),
+      numberOfLoopsRange: new RangeWithValue( 1, 4, 2 ),
+      wireWidth: WIRE_WIDTH,
+      loopSpacing: LOOP_SPACING,
+      tandem: options.tandem.createTandem( 'coil' )
+    } );
 
     this.lightBulb = new LightBulb( this, {
       lightsWhenCurrentChangesDirection: true,
@@ -223,11 +227,12 @@ export default class PickupCoil extends Coil {
     this.reusableSamplePoint = new Vector2( 0, 0 );
     this.reusableFieldVector = new Vector2( 0, 0 );
 
-    this.loopAreaProperty.link( () => this.updateSamplePoints() );
+    this.coil.loopAreaProperty.link( () => this.updateSamplePoints() );
   }
 
   public override reset(): void {
     super.reset();
+    this.coil.reset();
     this.lightBulb.reset();
     this.voltmeter.reset();
     this._currentAmplitudeProperty.reset();
@@ -236,8 +241,6 @@ export default class PickupCoil extends Coil {
     this._averageBxProperty.reset();
     this._deltaFluxProperty.reset();
     this.currentIndicatorProperty.reset();
-    this.electronsVisibleProperty.reset();
-    //TODO
     // Do not reset developer Properties.
   }
 
@@ -255,7 +258,7 @@ export default class PickupCoil extends Coil {
    */
   private updateSamplePoints(): void {
     this.samplePoints.clear();
-    this.samplePoints.push( ...this.samplePointsStrategy.createSamplePoints( this.getLoopRadius() ) );
+    this.samplePoints.push( ...this.samplePointsStrategy.createSamplePoints( this.coil.getLoopRadius() ) );
   }
 
   /**
@@ -274,7 +277,7 @@ export default class PickupCoil extends Coil {
     const loopFlux = A * this._averageBxProperty.value;
 
     // Flux in the coil.
-    const flux = this.numberOfLoopsProperty.value * loopFlux;
+    const flux = this.coil.numberOfLoopsProperty.value * loopFlux;
 
     // Change in flux.
     this._deltaFluxProperty.value = flux - this._fluxProperty.value;
@@ -377,8 +380,8 @@ export default class PickupCoil extends Coil {
    * This fix required recalibration of all the scaling factors accessible via developer controls.
    */
   private getEffectiveLoopArea(): number {
-    const width = this.getMinLoopRadius();
-    const height = 2 * this.getLoopRadius();
+    const width = this.coil.getMinLoopRadius();
+    const height = 2 * this.coil.getLoopRadius();
     return width * height;
   }
 }

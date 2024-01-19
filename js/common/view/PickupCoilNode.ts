@@ -36,7 +36,7 @@ export default class PickupCoilNode extends FELMovableNode {
 
     const options = optionize<PickupCoilNodeOptions, SelfOptions, NodeOptions>()( {}, providedOptions );
 
-    const coilNode = new CoilNode( pickupCoil, stepEmitter, {
+    const coilNode = new CoilNode( pickupCoil.coil, pickupCoil, stepEmitter, {
       endsConnected: true,
       isMovable: options.isMovable,
       tandem: options.tandem.createTandem( 'coilNode' )
@@ -55,11 +55,11 @@ export default class PickupCoilNode extends FELMovableNode {
 
       // Position the light bulb using x,y because there may be light rays present.
       lightBulbNode.x = coilNode.centerX;
-      lightBulbNode.y = coilNode.top + pickupCoil.wireWidth + 2; // cover the coil's top connecting wire
+      lightBulbNode.y = coilNode.top + pickupCoil.coil.wireWidth + 2; // cover the coil's top connecting wire
 
       // Position the voltmeter.
       voltmeterNode.centerX = coilNode.centerX;
-      voltmeterNode.bottom = coilNode.top + pickupCoil.wireWidth + 2; // cover the coil's top connecting wire
+      voltmeterNode.bottom = coilNode.top + pickupCoil.coil.wireWidth + 2; // cover the coil's top connecting wire
     } );
 
     // This Node's children are the foreground elements only.

@@ -42,8 +42,8 @@ export default class PickupCoilModel extends FELModel {
       position: new Vector2( 500, 400 ),
       maxEMF: 2700000, // see PickupCoil.calibrateMaxEMF
       transitionSmoothingScale: 0.77, // see PickupCoil.transitionSmoothingScaleProperty
-      electronSpeedScale: 3,
       samplePointsStrategy: new FixedSpacingSamplePointsStrategy( this.barMagnet.size.height / 10 ),
+      electronSpeedScale: 3,
       tandem: tandem.createTandem( 'pickupCoil' )
     } );
 

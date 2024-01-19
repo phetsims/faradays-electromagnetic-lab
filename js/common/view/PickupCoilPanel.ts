@@ -28,15 +28,15 @@ export default class PickupCoilPanel extends Panel {
     const currentIndicatorControl = new CurrentIndicatorControl( pickupCoil,
       tandem.createTandem( 'currentIndicatorControl' ) );
 
-    const numberOfLoopsControl = new NumberOfLoopsControl( pickupCoil.numberOfLoopsProperty,
+    const numberOfLoopsControl = new NumberOfLoopsControl( pickupCoil.coil.numberOfLoopsProperty,
       tandem.createTandem( 'numberOfLoopsControl' ) );
 
-    const loopAreaControl = new LoopAreaControl( pickupCoil.loopAreaPercentProperty,
+    const loopAreaControl = new LoopAreaControl( pickupCoil.coil.loopAreaPercentProperty,
       tandem.createTandem( 'loopAreaControl' ) );
 
     // 'Electrons' checkbox
     const electronsText = new Text( FaradaysElectromagneticLabStrings.electronsStringProperty, FELConstants.CHECKBOX_TEXT_OPTIONS );
-    const electronsCheckbox = new Checkbox( pickupCoil.electronsVisibleProperty, electronsText,
+    const electronsCheckbox = new Checkbox( pickupCoil.coil.electronsVisibleProperty, electronsText,
       combineOptions<CheckboxOptions>( {}, FELConstants.CHECKBOX_OPTIONS, {
         tandem: tandem.createTandem( 'electronsCheckbox' )
       } ) );

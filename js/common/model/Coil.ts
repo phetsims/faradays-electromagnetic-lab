@@ -12,11 +12,12 @@ import faradaysElectromagneticLab from '../../faradaysElectromagneticLab.js';
 import NumberProperty from '../../../../axon/js/NumberProperty.js';
 import TReadOnlyProperty from '../../../../axon/js/TReadOnlyProperty.js';
 import optionize from '../../../../phet-core/js/optionize.js';
-import FELMovable, { FELMovableOptions } from './FELMovable.js';
 import Property from '../../../../axon/js/Property.js';
 import BooleanProperty from '../../../../axon/js/BooleanProperty.js';
 import DerivedProperty from '../../../../axon/js/DerivedProperty.js';
 import NumberIO from '../../../../tandem/js/types/NumberIO.js';
+import PhetioObject, { PhetioObjectOptions } from '../../../../tandem/js/PhetioObject.js';
+import PickRequired from '../../../../phet-core/js/types/PickRequired.js';
 
 type SelfOptions = {
 
@@ -39,9 +40,9 @@ type SelfOptions = {
   electronSpeedScale?: number;
 };
 
-export type CoilOptions = SelfOptions & FELMovableOptions;
+export type CoilOptions = SelfOptions & PickRequired<PhetioObjectOptions, 'tandem'>;
 
-export default class Coil extends FELMovable {
+export default class Coil extends PhetioObject {
 
   // Width of the wire that makes up the coil.
   public readonly wireWidth: number;
@@ -69,14 +70,17 @@ export default class Coil extends FELMovable {
   // Whether electrons are visible in the coil in the view
   public readonly electronsVisibleProperty: Property<boolean>;
 
-  protected constructor( currentAmplitudeProperty: TReadOnlyProperty<number>, providedOptions: CoilOptions ) {
+  public constructor( currentAmplitudeProperty: TReadOnlyProperty<number>, providedOptions: CoilOptions ) {
 
-    const options = optionize<CoilOptions, SelfOptions, FELMovableOptions>()( {
+    const options = optionize<CoilOptions, SelfOptions, PhetioObjectOptions>()( {
 
       // SelfOptions
       wireWidth: 16,
       loopSpacing: 25,
-      electronSpeedScale: 1
+      electronSpeedScale: 1,
+
+      // PhetioObjectOptions
+      phetioState: false
     }, providedOptions );
 
     assert && assert( options.loopSpacing >= options.wireWidth );
@@ -127,8 +131,7 @@ export default class Coil extends FELMovable {
     } );
   }
 
-  public override reset(): void {
-    super.reset();
+  public reset(): void {
     this.numberOfLoopsProperty.reset();
     this.loopAreaPercentProperty.reset();
     this.electronsVisibleProperty.reset();

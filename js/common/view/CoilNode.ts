@@ -41,6 +41,7 @@ import QuadraticBezierSpline from '../model/QuadraticBezierSpline.js';
 import FELColors from '../FELColors.js';
 import Emitter from '../../../../axon/js/Emitter.js';
 import FELMovableNode from './FELMovableNode.js';
+import FELMovable from '../model/FELMovable.js';
 
 // Space between electrons, determines the number of electrons add to each curve.
 const ELECTRON_SPACING = 25;
@@ -76,7 +77,13 @@ export default class CoilNode extends Node {
   // Whether to connect the ends of the coil.
   public readonly endsConnected: boolean;
 
-  public constructor( coil: Coil, stepEmitter: Emitter<[ number ]>, providedOptions: CoilNodeOptions ) {
+  /**
+   * @param coil - the coil associated with this Node
+   * @param movable - the model element to move when this.backgroundNode is dragged
+   * @param stepEmitter - fires when step should be called
+   * @param providedOptions
+   */
+  public constructor( coil: Coil, movable: FELMovable, stepEmitter: Emitter<[ number ]>, providedOptions: CoilNodeOptions ) {
 
     const options = optionize<CoilNodeOptions, SelfOptions, NodeOptions>()( {
 
@@ -94,8 +101,9 @@ export default class CoilNode extends Node {
     this.coil = coil;
     this.addLinkedElement( this.coil );
 
-    // This is an FELMovableNode so that the coil can also be dragged via this.backgroundNode.
-    this.backgroundNode = new FELMovableNode( coil, {
+    // Since the background will be added to the scene graph separately, we need to tell it what to move when it is
+    // dragged, and not to have its own KeyboardDragListener for alt input.
+    this.backgroundNode = new FELMovableNode( movable, {
       hasKeyboardDragListener: false,
       visibleProperty: this.visibleProperty,
       tandem: Tandem.OPT_OUT,
