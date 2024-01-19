@@ -17,8 +17,9 @@ import DerivedProperty from '../../../../axon/js/DerivedProperty.js';
 import NumberIO from '../../../../tandem/js/types/NumberIO.js';
 import FELModel from '../../common/model/FELModel.js';
 
-// maximum rotations per minute (RPM)
 const MAX_RPM = 100;
+const WATER_FLOW_RATE_RANGE = new Range( 0, 100 ); // %
+const RPM_RANGE = new Range( WATER_FLOW_RATE_RANGE.min * MAX_RPM / 100, WATER_FLOW_RATE_RANGE.max * MAX_RPM / 100 );
 
 // Maximum change in angle per clock tick.
 const MAX_DELTA_ANGLE = ( 2 * Math.PI ) * ( MAX_RPM / ( FELModel.FRAMES_PER_SECOND * 60 ) );
@@ -42,17 +43,20 @@ export default class Turbine extends BarMagnet {
     super( options );
 
     this.waterFlowRateProperty = new NumberProperty( 0, {
-      range: new Range( 0, 1 ),
+      units: '%',
+      range: WATER_FLOW_RATE_RANGE,
       tandem: options.tandem.createTandem( 'waterFlowRateProperty' ),
       phetioFeatured: true
     } );
 
-    this.rpmProperty = new DerivedProperty( [ this.waterFlowRateProperty ], speed => speed * MAX_RPM, {
-      units: 'rpm',
-      tandem: options.tandem.createTandem( 'rpmProperty' ),
-      phetioValueType: NumberIO,
-      phetioFeatured: true
-    } );
+    this.rpmProperty = new DerivedProperty( [ this.waterFlowRateProperty ],
+      waterFlowRate => ( waterFlowRate / 100 ) * MAX_RPM, {
+        isValidValue: rpm => RPM_RANGE.contains( rpm ),
+        units: 'rpm',
+        tandem: options.tandem.createTandem( 'rpmProperty' ),
+        phetioValueType: NumberIO,
+        phetioFeatured: true
+      } );
   }
 
   public override reset(): void {
@@ -65,7 +69,7 @@ export default class Turbine extends BarMagnet {
     if ( this.waterFlowRateProperty.value !== 0 ) {
 
       // Determine the change in rotation angle.
-      const deltaAngle = dt * this.waterFlowRateProperty.value * MAX_DELTA_ANGLE;
+      const deltaAngle = dt * ( this.waterFlowRateProperty.value / 100 ) * MAX_DELTA_ANGLE;
 
       // Subtract to rotate counterclockwise.
       let newAngle = this.rotationProperty.value - deltaAngle;
