@@ -91,7 +91,7 @@ export default class ACPowerSupplyNode extends Node {
 
     // Display for frequency value, in percent
     const frequencyStringProperty = new PatternStringProperty( FaradaysElectromagneticLabStrings.pattern.valuePercentStringProperty, {
-      value: new DerivedProperty( [ acPowerSupply.frequencyPercentProperty ],
+      value: new DerivedProperty( [ acPowerSupply.frequencyProperty ],
         frequencyPercent => Utils.toFixed( frequencyPercent, 0 ) )
     } );
     const frequencyDisplay = new StringDisplay( frequencyStringProperty, {
@@ -106,7 +106,7 @@ export default class ACPowerSupplyNode extends Node {
     } );
 
     // Slider for frequency
-    const frequencySlider = new HSlider( acPowerSupply.frequencyPercentProperty, acPowerSupply.frequencyPercentProperty.range,
+    const frequencySlider = new HSlider( acPowerSupply.frequencyProperty, acPowerSupply.frequencyProperty.range,
       combineOptions<HSliderOptions>( {
         constrainValue: ( value: number ) => Utils.roundToInterval( value, SLIDER_STEP ),
         tandem: tandem.createTandem( 'frequencySlider' )

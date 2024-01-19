@@ -35,8 +35,7 @@ export default class ACPowerSupply extends CurrentSource {
   public readonly maxVoltageProperty: TReadOnlyProperty<number>;
 
   // How fast the voltage will vary.
-  public readonly frequencyPercentProperty: NumberProperty;
-  public readonly frequencyProperty: TReadOnlyProperty<number>;
+  public readonly frequencyProperty: NumberProperty;
 
   // The current angle of the sine wave that describes the AC (in radians)
   private readonly angleProperty: NumberProperty;
@@ -81,21 +80,12 @@ export default class ACPowerSupply extends CurrentSource {
         phetioDocumentation: 'To change maximum voltage, use maxVoltagePercentProperty'
       } );
 
-    this.frequencyPercentProperty = new NumberProperty( 50, {
+    this.frequencyProperty = new NumberProperty( 50, {
       units: '%',
       range: new Range( 5, 100 ),
-      tandem: tandem.createTandem( 'frequencyPercentProperty' ),
+      tandem: tandem.createTandem( 'frequencyProperty' ),
       phetioFeatured: true
     } );
-
-    this.frequencyProperty = new DerivedProperty( [ this.frequencyPercentProperty ],
-      frequencyPercent => frequencyPercent / 100, {
-        //TODO units?
-        //TODO range is [0.5,1], should it be real units?
-        tandem: tandem.createTandem( 'frequencyProperty' ),
-        phetioValueType: NumberIO,
-        phetioDocumentation: 'To change frequency, use frequencyPercentProperty'
-      } );
 
     this.angleProperty = new NumberProperty( 0, {
       range: new Range( 0, 2 * Math.PI ),
@@ -110,7 +100,7 @@ export default class ACPowerSupply extends CurrentSource {
     } );
 
     this.deltaAngleProperty = new DerivedProperty( [ this.frequencyProperty ],
-      frequency => ( 2 * Math.PI * frequency ) / MIN_STEPS_PER_CYCLE, {
+      frequencyPercent => ( 2 * Math.PI * frequencyPercent / 100 ) / MIN_STEPS_PER_CYCLE, {
         units: 'radians',
         tandem: tandem.createTandem( 'deltaAngleProperty' ),
         phetioValueType: NumberIO
@@ -127,7 +117,7 @@ export default class ACPowerSupply extends CurrentSource {
   public reset(): void {
     this._voltageProperty.reset();
     this.maxVoltagePercentProperty.reset();
-    this.frequencyPercentProperty.reset();
+    this.frequencyProperty.reset();
     this.angleProperty.reset();
     this._stepAngleProperty.reset();
   }
