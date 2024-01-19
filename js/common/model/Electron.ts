@@ -4,6 +4,11 @@
  * Electron is the model of an electron that moves through a coil. The path through the coil is described by
  * an ordered set of CoilSegment elements.
  *
+ * Note that Electron and its Properties are NOT instrumented for PhET-iO. The exact positions of electrons
+ * are not significant. We do not care (for example) if electron position are different in the Upstream and
+ * Downstream frames of the State wrapper. What does matter is the number of electrons and their speed, both
+ * of which are computed based on other state.
+ *
  * @author Chris Malley (PixelZoom, Inc.)
  */
 
@@ -13,8 +18,6 @@ import Range from '../../../../dot/js/Range.js';
 import Vector2 from '../../../../dot/js/Vector2.js';
 import TReadOnlyProperty from '../../../../axon/js/TReadOnlyProperty.js';
 import Vector2Property from '../../../../dot/js/Vector2Property.js';
-import PickRequired from '../../../../phet-core/js/types/PickRequired.js';
-import { PhetioObjectOptions } from '../../../../tandem/js/PhetioObject.js';
 import Property from '../../../../axon/js/Property.js';
 import NumberProperty from '../../../../axon/js/NumberProperty.js';
 import FELModel from './FELModel.js';
@@ -44,7 +47,7 @@ type SelfOptions = {
   visibleProperty: TReadOnlyProperty<boolean>;
 };
 
-type ElectronOptions = SelfOptions & PickRequired<PhetioObjectOptions, 'tandem'>;
+type ElectronOptions = SelfOptions;
 
 export default class Electron {
 
@@ -77,30 +80,21 @@ export default class Electron {
     const descriptor = options.coilSegments[ options.coilSegmentIndex ];
     const initialPosition = descriptor.curve.evaluate( options.coilSegmentPosition );
 
-    this._positionProperty = new Vector2Property( initialPosition, {
-      tandem: options.tandem.createTandem( 'positionProperty' ),
-      phetioReadOnly: true
-    } );
+    this._positionProperty = new Vector2Property( initialPosition );
     this.positionProperty = this._positionProperty;
 
     this.coilSegments = options.coilSegments;
 
     this.coilSegmentIndexProperty = new NumberProperty( options.coilSegmentIndex, {
-      range: new Range( 0, this.coilSegments.length - 1 ),
-      tandem: options.tandem.createTandem( 'coilSegmentIndexProperty' ),
-      phetioReadOnly: true
+      range: new Range( 0, this.coilSegments.length - 1 )
     } );
 
     this.coilSegmentPositionProperty = new NumberProperty( options.coilSegmentPosition, {
-      range: COIL_SEGMENT_POSITION_RANGE,
-      tandem: options.tandem.createTandem( 'coilSegmentPositionProperty' ),
-      phetioReadOnly: true
+      range: COIL_SEGMENT_POSITION_RANGE
     } );
 
     this.speedAndDirectionProperty = new NumberProperty( options.speedAndDirection, {
-      range: new Range( -1, 1 ),
-      tandem: options.tandem.createTandem( 'speedAndDirectionProperty' ),
-      phetioReadOnly: true
+      range: new Range( -1, 1 )
     } );
 
     this.speedScaleProperty = options.speedScaleProperty;

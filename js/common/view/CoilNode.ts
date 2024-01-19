@@ -340,8 +340,7 @@ export default class CoilNode extends Node {
             coilSegmentPosition: coilSegmentPosition,
             speedAndDirection: speedAndDirection,
             speedScaleProperty: this.coil.electronSpeedScaleProperty,
-            visibleProperty: this.coil.electronsVisibleProperty,
-            tandem: Tandem.OPT_OUT //TODO dynamic element
+            visibleProperty: this.coil.electronsVisibleProperty
           } );
           this.electrons.push( electron );
 
