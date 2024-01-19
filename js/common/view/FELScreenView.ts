@@ -66,7 +66,9 @@ export default class FELScreenView extends ScreenView {
         this.layoutBounds.top,
         panelsBounds.left,
         this.layoutBounds.bottom
-      ) );
+      ), {
+        strictAxonDependencies: false //TODO https://github.com/phetsims/faradays-electromagnetic-lab/issues/57
+      } );
 
     this.fieldNode = new FieldNode( options.magnet, this.visibleBoundsProperty, options.tandem.createTandem( 'fieldNode' ) );
 
