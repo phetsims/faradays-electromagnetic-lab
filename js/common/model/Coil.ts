@@ -104,6 +104,7 @@ export default class Coil extends FELMovable {
 
     this.loopAreaProperty = new DerivedProperty( [ this.loopAreaPercentProperty ],
       loopAreaPercent => loopAreaPercent * this.maxLoopArea / 100, {
+        //TODO isValidValue
         tandem: options.tandem.createTandem( 'loopAreaProperty' ),
         phetioFeatured: true,
         phetioValueType: NumberIO,

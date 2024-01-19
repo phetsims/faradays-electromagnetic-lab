@@ -73,6 +73,7 @@ export default class ACPowerSupply extends CurrentSource {
 
     this.maxVoltageProperty = new DerivedProperty( [ this.maxVoltagePercentProperty ],
       maxVoltagePercent => maxVoltagePercent * MAX_VOLTAGE / 100, {
+        //TODO isValidValue
         units: 'V',
         tandem: tandem.createTandem( 'maxVoltageProperty' ),
         phetioFeatured: true,

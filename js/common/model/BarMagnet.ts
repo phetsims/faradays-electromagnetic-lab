@@ -50,6 +50,7 @@ export default class BarMagnet extends Magnet {
 
     const strengthProperty = new DerivedProperty( [ strengthPercentProperty ],
       strengthPercent => strengthPercent * MAX_STRENGTH / 100, {
+        //TODO isValidValue
         units: 'G',
         tandem: options.tandem.createTandem( 'strengthProperty' ),
         phetioValueType: NumberIO,
