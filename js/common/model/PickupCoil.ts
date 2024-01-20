@@ -59,7 +59,7 @@ export default class PickupCoil extends FELMovable {
   private readonly _deltaFluxProperty: Property<number>;
   public readonly deltaFluxProperty: TReadOnlyProperty<number>;
 
-  // Induced EMF in the coil, produced by change in flux
+  // EMF induced by the change in flux
   private readonly _emfProperty: Property<number>;
   public readonly emfProperty: TReadOnlyProperty<number>;
 
@@ -160,8 +160,8 @@ export default class PickupCoil extends FELMovable {
       units: 'Wb',
       tandem: options.tandem.createTandem( 'fluxProperty' ),
       phetioReadOnly: true,
-      phetioFeatured: true
-      //TODO phetioDocumentation
+      phetioFeatured: true,
+      phetioDocumentation: 'flux in the coil'
     } );
     this.fluxProperty = this._fluxProperty;
 
@@ -169,7 +169,7 @@ export default class PickupCoil extends FELMovable {
       units: 'V',
       tandem: options.tandem.createTandem( 'deltaFluxProperty' ),
       phetioReadOnly: true,
-      phetioDocumentation: 'For internal use only'
+      phetioDocumentation: 'change in flux in the coil'
     } );
     this.deltaFluxProperty = this._deltaFluxProperty;
 
@@ -177,8 +177,8 @@ export default class PickupCoil extends FELMovable {
       units: 'V',
       tandem: options.tandem.createTandem( 'emfProperty' ),
       phetioReadOnly: true,
-      phetioFeatured: true
-      //TODO phetioDocumentation
+      phetioFeatured: true,
+      phetioDocumentation: 'EMF induced by the change in flux'
     } );
     this.emfProperty = this._emfProperty;
 
@@ -196,7 +196,6 @@ export default class PickupCoil extends FELMovable {
       tandem: options.tandem.createTandem( 'currentIndicatorProperty' ),
       phetioValueType: CurrentIndicator.CurrentIndicatorIO,
       phetioFeatured: true
-      //TODO phetioDocumentation
     } );
 
     this._averageBxProperty = new NumberProperty( 0, {
