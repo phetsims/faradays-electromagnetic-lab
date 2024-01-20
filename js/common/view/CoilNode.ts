@@ -55,6 +55,7 @@ type CoilNodeOptions = SelfOptions & PickRequired<NodeOptions, 'tandem'>;
 
 export default class CoilNode extends Node {
 
+  // the coil associated with this Node
   private readonly coil: Coil;
 
   // The parent of Nodes that are background elements, intended to be added to the scenegraph behind the B-field, magnet,
