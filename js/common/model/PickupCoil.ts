@@ -51,21 +51,17 @@ export default class PickupCoil extends FELMovable {
   // Writeable version of this.currentAmplitudeProperty: TReadOnlyProperty<number>
   private readonly _currentAmplitudeProperty: NumberProperty;
 
-  //TODO document
+  // Flux in the coil
   private readonly _fluxProperty: Property<number>;
   public readonly fluxProperty: TReadOnlyProperty<number>;
 
-  //TODO document
-  private readonly _emfProperty: Property<number>;
-  public readonly emfProperty: TReadOnlyProperty<number>;
-
-  //TODO document
-  private readonly _averageBxProperty: Property<number>;
-  public readonly averageBxProperty: TReadOnlyProperty<number>;
-
-  //TODO document
+  // Change in flux in the coil
   private readonly _deltaFluxProperty: Property<number>;
   public readonly deltaFluxProperty: TReadOnlyProperty<number>;
+
+  // Induced EMF in the coil, produced by change in flux
+  private readonly _emfProperty: Property<number>;
+  public readonly emfProperty: TReadOnlyProperty<number>;
 
   // Used exclusively in calibrateMaxEMF, does not need to be stateful for PhET-iO
   private _biggestAbsEmf; // in volts
@@ -75,6 +71,11 @@ export default class PickupCoil extends FELMovable {
 
   // Which current indicator is visible in the view
   public readonly currentIndicatorProperty: Property<CurrentIndicator>;
+
+  // *** Displayed in PickupCoilDebuggerPanel, when running with &dev query parameter. ***
+  // Average of the B-field samples perpendicular (Bx) to the coil's vertical axis.
+  private readonly _averageBxProperty: Property<number>;
+  public readonly averageBxProperty: TReadOnlyProperty<number>;
 
   // *** Writeable via developer controls only, when running with &dev query parameter. ***
   // Dividing the coil's EMF by this number will give us the coil's current amplitude, a number between 0 and 1 that
@@ -164,6 +165,14 @@ export default class PickupCoil extends FELMovable {
     } );
     this.fluxProperty = this._fluxProperty;
 
+    this._deltaFluxProperty = new NumberProperty( 0, {
+      units: 'V',
+      tandem: options.tandem.createTandem( 'deltaFluxProperty' ),
+      phetioReadOnly: true,
+      phetioDocumentation: 'For internal use only'
+    } );
+    this.deltaFluxProperty = this._deltaFluxProperty;
+
     this._emfProperty = new NumberProperty( 0, {
       units: 'V',
       tandem: options.tandem.createTandem( 'emfProperty' ),
@@ -172,22 +181,6 @@ export default class PickupCoil extends FELMovable {
       //TODO phetioDocumentation
     } );
     this.emfProperty = this._emfProperty;
-
-    this._averageBxProperty = new NumberProperty( 0, {
-      units: 'V',
-      tandem: options.tandem.createTandem( 'averageBxProperty' ),
-      phetioReadOnly: true,
-      phetioDocumentation: 'For internal use only'
-    } );
-    this.averageBxProperty = this._averageBxProperty;
-
-    this._deltaFluxProperty = new NumberProperty( 0, {
-      units: 'V',
-      tandem: options.tandem.createTandem( 'deltaFluxProperty' ),
-      phetioReadOnly: true,
-      phetioDocumentation: 'For internal use only'
-    } );
-    this.deltaFluxProperty = this._deltaFluxProperty;
 
     this._biggestAbsEmf = 0.0;
 
@@ -205,6 +198,11 @@ export default class PickupCoil extends FELMovable {
       phetioFeatured: true
       //TODO phetioDocumentation
     } );
+
+    this._averageBxProperty = new NumberProperty( 0, {
+      // Do not instrument. This is a PhET developer Property.
+    } );
+    this.averageBxProperty = this._averageBxProperty;
 
     this.maxEMFProperty = new NumberProperty( options.maxEMF, {
       range: new Range( 10000, 5000000 )
