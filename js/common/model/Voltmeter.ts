@@ -9,7 +9,6 @@
 
 import Tandem from '../../../../tandem/js/Tandem.js';
 import faradaysElectromagneticLab from '../../faradaysElectromagneticLab.js';
-import PickupCoil from './PickupCoil.js';
 import Utils from '../../../../dot/js/Utils.js';
 import FELConstants from '../FELConstants.js';
 import TReadOnlyProperty from '../../../../axon/js/TReadOnlyProperty.js';
@@ -38,20 +37,19 @@ assert && assert( NEEDLE_LIVELINESS > 0 && NEEDLE_LIVELINESS < 1 );
 
 export default class Voltmeter extends CurrentIndicator {
 
-  // The pickup coil whose current amplitude the voltmeter is measuring
-  private readonly pickupCoil: PickupCoil;
+  private readonly currentAmplitudeProperty: TReadOnlyProperty<number>;
 
   // The deflection angle of the voltmeter's needle, relative to zero volts.
   public readonly needleAngleProperty: TReadOnlyProperty<number>;
   private readonly _needleAngleProperty: NumberProperty;
 
-  public constructor( pickupCoil: PickupCoil, tandem: Tandem ) {
+  public constructor( currentAmplitudeProperty: TReadOnlyProperty<number>, tandem: Tandem ) {
 
     super( {
       tandem: tandem
     } );
 
-    this.pickupCoil = pickupCoil;
+    this.currentAmplitudeProperty = currentAmplitudeProperty;
 
     this._needleAngleProperty = new NumberProperty( 0, {
       tandem: tandem.createTandem( 'needleAngleProperty' ),
@@ -102,7 +100,7 @@ export default class Voltmeter extends CurrentIndicator {
   private getDesiredNeedleAngle(): number {
 
     // Use amplitude of the voltage source as our signal.
-    let currentAmplitude = this.pickupCoil.coil.currentAmplitudeProperty.value;
+    let currentAmplitude = this.currentAmplitudeProperty.value;
 
     // Absolute amplitude below the threshold is effectively zero.
     if ( Math.abs( currentAmplitude ) < FELConstants.CURRENT_AMPLITUDE_THRESHOLD ) {

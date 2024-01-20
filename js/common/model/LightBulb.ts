@@ -8,7 +8,6 @@
  */
 
 import faradaysElectromagneticLab from '../../faradaysElectromagneticLab.js';
-import PickupCoil from './PickupCoil.js';
 import NumberProperty from '../../../../axon/js/NumberProperty.js';
 import { PhetioObjectOptions } from '../../../../tandem/js/PhetioObject.js';
 import Range from '../../../../dot/js/Range.js';
@@ -33,14 +32,14 @@ export default class LightBulb extends CurrentIndicator {
   public readonly brightnessProperty: TReadOnlyProperty<number>;
   private readonly _brightnessProperty: NumberProperty;
 
-  public constructor( pickupCoil: PickupCoil, providedOptions: LightBulbOptions ) {
+  public constructor( currentAmplitudeProperty: TReadOnlyProperty<number>, providedOptions: LightBulbOptions ) {
 
     const options = providedOptions;
 
     super( options );
 
     // Unfortunately cannot be a DerivedProperty, because the derivation depends on both the new and old value
-    // of pickupCoil.currentAmplitudeProperty.
+    // of currentAmplitudeProperty.
     this._brightnessProperty = new NumberProperty( 0, {
       range: new Range( 0, 1 ),
       tandem: options.tandem.createTandem( 'brightnessProperty' ),
@@ -49,9 +48,8 @@ export default class LightBulb extends CurrentIndicator {
     } );
     this.brightnessProperty = this._brightnessProperty;
 
-    pickupCoil.coil.currentAmplitudeProperty.link( ( currentAmplitude, previousCurrentAmplitude ) => {
+    currentAmplitudeProperty.link( ( currentAmplitude, previousCurrentAmplitude ) => {
       let brightness = 0;
-
       if ( !options.lightsWhenCurrentChangesDirection && ( previousCurrentAmplitude !== null ) &&
            ( ( currentAmplitude > 0 && previousCurrentAmplitude <= 0 ) ||
              ( currentAmplitude <= 0 && previousCurrentAmplitude > 0 ) ) ) {
