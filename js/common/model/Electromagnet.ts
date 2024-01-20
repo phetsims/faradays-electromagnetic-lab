@@ -8,7 +8,6 @@
  */
 
 import faradaysElectromagneticLab from '../../faradaysElectromagneticLab.js';
-import SourceCoil from './SourceCoil.js';
 import Property from '../../../../axon/js/Property.js';
 import BooleanProperty from '../../../../axon/js/BooleanProperty.js';
 import ACPowerSupply from './ACPowerSupply.js';
@@ -20,9 +19,13 @@ import Range from '../../../../dot/js/Range.js';
 import CoilMagnet, { CoilMagnetOptions } from './CoilMagnet.js';
 import { EmptySelfOptions } from '../../../../phet-core/js/optionize.js';
 import FELModel from './FELModel.js';
+import RangeWithValue from '../../../../dot/js/RangeWithValue.js';
+import Coil from './Coil.js';
 
 const STRENGTH_RANGE = new Range( 0, 300 ); // gauss
 const CURRENT_AMPLITUDE_RANGE = new Range( -1, 1 );
+const WIRE_WIDTH = 16;
+const LOOP_SPACING = WIRE_WIDTH; // closely-packed loops
 
 type SelfOptions = EmptySelfOptions;
 
@@ -30,13 +33,11 @@ export type ElectromagnetOptions = SelfOptions & CoilMagnetOptions;
 
 export default class Electromagnet extends CoilMagnet {
 
-  public readonly sourceCoil: SourceCoil;
+  public readonly coil: Coil;
 
   public readonly dcPowerSupply: DCPowerSupply;
   public readonly acPowerSupply: ACPowerSupply;
   public readonly currentSourceProperty: Property<CurrentSource>;
-
-  public readonly electronsVisibleProperty: Property<boolean>;
 
   // *** Writeable via developer controls only, when running with &dev query parameter. ***
   // Makes the magnet model shape visible in the view.
@@ -68,31 +69,33 @@ export default class Electromagnet extends CoilMagnet {
         phetioFeatured: true
       } );
 
-    const sourceCoil = new SourceCoil( currentAmplitudeProperty, options.tandem.createTandem( 'sourceCoil' ) );
+    const coil = new Coil( currentAmplitudeProperty, {
+      maxLoopArea: 7854, // in the Java version, max radius was 50, so max area was 7853.981633974483
+      loopAreaPercentRange: new RangeWithValue( 100, 100, 100 ), // fixed loop area
+      numberOfLoopsRange: new RangeWithValue( 1, 4, 4 ),
+      wireWidth: WIRE_WIDTH,
+      loopSpacing: LOOP_SPACING,
+      tandem: options.tandem.createTandem( 'coil' )
+    } );
 
     // Strength of the magnet is proportional to its EMF.
-    const strengthProperty = new DerivedProperty( [ sourceCoil.currentAmplitudeProperty ],
+    const strengthProperty = new DerivedProperty( [ coil.currentAmplitudeProperty ],
       currentAmplitude => Math.abs( currentAmplitude ) * STRENGTH_RANGE.max, {
         isValidValue: strength => STRENGTH_RANGE.contains( strength ),
         tandem: options.tandem.createTandem( 'strengthProperty' ),
         phetioValueType: NumberIO
       } );
 
-    super( sourceCoil, strengthProperty, STRENGTH_RANGE, options );
+    super( coil, strengthProperty, STRENGTH_RANGE, options );
 
-    this.sourceCoil = sourceCoil;
+    this.coil = coil;
     this.dcPowerSupply = dcPowerSupply;
     this.acPowerSupply = acPowerSupply;
     this.currentSourceProperty = currentSourceProperty;
 
     // Polarity is determined by the sign of the current amplitude.
-    this.sourceCoil.currentAmplitudeProperty.link( currentAmplitude => {
+    this.coil.currentAmplitudeProperty.link( currentAmplitude => {
       this.rotationProperty.value = ( currentAmplitude >= 0 ) ? 0 : Math.PI;
-    } );
-
-    this.electronsVisibleProperty = new BooleanProperty( true, {
-      tandem: options.tandem.createTandem( 'electronsVisibleProperty' ),
-      phetioFeatured: true
     } );
 
     this.shapeVisibleProperty = new BooleanProperty( false, {
@@ -105,8 +108,7 @@ export default class Electromagnet extends CoilMagnet {
     this.dcPowerSupply.reset();
     this.acPowerSupply.reset();
     this.currentSourceProperty.reset();
-    this.sourceCoil.reset();
-    this.electronsVisibleProperty.reset();
+    this.coil.reset();
     // Do not reset shapeVisibleProperty, it is a developer control.
   }
 

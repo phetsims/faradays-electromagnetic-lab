@@ -33,7 +33,7 @@ export default class ElectromagnetNode extends FELMovableNode {
 
     const options = optionize<ElectromagnetNodeOptions, SelfOptions, FELMovableNodeOptions>()( {}, providedOptions );
 
-    const coilNode = new CoilNode( electromagnet.sourceCoil, electromagnet, stepEmitter, {
+    const coilNode = new CoilNode( electromagnet.coil, electromagnet, stepEmitter, {
       tandem: options.tandem.createTandem( 'coilNode' )
     } );
 
@@ -48,11 +48,11 @@ export default class ElectromagnetNode extends FELMovableNode {
 
       // Position the DC power supply.
       dcPowerSupplyNode.centerX = coilNode.centerX;
-      dcPowerSupplyNode.bottom = coilNode.top + electromagnet.sourceCoil.wireWidth / 2; // overlap end of coil
+      dcPowerSupplyNode.bottom = coilNode.top + electromagnet.coil.wireWidth / 2; // overlap end of coil
 
       // Position the AC power supply.
       acPowerSupplyNode.centerX = coilNode.centerX;
-      acPowerSupplyNode.bottom = coilNode.top + electromagnet.sourceCoil.wireWidth / 2; // overlap end of coil
+      acPowerSupplyNode.bottom = coilNode.top + electromagnet.coil.wireWidth / 2; // overlap end of coil
     } );
 
     // Debug: Show the shape used to determine whether a B-field position is inside or outside the electromagnet.

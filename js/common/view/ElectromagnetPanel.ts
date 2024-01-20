@@ -27,7 +27,7 @@ export default class ElectromagnetPanel extends Panel {
     const currentSourceControl = new CurrentSourceControl( electromagnet,
       tandem.createTandem( 'currentSourceControl' ) );
 
-    const numberOfLoopsControl = new NumberOfLoopsControl( electromagnet.sourceCoil.numberOfLoopsProperty,
+    const numberOfLoopsControl = new NumberOfLoopsControl( electromagnet.coil.numberOfLoopsProperty,
       tandem.createTandem( 'numberOfLoopsControl' ) );
 
     // 'Magnetic Field' checkbox
@@ -39,7 +39,7 @@ export default class ElectromagnetPanel extends Panel {
 
     // 'Electrons' checkbox
     const electronsText = new Text( FaradaysElectromagneticLabStrings.electronsStringProperty, FELConstants.CHECKBOX_TEXT_OPTIONS );
-    const electronsCheckbox = new Checkbox( electromagnet.electronsVisibleProperty, electronsText,
+    const electronsCheckbox = new Checkbox( electromagnet.coil.electronsVisibleProperty, electronsText,
       combineOptions<CheckboxOptions>( {}, FELConstants.CHECKBOX_OPTIONS, {
         tandem: tandem.createTandem( 'electronsCheckbox' )
       } ) );
