@@ -1,4 +1,4 @@
-// Copyright 2023, University of Colorado Boulder
+// Copyright 2023-2024, University of Colorado Boulder
 
 /**
  * FELDeveloperAccordionBox is the base class for an accordion box that contains developer controls. In addition to

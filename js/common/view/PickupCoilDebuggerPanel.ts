@@ -1,4 +1,4 @@
-// Copyright 2023, University of Colorado Boulder
+// Copyright 2023-2024, University of Colorado Boulder
 
 /**
  * PickupCoilDebuggerPanel is a movable panel that displays quantities associated with a PickupCoil. This is intended to
