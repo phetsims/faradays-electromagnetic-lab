@@ -303,6 +303,7 @@ export default class CoilNode extends Node {
     }
 
     // Connect the ends
+    //TODO https://github.com/phetsims/faradays-electromagnetic-lab/issues/42 Make electrons flow in this segment.
     if ( this.endsConnected ) {
       assert && assert( leftEndPoint && rightEndPoint );
       const shape = new Shape().moveTo( leftEndPoint!.x, leftEndPoint!.y ).lineTo( rightEndPoint!.x, rightEndPoint!.y );
