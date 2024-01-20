@@ -37,6 +37,7 @@ assert && assert( NEEDLE_LIVELINESS > 0 && NEEDLE_LIVELINESS < 1 );
 
 export default class Voltmeter extends CurrentIndicator {
 
+  // The amplitude of the current in the pickup coil.
   private readonly currentAmplitudeProperty: TReadOnlyProperty<number>;
 
   // The deflection angle of the voltmeter's needle, relative to zero volts.
