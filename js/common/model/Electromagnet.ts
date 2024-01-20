@@ -98,9 +98,9 @@ export default class Electromagnet extends CoilMagnet {
       this.rotationProperty.value = ( currentAmplitude >= 0 ) ? 0 : Math.PI;
     } );
 
-    this.shapeVisibleProperty = new BooleanProperty( false, {
+    this.shapeVisibleProperty = new BooleanProperty( false
       // Do not instrument. This is a PhET developer Property.
-    } );
+    );
   }
 
   public override reset(): void {

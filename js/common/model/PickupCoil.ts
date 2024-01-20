@@ -203,9 +203,9 @@ export default class PickupCoil extends FELMovable {
       phetioFeatured: true
     } );
 
-    this._averageBxProperty = new NumberProperty( 0, {
+    this._averageBxProperty = new NumberProperty( 0
       // Do not instrument. This is a PhET developer Property.
-    } );
+    );
     this.averageBxProperty = this._averageBxProperty;
 
     this.maxEMFProperty = new NumberProperty( options.maxEMF, {
@@ -218,13 +218,13 @@ export default class PickupCoil extends FELMovable {
       // Do not instrument. This is a PhET developer Property.
     } );
 
-    this.samplePointsVisibleProperty = new BooleanProperty( false, {
+    this.samplePointsVisibleProperty = new BooleanProperty( false
       // Do not instrument. This is a PhET developer Property.
-    } );
+    );
 
-    this.debuggerPanelVisibleProperty = new BooleanProperty( false, {
+    this.debuggerPanelVisibleProperty = new BooleanProperty( false
       // Do not instrument. This is a PhET developer Property.
-    } );
+    );
 
     this.reusableSamplePoint = new Vector2( 0, 0 );
     this.reusableFieldVector = new Vector2( 0, 0 );
