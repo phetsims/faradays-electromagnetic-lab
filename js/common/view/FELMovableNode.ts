@@ -2,8 +2,7 @@
 
 /**
  * FELMovableNode is the abstract base class for rendering FELMovable, model elements with a mutable position.
- * It is responsible for pointer input, alternative input, constrained drag bounds, and collision detection.
- * Input can be disabled via the isMovable option.
+ * It is responsible for pointer input, alternative input, and constrained drag bounds.
  *
  * @author Chris Malley (PixelZoom, Inc.)
  */
@@ -23,7 +22,7 @@ import TReadOnlyProperty from '../../../../axon/js/TReadOnlyProperty.js';
 import Bounds2 from '../../../../dot/js/Bounds2.js';
 
 type SelfOptions = {
-  isMovable?: boolean; // Is this Node movable?
+  isMovable?: boolean; // use this to enable or disable interaction
   hasKeyboardDragListener?: boolean;
   dragBoundsProperty?: TReadOnlyProperty<Bounds2 | null> | null;
 };
