@@ -95,7 +95,7 @@ export default class ACPowerSupply extends CurrentSource {
       units: 'radians',
       tandem: tandem.createTandem( 'angleProperty' ),
       phetioReadOnly: true,
-      phetioDocumentation: 'For internal use'
+      phetioDocumentation: 'For internal use only.'
     } );
 
     this.deltaAngleProperty = new DerivedProperty( [ this.frequencyProperty ],
@@ -103,7 +103,7 @@ export default class ACPowerSupply extends CurrentSource {
         units: 'radians',
         tandem: tandem.createTandem( 'deltaAngleProperty' ),
         phetioValueType: NumberIO,
-        phetioDocumentation: 'For internal use'
+        phetioDocumentation: 'For internal use only.'
       } );
 
     // Reset angle when delta angle is changed.
@@ -115,7 +115,7 @@ export default class ACPowerSupply extends CurrentSource {
       units: 'radians',
       tandem: tandem.createTandem( 'stepAngleProperty' ),
       phetioReadOnly: true,
-      phetioDocumentation: 'For internal use'
+      phetioDocumentation: 'For internal use only.'
     } );
     this.stepAngleProperty = this._stepAngleProperty;
   }

@@ -56,7 +56,7 @@ export default class BarMagnet extends Magnet {
         tandem: options.tandem.createTandem( 'strengthProperty' ),
         phetioValueType: NumberIO,
         phetioFeatured: true,
-        phetioDocumentation: 'To change strength, use strengthPercentProperty'
+        phetioDocumentation: 'To change strength, use strengthPercentProperty.'
       } );
 
     const strengthRange = new Range( ( STRENGTH_PERCENT_RANGE.min / 100 ) * MAX_STRENGTH, ( STRENGTH_PERCENT_RANGE.max / 100 ) * MAX_STRENGTH );

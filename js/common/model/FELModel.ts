@@ -66,7 +66,7 @@ export default class FELModel implements TModel {
       units: 's',
       tandem: options.tandem.createTandem( 'accumulatedTimeProperty' ),
       phetioReadOnly: true,
-      phetioDocumentation: 'Time since stepEmitter last fired. For internal use only',
+      phetioDocumentation: 'Time since stepEmitter last fired. For internal use only.',
       phetioHighFrequency: true
     } );
   }

@@ -140,7 +140,7 @@ export default class PickupCoil extends FELMovable {
       tandem: options.tandem.createTandem( 'currentAmplitudeProperty' ),
       phetioFeatured: true,
       phetioReadOnly: true,
-      phetioDocumentation: 'For internal use only'
+      phetioDocumentation: 'For internal use only.'
     } );
 
     this.coil = new Coil( currentAmplitudeProperty, {
@@ -166,7 +166,7 @@ export default class PickupCoil extends FELMovable {
       tandem: options.tandem.createTandem( 'fluxProperty' ),
       phetioReadOnly: true,
       phetioFeatured: true,
-      phetioDocumentation: 'flux in the coil'
+      phetioDocumentation: 'Flux in the coil'
     } );
     this.fluxProperty = this._fluxProperty;
 
@@ -174,7 +174,7 @@ export default class PickupCoil extends FELMovable {
       units: 'V',
       tandem: options.tandem.createTandem( 'deltaFluxProperty' ),
       phetioReadOnly: true,
-      phetioDocumentation: 'change in flux in the coil'
+      phetioDocumentation: 'Change in flux in the coil'
     } );
     this.deltaFluxProperty = this._deltaFluxProperty;
 

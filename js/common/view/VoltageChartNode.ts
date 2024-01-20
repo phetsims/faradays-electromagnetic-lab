@@ -157,19 +157,19 @@ export default class VoltageChartNode extends Node {
     this.startAngleProperty = new NumberProperty( 0, {
       tandem: options.tandem.createTandem( 'startAngleProperty' ),
       phetioReadOnly: true,
-      phetioDocumentation: 'For internal use only'
+      phetioDocumentation: 'For internal use only.'
     } );
 
     this.endAngleProperty = new NumberProperty( 0, {
       tandem: options.tandem.createTandem( 'endAngleProperty' ),
       phetioReadOnly: true,
-      phetioDocumentation: 'For internal use only'
+      phetioDocumentation: 'For internal use only.'
     } );
 
     this.cursorAngleProperty = new NumberProperty( 0, {
       tandem: options.tandem.createTandem( 'cursorAngleProperty' ),
       phetioReadOnly: true,
-      phetioDocumentation: 'For internal use only'
+      phetioDocumentation: 'For internal use only.'
     } );
 
     Multilink.multilink( [ acPowerSupply.frequencyProperty, acPowerSupply.maxVoltageProperty ], () => this.updateWave() );
