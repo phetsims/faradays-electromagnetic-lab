@@ -73,7 +73,7 @@ export default class PickupCoil extends FELMovable {
   // B-field sample points along the vertical axis of the coil
   public samplePoints: ObservableArray<Vector2>;
 
-  // Which EMF indicator is visible in the view
+  // Which current indicator is visible in the view
   public readonly currentIndicatorProperty: Property<CurrentIndicator>;
 
   // *** Writeable via developer controls only, when running with &dev query parameter. ***
