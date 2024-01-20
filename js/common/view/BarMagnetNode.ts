@@ -98,7 +98,6 @@ export default class BarMagnetNode extends FELMovableNode {
   }
 }
 
-//TODO https://github.com/phetsims/faradays-electromagnetic-lab/issues/22 Decide what to do about lighting.
 /**
  * BarNode is the bar for the bar magnet, with north and south sections.
  */
