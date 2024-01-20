@@ -40,8 +40,13 @@ export type PickupCoilOptions = SelfOptions & FELMovableOptions;
 
 export default class PickupCoil extends FELMovable {
 
+  // The magnet whose field this coil is in
   private readonly magnet: Magnet;
+
+  // The coil that induces the EMF
   public readonly coil: Coil;
+
+  // Devices that respond to induced EMF
   public readonly lightBulb: LightBulb;
   public readonly voltmeter: Voltmeter;
 
