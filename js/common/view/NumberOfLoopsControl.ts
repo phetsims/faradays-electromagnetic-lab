@@ -25,6 +25,10 @@ export default class NumberOfLoopsControl extends HBox {
 
     const spinner = new NumberSpinner( numberOfLoopsProperty, numberOfLoopsProperty.rangeProperty, {
       arrowsPosition: 'leftRight', // so that they can be larger
+      touchAreaXDilation: 5,
+      touchAreaYDilation: 3,
+      mouseAreaXDilation: 5,
+      mouseAreaYDilation: 3,
       numberDisplayOptions: {
         textOptions: {
           font: FELConstants.CONTROL_FONT
