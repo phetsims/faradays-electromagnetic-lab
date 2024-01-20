@@ -70,7 +70,7 @@ export default class Electromagnet extends CoilMagnet {
       } );
 
     const coil = new Coil( currentAmplitudeProperty, {
-      maxLoopArea: 7854, // in the Java version, max radius was 50, so max area was 7853.981633974483
+      maxLoopArea: 7854, // in the Java version, max radius was 50, so max area was Math.PI * 50 * 50 = 7853.981633974483
       loopAreaPercentRange: new RangeWithValue( 100, 100, 100 ), // fixed loop area
       numberOfLoopsRange: new RangeWithValue( 1, 4, 4 ),
       wireWidth: WIRE_WIDTH,

@@ -144,7 +144,7 @@ export default class PickupCoil extends FELMovable {
     } );
 
     this.coil = new Coil( currentAmplitudeProperty, {
-      maxLoopArea: 35345, // in the Java version, max radius was 75, so max area was 35342.917352885175
+      maxLoopArea: 35345, // in the Java version, max radius was 75, so max area was Math.PI * 75 * 75 = 35342.917352885175
       loopAreaPercentRange: new RangeWithValue( 20, 100, 50 ),
       numberOfLoopsRange: new RangeWithValue( 1, 4, 2 ),
       wireWidth: WIRE_WIDTH,
