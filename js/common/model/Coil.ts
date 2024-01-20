@@ -18,6 +18,7 @@ import DerivedProperty from '../../../../axon/js/DerivedProperty.js';
 import NumberIO from '../../../../tandem/js/types/NumberIO.js';
 import PhetioObject, { PhetioObjectOptions } from '../../../../tandem/js/PhetioObject.js';
 import PickRequired from '../../../../phet-core/js/types/PickRequired.js';
+import Tandem from '../../../../tandem/js/Tandem.js';
 
 type SelfOptions = {
 
@@ -98,12 +99,13 @@ export default class Coil extends PhetioObject {
       phetioFeatured: true
     } );
 
+    const hasFixedLoopArea = ( options.loopAreaPercentRange.getLength() === 0 );
+
     this.loopAreaPercentProperty = new NumberProperty( options.loopAreaPercentRange.defaultValue, {
       range: options.loopAreaPercentRange,
       units: '%',
-      tandem: options.tandem.createTandem( 'loopAreaPercentProperty' ),
-      phetioFeatured: true,
-      phetioReadOnly: ( options.loopAreaPercentRange.getLength() === 0 ) // readonly if loop area is fixed
+      tandem: hasFixedLoopArea ? Tandem.OPT_OUT : options.tandem.createTandem( 'loopAreaPercentProperty' ),
+      phetioFeatured: true
     } );
 
     const loopAreaRange = new Range( ( this.loopAreaPercentProperty.range.min / 100 ) * this.maxLoopArea,
@@ -115,7 +117,7 @@ export default class Coil extends PhetioObject {
         tandem: options.tandem.createTandem( 'loopAreaProperty' ),
         phetioFeatured: true,
         phetioValueType: NumberIO,
-        phetioDocumentation: 'To change loop area, use loopAreaPercentProperty'
+        phetioDocumentation: hasFixedLoopArea ? 'Loop area is fixed.' : 'To change loop area, use loopAreaPercentProperty.'
       } );
 
     this.currentAmplitudeProperty = currentAmplitudeProperty;
