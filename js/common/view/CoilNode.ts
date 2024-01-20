@@ -71,7 +71,7 @@ export default class CoilNode extends Node {
   private readonly coilSegments: CoilSegment[];
 
   // Electrons in the coil
-  private readonly electrons: Electron[]; //TODO PhetioGroup or allocate a static pool
+  private readonly electrons: Electron[];
   private readonly electronNodes: ElectronNode[];
 
   // Whether to connect the ends of the coil.
