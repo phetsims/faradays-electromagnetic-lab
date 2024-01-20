@@ -1,7 +1,5 @@
 // Copyright 2023-2024, University of Colorado Boulder
 
-//TODO Move electrons and coilSegments to the Coil model, remove stepEmitter
-
 /**
  * CoilNode is the visualization of a coil of wire. In order to simulate objects passing "through" the
  * coil, CoilNode consists of two layers, referred to as the foreground and background. Foreground elements
@@ -80,7 +78,7 @@ export default class CoilNode extends Node {
   /**
    * @param coil - the coil associated with this Node
    * @param movable - the model element to move when this.backgroundNode is dragged
-   * @param stepEmitter - fires when step should be called
+   * @param stepEmitter - fires when step should be called, drives animation of electrons
    * @param providedOptions
    */
   public constructor( coil: Coil, movable: FELMovable, stepEmitter: Emitter<[ number ]>, providedOptions: CoilNodeOptions ) {
