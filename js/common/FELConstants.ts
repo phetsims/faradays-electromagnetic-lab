@@ -37,11 +37,6 @@ const TITLE_FONT = new PhetFont( { size: 16, weight: 'bold' } );
 const CONTROL_FONT = new PhetFont( 14 );
 const TICK_LABEL_FONT = new PhetFont( 10 );
 
-const CHECKBOX_OPTIONS: CheckboxOptions = {
-  isDisposable: false,
-  boxWidth: new Text( 'X', { font: CONTROL_FONT } ).height // Size the box to the height of a typical text label.
-};
-
 const CHECKBOX_TEXT_OPTIONS: TextOptions = {
   font: CONTROL_FONT,
   maxWidth: 165
@@ -106,6 +101,17 @@ const VBOX_OPTIONS: VBoxOptions = {
   spacing: 10,
   align: 'left',
   stretch: true
+};
+
+const CHECKBOX_OPTIONS: CheckboxOptions = {
+  isDisposable: false,
+  boxWidth: new Text( 'X', { font: CONTROL_FONT } ).height, // Size the box to the height of a typical text label.
+
+  // Use vertical space between checkboxes for pointer areas.
+  mouseAreaXDilation: 5,
+  mouseAreaYDilation: VBOX_OPTIONS.spacing! / 2,
+  touchAreaXDilation: 5,
+  touchAreaYDilation: VBOX_OPTIONS.spacing! / 2
 };
 
 const RECTANGULAR_RADIO_BUTTON_OPTIONS: RectangularRadioButtonOptions = {
