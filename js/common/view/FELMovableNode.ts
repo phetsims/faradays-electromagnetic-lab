@@ -1,8 +1,5 @@
 // Copyright 2023-2024, University of Colorado Boulder
 
-//TODO dragBounds - ala my-solar-system
-//TODO collision detection - see FaradayMouseHandler.java => FELDragListener, FELKeyboardDragListener
-
 /**
  * FELMovableNode is the abstract base class for rendering FELMovable, model elements with a mutable position.
  * It is responsible for pointer input, alternative input, constrained drag bounds, and collision detection.
