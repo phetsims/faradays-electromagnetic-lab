@@ -64,12 +64,12 @@ export default class Coil extends PhetioObject {
   // how they should behave (eg, how far to move a voltmeter needle, how bright to make a lightbulb, etc.)
   public readonly currentAmplitudeProperty: TReadOnlyProperty<number>;
 
+  // Whether electrons are visible in the coil in the view
+  public readonly electronsVisibleProperty: Property<boolean>;
+
   // *** Writeable via developer controls only, when running with &dev query parameter. ***
   // Scale used for electron speed in the view.
   public readonly electronSpeedScaleProperty: NumberProperty;
-
-  // Whether electrons are visible in the coil in the view
-  public readonly electronsVisibleProperty: Property<boolean>;
 
   public constructor( currentAmplitudeProperty: TReadOnlyProperty<number>, providedOptions: CoilOptions ) {
 
@@ -99,6 +99,7 @@ export default class Coil extends PhetioObject {
       phetioFeatured: true
     } );
 
+    // Loop area is a fixed value if the range's min and max are the same.
     const hasFixedLoopArea = ( options.loopAreaPercentRange.getLength() === 0 );
 
     this.loopAreaPercentProperty = new NumberProperty( options.loopAreaPercentRange.defaultValue, {
@@ -122,14 +123,14 @@ export default class Coil extends PhetioObject {
 
     this.currentAmplitudeProperty = currentAmplitudeProperty;
 
-    this.electronSpeedScaleProperty = new NumberProperty( options.electronSpeedScale, {
-      range: new Range( 1, 100 )
-      // Do not instrument. This is a PhET developer Property.
-    } );
-
     this.electronsVisibleProperty = new BooleanProperty( true, {
       tandem: options.tandem.createTandem( 'electronsVisibleProperty' ),
       phetioFeatured: true
+    } );
+
+    this.electronSpeedScaleProperty = new NumberProperty( options.electronSpeedScale, {
+      range: new Range( 1, 100 )
+      // Do not instrument. This is a PhET developer Property.
     } );
   }
 
@@ -137,13 +138,20 @@ export default class Coil extends PhetioObject {
     this.numberOfLoopsProperty.reset();
     this.loopAreaPercentProperty.reset();
     this.electronsVisibleProperty.reset();
+    // Do not reset electronSpeedScaleProperty.
   }
 
+  /**
+   * Gets the current radius of one loop of the coil.
+   */
   public getLoopRadius(): number {
     const loopArea = ( this.loopAreaPercentProperty.value / 100 ) * this.maxLoopArea;
     return Math.sqrt( loopArea / Math.PI );
   }
 
+  /**
+   * Gets the minimum radius of one loop of the coil.
+   */
   public getMinLoopRadius(): number {
     const minLoopArea = ( this.loopAreaPercentProperty.range.min / 100 ) * this.maxLoopArea;
     return Math.sqrt( minLoopArea / Math.PI );
