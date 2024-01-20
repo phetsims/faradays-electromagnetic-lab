@@ -29,6 +29,10 @@ export default class WaterFaucetNode extends FaucetNode {
       closeOnRelease: false,
       tapToDispenseEnabled: false,
       horizontalPipeLength: 1800, // set empirically, for an extremely wide browser window
+      shooterOptions: {
+        touchAreaXDilation: 15,
+        touchAreaYDilation: 15
+      },
       phetioVisiblePropertyInstrumented: false
     }, providedOptions );
 
