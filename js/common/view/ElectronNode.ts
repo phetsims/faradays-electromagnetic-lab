@@ -1,7 +1,7 @@
 // Copyright 2023-2024, University of Colorado Boulder
 
 /**
- * ElectronGraphic is the visual representation of an electron in a coil. It is responsible for moving the electron,
+ * ElectronNode is the visual representation of an electron in a coil. It is responsible for moving the electron,
  * and for jumping the electron between foreground and background layers of the scenegraph.
  *
  * @author Chris Malley (PixelZoom, Inc.)
