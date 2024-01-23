@@ -116,12 +116,7 @@ export default class FELScreenView extends ScreenView {
    */
   protected createDragBoundsProperty( panelsBoundsProperty: TReadOnlyProperty<Bounds2> ): TReadOnlyProperty<Bounds2> {
     return new DerivedProperty( [ panelsBoundsProperty ],
-      panelsBounds => new Bounds2(
-        this.layoutBounds.left,
-        this.layoutBounds.top,
-        panelsBounds.left,
-        this.layoutBounds.bottom
-      ), {
+      panelsBounds => this.layoutBounds.withMaxX( panelsBounds.left ), {
         strictAxonDependencies: false //TODO https://github.com/phetsims/faradays-electromagnetic-lab/issues/57
       } );
   }
@@ -148,29 +143,24 @@ export default class FELScreenView extends ScreenView {
         pickupCoilPositionProperty.value = new Vector2( pickupCoilPositionProperty.value.x, y );
         magnetPositionProperty.value = new Vector2( magnetPositionProperty.value.x, y );
 
+        // Constrain to horizontal dragging.
+        dragBoundsProperty.value = new Bounds2( this.layoutBounds.left, y, panelsBounds.left, y );
+
         // Change the cursors to indicate that drag direction is constrained to horizontal.
         magnetNode.cursor = 'ew-resize';
         pickupCoilNode.cursor = 'ew-resize';
         pickupCoilNode.backgroundNode.cursor = 'ew-resize';
-
-        // Constrain to horizontal dragging.
-        dragBoundsProperty.value = new Bounds2( this.layoutBounds.left, y, panelsBounds.left, y );
       }
       else {
         // Dragging is 2D, horizontal and vertical.
+
+        // Restore drag bounds.
+        dragBoundsProperty.value = this.layoutBounds.withMaxX( panelsBounds.left );
 
         // Restore cursors.
         magnetNode.cursor = 'pointer';
         pickupCoilNode.cursor = 'pointer';
         pickupCoilNode.backgroundNode.cursor = 'pointer';
-
-        // Restore drag bounds.
-        dragBoundsProperty.value = new Bounds2(
-          this.layoutBounds.left,
-          this.layoutBounds.top,
-          panelsBounds.left,
-          this.layoutBounds.bottom
-        );
       }
     } );
   }
