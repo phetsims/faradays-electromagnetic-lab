@@ -7,7 +7,6 @@
  */
 
 import faradaysElectromagneticLab from '../../faradaysElectromagneticLab.js';
-import { VBox } from '../../../../scenery/js/imports.js';
 import Tandem from '../../../../tandem/js/Tandem.js';
 import BarMagnetPanel from '../../common/view/BarMagnetPanel.js';
 import ToolsPanel from '../../common/view/ToolsPanel.js';
@@ -15,8 +14,9 @@ import BarMagnetViewProperties from './BarMagnetViewProperties.js';
 import BarMagnet from '../../common/model/BarMagnet.js';
 import FieldMeter from '../../common/model/FieldMeter.js';
 import Compass from '../../common/model/Compass.js';
+import FELPanels from '../../common/view/FELPanels.js';
 
-export default class BarMagnetPanels extends VBox {
+export default class BarMagnetPanels extends FELPanels {
 
   public constructor( barMagnet: BarMagnet, compass: Compass, fieldMeter: FieldMeter,
                       viewProperties: BarMagnetViewProperties, tandem: Tandem ) {
@@ -27,17 +27,13 @@ export default class BarMagnetPanels extends VBox {
       tandem: tandem.createTandem( 'barMagnetPanel' )
     } );
 
-    const toolsPanel = new ToolsPanel( compass, fieldMeter, tandem.createTandem( 'toolsPanel' ) );
+    const toolsPanel = new ToolsPanel( compass, fieldMeter, {
+      tandem: tandem.createTandem( 'toolsPanel' )
+    } );
 
     super( {
-      stretch: true,
-      spacing: 10,
-      children: [
-        barMagnetPanel,
-        toolsPanel
-      ],
-      tandem: tandem,
-      phetioVisiblePropertyInstrumented: true
+      children: [ barMagnetPanel, toolsPanel ],
+      tandem: tandem
     } );
   }
 }

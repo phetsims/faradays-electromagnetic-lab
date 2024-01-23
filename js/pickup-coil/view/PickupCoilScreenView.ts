@@ -17,13 +17,21 @@ import PickupCoilDebuggerPanel from '../../common/view/PickupCoilDebuggerPanel.j
 import PickupCoilNode from '../../common/view/PickupCoilNode.js';
 import PickupCoilPanels from './PickupCoilPanels.js';
 import FELScreenView from '../../common/view/FELScreenView.js';
+import BooleanProperty from '../../../../axon/js/BooleanProperty.js';
+import Vector2 from '../../../../dot/js/Vector2.js';
+import PickupCoilAxisNode from '../../common/view/PickupCoilAxisNode.js';
 
 export default class PickupCoilScreenView extends FELScreenView {
 
   public constructor( model: PickupCoilModel, tandem: Tandem ) {
 
+    const isLockedToAxisProperty = new BooleanProperty( false, {
+      tandem: tandem.createTandem( 'isLockedToAxisProperty' ),
+      phetioDocumentation: 'When true, dragging the magnet or pickup coil is locked to the pickup coil\'s horizontal axis.'
+    } );
+
     const panels = new PickupCoilPanels( model.barMagnet, model.pickupCoil, model.compass, model.fieldMeter,
-      tandem.createTandem( 'panels' ) );
+      isLockedToAxisProperty, tandem.createTandem( 'panels' ) );
 
     // Developer controls are always created, to prevent them from becoming broken over time.
     // But they are visible only when running with &dev query parameter.
@@ -35,7 +43,10 @@ export default class PickupCoilScreenView extends FELScreenView {
       fieldMeter: model.fieldMeter,
       panels: panels,
       developerAccordionBox: developerAccordionBox,
-      resetAll: () => model.reset(),
+      resetAll: () => {
+        model.reset();
+        isLockedToAxisProperty.reset();
+      },
       tandem: tandem
     } );
 
@@ -49,6 +60,9 @@ export default class PickupCoilScreenView extends FELScreenView {
       tandem: tandem.createTandem( 'pickupCoilNode' )
     } );
 
+    const pickupCoilAxisNode = new PickupCoilAxisNode( isLockedToAxisProperty, model.pickupCoil.positionProperty,
+      this.visibleBoundsProperty );
+
     const pickupCoilDebuggerPanel = new PickupCoilDebuggerPanel( model.pickupCoil );
     pickupCoilDebuggerPanel.centerX = this.layoutBounds.centerX;
     pickupCoilDebuggerPanel.top = this.layoutBounds.top + FELConstants.SCREEN_VIEW_Y_MARGIN;
@@ -57,6 +71,7 @@ export default class PickupCoilScreenView extends FELScreenView {
       children: [
         pickupCoilNode.backgroundNode,
         this.fieldNode,
+        pickupCoilAxisNode,
         barMagnetNode,
         pickupCoilNode,
         panels,
@@ -78,6 +93,28 @@ export default class PickupCoilScreenView extends FELScreenView {
       this.resetAllButton
       // Exclude developerAccordionBox from alt input because it is present it is not part of the production UI.
     ];
+
+    isLockedToAxisProperty.link( isLockedToAxis => {
+      if ( isLockedToAxis ) {
+
+        // Move the pickup coil and magnet to a good position for horizontal dragging.
+        model.pickupCoil.positionProperty.reset();
+        model.barMagnet.positionProperty.value = new Vector2( model.barMagnet.positionProperty.value.x, model.pickupCoil.positionProperty.value.y );
+
+        // Change the cursors to indicate that drag direction is constrained to horizontal.
+        barMagnetNode.cursor = 'ew-resize';
+        pickupCoilNode.cursor = 'ew-resize';
+
+        //TODO constrain drag bounds for barMagnetNode and pickupCoilNode
+      }
+      else {
+        // Restore the cursors to indicate that drag direction is unconstrained.
+        barMagnetNode.cursor = 'pointer';
+        pickupCoilNode.cursor = 'pointer';
+
+        //TODO restore drag bounds for barMagnetNode and pickupCoilNode
+      }
+    } );
   }
 }
 

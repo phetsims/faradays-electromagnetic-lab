@@ -7,7 +7,6 @@
  */
 
 import faradaysElectromagneticLab from '../../faradaysElectromagneticLab.js';
-import { VBox } from '../../../../scenery/js/imports.js';
 import Tandem from '../../../../tandem/js/Tandem.js';
 import ToolsPanel from '../../common/view/ToolsPanel.js';
 import FieldMeter from '../../common/model/FieldMeter.js';
@@ -16,8 +15,9 @@ import PickupCoilPanel from '../../common/view/PickupCoilPanel.js';
 import PickupCoil from '../../common/model/PickupCoil.js';
 import BarMagnetPanel from '../../common/view/BarMagnetPanel.js';
 import Turbine from '../model/Turbine.js';
+import FELPanels from '../../common/view/FELPanels.js';
 
-export default class GeneratorPanels extends VBox {
+export default class GeneratorPanels extends FELPanels {
 
   public constructor( turbine: Turbine, pickupCoil: PickupCoil, compass: Compass, fieldMeter: FieldMeter, tandem: Tandem ) {
 
@@ -28,18 +28,13 @@ export default class GeneratorPanels extends VBox {
 
     const pickupCoilPanel = new PickupCoilPanel( pickupCoil, tandem.createTandem( 'pickupCoilPanel' ) );
 
-    const toolsPanel = new ToolsPanel( compass, fieldMeter, tandem.createTandem( 'toolsPanel' ) );
+    const toolsPanel = new ToolsPanel( compass, fieldMeter, {
+      tandem: tandem.createTandem( 'toolsPanel' )
+    } );
 
     super( {
-      stretch: true,
-      spacing: 10,
-      children: [
-        barMagnetPanel,
-        pickupCoilPanel,
-        toolsPanel
-      ],
-      tandem: tandem,
-      phetioVisiblePropertyInstrumented: true
+      children: [ barMagnetPanel, pickupCoilPanel, toolsPanel ],
+      tandem: tandem
     } );
   }
 }

@@ -141,6 +141,10 @@ const FELColors = {
     default: 'rgb( 40, 23, 3 )' // darker brown
   } ),
 
+  pickupCoilAxisStrokeProperty: new ProfileColorProperty( faradaysElectromagneticLab, 'pickupCoilAxisStroke', {
+    default: PhetColorScheme.RED_COLORBLIND
+  } ),
+
   lightBulbBaseColorProperty: new ProfileColorProperty( faradaysElectromagneticLab, 'lightBulbBaseColor', {
     default: Color.grayColor( 153 )
   } ),

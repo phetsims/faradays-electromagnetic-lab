@@ -18,13 +18,21 @@ import FELTimeControlNode from '../../common/view/FELTimeControlNode.js';
 import ElectromagnetNode from '../../common/view/ElectromagnetNode.js';
 import TransformerPanels from './TransformerPanels.js';
 import FELScreenView from '../../common/view/FELScreenView.js';
+import BooleanProperty from '../../../../axon/js/BooleanProperty.js';
+import PickupCoilAxisNode from '../../common/view/PickupCoilAxisNode.js';
+import Vector2 from '../../../../dot/js/Vector2.js';
 
 export default class TransformerScreenView extends FELScreenView {
 
   public constructor( model: TransformerModel, tandem: Tandem ) {
 
+    const isLockedToAxisProperty = new BooleanProperty( false, {
+      tandem: tandem.createTandem( 'isLockedToAxisProperty' ),
+      phetioDocumentation: 'When true, dragging the magnet or pickup coil is locked to the pickup coil\'s horizontal axis.'
+    } );
+
     const panels = new TransformerPanels( model.electromagnet, model.pickupCoil, model.compass, model.fieldMeter,
-      tandem.createTandem( 'panels' ) );
+      isLockedToAxisProperty, tandem.createTandem( 'panels' ) );
 
     const timeControlNode = new FELTimeControlNode( model, tandem.createTandem( 'timeControlNode' ) );
 
@@ -39,7 +47,10 @@ export default class TransformerScreenView extends FELScreenView {
       panels: panels,
       timeControlNode: timeControlNode,
       developerAccordionBox: developerAccordionBox,
-      resetAll: () => model.reset(),
+      resetAll: () => {
+        model.reset();
+        isLockedToAxisProperty.reset();
+      },
       tandem: tandem
     } );
 
@@ -53,6 +64,9 @@ export default class TransformerScreenView extends FELScreenView {
       tandem: tandem.createTandem( 'pickupCoilNode' )
     } );
 
+    const pickupCoilAxisNode = new PickupCoilAxisNode( isLockedToAxisProperty, model.pickupCoil.positionProperty,
+      this.visibleBoundsProperty );
+
     const pickupCoilDebuggerPanel = new PickupCoilDebuggerPanel( model.pickupCoil );
     pickupCoilDebuggerPanel.centerX = this.layoutBounds.centerX;
     pickupCoilDebuggerPanel.top = this.layoutBounds.top + FELConstants.SCREEN_VIEW_Y_MARGIN;
@@ -62,6 +76,7 @@ export default class TransformerScreenView extends FELScreenView {
         pickupCoilNode.backgroundNode,
         electromagnetNode.backgroundNode,
         this.fieldNode,
+        pickupCoilAxisNode,
         electromagnetNode,
         pickupCoilNode,
         panels,
@@ -85,6 +100,29 @@ export default class TransformerScreenView extends FELScreenView {
       this.resetAllButton
       // Exclude developerAccordionBox from alt input because it is present it is not part of the production UI.
     ];
+
+    //TODO https://github.com/phetsims/faradays-electromagnetic-lab/issues/25 duplicated in PickupCoilScreenView
+    isLockedToAxisProperty.link( isLockedToAxis => {
+      if ( isLockedToAxis ) {
+
+        // Move the pickup coil and magnet to a good position for horizontal dragging.
+        model.pickupCoil.positionProperty.reset();
+        model.electromagnet.positionProperty.value = new Vector2( model.electromagnet.positionProperty.value.x, model.pickupCoil.positionProperty.value.y );
+
+        // Change the cursors to indicate that drag direction is constrained to horizontal.
+        electromagnetNode.cursor = 'ew-resize';
+        pickupCoilNode.cursor = 'ew-resize';
+
+        //TODO constrain drag bounds for barMagnetNode and pickupCoilNode
+      }
+      else {
+        // Restore the cursors to indicate that drag direction is unconstrained.
+        electromagnetNode.cursor = 'pointer';
+        pickupCoilNode.cursor = 'pointer';
+
+        //TODO restore drag bounds for barMagnetNode and pickupCoilNode
+      }
+    } );
   }
 }
 
