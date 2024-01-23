@@ -21,6 +21,9 @@ import FELScreenView from '../../common/view/FELScreenView.js';
 import BooleanProperty from '../../../../axon/js/BooleanProperty.js';
 import PickupCoilAxisNode from '../../common/view/PickupCoilAxisNode.js';
 import Vector2 from '../../../../dot/js/Vector2.js';
+import Property from '../../../../axon/js/Property.js';
+import Multilink from '../../../../axon/js/Multilink.js';
+import Bounds2 from '../../../../dot/js/Bounds2.js';
 
 export default class TransformerScreenView extends FELScreenView {
 
@@ -54,13 +57,16 @@ export default class TransformerScreenView extends FELScreenView {
       tandem: tandem
     } );
 
+    // To be set to correct bounds by Multilink below.
+    const dragBoundsProperty = new Property( this.layoutBounds );
+
     const electromagnetNode = new ElectromagnetNode( model.electromagnet, model.stepEmitter, {
-      dragBoundsProperty: this.dragBoundsProperty,
+      dragBoundsProperty: dragBoundsProperty,
       tandem: tandem.createTandem( 'electromagnetNode' )
     } );
 
     const pickupCoilNode = new PickupCoilNode( model.pickupCoil, model.stepEmitter, {
-      dragBoundsProperty: this.dragBoundsProperty,
+      dragBoundsProperty: dragBoundsProperty,
       tandem: tandem.createTandem( 'pickupCoilNode' )
     } );
 
@@ -102,28 +108,38 @@ export default class TransformerScreenView extends FELScreenView {
     ];
 
     //TODO https://github.com/phetsims/faradays-electromagnetic-lab/issues/25 duplicated in PickupCoilScreenView
-    isLockedToAxisProperty.link( isLockedToAxis => {
-      if ( isLockedToAxis ) {
+    Multilink.multilink( [ isLockedToAxisProperty, panels.boundsProperty ],
+      ( isLockedToAxis, panelsBounds ) => {
+        if ( isLockedToAxis ) {
 
-        // Move the pickup coil and magnet to a good position for horizontal dragging.
-        const y = 400;
-        model.pickupCoil.positionProperty.value = new Vector2( model.pickupCoil.positionProperty.value.x, y );
-        model.electromagnet.positionProperty.value = new Vector2( model.electromagnet.positionProperty.value.x, y );
+          // Move the pickup coil and magnet to a good position for horizontal dragging.
+          const y = 400;
+          model.pickupCoil.positionProperty.value = new Vector2( model.pickupCoil.positionProperty.value.x, y );
+          model.electromagnet.positionProperty.value = new Vector2( model.electromagnet.positionProperty.value.x, y );
 
-        // Change the cursors to indicate that drag direction is constrained to horizontal.
-        electromagnetNode.cursor = 'ew-resize';
-        pickupCoilNode.cursor = 'ew-resize';
+          // Change the cursors to indicate that drag direction is constrained to horizontal.
+          electromagnetNode.cursor = 'ew-resize';
+          pickupCoilNode.cursor = 'ew-resize';
+          pickupCoilNode.backgroundNode.cursor = 'ew-resize';
 
-        //TODO constrain drag bounds for electromagnetNode and pickupCoilNode
-      }
-      else {
-        // Restore the cursors to indicate that drag direction is unconstrained.
-        electromagnetNode.cursor = 'pointer';
-        pickupCoilNode.cursor = 'pointer';
+          // Constrain to horizontal dragging for barMagnetNode and pickupCoilNode
+          dragBoundsProperty.value = new Bounds2( this.layoutBounds.left, y, panelsBounds.left, y );
+        }
+        else {
+          // Restore the cursors to indicate that drag direction is unconstrained.
+          electromagnetNode.cursor = 'pointer';
+          pickupCoilNode.cursor = 'pointer';
+          pickupCoilNode.backgroundNode.cursor = 'pointer';
 
-        //TODO restore drag bounds for electromagnetNode and pickupCoilNode
-      }
-    } );
+          // Restore drag bounds for barMagnetNode and pickupCoilNode.
+          dragBoundsProperty.value = new Bounds2(
+            this.layoutBounds.left,
+            this.layoutBounds.top,
+            panelsBounds.left,
+            this.layoutBounds.bottom
+          );
+        }
+      } );
   }
 }
 

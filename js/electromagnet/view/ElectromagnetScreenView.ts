@@ -15,6 +15,8 @@ import FELTimeControlNode from '../../common/view/FELTimeControlNode.js';
 import ElectromagnetNode from '../../common/view/ElectromagnetNode.js';
 import ElectromagnetPanels from './ElectromagnetPanels.js';
 import FELScreenView from '../../common/view/FELScreenView.js';
+import DerivedProperty from '../../../../axon/js/DerivedProperty.js';
+import Bounds2 from '../../../../dot/js/Bounds2.js';
 
 export default class ElectromagnetScreenView extends FELScreenView {
 
@@ -39,8 +41,19 @@ export default class ElectromagnetScreenView extends FELScreenView {
       tandem: tandem
     } );
 
+    //TODO https://github.com/phetsims/faradays-electromagnetic-lab/issues/25 duplicated in BarMagnetScreenView
+    const dragBoundsProperty = new DerivedProperty( [ panels.boundsProperty ],
+      panelsBounds => new Bounds2(
+        this.layoutBounds.left,
+        this.layoutBounds.top,
+        panelsBounds.left,
+        this.layoutBounds.bottom
+      ), {
+        strictAxonDependencies: false //TODO https://github.com/phetsims/faradays-electromagnetic-lab/issues/57
+      } );
+
     const electromagnetNode = new ElectromagnetNode( model.electromagnet, model.stepEmitter, {
-      dragBoundsProperty: this.dragBoundsProperty,
+      dragBoundsProperty: dragBoundsProperty,
       tandem: tandem.createTandem( 'electromagnetNode' )
     } );
 

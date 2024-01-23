@@ -21,9 +21,6 @@ import Compass from '../model/Compass.js';
 import FieldMeter from '../model/FieldMeter.js';
 import PickRequired from '../../../../phet-core/js/types/PickRequired.js';
 import optionize from '../../../../phet-core/js/optionize.js';
-import TReadOnlyProperty from '../../../../axon/js/TReadOnlyProperty.js';
-import Bounds2 from '../../../../dot/js/Bounds2.js';
-import DerivedProperty from '../../../../axon/js/DerivedProperty.js';
 
 type SelfOptions = {
   magnet: Magnet;
@@ -38,8 +35,6 @@ type SelfOptions = {
 type FELScreenViewOptions = SelfOptions & PickRequired<ScreenViewOptions, 'tandem'>;
 
 export default class FELScreenView extends ScreenView {
-
-  protected readonly dragBoundsProperty: TReadOnlyProperty<Bounds2>;
 
   // It is the subclass' responsibility to add these to the scenegraph and pdomOrder.
   protected readonly fieldNode: Node;
@@ -59,16 +54,6 @@ export default class FELScreenView extends ScreenView {
     }, providedOptions );
 
     super( options );
-
-    this.dragBoundsProperty = new DerivedProperty( [ options.panels.boundsProperty ],
-      panelsBounds => new Bounds2(
-        this.layoutBounds.left,
-        this.layoutBounds.top,
-        panelsBounds.left,
-        this.layoutBounds.bottom
-      ), {
-        strictAxonDependencies: false //TODO https://github.com/phetsims/faradays-electromagnetic-lab/issues/57
-      } );
 
     this.fieldNode = new FieldNode( options.magnet, this.visibleBoundsProperty, options.tandem.createTandem( 'fieldNode' ) );
 

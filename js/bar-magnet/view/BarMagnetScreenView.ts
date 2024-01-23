@@ -16,6 +16,8 @@ import EarthNode from '../../common/view/EarthNode.js';
 import BarMagnetDeveloperAccordionBox from './BarMagnetDeveloperAccordionBox.js';
 import BarMagnetPanels from './BarMagnetPanels.js';
 import FELScreenView from '../../common/view/FELScreenView.js';
+import DerivedProperty from '../../../../axon/js/DerivedProperty.js';
+import Bounds2 from '../../../../dot/js/Bounds2.js';
 
 export default class BarMagnetScreenView extends FELScreenView {
 
@@ -51,14 +53,24 @@ export default class BarMagnetScreenView extends FELScreenView {
       tandem: tandem
     } );
 
+    const dragBoundsProperty = new DerivedProperty( [ panels.boundsProperty ],
+      panelsBounds => new Bounds2(
+        this.layoutBounds.left,
+        this.layoutBounds.top,
+        panelsBounds.left,
+        this.layoutBounds.bottom
+      ), {
+        strictAxonDependencies: false //TODO https://github.com/phetsims/faradays-electromagnetic-lab/issues/57
+      } );
+
     const barMagnetNode = new BarMagnetNode( model.barMagnet, {
       seeInsideProperty: viewProperties.seeInsideBarMagnetProperty,
-      dragBoundsProperty: this.dragBoundsProperty,
+      dragBoundsProperty: dragBoundsProperty,
       tandem: tandem.createTandem( 'barMagnetNode' )
     } );
 
     const earthNode = new EarthNode( model.barMagnet, {
-      dragBoundsProperty: this.dragBoundsProperty,
+      dragBoundsProperty: dragBoundsProperty,
       visibleProperty: viewProperties.earthVisibleProperty,
       tandem: tandem.createTandem( 'earthNode' )
     } );

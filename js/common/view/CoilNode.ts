@@ -40,6 +40,8 @@ import FELColors from '../FELColors.js';
 import Emitter from '../../../../axon/js/Emitter.js';
 import FELMovableNode from './FELMovableNode.js';
 import FELMovable from '../model/FELMovable.js';
+import TReadOnlyProperty from '../../../../axon/js/TReadOnlyProperty.js';
+import Bounds2 from '../../../../dot/js/Bounds2.js';
 
 // Space between electrons, determines the number of electrons add to each curve.
 const ELECTRON_SPACING = 25;
@@ -49,6 +51,7 @@ const ELECTRONS_IN_RIGHT_END = 2;
 type SelfOptions = {
   endsConnected?: boolean; // Whether to connect the ends of the coil.
   isMovable?: boolean; // Whether the coil is movable.
+  dragBoundsProperty?: TReadOnlyProperty<Bounds2> | null;
 };
 
 type CoilNodeOptions = SelfOptions & PickRequired<NodeOptions, 'tandem'>;
@@ -89,6 +92,7 @@ export default class CoilNode extends Node {
       // SelfOptions
       endsConnected: false,
       isMovable: true,
+      dragBoundsProperty: null,
 
       // NodeOptions
       isDisposable: false,
@@ -103,6 +107,7 @@ export default class CoilNode extends Node {
     // Since the background will be added to the scene graph separately, we need to tell it what to move when it is
     // dragged, and not to have its own KeyboardDragListener for alt input.
     this.backgroundNode = new FELMovableNode( movable, {
+      dragBoundsProperty: options.dragBoundsProperty,
       hasKeyboardDragListener: false,
       visibleProperty: this.visibleProperty,
       tandem: Tandem.OPT_OUT,

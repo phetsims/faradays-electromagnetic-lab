@@ -18,11 +18,12 @@ import FELLightBulbNode from './FELLightBulbNode.js';
 import VoltmeterNode from './VoltmeterNode.js';
 import optionize, { EmptySelfOptions } from '../../../../phet-core/js/optionize.js';
 import PickRequired from '../../../../phet-core/js/types/PickRequired.js';
+import PickOptional from '../../../../phet-core/js/types/PickOptional.js';
 
 type SelfOptions = EmptySelfOptions;
 
 type PickupCoilNodeOptions = SelfOptions &
-  Pick<FELMovableNodeOptions, 'isMovable' | 'dragBoundsProperty'> &
+  PickOptional<FELMovableNodeOptions, 'isMovable' | 'dragBoundsProperty'> &
   PickRequired<FELMovableNodeOptions, 'tandem'>;
 
 export default class PickupCoilNode extends FELMovableNode {
