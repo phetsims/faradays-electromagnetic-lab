@@ -10,7 +10,7 @@
  * It was not feasible to implement a numerical model directly in Java, as it relies on double integrals.
  * So the model was implemented in MathCAD, and MathCAD was used to create 3 grids of B-field vectors.
  * The MathCAD model (a horizontal cylinder) can be found in .xmcd (MathCAD) and .pdf formats at
- * doc/bFieldOfHorizCylinderNumerical.*
+ * doc/java-version/bFieldOfHorizCylinderNumerical.*
  *
  * The 3 B-field grids are:
  * - internal: field internal to the magnet
