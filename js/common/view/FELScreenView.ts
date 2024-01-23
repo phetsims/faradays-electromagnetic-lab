@@ -21,6 +21,12 @@ import Compass from '../model/Compass.js';
 import FieldMeter from '../model/FieldMeter.js';
 import PickRequired from '../../../../phet-core/js/types/PickRequired.js';
 import optionize from '../../../../phet-core/js/optionize.js';
+import Vector2 from '../../../../dot/js/Vector2.js';
+import Bounds2 from '../../../../dot/js/Bounds2.js';
+import TReadOnlyProperty from '../../../../axon/js/TReadOnlyProperty.js';
+import Property from '../../../../axon/js/Property.js';
+import PickupCoilNode from './PickupCoilNode.js';
+import DerivedProperty from '../../../../axon/js/DerivedProperty.js';
 
 type SelfOptions = {
   magnet: Magnet;
@@ -102,6 +108,71 @@ export default class FELScreenView extends ScreenView {
         options.timeControlNode!.bottom = visibleBounds.bottom - FELConstants.SCREEN_VIEW_Y_MARGIN;
       } );
     }
+  }
+
+  /**
+   * Creates a dragBoundsProperty for scenarios that do not involve the 'Lock to Axis' feature.
+   * This is relevant in the 'Bar Magnet' and 'Electromagnet' screens.
+   */
+  protected createDragBoundsProperty( panelsBoundsProperty: TReadOnlyProperty<Bounds2> ): TReadOnlyProperty<Bounds2> {
+    return new DerivedProperty( [ panelsBoundsProperty ],
+      panelsBounds => new Bounds2(
+        this.layoutBounds.left,
+        this.layoutBounds.top,
+        panelsBounds.left,
+        this.layoutBounds.bottom
+      ), {
+        strictAxonDependencies: false //TODO https://github.com/phetsims/faradays-electromagnetic-lab/issues/57
+      } );
+  }
+
+  /**
+   * Configures a dragBoundsProperty for scenarios that involve a magnet and a pickup coil, and require the
+   * 'Lock to Axis' feature. This is relevant in the 'Pickup Coil' and 'Transformer' screens.
+   */
+  protected configureDragBoundsProperty(
+    dragBoundsProperty: Property<Bounds2>,
+    isLockedToAxisProperty: TReadOnlyProperty<boolean>,
+    panelsBoundsProperty: TReadOnlyProperty<Bounds2>,
+    magnetPositionProperty: Property<Vector2>,
+    pickupCoilPositionProperty: Property<Vector2>,
+    magnetNode: Node,
+    pickupCoilNode: PickupCoilNode
+  ): void {
+    Multilink.multilink( [ isLockedToAxisProperty, panelsBoundsProperty ], ( isLockedToAxis, panelsBounds ) => {
+      if ( isLockedToAxis ) {
+        // Dragging is locked to 1D, horizontally along the pickup coil's axis.
+
+        // Move the pickup coil and magnet to a usable position.
+        const y = pickupCoilPositionProperty.initialValue.y;
+        pickupCoilPositionProperty.value = new Vector2( pickupCoilPositionProperty.value.x, y );
+        magnetPositionProperty.value = new Vector2( magnetPositionProperty.value.x, y );
+
+        // Change the cursors to indicate that drag direction is constrained to horizontal.
+        magnetNode.cursor = 'ew-resize';
+        pickupCoilNode.cursor = 'ew-resize';
+        pickupCoilNode.backgroundNode.cursor = 'ew-resize';
+
+        // Constrain to horizontal dragging.
+        dragBoundsProperty.value = new Bounds2( this.layoutBounds.left, y, panelsBounds.left, y );
+      }
+      else {
+        // Dragging is 2D, horizontal and vertical.
+
+        // Restore cursors.
+        magnetNode.cursor = 'pointer';
+        pickupCoilNode.cursor = 'pointer';
+        pickupCoilNode.backgroundNode.cursor = 'pointer';
+
+        // Restore drag bounds.
+        dragBoundsProperty.value = new Bounds2(
+          this.layoutBounds.left,
+          this.layoutBounds.top,
+          panelsBounds.left,
+          this.layoutBounds.bottom
+        );
+      }
+    } );
   }
 }
 

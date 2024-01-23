@@ -18,10 +18,7 @@ import PickupCoilNode from '../../common/view/PickupCoilNode.js';
 import PickupCoilPanels from './PickupCoilPanels.js';
 import FELScreenView from '../../common/view/FELScreenView.js';
 import BooleanProperty from '../../../../axon/js/BooleanProperty.js';
-import Vector2 from '../../../../dot/js/Vector2.js';
 import PickupCoilAxisNode from '../../common/view/PickupCoilAxisNode.js';
-import Bounds2 from '../../../../dot/js/Bounds2.js';
-import Multilink from '../../../../axon/js/Multilink.js';
 import Property from '../../../../axon/js/Property.js';
 
 export default class PickupCoilScreenView extends FELScreenView {
@@ -53,7 +50,7 @@ export default class PickupCoilScreenView extends FELScreenView {
       tandem: tandem
     } );
 
-    // Will be set to correct bounds by Multilink below.
+    // Will be set to correct bounds by configureDragBoundsProperty below.
     const dragBoundsProperty = new Property( this.layoutBounds );
 
     const barMagnetNode = new BarMagnetNode( model.barMagnet, {
@@ -72,6 +69,9 @@ export default class PickupCoilScreenView extends FELScreenView {
     const pickupCoilDebuggerPanel = new PickupCoilDebuggerPanel( model.pickupCoil );
     pickupCoilDebuggerPanel.centerX = this.layoutBounds.centerX;
     pickupCoilDebuggerPanel.top = this.layoutBounds.top + FELConstants.SCREEN_VIEW_Y_MARGIN;
+
+    this.configureDragBoundsProperty( dragBoundsProperty, isLockedToAxisProperty, panels.boundsProperty,
+      model.barMagnet.positionProperty, model.pickupCoil.positionProperty, barMagnetNode, pickupCoilNode );
 
     const rootNode = new Node( {
       children: [
@@ -99,39 +99,6 @@ export default class PickupCoilScreenView extends FELScreenView {
       this.resetAllButton
       // Exclude developerAccordionBox from alt input because it is present it is not part of the production UI.
     ];
-
-    Multilink.multilink( [ isLockedToAxisProperty, panels.boundsProperty ],
-      ( isLockedToAxis, panelsBounds ) => {
-        if ( isLockedToAxis ) {
-
-          // Move the pickup coil and magnet to a good position for horizontal dragging.
-          const y = 400;
-          model.pickupCoil.positionProperty.value = new Vector2( model.pickupCoil.positionProperty.value.x, y );
-          model.barMagnet.positionProperty.value = new Vector2( model.barMagnet.positionProperty.value.x, y );
-
-          // Change the cursors to indicate that drag direction is constrained to horizontal.
-          barMagnetNode.cursor = 'ew-resize';
-          pickupCoilNode.cursor = 'ew-resize';
-          pickupCoilNode.backgroundNode.cursor = 'ew-resize';
-
-          // Constrain to horizontal dragging for barMagnetNode and pickupCoilNode
-          dragBoundsProperty.value = new Bounds2( this.layoutBounds.left, y, panelsBounds.left, y );
-        }
-        else {
-          // Restore the cursors to indicate that drag direction is unconstrained.
-          barMagnetNode.cursor = 'pointer';
-          pickupCoilNode.cursor = 'pointer';
-          pickupCoilNode.backgroundNode.cursor = 'pointer';
-
-          // Restore drag bounds for barMagnetNode and pickupCoilNode.
-          dragBoundsProperty.value = new Bounds2(
-            this.layoutBounds.left,
-            this.layoutBounds.top,
-            panelsBounds.left,
-            this.layoutBounds.bottom
-          );
-        }
-      } );
   }
 }
 
