@@ -58,7 +58,7 @@ export default class ToolsPanel extends Panel {
       const content = new HBox( {
         spacing: 8,
         children: [
-          new Text( 'Lock to Axis', FELConstants.CHECKBOX_TEXT_OPTIONS ),
+          new Text( FaradaysElectromagneticLabStrings.lockToAxisStringProperty, FELConstants.CHECKBOX_TEXT_OPTIONS ),
           PickupCoilAxisNode.createIcon()
         ]
       } );

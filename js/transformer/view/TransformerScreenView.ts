@@ -106,21 +106,22 @@ export default class TransformerScreenView extends FELScreenView {
       if ( isLockedToAxis ) {
 
         // Move the pickup coil and magnet to a good position for horizontal dragging.
-        model.pickupCoil.positionProperty.reset();
-        model.electromagnet.positionProperty.value = new Vector2( model.electromagnet.positionProperty.value.x, model.pickupCoil.positionProperty.value.y );
+        const y = 400;
+        model.pickupCoil.positionProperty.value = new Vector2( model.pickupCoil.positionProperty.value.x, y );
+        model.electromagnet.positionProperty.value = new Vector2( model.electromagnet.positionProperty.value.x, y );
 
         // Change the cursors to indicate that drag direction is constrained to horizontal.
         electromagnetNode.cursor = 'ew-resize';
         pickupCoilNode.cursor = 'ew-resize';
 
-        //TODO constrain drag bounds for barMagnetNode and pickupCoilNode
+        //TODO constrain drag bounds for electromagnetNode and pickupCoilNode
       }
       else {
         // Restore the cursors to indicate that drag direction is unconstrained.
         electromagnetNode.cursor = 'pointer';
         pickupCoilNode.cursor = 'pointer';
 
-        //TODO restore drag bounds for barMagnetNode and pickupCoilNode
+        //TODO restore drag bounds for electromagnetNode and pickupCoilNode
       }
     } );
   }

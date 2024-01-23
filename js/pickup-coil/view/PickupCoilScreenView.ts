@@ -98,8 +98,9 @@ export default class PickupCoilScreenView extends FELScreenView {
       if ( isLockedToAxis ) {
 
         // Move the pickup coil and magnet to a good position for horizontal dragging.
-        model.pickupCoil.positionProperty.reset();
-        model.barMagnet.positionProperty.value = new Vector2( model.barMagnet.positionProperty.value.x, model.pickupCoil.positionProperty.value.y );
+        const y = 400;
+        model.pickupCoil.positionProperty.value = new Vector2( model.pickupCoil.positionProperty.value.x, y );
+        model.barMagnet.positionProperty.value = new Vector2( model.barMagnet.positionProperty.value.x, y );
 
         // Change the cursors to indicate that drag direction is constrained to horizontal.
         barMagnetNode.cursor = 'ew-resize';
