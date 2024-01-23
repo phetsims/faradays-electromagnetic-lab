@@ -62,14 +62,14 @@ export default class ToolsPanel extends Panel {
           PickupCoilAxisNode.createIcon()
         ]
       } );
-      const dragLockedCheckbox = new Checkbox( options.isLockedToAxisProperty, content,
+      const lockToAxisCheckbox = new Checkbox( options.isLockedToAxisProperty, content,
         combineOptions<CheckboxOptions>( {}, FELConstants.CHECKBOX_OPTIONS, {
           layoutOptions: {
             stretch: false
           },
-          tandem: options.tandem.createTandem( 'dragLockedCheckbox' )
+          tandem: options.tandem.createTandem( 'lockToAxisCheckbox' )
         } ) );
-      children.push( dragLockedCheckbox );
+      children.push( lockToAxisCheckbox );
     }
 
     const content = new VBox( combineOptions<VBoxOptions>( {}, FELConstants.VBOX_OPTIONS, {
