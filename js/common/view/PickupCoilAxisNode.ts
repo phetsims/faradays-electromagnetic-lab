@@ -46,7 +46,7 @@ export default class PickupCoilAxisNode extends Line {
     const dashLength = 5;
     const headWidth = 5;
     const headHeight = 5;
-    const numberOfDashes = 2;
+    const numberOfDashes = 4;
 
     const line = new Line( 0, 0, ( 2 * numberOfDashes - 1 ) * dashLength, 0, {
       stroke: FELColors.pickupCoilAxisStrokeProperty,
@@ -63,7 +63,7 @@ export default class PickupCoilAxisNode extends Line {
     } );
 
     return new HBox( {
-      spacing: dashLength,
+      spacing: 0,
       children: [ leftHead, line, rightHead ]
     } );
   }
