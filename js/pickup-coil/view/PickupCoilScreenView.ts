@@ -53,7 +53,7 @@ export default class PickupCoilScreenView extends FELScreenView {
       tandem: tandem
     } );
 
-    // To be set to correct bounds by Multilink below.
+    // Will be set to correct bounds by Multilink below.
     const dragBoundsProperty = new Property( this.layoutBounds );
 
     const barMagnetNode = new BarMagnetNode( model.barMagnet, {

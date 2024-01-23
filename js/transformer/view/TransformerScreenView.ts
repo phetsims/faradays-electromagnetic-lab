@@ -57,7 +57,7 @@ export default class TransformerScreenView extends FELScreenView {
       tandem: tandem
     } );
 
-    // To be set to correct bounds by Multilink below.
+    // Will be set to correct bounds by Multilink below.
     const dragBoundsProperty = new Property( this.layoutBounds );
 
     const electromagnetNode = new ElectromagnetNode( model.electromagnet, model.stepEmitter, {
