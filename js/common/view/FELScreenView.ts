@@ -138,10 +138,12 @@ export default class FELScreenView extends ScreenView {
       if ( isLockedToAxis ) {
         // Dragging is locked to 1D, horizontally along the pickup coil's axis.
 
-        // Move the pickup coil and magnet to a usable position.
-        const y = pickupCoilPositionProperty.initialValue.y;
-        pickupCoilPositionProperty.value = new Vector2( pickupCoilPositionProperty.value.x, y );
-        magnetPositionProperty.value = new Vector2( magnetPositionProperty.value.x, y );
+        // Move the pickup coil and magnet to a usable position, which we assume is their initial position.
+        pickupCoilPositionProperty.reset();
+        magnetPositionProperty.reset();
+        assert && assert( pickupCoilPositionProperty.value.y === magnetPositionProperty.value.y,
+          'magnet and pickup coil must have the same initial y coordinate' );
+        const y = pickupCoilPositionProperty.value.y;
 
         // Constrain to horizontal dragging.
         dragBoundsProperty.value = new Bounds2( this.layoutBounds.left, y, panelsBounds.left, y );
