@@ -94,6 +94,7 @@ export default class VoltmeterNode extends Node {
       voltageText.centerY = displayNode.bottom + ( Math.abs( displayNode.bottom - bodyNode.bottom ) / 2 );
     } );
 
+    // Needle points straight up
     const needleNode = new ArrowNode( 0, 0, 0, -NEEDLE_LENGTH, combineOptions<ArrowNodeOptions>( {
       x: displayNode.centerX,
       y: displayNode.bottom - Math.abs( ( DISPLAY_BOUNDS.height - NEEDLE_LENGTH ) / 2 )
