@@ -24,7 +24,7 @@ import Bounds2 from '../../../../dot/js/Bounds2.js';
 type SelfOptions = {
   isMovable?: boolean; // use this to enable or disable interaction
   hasKeyboardDragListener?: boolean;
-  dragBoundsProperty?: TReadOnlyProperty<Bounds2 | null> | null;
+  dragBoundsProperty?: TReadOnlyProperty<Bounds2> | null;
 };
 
 type ParentOptions = InteractiveHighlightingOptions & NodeOptions;

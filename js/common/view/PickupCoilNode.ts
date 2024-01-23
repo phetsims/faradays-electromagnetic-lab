@@ -38,6 +38,7 @@ export default class PickupCoilNode extends FELMovableNode {
     const options = optionize<PickupCoilNodeOptions, SelfOptions, NodeOptions>()( {}, providedOptions );
 
     const coilNode = new CoilNode( pickupCoil.coil, pickupCoil, stepEmitter, {
+      dragBoundsProperty: options.dragBoundsProperty,
       endsConnected: true,
       isMovable: options.isMovable,
       tandem: options.tandem.createTandem( 'coilNode' )
