@@ -25,7 +25,7 @@ import { SliderOptions } from '../../../sun/js/Slider.js';
 const CREDITS: CreditsData = {
   leadDesign: 'Amy Rouinfar',
   softwareDevelopment: 'Chris Malley (PixelZoom, Inc.)',
-  team: 'Wendy Adams, Mike Dubson, Danielle Harlow, Archie Paulson, Kathy Perkins, Carl Weiman',
+  team: 'Wendy Adams, Mike Dubson, Danielle Harlow, Archie Paulson, Ariel Paul, Kathy Perkins, Carl Weiman',
   contributors: '',
   qualityAssurance: '',
   graphicArts: '',
