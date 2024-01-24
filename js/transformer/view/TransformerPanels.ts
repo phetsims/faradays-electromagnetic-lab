@@ -12,20 +12,19 @@ import ToolsPanel from '../../common/view/ToolsPanel.js';
 import FieldMeter from '../../common/model/FieldMeter.js';
 import Compass from '../../common/model/Compass.js';
 import PickupCoilPanel from '../../common/view/PickupCoilPanel.js';
-import PickupCoil from '../../common/model/PickupCoil.js';
-import Electromagnet from '../../common/model/Electromagnet.js';
 import ElectromagnetPanel from '../../common/view/ElectromagnetPanel.js';
 import Property from '../../../../axon/js/Property.js';
 import FELPanels from '../../common/view/FELPanels.js';
+import Transformer from '../model/Transformer.js';
 
 export default class TransformerPanels extends FELPanels {
 
-  public constructor( electromagnet: Electromagnet, pickupCoil: PickupCoil, compass: Compass, fieldMeter: FieldMeter,
+  public constructor( transformer: Transformer, compass: Compass, fieldMeter: FieldMeter,
                       isLockedToAxisProperty: Property<boolean>, tandem: Tandem ) {
 
-    const electromagnetPanel = new ElectromagnetPanel( electromagnet, tandem.createTandem( 'electromagnetPanel' ) );
+    const electromagnetPanel = new ElectromagnetPanel( transformer.electromagnet, tandem.createTandem( 'electromagnetPanel' ) );
 
-    const pickupCoilPanel = new PickupCoilPanel( pickupCoil, tandem.createTandem( 'pickupCoilPanel' ) );
+    const pickupCoilPanel = new PickupCoilPanel( transformer.pickupCoil, tandem.createTandem( 'pickupCoilPanel' ) );
 
     const toolsPanel = new ToolsPanel( compass, fieldMeter, {
       isLockedToAxisProperty: isLockedToAxisProperty,

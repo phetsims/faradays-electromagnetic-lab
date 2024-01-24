@@ -13,30 +13,24 @@ import Tandem from '../../../../tandem/js/Tandem.js';
 import { Node } from '../../../../scenery/js/imports.js';
 import GeneratorDeveloperAccordionBox from './GeneratorDeveloperAccordionBox.js';
 import PickupCoilDebuggerPanel from '../../common/view/PickupCoilDebuggerPanel.js';
-import PickupCoilNode from '../../common/view/PickupCoilNode.js';
-import TurbineNode from './TurbineNode.js';
 import FELTimeControlNode from '../../common/view/FELTimeControlNode.js';
 import GeneratorPanels from './GeneratorPanels.js';
 import FELScreenView from '../../common/view/FELScreenView.js';
+import GeneratorNode from './GeneratorNode.js';
 
 export default class GeneratorScreenView extends FELScreenView {
 
   public constructor( model: GeneratorModel, tandem: Tandem ) {
 
-    // To improve readability
-    const turbine = model.generator.turbine;
-    const barMagnet = turbine.barMagnet;
-    const pickupCoil = model.generator.pickupCoil;
-
-    const panels = new GeneratorPanels( barMagnet, pickupCoil, model.compass, model.fieldMeter,
+    const panels = new GeneratorPanels( model.generator, model.compass, model.fieldMeter,
       tandem.createTandem( 'panels' ) );
 
     const timeControlNode = new FELTimeControlNode( model, tandem.createTandem( 'timeControlNode' ) );
 
-    const developerAccordionBox = new GeneratorDeveloperAccordionBox( barMagnet, pickupCoil );
+    const developerAccordionBox = new GeneratorDeveloperAccordionBox( model.generator );
 
     super( {
-      magnet: barMagnet,
+      magnet: model.generator.turbine.barMagnet,
       compass: model.compass,
       fieldMeter: model.fieldMeter,
       panels: panels,
@@ -46,24 +40,18 @@ export default class GeneratorScreenView extends FELScreenView {
       tandem: tandem
     } );
 
-    const turbineNode = new TurbineNode( turbine, this.layoutBounds, this.visibleBoundsProperty,
-      tandem.createTandem( 'turbineNode' ) );
+    const generatorNode = new GeneratorNode( model.generator, model.stepEmitter, this.layoutBounds,
+      this.visibleBoundsProperty, tandem.createTandem( 'generatorNode' ) );
 
-    const pickupCoilNode = new PickupCoilNode( pickupCoil, model.stepEmitter, {
-      isMovable: false, // pickupCoilNode is not movable in this screen.
-      tandem: tandem.createTandem( 'pickupCoilNode' )
-    } );
-
-    const pickupCoilDebuggerPanel = new PickupCoilDebuggerPanel( pickupCoil );
+    const pickupCoilDebuggerPanel = new PickupCoilDebuggerPanel( model.generator.pickupCoil );
     pickupCoilDebuggerPanel.centerX = this.layoutBounds.centerX;
     pickupCoilDebuggerPanel.top = this.layoutBounds.top + FELConstants.SCREEN_VIEW_Y_MARGIN;
 
     const rootNode = new Node( {
       children: [
-        pickupCoilNode.backgroundNode,
+        generatorNode.backgroundNode,
         this.fieldNode,
-        turbineNode,
-        pickupCoilNode,
+        generatorNode,
         panels,
         this.compassNode,
         this.fieldMeterNode,
@@ -76,7 +64,7 @@ export default class GeneratorScreenView extends FELScreenView {
     this.addChild( rootNode );
 
     rootNode.pdomOrder = [
-      turbineNode,
+      generatorNode,
       this.compassNode,
       this.fieldMeterNode,
       panels,
