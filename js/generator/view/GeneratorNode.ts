@@ -34,7 +34,8 @@ export default class GeneratorNode extends Node {
 
     super( {
       children: [ turbineNode, pickupCoilNode ],
-      tandem: tandem
+      tandem: tandem,
+      phetioVisiblePropertyInstrumented: false
     } );
 
     this.backgroundNode = pickupCoilNode.backgroundNode;

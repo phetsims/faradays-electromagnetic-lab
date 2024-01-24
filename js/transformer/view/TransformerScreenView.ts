@@ -13,14 +13,13 @@ import Tandem from '../../../../tandem/js/Tandem.js';
 import { Node } from '../../../../scenery/js/imports.js';
 import TransformerDeveloperAccordionBox from './TransformerDeveloperAccordionBox.js';
 import PickupCoilDebuggerPanel from '../../common/view/PickupCoilDebuggerPanel.js';
-import PickupCoilNode from '../../common/view/PickupCoilNode.js';
 import FELTimeControlNode from '../../common/view/FELTimeControlNode.js';
-import ElectromagnetNode from '../../common/view/ElectromagnetNode.js';
 import TransformerPanels from './TransformerPanels.js';
 import FELScreenView from '../../common/view/FELScreenView.js';
 import BooleanProperty from '../../../../axon/js/BooleanProperty.js';
 import PickupCoilAxisNode from '../../common/view/PickupCoilAxisNode.js';
 import Property from '../../../../axon/js/Property.js';
+import TransformerNode from './TransformerNode.js';
 
 export default class TransformerScreenView extends FELScreenView {
 
@@ -59,15 +58,8 @@ export default class TransformerScreenView extends FELScreenView {
     // Will be set to correct bounds by configureDragBoundsProperty below.
     const dragBoundsProperty = new Property( this.layoutBounds );
 
-    const electromagnetNode = new ElectromagnetNode( electromagnet, model.stepEmitter, {
-      dragBoundsProperty: dragBoundsProperty,
-      tandem: tandem.createTandem( 'electromagnetNode' )
-    } );
-
-    const pickupCoilNode = new PickupCoilNode( pickupCoil, model.stepEmitter, {
-      dragBoundsProperty: dragBoundsProperty,
-      tandem: tandem.createTandem( 'pickupCoilNode' )
-    } );
+    const transformerNode = new TransformerNode( model.transformer, model.stepEmitter, dragBoundsProperty,
+      tandem.createTandem( 'transformerNode' ) );
 
     const pickupCoilAxisNode = new PickupCoilAxisNode( isLockedToAxisProperty, pickupCoil.positionProperty,
       this.visibleBoundsProperty );
@@ -77,16 +69,16 @@ export default class TransformerScreenView extends FELScreenView {
     pickupCoilDebuggerPanel.top = this.layoutBounds.top + FELConstants.SCREEN_VIEW_Y_MARGIN;
 
     this.configureDragBoundsProperty( dragBoundsProperty, isLockedToAxisProperty, panels.boundsProperty,
-      electromagnet.positionProperty, pickupCoil.positionProperty, electromagnetNode, pickupCoilNode );
+      electromagnet.positionProperty, pickupCoil.positionProperty, transformerNode.electromagnetNode,
+      transformerNode.pickupCoilNode );
 
     const rootNode = new Node( {
       children: [
-        pickupCoilNode.backgroundNode,
-        electromagnetNode.backgroundNode,
+        transformerNode.pickupCoilNode.backgroundNode,
+        transformerNode.electromagnetNode.backgroundNode,
         this.fieldNode,
         pickupCoilAxisNode,
-        electromagnetNode,
-        pickupCoilNode,
+        transformerNode,
         panels,
         this.compassNode,
         this.fieldMeterNode,
@@ -99,8 +91,8 @@ export default class TransformerScreenView extends FELScreenView {
     this.addChild( rootNode );
 
     rootNode.pdomOrder = [
-      electromagnetNode,
-      pickupCoilNode,
+      transformerNode.electromagnetNode,
+      transformerNode.pickupCoilNode,
       this.compassNode,
       this.fieldMeterNode,
       panels,

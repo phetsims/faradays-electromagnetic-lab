@@ -50,7 +50,8 @@ export default class TurbineNode extends Node {
 
     super( {
       children: [ waterWheelNode, barMagnetNode, rpmDisplay, waterNode, waterFaucetNode ],
-      tandem: tandem
+      tandem: tandem,
+      phetioVisiblePropertyInstrumented: false
     } );
   }
 }
