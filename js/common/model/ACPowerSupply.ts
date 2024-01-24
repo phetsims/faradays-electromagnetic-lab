@@ -54,7 +54,9 @@ export default class ACPowerSupply extends CurrentSource {
     const voltageProperty = new NumberProperty( 0, {
       range: new Range( -MAX_VOLTAGE, MAX_VOLTAGE ),
       tandem: tandem.createTandem( 'voltageProperty' ),
-      phetioReadOnly: true
+      phetioReadOnly: true,
+      phetioFeatured: true,
+      phetioHighFrequency: true
     } );
 
     super( voltageProperty, {
@@ -95,7 +97,8 @@ export default class ACPowerSupply extends CurrentSource {
       units: 'radians',
       tandem: tandem.createTandem( 'angleProperty' ),
       phetioReadOnly: true,
-      phetioDocumentation: 'For internal use only.'
+      phetioDocumentation: 'For internal use only.',
+      phetioHighFrequency: true
     } );
 
     this.deltaAngleProperty = new DerivedProperty( [ this.frequencyProperty ],
