@@ -10,24 +10,24 @@
 import faradaysElectromagneticLab from '../../faradaysElectromagneticLab.js';
 import { HSeparator, VBox } from '../../../../scenery/js/imports.js';
 import FELDeveloperAccordionBox from '../../common/view/FELDeveloperAccordionBox.js';
-import TransformerModel from '../model/TransformerModel.js';
+import Transformer from '../model/Transformer.js';
 
 export default class TransformerDeveloperAccordionBox extends FELDeveloperAccordionBox {
 
-  public constructor( model: TransformerModel, visible: boolean ) {
+  public constructor( transformer: Transformer ) {
 
     const content = new VBox( {
       align: 'left',
       spacing: 10,
       children: [
-        FELDeveloperAccordionBox.createFieldScaleControl( model.electromagnet.fieldScaleProperty ),
-        FELDeveloperAccordionBox.createElectromagnetShapeCheckbox( model.electromagnet.shapeVisibleProperty ),
+        FELDeveloperAccordionBox.createFieldScaleControl( transformer.electromagnet.fieldScaleProperty ),
+        FELDeveloperAccordionBox.createElectromagnetShapeCheckbox( transformer.electromagnet.shapeVisibleProperty ),
         new HSeparator(),
-        FELDeveloperAccordionBox.createPickupCoilControls( model.pickupCoil )
+        FELDeveloperAccordionBox.createPickupCoilControls( transformer.pickupCoil )
       ]
     } );
 
-    super( content, visible );
+    super( content );
   }
 }
 

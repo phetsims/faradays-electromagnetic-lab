@@ -31,17 +31,19 @@ export default class TransformerScreenView extends FELScreenView {
       phetioDocumentation: 'When true, dragging the magnet or pickup coil is locked to the pickup coil\'s horizontal axis.'
     } );
 
-    const panels = new TransformerPanels( model.electromagnet, model.pickupCoil, model.compass, model.fieldMeter,
-      isLockedToAxisProperty, tandem.createTandem( 'panels' ) );
+    // To improve readability
+    const electromagnet = model.transformer.electromagnet;
+    const pickupCoil = model.transformer.pickupCoil;
+
+    const panels = new TransformerPanels( electromagnet, pickupCoil,
+      model.compass, model.fieldMeter, isLockedToAxisProperty, tandem.createTandem( 'panels' ) );
 
     const timeControlNode = new FELTimeControlNode( model, tandem.createTandem( 'timeControlNode' ) );
 
-    // Developer controls are always created, to prevent them from becoming broken over time.
-    // But they are visible only when running with &dev query parameter.
-    const developerAccordionBox = new TransformerDeveloperAccordionBox( model, !!phet.chipper.queryParameters.dev );
+    const developerAccordionBox = new TransformerDeveloperAccordionBox( model.transformer );
 
     super( {
-      magnet: model.electromagnet,
+      magnet: electromagnet,
       compass: model.compass,
       fieldMeter: model.fieldMeter,
       panels: panels,
@@ -57,25 +59,25 @@ export default class TransformerScreenView extends FELScreenView {
     // Will be set to correct bounds by configureDragBoundsProperty below.
     const dragBoundsProperty = new Property( this.layoutBounds );
 
-    const electromagnetNode = new ElectromagnetNode( model.electromagnet, model.stepEmitter, {
+    const electromagnetNode = new ElectromagnetNode( electromagnet, model.stepEmitter, {
       dragBoundsProperty: dragBoundsProperty,
       tandem: tandem.createTandem( 'electromagnetNode' )
     } );
 
-    const pickupCoilNode = new PickupCoilNode( model.pickupCoil, model.stepEmitter, {
+    const pickupCoilNode = new PickupCoilNode( pickupCoil, model.stepEmitter, {
       dragBoundsProperty: dragBoundsProperty,
       tandem: tandem.createTandem( 'pickupCoilNode' )
     } );
 
-    const pickupCoilAxisNode = new PickupCoilAxisNode( isLockedToAxisProperty, model.pickupCoil.positionProperty,
+    const pickupCoilAxisNode = new PickupCoilAxisNode( isLockedToAxisProperty, pickupCoil.positionProperty,
       this.visibleBoundsProperty );
 
-    const pickupCoilDebuggerPanel = new PickupCoilDebuggerPanel( model.pickupCoil );
+    const pickupCoilDebuggerPanel = new PickupCoilDebuggerPanel( pickupCoil );
     pickupCoilDebuggerPanel.centerX = this.layoutBounds.centerX;
     pickupCoilDebuggerPanel.top = this.layoutBounds.top + FELConstants.SCREEN_VIEW_Y_MARGIN;
 
     this.configureDragBoundsProperty( dragBoundsProperty, isLockedToAxisProperty, panels.boundsProperty,
-      model.electromagnet.positionProperty, model.pickupCoil.positionProperty, electromagnetNode, pickupCoilNode );
+      electromagnet.positionProperty, pickupCoil.positionProperty, electromagnetNode, pickupCoilNode );
 
     const rootNode = new Node( {
       children: [

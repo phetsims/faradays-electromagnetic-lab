@@ -53,7 +53,7 @@ const VBOX_SPACING = 15;
 
 export default class FELDeveloperAccordionBox extends AccordionBox {
 
-  protected constructor( content: Node, visible: boolean ) {
+  protected constructor( content: Node ) {
 
     const titleText = new Text( 'Developer', {
       font: FELConstants.CONTROL_FONT
@@ -61,7 +61,7 @@ export default class FELDeveloperAccordionBox extends AccordionBox {
 
     super( content, {
       isDisposable: false,
-      visible: visible,
+      visible: !!phet.chipper.queryParameters.dev, // Run with &dev query parameter to make this visible.
       expandedProperty: new BooleanProperty( false ),
       titleNode: titleText,
       titleXMargin: 8,

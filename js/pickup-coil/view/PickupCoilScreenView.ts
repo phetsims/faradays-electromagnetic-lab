@@ -33,9 +33,7 @@ export default class PickupCoilScreenView extends FELScreenView {
     const panels = new PickupCoilPanels( model.barMagnet, model.pickupCoil, model.compass, model.fieldMeter,
       isLockedToAxisProperty, tandem.createTandem( 'panels' ) );
 
-    // Developer controls are always created, to prevent them from becoming broken over time.
-    // But they are visible only when running with &dev query parameter.
-    const developerAccordionBox = new PickupCoilDeveloperAccordionBox( model, !!phet.chipper.queryParameters.dev );
+    const developerAccordionBox = new PickupCoilDeveloperAccordionBox( model.barMagnet, model.pickupCoil );
 
     super( {
       magnet: model.barMagnet,

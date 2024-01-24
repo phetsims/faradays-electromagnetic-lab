@@ -10,21 +10,21 @@
 import faradaysElectromagneticLab from '../../faradaysElectromagneticLab.js';
 import { VBox } from '../../../../scenery/js/imports.js';
 import FELDeveloperAccordionBox from '../../common/view/FELDeveloperAccordionBox.js';
-import BarMagnetModel from '../model/BarMagnetModel.js';
+import BarMagnet from '../../common/model/BarMagnet.js';
 
 export default class BarMagnetDeveloperAccordionBox extends FELDeveloperAccordionBox {
 
-  public constructor( model: BarMagnetModel, visible: boolean ) {
+  public constructor( barMagnet: BarMagnet ) {
 
     const content = new VBox( {
       align: 'left',
       spacing: 10,
       children: [
-        FELDeveloperAccordionBox.createFieldScaleControl( model.barMagnet.fieldScaleProperty )
+        FELDeveloperAccordionBox.createFieldScaleControl( barMagnet.fieldScaleProperty )
       ]
     } );
 
-    super( content, visible );
+    super( content );
   }
 }
 

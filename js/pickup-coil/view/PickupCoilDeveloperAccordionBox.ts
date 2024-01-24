@@ -9,24 +9,25 @@
 
 import faradaysElectromagneticLab from '../../faradaysElectromagneticLab.js';
 import { HSeparator, VBox } from '../../../../scenery/js/imports.js';
-import PickupCoilModel from '../model/PickupCoilModel.js';
 import FELDeveloperAccordionBox from '../../common/view/FELDeveloperAccordionBox.js';
+import BarMagnet from '../../common/model/BarMagnet.js';
+import PickupCoil from '../../common/model/PickupCoil.js';
 
 export default class PickupCoilDeveloperAccordionBox extends FELDeveloperAccordionBox {
 
-  public constructor( model: PickupCoilModel, visible: boolean ) {
+  public constructor( barMagnet: BarMagnet, pickupCoil: PickupCoil ) {
 
     const content = new VBox( {
       align: 'left',
       spacing: 10,
       children: [
-        FELDeveloperAccordionBox.createFieldScaleControl( model.barMagnet.fieldScaleProperty ),
+        FELDeveloperAccordionBox.createFieldScaleControl( barMagnet.fieldScaleProperty ),
         new HSeparator(),
-        FELDeveloperAccordionBox.createPickupCoilControls( model.pickupCoil )
+        FELDeveloperAccordionBox.createPickupCoilControls( pickupCoil )
       ]
     } );
 
-    super( content, visible );
+    super( content );
   }
 }
 

@@ -34,9 +34,7 @@ export default class BarMagnetScreenView extends FELScreenView {
 
     const panels = new BarMagnetPanels( model.barMagnet, model.compass, model.fieldMeter, viewProperties, tandem.createTandem( 'panels' ) );
 
-    // Developer controls are always created, to prevent them from becoming broken over time.
-    // But they are visible only when running with &dev query parameter.
-    const developerAccordionBox = new BarMagnetDeveloperAccordionBox( model, !!phet.chipper.queryParameters.dev );
+    const developerAccordionBox = new BarMagnetDeveloperAccordionBox( model.barMagnet );
 
     super( {
       magnet: model.barMagnet,

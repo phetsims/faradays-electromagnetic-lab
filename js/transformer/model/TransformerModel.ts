@@ -8,19 +8,16 @@
 
 import faradaysElectromagneticLab from '../../faradaysElectromagneticLab.js';
 import Tandem from '../../../../tandem/js/Tandem.js';
-import Electromagnet from '../../common/model/Electromagnet.js';
 import FieldMeter from '../../common/model/FieldMeter.js';
 import Compass from '../../common/model/Compass.js';
-import PickupCoil from '../../common/model/PickupCoil.js';
 import Vector2 from '../../../../dot/js/Vector2.js';
 import IncrementalCompass from '../../common/model/IncrementalCompass.js';
 import FELModel from '../../common/model/FELModel.js';
-import { FixedSpacingSamplePointsStrategy } from '../../common/model/PickupCoilSamplePointsStrategy.js';
+import Transformer from './Transformer.js';
 
 export default class TransformerModel extends FELModel {
 
-  public readonly electromagnet: Electromagnet;
-  public readonly pickupCoil: PickupCoil;
+  public readonly transformer: Transformer;
   public readonly compass: Compass;
   public readonly fieldMeter: FieldMeter;
 
@@ -30,35 +27,22 @@ export default class TransformerModel extends FELModel {
       tandem: tandem
     } );
 
-    this.electromagnet = new Electromagnet( {
-      position: new Vector2( 200, 400 ),
-      tandem: tandem.createTandem( 'electromagnet' )
-    } );
+    this.transformer = new Transformer( tandem.createTandem( 'transformer' ) );
 
-    this.pickupCoil = new PickupCoil( this.electromagnet, {
-      position: new Vector2( 500, 400 ),
-      maxEMF: 3500000, // see PickupCoil.calibrateMaxEMF
-      transitionSmoothingScale: 0.56, // see PickupCoil.transitionSmoothingScaleProperty
-      samplePointsStrategy: new FixedSpacingSamplePointsStrategy( 5.4 ), // same as Java version
-      electronSpeedScale: 2,
-      tandem: tandem.createTandem( 'pickupCoil' )
-    } );
-
-    this.compass = new IncrementalCompass( this.electromagnet, this.isPlayingProperty, {
+    this.compass = new IncrementalCompass( this.transformer.electromagnet, this.isPlayingProperty, {
       position: new Vector2( 100, 525 ),
       visible: false,
       tandem: tandem.createTandem( 'compass' )
     } );
 
-    this.fieldMeter = new FieldMeter( this.electromagnet, {
+    this.fieldMeter = new FieldMeter( this.transformer.electromagnet, {
       position: new Vector2( 150, 400 ),
       visible: false,
       tandem: tandem.createTandem( 'fieldMeter' )
     } );
 
     this.stepEmitter.addListener( dt => {
-      this.electromagnet.step( dt );
-      this.pickupCoil.step( dt );
+      this.transformer.step( dt );
       this.compass.step( dt );
     } );
   }
@@ -68,8 +52,7 @@ export default class TransformerModel extends FELModel {
    */
   public override reset(): void {
     super.reset();
-    this.electromagnet.reset();
-    this.pickupCoil.reset();
+    this.transformer.reset();
     this.compass.reset();
     this.fieldMeter.reset();
   }

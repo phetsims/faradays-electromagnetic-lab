@@ -28,9 +28,7 @@ export default class GeneratorScreenView extends FELScreenView {
 
     const timeControlNode = new FELTimeControlNode( model, tandem.createTandem( 'timeControlNode' ) );
 
-    // Developer controls are always created, to prevent them from becoming broken over time.
-    // But they are visible only when running with &dev query parameter.
-    const developerAccordionBox = new GeneratorDeveloperAccordionBox( model, !!phet.chipper.queryParameters.dev );
+    const developerAccordionBox = new GeneratorDeveloperAccordionBox( model.turbine.barMagnet, model.pickupCoil );
 
     super( {
       magnet: model.turbine.barMagnet,

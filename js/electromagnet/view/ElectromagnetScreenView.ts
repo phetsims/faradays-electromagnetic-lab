@@ -24,9 +24,7 @@ export default class ElectromagnetScreenView extends FELScreenView {
 
     const timeControlNode = new FELTimeControlNode( model, tandem.createTandem( 'timeControlNode' ) );
 
-    // Developer controls are always created, to prevent them from becoming broken over time.
-    // But they are visible only when running with &dev query parameter.
-    const developerAccordionBox = new ElectromagnetDeveloperAccordionBox( model, !!phet.chipper.queryParameters.dev );
+    const developerAccordionBox = new ElectromagnetDeveloperAccordionBox( model.electromagnet );
 
     super( {
       magnet: model.electromagnet,
