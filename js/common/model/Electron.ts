@@ -51,6 +51,7 @@ type ElectronOptions = SelfOptions;
 
 export default class Electron {
 
+  // Electron's position, relative to the segment of the coil that it currently occupies
   public readonly positionProperty: TReadOnlyProperty<Vector2>;
   private readonly _positionProperty: Property<Vector2>;
 
