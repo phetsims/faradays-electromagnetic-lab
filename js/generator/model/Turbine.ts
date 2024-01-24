@@ -38,6 +38,7 @@ export default class Turbine extends PhetioObject {
   public constructor( tandem: Tandem ) {
 
     super( {
+      isDisposable: false,
       tandem: tandem,
       phetioState: false
     } );

@@ -8,19 +8,16 @@
 
 import faradaysElectromagneticLab from '../../faradaysElectromagneticLab.js';
 import Tandem from '../../../../tandem/js/Tandem.js';
-import PickupCoil from '../../common/model/PickupCoil.js';
 import FieldMeter from '../../common/model/FieldMeter.js';
 import Compass from '../../common/model/Compass.js';
 import Vector2 from '../../../../dot/js/Vector2.js';
-import Turbine from './Turbine.js';
+import Generator from './Generator.js';
 import ImmediateCompass from '../../common/model/ImmediateCompass.js';
 import FELModel from '../../common/model/FELModel.js';
-import { FixedNumberOfSamplePointsStrategy } from '../../common/model/PickupCoilSamplePointsStrategy.js';
 
 export default class GeneratorModel extends FELModel {
 
-  public readonly turbine: Turbine;
-  public readonly pickupCoil: PickupCoil;
+  public readonly generator: Generator;
   public readonly compass: Compass;
   public readonly fieldMeter: FieldMeter;
 
@@ -30,41 +27,28 @@ export default class GeneratorModel extends FELModel {
       tandem: tandem
     } );
 
-    this.turbine = new Turbine( tandem.createTandem( 'turbine' ) );
+    this.generator = new Generator( tandem.createTandem( 'generator' ) );
 
-    this.pickupCoil = new PickupCoil( this.turbine.barMagnet, {
-      position: new Vector2( 500, 400 ),
-      positionPropertyOptions: {
-        phetioReadOnly: true
-      },
-      maxEMF: 26000, // see PickupCoil.calibrateMaxEMF
-      transitionSmoothingScale: 1, // see PickupCoil.transitionSmoothingScaleProperty
-      samplePointsStrategy: new FixedNumberOfSamplePointsStrategy( 9 /* numberOfSamplePoints */ ),
-      tandem: tandem.createTandem( 'pickupCoil' )
-    } );
-
-    this.compass = new ImmediateCompass( this.turbine.barMagnet, this.isPlayingProperty, {
+    this.compass = new ImmediateCompass( this.generator.turbine.barMagnet, this.isPlayingProperty, {
       position: new Vector2( 350, 175 ),
       tandem: tandem.createTandem( 'compass' )
     } );
 
-    this.fieldMeter = new FieldMeter( this.turbine.barMagnet, {
+    this.fieldMeter = new FieldMeter( this.generator.turbine.barMagnet, {
       position: new Vector2( 650, 300 ),
       visible: false,
       tandem: tandem.createTandem( 'fieldMeter' )
     } );
 
     this.stepEmitter.addListener( dt => {
-      this.turbine.step( dt );
-      this.pickupCoil.step( dt );
+      this.generator.step( dt );
       this.compass.step( dt );
     } );
   }
 
   public override reset(): void {
     super.reset();
-    this.turbine.reset();
-    this.pickupCoil.reset();
+    this.generator.reset();
     this.compass.reset();
     this.fieldMeter.reset();
   }

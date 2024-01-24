@@ -23,15 +23,20 @@ export default class GeneratorScreenView extends FELScreenView {
 
   public constructor( model: GeneratorModel, tandem: Tandem ) {
 
-    const panels = new GeneratorPanels( model.turbine.barMagnet, model.pickupCoil, model.compass, model.fieldMeter,
+    // To improve readability
+    const turbine = model.generator.turbine;
+    const barMagnet = turbine.barMagnet;
+    const pickupCoil = model.generator.pickupCoil;
+
+    const panels = new GeneratorPanels( barMagnet, pickupCoil, model.compass, model.fieldMeter,
       tandem.createTandem( 'panels' ) );
 
     const timeControlNode = new FELTimeControlNode( model, tandem.createTandem( 'timeControlNode' ) );
 
-    const developerAccordionBox = new GeneratorDeveloperAccordionBox( model.turbine.barMagnet, model.pickupCoil );
+    const developerAccordionBox = new GeneratorDeveloperAccordionBox( barMagnet, pickupCoil );
 
     super( {
-      magnet: model.turbine.barMagnet,
+      magnet: barMagnet,
       compass: model.compass,
       fieldMeter: model.fieldMeter,
       panels: panels,
@@ -41,15 +46,15 @@ export default class GeneratorScreenView extends FELScreenView {
       tandem: tandem
     } );
 
-    const turbineNode = new TurbineNode( model.turbine, this.layoutBounds, this.visibleBoundsProperty,
+    const turbineNode = new TurbineNode( turbine, this.layoutBounds, this.visibleBoundsProperty,
       tandem.createTandem( 'turbineNode' ) );
 
-    const pickupCoilNode = new PickupCoilNode( model.pickupCoil, model.stepEmitter, {
+    const pickupCoilNode = new PickupCoilNode( pickupCoil, model.stepEmitter, {
       isMovable: false, // pickupCoilNode is not movable in this screen.
       tandem: tandem.createTandem( 'pickupCoilNode' )
     } );
 
-    const pickupCoilDebuggerPanel = new PickupCoilDebuggerPanel( model.pickupCoil );
+    const pickupCoilDebuggerPanel = new PickupCoilDebuggerPanel( pickupCoil );
     pickupCoilDebuggerPanel.centerX = this.layoutBounds.centerX;
     pickupCoilDebuggerPanel.top = this.layoutBounds.top + FELConstants.SCREEN_VIEW_Y_MARGIN;
 

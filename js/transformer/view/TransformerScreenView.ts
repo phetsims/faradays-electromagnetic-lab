@@ -26,14 +26,14 @@ export default class TransformerScreenView extends FELScreenView {
 
   public constructor( model: TransformerModel, tandem: Tandem ) {
 
+    // To improve readability
+    const electromagnet = model.transformer.electromagnet;
+    const pickupCoil = model.transformer.pickupCoil;
+
     const isLockedToAxisProperty = new BooleanProperty( false, {
       tandem: tandem.createTandem( 'isLockedToAxisProperty' ),
       phetioDocumentation: 'When true, dragging the magnet or pickup coil is locked to the pickup coil\'s horizontal axis.'
     } );
-
-    // To improve readability
-    const electromagnet = model.transformer.electromagnet;
-    const pickupCoil = model.transformer.pickupCoil;
 
     const panels = new TransformerPanels( electromagnet, pickupCoil,
       model.compass, model.fieldMeter, isLockedToAxisProperty, tandem.createTandem( 'panels' ) );
