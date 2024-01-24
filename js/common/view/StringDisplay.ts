@@ -34,6 +34,8 @@ export default class StringDisplay extends Node {
   public constructor( stringProperty: TReadOnlyProperty<string>, providedOptions?: StringDisplayOptions ) {
 
     const options = optionize<StringDisplayOptions, StrictOmit<SelfOptions, 'textOptions' | 'rectangleOptions'>, NodeOptions>()( {
+
+      // SelfOptions
       xMargin: 2,
       yMargin: 2,
       align: 'right'
@@ -64,9 +66,9 @@ export default class StringDisplay extends Node {
       text.centerY = background.centerY;
     } );
 
-    super( {
-      children: [ background, text ]
-    } );
+    options.children = [ background, text ];
+
+    super( options );
 
     this.disposeStringDisplay = () => {
       background.dispose(); // may be listening to color Properties

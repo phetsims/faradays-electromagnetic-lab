@@ -8,7 +8,7 @@
  */
 
 import faradaysElectromagneticLab from '../../faradaysElectromagneticLab.js';
-import { Circle, HBox, Node, Path, Text, VBox } from '../../../../scenery/js/imports.js';
+import { Circle, HBox, Node, NodeOptions, NodeTranslationOptions, Path, Text, VBox, VBoxOptions } from '../../../../scenery/js/imports.js';
 import Vector2 from '../../../../dot/js/Vector2.js';
 import { Shape } from '../../../../kite/js/imports.js';
 import TReadOnlyProperty from '../../../../axon/js/TReadOnlyProperty.js';
@@ -30,8 +30,10 @@ import PhetFont from '../../../../scenery-phet/js/PhetFont.js';
 import FELConstants from '../FELConstants.js';
 import VoltageChartNode from './VoltageChartNode.js';
 import Utils from '../../../../dot/js/Utils.js';
-import { combineOptions } from '../../../../phet-core/js/optionize.js';
+import optionize, { combineOptions, EmptySelfOptions } from '../../../../phet-core/js/optionize.js';
 import DerivedStringProperty from '../../../../axon/js/DerivedStringProperty.js';
+import NumberProperty from '../../../../axon/js/NumberProperty.js';
+import PickRequired from '../../../../phet-core/js/types/PickRequired.js';
 
 const SLIDER_STEP = 1;
 const CORNER_RADIUS = 10;
@@ -51,80 +53,28 @@ export default class ACPowerSupplyNode extends Node {
 
   public constructor( acPowerSupply: ACPowerSupply, currentSourceProperty: TReadOnlyProperty<CurrentSource>, tandem: Tandem ) {
 
-    // Chart of voltage over time.
+    // Chart of voltage over time
     const chartNode = new VoltageChartNode( acPowerSupply, {
       viewSize: new Dimension2( 156, 122 ),
       tandem: tandem.createTandem( 'chartNode' )
     } );
 
-    // Display for max voltage value, in percent
-    const maxVoltageStringProperty = new PatternStringProperty( FaradaysElectromagneticLabStrings.pattern.valuePercentStringProperty, {
-      value: new DerivedStringProperty( [ acPowerSupply.maxVoltagePercentProperty ],
-        maxVoltagePercent => Utils.toFixed( maxVoltagePercent, 0 ) )
-    } );
-    const maxVoltageDisplay = new StringDisplay( maxVoltageStringProperty, {
-      size: STRING_DISPLAY_SIZE,
-      rectangleOptions: {
-        fill: FELColors.acPowerSupplyDisplayColorProperty
-      },
-      textOptions: {
-        fill: FELColors.acPowerSupplyTextColorProperty,
-        font: FONT
-      }
-    } );
-
-    // Slider for max voltage
-    const maxVoltageSlider = new VSlider( acPowerSupply.maxVoltagePercentProperty, acPowerSupply.maxVoltagePercentProperty.range,
-      combineOptions<VSliderOptions>( {
-        constrainValue: ( value: number ) => Utils.roundToInterval( value, SLIDER_STEP ),
-        tandem: tandem.createTandem( 'maxVoltageSlider' )
-      }, FELConstants.PERCENT_SLIDER_OPTIONS ) );
-
-    // Layout for max voltage display and slider
-    const maxVoltageBox = new VBox( {
-      excludeInvisibleChildrenFromBounds: false,
-      children: [ maxVoltageDisplay, maxVoltageSlider ],
-      spacing: Y_SPACING,
-      align: 'center',
-      right: chartNode.left - X_SPACING,
-      top: chartNode.top
-    } );
-
-    // Display for frequency value, in percent
-    const frequencyStringProperty = new PatternStringProperty( FaradaysElectromagneticLabStrings.pattern.valuePercentStringProperty, {
-      value: new DerivedStringProperty( [ acPowerSupply.frequencyProperty ],
-        frequencyPercent => Utils.toFixed( frequencyPercent, 0 ) )
-    } );
-    const frequencyDisplay = new StringDisplay( frequencyStringProperty, {
-      size: STRING_DISPLAY_SIZE,
-      rectangleOptions: {
-        fill: FELColors.acPowerSupplyDisplayColorProperty
-      },
-      textOptions: {
-        fill: FELColors.acPowerSupplyTextColorProperty,
-        font: FONT
-      }
-    } );
-
-    // Slider for frequency
-    const frequencySlider = new HSlider( acPowerSupply.frequencyProperty, acPowerSupply.frequencyProperty.range,
-      combineOptions<HSliderOptions>( {
-        constrainValue: ( value: number ) => Utils.roundToInterval( value, SLIDER_STEP ),
-        tandem: tandem.createTandem( 'frequencySlider' )
-      }, FELConstants.PERCENT_SLIDER_OPTIONS ) );
-
-    // Layout for frequency display and slider
-    const frequencyBox = new HBox( {
-      excludeInvisibleChildrenFromBounds: false,
-      children: [ frequencySlider, frequencyDisplay ],
-      spacing: 5,
-      align: 'center',
+    // Frequency control
+    const frequencyControl = new FrequencyControl( acPowerSupply.frequencyProperty, {
       right: chartNode.right,
-      top: chartNode.bottom + X_SPACING
+      top: chartNode.bottom + X_SPACING,
+      tandem: tandem.createTandem( 'frequencyControl' )
+    } );
+
+    // Max voltage control
+    const maxVoltageControl = new MaxVoltageControl( acPowerSupply.maxVoltagePercentProperty, {
+      right: chartNode.left - X_SPACING,
+      top: chartNode.top,
+      tandem: tandem.createTandem( 'maxVoltageControl' )
     } );
 
     const chartAndSliders = new Node( {
-      children: [ chartNode, frequencyBox, maxVoltageBox ]
+      children: [ chartNode, frequencyControl, maxVoltageControl ]
     } );
 
     const titleText = new Text( FaradaysElectromagneticLabStrings.acPowerSupplyStringProperty, {
@@ -197,6 +147,100 @@ function createSineDataSet( xMin: number, xMax: number, period: number, amplitud
     dataSet.push( new Vector2( x, amplitude * Math.sin( x * frequency ) ) );
   }
   return dataSet;
+}
+
+type FrequencyControlSelfOptions = EmptySelfOptions;
+
+type FrequencyControlOptions = FrequencyControlSelfOptions & NodeTranslationOptions & PickRequired<NodeOptions, 'tandem'>;
+
+class FrequencyControl extends HBox {
+
+  public constructor( frequencyProperty: NumberProperty, providedOptions: FrequencyControlOptions ) {
+
+    const options = optionize<FrequencyControlOptions, FrequencyControlSelfOptions, VBoxOptions>()( {
+
+      // VBoxOptions
+      excludeInvisibleChildrenFromBounds: false,
+      spacing: 5,
+      align: 'center'
+    }, providedOptions );
+
+    // Display for frequency value, in percent
+    const frequencyStringProperty = new PatternStringProperty( FaradaysElectromagneticLabStrings.pattern.valuePercentStringProperty, {
+      value: new DerivedStringProperty( [ frequencyProperty ],
+        frequencyPercent => Utils.toFixed( frequencyPercent, 0 ) )
+    } );
+    const valueDisplay = new StringDisplay( frequencyStringProperty, {
+      size: STRING_DISPLAY_SIZE,
+      rectangleOptions: {
+        fill: FELColors.acPowerSupplyDisplayColorProperty
+      },
+      textOptions: {
+        fill: FELColors.acPowerSupplyTextColorProperty,
+        font: FONT
+      },
+      tandem: options.tandem.createTandem( 'valueDisplay' ),
+      phetioVisiblePropertyInstrumented: true
+    } );
+
+    // Slider for frequency
+    const slider = new HSlider( frequencyProperty, frequencyProperty.range,
+      combineOptions<HSliderOptions>( {
+        constrainValue: ( value: number ) => Utils.roundToInterval( value, SLIDER_STEP ),
+        tandem: options.tandem.createTandem( 'slider' )
+      }, FELConstants.PERCENT_SLIDER_OPTIONS ) );
+
+    options.children = [ slider, valueDisplay ];
+
+    super( options );
+  }
+}
+
+type MaxVoltageControlSelfOptions = EmptySelfOptions;
+
+type MaxVoltageControlOptions = MaxVoltageControlSelfOptions & NodeTranslationOptions & PickRequired<NodeOptions, 'tandem'>;
+
+class MaxVoltageControl extends VBox {
+
+  public constructor( maxVoltagePercentProperty: NumberProperty, providedOptions: MaxVoltageControlOptions ) {
+
+    const options = optionize<MaxVoltageControlOptions, MaxVoltageControlSelfOptions, VBoxOptions>()( {
+
+      // VBoxOptions
+      excludeInvisibleChildrenFromBounds: false,
+      spacing: Y_SPACING,
+      align: 'center'
+    }, providedOptions );
+
+    // Display for max voltage value, in percent
+    const maxVoltageStringProperty = new PatternStringProperty( FaradaysElectromagneticLabStrings.pattern.valuePercentStringProperty, {
+      value: new DerivedStringProperty( [ maxVoltagePercentProperty ],
+        maxVoltagePercent => Utils.toFixed( maxVoltagePercent, 0 ) )
+    } );
+    const valueDisplay = new StringDisplay( maxVoltageStringProperty, {
+      size: STRING_DISPLAY_SIZE,
+      rectangleOptions: {
+        fill: FELColors.acPowerSupplyDisplayColorProperty
+      },
+      textOptions: {
+        fill: FELColors.acPowerSupplyTextColorProperty,
+        font: FONT
+      },
+      tandem: options.tandem.createTandem( 'valueDisplay' ),
+      phetioVisiblePropertyInstrumented: true
+    } );
+
+    // Slider for max voltage
+    const slider = new VSlider( maxVoltagePercentProperty, maxVoltagePercentProperty.range,
+      combineOptions<VSliderOptions>( {
+        constrainValue: ( value: number ) => Utils.roundToInterval( value, SLIDER_STEP ),
+        tandem: options.tandem.createTandem( 'slider' )
+      }, FELConstants.PERCENT_SLIDER_OPTIONS ) );
+
+    options.children = [ valueDisplay, slider ];
+
+    super( options );
+  }
 }
 
 faradaysElectromagneticLab.register( 'ACPowerSupplyNode', ACPowerSupplyNode );
