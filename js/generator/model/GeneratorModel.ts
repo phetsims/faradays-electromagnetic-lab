@@ -30,15 +30,9 @@ export default class GeneratorModel extends FELModel {
       tandem: tandem
     } );
 
-    this.turbine = new Turbine( {
-      position: new Vector2( 285, 400 ),
-      positionPropertyOptions: {
-        phetioReadOnly: true
-      },
-      tandem: tandem.createTandem( 'turbine' )
-    } );
+    this.turbine = new Turbine( tandem.createTandem( 'turbine' ) );
 
-    this.pickupCoil = new PickupCoil( this.turbine, {
+    this.pickupCoil = new PickupCoil( this.turbine.barMagnet, {
       position: new Vector2( 500, 400 ),
       positionPropertyOptions: {
         phetioReadOnly: true
@@ -49,12 +43,12 @@ export default class GeneratorModel extends FELModel {
       tandem: tandem.createTandem( 'pickupCoil' )
     } );
 
-    this.compass = new ImmediateCompass( this.turbine, this.isPlayingProperty, {
+    this.compass = new ImmediateCompass( this.turbine.barMagnet, this.isPlayingProperty, {
       position: new Vector2( 350, 175 ),
       tandem: tandem.createTandem( 'compass' )
     } );
 
-    this.fieldMeter = new FieldMeter( this.turbine, {
+    this.fieldMeter = new FieldMeter( this.turbine.barMagnet, {
       position: new Vector2( 650, 300 ),
       visible: false,
       tandem: tandem.createTandem( 'fieldMeter' )

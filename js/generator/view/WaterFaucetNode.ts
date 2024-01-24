@@ -9,10 +9,10 @@
 import faradaysElectromagneticLab from '../../faradaysElectromagneticLab.js';
 import FaucetNode, { FaucetNodeOptions } from '../../../../scenery-phet/js/FaucetNode.js';
 import Property from '../../../../axon/js/Property.js';
-import NumberProperty from '../../../../axon/js/NumberProperty.js';
 import optionize, { EmptySelfOptions } from '../../../../phet-core/js/optionize.js';
 import { NodeTranslationOptions } from '../../../../scenery/js/imports.js';
 import PickRequired from '../../../../phet-core/js/types/PickRequired.js';
+import WaterFaucet from '../model/WaterFaucet.js';
 
 type SelfOptions = EmptySelfOptions;
 
@@ -20,7 +20,7 @@ type WaterFaucetNodeOptions = SelfOptions & NodeTranslationOptions & PickRequire
 
 export default class WaterFaucetNode extends FaucetNode {
 
-  public constructor( waterFlowRateProperty: NumberProperty, providedOptions: WaterFaucetNodeOptions ) {
+  public constructor( waterFaucet: WaterFaucet, providedOptions: WaterFaucetNodeOptions ) {
 
     const options = optionize<WaterFaucetNodeOptions, SelfOptions, FaucetNodeOptions>()( {
 
@@ -36,7 +36,7 @@ export default class WaterFaucetNode extends FaucetNode {
       phetioVisiblePropertyInstrumented: false
     }, providedOptions );
 
-    super( waterFlowRateProperty.range.max, waterFlowRateProperty, new Property( true ), options );
+    super( waterFaucet.flowRateProperty.range.max, waterFaucet.flowRateProperty, new Property( true ), options );
   }
 }
 

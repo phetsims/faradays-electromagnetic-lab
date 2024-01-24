@@ -14,14 +14,14 @@ import Compass from '../../common/model/Compass.js';
 import PickupCoilPanel from '../../common/view/PickupCoilPanel.js';
 import PickupCoil from '../../common/model/PickupCoil.js';
 import BarMagnetPanel from '../../common/view/BarMagnetPanel.js';
-import Turbine from '../model/Turbine.js';
 import FELPanels from '../../common/view/FELPanels.js';
+import BarMagnet from '../../common/model/BarMagnet.js';
 
 export default class GeneratorPanels extends FELPanels {
 
-  public constructor( turbine: Turbine, pickupCoil: PickupCoil, compass: Compass, fieldMeter: FieldMeter, tandem: Tandem ) {
+  public constructor( barMagnet: BarMagnet, pickupCoil: PickupCoil, compass: Compass, fieldMeter: FieldMeter, tandem: Tandem ) {
 
-    const barMagnetPanel = new BarMagnetPanel( turbine, compass, {
+    const barMagnetPanel = new BarMagnetPanel( barMagnet, compass, {
       hasFlipPolarityButton: false,
       tandem: tandem.createTandem( 'barMagnetPanel' )
     } );

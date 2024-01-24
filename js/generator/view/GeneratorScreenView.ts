@@ -23,7 +23,7 @@ export default class GeneratorScreenView extends FELScreenView {
 
   public constructor( model: GeneratorModel, tandem: Tandem ) {
 
-    const panels = new GeneratorPanels( model.turbine, model.pickupCoil, model.compass, model.fieldMeter,
+    const panels = new GeneratorPanels( model.turbine.barMagnet, model.pickupCoil, model.compass, model.fieldMeter,
       tandem.createTandem( 'panels' ) );
 
     const timeControlNode = new FELTimeControlNode( model, tandem.createTandem( 'timeControlNode' ) );
@@ -33,7 +33,7 @@ export default class GeneratorScreenView extends FELScreenView {
     const developerAccordionBox = new GeneratorDeveloperAccordionBox( model, !!phet.chipper.queryParameters.dev );
 
     super( {
-      magnet: model.turbine,
+      magnet: model.turbine.barMagnet,
       compass: model.compass,
       fieldMeter: model.fieldMeter,
       panels: panels,

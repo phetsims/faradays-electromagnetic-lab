@@ -23,11 +23,11 @@ export default class TurbineNode extends Node {
 
   public constructor( turbine: Turbine, layoutBounds: Bounds2, visibleBoundsProperty: TReadOnlyProperty<Bounds2>, tandem: Tandem ) {
 
-    const waterWheelNode = new WaterWheelNode( turbine );
+    const waterWheelNode = new WaterWheelNode( turbine.barMagnet );
 
-    const barMagnetNode = new BarMagnetNode( turbine, {
+    const barMagnetNode = new BarMagnetNode( turbine.barMagnet, {
       isMovable: false, // this bar magnet cannot be dragged
-      tandem: Tandem.OPT_OUT
+      tandem: tandem.createTandem( 'barMagnetNode' )
     } );
 
     const rpmDisplay = new RPMDisplay( turbine.rpmProperty, {
@@ -36,19 +36,20 @@ export default class TurbineNode extends Node {
       // No PhET-iO instrumentation. There is nothing interesting here.
     } );
 
-    const faucetNode = new WaterFaucetNode( turbine.waterFlowRateProperty, {
+    const waterFaucetNode = new WaterFaucetNode( turbine.waterFaucet, {
       right: layoutBounds.left + 225,
       top: layoutBounds.top + 50,
-      tandem: tandem.createTandem( 'faucetNode' )
+      tandem: tandem.createTandem( 'waterFaucetNode' )
     } );
 
-    const waterNode = new WaterNode( turbine.waterFlowRateProperty, turbine.waterFlowRateProperty.range.max, visibleBoundsProperty, {
-      centerX: faucetNode.x,
-      top: faucetNode.y - 2
-    } );
+    const waterNode = new WaterNode( turbine.waterFaucet.flowRateProperty, turbine.waterFaucet.flowRateProperty.range.max,
+      visibleBoundsProperty, {
+        centerX: waterFaucetNode.x,
+        top: waterFaucetNode.y - 2
+      } );
 
     super( {
-      children: [ waterWheelNode, barMagnetNode, rpmDisplay, waterNode, faucetNode ],
+      children: [ waterWheelNode, barMagnetNode, rpmDisplay, waterNode, waterFaucetNode ],
       tandem: tandem
     } );
   }
