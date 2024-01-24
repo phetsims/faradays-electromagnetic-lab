@@ -33,7 +33,6 @@ export default class TurbineNode extends Node {
     const rpmDisplay = new RPMDisplay( turbine.rpmProperty, {
       radius: 0.6 * barMagnetNode.height,
       center: waterWheelNode.center
-      // No PhET-iO instrumentation. There is nothing interesting here.
     } );
 
     const waterFaucetNode = new WaterFaucetNode( turbine.waterFaucet, {
