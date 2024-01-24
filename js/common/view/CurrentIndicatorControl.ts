@@ -34,7 +34,11 @@ export default class CurrentIndicatorControl extends HBox {
       spacing: 10,
       layoutOptions: { stretch: false },  // Prevent space between subcomponents.
       children: [ labelText, radioButtonGroup ],
-      tandem: tandem
+      tandem: tandem,
+      phetioVisiblePropertyInstrumented: true,
+      visiblePropertyOptions: {
+        phetioFeatured: true
+      }
     } );
   }
 }

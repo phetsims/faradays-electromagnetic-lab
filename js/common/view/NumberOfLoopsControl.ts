@@ -32,9 +32,11 @@ export default class NumberOfLoopsControl extends HBox {
       numberDisplayOptions: {
         textOptions: {
           font: FELConstants.CONTROL_FONT
-        }
+        },
+        tandem: Tandem.OPT_OUT
       },
-      tandem: tandem.createTandem( 'spinner' )
+      tandem: tandem.createTandem( 'spinner' ),
+      phetioVisiblePropertyInstrumented: false // use numberOfLoopsControl.visibleProperty
     } );
 
     super( {
@@ -45,10 +47,6 @@ export default class NumberOfLoopsControl extends HBox {
       tandem: tandem,
       phetioVisiblePropertyInstrumented: true,
       visiblePropertyOptions: {
-        phetioFeatured: true
-      },
-      phetioEnabledPropertyInstrumented: true,
-      enabledPropertyOptions: {
         phetioFeatured: true
       }
     } );
