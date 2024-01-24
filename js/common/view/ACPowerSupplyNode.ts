@@ -8,7 +8,7 @@
  */
 
 import faradaysElectromagneticLab from '../../faradaysElectromagneticLab.js';
-import { Circle, HBox, Node, NodeOptions, NodeTranslationOptions, Path, Text, VBox, VBoxOptions } from '../../../../scenery/js/imports.js';
+import { Circle, FlowBox, FlowBoxOptions, Node, NodeTranslationOptions, Path, Text, VBox } from '../../../../scenery/js/imports.js';
 import Vector2 from '../../../../dot/js/Vector2.js';
 import { Shape } from '../../../../kite/js/imports.js';
 import TReadOnlyProperty from '../../../../axon/js/TReadOnlyProperty.js';
@@ -20,8 +20,6 @@ import BooleanIO from '../../../../tandem/js/types/BooleanIO.js';
 import ShadedRectangle, { ShadedRectangleOptions } from '../../../../scenery-phet/js/ShadedRectangle.js';
 import Bounds2 from '../../../../dot/js/Bounds2.js';
 import FELColors from '../FELColors.js';
-import HSlider, { HSliderOptions } from '../../../../sun/js/HSlider.js';
-import VSlider, { VSliderOptions } from '../../../../sun/js/VSlider.js';
 import PatternStringProperty from '../../../../axon/js/PatternStringProperty.js';
 import FaradaysElectromagneticLabStrings from '../../FaradaysElectromagneticLabStrings.js';
 import StringDisplay from './StringDisplay.js';
@@ -30,15 +28,14 @@ import PhetFont from '../../../../scenery-phet/js/PhetFont.js';
 import FELConstants from '../FELConstants.js';
 import VoltageChartNode from './VoltageChartNode.js';
 import Utils from '../../../../dot/js/Utils.js';
-import optionize, { combineOptions, EmptySelfOptions } from '../../../../phet-core/js/optionize.js';
+import optionize, { combineOptions } from '../../../../phet-core/js/optionize.js';
 import DerivedStringProperty from '../../../../axon/js/DerivedStringProperty.js';
 import NumberProperty from '../../../../axon/js/NumberProperty.js';
 import PickRequired from '../../../../phet-core/js/types/PickRequired.js';
+import Slider, { SliderOptions } from '../../../../sun/js/Slider.js';
+import Orientation from '../../../../phet-core/js/Orientation.js';
 
-const SLIDER_STEP = 1;
 const CORNER_RADIUS = 10;
-const X_SPACING = 10;
-const Y_SPACING = 8;
 const BODY_X_MARGIN = 12;
 const BODY_Y_MARGIN = 8;
 const BODY_OPTIONS: ShadedRectangleOptions = {
@@ -60,15 +57,17 @@ export default class ACPowerSupplyNode extends Node {
     } );
 
     // Frequency control
-    const frequencyControl = new FrequencyControl( acPowerSupply.frequencyProperty, {
+    const frequencyControl = new PercentValueControl( acPowerSupply.frequencyProperty, {
+      orientation: 'horizontal',
       right: chartNode.right,
-      top: chartNode.bottom + X_SPACING,
+      top: chartNode.bottom + 10,
       tandem: tandem.createTandem( 'frequencyControl' )
     } );
 
     // Max voltage control
-    const maxVoltageControl = new MaxVoltageControl( acPowerSupply.maxVoltagePercentProperty, {
-      right: chartNode.left - X_SPACING,
+    const maxVoltageControl = new PercentValueControl( acPowerSupply.maxVoltagePercentProperty, {
+      orientation: 'vertical',
+      right: chartNode.left - 10,
       top: chartNode.top,
       tandem: tandem.createTandem( 'maxVoltageControl' )
     } );
@@ -87,7 +86,7 @@ export default class ACPowerSupplyNode extends Node {
         titleText,
         chartAndSliders
       ],
-      spacing: Y_SPACING,
+      spacing: 8,
       align: 'center'
     } );
 
@@ -149,75 +148,39 @@ function createSineDataSet( xMin: number, xMax: number, period: number, amplitud
   return dataSet;
 }
 
-type FrequencyControlSelfOptions = EmptySelfOptions;
+/**
+ * PercentValueControl displays a NumberProperty as a percent, and provides a slider to change the value.
+ * TODO https://github.com/phetsims/faradays-electromagnetic-lab/issues/61 replace PercentValueControl with NumberControl
+ */
 
-type FrequencyControlOptions = FrequencyControlSelfOptions & NodeTranslationOptions & PickRequired<NodeOptions, 'tandem'>;
+type PercentValueControlSelfOptions = {
+  sliderStep?: number;
+  spacing?: number;
+};
 
-class FrequencyControl extends HBox {
+type PercentValueControlOptions = PercentValueControlSelfOptions & NodeTranslationOptions &
+  PickRequired<FlowBoxOptions, 'orientation' | 'tandem'>;
 
-  public constructor( frequencyProperty: NumberProperty, providedOptions: FrequencyControlOptions ) {
+class PercentValueControl extends FlowBox {
 
-    const options = optionize<FrequencyControlOptions, FrequencyControlSelfOptions, VBoxOptions>()( {
+  public constructor( valueProperty: NumberProperty, providedOptions: PercentValueControlOptions ) {
 
-      // VBoxOptions
-      excludeInvisibleChildrenFromBounds: false,
+    const options = optionize<PercentValueControlOptions, PercentValueControlSelfOptions, FlowBoxOptions>()( {
+
+      // SelfOptions
+      sliderStep: 1,
       spacing: 5,
-      align: 'center'
-    }, providedOptions );
 
-    // Display for frequency value, in percent
-    const frequencyStringProperty = new PatternStringProperty( FaradaysElectromagneticLabStrings.pattern.valuePercentStringProperty, {
-      value: new DerivedStringProperty( [ frequencyProperty ],
-        frequencyPercent => Utils.toFixed( frequencyPercent, 0 ) )
-    } );
-    const valueDisplay = new StringDisplay( frequencyStringProperty, {
-      size: STRING_DISPLAY_SIZE,
-      rectangleOptions: {
-        fill: FELColors.acPowerSupplyDisplayColorProperty
-      },
-      textOptions: {
-        fill: FELColors.acPowerSupplyTextColorProperty,
-        font: FONT
-      },
-      tandem: options.tandem.createTandem( 'valueDisplay' ),
-      phetioVisiblePropertyInstrumented: true
-    } );
-
-    // Slider for frequency
-    const slider = new HSlider( frequencyProperty, frequencyProperty.range,
-      combineOptions<HSliderOptions>( {
-        constrainValue: ( value: number ) => Utils.roundToInterval( value, SLIDER_STEP ),
-        tandem: options.tandem.createTandem( 'slider' )
-      }, FELConstants.PERCENT_SLIDER_OPTIONS ) );
-
-    options.children = [ slider, valueDisplay ];
-
-    super( options );
-  }
-}
-
-type MaxVoltageControlSelfOptions = EmptySelfOptions;
-
-type MaxVoltageControlOptions = MaxVoltageControlSelfOptions & NodeTranslationOptions & PickRequired<NodeOptions, 'tandem'>;
-
-class MaxVoltageControl extends VBox {
-
-  public constructor( maxVoltagePercentProperty: NumberProperty, providedOptions: MaxVoltageControlOptions ) {
-
-    const options = optionize<MaxVoltageControlOptions, MaxVoltageControlSelfOptions, VBoxOptions>()( {
-
-      // VBoxOptions
+      // FlowBoxOptions
       excludeInvisibleChildrenFromBounds: false,
-      spacing: Y_SPACING,
       align: 'center'
     }, providedOptions );
 
-    // Display for max voltage value, in percent
-    const maxVoltageStringProperty = new PatternStringProperty( FaradaysElectromagneticLabStrings.pattern.valuePercentStringProperty, {
-      value: new DerivedStringProperty( [ maxVoltagePercentProperty ],
-        maxVoltagePercent => Utils.toFixed( maxVoltagePercent, 0 ) )
+    const stringProperty = new PatternStringProperty( FaradaysElectromagneticLabStrings.pattern.valuePercentStringProperty, {
+      value: new DerivedStringProperty( [ valueProperty ], value => Utils.toFixed( value, 0 ) )
     } );
-    const valueDisplay = new StringDisplay( maxVoltageStringProperty, {
+
+    const valueDisplay = new StringDisplay( stringProperty, {
       size: STRING_DISPLAY_SIZE,
       rectangleOptions: {
         fill: FELColors.acPowerSupplyDisplayColorProperty
@@ -230,14 +193,14 @@ class MaxVoltageControl extends VBox {
       phetioVisiblePropertyInstrumented: true
     } );
 
-    // Slider for max voltage
-    const slider = new VSlider( maxVoltagePercentProperty, maxVoltagePercentProperty.range,
-      combineOptions<VSliderOptions>( {
-        constrainValue: ( value: number ) => Utils.roundToInterval( value, SLIDER_STEP ),
+    const slider = new Slider( valueProperty, valueProperty.range,
+      combineOptions<SliderOptions>( {
+        orientation: options.orientation === 'horizontal' ? Orientation.HORIZONTAL : Orientation.VERTICAL,
+        constrainValue: ( value: number ) => Utils.roundToInterval( value, options.sliderStep ),
         tandem: options.tandem.createTandem( 'slider' )
       }, FELConstants.PERCENT_SLIDER_OPTIONS ) );
 
-    options.children = [ valueDisplay, slider ];
+    options.children = ( options.orientation === 'horizontal' ) ? [ slider, valueDisplay ] : [ valueDisplay, slider ];
 
     super( options );
   }
