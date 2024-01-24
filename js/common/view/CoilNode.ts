@@ -44,7 +44,7 @@ import TReadOnlyProperty from '../../../../axon/js/TReadOnlyProperty.js';
 import Bounds2 from '../../../../dot/js/Bounds2.js';
 
 // Space between electrons, determines the number of electrons add to each curve.
-const ELECTRON_SPACING = 25;
+const ELECTRON_SPACING = 20;
 const ELECTRONS_IN_LEFT_END = 2;
 const ELECTRONS_IN_RIGHT_END = 2;
 
@@ -160,14 +160,11 @@ export default class CoilNode extends Node {
     let rightEndPoint: Vector2 | null = null;
 
     const pathOptions: PathOptions = {
-      lineWidth: this.coil.wireWidth,
-      lineCap: 'round',
-      lineJoin: 'bevel',
-      strokePickable: true
+      lineWidth: this.coil.wireWidth
     };
 
     // Create the wire ends & loops from left to right.
-    // Curves are created in the order that they are pieced together.
+    // Segments are created in the order that they are pieced together.
     for ( let i = 0; i < numberOfLoops; i++ ) {
 
       const xOffset = xStart + ( i * loopSpacing );
@@ -187,11 +184,11 @@ export default class CoilNode extends Node {
             .addColorStop( 0, FELColors.coilMiddleColorProperty )
             .addColorStop( 1, FELColors.coilBackColorProperty );
 
-          // Scale the speed, since this curve is different from the others in the coil.
-          const speedScale = ( radius / ELECTRON_SPACING ) / ELECTRONS_IN_LEFT_END;
           const coilSegment = new CoilSegment( curve, this.backgroundNode, combineOptions<CoilSegmentOptions>( {
-            speedScale: speedScale,
-            stroke: gradient
+            stroke: gradient,
+
+            // Scale the speed, since this segment is different from the others in the coil.
+            speedScale: ( radius / ELECTRON_SPACING ) / ELECTRONS_IN_LEFT_END
           }, pathOptions ) );
           this.coilSegments.push( coilSegment );
           coilSegment.parentNode.addChild( coilSegment );
@@ -279,7 +276,6 @@ export default class CoilNode extends Node {
         const curve = new QuadraticBezierSpline( startPoint, controlPoint, endPoint );
 
         const coilSegment = new CoilSegment( curve, this, combineOptions<CoilSegmentOptions>( {
-          lineWidth: this.coil.wireWidth,
           stroke: frontGradient
         }, pathOptions ) );
         this.coilSegments.push( coilSegment );
@@ -293,11 +289,11 @@ export default class CoilNode extends Node {
         const controlPoint = new Vector2( startPoint.x + 20, startPoint.y - 20 );
         const curve = new QuadraticBezierSpline( startPoint, controlPoint, endPoint );
 
-        // Scale the speed, since this curve is different from the others in the coil.
-        const speedScale = ( radius / ELECTRON_SPACING ) / ELECTRONS_IN_RIGHT_END;
         const coilSegment = new CoilSegment( curve, this, combineOptions<CoilSegmentOptions>( {
-          speedScale: speedScale,
-          stroke: FELColors.coilMiddleColorProperty
+          stroke: FELColors.coilMiddleColorProperty,
+
+          // Scale the speed, since this segment is different from the others in the coil.
+          speedScale: ( radius / ELECTRON_SPACING ) / ELECTRONS_IN_RIGHT_END
         }, pathOptions ) );
         this.coilSegments.push( coilSegment );
         coilSegment.parentNode.addChild( coilSegment );
@@ -306,15 +302,28 @@ export default class CoilNode extends Node {
       }
     }
 
-    // Connect the ends
-    //TODO https://github.com/phetsims/faradays-electromagnetic-lab/issues/42 Make electrons flow in this segment.
+    // Optionally, connect the ends with a wire across the top.
+    let topLength = 0;
     if ( this.endsConnected ) {
       assert && assert( leftEndPoint && rightEndPoint );
-      const shape = new Shape().moveTo( leftEndPoint!.x, leftEndPoint!.y ).lineTo( rightEndPoint!.x, rightEndPoint!.y );
+
+      // To create a straight line, set the control point to be on the midpoint of the line connecting the end points.
+      const controlPoint = leftEndPoint!.average( rightEndPoint! );
+      const curve = new QuadraticBezierSpline( rightEndPoint!, controlPoint, leftEndPoint! );
+      topLength = Math.abs( rightEndPoint!.x - leftEndPoint!.x );
+
+      const coilSegment = new CoilSegment( curve, this, combineOptions<CoilSegmentOptions>( {
+        stroke: FELColors.coilMiddleColorProperty
+      }, pathOptions ) );
+      this.coilSegments.push( coilSegment );
+
+      const shape = new Shape()
+        .moveToPoint( curve.startPoint )
+        .quadraticCurveToPoint( curve.controlPoint, curve.endPoint );
       const path = new Path( shape, combineOptions<PathOptions>( {
         stroke: FELColors.coilMiddleColorProperty
       }, pathOptions ) );
-      this.addChild( path );
+      coilSegment.parentNode.addChild( path );
     }
 
     // Add electrons to the coil.
@@ -322,7 +331,8 @@ export default class CoilNode extends Node {
       const speedAndDirection = this.calculateElectronSpeedAndDirection();
 
       const leftEndIndex = 0;
-      const rightEndIndex = this.coilSegments.length - 1;
+      const rightEndIndex = ( this.endsConnected ) ? this.coilSegments.length - 2 : this.coilSegments.length - 1;
+      const topSegmentIndex = ( this.endsConnected ) ? this.coilSegments.length - 1 : -1;
 
       // For each curve...
       for ( let coilSegmentIndex = 0; coilSegmentIndex < this.coilSegments.length; coilSegmentIndex++ ) {
@@ -334,6 +344,9 @@ export default class CoilNode extends Node {
         }
         else if ( coilSegmentIndex === rightEndIndex ) {
           numberOfElectrons = ELECTRONS_IN_RIGHT_END;
+        }
+        else if ( coilSegmentIndex === topSegmentIndex ) {
+          numberOfElectrons = Math.trunc( topLength / ELECTRON_SPACING );
         }
         else {
           numberOfElectrons = Math.trunc( radius / ELECTRON_SPACING );

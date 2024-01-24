@@ -55,12 +55,16 @@ export default class PickupCoilNode extends FELMovableNode {
     // Dynamically position the light bulb and voltmeter when the size of the coil changes.
     coilNode.boundsProperty.link( () => {
 
+      // x offset from the coil's origin, to account for 3D perspective. Set this by choosing voltmeter and 1 loop,
+      // then verifying that the voltmeter's resistor appears to be centered on the top wire.
+      const xOffset = -6;
+
       // Position the light bulb using x,y because there may be light rays present.
-      lightBulbNode.x = coilNode.centerX;
+      lightBulbNode.x = coilNode.x + xOffset;
       lightBulbNode.y = coilNode.top + pickupCoil.coil.wireWidth + 2; // cover the coil's top connecting wire
 
       // Position the voltmeter.
-      voltmeterNode.centerX = coilNode.centerX;
+      voltmeterNode.centerX = coilNode.x + xOffset;
       voltmeterNode.bottom = coilNode.top + pickupCoil.coil.wireWidth + 2; // cover the coil's top connecting wire
     } );
 
