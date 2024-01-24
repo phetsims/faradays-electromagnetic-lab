@@ -93,8 +93,8 @@ const PANEL_TITLE_OPTIONS: TextOptions = {
 };
 
 const KEYBOARD_DRAG_LISTENER_OPTIONS: KeyboardDragListenerOptions = {
-  dragVelocity: 300, // velocity of the Node being dragged, in view coordinates per second
-  shiftDragVelocity: 20 // velocity with the Shift key pressed, typically slower than dragVelocity
+  dragVelocity: 500, // velocity of the Node being dragged, in view coordinates per second
+  shiftDragVelocity: 250 // velocity with the Shift key pressed, typically slower than dragVelocity
 };
 
 const VBOX_OPTIONS: VBoxOptions = {
