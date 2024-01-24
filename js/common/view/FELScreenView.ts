@@ -48,7 +48,7 @@ export default class FELScreenView extends ScreenView {
   protected readonly compassNode: Node;
   protected readonly resetAllButton: Node;
 
-  public constructor( providedOptions: FELScreenViewOptions ) {
+  protected constructor( providedOptions: FELScreenViewOptions ) {
 
     const options = optionize<FELScreenViewOptions, SelfOptions, ScreenViewOptions>()( {
 
