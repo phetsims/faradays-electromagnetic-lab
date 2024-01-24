@@ -337,7 +337,7 @@ export default class CoilNode extends Node {
       // For each curve...
       for ( let coilSegmentIndex = 0; coilSegmentIndex < this.coilSegments.length; coilSegmentIndex++ ) {
 
-        // The wire ends are a different size, and therefore contain a different number of electrons.
+        // Different segments contain a different number of electrons.
         let numberOfElectrons;
         if ( coilSegmentIndex === leftEndIndex ) {
           numberOfElectrons = ELECTRONS_IN_LEFT_END;
