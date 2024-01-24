@@ -46,6 +46,10 @@ export default class NumberOfLoopsControl extends HBox {
       phetioVisiblePropertyInstrumented: true,
       visiblePropertyOptions: {
         phetioFeatured: true
+      },
+      phetioEnabledPropertyInstrumented: true,
+      enabledPropertyOptions: {
+        phetioFeatured: true
       }
     } );
   }
