@@ -22,6 +22,7 @@ export default class PickupCoilAxisNode extends Line {
                       pickupCoilPositionProperty: TReadOnlyProperty<Vector2>,
                       visibleBoundsProperty: TReadOnlyProperty<Bounds2> ) {
 
+    // Correct length will be set by Multilink below.
     super( 0, 0, 1, 0, {
       isDisposable: false,
       visibleProperty: isLockedToAxisProperty,
