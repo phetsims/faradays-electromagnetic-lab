@@ -31,6 +31,7 @@ export default class PickupCoilAxisNode extends Line {
       lineDash: [ 5, 5 ]
     } );
 
+    // Horizontal line that passes through the pickup coil's center, and spans the visible bounds of the browser window.
     Multilink.multilink( [ this.visibleProperty, pickupCoilPositionProperty, visibleBoundsProperty ],
       ( visible, pickupCoilPosition, visibleBounds ) => {
         if ( visible ) {
