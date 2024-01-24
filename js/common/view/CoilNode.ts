@@ -350,11 +350,6 @@ export default class CoilNode extends Node {
         }
         else {
           numberOfElectrons = Math.trunc( radius / ELECTRON_SPACING );
-
-          // Add one electron to background segments, to make them look more balanced.
-          if ( this.coilSegments[ coilSegmentIndex ].parentNode === this.backgroundNode ) {
-            numberOfElectrons++;
-          }
         }
         assert && assert( Number.isInteger( numberOfElectrons ) && numberOfElectrons > 0,
           `invalid numberOfElectrons: ${numberOfElectrons}` );
