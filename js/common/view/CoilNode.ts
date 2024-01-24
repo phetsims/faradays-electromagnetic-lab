@@ -38,7 +38,7 @@ import ElectronNode from './ElectronNode.js';
 import QuadraticBezierSpline from '../model/QuadraticBezierSpline.js';
 import FELColors from '../FELColors.js';
 import Emitter from '../../../../axon/js/Emitter.js';
-import FELMovableNode from './FELMovableNode.js';
+import FELMovableNode, { FELMovableNodeOptions } from './FELMovableNode.js';
 import FELMovable from '../model/FELMovable.js';
 import TReadOnlyProperty from '../../../../axon/js/TReadOnlyProperty.js';
 import Bounds2 from '../../../../dot/js/Bounds2.js';
@@ -104,14 +104,10 @@ export default class CoilNode extends Node {
     this.coil = coil;
     this.addLinkedElement( this.coil );
 
-    // Since the background will be added to the scene graph separately, we need to tell it what to move when it is
-    // dragged, and not to have its own KeyboardDragListener for alt input.
-    this.backgroundNode = new FELMovableNode( movable, {
+    this.backgroundNode = new CoilBackgroundNode( movable, {
+      isMovable: options.isMovable,
       dragBoundsProperty: options.dragBoundsProperty,
-      hasKeyboardDragListener: false,
-      visibleProperty: this.visibleProperty,
-      tandem: Tandem.OPT_OUT,
-      isMovable: options.isMovable
+      visibleProperty: this.visibleProperty
     } );
 
     this.electronAnimationEnabled = false;
@@ -405,6 +401,26 @@ export default class CoilNode extends Node {
   private calculateElectronSpeedAndDirection(): number {
     const currentAmplitude = this.coil.currentAmplitudeProperty.value;
     return ( Math.abs( currentAmplitude ) < FELConstants.CURRENT_AMPLITUDE_THRESHOLD ) ? 0 : currentAmplitude;
+  }
+}
+
+/**
+ * CoilBackgroundNode is the background layer of CoilNode. It is not a child of CoilNode, and must be added to
+ * the scene graph separately. See documentation for CoilNode backgroundNode.
+ */
+type CoilBackgroundNodeOptions = PickRequired<FELMovableNodeOptions, 'isMovable' | 'dragBoundsProperty' | 'visibleProperty'>;
+
+class CoilBackgroundNode extends FELMovableNode {
+
+  /**
+   * @param movable - the model element to move when the background layer is dragged
+   * @param providedOptions
+   */
+  public constructor( movable: FELMovable, providedOptions: CoilBackgroundNodeOptions ) {
+    super( movable, combineOptions<FELMovableNodeOptions>( {
+      hasKeyboardDragListener: false, // It is sufficient to have alt input for the foreground layer of CoilNode.
+      tandem: Tandem.OPT_OUT // There is no need to instrument the background layer of CoilNode.
+    }, providedOptions ) );
   }
 }
 

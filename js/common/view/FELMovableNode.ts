@@ -35,7 +35,7 @@ export type FELMovableNodeOptions = SelfOptions &
 
 export default class FELMovableNode extends InteractiveHighlighting( Node ) {
 
-  public constructor( movable: FELMovable, providedOptions: FELMovableNodeOptions ) {
+  protected constructor( movable: FELMovable, providedOptions: FELMovableNodeOptions ) {
 
     const options = optionize<FELMovableNodeOptions, SelfOptions, ParentOptions>()( {
 
