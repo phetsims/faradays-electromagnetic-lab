@@ -1,7 +1,7 @@
 // Copyright 2023-2024, University of Colorado Boulder
 
 /**
- * Coil is the base class for all coils.
+ * Coil is the model of a coil of wire, with a current flowing through it.
  *
  * @author Chris Malley (PixelZoom, Inc.)
  */

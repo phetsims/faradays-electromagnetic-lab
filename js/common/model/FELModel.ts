@@ -1,7 +1,7 @@
 // Copyright 2023-2024, University of Colorado Boulder
 
 /**
- * FELModel is the abstract base class for all top-level models in the simulation.
+ * FELModel is the base class for all top-level models in the simulation.
  *
  * @author Chris Malley (PixelZoom, Inc.)
  */

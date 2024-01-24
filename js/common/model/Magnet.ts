@@ -1,7 +1,7 @@
 // Copyright 2023-2024, University of Colorado Boulder
 
 /**
- * Magnet is the abstract base class for magnet models.
+ * Magnet is the base class for magnet models.
  *
  * @author Chris Malley (PixelZoom, Inc.)
  */
