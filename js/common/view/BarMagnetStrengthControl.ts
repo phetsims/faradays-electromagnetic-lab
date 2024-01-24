@@ -72,6 +72,8 @@ export default class BarMagnetStrengthControl extends NumberControl {
     } );
 
     super( FaradaysElectromagneticLabStrings.strengthColonStringProperty, strengthPercentProperty, range, options );
+
+    this.addLinkedElement( strengthPercentProperty );
   }
 }
 

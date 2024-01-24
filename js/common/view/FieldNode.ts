@@ -48,7 +48,8 @@ export default class FieldNode extends Sprites {
       sprites: [ sprite ], // the set of Sprites used to render this Node, must be set at instantiation
       spriteInstances: spriteInstances, // the set of SpriteInstances, one per compass needle in the grid
       hitTestSprites: false,
-      tandem: tandem
+      tandem: tandem,
+      phetioFeatured: true
     } );
 
     this.magnet = magnet;
@@ -82,6 +83,8 @@ export default class FieldNode extends Sprites {
           this.invalidatePaint();
         } );
       } );
+
+    this.addLinkedElement( magnet );
   }
 
   /**

@@ -109,12 +109,13 @@ export default class BarMagnetPanel extends Panel {
       contentChildren.push( flipPolarityButton );
     }
 
-
     const content = new VBox( combineOptions<VBoxOptions>( {}, FELConstants.VBOX_OPTIONS, {
       children: contentChildren
     } ) );
 
     super( content, options );
+
+    this.addLinkedElement( barMagnet );
   }
 }
 

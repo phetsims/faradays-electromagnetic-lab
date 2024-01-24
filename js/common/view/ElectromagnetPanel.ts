@@ -59,6 +59,8 @@ export default class ElectromagnetPanel extends Panel {
     super( content, combineOptions<PanelOptions>( {}, FELConstants.PANEL_OPTIONS, {
       tandem: tandem
     } ) );
+
+    this.addLinkedElement( electromagnet );
   }
 }
 

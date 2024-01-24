@@ -41,7 +41,7 @@ export default class DCPowerSupplyNode extends Node {
     bracketNode.centerX = batteryNode.centerX;
     bracketNode.top = batteryNode.top + 10;
 
-    const slider = new HSlider( dcPowerSupply.voltageProperty, dcPowerSupply.voltageProperty.range, {
+    const voltageSlider = new HSlider( dcPowerSupply.voltageProperty, dcPowerSupply.voltageProperty.range, {
       constrainValue: ( value: number ) => Utils.roundToInterval( value, 1 ), // 1 V steps
       majorTickLength: 18,
       keyboardStep: 2,
@@ -49,11 +49,11 @@ export default class DCPowerSupplyNode extends Node {
       pageKeyboardStep: 5,
       centerX: batteryNode.centerX,
       bottom: batteryNode.bottom - 6,
-      tandem: tandem.createTandem( 'slider' )
+      tandem: tandem.createTandem( 'voltageSlider' )
     } );
-    slider.addMajorTick( dcPowerSupply.voltageProperty.range.min );
-    slider.addMajorTick( 0 );
-    slider.addMajorTick( dcPowerSupply.voltageProperty.range.max );
+    voltageSlider.addMajorTick( dcPowerSupply.voltageProperty.range.min );
+    voltageSlider.addMajorTick( 0 );
+    voltageSlider.addMajorTick( dcPowerSupply.voltageProperty.range.max );
 
     // Volts display, absolute value
     const voltsStringProperty = new PatternStringProperty( FaradaysElectromagneticLabStrings.pattern.valueUnitsStringProperty, {
@@ -66,12 +66,13 @@ export default class DCPowerSupplyNode extends Node {
     } );
 
     super( {
-      children: [ bracketNode, batteryNode, slider, voltsText ],
+      children: [ bracketNode, batteryNode, voltageSlider, voltsText ],
       visibleProperty: new DerivedProperty( [ currentSourceProperty ], currentSource => ( currentSource === dcPowerSupply ), {
         tandem: tandem.createTandem( 'visibleProperty' ),
         phetioValueType: BooleanIO
       } ),
-      tandem: tandem
+      tandem: tandem,
+      phetioFeatured: true
     } );
 
     this.addLinkedElement( dcPowerSupply );
@@ -99,7 +100,7 @@ export default class DCPowerSupplyNode extends Node {
         else {
           voltsText.left = batteryNode.left + xMargin;
         }
-        voltsText.centerY = batteryNode.top + ( slider.top - batteryNode.top ) / 2;
+        voltsText.centerY = batteryNode.top + ( voltageSlider.top - batteryNode.top ) / 2;
       } );
   }
 

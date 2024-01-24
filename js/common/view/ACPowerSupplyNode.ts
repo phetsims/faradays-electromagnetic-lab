@@ -151,7 +151,8 @@ export default class ACPowerSupplyNode extends Node {
         tandem: tandem.createTandem( 'visibleProperty' ),
         phetioValueType: BooleanIO
       } ),
-      tandem: tandem
+      tandem: tandem,
+      phetioFeatured: true
     } );
 
     this.addLinkedElement( acPowerSupply );
