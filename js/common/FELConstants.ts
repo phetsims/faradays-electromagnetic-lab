@@ -19,6 +19,7 @@ import Dimension2 from '../../../dot/js/Dimension2.js';
 import { RectangularRadioButtonOptions } from '../../../sun/js/buttons/RectangularRadioButton.js';
 import { SoundClipOptions } from '../../../tambo/js/sound-generators/SoundClip.js';
 import { SliderOptions } from '../../../sun/js/Slider.js';
+import Tandem from '../../../tandem/js/Tandem.js';
 
 // Credits are shared by all sims in this family.
 //TODO https://github.com/phetsims/faradays-electromagnetic-lab/issues/2 fill in credits
@@ -51,20 +52,26 @@ const NUMBER_CONTROL_OPTIONS: NumberControlOptions = {
   } ),
   titleNodeOptions: {
     font: CONTROL_FONT,
-    maxWidth: 120
+    maxWidth: 120,
+    tandem: Tandem.OPT_OUT
   },
   sliderOptions: {
     trackSize: new Dimension2( 140, 4 ),
     thumbSize: new Dimension2( 15, 30 ),
     thumbTouchAreaXDilation: 5,
     thumbTouchAreaYDilation: 2,
-    majorTickLength: 15
+    majorTickLength: 15,
+    tandem: Tandem.OPT_OUT
   },
   numberDisplayOptions: {
     maxWidth: 100,
     textOptions: {
       font: CONTROL_FONT
-    }
+    },
+    tandem: Tandem.OPT_OUT
+  },
+  arrowButtonOptions: {
+    tandem: Tandem.OPT_OUT
   }
 };
 
