@@ -80,7 +80,10 @@ const PANEL_OPTIONS: PanelOptions = {
   xMargin: 15,
   yMargin: 10,
   fill: FELColors.panelFillProperty,
-  stroke: FELColors.panelStrokeProperty
+  stroke: FELColors.panelStrokeProperty,
+  visiblePropertyOptions: {
+    phetioFeatured: true
+  }
 };
 
 const SCREEN_OPTIONS: Partial<ScreenOptions> = {

@@ -43,7 +43,10 @@ export default class NumberOfLoopsControl extends HBox {
       spacing: 5,
       layoutOptions: { stretch: false }, // Prevent the parent from adding space between labelText and spinner.
       tandem: tandem,
-      phetioVisiblePropertyInstrumented: true
+      phetioVisiblePropertyInstrumented: true,
+      visiblePropertyOptions: {
+        phetioFeatured: true
+      }
     } );
   }
 }
