@@ -26,7 +26,8 @@ export default class CurrentIndicator extends PhetioObject {
       // PhetioObjectOptions
       isDisposable: false,
       phetioType: CurrentIndicator.CurrentIndicatorIO,
-      phetioState: false
+      phetioState: false,
+      phetioFeatured: true
     }, providedOptions );
 
     super( options );

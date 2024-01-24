@@ -40,7 +40,8 @@ export default class CurrentSource extends PhetioObject {
       // PhetioObjectOptions
       isDisposable: false,
       phetioType: CurrentSource.CurrentSourceIO,
-      phetioState: false
+      phetioState: false,
+      phetioFeatured: true
     }, providedOptions );
 
     assert && assert( options.maxVoltage > 0, `invalid maxVoltage: ${options.maxVoltage}` );

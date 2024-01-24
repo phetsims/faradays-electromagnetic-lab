@@ -165,7 +165,6 @@ export default class PickupCoil extends FELMovable {
       units: 'Wb',
       tandem: options.tandem.createTandem( 'fluxProperty' ),
       phetioReadOnly: true,
-      phetioFeatured: true,
       phetioDocumentation: 'Flux in the coil'
     } );
     this.fluxProperty = this._fluxProperty;
