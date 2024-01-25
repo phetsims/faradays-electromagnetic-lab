@@ -15,6 +15,7 @@ import TReadOnlyProperty from '../../../../axon/js/TReadOnlyProperty.js';
 import NumberProperty from '../../../../axon/js/NumberProperty.js';
 import CurrentIndicator from './CurrentIndicator.js';
 import FELModel from './FELModel.js';
+import Range from '../../../../dot/js/Range.js';
 
 // Define the zero point of the needle.
 const ZERO_NEEDLE_ANGLE = Utils.toRadians( 0 );
@@ -39,20 +40,26 @@ export default class Voltmeter extends CurrentIndicator {
 
   // The amplitude of the current in the pickup coil.
   private readonly currentAmplitudeProperty: TReadOnlyProperty<number>;
+  private readonly currentAmplitudeRange: Range;
 
   // The deflection angle of the voltmeter's needle, relative to zero volts.
   public readonly needleAngleProperty: TReadOnlyProperty<number>;
   private readonly _needleAngleProperty: NumberProperty;
+  private readonly needAngleRange: Range;
 
-  public constructor( currentAmplitudeProperty: TReadOnlyProperty<number>, tandem: Tandem ) {
+  public constructor( currentAmplitudeProperty: TReadOnlyProperty<number>, currentAmplitudeRange: Range, tandem: Tandem ) {
 
     super( {
       tandem: tandem
     } );
 
     this.currentAmplitudeProperty = currentAmplitudeProperty;
+    this.currentAmplitudeRange = currentAmplitudeRange;
 
+    this.needAngleRange = new Range( -MAX_NEEDLE_ANGLE, MAX_NEEDLE_ANGLE );
     this._needleAngleProperty = new NumberProperty( 0, {
+      units: 'radians',
+      range: this.needAngleRange,
       tandem: tandem.createTandem( 'needleAngleProperty' ),
       phetioReadOnly: true,
       phetioFeatured: true
@@ -108,8 +115,12 @@ export default class Voltmeter extends CurrentIndicator {
       currentAmplitude = 0;
     }
 
-    // Determine the needle deflection angle.
-    return currentAmplitude * MAX_NEEDLE_ANGLE;
+    // Map from currentAmplitude to needleAngle.
+    return Utils.linear(
+      this.currentAmplitudeRange.min, this.currentAmplitudeRange.max,
+      this.needAngleRange.min, this.needAngleRange.max,
+      currentAmplitude
+    );
   }
 }
 

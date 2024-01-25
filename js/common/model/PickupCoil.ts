@@ -157,7 +157,8 @@ export default class PickupCoil extends FELMovable {
       tandem: options.tandem.createTandem( 'lightBulb' )
     } );
 
-    this.voltmeter = new Voltmeter( this.currentAmplitudeProperty, options.tandem.createTandem( 'voltmeter' ) );
+    this.voltmeter = new Voltmeter( this.currentAmplitudeProperty, this.currentAmplitudeProperty.range,
+      options.tandem.createTandem( 'voltmeter' ) );
 
     this._fluxProperty = new NumberProperty( 0, {
       units: 'Wb',
