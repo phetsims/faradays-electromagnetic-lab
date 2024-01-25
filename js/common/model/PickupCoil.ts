@@ -16,7 +16,6 @@ import Property from '../../../../axon/js/Property.js';
 import BooleanProperty from '../../../../axon/js/BooleanProperty.js';
 import NumberProperty from '../../../../axon/js/NumberProperty.js';
 import Range from '../../../../dot/js/Range.js';
-import Utils from '../../../../dot/js/Utils.js';
 import createObservableArray, { ObservableArray } from '../../../../axon/js/createObservableArray.js';
 import TReadOnlyProperty from '../../../../axon/js/TReadOnlyProperty.js';
 import LightBulb from './LightBulb.js';
@@ -292,7 +291,7 @@ export default class PickupCoil extends FELMovable {
 
       // Current amplitude is proportional to EMF amplitude.
       const currentAmplitude = emf / this.maxEMFProperty.value;
-      this.currentAmplitudeProperty.value = Utils.clamp( currentAmplitude, -1, 1 );
+      this.currentAmplitudeProperty.value = this.currentAmplitudeProperty.range.constrainValue( currentAmplitude );
     }
 
     // Check that maxEMFProperty is calibrated properly.
