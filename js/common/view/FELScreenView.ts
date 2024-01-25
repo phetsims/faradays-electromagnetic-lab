@@ -116,9 +116,7 @@ export default class FELScreenView extends ScreenView {
    */
   protected createDragBoundsProperty( panelsBoundsProperty: TReadOnlyProperty<Bounds2> ): TReadOnlyProperty<Bounds2> {
     return new DerivedProperty( [ panelsBoundsProperty ],
-      panelsBounds => this.layoutBounds.withMaxX( panelsBounds.left ), {
-        strictAxonDependencies: false //TODO https://github.com/phetsims/faradays-electromagnetic-lab/issues/57
-      } );
+      panelsBounds => this.layoutBounds.withMaxX( panelsBounds.left ) );
   }
 
   /**
