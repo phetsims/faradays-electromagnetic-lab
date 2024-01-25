@@ -2,6 +2,7 @@
 
 /**
  * CurrentIndicator is the base class for devices that indicate the presence of current in the pickup coil.
+ * It exists only to set PhET-iO metadata and provide CurrentIndicatorIO for reference-type serialization.
  *
  * @author Chris Malley (PixelZoom, Inc.)
  */
