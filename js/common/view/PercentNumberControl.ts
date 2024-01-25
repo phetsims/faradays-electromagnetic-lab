@@ -54,7 +54,7 @@ export default class PercentNumberControl extends NumberControl {
         yMargin: 5,
         textOptions: {
           font: NUMBER_DISPLAY_FONT,
-          stroke: FELColors.acPowerSupplyTextColorProperty
+          fill: FELColors.acPowerSupplyTextColorProperty
         },
         numberFormatter: value => StringUtils.fillIn( FaradaysElectromagneticLabStrings.pattern.valuePercentStringProperty, {
           value: Utils.toFixed( value, 0 )
