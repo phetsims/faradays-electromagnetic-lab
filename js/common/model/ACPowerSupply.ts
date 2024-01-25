@@ -52,6 +52,7 @@ export default class ACPowerSupply extends CurrentSource {
   public constructor( tandem: Tandem ) {
 
     const voltageProperty = new NumberProperty( 0, {
+      units: 'V',
       range: new Range( -MAX_VOLTAGE, MAX_VOLTAGE ),
       tandem: tandem.createTandem( 'voltageProperty' ),
       phetioReadOnly: true,
