@@ -239,4 +239,3 @@ function toDegreesString( fieldVector: Vector2 ): string {
 }
 
 faradaysElectromagneticLab.register( 'FieldMeterNode', FieldMeterNode );
-
