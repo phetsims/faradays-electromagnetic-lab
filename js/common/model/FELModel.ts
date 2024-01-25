@@ -37,11 +37,11 @@ export default class FELModel implements TModel {
   // Whether time is progressing in the sim
   public readonly isPlayingProperty: Property<boolean>;
 
+  // Accumulated time since stepEmitter fired, to maintain consistent framerate
+  private readonly accumulatedTimeProperty: Property<number>;
+
   // Fires at a constant rate, with a constant dt. Subclass should listen to this instead of overriding step.
   public readonly stepEmitter: Emitter<[ number ]>;
-
-  // Accumulated time since stepEmitter fired, to maintain consistent framerate
-  private accumulatedTimeProperty: Property<number>;
 
   protected constructor( providedOptions: FELModelOptions ) {
 
@@ -51,6 +51,14 @@ export default class FELModel implements TModel {
       tandem: options.tandem.createTandem( 'isPlayingProperty' )
     }, options.isPlayingPropertyOptions ) );
 
+    this.accumulatedTimeProperty = new NumberProperty( 0, {
+      units: 's',
+      tandem: options.tandem.createTandem( 'accumulatedTimeProperty' ),
+      phetioReadOnly: true,
+      phetioDocumentation: 'Time since stepEmitter last fired. For internal use only.',
+      phetioHighFrequency: true
+    } );
+
     //TODO Does stepEmitter need to be instrumented? If so, should it be phetioHighFrequency:true?
     this.stepEmitter = new Emitter( {
       parameters: [
@@ -59,14 +67,6 @@ export default class FELModel implements TModel {
       tandem: options.tandem.createTandem( 'stepEmitter' ),
       phetioReadOnly: true, // ... so that PhET-iO clients cannot call emit
       phetioDocumentation: 'Fires when the model is to be stepped.',
-      phetioHighFrequency: true
-    } );
-
-    this.accumulatedTimeProperty = new NumberProperty( 0, {
-      units: 's',
-      tandem: options.tandem.createTandem( 'accumulatedTimeProperty' ),
-      phetioReadOnly: true,
-      phetioDocumentation: 'Time since stepEmitter last fired. For internal use only.',
       phetioHighFrequency: true
     } );
   }
