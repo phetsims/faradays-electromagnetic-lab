@@ -24,7 +24,7 @@ import FaradaysElectromagneticLabStrings from '../../FaradaysElectromagneticLabS
 import Dimension2 from '../../../../dot/js/Dimension2.js';
 import FELConstants from '../FELConstants.js';
 import VoltageChartNode from './VoltageChartNode.js';
-import PercentNumberControl from './PercentNumberControl.js';
+import ACNumberControl from './ACNumberControl.js';
 
 const CORNER_RADIUS = 10;
 const BODY_X_MARGIN = 12;
@@ -46,7 +46,7 @@ export default class ACPowerSupplyNode extends Node {
     } );
 
     // Frequency control
-    const frequencyControl = new PercentNumberControl( acPowerSupply.frequencyProperty, {
+    const frequencyControl = new ACNumberControl( acPowerSupply.frequencyProperty, {
       orientation: 'horizontal',
       right: chartNode.right,
       top: chartNode.bottom + 10,
@@ -54,7 +54,7 @@ export default class ACPowerSupplyNode extends Node {
     } );
 
     // Max voltage control
-    const maxVoltageControl = new PercentNumberControl( acPowerSupply.maxVoltagePercentProperty, {
+    const maxVoltageControl = new ACNumberControl( acPowerSupply.maxVoltagePercentProperty, {
       orientation: 'vertical',
       right: chartNode.left - 10,
       top: chartNode.top,

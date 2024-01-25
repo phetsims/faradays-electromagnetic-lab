@@ -1,7 +1,7 @@
 // Copyright 2024, University of Colorado Boulder
 
 /**
- * PercentNumberControl is a specialization of NumberControl used for controlling frequency and max voltage of
+ * ACNumberControl is a specialization of NumberControl used for controlling frequency and max voltage of
  * the AC Power Supply.
  *
  * @author Chris Malley (PixelZoom, Inc.)
@@ -34,7 +34,7 @@ type SelfOptions = {
 
 type PercentNumberControlOptions = SelfOptions & NodeTranslationOptions & PickRequired<NumberControlOptions, 'tandem'>;
 
-export default class PercentNumberControl extends NumberControl {
+export default class ACNumberControl extends NumberControl {
 
   public constructor( numberProperty: NumberProperty, providedOptions: PercentNumberControlOptions ) {
 
@@ -90,4 +90,4 @@ function createHorizontalLayout( titleNode: Node, numberDisplay: NumberDisplay, 
   } );
 }
 
-faradaysElectromagneticLab.register( 'PercentNumberControl', PercentNumberControl );
+faradaysElectromagneticLab.register( 'ACNumberControl', ACNumberControl );
