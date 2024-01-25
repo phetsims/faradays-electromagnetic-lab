@@ -15,6 +15,9 @@ import PickRequired from '../../../../phet-core/js/types/PickRequired.js';
 import TReadOnlyProperty from '../../../../axon/js/TReadOnlyProperty.js';
 import FELConstants from '../FELConstants.js';
 import CurrentIndicator from './CurrentIndicator.js';
+import Utils from '../../../../dot/js/Utils.js';
+
+const BRIGHTNESS_RANGE = new Range( 0, 1 );
 
 type SelfOptions = {
 
@@ -41,7 +44,7 @@ export default class LightBulb extends CurrentIndicator {
     // Unfortunately cannot be a DerivedProperty, because the derivation depends on both the new and old value
     // of currentAmplitudeProperty.
     this._brightnessProperty = new NumberProperty( 0, {
-      range: new Range( 0, 1 ),
+      range: BRIGHTNESS_RANGE,
       tandem: options.tandem.createTandem( 'brightnessProperty' ),
       phetioReadOnly: true,
       phetioFeatured: true
@@ -53,17 +56,19 @@ export default class LightBulb extends CurrentIndicator {
       if ( !options.lightsWhenCurrentChangesDirection && ( previousCurrentAmplitude !== null ) &&
            ( ( currentAmplitude > 0 && previousCurrentAmplitude <= 0 ) ||
              ( currentAmplitude <= 0 && previousCurrentAmplitude > 0 ) ) ) {
+
         // Current changed direction, so turn the light off.
         brightness = 0;
       }
-      else {
-        // Brightness is proportional to the amplitude of the current in the coil.
-        brightness = Math.abs( currentAmplitude );
+      else if ( Math.abs( currentAmplitude ) < FELConstants.CURRENT_AMPLITUDE_THRESHOLD ) {
 
-        // Brightness below the threshold is effectively zero.
-        if ( brightness < FELConstants.CURRENT_AMPLITUDE_THRESHOLD ) {
-          brightness = 0;
-        }
+        // Current below the threshold does not light the bulb.
+        brightness = 0;
+      }
+      else {
+
+        // Map current amplitude to brightness.
+        brightness = Utils.linear( 0, FELConstants.CURRENT_AMPLITUDE_RANGE.max, BRIGHTNESS_RANGE.min, BRIGHTNESS_RANGE.max, Math.abs( currentAmplitude ) );
       }
 
       this._brightnessProperty.value = brightness;
