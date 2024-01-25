@@ -8,7 +8,7 @@
  */
 
 import faradaysElectromagneticLab from '../../faradaysElectromagneticLab.js';
-import { Circle, FlowBox, FlowBoxOptions, Node, NodeTranslationOptions, Path, Text, VBox } from '../../../../scenery/js/imports.js';
+import { Circle, Node, Path, Text, VBox } from '../../../../scenery/js/imports.js';
 import Vector2 from '../../../../dot/js/Vector2.js';
 import { Shape } from '../../../../kite/js/imports.js';
 import TReadOnlyProperty from '../../../../axon/js/TReadOnlyProperty.js';
@@ -20,20 +20,11 @@ import BooleanIO from '../../../../tandem/js/types/BooleanIO.js';
 import ShadedRectangle, { ShadedRectangleOptions } from '../../../../scenery-phet/js/ShadedRectangle.js';
 import Bounds2 from '../../../../dot/js/Bounds2.js';
 import FELColors from '../FELColors.js';
-import PatternStringProperty from '../../../../axon/js/PatternStringProperty.js';
 import FaradaysElectromagneticLabStrings from '../../FaradaysElectromagneticLabStrings.js';
-import StringDisplay from './StringDisplay.js';
 import Dimension2 from '../../../../dot/js/Dimension2.js';
-import PhetFont from '../../../../scenery-phet/js/PhetFont.js';
 import FELConstants from '../FELConstants.js';
 import VoltageChartNode from './VoltageChartNode.js';
-import Utils from '../../../../dot/js/Utils.js';
-import optionize, { combineOptions } from '../../../../phet-core/js/optionize.js';
-import DerivedStringProperty from '../../../../axon/js/DerivedStringProperty.js';
-import NumberProperty from '../../../../axon/js/NumberProperty.js';
-import PickRequired from '../../../../phet-core/js/types/PickRequired.js';
-import Slider, { SliderOptions } from '../../../../sun/js/Slider.js';
-import Orientation from '../../../../phet-core/js/Orientation.js';
+import PercentNumberControl from './PercentNumberControl.js';
 
 const CORNER_RADIUS = 10;
 const BODY_X_MARGIN = 12;
@@ -43,8 +34,6 @@ const BODY_OPTIONS: ShadedRectangleOptions = {
   baseColor: FELColors.acPowerSupplyBodyColorProperty,
   cornerRadius: CORNER_RADIUS
 };
-const FONT = new PhetFont( 12 );
-const STRING_DISPLAY_SIZE = new Dimension2( 38, 20 );
 
 export default class ACPowerSupplyNode extends Node {
 
@@ -57,7 +46,7 @@ export default class ACPowerSupplyNode extends Node {
     } );
 
     // Frequency control
-    const frequencyControl = new PercentValueControl( acPowerSupply.frequencyProperty, {
+    const frequencyControl = new PercentNumberControl( acPowerSupply.frequencyProperty, {
       orientation: 'horizontal',
       right: chartNode.right,
       top: chartNode.bottom + 10,
@@ -65,7 +54,7 @@ export default class ACPowerSupplyNode extends Node {
     } );
 
     // Max voltage control
-    const maxVoltageControl = new PercentValueControl( acPowerSupply.maxVoltagePercentProperty, {
+    const maxVoltageControl = new PercentNumberControl( acPowerSupply.maxVoltagePercentProperty, {
       orientation: 'vertical',
       right: chartNode.left - 10,
       top: chartNode.top,
@@ -146,64 +135,6 @@ function createSineDataSet( xMin: number, xMax: number, period: number, amplitud
     dataSet.push( new Vector2( x, amplitude * Math.sin( x * frequency ) ) );
   }
   return dataSet;
-}
-
-/**
- * PercentValueControl displays a NumberProperty as a percent, and provides a slider to change the value.
- * TODO https://github.com/phetsims/faradays-electromagnetic-lab/issues/61 replace PercentValueControl with NumberControl
- */
-
-type PercentValueControlSelfOptions = {
-  sliderStep?: number;
-  spacing?: number;
-};
-
-type PercentValueControlOptions = PercentValueControlSelfOptions & NodeTranslationOptions &
-  PickRequired<FlowBoxOptions, 'orientation' | 'tandem'>;
-
-class PercentValueControl extends FlowBox {
-
-  public constructor( valueProperty: NumberProperty, providedOptions: PercentValueControlOptions ) {
-
-    const options = optionize<PercentValueControlOptions, PercentValueControlSelfOptions, FlowBoxOptions>()( {
-
-      // SelfOptions
-      sliderStep: 1,
-      spacing: 5,
-
-      // FlowBoxOptions
-      excludeInvisibleChildrenFromBounds: false,
-      align: 'center'
-    }, providedOptions );
-
-    const stringProperty = new PatternStringProperty( FaradaysElectromagneticLabStrings.pattern.valuePercentStringProperty, {
-      value: new DerivedStringProperty( [ valueProperty ], value => Utils.toFixed( value, 0 ) )
-    } );
-
-    const valueDisplay = new StringDisplay( stringProperty, {
-      size: STRING_DISPLAY_SIZE,
-      rectangleOptions: {
-        fill: FELColors.acPowerSupplyDisplayColorProperty
-      },
-      textOptions: {
-        fill: FELColors.acPowerSupplyTextColorProperty,
-        font: FONT
-      },
-      tandem: options.tandem.createTandem( 'valueDisplay' ),
-      phetioVisiblePropertyInstrumented: true
-    } );
-
-    const slider = new Slider( valueProperty, valueProperty.range,
-      combineOptions<SliderOptions>( {
-        orientation: options.orientation === 'horizontal' ? Orientation.HORIZONTAL : Orientation.VERTICAL,
-        constrainValue: ( value: number ) => Utils.roundToInterval( value, options.sliderStep ),
-        tandem: options.tandem.createTandem( 'slider' )
-      }, FELConstants.PERCENT_SLIDER_OPTIONS ) );
-
-    options.children = ( options.orientation === 'horizontal' ) ? [ slider, valueDisplay ] : [ valueDisplay, slider ];
-
-    super( options );
-  }
 }
 
 faradaysElectromagneticLab.register( 'ACPowerSupplyNode', ACPowerSupplyNode );
