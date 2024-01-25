@@ -20,7 +20,7 @@ export default class DCPowerSupply extends CurrentSource {
 
   public constructor( tandem: Tandem ) {
 
-    const voltageProperty = new NumberProperty( 10, {
+    const voltageProperty = new NumberProperty( MAX_VOLTAGE, {
       units: 'V',
       range: new Range( -MAX_VOLTAGE, MAX_VOLTAGE ),
       tandem: tandem.createTandem( 'voltageProperty' ),
