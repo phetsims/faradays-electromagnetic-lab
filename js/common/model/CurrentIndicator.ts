@@ -1,4 +1,4 @@
-// Copyright 2023, University of Colorado Boulder
+// Copyright 2023-2024, University of Colorado Boulder
 
 /**
  * CurrentIndicator is the base class for devices that indicate the presence of current in the pickup coil.

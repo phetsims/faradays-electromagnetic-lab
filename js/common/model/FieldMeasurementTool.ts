@@ -1,4 +1,4 @@
-// Copyright 2023, University of Colorado Boulder
+// Copyright 2023-2024, University of Colorado Boulder
 
 /**
  * FieldMeasurementTool is base class for tools that measure the B-field at a specific position.
