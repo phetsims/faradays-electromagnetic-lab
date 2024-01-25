@@ -8,56 +8,17 @@
 
 import faradaysElectromagneticLab from '../../faradaysElectromagneticLab.js';
 import Magnet from './Magnet.js';
-import Vector2 from '../../../../dot/js/Vector2.js';
-import optionize from '../../../../phet-core/js/optionize.js';
-import TReadOnlyProperty from '../../../../axon/js/TReadOnlyProperty.js';
-import DerivedProperty from '../../../../axon/js/DerivedProperty.js';
-import FELMovable, { FELMovableOptions } from './FELMovable.js';
-import Property from '../../../../axon/js/Property.js';
-import BooleanProperty from '../../../../axon/js/BooleanProperty.js';
+import FieldMeasurementTool, { FieldMeasurementToolOptions } from './FieldMeasurementTool.js';
+import { EmptySelfOptions } from '../../../../phet-core/js/optionize.js';
 
-type SelfOptions = {
-  visible?: boolean;
-};
+type SelfOptions = EmptySelfOptions;
 
-export type FieldMeterOptions = SelfOptions & FELMovableOptions;
+export type FieldMeterOptions = SelfOptions & FieldMeasurementToolOptions;
 
-export default class FieldMeter extends FELMovable {
-
-  // The field vector at the meter's position, in gauss
-  public readonly fieldVectorProperty: TReadOnlyProperty<Vector2>;
-
-  public readonly visibleProperty: Property<boolean>;
+export default class FieldMeter extends FieldMeasurementTool {
 
   public constructor( magnet: Magnet, providedOptions: FieldMeterOptions ) {
-
-    const options = optionize<FieldMeterOptions, SelfOptions, FELMovableOptions>()( {
-
-      //SelfOptions
-      visible: true
-    }, providedOptions );
-
-    super( options );
-
-    // This needs to be a new Vector2 instance, so do not pass an output vector to magnet.getFieldVector.
-    this.fieldVectorProperty = new DerivedProperty(
-      [ this.positionProperty, magnet.positionProperty, magnet.rotationProperty, magnet.strengthProperty ],
-      ( position, rotation, strength ) => magnet.getFieldVector( position ), {
-        units: 'G',
-        tandem: options.tandem.createTandem( 'fieldVectorProperty' ),
-        phetioValueType: Vector2.Vector2IO,
-        phetioFeatured: true
-      } );
-
-    this.visibleProperty = new BooleanProperty( options.visible, {
-      tandem: options.tandem.createTandem( 'visibleProperty' ),
-      phetioFeatured: true
-    } );
-  }
-
-  public override reset(): void {
-    super.reset();
-    this.visibleProperty.reset();
+    super( magnet, providedOptions );
   }
 }
 

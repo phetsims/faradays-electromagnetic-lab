@@ -12,25 +12,20 @@ import Property from '../../../../axon/js/Property.js';
 import NumberProperty from '../../../../axon/js/NumberProperty.js';
 import Magnet from './Magnet.js';
 import TReadOnlyProperty from '../../../../axon/js/TReadOnlyProperty.js';
-import FELMovable, { FELMovableOptions } from './FELMovable.js';
-import BooleanProperty from '../../../../axon/js/BooleanProperty.js';
-import optionize from '../../../../phet-core/js/optionize.js';
+import { EmptySelfOptions } from '../../../../phet-core/js/optionize.js';
 import Multilink from '../../../../axon/js/Multilink.js';
 import FELModel from './FELModel.js';
+import FieldMeasurementTool, { FieldMeasurementToolOptions } from './FieldMeasurementTool.js';
 
-type SelfOptions = {
-  visible?: boolean;
-};
+type SelfOptions = EmptySelfOptions;
 
-export type CompassOptions = SelfOptions & FELMovableOptions;
+export type CompassOptions = SelfOptions & FieldMeasurementToolOptions;
 
-export default abstract class Compass extends FELMovable {
+export default abstract class Compass extends FieldMeasurementTool {
 
   // The public API is readonly, while the internal API is read + write.
   public readonly angleProperty: TReadOnlyProperty<number>; // radians
   protected readonly _angleProperty: Property<number>;
-
-  public readonly visibleProperty: Property<boolean>;
 
   protected readonly magnet: Magnet;
 
@@ -39,17 +34,14 @@ export default abstract class Compass extends FELMovable {
 
   protected constructor( magnet: Magnet, isPlayingProperty: TReadOnlyProperty<boolean>, providedOptions: CompassOptions ) {
 
-    const options = optionize<CompassOptions, SelfOptions, FELMovableOptions>()( {
+    const options = providedOptions;
 
-      //SelfOptions
-      visible: true
-    }, providedOptions );
-
-    super( options );
+    super( magnet, options );
 
     this.magnet = magnet;
     this.reusableFieldVector = new Vector2( 0, 0 );
 
+    // This is not a DerivedProperty so that we can support kinematics in KinematicCompass.
     this._angleProperty = new NumberProperty( 0, {
       units: 'radians',
       tandem: options.tandem.createTandem( 'angleProperty' ),
@@ -59,18 +51,10 @@ export default abstract class Compass extends FELMovable {
     } );
     this.angleProperty = this._angleProperty;
 
-    this.visibleProperty = new BooleanProperty( options.visible, {
-      tandem: options.tandem.createTandem( 'visibleProperty' ),
-      phetioFeatured: true
-    } );
-
     // If the clock is paused, update immediately to match the field vector.
-    Multilink.multilink( [ magnet.positionProperty, magnet.rotationProperty, magnet.strengthProperty ], () => {
-      if ( !isPlayingProperty.value ) {
-        const fieldVector = this.magnet.getFieldVector( this.positionProperty.value, this.reusableFieldVector );
-        if ( fieldVector.magnitude !== 0 ) {
-          this._angleProperty.value = fieldVector.angle;
-        }
+    Multilink.multilink( [ this.fieldVectorProperty ], fieldVector => {
+      if ( !isPlayingProperty.value && fieldVector.magnitude !== 0 ) {
+        this._angleProperty.value = fieldVector.angle;
       }
     } );
   }
@@ -78,15 +62,12 @@ export default abstract class Compass extends FELMovable {
   public override reset(): void {
     super.reset();
     this._angleProperty.reset();
-    this.visibleProperty.reset();
   }
 
   public step( dt: number ): void {
     assert && assert( dt === FELModel.CONSTANT_DT, `invalid dt=${dt}, see FELModel step` );
-
-    const fieldVector = this.magnet.getFieldVector( this.positionProperty.value, this.reusableFieldVector );
-    if ( fieldVector.magnitude !== 0 ) {
-      this.updateAngle( fieldVector, dt );
+    if ( this.fieldVectorProperty.value.magnitude !== 0 ) {
+      this.updateAngle( this.fieldVectorProperty.value, dt );
     }
   }
 
