@@ -152,7 +152,7 @@ export default class PickupCoil extends FELMovable {
       tandem: options.tandem.createTandem( 'coil' )
     } );
 
-    this.lightBulb = new LightBulb( this.currentAmplitudeProperty, {
+    this.lightBulb = new LightBulb( this.currentAmplitudeProperty, this.currentAmplitudeProperty.range, {
       lightsWhenCurrentChangesDirection: true,
       tandem: options.tandem.createTandem( 'lightBulb' )
     } );

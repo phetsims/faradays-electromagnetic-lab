@@ -35,7 +35,7 @@ export default class LightBulb extends CurrentIndicator {
   public readonly brightnessProperty: TReadOnlyProperty<number>;
   private readonly _brightnessProperty: NumberProperty;
 
-  public constructor( currentAmplitudeProperty: TReadOnlyProperty<number>, providedOptions: LightBulbOptions ) {
+  public constructor( currentAmplitudeProperty: TReadOnlyProperty<number>, currentAmplitudeRange: Range, providedOptions: LightBulbOptions ) {
 
     const options = providedOptions;
 
@@ -68,7 +68,7 @@ export default class LightBulb extends CurrentIndicator {
       else {
 
         // Map current amplitude to brightness.
-        brightness = Utils.linear( 0, FELConstants.CURRENT_AMPLITUDE_RANGE.max, BRIGHTNESS_RANGE.min, BRIGHTNESS_RANGE.max, Math.abs( currentAmplitude ) );
+        brightness = Utils.linear( 0, currentAmplitudeRange.max, BRIGHTNESS_RANGE.min, BRIGHTNESS_RANGE.max, Math.abs( currentAmplitude ) );
       }
 
       this._brightnessProperty.value = brightness;
