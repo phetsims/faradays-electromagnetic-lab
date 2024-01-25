@@ -53,8 +53,8 @@ export default class PickupCoil extends FELMovable {
   // Strategy used to create sample points
   private readonly samplePointsStrategy: PickupCoilSamplePointsStrategy;
 
-  // Writeable version of this.currentAmplitudeProperty: TReadOnlyProperty<number>
-  private readonly _currentAmplitudeProperty: NumberProperty;
+  // Amplitude and direction of current in the coil. See Coil currentAmplitudeProperty.
+  private readonly currentAmplitudeProperty: NumberProperty;
 
   // Flux in the coil
   private readonly _fluxProperty: Property<number>;
@@ -135,7 +135,7 @@ export default class PickupCoil extends FELMovable {
 
     this.samplePointsStrategy = options.samplePointsStrategy;
 
-    const currentAmplitudeProperty = new NumberProperty( 0, {
+    this.currentAmplitudeProperty = new NumberProperty( 0, {
       range: new Range( -1, 1 ),
       tandem: options.tandem.createTandem( 'currentAmplitudeProperty' ),
       phetioFeatured: true,
@@ -143,7 +143,7 @@ export default class PickupCoil extends FELMovable {
       phetioDocumentation: 'For internal use only.'
     } );
 
-    this.coil = new Coil( currentAmplitudeProperty, {
+    this.coil = new Coil( this.currentAmplitudeProperty, {
       maxLoopArea: 35345, // in the Java version, max radius was 75, so max area was Math.PI * 75 * 75 = 35342.917352885175
       loopAreaPercentRange: new RangeWithValue( 20, 100, 50 ),
       numberOfLoopsRange: new RangeWithValue( 1, 4, 2 ),
@@ -152,14 +152,12 @@ export default class PickupCoil extends FELMovable {
       tandem: options.tandem.createTandem( 'coil' )
     } );
 
-    this.lightBulb = new LightBulb( currentAmplitudeProperty, {
+    this.lightBulb = new LightBulb( this.currentAmplitudeProperty, {
       lightsWhenCurrentChangesDirection: true,
       tandem: options.tandem.createTandem( 'lightBulb' )
     } );
 
-    this.voltmeter = new Voltmeter( currentAmplitudeProperty, options.tandem.createTandem( 'voltmeter' ) );
-
-    this._currentAmplitudeProperty = currentAmplitudeProperty;
+    this.voltmeter = new Voltmeter( this.currentAmplitudeProperty, options.tandem.createTandem( 'voltmeter' ) );
 
     this._fluxProperty = new NumberProperty( 0, {
       units: 'Wb',
@@ -237,7 +235,7 @@ export default class PickupCoil extends FELMovable {
     this.coil.reset();
     this.lightBulb.reset();
     this.voltmeter.reset();
-    this._currentAmplitudeProperty.reset();
+    this.currentAmplitudeProperty.reset();
     this._fluxProperty.reset();
     this._emfProperty.reset();
     this._averageBxProperty.reset();
@@ -294,7 +292,7 @@ export default class PickupCoil extends FELMovable {
 
       // Current amplitude is proportional to EMF amplitude.
       const currentAmplitude = emf / this.maxEMFProperty.value;
-      this._currentAmplitudeProperty.value = Utils.clamp( currentAmplitude, -1, 1 );
+      this.currentAmplitudeProperty.value = Utils.clamp( currentAmplitude, -1, 1 );
     }
 
     // Check that maxEMFProperty is calibrated properly.
