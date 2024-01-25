@@ -14,28 +14,22 @@ import optionize from '../../../../phet-core/js/optionize.js';
 import PickRequired from '../../../../phet-core/js/types/PickRequired.js';
 import DerivedProperty from '../../../../axon/js/DerivedProperty.js';
 import TReadOnlyProperty from '../../../../axon/js/TReadOnlyProperty.js';
-import Range from '../../../../dot/js/Range.js';
-
-const AMPLITUDE_RANGE = new Range( -1, 1 );
+import FELConstants from '../FELConstants.js';
 
 type SelfOptions = {
   maxVoltage: number; // range of voltageProperty is [-maxVoltage,maxVoltage]
-  voltagePropertyReadOnly?: boolean; // phetioReadOnly value for voltageProperty
 };
 
 export type CurrentSourceOptions = SelfOptions & PickRequired<PhetioObjectOptions, 'tandem'>;
 
 export default class CurrentSource extends PhetioObject {
 
-  // Amplitude [-1,1] relative to the range of voltageProperty.
-  public readonly amplitudeProperty: TReadOnlyProperty<number>;
+  // Amplitude of the current, relative to the voltage. See Coil currentAmplitudeProperty.
+  public readonly currentAmplitudeProperty: TReadOnlyProperty<number>;
 
   protected constructor( voltageProperty: TReadOnlyProperty<number>, providedOptions: CurrentSourceOptions ) {
 
     const options = optionize<CurrentSourceOptions, SelfOptions, PhetioObjectOptions>()( {
-
-      // SelfOptions
-      voltagePropertyReadOnly: false,
 
       // PhetioObjectOptions
       isDisposable: false,
@@ -48,9 +42,9 @@ export default class CurrentSource extends PhetioObject {
 
     super( options );
 
-    this.amplitudeProperty = new DerivedProperty( [ voltageProperty ],
+    this.currentAmplitudeProperty = new DerivedProperty( [ voltageProperty ],
       voltage => voltage / options.maxVoltage, {
-        isValidValue: amplitude => AMPLITUDE_RANGE.contains( amplitude )
+        isValidValue: currentAmplitude => FELConstants.CURRENT_AMPLITUDE_RANGE.contains( currentAmplitude )
       } );
   }
 

@@ -61,9 +61,9 @@ export default class Electromagnet extends CoilMagnet {
     // Amplitude and direction of current in the coil. See Coil currentAmplitudeProperty.
     // Current in the coil is equivalent to amplitude of the selected current source.
     const currentAmplitudeProperty = new DerivedProperty(
-      [ currentSourceProperty, dcPowerSupply.amplitudeProperty, acPowerSupply.amplitudeProperty ],
-      ( currentSource, batteryAmplitude, acPowerSupplyAmplitude ) =>
-        ( currentSource === dcPowerSupply ) ? batteryAmplitude : acPowerSupplyAmplitude, {
+      [ currentSourceProperty, dcPowerSupply.currentAmplitudeProperty, acPowerSupply.currentAmplitudeProperty ],
+      ( currentSource, dcCurrentAmplitude, acCurrentAmplitude ) =>
+        ( currentSource === dcPowerSupply ) ? dcCurrentAmplitude : acCurrentAmplitude, {
         isValidValue: currentAmplitude => FELConstants.CURRENT_AMPLITUDE_RANGE.contains( currentAmplitude ),
         tandem: options.tandem.createTandem( 'currentAmplitudeProperty' ),
         phetioValueType: NumberIO,

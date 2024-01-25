@@ -78,7 +78,7 @@ export default class DCPowerSupplyNode extends Node {
     this.addLinkedElement( dcPowerSupply );
 
     // Reflect the battery about the y-axis to change its polarity.
-    dcPowerSupply.amplitudeProperty.link( ( amplitude, previousAmplitude ) => {
+    dcPowerSupply.currentAmplitudeProperty.link( ( amplitude, previousAmplitude ) => {
       if ( amplitude >= 0 && ( previousAmplitude === null || previousAmplitude < 0 ) ) {
         batteryNode.matrix = Matrix3.IDENTITY;
         batteryNode.center = Vector2.ZERO;
@@ -91,7 +91,7 @@ export default class DCPowerSupplyNode extends Node {
 
     // Position the volts value at the correct end of the battery.
     Multilink.multilink(
-      [ dcPowerSupply.amplitudeProperty, voltsText.boundsProperty ],
+      [ dcPowerSupply.currentAmplitudeProperty, voltsText.boundsProperty ],
       ( amplitude, bounds ) => {
         const xMargin = 15;
         if ( amplitude >= 0 ) {
