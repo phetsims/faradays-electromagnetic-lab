@@ -23,6 +23,7 @@ import PickRequired from '../../../../phet-core/js/types/PickRequired.js';
 import PhetFont from '../../../../scenery-phet/js/PhetFont.js';
 import FELColors from '../FELColors.js';
 import Dimension2 from '../../../../dot/js/Dimension2.js';
+import Tandem from '../../../../tandem/js/Tandem.js';
 
 const NUMBER_DISPLAY_FONT = new PhetFont( 12 );
 const HORIZONTAL_TRACK_SIZE = new Dimension2( 100, 3 );
@@ -42,6 +43,9 @@ export default class PercentNumberControl extends NumberControl {
       // NumberControlOptions
       includeArrowButtons: false,
       layoutFunction: ( providedOptions.orientation === 'horizontal' ) ? createHorizontalLayout : createVerticalLayout,
+      titleNodeOptions: {
+        tandem: Tandem.OPT_OUT
+      },
       sliderOptions: {
         orientation: ( providedOptions.orientation === 'horizontal' ) ? Orientation.HORIZONTAL : Orientation.VERTICAL,
         trackSize: ( providedOptions.orientation === 'horizontal' ) ? HORIZONTAL_TRACK_SIZE : HORIZONTAL_TRACK_SIZE.swapped()
@@ -59,7 +63,8 @@ export default class PercentNumberControl extends NumberControl {
         numberFormatter: value => StringUtils.fillIn( FaradaysElectromagneticLabStrings.pattern.valuePercentStringProperty, {
           value: Utils.toFixed( value, 0 )
         } ),
-        numberFormatterDependencies: [ FaradaysElectromagneticLabStrings.pattern.valuePercentStringProperty ]
+        numberFormatterDependencies: [ FaradaysElectromagneticLabStrings.pattern.valuePercentStringProperty ],
+        tandem: Tandem.OPT_OUT
       }
     }, providedOptions );
 
