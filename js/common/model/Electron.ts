@@ -21,10 +21,14 @@ import Vector2Property from '../../../../dot/js/Vector2Property.js';
 import Property from '../../../../axon/js/Property.js';
 import NumberProperty from '../../../../axon/js/NumberProperty.js';
 import FELModel from './FELModel.js';
+import DerivedProperty from '../../../../axon/js/DerivedProperty.js';
+import FELConstants from '../FELConstants.js';
+import Utils from '../../../../dot/js/Utils.js';
 
 // Maximum distance along a coil segment that can be traveled in one clock tick.
 const MAX_COIL_SEGMENT_POSITION_DELTA = 0.15;
 const COIL_SEGMENT_POSITION_RANGE = new Range( 0, 1 );
+const MAX_SPEED_AND_DIRECTION = 1;
 
 type SelfOptions = {
 
@@ -36,9 +40,6 @@ type SelfOptions = {
 
   // Initial value of coilSegmentPositionProperty
   coilSegmentPosition: number;
-
-  // Initial value of speedAndDirectionProperty
-  speedAndDirection: number;
 
   // Developer control used to scale the electron speed in the view.
   speedScaleProperty: TReadOnlyProperty<number>;
@@ -65,7 +66,8 @@ export default class Electron {
   private coilSegmentPositionProperty: NumberProperty;
 
   // Electron's speed & direction (-1...+1)
-  public readonly speedAndDirectionProperty: NumberProperty;
+  public readonly speedAndDirectionProperty: TReadOnlyProperty<number>;
+  public readonly speedAndDirectionRange: Range;
 
   // Scale for adjusting speed.
   private readonly speedScaleProperty: TReadOnlyProperty<number>;
@@ -75,7 +77,7 @@ export default class Electron {
 
   private readonly disposeElectron: () => void;
 
-  public constructor( providedOptions: ElectronOptions ) {
+  public constructor( currentAmplitudeProperty: TReadOnlyProperty<number>, currentAmplitudeRange: Range, providedOptions: ElectronOptions ) {
     const options = providedOptions;
 
     const descriptor = options.coilSegments[ options.coilSegmentIndex ];
@@ -94,9 +96,24 @@ export default class Electron {
       range: COIL_SEGMENT_POSITION_RANGE
     } );
 
-    this.speedAndDirectionProperty = new NumberProperty( options.speedAndDirection, {
-      range: new Range( -1, 1 )
-    } );
+    // Adjust speed and direction based on the current in the coil.
+    this.speedAndDirectionRange = new Range( -MAX_SPEED_AND_DIRECTION, MAX_SPEED_AND_DIRECTION );
+    this.speedAndDirectionProperty = new DerivedProperty( [ currentAmplitudeProperty ],
+      currentAmplitude => {
+        if ( Math.abs( currentAmplitude ) < FELConstants.CURRENT_AMPLITUDE_THRESHOLD ) {
+
+          // Current below the threshold results in no motion.
+          return 0;
+        }
+        else {
+
+          // Map currentAmplitudeRange to speedAndDirection.
+          return Utils.linear( currentAmplitudeRange.min, currentAmplitudeRange.max,
+            this.speedAndDirectionRange.min, this.speedAndDirectionRange.max, currentAmplitude );
+        }
+      }, {
+        isValidValue: value => this.speedAndDirectionRange.contains( value )
+      } );
 
     this.speedScaleProperty = options.speedScaleProperty;
     this.visibleProperty = options.visibleProperty;

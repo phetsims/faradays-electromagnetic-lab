@@ -19,6 +19,7 @@ import NumberIO from '../../../../tandem/js/types/NumberIO.js';
 import PhetioObject, { PhetioObjectOptions } from '../../../../tandem/js/PhetioObject.js';
 import PickRequired from '../../../../phet-core/js/types/PickRequired.js';
 import Tandem from '../../../../tandem/js/Tandem.js';
+import FELConstants from '../FELConstants.js';
 
 type SelfOptions = {
 
@@ -45,6 +46,12 @@ export type CoilOptions = SelfOptions & PickRequired<PhetioObjectOptions, 'tande
 
 export default class Coil extends PhetioObject {
 
+  // This is a quantity that we made up. It is a percentage [-1,1] that describes the amount of current relative to
+  // some maximum current in the model, and direction of that current. View components can use this value to determine
+  // how they should behave (eg, how far to move a voltmeter needle, how bright to make a lightbulb, etc.)
+  public readonly currentAmplitudeProperty: TReadOnlyProperty<number>;
+  public readonly currentAmplitudeRange: Range;
+
   // Width of the wire that makes up the coil.
   public readonly wireWidth: number;
 
@@ -59,11 +66,6 @@ export default class Coil extends PhetioObject {
   public readonly loopAreaProperty: TReadOnlyProperty<number>;
   private readonly maxLoopArea: number;
 
-  // This is a quantity that we made up. It is a percentage [-1,1] that describes the amount of current relative to
-  // some maximum current in the model, and direction of that current. View components can use this value to determine
-  // how they should behave (eg, how far to move a voltmeter needle, how bright to make a lightbulb, etc.)
-  public readonly currentAmplitudeProperty: TReadOnlyProperty<number>;
-
   // Whether electrons are visible in the coil in the view
   public readonly electronsVisibleProperty: Property<boolean>;
 
@@ -71,7 +73,8 @@ export default class Coil extends PhetioObject {
   // Scale used for electron speed in the view.
   public readonly electronSpeedScaleProperty: NumberProperty;
 
-  public constructor( currentAmplitudeProperty: TReadOnlyProperty<number>, providedOptions: CoilOptions ) {
+  public constructor( currentAmplitudeProperty: TReadOnlyProperty<number>, currentAmplitudeRange: Range, providedOptions: CoilOptions ) {
+    assert && assert( currentAmplitudeRange.equals( FELConstants.CURRENT_AMPLITUDE_RANGE ) );
 
     const options = optionize<CoilOptions, SelfOptions, PhetioObjectOptions>()( {
 
@@ -87,6 +90,9 @@ export default class Coil extends PhetioObject {
     assert && assert( options.loopSpacing >= options.wireWidth );
 
     super( options );
+
+    this.currentAmplitudeProperty = currentAmplitudeProperty;
+    this.currentAmplitudeRange = currentAmplitudeRange;
 
     this.wireWidth = options.wireWidth;
     this.loopSpacing = options.loopSpacing;
@@ -120,8 +126,6 @@ export default class Coil extends PhetioObject {
         phetioValueType: NumberIO,
         phetioDocumentation: hasFixedLoopArea ? 'Loop area is fixed.' : 'To change loop area, use loopAreaPercentProperty.'
       } );
-
-    this.currentAmplitudeProperty = currentAmplitudeProperty;
 
     this.electronsVisibleProperty = new BooleanProperty( true, {
       tandem: options.tandem.createTandem( 'electronsVisibleProperty' ),

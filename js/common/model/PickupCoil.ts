@@ -143,7 +143,7 @@ export default class PickupCoil extends FELMovable {
       phetioDocumentation: 'For internal use only.'
     } );
 
-    this.coil = new Coil( this.currentAmplitudeProperty, {
+    this.coil = new Coil( this.currentAmplitudeProperty, this.currentAmplitudeProperty.range, {
       maxLoopArea: 35345, // in the Java version, max radius was 75, so max area was Math.PI * 75 * 75 = 35342.917352885175
       loopAreaPercentRange: new RangeWithValue( 20, 100, 50 ),
       numberOfLoopsRange: new RangeWithValue( 1, 4, 2 ),

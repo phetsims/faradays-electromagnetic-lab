@@ -28,7 +28,6 @@ import { LinearGradient, Node, NodeOptions, Path, PathOptions } from '../../../.
 import CoilSegment, { CoilSegmentOptions } from '../model/CoilSegment.js';
 import PickRequired from '../../../../phet-core/js/types/PickRequired.js';
 import optionize, { combineOptions } from '../../../../phet-core/js/optionize.js';
-import FELConstants from '../FELConstants.js';
 import Multilink from '../../../../axon/js/Multilink.js';
 import Vector2 from '../../../../dot/js/Vector2.js';
 import { Shape } from '../../../../kite/js/imports.js';
@@ -118,8 +117,6 @@ export default class CoilNode extends Node {
     this.endsConnected = options.endsConnected;
 
     Multilink.multilink( [ coil.numberOfLoopsProperty, coil.loopAreaProperty ], () => this.updateCoil() );
-
-    this.coil.currentAmplitudeProperty.link( () => this.updateElectronsSpeedAndDirection() );
 
     stepEmitter.addListener( dt => this.step( dt ) );
   }
@@ -324,8 +321,6 @@ export default class CoilNode extends Node {
 
     // Add electrons to the coil.
     {
-      const speedAndDirection = this.calculateElectronSpeedAndDirection();
-
       const leftEndIndex = 0;
       const rightEndIndex = ( this.endsConnected ) ? this.coilSegments.length - 2 : this.coilSegments.length - 1;
       const topSegmentIndex = ( this.endsConnected ) ? this.coilSegments.length - 1 : -1;
@@ -356,11 +351,10 @@ export default class CoilNode extends Node {
           const coilSegmentPosition = i / numberOfElectrons;
 
           // Model
-          const electron = new Electron( {
+          const electron = new Electron( this.coil.currentAmplitudeProperty, this.coil.currentAmplitudeRange, {
             coilSegments: this.coilSegments,
             coilSegmentIndex: coilSegmentIndex,
             coilSegmentPosition: coilSegmentPosition,
-            speedAndDirection: speedAndDirection,
             speedScaleProperty: this.coil.electronSpeedScaleProperty,
             visibleProperty: this.coil.electronsVisibleProperty
           } );
@@ -373,34 +367,6 @@ export default class CoilNode extends Node {
       }
       assert && assert( this.electrons.length === this.electronNodes.length );
     }
-  }
-
-  /**
-   * Updates the speed and direction of electrons in the coil.
-   */
-  private updateElectronsSpeedAndDirection(): void {
-
-    // Speed and direction is a function of the voltage.
-    const speedAndDirection = this.calculateElectronSpeedAndDirection();
-
-    // Update all electrons.
-    const numberOfElectrons = this.electrons.length;
-    for ( let i = 0; i < numberOfElectrons; i++ ) {
-      this.electrons[ i ].speedAndDirectionProperty.value = speedAndDirection;
-    }
-  }
-
-  /**
-   * Calculates the speed and direction of electrons.
-   * The value is in the range [-1,1].
-   * Direction is indicated by the sign of the value.
-   * Magnitude of 0 indicates no motion.
-   * Magnitude of 1 moves along an entire curve segment in one clock tick.
-   * Current below the threshold is effectively zero.
-   */
-  private calculateElectronSpeedAndDirection(): number {
-    const currentAmplitude = this.coil.currentAmplitudeProperty.value;
-    return ( Math.abs( currentAmplitude ) < FELConstants.CURRENT_AMPLITUDE_THRESHOLD ) ? 0 : currentAmplitude;
   }
 }
 
