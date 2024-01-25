@@ -95,6 +95,8 @@ export default class Electromagnet extends CoilMagnet {
     this.currentSourceProperty = currentSourceProperty;
 
     // Polarity is determined by the sign of the current amplitude.
+    assert && assert( FELConstants.CURRENT_AMPLITUDE_RANGE.min < 0 && FELConstants.CURRENT_AMPLITUDE_RANGE.max > 0,
+      'currentAmplitudeProperty listener assumes that range is signed' );
     this.coil.currentAmplitudeProperty.link( currentAmplitude => {
       this.rotationProperty.value = ( currentAmplitude >= 0 ) ? 0 : Math.PI;
     } );
