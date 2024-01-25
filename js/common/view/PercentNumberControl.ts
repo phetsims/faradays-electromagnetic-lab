@@ -25,7 +25,7 @@ import FELColors from '../FELColors.js';
 import Dimension2 from '../../../../dot/js/Dimension2.js';
 
 const NUMBER_DISPLAY_FONT = new PhetFont( 12 );
-const TRACK_SIZE = new Dimension2( 100, 3 );
+const HORIZONTAL_TRACK_SIZE = new Dimension2( 100, 3 );
 
 type SelfOptions = {
   orientation: 'horizontal' | 'vertical';
@@ -44,7 +44,7 @@ export default class PercentNumberControl extends NumberControl {
       layoutFunction: ( providedOptions.orientation === 'horizontal' ) ? createHorizontalLayout : createVerticalLayout,
       sliderOptions: {
         orientation: ( providedOptions.orientation === 'horizontal' ) ? Orientation.HORIZONTAL : Orientation.VERTICAL,
-        trackSize: ( providedOptions.orientation === 'horizontal' ) ? TRACK_SIZE : TRACK_SIZE.swapped()
+        trackSize: ( providedOptions.orientation === 'horizontal' ) ? HORIZONTAL_TRACK_SIZE : HORIZONTAL_TRACK_SIZE.swapped()
       },
       numberDisplayOptions: {
         backgroundFill: FELColors.acPowerSupplyDisplayColorProperty,
