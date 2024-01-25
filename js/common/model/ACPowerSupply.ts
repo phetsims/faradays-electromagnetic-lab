@@ -74,7 +74,8 @@ export default class ACPowerSupply extends CurrentSource {
 
     this.frequencyProperty = new NumberProperty( 50, {
       units: '%',
-      range: new Range( 5, 100 ),
+      // range was [5,100] in Java version, see https://github.com/phetsims/faradays-electromagnetic-lab/issues/58
+      range: new Range( 10, 100 ),
       tandem: tandem.createTandem( 'frequencyProperty' ),
       phetioFeatured: true
     } );
