@@ -76,14 +76,16 @@ export default class VoltageChartNode extends Node {
       phetioVisiblePropertyInstrumented: false
     }, providedOptions );
 
+    const voltageRange = acPowerSupply.voltageProperty.range;
+
     // Vertical space above and below the largest waveform
-    const yMargin = 0.05 * acPowerSupply.voltageRange.getLength();
+    const yMargin = 0.05 * voltageRange.getLength();
 
     const chartTransform = new ChartTransform( {
       viewWidth: options.viewSize.width,
       viewHeight: options.viewSize.height,
       modelXRange: new Range( -options.viewSize.width / 2, options.viewSize.width / 2 ),
-      modelYRange: new Range( acPowerSupply.voltageRange.min - yMargin, acPowerSupply.voltageRange.max + yMargin )
+      modelYRange: new Range( voltageRange.min - yMargin, voltageRange.max + yMargin )
     } );
 
     const chartRectangle = new ChartRectangle( chartTransform, {

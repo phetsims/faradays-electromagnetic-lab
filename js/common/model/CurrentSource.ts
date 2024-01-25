@@ -10,26 +10,34 @@ import PhetioObject, { PhetioObjectOptions } from '../../../../tandem/js/PhetioO
 import IOType from '../../../../tandem/js/types/IOType.js';
 import ReferenceIO from '../../../../tandem/js/types/ReferenceIO.js';
 import faradaysElectromagneticLab from '../../faradaysElectromagneticLab.js';
-import optionize from '../../../../phet-core/js/optionize.js';
+import optionize, { combineOptions } from '../../../../phet-core/js/optionize.js';
 import PickRequired from '../../../../phet-core/js/types/PickRequired.js';
 import DerivedProperty from '../../../../axon/js/DerivedProperty.js';
 import TReadOnlyProperty from '../../../../axon/js/TReadOnlyProperty.js';
 import FELConstants from '../FELConstants.js';
+import NumberProperty, { NumberPropertyOptions } from '../../../../axon/js/NumberProperty.js';
+import Range from '../../../../dot/js/Range.js';
+import StrictOmit from '../../../../phet-core/js/types/StrictOmit.js';
+import Utils from '../../../../dot/js/Utils.js';
 
 type SelfOptions = {
   maxVoltage: number; // range of voltageProperty is [-maxVoltage,maxVoltage]
+  initialVoltage: number; // initial value of voltageProperty
+  voltagePropertyOptions?: NumberPropertyOptions;
 };
 
 export type CurrentSourceOptions = SelfOptions & PickRequired<PhetioObjectOptions, 'tandem'>;
 
 export default class CurrentSource extends PhetioObject {
 
+  public readonly voltageProperty: NumberProperty;
+
   // Amplitude of the current, relative to the voltage. See Coil currentAmplitudeProperty.
   public readonly currentAmplitudeProperty: TReadOnlyProperty<number>;
 
-  protected constructor( voltageProperty: TReadOnlyProperty<number>, providedOptions: CurrentSourceOptions ) {
+  protected constructor( providedOptions: CurrentSourceOptions ) {
 
-    const options = optionize<CurrentSourceOptions, SelfOptions, PhetioObjectOptions>()( {
+    const options = optionize<CurrentSourceOptions, StrictOmit<SelfOptions, 'voltagePropertyOptions'>, PhetioObjectOptions>()( {
 
       // PhetioObjectOptions
       isDisposable: false,
@@ -42,10 +50,24 @@ export default class CurrentSource extends PhetioObject {
 
     super( options );
 
-    this.currentAmplitudeProperty = new DerivedProperty( [ voltageProperty ],
-      voltage => voltage / options.maxVoltage, {
+    const voltageRange = new Range( -options.maxVoltage, options.maxVoltage );
+
+    this.voltageProperty = new NumberProperty( options.initialVoltage,
+      combineOptions<NumberPropertyOptions>( {
+        units: 'V',
+        range: voltageRange,
+        tandem: options.tandem.createTandem( 'voltageProperty' ),
+        phetioFeatured: true
+      }, options.voltagePropertyOptions ) );
+
+    this.currentAmplitudeProperty = new DerivedProperty( [ this.voltageProperty ],
+      voltage => linearRange( voltageRange, FELConstants.CURRENT_AMPLITUDE_RANGE, voltage ), {
         isValidValue: currentAmplitude => FELConstants.CURRENT_AMPLITUDE_RANGE.contains( currentAmplitude )
       } );
+  }
+
+  public reset(): void {
+    this.voltageProperty.reset();
   }
 
   /**
@@ -58,6 +80,11 @@ export default class CurrentSource extends PhetioObject {
     supertype: ReferenceIO( IOType.ObjectIO ),
     documentation: 'A device that acts as the current source for an electromagnet'
   } );
+}
+
+//TODO Move to dot.Utils or FELUtils
+function linearRange( aRange: Range, bRange: Range, aValue: number ): number {
+  return Utils.linear( aRange.min, aRange.max, bRange.min, bRange.max, aValue );
 }
 
 faradaysElectromagneticLab.register( 'CurrentSource', CurrentSource );

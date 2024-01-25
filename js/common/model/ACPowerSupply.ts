@@ -16,7 +16,6 @@ import DerivedProperty from '../../../../axon/js/DerivedProperty.js';
 import NumberIO from '../../../../tandem/js/types/NumberIO.js';
 import TReadOnlyProperty from '../../../../axon/js/TReadOnlyProperty.js';
 import FELModel from './FELModel.js';
-import Property from '../../../../axon/js/Property.js';
 
 const MAX_VOLTAGE = 110; // V
 const MAX_VOLTAGE_PERCENT_RANGE = new Range( 0, 100 ); // %
@@ -26,11 +25,6 @@ const MAX_VOLTAGE_RANGE = new Range( ( MAX_VOLTAGE_PERCENT_RANGE.min / 100 ) * M
 const MIN_STEPS_PER_CYCLE = 10;
 
 export default class ACPowerSupply extends CurrentSource {
-
-  // Voltage at time === now
-  public readonly voltageProperty: TReadOnlyProperty<number>;
-  private readonly _voltageProperty: Property<number>;
-  public readonly voltageRange: Range;
 
   // How high the voltage can go.
   public readonly maxVoltagePercentProperty: NumberProperty;
@@ -51,23 +45,15 @@ export default class ACPowerSupply extends CurrentSource {
 
   public constructor( tandem: Tandem ) {
 
-    const voltageProperty = new NumberProperty( 0, {
-      units: 'V',
-      range: new Range( -MAX_VOLTAGE, MAX_VOLTAGE ),
-      tandem: tandem.createTandem( 'voltageProperty' ),
-      phetioReadOnly: true,
-      phetioFeatured: true,
-      phetioHighFrequency: true
-    } );
-
-    super( voltageProperty, {
+    super( {
       maxVoltage: MAX_VOLTAGE, // volts
+      initialVoltage: 0,
+      voltagePropertyOptions: {
+        phetioReadOnly: true,
+        phetioHighFrequency: true
+      },
       tandem: tandem
     } );
-
-    this.voltageProperty = voltageProperty;
-    this._voltageProperty = voltageProperty;
-    this.voltageRange = voltageProperty.range;
 
     this.maxVoltagePercentProperty = new NumberProperty( 50, {
       units: '%',
@@ -124,8 +110,8 @@ export default class ACPowerSupply extends CurrentSource {
     this.stepAngleProperty = this._stepAngleProperty;
   }
 
-  public reset(): void {
-    this._voltageProperty.reset();
+  public override reset(): void {
+    super.reset();
     this.maxVoltagePercentProperty.reset();
     this.frequencyProperty.reset();
     this.angleProperty.reset();
@@ -139,7 +125,7 @@ export default class ACPowerSupply extends CurrentSource {
     assert && assert( dt === FELModel.CONSTANT_DT, `invalid dt=${dt}, see FELModel step` );
 
     if ( this.maxVoltageProperty.value === 0 ) {
-      this._voltageProperty.value = 0;
+      this.voltageProperty.value = 0;
     }
     else {
       const previousAngle = this.angleProperty.value;
@@ -154,7 +140,7 @@ export default class ACPowerSupply extends CurrentSource {
       this.angleProperty.value = nextAngle % ( 2 * Math.PI );
 
       // Calculate and set the voltage.
-      this._voltageProperty.value = this.maxVoltageProperty.value * Math.sin( this.angleProperty.value );
+      this.voltageProperty.value = this.maxVoltageProperty.value * Math.sin( this.angleProperty.value );
     }
   }
 }
