@@ -61,7 +61,7 @@ export default class CurrentSource extends PhetioObject {
       }, options.voltagePropertyOptions ) );
 
     this.currentAmplitudeProperty = new DerivedProperty( [ this.voltageProperty ],
-      voltage => linearRange( voltageRange, FELConstants.CURRENT_AMPLITUDE_RANGE, voltage ), {
+      voltage => Utils.linear( voltageRange.min, voltageRange.max, FELConstants.CURRENT_AMPLITUDE_RANGE.min, FELConstants.CURRENT_AMPLITUDE_RANGE.max, voltage ), {
         isValidValue: currentAmplitude => FELConstants.CURRENT_AMPLITUDE_RANGE.contains( currentAmplitude )
       } );
   }
@@ -80,11 +80,6 @@ export default class CurrentSource extends PhetioObject {
     supertype: ReferenceIO( IOType.ObjectIO ),
     documentation: 'A device that acts as the current source for an electromagnet'
   } );
-}
-
-//TODO Move to dot.Utils or FELUtils
-function linearRange( aRange: Range, bRange: Range, aValue: number ): number {
-  return Utils.linear( aRange.min, aRange.max, bRange.min, bRange.max, aValue );
 }
 
 faradaysElectromagneticLab.register( 'CurrentSource', CurrentSource );
