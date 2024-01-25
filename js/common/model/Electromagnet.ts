@@ -21,9 +21,9 @@ import { EmptySelfOptions } from '../../../../phet-core/js/optionize.js';
 import FELModel from './FELModel.js';
 import RangeWithValue from '../../../../dot/js/RangeWithValue.js';
 import Coil from './Coil.js';
+import FELConstants from '../FELConstants.js';
 
 const STRENGTH_RANGE = new Range( 0, 300 ); // gauss
-const CURRENT_AMPLITUDE_RANGE = new Range( -1, 1 );
 const WIRE_WIDTH = 16;
 const LOOP_SPACING = WIRE_WIDTH; // closely-packed loops
 
@@ -64,7 +64,7 @@ export default class Electromagnet extends CoilMagnet {
       [ currentSourceProperty, dcPowerSupply.amplitudeProperty, acPowerSupply.amplitudeProperty ],
       ( currentSource, batteryAmplitude, acPowerSupplyAmplitude ) =>
         ( currentSource === dcPowerSupply ) ? batteryAmplitude : acPowerSupplyAmplitude, {
-        isValidValue: currentAmplitude => CURRENT_AMPLITUDE_RANGE.contains( currentAmplitude ),
+        isValidValue: currentAmplitude => FELConstants.CURRENT_AMPLITUDE_RANGE.contains( currentAmplitude ),
         tandem: options.tandem.createTandem( 'currentAmplitudeProperty' ),
         phetioValueType: NumberIO,
         phetioFeatured: true

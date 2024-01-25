@@ -20,6 +20,7 @@ import { RectangularRadioButtonOptions } from '../../../sun/js/buttons/Rectangul
 import { SoundClipOptions } from '../../../tambo/js/sound-generators/SoundClip.js';
 import { SliderOptions } from '../../../sun/js/Slider.js';
 import Tandem from '../../../tandem/js/Tandem.js';
+import Range from '../../../dot/js/Range.js';
 
 // Credits are shared by all sims in this family.
 //TODO https://github.com/phetsims/faradays-electromagnetic-lab/issues/2 fill in credits
@@ -189,6 +190,11 @@ const FELConstants = {
   PREFERENCES_DESCRIPTION_LINE_WRAP: 500,
 
   // Model
+
+  // Range of currentAmplitudeProperty. The magnitude determines the relative amount of current, while the sign
+  // determines the current direction. See Coil currentAmplitudeProperty and
+  // https://github.com/phetsims/faradays-electromagnetic-lab/issues/63
+  CURRENT_AMPLITUDE_RANGE: new Range( -1, 1 ),
 
   // Absolute current amplitude below this value is treated as zero.
   CURRENT_AMPLITUDE_THRESHOLD: 0.001

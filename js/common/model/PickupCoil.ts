@@ -24,6 +24,7 @@ import CurrentIndicator from './CurrentIndicator.js';
 import FELModel from './FELModel.js';
 import PickupCoilSamplePointsStrategy from './PickupCoilSamplePointsStrategy.js';
 import FELMovable, { FELMovableOptions } from './FELMovable.js';
+import FELConstants from '../FELConstants.js';
 
 const WIRE_WIDTH = 16;
 const LOOP_SPACING = 1.5 * WIRE_WIDTH; // loosely-packed loops
@@ -135,7 +136,7 @@ export default class PickupCoil extends FELMovable {
     this.samplePointsStrategy = options.samplePointsStrategy;
 
     this.currentAmplitudeProperty = new NumberProperty( 0, {
-      range: new Range( -1, 1 ),
+      range: FELConstants.CURRENT_AMPLITUDE_RANGE,
       tandem: options.tandem.createTandem( 'currentAmplitudeProperty' ),
       phetioFeatured: true,
       phetioReadOnly: true,
