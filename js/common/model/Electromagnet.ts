@@ -58,6 +58,7 @@ export default class Electromagnet extends CoilMagnet {
       phetioFeatured: true
     } );
 
+    // Amplitude and direction of current in the coil. See Coil currentAmplitudeProperty.
     // Current in the coil is equivalent to amplitude of the selected current source.
     const currentAmplitudeProperty = new DerivedProperty(
       [ currentSourceProperty, dcPowerSupply.amplitudeProperty, acPowerSupply.amplitudeProperty ],
