@@ -161,28 +161,25 @@ export default class PickupCoil extends FELMovable {
       options.tandem.createTandem( 'voltmeter' ) );
 
     this._fluxProperty = new NumberProperty( 0, {
-      units: 'Wb',
       tandem: options.tandem.createTandem( 'fluxProperty' ),
       phetioReadOnly: true,
-      phetioDocumentation: 'Flux in the coil'
+      phetioDocumentation: 'Relative flux in the coil.'
     } );
     this.fluxProperty = this._fluxProperty;
 
     this._deltaFluxProperty = new NumberProperty( 0, {
-      units: 'V',
       tandem: options.tandem.createTandem( 'deltaFluxProperty' ),
       phetioReadOnly: true,
       phetioFeatured: true,
-      phetioDocumentation: 'Change in flux in the coil'
+      phetioDocumentation: 'Relative change in flux in the coil'
     } );
     this.deltaFluxProperty = this._deltaFluxProperty;
 
     this._emfProperty = new NumberProperty( 0, {
-      units: 'V',
       tandem: options.tandem.createTandem( 'emfProperty' ),
       phetioReadOnly: true,
       phetioFeatured: true,
-      phetioDocumentation: 'EMF induced by the change in flux'
+      phetioDocumentation: 'Relative EMF induced by the change in flux'
     } );
     this.emfProperty = this._emfProperty;
 
