@@ -92,7 +92,7 @@ export default class DCPowerSupplyNode extends Node {
       }
     } );
 
-    // Position the volts value at the correct end of the battery.
+    // Position the volts value at the positive pole of the battery.
     Multilink.multilink(
       [ dcPowerSupply.currentAmplitudeProperty, voltsText.boundsProperty ],
       ( amplitude, bounds ) => {
