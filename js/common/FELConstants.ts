@@ -21,6 +21,7 @@ import { SoundClipOptions } from '../../../tambo/js/sound-generators/SoundClip.j
 import { SliderOptions } from '../../../sun/js/Slider.js';
 import Tandem from '../../../tandem/js/Tandem.js';
 import Range from '../../../dot/js/Range.js';
+import FELQueryParameters from './FELQueryParameters.js';
 
 // Credits are shared by all sims in this family.
 //TODO https://github.com/phetsims/faradays-electromagnetic-lab/issues/2 fill in credits
@@ -104,8 +105,8 @@ const PANEL_TITLE_OPTIONS: TextOptions = {
 };
 
 const KEYBOARD_DRAG_LISTENER_OPTIONS: KeyboardDragListenerOptions = {
-  dragVelocity: 500, // velocity of the Node being dragged, in view coordinates per second
-  shiftDragVelocity: 250 // velocity with the Shift key pressed, typically slower than dragVelocity
+  dragVelocity: FELQueryParameters.dragVelocity,
+  shiftDragVelocity: FELQueryParameters.shiftDragVelocity
 };
 
 const VBOX_OPTIONS: VBoxOptions = {

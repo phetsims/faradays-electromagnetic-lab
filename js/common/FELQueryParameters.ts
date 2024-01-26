@@ -62,6 +62,22 @@ const SCHEMA_MAP = {
     type: 'number',
     defaultValue: 25,
     isValidValue: ( value: number ) => ( value >= 20 && value <= 60 )
+  },
+
+  // KeyboardDragListenerOptions.dragVelocity for all draggable objects
+  //TODO https://github.com/phetsims/faradays-electromagnetic-lab/issues/54
+  dragVelocity: {
+    type: 'number',
+    defaultValue: 500,
+    isValidValue: ( value: number ) => ( value > 0 )
+  },
+
+  // KeyboardDragListenerOptions.shiftDragVelocity for all draggable objects
+  //TODO https://github.com/phetsims/faradays-electromagnetic-lab/issues/54
+  shiftDragVelocity: {
+    type: 'number',
+    defaultValue: 250,
+    isValidValue: ( value: number ) => ( value > 0 )
   }
 } as const;
 
