@@ -57,9 +57,9 @@ export default class LightBulb extends CurrentIndicator {
 
     currentAmplitudeProperty.link( ( currentAmplitude, previousCurrentAmplitude ) => {
       let brightness = 0;
-      if ( !options.lightsWhenCurrentChangesDirection && ( previousCurrentAmplitude !== null ) &&
-           ( ( currentAmplitude > 0 && previousCurrentAmplitude <= 0 ) ||
-             ( currentAmplitude <= 0 && previousCurrentAmplitude > 0 ) ) ) {
+      if ( previousCurrentAmplitude !== null &&
+           Math.sign( currentAmplitude ) !== Math.sign( previousCurrentAmplitude ) &&
+           !options.lightsWhenCurrentChangesDirection ) {
 
         // Current changed direction, so turn the light off.
         brightness = 0;
