@@ -4,7 +4,7 @@
  * CoilNode is the visualization of a coil of wire. In order to simulate objects passing "through" the
  * coil, CoilNode consists of two layers, referred to as the foreground and background. Foreground elements
  * are children of CoilNode. Background elements are children of this.backgroundNode, and it is the responsibility
- * of the instantiator to add this.backgroundNode to the scenegraph.
+ * of the instantiator to add this.backgroundNode to the scene graph.
  *
  * The coil is drawn as a set of curves, with a "wire end" attached at each end of the coil. The wire ends is where
  * things can be connected to the coil (eg, a lightbulb or voltmeter).
@@ -60,9 +60,9 @@ export default class CoilNode extends Node {
   // the coil associated with this Node
   private readonly coil: Coil;
 
-  // The parent of Nodes that are background elements, intended to be added to the scenegraph behind the B-field, magnet,
+  // The parent of Nodes that are background elements, intended to be added to the scene graph behind the B-field, magnet,
   // and compass, so that it looks like those things are passing through the coil. It is the responsibility of the
-  // instantiator to add backgroundNode to the scenegraph. Foreground elements are children of CoilNode.
+  // instantiator to add backgroundNode to the scene graph. Foreground elements are children of CoilNode.
   public readonly backgroundNode: Node;
 
   // Is electron animation enabled?

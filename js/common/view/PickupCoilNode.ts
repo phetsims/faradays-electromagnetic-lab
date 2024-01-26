@@ -28,9 +28,9 @@ type PickupCoilNodeOptions = SelfOptions &
 
 export default class PickupCoilNode extends FELMovableNode {
 
-  // The background layer, intended to be added to the scenegraph behind the B-field, magnet, and compass, so that
+  // The background layer, intended to be added to the scene graph behind the B-field, magnet, and compass, so that
   // it looks like those things are passing through the coil. It is the responsibility of the instantiator to add
-  // backgroundNode to the scenegraph.
+  // backgroundNode to the scene graph.
   public readonly backgroundNode: Node;
 
   public constructor( pickupCoil: PickupCoil, stepEmitter: Emitter<[ number ]>, providedOptions: PickupCoilNodeOptions ) {
@@ -75,12 +75,12 @@ export default class PickupCoilNode extends FELMovableNode {
 
     this.backgroundNode = coilNode.backgroundNode;
 
-    // Because backgroundNode is added to the scenegraph elsewhere, ensure that its visibility remains synchronized with this Node.
+    // Because backgroundNode is added to the scene graph elsewhere, ensure that its visibility remains synchronized with this Node.
     this.visibleProperty.link( visible => {
       this.backgroundNode.visible = visible;
     } );
 
-    // Superclass FELMovableNode handles positioning this Node. But because backgroundNode is added to the scenegraph
+    // Superclass FELMovableNode handles positioning this Node. But because backgroundNode is added to the scene graph
     // elsewhere, we also need to handle positioning of backgroundNode.
     pickupCoil.positionProperty.link( position => {
       this.backgroundNode.translation = position;

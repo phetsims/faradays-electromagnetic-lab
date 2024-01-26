@@ -18,7 +18,7 @@ import Bounds2 from '../../../../dot/js/Bounds2.js';
 
 export default class GeneratorNode extends Node {
 
-  // Must be added to the scenegraph separately. See CoilNode backgroundNode.
+  // Must be added to the scene graph separately. See CoilNode backgroundNode.
   public readonly backgroundNode: Node;
 
   public constructor( generator: Generator, stepEmitter: Emitter<[ number ]>, layoutBounds: Bounds2,

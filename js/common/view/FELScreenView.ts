@@ -42,7 +42,7 @@ type FELScreenViewOptions = SelfOptions & PickRequired<ScreenViewOptions, 'tande
 
 export default class FELScreenView extends ScreenView {
 
-  // It is the subclass' responsibility to add these to the scenegraph and pdomOrder.
+  // It is the subclass' responsibility to add these to the scene graph and pdomOrder.
   protected readonly fieldNode: Node;
   protected readonly fieldMeterNode: Node;
   protected readonly compassNode: Node;
