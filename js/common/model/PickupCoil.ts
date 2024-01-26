@@ -146,13 +146,13 @@ export default class PickupCoil extends FELMovable {
 
     this.coil = new Coil( this.currentAmplitudeProperty, this.currentAmplitudeProperty.range,
       combineOptions<CoilOptions>( {
-      maxLoopArea: 35345, // in the Java version, max radius was 75, so max area was Math.PI * 75 * 75 = 35342.917352885175
-      loopAreaPercentRange: new RangeWithValue( 20, 100, 50 ),
-      numberOfLoopsRange: new RangeWithValue( 1, 4, 2 ),
-      wireWidth: WIRE_WIDTH,
-      loopSpacing: LOOP_SPACING,
-      tandem: options.tandem.createTandem( 'coil' )
-    }, options.coilOptions ) );
+        maxLoopArea: 35345, // in the Java version, max radius was 75, so max area was Math.PI * 75 * 75 = 35342.917352885175
+        loopAreaPercentRange: new RangeWithValue( 20, 100, 50 ),
+        numberOfLoopsRange: new RangeWithValue( 1, 4, 2 ),
+        wireWidth: WIRE_WIDTH,
+        loopSpacing: LOOP_SPACING,
+        tandem: options.tandem.createTandem( 'coil' )
+      }, options.coilOptions ) );
 
     this.lightBulb = new LightBulb( this.currentAmplitudeProperty, this.currentAmplitudeProperty.range,
       combineOptions<LightBulbOptions>( {
