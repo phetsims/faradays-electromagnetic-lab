@@ -267,7 +267,7 @@ export default class PickupCoil extends FELMovable {
   private updateEMF( dt: number ): void {
 
     // Get an average for Bx over the sample points.
-    this._averageBxProperty.value = this.getBxAverage();
+    this._averageBxProperty.value = this.getAverageBx();
 
     // Flux in one loop.
     const A = this.getEffectiveLoopArea();
@@ -334,7 +334,7 @@ export default class PickupCoil extends FELMovable {
   /**
    * Gets the average of Bx over the coil's sample points.
    */
-  private getBxAverage(): number {
+  private getAverageBx(): number {
 
     const magnetStrength = this.magnet.strengthProperty.value;
 
