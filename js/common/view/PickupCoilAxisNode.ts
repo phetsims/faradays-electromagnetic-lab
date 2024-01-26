@@ -41,7 +41,7 @@ export default class PickupCoilAxisNode extends Line {
   }
 
   /**
-   * Creates an icon, used for the checkbox that locks dragging to this axis.
+   * Creates an icon for the pickup coil's x-axis. It is used for the 'Lock to Axis' checkbox.
    */
   public static createIcon(): Node {
 

@@ -107,6 +107,9 @@ export default class DCPowerSupplyNode extends Node {
       } );
   }
 
+  /**
+   * Creates an icon for the DC power supply.
+   */
   public static createIcon( scale = 1 ): Node {
     return new BatteryNode( {
       scale: scale

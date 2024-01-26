@@ -73,7 +73,7 @@ export default class FELLightBulbNode extends Node {
   }
 
   /**
-   * Creates an icon for the light bulb, used to label controls.
+   * Creates an icon for the light bulb.
    */
   public static createIcon( scale = 0.2 ): Node {
     return new Image( lightBulbOff_png, {

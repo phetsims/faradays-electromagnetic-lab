@@ -155,8 +155,7 @@ export default class VoltmeterNode extends Node {
   }
 
   /**
-   * Creates an icon for the voltmeter, used to label controls. This is a simplified version of VoltmeterNode, with
-   * most of the details removed.
+   * Creates an icon for the voltmeter. This is a simplified version of VoltmeterNode, with most details removed.
    */
   public static createIcon( scale = 0.3 ): Node {
 
