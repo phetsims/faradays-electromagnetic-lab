@@ -7,8 +7,8 @@
  */
 
 import faradaysElectromagneticLab from '../../faradaysElectromagneticLab.js';
-import optionize from '../../../../phet-core/js/optionize.js';
-import Coil from './Coil.js';
+import optionize, { combineOptions } from '../../../../phet-core/js/optionize.js';
+import Coil, { CoilOptions } from './Coil.js';
 import RangeWithValue from '../../../../dot/js/RangeWithValue.js';
 import Magnet from './Magnet.js';
 import Vector2 from '../../../../dot/js/Vector2.js';
@@ -18,13 +18,14 @@ import NumberProperty from '../../../../axon/js/NumberProperty.js';
 import Range from '../../../../dot/js/Range.js';
 import createObservableArray, { ObservableArray } from '../../../../axon/js/createObservableArray.js';
 import TReadOnlyProperty from '../../../../axon/js/TReadOnlyProperty.js';
-import LightBulb from './LightBulb.js';
+import LightBulb, { LightBulbOptions } from './LightBulb.js';
 import Voltmeter from './Voltmeter.js';
 import CurrentIndicator from './CurrentIndicator.js';
 import FELModel from './FELModel.js';
 import PickupCoilSamplePointsStrategy from './PickupCoilSamplePointsStrategy.js';
 import FELMovable, { FELMovableOptions } from './FELMovable.js';
 import FELConstants from '../FELConstants.js';
+import StrictOmit from '../../../../phet-core/js/types/StrictOmit.js';
 
 const WIRE_WIDTH = 16;
 const LOOP_SPACING = 1.5 * WIRE_WIDTH; // loosely-packed loops
@@ -33,7 +34,8 @@ type SelfOptions = {
   maxEMF: number; // the initial value of maxEMFProperty
   transitionSmoothingScale?: number; // the initial value of transitionSmoothingScaleProperty
   samplePointsStrategy: PickupCoilSamplePointsStrategy; // see PickupCoilSamplePointsStrategy.ts
-  electronSpeedScale?: number; // passed to Coil
+  coilOptions?: Pick<CoilOptions, 'electronSpeedScale'>; // passed to Coil
+  lightBulbOptions?: Pick<LightBulbOptions, 'lightsWhenCurrentChangesDirection'>; // passed to LightBulb
 };
 
 export type PickupCoilOptions = SelfOptions & FELMovableOptions;
@@ -122,11 +124,10 @@ export default class PickupCoil extends FELMovable {
 
   public constructor( magnet: Magnet, providedOptions: PickupCoilOptions ) {
 
-    const options = optionize<PickupCoilOptions, SelfOptions, FELMovableOptions>()( {
+    const options = optionize<PickupCoilOptions, StrictOmit<SelfOptions, 'coilOptions' | 'lightBulbOptions'>, FELMovableOptions>()( {
 
       // SelfOptions
-      transitionSmoothingScale: 1, // no smoothing
-      electronSpeedScale: 1
+      transitionSmoothingScale: 1 // no smoothing
     }, providedOptions );
 
     super( options );
@@ -143,19 +144,20 @@ export default class PickupCoil extends FELMovable {
       phetioDocumentation: 'For internal use only.'
     } );
 
-    this.coil = new Coil( this.currentAmplitudeProperty, this.currentAmplitudeProperty.range, {
+    this.coil = new Coil( this.currentAmplitudeProperty, this.currentAmplitudeProperty.range,
+      combineOptions<CoilOptions>( {
       maxLoopArea: 35345, // in the Java version, max radius was 75, so max area was Math.PI * 75 * 75 = 35342.917352885175
       loopAreaPercentRange: new RangeWithValue( 20, 100, 50 ),
       numberOfLoopsRange: new RangeWithValue( 1, 4, 2 ),
       wireWidth: WIRE_WIDTH,
       loopSpacing: LOOP_SPACING,
       tandem: options.tandem.createTandem( 'coil' )
-    } );
+    }, options.coilOptions ) );
 
-    this.lightBulb = new LightBulb( this.currentAmplitudeProperty, this.currentAmplitudeProperty.range, {
-      lightsWhenCurrentChangesDirection: true,
-      tandem: options.tandem.createTandem( 'lightBulb' )
-    } );
+    this.lightBulb = new LightBulb( this.currentAmplitudeProperty, this.currentAmplitudeProperty.range,
+      combineOptions<LightBulbOptions>( {
+        tandem: options.tandem.createTandem( 'lightBulb' )
+      }, options.lightBulbOptions ) );
 
     this.voltmeter = new Voltmeter( this.currentAmplitudeProperty, this.currentAmplitudeProperty.range,
       options.tandem.createTandem( 'voltmeter' ) );

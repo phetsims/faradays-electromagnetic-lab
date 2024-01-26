@@ -9,13 +9,13 @@
 
 import faradaysElectromagneticLab from '../../faradaysElectromagneticLab.js';
 import NumberProperty from '../../../../axon/js/NumberProperty.js';
-import { PhetioObjectOptions } from '../../../../tandem/js/PhetioObject.js';
 import Range from '../../../../dot/js/Range.js';
 import PickRequired from '../../../../phet-core/js/types/PickRequired.js';
 import TReadOnlyProperty from '../../../../axon/js/TReadOnlyProperty.js';
 import FELConstants from '../FELConstants.js';
-import CurrentIndicator from './CurrentIndicator.js';
+import CurrentIndicator, { CurrentIndicatorOptions } from './CurrentIndicator.js';
 import Utils from '../../../../dot/js/Utils.js';
+import optionize from '../../../../phet-core/js/optionize.js';
 
 const BRIGHTNESS_RANGE = new Range( 0, 1 );
 
@@ -24,10 +24,10 @@ type SelfOptions = {
   // Determines whether the bulb lights when the current in the coil changes direction.
   // In some cases (e.g. flipping the bar magnet) this should be true.
   // In other cases (eg, the Generator or AC Electromagnet) this should be false.
-  lightsWhenCurrentChangesDirection: boolean;
+  lightsWhenCurrentChangesDirection?: boolean;
 };
 
-type LightBulbOptions = SelfOptions & PickRequired<PhetioObjectOptions, 'tandem'>;
+export type LightBulbOptions = SelfOptions & PickRequired<CurrentIndicatorOptions, 'tandem'>;
 
 export default class LightBulb extends CurrentIndicator {
 
@@ -37,7 +37,11 @@ export default class LightBulb extends CurrentIndicator {
 
   public constructor( currentAmplitudeProperty: TReadOnlyProperty<number>, currentAmplitudeRange: Range, providedOptions: LightBulbOptions ) {
 
-    const options = providedOptions;
+    const options = optionize<LightBulbOptions, SelfOptions, CurrentIndicatorOptions>()( {
+
+      // SelfOptions
+      lightsWhenCurrentChangesDirection: true
+    }, providedOptions );
 
     super( options );
 

@@ -38,7 +38,12 @@ export default class Transformer extends PhetioObject {
       maxEMF: 3500000, // see PickupCoil.calibrateMaxEMF
       transitionSmoothingScale: 0.56, // see PickupCoil.transitionSmoothingScaleProperty
       samplePointsStrategy: new FixedSpacingSamplePointsStrategy( 5.4 ), // same as Java version
-      electronSpeedScale: 2,
+      coilOptions: {
+        electronSpeedScale: 2
+      },
+      lightBulbOptions: {
+        lightsWhenCurrentChangesDirection: false
+      },
       tandem: tandem.createTandem( 'pickupCoil' )
     } );
   }

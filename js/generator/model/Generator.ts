@@ -35,6 +35,9 @@ export default class Generator extends PhetioObject {
       positionPropertyOptions: {
         phetioReadOnly: true
       },
+      lightBulbOptions: {
+        lightsWhenCurrentChangesDirection: false
+      },
       maxEMF: 26000, // see PickupCoil.calibrateMaxEMF
       transitionSmoothingScale: 1, // see PickupCoil.transitionSmoothingScaleProperty
       samplePointsStrategy: new FixedNumberOfSamplePointsStrategy( 9 /* numberOfSamplePoints */ ),
