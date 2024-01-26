@@ -61,7 +61,7 @@ export default class LightBulb extends CurrentIndicator {
            Math.sign( currentAmplitude ) !== Math.sign( previousCurrentAmplitude ) &&
            !options.lightsWhenCurrentChangesDirection ) {
 
-        // Current changed direction, so turn the light off.
+        // Current changed direction and should not light the bulb.
         brightness = 0;
       }
       else if ( Math.abs( currentAmplitude ) < FELConstants.CURRENT_AMPLITUDE_THRESHOLD ) {
