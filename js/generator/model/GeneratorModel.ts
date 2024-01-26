@@ -30,7 +30,7 @@ export default class GeneratorModel extends FELModel {
     this.generator = new Generator( tandem.createTandem( 'generator' ) );
 
     this.compass = new ImmediateCompass( this.generator.turbine.barMagnet, this.isPlayingProperty, {
-      position: new Vector2( 350, 175 ),
+      position: new Vector2( 625, 400 ),
       tandem: tandem.createTandem( 'compass' )
     } );
 

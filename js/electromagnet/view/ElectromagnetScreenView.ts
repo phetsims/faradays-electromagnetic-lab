@@ -48,9 +48,9 @@ export default class ElectromagnetScreenView extends FELScreenView {
       children: [
         electromagnetNode.backgroundNode,
         this.fieldNode,
+        this.compassNode, // behind electromagnetNode, see https://github.com/phetsims/faradays-electromagnetic-lab/issues/10#issuecomment-1911160748
         electromagnetNode,
         panels,
-        this.compassNode,
         this.fieldMeterNode,
         timeControlNode,
         this.resetAllButton,

@@ -66,10 +66,10 @@ export default class BarMagnetScreenView extends FELScreenView {
     const rootNode = new Node( {
       children: [
         this.fieldNode,
+        this.compassNode, // behind barMagnetNode, see https://github.com/phetsims/faradays-electromagnetic-lab/issues/10#issuecomment-1911160748
         barMagnetNode,
         earthNode,
         panels,
-        this.compassNode,
         this.fieldMeterNode,
         this.resetAllButton,
         developerAccordionBox

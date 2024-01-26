@@ -78,9 +78,9 @@ export default class TransformerScreenView extends FELScreenView {
         transformerNode.electromagnetNode.backgroundNode,
         this.fieldNode,
         pickupCoilAxisNode,
+        this.compassNode, // behind transformerNode, see https://github.com/phetsims/faradays-electromagnetic-lab/issues/10#issuecomment-1911160748
         transformerNode,
         panels,
-        this.compassNode,
         this.fieldMeterNode,
         timeControlNode,
         this.resetAllButton,

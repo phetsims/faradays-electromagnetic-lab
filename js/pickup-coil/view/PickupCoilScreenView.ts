@@ -76,10 +76,10 @@ export default class PickupCoilScreenView extends FELScreenView {
         pickupCoilNode.backgroundNode,
         this.fieldNode,
         pickupCoilAxisNode,
+        this.compassNode, // behind barMagnetNode, see https://github.com/phetsims/faradays-electromagnetic-lab/issues/10#issuecomment-1911160748
         barMagnetNode,
         pickupCoilNode,
         panels,
-        this.compassNode,
         this.fieldMeterNode,
         this.resetAllButton,
         developerAccordionBox,

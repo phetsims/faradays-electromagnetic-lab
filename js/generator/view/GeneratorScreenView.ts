@@ -51,9 +51,9 @@ export default class GeneratorScreenView extends FELScreenView {
       children: [
         generatorNode.backgroundNode,
         this.fieldNode,
+        this.compassNode, // behind generatorNode, see https://github.com/phetsims/faradays-electromagnetic-lab/issues/10#issuecomment-1911160748
         generatorNode,
         panels,
-        this.compassNode,
         this.fieldMeterNode,
         timeControlNode,
         this.resetAllButton,
