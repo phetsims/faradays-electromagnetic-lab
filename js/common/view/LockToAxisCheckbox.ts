@@ -49,7 +49,7 @@ function createIcon(): Node {
   const dashLength = 5;
   const headWidth = 5;
   const headHeight = 5;
-  const numberOfDashes = 4;
+  const numberOfDashes = 4; // includes what looks like the arrow tails
 
   const line = new Line( 0, 0, ( 2 * numberOfDashes - 1 ) * dashLength, 0, {
     stroke: FELColors.pickupCoilAxisStrokeProperty,
