@@ -48,15 +48,21 @@ export default class PickupCoil extends FELMovable {
   // The coil that induces the EMF
   public readonly coil: Coil;
 
-  // Devices that respond to induced EMF
+  // Devices that respond to induced EMF, aka 'current indicators'
   public readonly lightBulb: LightBulb;
   public readonly voltmeter: Voltmeter;
 
-  // Strategy used to create sample points
-  private readonly samplePointsStrategy: PickupCoilSamplePointsStrategy;
+  // Which current indicator is visible in the view
+  public readonly currentIndicatorProperty: Property<CurrentIndicator>;
 
   // Amplitude and direction of current in the coil. See Coil currentAmplitudeProperty.
   private readonly currentAmplitudeProperty: NumberProperty;
+
+  // B-field sample points along the vertical axis of the coil
+  public samplePoints: ObservableArray<Vector2>;
+
+  // Strategy used to populate samplePoints
+  private readonly samplePointsStrategy: PickupCoilSamplePointsStrategy;
 
   // Flux in the coil
   private readonly _fluxProperty: Property<number>;
@@ -72,12 +78,6 @@ export default class PickupCoil extends FELMovable {
 
   // Used exclusively in calibrateMaxEMF, does not need to be stateful for PhET-iO
   private _biggestAbsEmf; // in volts
-
-  // B-field sample points along the vertical axis of the coil
-  public samplePoints: ObservableArray<Vector2>;
-
-  // Which current indicator is visible in the view
-  public readonly currentIndicatorProperty: Property<CurrentIndicator>;
 
   // *** Displayed in PickupCoilDebuggerPanel, when running with &dev query parameter. ***
   // Average of the B-field samples perpendicular (Bx) to the coil's vertical axis.
@@ -134,8 +134,6 @@ export default class PickupCoil extends FELMovable {
 
     this.magnet = magnet;
 
-    this.samplePointsStrategy = options.samplePointsStrategy;
-
     this.currentAmplitudeProperty = new NumberProperty( 0, {
       range: FELConstants.CURRENT_AMPLITUDE_RANGE,
       tandem: options.tandem.createTandem( 'currentAmplitudeProperty' ),
@@ -162,6 +160,22 @@ export default class PickupCoil extends FELMovable {
     this.voltmeter = new Voltmeter( this.currentAmplitudeProperty, this.currentAmplitudeProperty.range,
       options.tandem.createTandem( 'voltmeter' ) );
 
+    this.currentIndicatorProperty = new Property<CurrentIndicator>( this.lightBulb, {
+      validValues: [ this.lightBulb, this.voltmeter ],
+      tandem: options.tandem.createTandem( 'currentIndicatorProperty' ),
+      phetioValueType: CurrentIndicator.CurrentIndicatorIO,
+      phetioFeatured: true
+    } );
+
+    this.samplePoints = createObservableArray( {
+      tandem: options.tandem.createTandem( 'samplePoints' ),
+      phetioReadOnly: true,
+      phetioType: createObservableArray.ObservableArrayIO( Vector2.Vector2IO ),
+      phetioDocumentation: 'B-field sample points along the vertical axis of the coil'
+    } );
+
+    this.samplePointsStrategy = options.samplePointsStrategy;
+
     this._fluxProperty = new NumberProperty( 0, {
       tandem: options.tandem.createTandem( 'fluxProperty' ),
       phetioReadOnly: true,
@@ -186,20 +200,6 @@ export default class PickupCoil extends FELMovable {
     this.emfProperty = this._emfProperty;
 
     this._biggestAbsEmf = 0.0;
-
-    this.samplePoints = createObservableArray( {
-      tandem: options.tandem.createTandem( 'samplePoints' ),
-      phetioReadOnly: true,
-      phetioType: createObservableArray.ObservableArrayIO( Vector2.Vector2IO ),
-      phetioDocumentation: 'B-field sample points along the vertical axis of the coil'
-    } );
-
-    this.currentIndicatorProperty = new Property<CurrentIndicator>( this.lightBulb, {
-      validValues: [ this.lightBulb, this.voltmeter ],
-      tandem: options.tandem.createTandem( 'currentIndicatorProperty' ),
-      phetioValueType: CurrentIndicator.CurrentIndicatorIO,
-      phetioFeatured: true
-    } );
 
     this._averageBxProperty = new NumberProperty( 0
       // Do not instrument. This is a PhET developer Property.
@@ -235,12 +235,12 @@ export default class PickupCoil extends FELMovable {
     this.coil.reset();
     this.lightBulb.reset();
     this.voltmeter.reset();
+    this.currentIndicatorProperty.reset();
     this.currentAmplitudeProperty.reset();
     this._fluxProperty.reset();
     this._emfProperty.reset();
     this._averageBxProperty.reset();
     this._deltaFluxProperty.reset();
-    this.currentIndicatorProperty.reset();
     // Do not reset developer Properties.
   }
 
@@ -262,15 +262,12 @@ export default class PickupCoil extends FELMovable {
   }
 
   /**
-   * Updates the induced EMF (and other related instance data), using Faraday's Law.
+   * Updates the induced EMF (and other related Properties) using Faraday's Law.
    */
   private updateEMF( dt: number ): void {
 
-    // Sum the B-field sample points.
-    const sumBx = this.getSumBx();
-
-    // Average the B-field sample points.
-    this._averageBxProperty.value = sumBx / this.samplePoints.length;
+    // Get an average for Bx over the sample points.
+    this._averageBxProperty.value = this.getBxAverage();
 
     // Flux in one loop.
     const A = this.getEffectiveLoopArea();
@@ -335,13 +332,12 @@ export default class PickupCoil extends FELMovable {
   }
 
   /**
-   * Gets the sum of Bx at the coil's sample points.
+   * Gets the average of Bx over the coil's sample points.
    */
-  private getSumBx(): number {
+  private getBxAverage(): number {
 
     const magnetStrength = this.magnet.strengthProperty.value;
 
-    // Sum the B-field sample points.
     let sumBx = 0;
     for ( let i = 0; i < this.samplePoints.length; i++ ) {
 
@@ -352,7 +348,7 @@ export default class PickupCoil extends FELMovable {
       // Find the B-field vector at that point.
       const fieldVector = this.magnet.getFieldVector( this.reusableSamplePoint, this.reusableFieldVector );
 
-      // If the B-field x component is equal to the magnet strength, then our B-field sample was inside the magnet.
+      // If Bx is equal to the magnet strength, then our B-field sample was inside the magnet.
       // Use a fudge factor to scale the sample so that the transitions between inside and outside the magnet are
       // not abrupt. See Unfuddle ticket https://phet.unfuddle.com/a#/projects/9404/tickets/by_number/248.
       let Bx = fieldVector.x;
@@ -360,11 +356,11 @@ export default class PickupCoil extends FELMovable {
         Bx *= this.transitionSmoothingScaleProperty.value;
       }
 
-      // Accumulate a sum of the sample points.
+      // Accumulate a sum of Bx values.
       sumBx += Bx;
     }
 
-    return sumBx;
+    return sumBx / this.samplePoints.length;
   }
 
   /**
