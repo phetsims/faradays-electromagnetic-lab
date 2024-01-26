@@ -9,14 +9,15 @@
 
 import faradaysElectromagneticLab from '../../faradaysElectromagneticLab.js';
 import Checkbox, { CheckboxOptions } from '../../../../sun/js/Checkbox.js';
-import { HBox, Line, Node, Path, Text } from '../../../../scenery/js/imports.js';
+import { HBox, Line, Node, Text } from '../../../../scenery/js/imports.js';
 import FaradaysElectromagneticLabStrings from '../../FaradaysElectromagneticLabStrings.js';
 import FELConstants from '../FELConstants.js';
 import { combineOptions } from '../../../../phet-core/js/optionize.js';
 import Property from '../../../../axon/js/Property.js';
 import Tandem from '../../../../tandem/js/Tandem.js';
 import FELColors from '../FELColors.js';
-import { Shape } from '../../../../kite/js/imports.js';
+import ArrowNode, { ArrowNodeOptions } from '../../../../scenery-phet/js/ArrowNode.js';
+import WithRequired from '../../../../phet-core/js/types/WithRequired.js';
 
 export default class LockToAxisCheckbox extends Checkbox {
 
@@ -42,32 +43,34 @@ export default class LockToAxisCheckbox extends Checkbox {
 }
 
 /**
- * Creates the icon for this checkbox, a horizontal dashed line with arrow heads at both ends.
+ * Creates the icon for this checkbox, a horizontal dashed line with arrows at both ends.
  */
 function createIcon(): Node {
 
-  const dashLength = 5;
-  const headWidth = 5;
-  const headHeight = 5;
-  const numberOfDashes = 4; // includes what looks like the arrow tails
+  const lineWidth = 2;
+  const dashLength = 5; // length of positive and negative segments in the dash pattern
+  const numberOfDashes = 2; // number of positive segments in the dash pattern that appear between the 2 arrows
 
   const line = new Line( 0, 0, ( 2 * numberOfDashes - 1 ) * dashLength, 0, {
     stroke: FELColors.pickupCoilAxisStrokeProperty,
-    lineWidth: 2,
+    lineWidth: lineWidth,
     lineDash: [ dashLength, dashLength ]
   } );
 
-  const leftHead = new Path( new Shape().moveTo( 0, 0 ).lineTo( headWidth, -headHeight ).lineTo( headWidth, headHeight ).close(), {
-    fill: FELColors.pickupCoilAxisStrokeProperty
-  } );
-
-  const rightHead = new Path( new Shape().moveTo( 0, 0 ).lineTo( -headWidth, -headHeight ).lineTo( -headWidth, headHeight ).close(), {
-    fill: FELColors.pickupCoilAxisStrokeProperty
-  } );
+  const arrowNodeOptions: WithRequired<ArrowNodeOptions, 'headHeight'> = {
+    headWidth: 10,
+    headHeight: 10,
+    tailWidth: lineWidth,
+    fill: FELColors.pickupCoilAxisStrokeProperty,
+    stroke: null
+  };
+  const arrowLength = arrowNodeOptions.headHeight + dashLength;
+  const leftArrow = new ArrowNode( arrowLength, 0, 0, 0, arrowNodeOptions );
+  const rightArrow = new ArrowNode( 0, 0, arrowLength, 0, arrowNodeOptions );
 
   return new HBox( {
-    spacing: 0,
-    children: [ leftHead, line, rightHead ]
+    spacing: dashLength,
+    children: [ leftArrow, line, rightArrow ]
   } );
 }
 
