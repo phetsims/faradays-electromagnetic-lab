@@ -95,7 +95,7 @@ export default class DCPowerSupplyNode extends Node {
     // Position the volts value at the positive pole of the battery.
     Multilink.multilink(
       [ dcPowerSupply.currentAmplitudeProperty, voltsText.boundsProperty ],
-      ( amplitude, bounds ) => {
+      ( amplitude, voltsTextBounds ) => {
         const xMargin = 15;
         if ( amplitude >= 0 ) {
           voltsText.right = batteryNode.right - xMargin;
