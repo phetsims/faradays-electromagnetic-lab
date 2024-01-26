@@ -246,10 +246,10 @@ export default class PickupCoil extends FELMovable {
 
   public step( dt: number ): void {
     assert && assert( dt === FELModel.CONSTANT_DT, `invalid dt=${dt}, see FELModel step` );
-    this.updateEMF( dt );
     if ( this.currentIndicatorProperty.value === this.voltmeter ) {
       this.voltmeter.step( dt );
     }
+    this.updateEMF( dt );
   }
 
   /**
