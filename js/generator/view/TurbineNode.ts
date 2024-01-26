@@ -52,6 +52,8 @@ export default class TurbineNode extends Node {
       tandem: tandem,
       phetioVisiblePropertyInstrumented: false
     } );
+
+    this.addLinkedElement( turbine );
   }
 }
 

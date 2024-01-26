@@ -43,6 +43,8 @@ export default class TransformerNode extends Node {
 
     this.electromagnetNode = electromagnetNode;
     this.pickupCoilNode = pickupCoilNode;
+
+    this.addLinkedElement( transformer );
   }
 }
 

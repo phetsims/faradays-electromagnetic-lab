@@ -39,6 +39,8 @@ export default class GeneratorNode extends Node {
     } );
 
     this.backgroundNode = pickupCoilNode.backgroundNode;
+
+    this.addLinkedElement( generator );
   }
 }
 
