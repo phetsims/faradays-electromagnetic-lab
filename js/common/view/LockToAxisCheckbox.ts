@@ -30,12 +30,14 @@ export default class LockToAxisCheckbox extends Checkbox {
       ]
     } );
 
-    super( isLockedToAxisProperty, content, combineOptions<CheckboxOptions>( {}, FELConstants.CHECKBOX_OPTIONS, {
+    const options = combineOptions<CheckboxOptions>( {}, FELConstants.CHECKBOX_OPTIONS, {
       layoutOptions: {
-        stretch: false
+        stretch: false // prevent space from being introduced between text and icon
       },
       tandem: tandem
-    } ) );
+    } );
+
+    super( isLockedToAxisProperty, content, options );
   }
 }
 
