@@ -40,6 +40,7 @@ export default class BarMagnetModel extends FELModel {
       tandem: tandem.createTandem( 'compass' )
     } );
 
+    //TODO move fieldMeter instantiation to FELModel, add FELModelOptions.fieldMeterOptions: PickOptional<FieldMeterOptions, 'position' | 'visible'>
     this.fieldMeter = new FieldMeter( this.barMagnet, {
       position: new Vector2( 150, 400 ),
       visible: false,
