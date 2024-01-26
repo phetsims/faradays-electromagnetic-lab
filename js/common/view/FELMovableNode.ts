@@ -102,12 +102,8 @@ export default class FELMovableNode extends InteractiveHighlighting( Node ) {
         this.addInputListener( keyboardDragListener );
       }
 
-      // If this Node becomes invisible, interrupt user interaction.
-      this.visibleProperty.lazyLink( visible => {
-        if ( !visible ) {
-          this.interruptSubtreeInput();
-        }
-      } );
+      // Interrupt interaction when this Node becomes invisible.
+      this.visibleProperty.lazyLink( visible => !visible && this.interruptSubtreeInput() );
     }
   }
 }

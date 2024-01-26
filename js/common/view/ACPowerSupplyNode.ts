@@ -93,6 +93,9 @@ export default class ACPowerSupplyNode extends Node {
       phetioFeatured: true
     } );
 
+    // Interrupt interaction when this Node becomes invisible.
+    this.visibleProperty.lazyLink( visible => !visible && this.interruptSubtreeInput() );
+
     this.addLinkedElement( acPowerSupply );
   }
 
