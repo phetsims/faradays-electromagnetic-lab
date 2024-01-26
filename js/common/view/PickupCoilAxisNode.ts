@@ -8,13 +8,12 @@
  */
 
 import faradaysElectromagneticLab from '../../faradaysElectromagneticLab.js';
-import { HBox, Line, Node, Path } from '../../../../scenery/js/imports.js';
+import { Line } from '../../../../scenery/js/imports.js';
 import TReadOnlyProperty from '../../../../axon/js/TReadOnlyProperty.js';
 import Bounds2 from '../../../../dot/js/Bounds2.js';
 import Vector2 from '../../../../dot/js/Vector2.js';
 import Multilink from '../../../../axon/js/Multilink.js';
 import FELColors from '../FELColors.js';
-import { Shape } from '../../../../kite/js/imports.js';
 
 export default class PickupCoilAxisNode extends Line {
 
@@ -38,36 +37,6 @@ export default class PickupCoilAxisNode extends Line {
           this.setLine( visibleBounds.minX, pickupCoilPosition.y, visibleBounds.maxX, pickupCoilPosition.y );
         }
       } );
-  }
-
-  /**
-   * Creates an icon for the pickup coil's x-axis. It is used for the 'Lock to Axis' checkbox.
-   */
-  public static createIcon(): Node {
-
-    const dashLength = 5;
-    const headWidth = 5;
-    const headHeight = 5;
-    const numberOfDashes = 4;
-
-    const line = new Line( 0, 0, ( 2 * numberOfDashes - 1 ) * dashLength, 0, {
-      stroke: FELColors.pickupCoilAxisStrokeProperty,
-      lineWidth: 2,
-      lineDash: [ dashLength, dashLength ]
-    } );
-
-    const leftHead = new Path( new Shape().moveTo( 0, 0 ).lineTo( headWidth, -headHeight ).lineTo( headWidth, headHeight ).close(), {
-      fill: FELColors.pickupCoilAxisStrokeProperty
-    } );
-
-    const rightHead = new Path( new Shape().moveTo( 0, 0 ).lineTo( -headWidth, -headHeight ).lineTo( -headWidth, headHeight ).close(), {
-      fill: FELColors.pickupCoilAxisStrokeProperty
-    } );
-
-    return new HBox( {
-      spacing: 0,
-      children: [ leftHead, line, rightHead ]
-    } );
   }
 }
 

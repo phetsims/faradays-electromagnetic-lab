@@ -9,7 +9,7 @@
 import faradaysElectromagneticLab from '../../faradaysElectromagneticLab.js';
 import Panel, { PanelOptions } from '../../../../sun/js/Panel.js';
 import Checkbox, { CheckboxOptions } from '../../../../sun/js/Checkbox.js';
-import { HBox, Text, VBox, VBoxOptions } from '../../../../scenery/js/imports.js';
+import { Text, VBox, VBoxOptions } from '../../../../scenery/js/imports.js';
 import { combineOptions, optionize4 } from '../../../../phet-core/js/optionize.js';
 import FELConstants from '../../common/FELConstants.js';
 import FaradaysElectromagneticLabStrings from '../../FaradaysElectromagneticLabStrings.js';
@@ -17,7 +17,7 @@ import Compass from '../model/Compass.js';
 import FieldMeter from '../model/FieldMeter.js';
 import Property from '../../../../axon/js/Property.js';
 import PickRequired from '../../../../phet-core/js/types/PickRequired.js';
-import PickupCoilAxisNode from './PickupCoilAxisNode.js';
+import LockToAxisCheckbox from './LockToAxisCheckbox.js';
 
 type SelfOptions = {
 
@@ -55,20 +55,8 @@ export default class ToolsPanel extends Panel {
 
     // 'Lock to Axis' checkbox
     if ( options.isLockedToAxisProperty ) {
-      const content = new HBox( {
-        spacing: 8,
-        children: [
-          new Text( FaradaysElectromagneticLabStrings.lockToAxisStringProperty, FELConstants.CHECKBOX_TEXT_OPTIONS ),
-          PickupCoilAxisNode.createIcon()
-        ]
-      } );
-      const lockToAxisCheckbox = new Checkbox( options.isLockedToAxisProperty, content,
-        combineOptions<CheckboxOptions>( {}, FELConstants.CHECKBOX_OPTIONS, {
-          layoutOptions: {
-            stretch: false
-          },
-          tandem: options.tandem.createTandem( 'lockToAxisCheckbox' )
-        } ) );
+      const lockToAxisCheckbox = new LockToAxisCheckbox( options.isLockedToAxisProperty,
+        options.tandem.createTandem( 'lockToAxisCheckbox' ) );
       children.push( lockToAxisCheckbox );
     }
 
