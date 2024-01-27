@@ -29,10 +29,10 @@ export default class Turbine extends PhetioObject {
   // Bar magnet that rotates as the turbine spins
   public readonly barMagnet: BarMagnet;
 
-  // Flow rate of water that turns the turbine
+  // Water flowing from this faucet rotates the magnet
   public readonly waterFaucet: WaterFaucet;
 
-  // Rotational speed of the turbine
+  // Rotational speed of the magnet
   public readonly rpmProperty: TReadOnlyProperty<number>;
 
   public constructor( tandem: Tandem ) {

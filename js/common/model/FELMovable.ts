@@ -16,7 +16,11 @@ import Vector2Property, { Vector2PropertyOptions } from '../../../../dot/js/Vect
 import StrictOmit from '../../../../phet-core/js/types/StrictOmit.js';
 
 type SelfOptions = {
-  position?: Vector2; // initial value of positionProperty, unitless
+
+  // Initial value of positionProperty, unitless
+  position?: Vector2;
+
+  // Options passed to positionProperty
   positionPropertyOptions?: Vector2PropertyOptions;
 };
 

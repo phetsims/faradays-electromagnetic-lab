@@ -13,7 +13,10 @@ import Property from '../../../../axon/js/Property.js';
 
 export default class BarMagnetViewProperties {
 
+  // Whether the field inside the bar magnet is visible.
   public readonly seeInsideBarMagnetProperty: Property<boolean>;
+
+  // Whether planet Earth is visible, aligned with the bar magnet.
   public readonly earthVisibleProperty: Property<boolean>;
 
   public constructor( tandem: Tandem ) {
