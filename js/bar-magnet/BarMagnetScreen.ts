@@ -17,7 +17,6 @@ import Tandem from '../../../tandem/js/Tandem.js';
 import { combineOptions } from '../../../phet-core/js/optionize.js';
 import FELConstants from '../common/FELConstants.js';
 import FELKeyboardHelpContent from '../common/view/FELKeyboardHelpContent.js';
-import BarMagnet from '../common/model/BarMagnet.js';
 import BarMagnetNode from '../common/view/BarMagnetNode.js';
 import Dimension2 from '../../../dot/js/Dimension2.js';
 
@@ -41,18 +40,7 @@ export default class BarMagnetScreen extends Screen<BarMagnetModel, BarMagnetScr
  * Creates the icon for this screen.
  */
 function createScreenIcon(): ScreenIcon {
-
-  const barMagnet = new BarMagnet( {
-    size: new Dimension2( 150, 50 ),
-    tandem: Tandem.OPT_OUT
-  } );
-
-  const barMagnetNode = new BarMagnetNode( barMagnet, {
-    isMovable: false, // This is an icon, so this bar magnet cannot be dragged.
-    tandem: Tandem.OPT_OUT
-  } );
-
-  return new ScreenIcon( barMagnetNode, {
+  return new ScreenIcon( BarMagnetNode.createIcon( new Dimension2( 150, 50 ) ), {
     fill: FELColors.screenBackgroundColorProperty,
     maxIconWidthProportion: 0.85,
     maxIconHeightProportion: 1

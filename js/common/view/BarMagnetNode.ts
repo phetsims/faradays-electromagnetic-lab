@@ -25,6 +25,7 @@ import FaradaysElectromagneticLabStrings from '../../FaradaysElectromagneticLabS
 import Dimension2 from '../../../../dot/js/Dimension2.js';
 import PickOptional from '../../../../phet-core/js/types/PickOptional.js';
 import PickRequired from '../../../../phet-core/js/types/PickRequired.js';
+import Tandem from '../../../../tandem/js/Tandem.js';
 
 const CORNER_RADIUS = 10;
 const FONT = new PhetFont( { size: 30, weight: 'bold' } );
@@ -94,6 +95,22 @@ export default class BarMagnetNode extends FELMovableNode {
         tandem: options.tandem.createTandem( 'fieldInsideNode' )
       } ) );
     }
+  }
+
+  /**
+   * Creates an icon for the bar magnet.
+   */
+  public static createIcon( size?: Dimension2 ): Node {
+
+    const barMagnet = new BarMagnet( {
+      size: size,
+      tandem: Tandem.OPT_OUT
+    } );
+
+    return new BarMagnetNode( barMagnet, {
+      isMovable: false, // This is an icon, so this bar magnet cannot be dragged.
+      tandem: Tandem.OPT_OUT
+    } );
   }
 }
 

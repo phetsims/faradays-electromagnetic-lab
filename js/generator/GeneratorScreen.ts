@@ -19,7 +19,6 @@ import { combineOptions } from '../../../phet-core/js/optionize.js';
 import FELConstants from '../common/FELConstants.js';
 import FELKeyboardHelpContent from '../common/view/FELKeyboardHelpContent.js';
 import waterWheel_png from '../../images/waterWheel_png.js';
-import BarMagnet from '../common/model/BarMagnet.js';
 import BarMagnetNode from '../common/view/BarMagnetNode.js';
 
 export default class GeneratorScreen extends Screen<GeneratorModel, GeneratorScreenView> {
@@ -45,20 +44,12 @@ function createScreenIcon(): ScreenIcon {
 
   const waterWheelImage = new Image( waterWheel_png );
 
-  const barMagnet = new BarMagnet( {
-    tandem: Tandem.OPT_OUT
-  } );
-
-  const barMagnetNode = new BarMagnetNode( barMagnet, {
-    isMovable: false, // This is an icon, so this bar magnet cannot be dragged.
-    tandem: Tandem.OPT_OUT
-  } );
-
-  barMagnetNode.setScaleMagnitude( 0.95 * waterWheelImage.width / barMagnetNode.width );
-  barMagnetNode.center = waterWheelImage.center;
+  const barMagnetIcon = BarMagnetNode.createIcon();
+  barMagnetIcon.setScaleMagnitude( 0.95 * waterWheelImage.width / barMagnetIcon.width );
+  barMagnetIcon.center = waterWheelImage.center;
 
   const iconNode = new Node( {
-    children: [ waterWheelImage, barMagnetNode ]
+    children: [ waterWheelImage, barMagnetIcon ]
   } );
 
   return new ScreenIcon( iconNode, {
