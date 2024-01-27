@@ -8,7 +8,6 @@
 
 import faradaysElectromagneticLab from '../../faradaysElectromagneticLab.js';
 import Tandem from '../../../../tandem/js/Tandem.js';
-import Compass from '../../common/model/Compass.js';
 import Electromagnet from '../../common/model/Electromagnet.js';
 import Vector2 from '../../../../dot/js/Vector2.js';
 import IncrementalCompass from '../../common/model/IncrementalCompass.js';
@@ -17,7 +16,6 @@ import FELModel from '../../common/model/FELModel.js';
 export default class ElectromagnetModel extends FELModel {
 
   public readonly electromagnet: Electromagnet;
-  public readonly compass: Compass;
 
   public constructor( tandem: Tandem ) {
 
@@ -27,26 +25,21 @@ export default class ElectromagnetModel extends FELModel {
     } );
 
     super( electromagnet, {
+      createCompass: ( magnet, isPlayingProperty, tandem ) => new IncrementalCompass( magnet, isPlayingProperty, {
+        position: new Vector2( 150, 200 ),
+        tandem: tandem
+      } ),
       tandem: tandem
     } );
 
     this.electromagnet = electromagnet;
 
-    this.compass = new IncrementalCompass( electromagnet, this.isPlayingProperty, {
-      position: new Vector2( 150, 200 ),
-      tandem: tandem.createTandem( 'compass' )
-    } );
-
-    this.stepEmitter.addListener( dt => {
-      electromagnet.step( dt );
-      this.compass.step( dt );
-    } );
+    this.stepEmitter.addListener( dt => electromagnet.step( dt ) );
   }
 
   public override reset(): void {
     super.reset();
     this.electromagnet.reset();
-    this.compass.reset();
   }
 }
 

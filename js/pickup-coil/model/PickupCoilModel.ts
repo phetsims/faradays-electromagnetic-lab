@@ -11,7 +11,6 @@ import Tandem from '../../../../tandem/js/Tandem.js';
 import PickupCoil from '../../common/model/PickupCoil.js';
 import Vector2 from '../../../../dot/js/Vector2.js';
 import BarMagnet from '../../common/model/BarMagnet.js';
-import Compass from '../../common/model/Compass.js';
 import KinematicCompass from '../../common/model/KinematicCompass.js';
 import FELModel from '../../common/model/FELModel.js';
 import { FixedSpacingSamplePointsStrategy } from '../../common/model/PickupCoilSamplePointsStrategy.js';
@@ -20,7 +19,6 @@ export default class PickupCoilModel extends FELModel {
 
   public readonly barMagnet: BarMagnet;
   public readonly pickupCoil: PickupCoil;
-  public readonly compass: Compass;
 
   public constructor( tandem: Tandem ) {
 
@@ -30,10 +28,15 @@ export default class PickupCoilModel extends FELModel {
     } );
 
     super( barMagnet, {
-      tandem: tandem,
+      createCompass: ( magnet, isPlayingProperty, tandem ) => new KinematicCompass( magnet, isPlayingProperty, {
+        position: new Vector2( 150, 300 ),
+        visible: false,
+        tandem: tandem
+      } ),
       isPlayingPropertyOptions: {
         tandem: Tandem.OPT_OUT // because this screen has no time controls
-      }
+      },
+      tandem: tandem
     } );
 
     this.barMagnet = barMagnet;
@@ -49,23 +52,16 @@ export default class PickupCoilModel extends FELModel {
       tandem: tandem.createTandem( 'pickupCoil' )
     } );
 
-    this.compass = new KinematicCompass( barMagnet, this.isPlayingProperty, {
-      position: new Vector2( 150, 300 ),
-      visible: false,
-      tandem: tandem.createTandem( 'compass' )
-    } );
+    this.stepEmitter.addListener( dt => this.pickupCoil.step( dt ) );
 
-    this.stepEmitter.addListener( dt => {
-      this.pickupCoil.step( dt );
-      this.compass.step( dt );
-    } );
+    assert && this.isPlayingProperty.link(
+      isPlaying => assert && assert( isPlaying, 'isPlaying must always be true for the Pickup Coil screen.' ) );
   }
 
   public override reset(): void {
     super.reset();
     this.barMagnet.reset();
     this.pickupCoil.reset();
-    this.compass.reset();
   }
 }
 

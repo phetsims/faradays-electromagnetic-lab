@@ -21,16 +21,22 @@ import Vector2 from '../../../../dot/js/Vector2.js';
 import Magnet from './Magnet.js';
 import PickOptional from '../../../../phet-core/js/types/PickOptional.js';
 import StrictOmit from '../../../../phet-core/js/types/StrictOmit.js';
+import TReadOnlyProperty from '../../../../axon/js/TReadOnlyProperty.js';
+import Compass from './Compass.js';
+import Tandem from '../../../../tandem/js/Tandem.js';
 
 const DEFAULT_FIELD_METER_POSITION = new Vector2( 150, 400 );
 
 type SelfOptions = {
 
-  // Options passed to isPlayingProperty
-  isPlayingPropertyOptions?: BooleanPropertyOptions;
-
   // Options passed to FieldMeter
   fieldMeterOptions?: PickOptional<FieldMeterOptions, 'position' | 'visible'>;
+
+  // Creates a compass that is appropriate for the FELModel subclass
+  createCompass: ( magnet: Magnet, isPlayingProperty: TReadOnlyProperty<boolean>, tandem: Tandem ) => Compass;
+
+  // Options passed to isPlayingProperty
+  isPlayingPropertyOptions?: BooleanPropertyOptions;
 };
 
 export type FELModelOptions = SelfOptions & PickRequired<PhetioObjectOptions, 'tandem'>;
@@ -53,7 +59,9 @@ export default class FELModel implements TModel {
   // Fires at a constant rate, with a constant dt. Subclass should listen to this instead of overriding step.
   public readonly stepEmitter: Emitter<[ number ]>;
 
+  // Devices that measure the magnet's B-field
   public readonly fieldMeter: FieldMeter;
+  public readonly compass: Compass;
 
   protected constructor( magnet: Magnet, providedOptions: FELModelOptions ) {
 
@@ -87,19 +95,27 @@ export default class FELModel implements TModel {
       visible: false,
       tandem: options.tandem.createTandem( 'fieldMeter' )
     }, options.fieldMeterOptions ) );
+
+    this.compass = options.createCompass( magnet, this.isPlayingProperty, options.tandem.createTandem( 'compass' ) );
+
+    this.stepEmitter.addListener( dt => {
+      this.compass.step( dt );
+    } );
   }
 
   public reset(): void {
     this.isPlayingProperty.reset();
     this.accumulatedTimeProperty.reset();
     this.fieldMeter.reset();
+    this.compass.reset();
   }
 
   /**
+   * DO NOT OVERRIDE! Subclasses should not override step, and should instead listen to stepEmitter.
+   *
    * In the Java version, we used a clock that fired 25 times per second, with constant dt = 1.
    * See FaradayModule.java: new SwingClock( 1000 / 25, FaradayConstants.CLOCK_STEP )
    * Because so much of the code relies on this, we implement something similar here.
-   * Subclasses should not override step, and should instead listen to stepEmitter.
    *
    * @param dt - time change, in seconds
    */
