@@ -21,15 +21,22 @@ import StrictOmit from '../../../../phet-core/js/types/StrictOmit.js';
 import Utils from '../../../../dot/js/Utils.js';
 
 type SelfOptions = {
-  maxVoltage: number; // range of voltageProperty is [-maxVoltage,maxVoltage]
-  initialVoltage: number; // initial value of voltageProperty
-  voltagePropertyOptions?: NumberPropertyOptions;
+
+  // Range of voltageProperty will be [-maxVoltage,maxVoltage]
+  maxVoltage: number;
+
+  // Initial value of voltageProperty
+  initialVoltage: number;
+
+  // Options passed to voltagePropertyOptions
+  voltagePropertyOptions?: StrictOmit<NumberPropertyOptions, 'units' | 'range'>;
 };
 
 export type CurrentSourceOptions = SelfOptions & PickRequired<PhetioObjectOptions, 'tandem'>;
 
 export default class CurrentSource extends PhetioObject {
 
+  // Voltage that will cause current flow
   public readonly voltageProperty: NumberProperty;
 
   // Amplitude of the current, relative to the voltage. See Coil currentAmplitudeProperty.
