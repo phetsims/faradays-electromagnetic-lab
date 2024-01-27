@@ -113,9 +113,9 @@ export default class FELModel implements TModel {
   /**
    * DO NOT OVERRIDE! Subclasses should not override step, and should instead listen to stepEmitter.
    *
-   * In the Java version, we used a clock that fired 25 times per second, with constant dt = 1.
+   * In the Java version, we used a clock that fires 25 times per second, with constant dt = 1.
    * See FaradayModule.java: new SwingClock( 1000 / 25, FaradayConstants.CLOCK_STEP )
-   * Because so much of the code relies on this, we implement something similar here.
+   * Because so much of the code ported from Java relies on this, we implement something similar here.
    *
    * @param dt - time change, in seconds
    */
