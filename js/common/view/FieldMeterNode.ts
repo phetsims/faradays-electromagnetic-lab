@@ -130,7 +130,7 @@ export default class FieldMeterNode extends FELMovableNode {
     );
     const stringByValueProperty = new DerivedStringProperty(
       [ FELPreferences.magneticUnitsProperty, fieldMeter.fieldVectorProperty, GStringProperty, TStringProperty, valueUnitsStringProperty ],
-      //TODO -fieldVector.y to convert to +y up, should be done in the model
+      //TODO https://github.com/phetsims/faradays-electromagnetic-lab/issues/19 -fieldVector.y to convert to +y up, should be done in the model
       ( magneticUnits, fieldVector, G, T ) =>
         ( magneticUnits === 'G' ) ? `${toGaussString( -fieldVector.y, G )}`
                                   : `${toTeslaString( fieldVector.y, T )}`
@@ -229,7 +229,7 @@ function toDegreesString( fieldVector: Vector2 ): string {
       stringValue = '0';
     }
     else {
-      //TODO -angle to convert to +rotation counterclockwise, should be done in the model
+      //TODO https://github.com/phetsims/faradays-electromagnetic-lab/issues/19 -angle to convert to +rotation counterclockwise, should be done in the model
       stringValue = `${Utils.toFixed( Utils.toDegrees( -fieldVector.angle ), ANGLE_DECIMAL_PLACES )}`;
     }
     return StringUtils.fillIn( FaradaysElectromagneticLabStrings.pattern.valueDegreesStringProperty, {

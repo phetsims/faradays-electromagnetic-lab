@@ -213,7 +213,7 @@ export default class VoltageChartNode extends Node {
     this.endAngleProperty.value = this.startAngleProperty.value + ( 2 * ( angle - PHASE_ANGLE ) );
   }
 
-  //TODO This is not behaving as expected.
+  //TODO https://github.com/phetsims/faradays-electromagnetic-lab/issues/59 This is not behaving as expected.
   /**
    * Updates the cursor to indicate where time === now.
    */
