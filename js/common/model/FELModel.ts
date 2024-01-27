@@ -15,12 +15,22 @@ import NumberIO from '../../../../tandem/js/types/NumberIO.js';
 import BooleanProperty, { BooleanPropertyOptions } from '../../../../axon/js/BooleanProperty.js';
 import PickRequired from '../../../../phet-core/js/types/PickRequired.js';
 import { PhetioObjectOptions } from '../../../../tandem/js/PhetioObject.js';
-import { combineOptions } from '../../../../phet-core/js/optionize.js';
+import optionize, { combineOptions } from '../../../../phet-core/js/optionize.js';
+import FieldMeter, { FieldMeterOptions } from './FieldMeter.js';
+import Vector2 from '../../../../dot/js/Vector2.js';
+import Magnet from './Magnet.js';
+import PickOptional from '../../../../phet-core/js/types/PickOptional.js';
+import StrictOmit from '../../../../phet-core/js/types/StrictOmit.js';
+
+const DEFAULT_FIELD_METER_POSITION = new Vector2( 150, 400 );
 
 type SelfOptions = {
 
-  // Options that will be passed to isPlayingProperty
+  // Options passed to isPlayingProperty
   isPlayingPropertyOptions?: BooleanPropertyOptions;
+
+  // Options passed to FieldMeter
+  fieldMeterOptions?: PickOptional<FieldMeterOptions, 'position' | 'visible'>;
 };
 
 export type FELModelOptions = SelfOptions & PickRequired<PhetioObjectOptions, 'tandem'>;
@@ -43,9 +53,11 @@ export default class FELModel implements TModel {
   // Fires at a constant rate, with a constant dt. Subclass should listen to this instead of overriding step.
   public readonly stepEmitter: Emitter<[ number ]>;
 
-  protected constructor( providedOptions: FELModelOptions ) {
+  public readonly fieldMeter: FieldMeter;
 
-    const options = providedOptions;
+  protected constructor( magnet: Magnet, providedOptions: FELModelOptions ) {
+
+    const options = optionize<FELModelOptions, StrictOmit<SelfOptions, 'isPlayingPropertyOptions' | 'fieldMeterOptions'>>()( {}, providedOptions );
 
     this.isPlayingProperty = new BooleanProperty( true, combineOptions<BooleanPropertyOptions>( {
       tandem: options.tandem.createTandem( 'isPlayingProperty' )
@@ -69,11 +81,18 @@ export default class FELModel implements TModel {
       phetioDocumentation: 'Fires when the model is to be stepped.',
       phetioHighFrequency: true
     } );
+
+    this.fieldMeter = new FieldMeter( magnet, combineOptions<FieldMeterOptions>( {
+      position: DEFAULT_FIELD_METER_POSITION,
+      visible: false,
+      tandem: options.tandem.createTandem( 'fieldMeter' )
+    }, options.fieldMeterOptions ) );
   }
 
   public reset(): void {
     this.isPlayingProperty.reset();
     this.accumulatedTimeProperty.reset();
+    this.fieldMeter.reset();
   }
 
   /**
