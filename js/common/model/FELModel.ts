@@ -32,7 +32,7 @@ type SelfOptions = {
   // Options passed to FieldMeter
   fieldMeterOptions?: PickOptional<FieldMeterOptions, 'position' | 'visible'>;
 
-  // Creates a compass that is appropriate for the FELModel subclass
+  // Creates a compass that is appropriate for the screen
   createCompass: ( magnet: Magnet, isPlayingProperty: TReadOnlyProperty<boolean>, tandem: Tandem ) => Compass;
 
   // Options passed to isPlayingProperty
