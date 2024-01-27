@@ -40,10 +40,7 @@ export default class CoilSegment extends Path {
     const options = optionize<CoilSegmentOptions, SelfOptions, PathOptions>()( {
 
       // SelfOptions
-      speedScale: CoilSegment.DEFAULT_SPEED_SCALE,
-      lineCap: 'round',
-      lineJoin: 'bevel',
-      strokePickable: true
+      speedScale: CoilSegment.DEFAULT_SPEED_SCALE
     }, providedOptions );
 
     assert && assert( options.speedScale > 0, `invalid speedScale: ${options.speedScale}` );

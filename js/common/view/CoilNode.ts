@@ -153,7 +153,10 @@ export default class CoilNode extends Node {
     let rightEndPoint: Vector2 | null = null;
 
     const pathOptions: PathOptions = {
-      lineWidth: this.coil.wireWidth
+      lineWidth: this.coil.wireWidth,
+      lineCap: 'round',
+      lineJoin: 'bevel',
+      strokePickable: true
     };
 
     // Create the wire ends & loops from left to right.
