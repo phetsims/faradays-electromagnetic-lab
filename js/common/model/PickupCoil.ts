@@ -26,6 +26,7 @@ import PickupCoilSamplePointsStrategy from './PickupCoilSamplePointsStrategy.js'
 import FELMovable, { FELMovableOptions } from './FELMovable.js';
 import FELConstants from '../FELConstants.js';
 import StrictOmit from '../../../../phet-core/js/types/StrictOmit.js';
+import PickOptional from '../../../../phet-core/js/types/PickOptional.js';
 
 const WIRE_WIDTH = 16;
 const LOOP_SPACING = 1.5 * WIRE_WIDTH; // loosely-packed loops
@@ -34,8 +35,8 @@ type SelfOptions = {
   maxEMF: number; // the initial value of maxEMFProperty
   transitionSmoothingScale?: number; // the initial value of transitionSmoothingScaleProperty
   samplePointsStrategy: PickupCoilSamplePointsStrategy; // see PickupCoilSamplePointsStrategy.ts
-  coilOptions?: Pick<CoilOptions, 'electronSpeedScale'>; // passed to Coil
-  lightBulbOptions?: Pick<LightBulbOptions, 'lightsWhenCurrentChangesDirection'>; // passed to LightBulb
+  coilOptions?: PickOptional<CoilOptions, 'electronSpeedScale'>; // passed to Coil
+  lightBulbOptions?: PickOptional<LightBulbOptions, 'lightsWhenCurrentChangesDirection'>; // passed to LightBulb
 };
 
 export type PickupCoilOptions = SelfOptions & FELMovableOptions;
