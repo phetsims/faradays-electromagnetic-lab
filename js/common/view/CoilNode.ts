@@ -43,7 +43,7 @@ import TReadOnlyProperty from '../../../../axon/js/TReadOnlyProperty.js';
 import Bounds2 from '../../../../dot/js/Bounds2.js';
 
 // Space between electrons, determines the number of electrons add to each curve.
-const ELECTRON_SPACING = 20;
+const ELECTRON_SPACING = 25;
 const ELECTRONS_IN_LEFT_END = 2;
 const ELECTRONS_IN_RIGHT_END = 2;
 
@@ -295,35 +295,22 @@ export default class CoilNode extends Node {
       }
     }
 
-    // Optionally, connect the ends with a wire across the top.
-    let topLength = 0;
+    // Optionally, connect the ends with a top segment. Note that there are no electron in this segment, and it is
+    // not a CoilSegment.  We did try to add electrons to the top segment by making it a CoilSegment, but ran into
+    // problems. See https://github.com/phetsims/faradays-electromagnetic-lab/issues/42.
     if ( this.endsConnected ) {
       assert && assert( leftEndPoint && rightEndPoint );
-
-      // To create a straight line, set the control point to be on the midpoint of the line connecting the end points.
-      const controlPoint = leftEndPoint!.average( rightEndPoint! );
-      const curve = new QuadraticBezierSpline( rightEndPoint!, controlPoint, leftEndPoint! );
-      topLength = Math.abs( rightEndPoint!.x - leftEndPoint!.x );
-
-      const coilSegment = new CoilSegment( curve, this, combineOptions<CoilSegmentOptions>( {
-        stroke: FELColors.coilMiddleColorProperty
-      }, pathOptions ) );
-      this.coilSegments.push( coilSegment );
-
-      const shape = new Shape()
-        .moveToPoint( curve.startPoint )
-        .quadraticCurveToPoint( curve.controlPoint, curve.endPoint );
+      const shape = new Shape().moveTo( leftEndPoint!.x, leftEndPoint!.y ).lineTo( rightEndPoint!.x, rightEndPoint!.y );
       const path = new Path( shape, combineOptions<PathOptions>( {
         stroke: FELColors.coilMiddleColorProperty
       }, pathOptions ) );
-      coilSegment.parentNode.addChild( path );
+      this.addChild( path );
     }
 
     // Add electrons to the coil.
     {
       const leftEndIndex = 0;
-      const rightEndIndex = ( this.endsConnected ) ? this.coilSegments.length - 2 : this.coilSegments.length - 1;
-      const topSegmentIndex = ( this.endsConnected ) ? this.coilSegments.length - 1 : -1;
+      const rightEndIndex = this.coilSegments.length - 1;
 
       // For each curve...
       for ( let coilSegmentIndex = 0; coilSegmentIndex < this.coilSegments.length; coilSegmentIndex++ ) {
@@ -335,9 +322,6 @@ export default class CoilNode extends Node {
         }
         else if ( coilSegmentIndex === rightEndIndex ) {
           numberOfElectrons = ELECTRONS_IN_RIGHT_END;
-        }
-        else if ( coilSegmentIndex === topSegmentIndex ) {
-          numberOfElectrons = Math.trunc( topLength / ELECTRON_SPACING );
         }
         else {
           numberOfElectrons = Math.trunc( radius / ELECTRON_SPACING );
