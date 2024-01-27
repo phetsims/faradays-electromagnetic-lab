@@ -61,7 +61,6 @@ export default class BarMagnetNode extends FELMovableNode {
         fill: FELColors.barMagnetSouthTextColorProperty
       }, textOptions ) );
 
-
     // Dynamically position the labels at the ends of the magnet.
     const textXMargin = 0.06 * barMagnet.size.width;
 

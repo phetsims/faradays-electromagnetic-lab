@@ -26,7 +26,7 @@ export default class TurbineNode extends Node {
     const waterWheelNode = new WaterWheelNode( turbine.barMagnet );
 
     const barMagnetNode = new BarMagnetNode( turbine.barMagnet, {
-      isMovable: false, // this bar magnet cannot be dragged
+      isMovable: false, // This bar magnet cannot be dragged. Its motion is controlled by the turbine.
       tandem: tandem.createTandem( 'barMagnetNode' )
     } );
 

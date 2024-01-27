@@ -1,7 +1,7 @@
 // Copyright 2023-2024, University of Colorado Boulder
 
 /**
- * FELMovableNode is the abstract base class for rendering FELMovable, model elements with a mutable position.
+ * FELMovableNode is the abstract base class for rendering FELMovable, a model element with a mutable position.
  * It is responsible for pointer input, alternative input, and constrained drag bounds.
  *
  * @author Chris Malley (PixelZoom, Inc.)
@@ -20,10 +20,22 @@ import soundManager from '../../../../tambo/js/soundManager.js';
 import PickRequired from '../../../../phet-core/js/types/PickRequired.js';
 import TReadOnlyProperty from '../../../../axon/js/TReadOnlyProperty.js';
 import Bounds2 from '../../../../dot/js/Bounds2.js';
+import StrictOmit from '../../../../phet-core/js/types/StrictOmit.js';
 
 type SelfOptions = {
-  isMovable?: boolean; // use this to enable or disable interaction
+
+  // Use this option to enable or disable interaction.
+  isMovable?: boolean;
+
+  // Whether this Node has a KeyboardDragListener. Ignored if isMovable: false.
   hasKeyboardDragListener?: boolean;
+
+  // Options passed to KeyboardDragListener. Ignored if isMovable: false.
+  // This allows us to set different drag speeds for different subclasses and instances of FELMovableNode.
+  // See https://github.com/phetsims/faradays-electromagnetic-lab/issues/54.
+  keyboardDragListenerOptions?: PickOptional<KeyboardDragListenerOptions, 'dragVelocity' | 'shiftDragVelocity'>;
+
+  // dragBoundsProperty for DragListener and KeyboardDragListener. Ignored if Ignored if isMovable: false.
   dragBoundsProperty?: TReadOnlyProperty<Bounds2> | null;
 };
 
@@ -37,7 +49,7 @@ export default class FELMovableNode extends InteractiveHighlighting( Node ) {
 
   protected constructor( movable: FELMovable, providedOptions: FELMovableNodeOptions ) {
 
-    const options = optionize<FELMovableNodeOptions, SelfOptions, ParentOptions>()( {
+    const options = optionize<FELMovableNodeOptions, StrictOmit<SelfOptions, 'keyboardDragListenerOptions'>, ParentOptions>()( {
 
       // SelfOptions
       isMovable: true,
@@ -98,7 +110,7 @@ export default class FELMovableNode extends InteractiveHighlighting( Node ) {
             start: () => grabClip.play(),
             end: () => releaseClip.play(),
             tandem: options.tandem.createTandem( 'keyboardDragListener' )
-          } ) );
+          }, options.keyboardDragListenerOptions ) );
         this.addInputListener( keyboardDragListener );
       }
 

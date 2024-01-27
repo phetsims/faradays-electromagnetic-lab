@@ -48,7 +48,7 @@ function createScreenIcon(): ScreenIcon {
   } );
 
   const barMagnetNode = new BarMagnetNode( barMagnet, {
-    isMovable: false,
+    isMovable: false, // This is an icon, so this bar magnet cannot be dragged.
     tandem: Tandem.OPT_OUT
   } );
 
