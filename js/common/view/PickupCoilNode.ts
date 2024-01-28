@@ -39,7 +39,6 @@ export default class PickupCoilNode extends FELMovableNode {
 
     const coilNode = new CoilNode( pickupCoil.coil, pickupCoil, stepEmitter, {
       dragBoundsProperty: options.dragBoundsProperty,
-      endsConnected: true,
       isMovable: options.isMovable,
       tandem: options.tandem.createTandem( 'coilNode' )
     } );
@@ -50,7 +49,7 @@ export default class PickupCoilNode extends FELMovableNode {
       options.tandem.createTandem( 'lightBulbNode' ) );
 
     const voltmeterNode = new VoltmeterNode( pickupCoil.voltmeter, pickupCoil.currentIndicatorProperty,
-      options.tandem.createTandem( 'voltmeterNode' ) );
+      coilNode.boundsProperty, options.tandem.createTandem( 'voltmeterNode' ) );
 
     // Dynamically position the light bulb and voltmeter when the size of the coil changes.
     coilNode.boundsProperty.link( () => {
@@ -61,11 +60,11 @@ export default class PickupCoilNode extends FELMovableNode {
 
       // Position the light bulb using x,y because there may be light rays present.
       lightBulbNode.x = coilNode.x + xOffset;
-      lightBulbNode.y = coilNode.top + pickupCoil.coil.wireWidth + 2; // cover the coil's top connecting wire
+      lightBulbNode.y = coilNode.top + pickupCoil.coil.wireWidth + 2; // cover the coil's rounded ends
 
       // Position the voltmeter.
       voltmeterNode.centerX = coilNode.x + xOffset;
-      voltmeterNode.bottom = coilNode.top + pickupCoil.coil.wireWidth + 2; // cover the coil's top connecting wire
+      voltmeterNode.bottom = coilNode.top + pickupCoil.coil.wireWidth - 2; // cover the coil's rounded ends
     } );
 
     // This Node's children are the foreground elements only.

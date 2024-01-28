@@ -24,13 +24,12 @@
 
 import faradaysElectromagneticLab from '../../faradaysElectromagneticLab.js';
 import Coil from '../model/Coil.js';
-import { LinearGradient, Node, NodeOptions, Path, PathOptions } from '../../../../scenery/js/imports.js';
+import { LinearGradient, Node, NodeOptions, PathOptions } from '../../../../scenery/js/imports.js';
 import CoilSegment, { CoilSegmentOptions } from '../model/CoilSegment.js';
 import PickRequired from '../../../../phet-core/js/types/PickRequired.js';
 import optionize, { combineOptions } from '../../../../phet-core/js/optionize.js';
 import Multilink from '../../../../axon/js/Multilink.js';
 import Vector2 from '../../../../dot/js/Vector2.js';
-import { Shape } from '../../../../kite/js/imports.js';
 import Electron from '../model/Electron.js';
 import Tandem from '../../../../tandem/js/Tandem.js';
 import ElectronNode from './ElectronNode.js';
@@ -48,7 +47,6 @@ const ELECTRONS_IN_LEFT_END = 2;
 const ELECTRONS_IN_RIGHT_END = 2;
 
 type SelfOptions = {
-  endsConnected?: boolean; // Whether to connect the ends of the coil.
   isMovable?: boolean; // Whether the coil is movable.
   dragBoundsProperty?: TReadOnlyProperty<Bounds2> | null;
 };
@@ -75,9 +73,6 @@ export default class CoilNode extends Node {
   private readonly electrons: Electron[];
   private readonly electronNodes: ElectronNode[];
 
-  // Whether to connect the ends of the coil.
-  public readonly endsConnected: boolean;
-
   /**
    * @param coil - the coil associated with this Node
    * @param movable - the model element to move when this.backgroundNode is dragged
@@ -89,7 +84,6 @@ export default class CoilNode extends Node {
     const options = optionize<CoilNodeOptions, SelfOptions, NodeOptions>()( {
 
       // SelfOptions
-      endsConnected: false,
       isMovable: true,
       dragBoundsProperty: null,
 
@@ -114,7 +108,6 @@ export default class CoilNode extends Node {
     this.coilSegments = [];
     this.electrons = [];
     this.electronNodes = [];
-    this.endsConnected = options.endsConnected;
 
     Multilink.multilink( [ coil.numberOfLoopsProperty, coil.loopAreaProperty ], () => this.updateCoil() );
 
@@ -147,10 +140,6 @@ export default class CoilNode extends Node {
 
     // Start at the left-most loop, keeping the coil centered.
     const xStart = -( loopSpacing * ( numberOfLoops - 1 ) / 2 );
-
-    // Positions of the left and right ends of the coil.
-    let leftEndPoint: Vector2 | null = null;
-    let rightEndPoint: Vector2 | null = null;
 
     const pathOptions: PathOptions = {
       lineWidth: this.coil.wireWidth,
@@ -188,8 +177,6 @@ export default class CoilNode extends Node {
           }, pathOptions ) );
           this.coilSegments.push( coilSegment );
           coilSegment.parentNode.addChild( coilSegment );
-
-          leftEndPoint = startPoint;
         }
 
         // Back top (left-most) is slightly different, because it connects to the left wire end.
@@ -293,21 +280,7 @@ export default class CoilNode extends Node {
         }, pathOptions ) );
         this.coilSegments.push( coilSegment );
         coilSegment.parentNode.addChild( coilSegment );
-
-        rightEndPoint = endPoint;
       }
-    }
-
-    // Optionally, connect the ends with a top segment. Note that there are no electron in this segment, and it is
-    // not a CoilSegment.  We did try to add electrons to the top segment by making it a CoilSegment, but ran into
-    // problems. See https://github.com/phetsims/faradays-electromagnetic-lab/issues/42.
-    if ( this.endsConnected ) {
-      assert && assert( leftEndPoint && rightEndPoint );
-      const shape = new Shape().moveTo( leftEndPoint!.x, leftEndPoint!.y ).lineTo( rightEndPoint!.x, rightEndPoint!.y );
-      const path = new Path( shape, combineOptions<PathOptions>( {
-        stroke: FELColors.coilMiddleColorProperty
-      }, pathOptions ) );
-      this.addChild( path );
     }
 
     // Add electrons to the coil.

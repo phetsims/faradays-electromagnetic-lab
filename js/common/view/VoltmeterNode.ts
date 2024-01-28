@@ -8,7 +8,7 @@
  */
 
 import faradaysElectromagneticLab from '../../faradaysElectromagneticLab.js';
-import { Circle, Node, NodeOptions, NodeTranslationOptions, Path, PathOptions, ProfileColorProperty, Text, TextOptions } from '../../../../scenery/js/imports.js';
+import { Circle, Line, Node, NodeOptions, NodeTranslationOptions, Path, PathOptions, ProfileColorProperty, Text, TextOptions } from '../../../../scenery/js/imports.js';
 import Voltmeter from '../model/Voltmeter.js';
 import ShadedRectangle, { ShadedRectangleOptions } from '../../../../scenery-phet/js/ShadedRectangle.js';
 import Bounds2 from '../../../../dot/js/Bounds2.js';
@@ -38,7 +38,7 @@ const DISPLAY_BOUNDS = new Bounds2( X_MARGIN, TOP_MARGIN, BODY_BOUNDS.width - X_
 const CORNER_RADIUS = 10;
 const NEEDLE_LENGTH = ( 0.80 * DISPLAY_BOUNDS.height );
 const GAUGE_RADIUS = NEEDLE_LENGTH;
-const PROBE_SIZE = new Dimension2( 12, 25 );
+const PROBE_SIZE = new Dimension2( 9, 25 );
 const RESISTOR_SIZE = new Dimension2( 50, 20 );
 
 // Options shared by VoltmeterNode and its icon
@@ -75,7 +75,10 @@ const MAJOR_TICK_SHAPE = Shape.lineSegment( 0, -GAUGE_RADIUS, 0, -GAUGE_RADIUS +
 
 export default class VoltmeterNode extends Node {
 
-  public constructor( voltmeter: Voltmeter, currentIndicatorProperty: TReadOnlyProperty<CurrentIndicator>, tandem: Tandem ) {
+  public constructor( voltmeter: Voltmeter,
+                      currentIndicatorProperty: TReadOnlyProperty<CurrentIndicator>,
+                      coilNodeBoundsProperty: TReadOnlyProperty<Bounds2>,
+                      tandem: Tandem ) {
 
     const bodyNode = new ShadedRectangle( BODY_BOUNDS, BODY_OPTIONS );
 
@@ -114,13 +117,30 @@ export default class VoltmeterNode extends Node {
     } );
 
     // Probes below the body of the voltmeter, for connecting the voltmeter to the circuit
-    const positiveProbeNode = new ProbeNode( FELColors.voltMeterPositiveProbeFillProperty, {
-      centerX: bodyNode.centerX - RESISTOR_SIZE.width / 2,
-      top: bodyNode.bottom - 1
+    const positiveProbeNode = new ProbeNode(
+      FELColors.voltMeterPositiveProbeFillProperty,
+      FELColors.voltmeterPositiveProbeStrokeProperty, {
+        centerX: bodyNode.centerX - RESISTOR_SIZE.width / 2 - 2,
+        top: bodyNode.bottom - 1
+      } );
+    const negativeProbeNode = new ProbeNode(
+      FELColors.voltmeterNegativeProbeFillProperty,
+      FELColors.voltmeterNegativeProbeStrokeProperty, {
+        centerX: bodyNode.centerX + RESISTOR_SIZE.width / 2 + 2,
+        top: bodyNode.bottom - 1
+      } );
+
+    const wireNode = new Line( 0, 0, 1, 0, {
+      stroke: FELColors.voltmeterWireFillProperty,
+      lineWidth: 8,
+      lineCap: 'round',
+      lineJoin: 'bevel',
+      strokePickable: true
     } );
-    const negativeProbeNode = new ProbeNode( FELColors.voltmeterNegativeProbeFillProperty, {
-      centerX: bodyNode.centerX + RESISTOR_SIZE.width / 2,
-      top: bodyNode.bottom - 1
+    coilNodeBoundsProperty.link( coilNodeBounds => {
+      wireNode.setLine( 0, 0, coilNodeBounds.width, 0 );
+      wireNode.centerX = bodyNode.centerX;
+      wireNode.top = positiveProbeNode.bottom - 1;
     } );
 
     // Probes are connected on either side of a resistor
@@ -134,12 +154,11 @@ export default class VoltmeterNode extends Node {
         FELColors.resistorBand3ColorProperty
       ],
       toleranceBandColor: FELColors.resistorBand4ColorProperty,
-      centerX: bodyNode.centerX,
-      top: positiveProbeNode.bottom - 5
+      center: wireNode.center
     } );
 
     super( {
-      children: [ resistorNode, positiveProbeNode, negativeProbeNode, bodyNode, displayNode, voltageText, gaugeNode, needleNode, screwNode ],
+      children: [ wireNode, resistorNode, positiveProbeNode, negativeProbeNode, bodyNode, displayNode, voltageText, gaugeNode, needleNode, screwNode ],
       visibleProperty: new DerivedProperty( [ currentIndicatorProperty ], indicator => ( indicator === voltmeter ), {
         tandem: tandem.createTandem( 'visibleProperty' ),
         phetioValueType: BooleanIO
@@ -179,6 +198,10 @@ export default class VoltmeterNode extends Node {
   }
 }
 
+/**
+ * GaugeNode is the voltmeter's gauge. It is a half circle, with tick marks around the inside edge, and a vertical
+ * line down the center.
+ */
 class GaugeNode extends Node {
 
   public constructor( translationOptions?: NodeTranslationOptions ) {
@@ -230,9 +253,13 @@ class GaugeNode extends Node {
   }
 }
 
+/**
+ * ProbeNode is the positive and negative probes that stick out of the bottom of the voltmeter, used to connect
+ * the voltmeter across the resistor.
+ */
 class ProbeNode extends Path {
 
-  public constructor( fillProperty: ProfileColorProperty, translationOptions?: NodeTranslationOptions ) {
+  public constructor( fillProperty: ProfileColorProperty, strokeProperty: ProfileColorProperty, translationOptions?: NodeTranslationOptions ) {
 
     const w = PROBE_SIZE.width;
     const h = PROBE_SIZE.height;
@@ -248,7 +275,7 @@ class ProbeNode extends Path {
 
     super( shape, combineOptions<PathOptions>( {
       fill: fillProperty,
-      stroke: FELColors.voltmeterProbeStrokeProperty
+      stroke: strokeProperty
     }, translationOptions ) );
   }
 }

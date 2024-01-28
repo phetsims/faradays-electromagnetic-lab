@@ -181,12 +181,27 @@ const FELColors = {
     default: 'white'
   } ),
 
+  voltmeterPositiveProbeStrokeProperty: new ProfileColorProperty( faradaysElectromagneticLab, 'voltmeterPositiveProbeStroke', {
+    default: 'white',
+    projector: 'black'
+  } ),
+
   voltmeterNegativeProbeFillProperty: new ProfileColorProperty( faradaysElectromagneticLab, 'voltMeterNegativeProbeFill', {
     default: Color.grayColor( 145 )
   } ),
 
-  voltmeterProbeStrokeProperty: new ProfileColorProperty( faradaysElectromagneticLab, 'voltmeterProbeStroke', {
-    default: 'black'
+  voltmeterNegativeProbeStrokeProperty: new ProfileColorProperty( faradaysElectromagneticLab, 'voltmeterProbeStroke', {
+    default: Color.grayColor( 145 ),
+    projector: 'black'
+  } ),
+
+  voltmeterWireFillProperty: new ProfileColorProperty( faradaysElectromagneticLab, 'voltmeterWireFill', {
+    default: Color.grayColor( 153 )
+  } ),
+
+  voltmeterWireStrokeProperty: new ProfileColorProperty( faradaysElectromagneticLab, 'voltmeterWireStroke', {
+    default: Color.grayColor( 153 ),
+    projector: 'black'
   } ),
 
   // For design of resistor colors, see https://github.com/phetsims/faradays-electromagnetic-lab/issues/29#issuecomment-1890128720
