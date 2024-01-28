@@ -130,6 +130,7 @@ export default class VoltmeterNode extends Node {
         top: bodyNode.bottom - 1
       } );
 
+    // Wire ends for the resistor, dynamically sized to connect the ends of the pickup coil.
     const wireNode = new Line( 0, 0, 1, 0, {
       stroke: FELColors.voltmeterWireFillProperty,
       lineWidth: 8,
@@ -143,7 +144,7 @@ export default class VoltmeterNode extends Node {
       wireNode.top = positiveProbeNode.bottom - 1;
     } );
 
-    // Probes are connected on either side of a resistor
+    // Resistor
     const resistorNode = new ResistorNode( {
       size: RESISTOR_SIZE,
       bodyFill: FELColors.resistorFillProperty,
