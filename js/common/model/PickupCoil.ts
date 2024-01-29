@@ -27,6 +27,7 @@ import FELMovable, { FELMovableOptions } from './FELMovable.js';
 import FELConstants from '../FELConstants.js';
 import StrictOmit from '../../../../phet-core/js/types/StrictOmit.js';
 import PickOptional from '../../../../phet-core/js/types/PickOptional.js';
+import FELQueryParameters from '../FELQueryParameters.js';
 
 const WIRE_WIDTH = 16;
 const LOOP_SPACING = 1.5 * WIRE_WIDTH; // loosely-packed loops
@@ -294,7 +295,7 @@ export default class PickupCoil extends FELMovable {
     }
 
     // Check that maxEMFProperty is calibrated properly.
-    phet.log && this.calibrateMaxEMF();
+    FELQueryParameters.calibrateEMF && this.calibrateMaxEMF();
   }
 
   /**
@@ -317,13 +318,13 @@ export default class PickupCoil extends FELMovable {
     // for maxEMFProperty.
     if ( absEMF > this._biggestAbsEmf ) {
       this._biggestAbsEmf = absEMF;
-      phet.log && phet.log( `PickupCoil.calibrateMaxEMF, biggestEmf=${this._biggestAbsEmf}` );
+      console.log( `PickupCoil.calibrateMaxEMF, biggestEmf=${this._biggestAbsEmf}` );
 
       // If this prints, you have maxEMFProperty set too low. This will cause view components to exhibit responses
       // that are less than their maximums. For example, the voltmeter won't fully deflect, and the lightbulb won't
       // fully light.
       if ( this._biggestAbsEmf > this.maxEMFProperty.value ) {
-        phet.log && phet.log( `PickupCoil.calibrateMaxEMF: Recalibrate ${this.maxEMFProperty.tandem.name} with ${this._biggestAbsEmf}` );
+        console.log( `PickupCoil.calibrateMaxEMF: Recalibrate ${this.maxEMFProperty.tandem.name} with ${this._biggestAbsEmf}` );
 
         // From the Java version: The coil could theoretically be self-calibrating. If we notice that we've exceeded
         // maxEMFProperty, then adjust its value. This would be OK only if we started with a value that was in

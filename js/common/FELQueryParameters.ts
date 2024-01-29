@@ -49,6 +49,11 @@ const SCHEMA_MAP = {
   // Internal query parameters
   //----------------------------------------------------------------------------------------------------------------
 
+  // Prints info to the console that is useful for calibrating the pickup coil. See PickupCoil.calibrateEMF.
+  calibrateEMF: {
+    type: 'flag'
+  },
+
   // Spacing (x & y) between needles in the magnetic field visualization.
   needleSpacing: {
     type: 'number',
