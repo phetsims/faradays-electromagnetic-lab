@@ -1,6 +1,6 @@
 // Copyright 2023-2024, University of Colorado Boulder
 
-//TODO migrate to scenery-phet or replace with NumberDisplay
+//TODO https://github.com/phetsims/faradays-electromagnetic-lab/issues/68 Replace with NumberDisplay or migrate to scenery-phet.
 
 /**
  * StringDisplay displays the value of a string Property in a fixed-size display area.  It is used as a substitute
