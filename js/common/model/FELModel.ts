@@ -79,7 +79,7 @@ export default class FELModel implements TModel {
       phetioHighFrequency: true
     } );
 
-    //TODO Does stepEmitter need to be instrumented? If so, should it be phetioHighFrequency:true?
+    //TODO https://github.com/phetsims/faradays-electromagnetic-lab/issues/69 Does stepEmitter need to be instrumented?
     this.stepEmitter = new Emitter( {
       parameters: [
         { name: 'dt', phetioType: NumberIO }
