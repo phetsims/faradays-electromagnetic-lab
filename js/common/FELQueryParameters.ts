@@ -54,17 +54,17 @@ const SCHEMA_MAP = {
     type: 'flag'
   },
 
-  // KeyboardDragListenerOptions.dragVelocity for all draggable objects
+  // KeyboardDragListenerOptions.dragSpeed for all draggable objects
   //TODO https://github.com/phetsims/faradays-electromagnetic-lab/issues/54
-  dragVelocity: {
+  dragSpeed: {
     type: 'number',
     defaultValue: 500,
     isValidValue: ( value: number ) => ( value > 0 )
   },
 
-  // KeyboardDragListenerOptions.shiftDragVelocity for all draggable objects
+  // KeyboardDragListenerOptions.shiftDragSpeed for all draggable objects
   //TODO https://github.com/phetsims/faradays-electromagnetic-lab/issues/54
-  shiftDragVelocity: {
+  shiftDragSpeed: {
     type: 'number',
     defaultValue: 250,
     isValidValue: ( value: number ) => ( value > 0 )

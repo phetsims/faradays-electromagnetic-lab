@@ -33,7 +33,7 @@ type SelfOptions = {
   // Options passed to KeyboardDragListener. Ignored if isMovable: false.
   // This allows us to set different drag speeds for different subclasses and instances of FELMovableNode.
   // See https://github.com/phetsims/faradays-electromagnetic-lab/issues/54.
-  keyboardDragListenerOptions?: PickOptional<KeyboardDragListenerOptions, 'dragVelocity' | 'shiftDragVelocity'>;
+  keyboardDragListenerOptions?: PickOptional<KeyboardDragListenerOptions, 'dragSpeed' | 'shiftDragSpeed'>;
 
   // dragBoundsProperty for DragListener and KeyboardDragListener. Ignored if Ignored if isMovable: false.
   dragBoundsProperty?: TReadOnlyProperty<Bounds2> | null;

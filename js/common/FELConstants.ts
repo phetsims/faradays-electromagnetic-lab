@@ -105,8 +105,8 @@ const PANEL_TITLE_OPTIONS: TextOptions = {
 };
 
 const KEYBOARD_DRAG_LISTENER_OPTIONS: KeyboardDragListenerOptions = {
-  dragVelocity: FELQueryParameters.dragVelocity,
-  shiftDragVelocity: FELQueryParameters.shiftDragVelocity
+  dragSpeed: FELQueryParameters.dragSpeed,
+  shiftDragSpeed: FELQueryParameters.shiftDragSpeed
 };
 
 const VBOX_OPTIONS: VBoxOptions = {
