@@ -62,7 +62,7 @@ export default class KinematicCompass extends Compass {
     this.alphaProperty.reset();
   }
 
-  //TODO Misbehaves when the compass is placed against either pole of the magnet, also in Java version.
+  //TODO https://github.com/phetsims/faradays-electromagnetic-lab/issues/67 Compass spins wildly near bar magnet poles.
   /**
    * Updates the compass needle's angle.
    * @param fieldVector - the magnet's B-field vector at the compass position

@@ -27,7 +27,7 @@ export default class CoilSegment extends Path {
   public readonly curve: QuadraticBezierSpline;
 
   // The parent Node for this segment and any electrons that appear in this segment.
-  //TODO parentNode may become unnecessary if we change how electrons are rendered.
+  //TODO https://github.com/phetsims/faradays-electromagnetic-lab/issues/49 parentNode may become unnecessary if we change how electrons are rendered.
   public readonly parentNode: Node;
 
   // How to scale the speed for this curve (any positive value). This value is used to adjust the speed of electrons
