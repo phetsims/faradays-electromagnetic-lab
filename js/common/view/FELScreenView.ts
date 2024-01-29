@@ -66,7 +66,9 @@ export default class FELScreenView extends ScreenView {
     this.compassNode = new CompassNode( options.compass, {
       // See https://github.com/phetsims/faradays-electromagnetic-lab/issues/10#issuecomment-1911160748
       dragBoundsProperty: new DerivedProperty( [ this.visibleBoundsProperty, options.panels.boundsProperty ],
-        ( visibleBounds, panelsBounds ) => visibleBounds.withMaxX( panelsBounds.left ) ),
+        ( visibleBounds, panelsBounds ) => visibleBounds.withMaxX( panelsBounds.left ), {
+          strictAxonDependencies: false // See https://github.com/phetsims/faradays-electromagnetic-lab/issues/65
+        } ),
       tandem: options.tandem.createTandem( 'compassNode' )
     } );
 
