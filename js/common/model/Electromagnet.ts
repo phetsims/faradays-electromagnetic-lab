@@ -39,7 +39,7 @@ export default class Electromagnet extends CoilMagnet {
   public readonly acPowerSupply: ACPowerSupply;
   public readonly currentSourceProperty: Property<CurrentSource>;
 
-  // *** Writeable via developer controls only, when running with &dev query parameter. ***
+  // DEBUG: Writeable via developer controls only, when running with &dev query parameter.
   // Makes the magnet model shape visible in the view.
   public readonly shapeVisibleProperty: Property<boolean>;
 
@@ -112,7 +112,7 @@ export default class Electromagnet extends CoilMagnet {
     this.acPowerSupply.reset();
     this.currentSourceProperty.reset();
     this.coil.reset();
-    // Do not reset shapeVisibleProperty, it is a developer control.
+    // Do not reset Properties documented as 'DEBUG' above.
   }
 
   public step( dt: number ): void {

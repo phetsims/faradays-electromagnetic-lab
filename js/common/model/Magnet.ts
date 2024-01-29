@@ -45,7 +45,7 @@ export default abstract class Magnet extends FELMovable {
 
   public readonly fieldVisibleProperty: Property<boolean>;
 
-  // *** Writeable via developer controls only, when running with &dev query parameter. ***
+  // DEBUG: Writeable via developer controls only, when running with &dev query parameter.
   // Scales the modulation of alpha used to render the B-field visualization. In reality, the B-field drops off very
   // quickly as we move away from the magnet, and we wouldn't be able to see very much of the field. So we scale the
   // intensity of the compass needles in our visualization so that we see more of the field. Smaller values make the
@@ -97,7 +97,7 @@ export default abstract class Magnet extends FELMovable {
     super.reset();
     this.rotationProperty.reset();
     this.fieldVisibleProperty.reset();
-    // Do not reset developer Properties.
+    // Do not reset Properties documented as 'DEBUG' above.
   }
 
   /**

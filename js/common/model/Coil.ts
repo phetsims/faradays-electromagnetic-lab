@@ -69,7 +69,7 @@ export default class Coil extends PhetioObject {
   // Whether electrons are visible in the coil in the view
   public readonly electronsVisibleProperty: Property<boolean>;
 
-  // *** Writeable via developer controls only, when running with &dev query parameter. ***
+  // DEBUG: Writeable via developer controls only, when running with &dev query parameter.
   // Scale used for electron speed in the view.
   public readonly electronSpeedScaleProperty: NumberProperty;
 
@@ -142,7 +142,7 @@ export default class Coil extends PhetioObject {
     this.numberOfLoopsProperty.reset();
     this.loopAreaPercentProperty.reset();
     this.electronsVisibleProperty.reset();
-    // Do not reset electronSpeedScaleProperty.
+    // Do not reset Properties documented as 'DEBUG' above.
   }
 
   /**
