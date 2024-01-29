@@ -12,13 +12,15 @@ import faradaysElectromagneticLab from '../../faradaysElectromagneticLab.js';
 import { Shape } from '../../../../kite/js/imports.js';
 import FELColors from '../FELColors.js';
 import { Node, Path, TColor } from '../../../../scenery/js/imports.js';
-import FELQueryParameters from '../FELQueryParameters.js';
 import optionize from '../../../../phet-core/js/optionize.js';
 
 const NEEDLE_ASPECT_RATIO = 25 / 7; // length:waist
 
 type SelfOptions = {
+
+  // Length (tip to tip) of the needle. The other dimension is computed to provide a consistent aspect ratio.
   length?: number;
+
   stroke?: TColor;
   northFill?: TColor;
   southFill?: TColor;
@@ -33,7 +35,7 @@ export default class CompassNeedleNode extends Node {
     const options = optionize<CompassNeedleNodeOptions, SelfOptions>()( {
 
       // SelfOptions
-      length: FELQueryParameters.needleLength,
+      length: 25,
       stroke: FELColors.compassNeedleStrokeProperty,
       northFill: FELColors.compassNeedleNorthColorProperty,
       southFill: FELColors.compassNeedleSouthColorProperty

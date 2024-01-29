@@ -14,12 +14,11 @@ import TReadOnlyProperty from '../../../../axon/js/TReadOnlyProperty.js';
 import Bounds2 from '../../../../dot/js/Bounds2.js';
 import Multilink from '../../../../axon/js/Multilink.js';
 import CompassNeedleNode from './CompassNeedleNode.js';
-import FELQueryParameters from '../FELQueryParameters.js';
 import Magnet from '../model/Magnet.js';
 import FELColors from '../FELColors.js';
 import Tandem from '../../../../tandem/js/Tandem.js';
 
-const NEEDLE_SPACING = FELQueryParameters.needleSpacing;
+const NEEDLE_SPACING = 40;
 
 export default class FieldNode extends Sprites {
 

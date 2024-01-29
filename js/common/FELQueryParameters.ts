@@ -54,21 +54,6 @@ const SCHEMA_MAP = {
     type: 'flag'
   },
 
-  // Spacing (x & y) between needles in the magnetic field visualization.
-  needleSpacing: {
-    type: 'number',
-    defaultValue: 40,
-    isValidValue: ( value: number ) => ( value >= 35 && value <= 100 )
-  },
-
-  // Length (tip to tip) of needles in the magnetic field visualization.
-  // The other dimension is computed to provide a consistent aspect ratio.
-  needleLength: {
-    type: 'number',
-    defaultValue: 25,
-    isValidValue: ( value: number ) => ( value >= 20 && value <= 60 )
-  },
-
   // KeyboardDragListenerOptions.dragVelocity for all draggable objects
   //TODO https://github.com/phetsims/faradays-electromagnetic-lab/issues/54
   dragVelocity: {
