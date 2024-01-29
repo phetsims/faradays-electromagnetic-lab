@@ -62,7 +62,7 @@ export default class VoltageChartNode extends Node {
   private readonly cursorPlot: LinePlot;
   private readonly cursorDataSet: Vector2[];
 
-  //TODO document
+  //TODO https://github.com/phetsims/faradays-electromagnetic-lab/issues/59 Document these Properties.
   private readonly cursorAngleProperty: NumberProperty;
   private readonly startAngleProperty: NumberProperty;
   private readonly endAngleProperty: NumberProperty;
@@ -98,7 +98,7 @@ export default class VoltageChartNode extends Node {
     // Create a dataSet with a fixed number of points and fixed x values, with x=0 at the center point.
     // We'll recompute the y values and call wavePlot.update.
     const waveDataSet: Vector2[] = [];
-    //TODO dx was 1 in the Java version, and in view coordinates, so might be the problem with updateCursor.
+    //TODO https://github.com/phetsims/faradays-electromagnetic-lab/issues/59 dx was 1 in the Java version, and in view coordinates, so might be the problem with updateCursor.
     const dx = chartTransform.modelXRange.getLength() / NUMBER_OF_POINTS;
     const maxX = chartTransform.modelXRange.max + dx; // Go one point beyond modelXRange. Plot will be clipped to the chart.
     for ( let x = 0; x <= maxX; x += dx ) {
@@ -197,7 +197,7 @@ export default class VoltageChartNode extends Node {
     const deltaAngle = ( 2 * Math.PI * numberOfCycles ) / this.chartTransform.modelXRange.getLength();
 
     // Mutate waveDataSet
-    //TODO Start in middle and work out to do half as many computations.
+    //TODO https://github.com/phetsims/faradays-electromagnetic-lab/issues/59 Start in middle and work out to do half as many computations.
     let angle = 0;
     this.waveDataSet.forEach( point => {
       angle = PHASE_ANGLE + ( point.x * deltaAngle );
