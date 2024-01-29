@@ -318,7 +318,7 @@ export default class PickupCoil extends FELMovable {
     // for maxEMFProperty.
     if ( absEMF > this._biggestAbsEmf ) {
       this._biggestAbsEmf = absEMF;
-      console.log( `PickupCoil.calibrateMaxEMF, biggestEmf=${this._biggestAbsEmf}` );
+      console.log( `PickupCoil.calibrateMaxEMF, biggestEmf=${this._biggestAbsEmf} for currentAmplitude=${this.currentAmplitudeProperty.value}` );
 
       // If this prints, you have maxEMFProperty set too low. This will cause view components to exhibit responses
       // that are less than their maximums. For example, the voltmeter won't fully deflect, and the lightbulb won't
