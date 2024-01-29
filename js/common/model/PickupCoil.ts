@@ -27,7 +27,9 @@ import FELMovable, { FELMovableOptions } from './FELMovable.js';
 import FELConstants from '../FELConstants.js';
 import StrictOmit from '../../../../phet-core/js/types/StrictOmit.js';
 import PickOptional from '../../../../phet-core/js/types/PickOptional.js';
+import DerivedProperty from '../../../../axon/js/DerivedProperty.js';
 import FELQueryParameters from '../FELQueryParameters.js';
+import NumberIO from '../../../../tandem/js/types/NumberIO.js';
 
 const WIRE_WIDTH = 16;
 const LOOP_SPACING = 1.5 * WIRE_WIDTH; // loosely-packed loops
@@ -50,22 +52,6 @@ export default class PickupCoil extends FELMovable {
   // The coil that induces the EMF
   public readonly coil: Coil;
 
-  // Devices that respond to induced EMF, aka 'current indicators'
-  public readonly lightBulb: LightBulb;
-  public readonly voltmeter: Voltmeter;
-
-  // Which current indicator is visible in the view
-  public readonly currentIndicatorProperty: Property<CurrentIndicator>;
-
-  // Amplitude and direction of current in the coil. See Coil currentAmplitudeProperty.
-  private readonly currentAmplitudeProperty: NumberProperty;
-
-  // B-field sample points along the vertical axis of the coil
-  public samplePoints: ObservableArray<Vector2>;
-
-  // Strategy used to populate samplePoints
-  private readonly samplePointsStrategy: PickupCoilSamplePointsStrategy;
-
   // Flux in the coil
   private readonly _fluxProperty: Property<number>;
   public readonly fluxProperty: TReadOnlyProperty<number>;
@@ -78,22 +64,38 @@ export default class PickupCoil extends FELMovable {
   private readonly _emfProperty: Property<number>;
   public readonly emfProperty: TReadOnlyProperty<number>;
 
+  // Amplitude and direction of current in the coil. See Coil currentAmplitudeProperty.
+  private readonly currentAmplitudeProperty: TReadOnlyProperty<number>;
+
+  // Devices that respond to induced EMF, aka 'current indicators'
+  public readonly lightBulb: LightBulb;
+  public readonly voltmeter: Voltmeter;
+
+  // Which current indicator is visible in the view
+  public readonly currentIndicatorProperty: Property<CurrentIndicator>;
+
+  // B-field sample points along the vertical axis of the coil
+  public samplePoints: ObservableArray<Vector2>;
+
+  // Strategy used to populate samplePoints
+  private readonly samplePointsStrategy: PickupCoilSamplePointsStrategy;
+
   // Used exclusively in calibrateMaxEMF, does not need to be stateful for PhET-iO
   private _biggestAbsEmf; // in volts
 
-  // *** Displayed in PickupCoilDebuggerPanel, when running with &dev query parameter. ***
+  // DEBUG: Displayed in PickupCoilDebuggerPanel, when running with &dev query parameter.
   // Average of the B-field samples perpendicular (Bx) to the coil's vertical axis.
   private readonly _averageBxProperty: Property<number>;
   public readonly averageBxProperty: TReadOnlyProperty<number>;
 
-  // *** Writeable via developer controls only, when running with &dev query parameter. ***
+  // DEBUG: Writeable via developer controls only, when running with &dev query parameter.
   // Dividing the coil's EMF by this number will give us the coil's current amplitude, a number between 0 and 1 that
   // determines the responsiveness of view components. This number should be set as close as possible to the maximum
   // EMF that can be induced given the range of all model parameters. See calibrateMaxEMF for guidance on how
   // to set this.
   public readonly maxEMFProperty: NumberProperty;
 
-  // *** Writeable via developer controls only, when running with &dev query parameter. ***
+  // DEBUG: Writeable via developer controls only, when running with &dev query parameter.
   // This is a scaling factor used to smooth out abrupt changes that occur when the magnet transitions between being
   // inside & outside the coil. This is used to scale the B-field for sample points inside the magnet, eliminating
   // abrupt transitions at the left and right edges of the magnet. For any sample point inside the magnet, the B-field
@@ -110,11 +112,11 @@ export default class PickupCoil extends FELMovable {
   //   the same value as the smaller value.
   public readonly transitionSmoothingScaleProperty: NumberProperty;
 
-  // *** Writeable via developer controls only, when running with &dev query parameter. ***
+  // DEBUG: Writeable via developer controls only, when running with &dev query parameter.
   // Makes the sample points visible in the view.
   public readonly samplePointsVisibleProperty: Property<boolean>;
 
-  // *** Writeable via developer controls only, when running with &dev query parameter. ***
+  // DEBUG: Writeable via developer controls only, when running with &dev query parameter.
   // Makes a debugging panel visible in the view, which shows important values related to the pickup coil.
   public readonly debuggerPanelVisibleProperty: Property<boolean>;
 
@@ -135,48 +137,6 @@ export default class PickupCoil extends FELMovable {
     super( options );
 
     this.magnet = magnet;
-
-    this.currentAmplitudeProperty = new NumberProperty( 0, {
-      range: FELConstants.CURRENT_AMPLITUDE_RANGE,
-      tandem: options.tandem.createTandem( 'currentAmplitudeProperty' ),
-      phetioFeatured: true,
-      phetioReadOnly: true,
-      phetioDocumentation: 'For internal use only.'
-    } );
-
-    this.coil = new Coil( this.currentAmplitudeProperty, this.currentAmplitudeProperty.range,
-      combineOptions<CoilOptions>( {
-        maxLoopArea: 35345, // in the Java version, max radius was 75, so max area was Math.PI * 75 * 75 = 35342.917352885175
-        loopAreaPercentRange: new RangeWithValue( 20, 100, 50 ),
-        numberOfLoopsRange: new RangeWithValue( 1, 4, 2 ),
-        wireWidth: WIRE_WIDTH,
-        loopSpacing: LOOP_SPACING,
-        tandem: options.tandem.createTandem( 'coil' )
-      }, options.coilOptions ) );
-
-    this.lightBulb = new LightBulb( this.currentAmplitudeProperty, this.currentAmplitudeProperty.range,
-      combineOptions<LightBulbOptions>( {
-        tandem: options.tandem.createTandem( 'lightBulb' )
-      }, options.lightBulbOptions ) );
-
-    this.voltmeter = new Voltmeter( this.currentAmplitudeProperty, this.currentAmplitudeProperty.range,
-      options.tandem.createTandem( 'voltmeter' ) );
-
-    this.currentIndicatorProperty = new Property<CurrentIndicator>( this.lightBulb, {
-      validValues: [ this.lightBulb, this.voltmeter ],
-      tandem: options.tandem.createTandem( 'currentIndicatorProperty' ),
-      phetioValueType: CurrentIndicator.CurrentIndicatorIO,
-      phetioFeatured: true
-    } );
-
-    this.samplePoints = createObservableArray( {
-      tandem: options.tandem.createTandem( 'samplePoints' ),
-      phetioReadOnly: true,
-      phetioType: createObservableArray.ObservableArrayIO( Vector2.Vector2IO ),
-      phetioDocumentation: 'B-field sample points along the vertical axis of the coil'
-    } );
-
-    this.samplePointsStrategy = options.samplePointsStrategy;
 
     this._fluxProperty = new NumberProperty( 0, {
       tandem: options.tandem.createTandem( 'fluxProperty' ),
@@ -201,17 +161,68 @@ export default class PickupCoil extends FELMovable {
     } );
     this.emfProperty = this._emfProperty;
 
+    // Check that maxEMFProperty is calibrated properly.
+    if ( FELQueryParameters.calibrateEMF ) {
+      this._emfProperty.lazyLink( () => this.calibrateMaxEMF() );
+    }
+
+    this.maxEMFProperty = new NumberProperty( options.maxEMF, {
+      range: new Range( 10000, 5000000 )
+      // Do not instrument. This is a PhET developer Property.
+    } );
+
+    this.currentAmplitudeProperty = new DerivedProperty( [ this.emfProperty, this.maxEMFProperty ],
+      ( emf, maxEMF ) => {
+        const currentAmplitude = emf / maxEMF;
+        return FELConstants.CURRENT_AMPLITUDE_RANGE.constrainValue( currentAmplitude );
+      }, {
+        isValidValue: currentAmplitude => FELConstants.CURRENT_AMPLITUDE_RANGE.contains( currentAmplitude ),
+        tandem: options.tandem.createTandem( 'currentAmplitudeProperty' ),
+        phetioValueType: NumberIO,
+        phetioFeatured: true,
+        phetioDocumentation: 'For internal use only.'
+      } );
+
+    this.coil = new Coil( this.currentAmplitudeProperty, FELConstants.CURRENT_AMPLITUDE_RANGE,
+      combineOptions<CoilOptions>( {
+        maxLoopArea: 35345, // in the Java version, max radius was 75, so max area was Math.PI * 75 * 75 = 35342.917352885175
+        loopAreaPercentRange: new RangeWithValue( 20, 100, 50 ),
+        numberOfLoopsRange: new RangeWithValue( 1, 4, 2 ),
+        wireWidth: WIRE_WIDTH,
+        loopSpacing: LOOP_SPACING,
+        tandem: options.tandem.createTandem( 'coil' )
+      }, options.coilOptions ) );
+
+    this.lightBulb = new LightBulb( this.currentAmplitudeProperty, FELConstants.CURRENT_AMPLITUDE_RANGE,
+      combineOptions<LightBulbOptions>( {
+        tandem: options.tandem.createTandem( 'lightBulb' )
+      }, options.lightBulbOptions ) );
+
+    this.voltmeter = new Voltmeter( this.currentAmplitudeProperty, FELConstants.CURRENT_AMPLITUDE_RANGE,
+      options.tandem.createTandem( 'voltmeter' ) );
+
+    this.currentIndicatorProperty = new Property<CurrentIndicator>( this.lightBulb, {
+      validValues: [ this.lightBulb, this.voltmeter ],
+      tandem: options.tandem.createTandem( 'currentIndicatorProperty' ),
+      phetioValueType: CurrentIndicator.CurrentIndicatorIO,
+      phetioFeatured: true
+    } );
+
+    this.samplePoints = createObservableArray( {
+      tandem: options.tandem.createTandem( 'samplePoints' ),
+      phetioReadOnly: true,
+      phetioType: createObservableArray.ObservableArrayIO( Vector2.Vector2IO ),
+      phetioDocumentation: 'B-field sample points along the vertical axis of the coil'
+    } );
+
+    this.samplePointsStrategy = options.samplePointsStrategy;
+
     this._biggestAbsEmf = 0.0;
 
     this._averageBxProperty = new NumberProperty( 0
       // Do not instrument. This is a PhET developer Property.
     );
     this.averageBxProperty = this._averageBxProperty;
-
-    this.maxEMFProperty = new NumberProperty( options.maxEMF, {
-      range: new Range( 10000, 5000000 )
-      // Do not instrument. This is a PhET developer Property.
-    } );
 
     this.transitionSmoothingScaleProperty = new NumberProperty( options.transitionSmoothingScale, {
       range: new Range( 0.1, 1 )
@@ -235,15 +246,13 @@ export default class PickupCoil extends FELMovable {
   public override reset(): void {
     super.reset();
     this.coil.reset();
+    this._fluxProperty.reset();
+    this._deltaFluxProperty.reset();
+    this._emfProperty.reset();
     this.lightBulb.reset();
     this.voltmeter.reset();
     this.currentIndicatorProperty.reset();
-    this.currentAmplitudeProperty.reset();
-    this._fluxProperty.reset();
-    this._emfProperty.reset();
-    this._averageBxProperty.reset();
-    this._deltaFluxProperty.reset();
-    // Do not reset developer Properties.
+    // Do not reset Properties documented as 'DEBUG' above.
   }
 
   public step( dt: number ): void {
@@ -283,19 +292,7 @@ export default class PickupCoil extends FELMovable {
     this._fluxProperty.value = flux;
 
     // Induced EMF.
-    const emf = -( this._deltaFluxProperty.value / dt );
-
-    // If the EMF has changed, set the current in the coil.
-    if ( emf !== this._emfProperty.value ) {
-      this._emfProperty.value = emf;
-
-      // Current amplitude is proportional to EMF amplitude.
-      const currentAmplitude = emf / this.maxEMFProperty.value;
-      this.currentAmplitudeProperty.value = this.currentAmplitudeProperty.range.constrainValue( currentAmplitude );
-    }
-
-    // Check that maxEMFProperty is calibrated properly.
-    FELQueryParameters.calibrateEMF && this.calibrateMaxEMF();
+    this._emfProperty.value = -( this._deltaFluxProperty.value / dt );
   }
 
   /**
