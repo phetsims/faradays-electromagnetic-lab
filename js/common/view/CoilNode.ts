@@ -60,9 +60,9 @@ export default class CoilNode extends Node {
   // The foreground portion of the coil, which is a child of this Node.
   private readonly foregroundNode: Node;
 
-  // The background portion of the coil, intended to be added to the scene graph behind the B-field, magnet, etc.
-  // so that it looks like those things are passing through the coil. It is the responsibility of the instantiator
-  // to add backgroundNode to the scene graph.
+  // The background layer, intended to be added to the scene graph behind the B-field, magnet, etc., so that it looks
+  // like those things are passing through the pickup coil. It is the responsibility of the instantiator to add
+  // backgroundNode to the scene graph.
   public readonly backgroundNode: Node;
 
   // Is electron animation enabled?

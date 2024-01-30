@@ -17,7 +17,9 @@ import Bounds2 from '../../../../dot/js/Bounds2.js';
 
 export default class GeneratorNode extends Node {
 
-  // Must be added to the scene graph separately. See CoilNode backgroundNode.
+  // The background layer, intended to be added to the scene graph behind the B-field, magnet, etc., so that it looks
+  // like those things are passing through the pickup coil. It is the responsibility of the instantiator to add
+  // backgroundNode to the scene graph.
   public readonly backgroundNode: Node;
 
   public constructor( generator: Generator, layoutBounds: Bounds2,
