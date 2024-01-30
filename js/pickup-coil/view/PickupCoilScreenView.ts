@@ -61,15 +61,15 @@ export default class PickupCoilScreenView extends FELScreenView {
       tandem: tandem.createTandem( 'pickupCoilNode' )
     } );
 
+    this.configureDragBoundsProperty( dragBoundsProperty, isLockedToAxisProperty, panels.boundsProperty,
+      model.barMagnet.positionProperty, model.pickupCoil.positionProperty, barMagnetNode, pickupCoilNode );
+
     const pickupCoilAxisNode = new PickupCoilAxisNode( isLockedToAxisProperty, model.pickupCoil.positionProperty,
       this.visibleBoundsProperty );
 
     const pickupCoilDebuggerPanel = new PickupCoilDebuggerPanel( model.pickupCoil );
     pickupCoilDebuggerPanel.centerX = this.layoutBounds.centerX;
     pickupCoilDebuggerPanel.top = this.layoutBounds.top + FELConstants.SCREEN_VIEW_Y_MARGIN;
-
-    this.configureDragBoundsProperty( dragBoundsProperty, isLockedToAxisProperty, panels.boundsProperty,
-      model.barMagnet.positionProperty, model.pickupCoil.positionProperty, barMagnetNode, pickupCoilNode );
 
     const rootNode = new Node( {
       children: [

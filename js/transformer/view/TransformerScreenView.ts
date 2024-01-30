@@ -61,16 +61,16 @@ export default class TransformerScreenView extends FELScreenView {
     const transformerNode = new TransformerNode( model.transformer, model.stepEmitter, dragBoundsProperty,
       tandem.createTandem( 'transformerNode' ) );
 
+    this.configureDragBoundsProperty( dragBoundsProperty, isLockedToAxisProperty, panels.boundsProperty,
+      electromagnet.positionProperty, pickupCoil.positionProperty, transformerNode.electromagnetNode,
+      transformerNode.pickupCoilNode );
+
     const pickupCoilAxisNode = new PickupCoilAxisNode( isLockedToAxisProperty, pickupCoil.positionProperty,
       this.visibleBoundsProperty );
 
     const pickupCoilDebuggerPanel = new PickupCoilDebuggerPanel( pickupCoil );
     pickupCoilDebuggerPanel.centerX = this.layoutBounds.centerX;
     pickupCoilDebuggerPanel.top = this.layoutBounds.top + FELConstants.SCREEN_VIEW_Y_MARGIN;
-
-    this.configureDragBoundsProperty( dragBoundsProperty, isLockedToAxisProperty, panels.boundsProperty,
-      electromagnet.positionProperty, pickupCoil.positionProperty, transformerNode.electromagnetNode,
-      transformerNode.pickupCoilNode );
 
     const rootNode = new Node( {
       children: [
