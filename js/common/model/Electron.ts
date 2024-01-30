@@ -174,9 +174,9 @@ export default class Electron {
         this.coilSegmentPositionProperty.value = newPosition;
       }
 
-      // Evaluate the quadratic to determine xy position.
-      const descriptor = this.coilSegments[ this.coilSegmentIndexProperty.value ];
-      this._positionProperty.value = descriptor.curve.evaluate( this.coilSegmentPositionProperty.value );
+      // Evaluate the quadratic to determine the electron's position relative to the segment.
+      const coilSegment = this.coilSegments[ this.coilSegmentIndexProperty.value ];
+      this._positionProperty.value = coilSegment.curve.evaluate( this.coilSegmentPositionProperty.value );
     }
   }
 
