@@ -2,7 +2,7 @@
 
 /**
  * PickupCoilGraphic is the visual representation of a pickup coil, with indicators (lightbulb and voltmeter )
- * for displaying the effect of electromagnetic induction.
+ * for displaying the effect of electromagnetic induction. The origin is at the center of the coil.
  *
  * @author Chris Malley (PixelZoom, Inc.)
  */

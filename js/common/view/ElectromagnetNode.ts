@@ -2,6 +2,7 @@
 
 /**
  * ElectromagnetNode is the view of the electromagnet. It consists of a source coil, DC battery, and AC power supply.
+ * The origin is at the center of the coil.
  *
  * @author Chris Malley (PixelZoom, Inc.)
  */
