@@ -17,8 +17,6 @@ import Bounds2 from '../../../../dot/js/Bounds2.js';
 
 export default class GeneratorNode extends Node {
 
-  private readonly pickupCoilNode: PickupCoilNode;
-
   // Must be added to the scene graph separately. See CoilNode backgroundNode.
   public readonly backgroundNode: Node;
 
@@ -39,14 +37,9 @@ export default class GeneratorNode extends Node {
       phetioVisiblePropertyInstrumented: false
     } );
 
-    this.pickupCoilNode = pickupCoilNode;
     this.backgroundNode = pickupCoilNode.backgroundNode;
 
     this.addLinkedElement( generator );
-  }
-
-  public step( dt: number ): void {
-    this.pickupCoilNode.step( dt );
   }
 }
 

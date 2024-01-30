@@ -117,6 +117,7 @@ export default class Electromagnet extends CoilMagnet {
     if ( this.currentSourceProperty.value === this.acPowerSupply ) {
       this.acPowerSupply.step( dt );
     }
+    this.coil.step( dt );
   }
 }
 

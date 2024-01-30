@@ -257,6 +257,7 @@ export default class PickupCoil extends FELMovable {
 
   public step( dt: number ): void {
     this.updateEMF( dt );
+    this.coil.step( dt );
     if ( this.currentIndicatorProperty.value === this.voltmeter ) {
       this.voltmeter.step( dt );
     }

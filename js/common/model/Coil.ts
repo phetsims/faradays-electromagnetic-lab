@@ -21,6 +21,8 @@ import PickRequired from '../../../../phet-core/js/types/PickRequired.js';
 import Tandem from '../../../../tandem/js/Tandem.js';
 import FELConstants from '../FELConstants.js';
 
+type StepListener = ( dt :number ) => void;
+
 type SelfOptions = {
 
   // range and initial value for numberOfLoopsProperty
@@ -74,6 +76,9 @@ export default class Coil extends PhetioObject {
   // Scale used for electron speed in the view.
   public readonly electronSpeedScaleProperty: NumberProperty;
 
+  // Called by step method
+  private readonly stepListeners: StepListener[];
+
   public constructor( currentAmplitudeProperty: TReadOnlyProperty<number>, currentAmplitudeRange: Range, providedOptions: CoilOptions ) {
     assert && assert( currentAmplitudeRange.equals( FELConstants.CURRENT_AMPLITUDE_RANGE ) );
 
@@ -98,6 +103,7 @@ export default class Coil extends PhetioObject {
     this.wireWidth = options.wireWidth;
     this.loopSpacing = options.loopSpacing;
     this.maxLoopArea = options.maxLoopArea;
+    this.stepListeners = [];
 
     this.numberOfLoopsProperty = new NumberProperty( options.numberOfLoopsRange.defaultValue, {
       numberType: 'Integer',
@@ -144,6 +150,18 @@ export default class Coil extends PhetioObject {
     this.loopAreaPercentProperty.reset();
     this.electronsVisibleProperty.reset();
     // Do not reset Properties documented as 'DEBUG' above.
+  }
+
+  public step( dt: number ): void {
+    this.stepListeners.forEach( stepListener => stepListener( dt ) );
+  }
+
+  /**
+   * Adds a listener that will be called when the step method is called. This was added to keep all stepping in
+   * the model, and is used by CoilNode. See https://github.com/phetsims/faradays-electromagnetic-lab/issues/72.
+   */
+  public addStepListener( stepListener: StepListener ): void {
+    this.stepListeners.push( stepListener );
   }
 
   /**

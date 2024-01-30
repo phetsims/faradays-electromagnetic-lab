@@ -27,8 +27,6 @@ type PickupCoilNodeOptions = SelfOptions &
 
 export default class PickupCoilNode extends FELMovableNode {
 
-  private readonly coilNode: CoilNode;
-
   // The background layer, intended to be added to the scene graph behind the B-field, magnet, and compass, so that
   // it looks like those things are passing through the coil. It is the responsibility of the instantiator to add
   // backgroundNode to the scene graph.
@@ -73,7 +71,6 @@ export default class PickupCoilNode extends FELMovableNode {
 
     super( pickupCoil, options );
 
-    this.coilNode = coilNode;
     this.backgroundNode = coilNode.backgroundNode;
 
     // Because backgroundNode is added to the scene graph elsewhere, ensure that its visibility remains synchronized with this Node.
@@ -86,10 +83,6 @@ export default class PickupCoilNode extends FELMovableNode {
     pickupCoil.positionProperty.link( position => {
       this.backgroundNode.translation = position;
     } );
-  }
-
-  public step( dt: number ): void {
-    this.coilNode.step( dt );
   }
 }
 

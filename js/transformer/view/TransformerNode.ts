@@ -46,11 +46,6 @@ export default class TransformerNode extends Node {
 
     this.addLinkedElement( transformer );
   }
-
-  public step( dt: number ): void {
-    this.electromagnetNode.step( dt );
-    this.pickupCoilNode.step( dt );
-  }
 }
 
 faradaysElectromagneticLab.register( 'TransformerNode', TransformerNode );

@@ -43,8 +43,6 @@ export default class GeneratorScreenView extends FELScreenView {
     const generatorNode = new GeneratorNode( model.generator, this.layoutBounds,
       this.visibleBoundsProperty, tandem.createTandem( 'generatorNode' ) );
 
-    model.stepEmitter.addListener( dt => generatorNode.step( dt ) );
-
     const pickupCoilDebuggerPanel = new PickupCoilDebuggerPanel( model.generator.pickupCoil );
     pickupCoilDebuggerPanel.centerX = this.layoutBounds.centerX;
     pickupCoilDebuggerPanel.top = this.layoutBounds.top + FELConstants.SCREEN_VIEW_Y_MARGIN;

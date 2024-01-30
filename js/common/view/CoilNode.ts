@@ -108,12 +108,12 @@ export default class CoilNode extends Node {
     this.electronNodes = [];
 
     Multilink.multilink( [ coil.numberOfLoopsProperty, coil.loopAreaProperty ], () => this.updateCoil() );
-  }
 
-  public step( dt: number ): void {
-    if ( this.coil.electronsVisibleProperty ) {
-      this.electrons.forEach( electron => electron.step( dt ) );
-    }
+    coil.addStepListener( dt => {
+      if ( this.coil.electronsVisibleProperty ) {
+        this.electrons.forEach( electron => electron.step( dt ) );
+      }
+    } );
   }
 
   /**

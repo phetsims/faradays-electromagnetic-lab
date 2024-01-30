@@ -44,8 +44,6 @@ export default class ElectromagnetScreenView extends FELScreenView {
       tandem: tandem.createTandem( 'electromagnetNode' )
     } );
 
-    model.stepEmitter.addListener( dt => electromagnetNode.step( dt ) );
-
     const rootNode = new Node( {
       children: [
         electromagnetNode.backgroundNode,
