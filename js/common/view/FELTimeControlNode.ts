@@ -17,7 +17,7 @@ export default class FELTimeControlNode extends TimeControlNode {
     super( model.isPlayingProperty, {
       playPauseStepButtonOptions: {
         stepForwardButtonOptions: {
-          listener: () => model.stepOnce()
+          listener: () => model.stepEmitter.stepOnce()
         }
       },
       tandem: tandem

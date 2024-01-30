@@ -90,13 +90,6 @@ export default class FELModel implements TModel {
       this.stepEmitter.accumulateTime( dt );
     }
   }
-
-  /**
-   * Advances the model by one constant-dt step. Used by the step button in time controls.
-   */
-  public stepOnce(): void {
-    this.stepEmitter.stepOnce();
-  }
 }
 
 faradaysElectromagneticLab.register( 'FELModel', FELModel );
