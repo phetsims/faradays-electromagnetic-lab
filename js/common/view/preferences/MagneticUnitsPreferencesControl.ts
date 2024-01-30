@@ -22,8 +22,6 @@ import FELConstants from '../../FELConstants.js';
 
 export default class MagneticUnitsPreferencesControl extends PreferencesControl {
 
-  private readonly disposeMagneticUnitsPreferencesControl: () => void;
-
   public constructor( magneticUnitsProperty: StringUnionProperty<MagneticUnits>, tandem: Tandem ) {
 
     const labelText = new Text( FaradaysElectromagneticLabStrings.magneticUnitsStringProperty, {
@@ -44,16 +42,6 @@ export default class MagneticUnitsPreferencesControl extends PreferencesControl 
         phetioFeatured: true
       }
     } );
-
-    this.disposeMagneticUnitsPreferencesControl = () => {
-      labelText.dispose();
-      radioButtonGroup.dispose();
-    };
-  }
-
-  public override dispose(): void {
-    this.disposeMagneticUnitsPreferencesControl();
-    super.dispose();
   }
 }
 
