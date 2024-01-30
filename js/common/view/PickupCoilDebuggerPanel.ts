@@ -95,6 +95,7 @@ export default class PickupCoilDebuggerPanel extends Panel {
       }
     } ) );
 
+    // This panel can be relocated by dragging it.
     this.addInputListener( new DragListener( {
       translateNode: true,
       tandem: Tandem.OPT_OUT
