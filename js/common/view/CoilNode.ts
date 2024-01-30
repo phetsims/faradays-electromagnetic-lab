@@ -40,6 +40,7 @@ import FELMovableNode, { FELMovableNodeOptions } from './FELMovableNode.js';
 import FELMovable from '../model/FELMovable.js';
 import TReadOnlyProperty from '../../../../axon/js/TReadOnlyProperty.js';
 import Bounds2 from '../../../../dot/js/Bounds2.js';
+import ConstantStepEmitter from '../model/ConstantStepEmitter.js';
 
 // Space between electrons, determines the number of electrons add to each curve.
 const ELECTRON_SPACING = 25;
@@ -115,7 +116,7 @@ export default class CoilNode extends Node {
   }
 
   private step( dt: number ): void {
-    assert && assert( dt === 1, `invalid dt=${dt}, see FELModel step` );
+    assert && assert( dt === ConstantStepEmitter.CONSTANT_DT, `invalid dt=${dt}, see ConstantStepEmitter` );
     this.electrons.forEach( electron => electron.step( dt ) );
   }
 

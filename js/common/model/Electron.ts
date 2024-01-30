@@ -20,10 +20,10 @@ import TReadOnlyProperty from '../../../../axon/js/TReadOnlyProperty.js';
 import Vector2Property from '../../../../dot/js/Vector2Property.js';
 import Property from '../../../../axon/js/Property.js';
 import NumberProperty from '../../../../axon/js/NumberProperty.js';
-import FELModel from './FELModel.js';
 import DerivedProperty from '../../../../axon/js/DerivedProperty.js';
 import FELConstants from '../FELConstants.js';
 import Utils from '../../../../dot/js/Utils.js';
+import ConstantStepEmitter from './ConstantStepEmitter.js';
 
 // Maximum distance along a coil segment that can be traveled in one clock tick.
 const MAX_COIL_SEGMENT_POSITION_DELTA = 0.15;
@@ -157,7 +157,7 @@ export default class Electron {
    * the "overshoot". The order of curves is determined by the order of elements in the CoilSegment array.
    */
   public step( dt: number ): void {
-    assert && assert( dt === FELModel.CONSTANT_DT, `invalid dt=${dt}, see FELModel step` );
+    assert && assert( dt === ConstantStepEmitter.CONSTANT_DT, `invalid dt=${dt}, ConstantStepEmitter` );
 
     if ( this.visibleProperty.value && this.speedAndDirectionProperty.value !== 0 ) {
 

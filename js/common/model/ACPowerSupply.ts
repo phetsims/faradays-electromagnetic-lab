@@ -15,7 +15,7 @@ import Range from '../../../../dot/js/Range.js';
 import DerivedProperty from '../../../../axon/js/DerivedProperty.js';
 import NumberIO from '../../../../tandem/js/types/NumberIO.js';
 import TReadOnlyProperty from '../../../../axon/js/TReadOnlyProperty.js';
-import FELModel from './FELModel.js';
+import ConstantStepEmitter from './ConstantStepEmitter.js';
 
 const MAX_VOLTAGE = 110; // V
 const MAX_VOLTAGE_PERCENT_RANGE = new Range( 0, 100 ); // %
@@ -123,7 +123,7 @@ export default class ACPowerSupply extends CurrentSource {
    * Varies the amplitude over time. Guaranteed to hit all peaks and zero crossings.
    */
   public step( dt: number ): void {
-    assert && assert( dt === FELModel.CONSTANT_DT, `invalid dt=${dt}, see FELModel step` );
+    assert && assert( dt === ConstantStepEmitter.CONSTANT_DT, `invalid dt=${dt}, see ConstantStepEmitter` );
 
     if ( this.maxVoltageProperty.value === 0 ) {
       this.voltageProperty.value = 0;

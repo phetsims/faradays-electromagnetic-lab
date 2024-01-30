@@ -21,7 +21,6 @@ import TReadOnlyProperty from '../../../../axon/js/TReadOnlyProperty.js';
 import LightBulb, { LightBulbOptions } from './LightBulb.js';
 import Voltmeter from './Voltmeter.js';
 import CurrentIndicator from './CurrentIndicator.js';
-import FELModel from './FELModel.js';
 import PickupCoilSamplePointsStrategy from './PickupCoilSamplePointsStrategy.js';
 import FELMovable, { FELMovableOptions } from './FELMovable.js';
 import FELConstants from '../FELConstants.js';
@@ -30,6 +29,7 @@ import PickOptional from '../../../../phet-core/js/types/PickOptional.js';
 import DerivedProperty from '../../../../axon/js/DerivedProperty.js';
 import FELQueryParameters from '../FELQueryParameters.js';
 import NumberIO from '../../../../tandem/js/types/NumberIO.js';
+import ConstantStepEmitter from './ConstantStepEmitter.js';
 
 const WIRE_WIDTH = 16;
 const LOOP_SPACING = 1.5 * WIRE_WIDTH; // loosely-packed loops
@@ -256,7 +256,7 @@ export default class PickupCoil extends FELMovable {
   }
 
   public step( dt: number ): void {
-    assert && assert( dt === FELModel.CONSTANT_DT, `invalid dt=${dt}, see FELModel step` );
+    assert && assert( dt === ConstantStepEmitter.CONSTANT_DT, `invalid dt=${dt}, ConstantStepEmitter` );
     if ( this.currentIndicatorProperty.value === this.voltmeter ) {
       this.voltmeter.step( dt );
     }
