@@ -56,7 +56,7 @@ export default class Electron {
   public readonly positionProperty: TReadOnlyProperty<Vector2>;
   private readonly _positionProperty: Property<Vector2>;
 
-  // Ordered collection of the curves that make up the coil
+  // Ordered collection of the segments that make up the coil
   private readonly coilSegments: CoilSegment[];
 
   // Index of the coil segment that the electron currently occupies
