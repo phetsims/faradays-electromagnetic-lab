@@ -40,8 +40,8 @@ export default class ACPowerSupply extends CurrentSource {
   private readonly deltaAngleProperty: TReadOnlyProperty<number>;
 
   // The change in angle that occurred the last time stepInTime was called (in radians)
-  private readonly _stepAngleProperty: NumberProperty;
   public readonly stepAngleProperty: TReadOnlyProperty<number>;
+  private readonly _stepAngleProperty: NumberProperty;
 
   public constructor( tandem: Tandem ) {
 
