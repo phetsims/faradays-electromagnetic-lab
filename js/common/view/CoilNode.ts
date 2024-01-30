@@ -117,7 +117,9 @@ export default class CoilNode extends Node {
 
   private step( dt: number ): void {
     assert && assert( dt === ConstantStepEmitter.CONSTANT_DT, `invalid dt=${dt}, see ConstantStepEmitter` );
-    this.electrons.forEach( electron => electron.step( dt ) );
+    if ( this.coil.electronsVisibleProperty ) {
+      this.electrons.forEach( electron => electron.step( dt ) );
+    }
   }
 
   /**
