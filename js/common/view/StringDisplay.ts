@@ -72,7 +72,7 @@ export default class StringDisplay extends Node {
 
     this.disposeStringDisplay = () => {
       background.dispose(); // may be listening to color Properties
-      text.dispose();
+      text.dispose(); // is listening to a string Property
     };
   }
 
