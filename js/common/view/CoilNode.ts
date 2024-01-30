@@ -107,7 +107,10 @@ export default class CoilNode extends Node {
     this.electrons = [];
     this.electronNodes = [];
 
-    Multilink.multilink( [ coil.numberOfLoopsProperty, coil.loopAreaProperty ], () => this.updateCoil() );
+    Multilink.multilink( [ coil.numberOfLoopsProperty, coil.loopAreaProperty ], () => {
+      this.updateCoil();
+      this.updateElectrons();
+    } );
 
     coil.addStepListener( dt => {
       if ( this.coil.electronsVisibleProperty ) {
@@ -117,7 +120,7 @@ export default class CoilNode extends Node {
   }
 
   /**
-   * Updates the physical appearance of the coil and the number of electrons.
+   * Updates the physical appearance of the coil.
    */
   private updateCoil(): void {
 
@@ -125,10 +128,6 @@ export default class CoilNode extends Node {
     this.removeAllChildren();
     this.backgroundNode.removeAllChildren();
     this.coilSegments.length = 0;
-    this.electrons.forEach( electron => electron.dispose() );
-    this.electrons.length = 0;
-    this.electronNodes.forEach( electronNode => electronNode.dispose() );
-    this.electronNodes.length = 0;
 
     // Get some coil model values, to improve code readability.
     const radius = this.coil.getLoopRadius();
@@ -279,51 +278,61 @@ export default class CoilNode extends Node {
         coilSegment.parentNode.addChild( coilSegment );
       }
     }
+  }
+
+  /**
+   * Updates the electrons to match the physical appearance of the coil.
+   */
+  private updateElectrons(): void {
+
+    // Start by deleting the model and view for all electrons.
+    this.electrons.forEach( electron => electron.dispose() );
+    this.electrons.length = 0;
+    this.electronNodes.forEach( electronNode => electronNode.dispose() );
+    this.electronNodes.length = 0;
 
     // Add electrons to the coil.
-    {
-      const leftEndIndex = 0;
-      const rightEndIndex = this.coilSegments.length - 1;
+    const leftEndIndex = 0;
+    const rightEndIndex = this.coilSegments.length - 1;
 
-      // For each curve...
-      for ( let coilSegmentIndex = 0; coilSegmentIndex < this.coilSegments.length; coilSegmentIndex++ ) {
+    // For each curve...
+    for ( let coilSegmentIndex = 0; coilSegmentIndex < this.coilSegments.length; coilSegmentIndex++ ) {
 
-        // Different segments contain a different number of electrons.
-        let numberOfElectrons;
-        if ( coilSegmentIndex === leftEndIndex ) {
-          numberOfElectrons = ELECTRONS_IN_LEFT_END;
-        }
-        else if ( coilSegmentIndex === rightEndIndex ) {
-          numberOfElectrons = ELECTRONS_IN_RIGHT_END;
-        }
-        else {
-          numberOfElectrons = Math.trunc( radius / ELECTRON_SPACING );
-        }
-        assert && assert( Number.isInteger( numberOfElectrons ) && numberOfElectrons > 0,
-          `invalid numberOfElectrons: ${numberOfElectrons}` );
-
-        // Add the electrons to the curve.
-        for ( let i = 0; i < numberOfElectrons; i++ ) {
-
-          const coilSegmentPosition = i / numberOfElectrons;
-
-          // Model
-          const electron = new Electron( this.coil.currentAmplitudeProperty, this.coil.currentAmplitudeRange, {
-            coilSegments: this.coilSegments,
-            coilSegmentIndex: coilSegmentIndex,
-            coilSegmentPosition: coilSegmentPosition,
-            speedScaleProperty: this.coil.electronSpeedScaleProperty,
-            visibleProperty: this.coil.electronsVisibleProperty
-          } );
-          this.electrons.push( electron );
-
-          // View
-          const electronNode = new ElectronNode( electron );
-          this.electronNodes.push( electronNode );
-        }
+      // Different segments contain a different number of electrons.
+      let numberOfElectrons;
+      if ( coilSegmentIndex === leftEndIndex ) {
+        numberOfElectrons = ELECTRONS_IN_LEFT_END;
       }
-      assert && assert( this.electrons.length === this.electronNodes.length );
+      else if ( coilSegmentIndex === rightEndIndex ) {
+        numberOfElectrons = ELECTRONS_IN_RIGHT_END;
+      }
+      else {
+        numberOfElectrons = Math.trunc( this.coil.getLoopRadius() / ELECTRON_SPACING );
+      }
+      assert && assert( Number.isInteger( numberOfElectrons ) && numberOfElectrons > 0,
+        `invalid numberOfElectrons: ${numberOfElectrons}` );
+
+      // Add the electrons to the curve.
+      for ( let i = 0; i < numberOfElectrons; i++ ) {
+
+        const coilSegmentPosition = i / numberOfElectrons;
+
+        // Model
+        const electron = new Electron( this.coil.currentAmplitudeProperty, this.coil.currentAmplitudeRange, {
+          coilSegments: this.coilSegments,
+          coilSegmentIndex: coilSegmentIndex,
+          coilSegmentPosition: coilSegmentPosition,
+          speedScaleProperty: this.coil.electronSpeedScaleProperty,
+          visibleProperty: this.coil.electronsVisibleProperty
+        } );
+        this.electrons.push( electron );
+
+        // View
+        const electronNode = new ElectronNode( electron );
+        this.electronNodes.push( electronNode );
+      }
     }
+    assert && assert( this.electrons.length === this.electronNodes.length );
   }
 }
 
