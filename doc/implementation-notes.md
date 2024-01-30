@@ -1,1 +1,1 @@
-TODO implementation overview
+TODO https://github.com/phetsims/faradays-electromagnetic-lab/issues/71

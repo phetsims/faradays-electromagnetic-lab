@@ -1,1 +1,1 @@
-TODO model description
+TODO https://github.com/phetsims/faradays-electromagnetic-lab/issues/70
