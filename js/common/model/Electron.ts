@@ -60,7 +60,8 @@ export default class Electron {
   private readonly coilSegments: CoilSegment[];
 
   // Index of the coil segment that the electron currently occupies
-  public readonly coilSegmentIndexProperty: NumberProperty;
+  public readonly coilSegmentIndexProperty: TReadOnlyProperty<number>;
+  private readonly _coilSegmentIndexProperty: NumberProperty;
 
   // Electron's position along the coil segment that it occupies (1=startPoint, 0=endPoint)
   private coilSegmentPositionProperty: NumberProperty;
@@ -80,17 +81,18 @@ export default class Electron {
   public constructor( currentAmplitudeProperty: TReadOnlyProperty<number>, currentAmplitudeRange: Range, providedOptions: ElectronOptions ) {
     const options = providedOptions;
 
-    const descriptor = options.coilSegments[ options.coilSegmentIndex ];
-    const initialPosition = descriptor.curve.evaluate( options.coilSegmentPosition );
+    const coilSegment = options.coilSegments[ options.coilSegmentIndex ];
+    const initialPosition = coilSegment.curve.evaluate( options.coilSegmentPosition );
 
     this._positionProperty = new Vector2Property( initialPosition );
     this.positionProperty = this._positionProperty;
 
     this.coilSegments = options.coilSegments;
 
-    this.coilSegmentIndexProperty = new NumberProperty( options.coilSegmentIndex, {
+    this._coilSegmentIndexProperty = new NumberProperty( options.coilSegmentIndex, {
       range: new Range( 0, this.coilSegments.length - 1 )
     } );
+    this.coilSegmentIndexProperty = this._coilSegmentIndexProperty;
 
     this.coilSegmentPositionProperty = new NumberProperty( options.coilSegmentPosition, {
       range: COIL_SEGMENT_POSITION_RANGE
@@ -133,7 +135,7 @@ export default class Electron {
    */
   public getCoilSegment( coilSegmentIndex?: number ): CoilSegment {
     if ( coilSegmentIndex === undefined ) {
-      coilSegmentIndex = this.coilSegmentIndexProperty.value;
+      coilSegmentIndex = this._coilSegmentIndexProperty.value;
     }
     return this.coilSegments[ coilSegmentIndex ];
   }
@@ -142,7 +144,7 @@ export default class Electron {
    * Gets the speed scale for the CoilSegment that the electron currently occupies.
    */
   private getCoilSegmentSpeedScale(): number {
-    return this.coilSegments[ this.coilSegmentIndexProperty.value ].speedScale;
+    return this.coilSegments[ this._coilSegmentIndexProperty.value ].speedScale;
   }
 
   /**
@@ -175,7 +177,7 @@ export default class Electron {
       }
 
       // Evaluate the quadratic to determine the electron's position relative to the segment.
-      const coilSegment = this.coilSegments[ this.coilSegmentIndexProperty.value ];
+      const coilSegment = this.coilSegments[ this._coilSegmentIndexProperty.value ];
       this._positionProperty.value = coilSegment.curve.evaluate( this.coilSegmentPositionProperty.value );
     }
   }
@@ -195,12 +197,12 @@ export default class Electron {
     if ( coilSegmentPosition <= 0 ) {
 
       // We've passed the end point, so move to the next curve. Wrap around if necessary.
-      const coilSegmentIndex = this.coilSegmentIndexProperty.value + 1;
+      const coilSegmentIndex = this._coilSegmentIndexProperty.value + 1;
       if ( coilSegmentIndex > this.coilSegments.length - 1 ) {
-        this.coilSegmentIndexProperty.value = 0;
+        this._coilSegmentIndexProperty.value = 0;
       }
       else {
-        this.coilSegmentIndexProperty.value = coilSegmentIndex;
+        this._coilSegmentIndexProperty.value = coilSegmentIndex;
       }
 
       // Set the position on the curve.
@@ -218,12 +220,12 @@ export default class Electron {
     else if ( coilSegmentPosition >= 1.0 ) {
 
       // We've passed the start point, so move to the previous curve. Wrap around if necessary.
-      const coilSegmentIndex = this.coilSegmentIndexProperty.value - 1;
+      const coilSegmentIndex = this._coilSegmentIndexProperty.value - 1;
       if ( coilSegmentIndex < 0 ) {
-        this.coilSegmentIndexProperty.value = this.coilSegments.length - 1;
+        this._coilSegmentIndexProperty.value = this.coilSegments.length - 1;
       }
       else {
-        this.coilSegmentIndexProperty.value = coilSegmentIndex;
+        this._coilSegmentIndexProperty.value = coilSegmentIndex;
       }
 
       // Set the position on the curve.
