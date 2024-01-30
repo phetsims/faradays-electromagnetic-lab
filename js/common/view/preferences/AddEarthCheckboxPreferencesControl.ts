@@ -24,8 +24,7 @@ export default class AddEarthCheckboxPreferencesControl extends PreferencesContr
 
     const labelText = new Text( FaradaysElectromagneticLabStrings.addEarthCheckboxStringProperty, {
       font: FELConstants.PREFERENCES_LABEL_FONT,
-      maxWidth: FELConstants.PREFERENCES_LABEL_MAX_WIDTH,
-      tandem: tandem.createTandem( 'labelText' )
+      maxWidth: FELConstants.PREFERENCES_LABEL_MAX_WIDTH
     } );
 
     const toggleSwitch = new ToggleSwitch( earthCheckboxVisibleProperty, false, true,
@@ -37,8 +36,7 @@ export default class AddEarthCheckboxPreferencesControl extends PreferencesContr
     const descriptionText = new RichText( FaradaysElectromagneticLabStrings.addEarthCheckboxDescriptionStringProperty, {
       lineWrap: FELConstants.PREFERENCES_DESCRIPTION_LINE_WRAP,
       maxHeight: 50,
-      font: FELConstants.PREFERENCES_DESCRIPTION_FONT,
-      tandem: tandem.createTandem( 'descriptionText' )
+      font: FELConstants.PREFERENCES_DESCRIPTION_FONT
     } );
 
     super( {

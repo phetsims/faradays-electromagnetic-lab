@@ -27,8 +27,7 @@ export default class EarthHemispherePreferencesControl extends PreferencesContro
 
     const labelText = new Text( FaradaysElectromagneticLabStrings.earthHemisphereStringProperty, {
       font: FELConstants.PREFERENCES_LABEL_FONT,
-      maxWidth: FELConstants.PREFERENCES_LABEL_MAX_WIDTH,
-      tandem: tandem.createTandem( 'labelText' )
+      maxWidth: FELConstants.PREFERENCES_LABEL_MAX_WIDTH
     } );
 
     const radioButtonGroup = new EarthHemisphereRadioButtonGroup( earthImageProperty,

@@ -28,8 +28,7 @@ export default class MagneticUnitsPreferencesControl extends PreferencesControl 
 
     const labelText = new Text( FaradaysElectromagneticLabStrings.magneticUnitsStringProperty, {
       font: FELConstants.PREFERENCES_LABEL_FONT,
-      maxWidth: FELConstants.PREFERENCES_LABEL_MAX_WIDTH,
-      tandem: tandem.createTandem( 'labelText' )
+      maxWidth: FELConstants.PREFERENCES_LABEL_MAX_WIDTH
     } );
 
     const radioButtonGroup = new MagneticUnitsRadioButtonGroup( magneticUnitsProperty,
