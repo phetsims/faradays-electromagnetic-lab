@@ -56,10 +56,12 @@ export default class PickupCoilScreenView extends FELScreenView {
       tandem: tandem.createTandem( 'barMagnetNode' )
     } );
 
-    const pickupCoilNode = new PickupCoilNode( model.pickupCoil, model.stepEmitter, {
+    const pickupCoilNode = new PickupCoilNode( model.pickupCoil, {
       dragBoundsProperty: dragBoundsProperty,
       tandem: tandem.createTandem( 'pickupCoilNode' )
     } );
+
+    model.stepEmitter.addListener( dt => pickupCoilNode.step( dt ) );
 
     this.configureDragBoundsProperty( dragBoundsProperty, isLockedToAxisProperty, panels.boundsProperty,
       model.barMagnet.positionProperty, model.pickupCoil.positionProperty, barMagnetNode, pickupCoilNode );

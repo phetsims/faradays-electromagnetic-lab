@@ -35,12 +35,10 @@ import Tandem from '../../../../tandem/js/Tandem.js';
 import ElectronNode from './ElectronNode.js';
 import QuadraticBezierSpline from '../model/QuadraticBezierSpline.js';
 import FELColors from '../FELColors.js';
-import Emitter from '../../../../axon/js/Emitter.js';
 import FELMovableNode, { FELMovableNodeOptions } from './FELMovableNode.js';
 import FELMovable from '../model/FELMovable.js';
 import TReadOnlyProperty from '../../../../axon/js/TReadOnlyProperty.js';
 import Bounds2 from '../../../../dot/js/Bounds2.js';
-import ConstantStepEmitter from '../model/ConstantStepEmitter.js';
 
 // Space between electrons, determines the number of electrons add to each curve.
 const ELECTRON_SPACING = 25;
@@ -77,10 +75,9 @@ export default class CoilNode extends Node {
   /**
    * @param coil - the coil associated with this Node
    * @param movable - the model element to move when this.backgroundNode is dragged
-   * @param stepEmitter - fires when step should be called, drives animation of electrons
    * @param providedOptions
    */
-  public constructor( coil: Coil, movable: FELMovable, stepEmitter: Emitter<[ number ]>, providedOptions: CoilNodeOptions ) {
+  public constructor( coil: Coil, movable: FELMovable, providedOptions: CoilNodeOptions ) {
 
     const options = optionize<CoilNodeOptions, SelfOptions, NodeOptions>()( {
 
@@ -111,12 +108,9 @@ export default class CoilNode extends Node {
     this.electronNodes = [];
 
     Multilink.multilink( [ coil.numberOfLoopsProperty, coil.loopAreaProperty ], () => this.updateCoil() );
-
-    stepEmitter.addListener( dt => this.step( dt ) );
   }
 
-  private step( dt: number ): void {
-    assert && assert( dt === ConstantStepEmitter.CONSTANT_DT, `invalid dt=${dt}, see ConstantStepEmitter` );
+  public step( dt: number ): void {
     if ( this.coil.electronsVisibleProperty ) {
       this.electrons.forEach( electron => electron.step( dt ) );
     }

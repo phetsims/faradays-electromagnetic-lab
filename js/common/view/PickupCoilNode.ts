@@ -13,7 +13,6 @@ import CoilNode from './CoilNode.js';
 import FELMovableNode, { FELMovableNodeOptions } from './FELMovableNode.js';
 import { Node, NodeOptions } from '../../../../scenery/js/imports.js';
 import PickupCoilSamplePointsNode from './PickupCoilSamplePointsNode.js';
-import Emitter from '../../../../axon/js/Emitter.js';
 import FELLightBulbNode from './FELLightBulbNode.js';
 import VoltmeterNode from './VoltmeterNode.js';
 import optionize, { EmptySelfOptions } from '../../../../phet-core/js/optionize.js';
@@ -28,16 +27,18 @@ type PickupCoilNodeOptions = SelfOptions &
 
 export default class PickupCoilNode extends FELMovableNode {
 
+  private readonly coilNode: CoilNode;
+
   // The background layer, intended to be added to the scene graph behind the B-field, magnet, and compass, so that
   // it looks like those things are passing through the coil. It is the responsibility of the instantiator to add
   // backgroundNode to the scene graph.
   public readonly backgroundNode: Node;
 
-  public constructor( pickupCoil: PickupCoil, stepEmitter: Emitter<[ number ]>, providedOptions: PickupCoilNodeOptions ) {
+  public constructor( pickupCoil: PickupCoil, providedOptions: PickupCoilNodeOptions ) {
 
     const options = optionize<PickupCoilNodeOptions, SelfOptions, NodeOptions>()( {}, providedOptions );
 
-    const coilNode = new CoilNode( pickupCoil.coil, pickupCoil, stepEmitter, {
+    const coilNode = new CoilNode( pickupCoil.coil, pickupCoil, {
       dragBoundsProperty: options.dragBoundsProperty,
       isMovable: options.isMovable,
       tandem: options.tandem.createTandem( 'coilNode' )
@@ -72,6 +73,7 @@ export default class PickupCoilNode extends FELMovableNode {
 
     super( pickupCoil, options );
 
+    this.coilNode = coilNode;
     this.backgroundNode = coilNode.backgroundNode;
 
     // Because backgroundNode is added to the scene graph elsewhere, ensure that its visibility remains synchronized with this Node.
@@ -84,6 +86,10 @@ export default class PickupCoilNode extends FELMovableNode {
     pickupCoil.positionProperty.link( position => {
       this.backgroundNode.translation = position;
     } );
+  }
+
+  public step( dt: number ): void {
+    this.coilNode.step( dt );
   }
 }
 

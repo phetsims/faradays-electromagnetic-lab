@@ -69,9 +69,7 @@ export default class FELModel implements TModel {
 
     this.compass = options.createCompass( magnet, this.isPlayingProperty, options.tandem.createTandem( 'compass' ) );
 
-    this.stepEmitter.addListener( dt => {
-      this.compass.step( dt );
-    } );
+    this.stepEmitter.addListener( dt => this.compass.step( dt ) );
   }
 
   public reset(): void {

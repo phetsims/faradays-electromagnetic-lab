@@ -60,6 +60,7 @@ export default class TransformerScreenView extends FELScreenView {
 
     const transformerNode = new TransformerNode( model.transformer, model.stepEmitter, dragBoundsProperty,
       tandem.createTandem( 'transformerNode' ) );
+    model.stepEmitter.addListener( dt => transformerNode.step( dt ) );
 
     this.configureDragBoundsProperty( dragBoundsProperty, isLockedToAxisProperty, panels.boundsProperty,
       electromagnet.positionProperty, pickupCoil.positionProperty, transformerNode.electromagnetNode,

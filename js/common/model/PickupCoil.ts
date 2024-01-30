@@ -256,7 +256,6 @@ export default class PickupCoil extends FELMovable {
   }
 
   public step( dt: number ): void {
-    assert && assert( dt === ConstantStepEmitter.CONSTANT_DT, `invalid dt=${dt}, ConstantStepEmitter` );
     if ( this.currentIndicatorProperty.value === this.voltmeter ) {
       this.voltmeter.step( dt );
     }
@@ -276,6 +275,7 @@ export default class PickupCoil extends FELMovable {
    * Updates the induced EMF (and other related Properties) using Faraday's Law.
    */
   private updateEMF( dt: number ): void {
+    assert && assert( dt === ConstantStepEmitter.CONSTANT_DT, `invalid dt=${dt}, ConstantStepEmitter` );
 
     // Get an average for Bx over the sample points.
     this._averageBxProperty.value = this.getAverageBx();

@@ -11,7 +11,6 @@ import faradaysElectromagneticLab from '../../faradaysElectromagneticLab.js';
 import Electromagnet from '../model/Electromagnet.js';
 import FELMovableNode, { FELMovableNodeOptions } from './FELMovableNode.js';
 import DCPowerSupplyNode from './DCPowerSupplyNode.js';
-import Emitter from '../../../../axon/js/Emitter.js';
 import CoilNode from './CoilNode.js';
 import { Node, Path } from '../../../../scenery/js/imports.js';
 import ACPowerSupplyNode from './ACPowerSupplyNode.js';
@@ -25,16 +24,18 @@ type ElectromagnetNodeOptions = SelfOptions & PickRequired<FELMovableNodeOptions
 
 export default class ElectromagnetNode extends FELMovableNode {
 
+  private readonly coilNode: CoilNode;
+
   // The background layer, intended to be added to the scene graph behind the B-field, magnet, and compass, so that
   // it looks like those things are passing through the coil. It is the responsibility of the instantiator to add
   // backgroundNode to the scene graph.
   public readonly backgroundNode: Node;
 
-  public constructor( electromagnet: Electromagnet, stepEmitter: Emitter<[ number ]>, providedOptions: ElectromagnetNodeOptions ) {
+  public constructor( electromagnet: Electromagnet, providedOptions: ElectromagnetNodeOptions ) {
 
     const options = optionize<ElectromagnetNodeOptions, SelfOptions, FELMovableNodeOptions>()( {}, providedOptions );
 
-    const coilNode = new CoilNode( electromagnet.coil, electromagnet, stepEmitter, {
+    const coilNode = new CoilNode( electromagnet.coil, electromagnet, {
       tandem: options.tandem.createTandem( 'coilNode' )
     } );
 
@@ -66,6 +67,7 @@ export default class ElectromagnetNode extends FELMovableNode {
 
     super( electromagnet, options );
 
+    this.coilNode = coilNode;
     this.backgroundNode = coilNode.backgroundNode;
 
     // Because backgroundNode is added to the scene graph elsewhere, ensure that its visibility remains synchronized with this Node.
@@ -78,6 +80,10 @@ export default class ElectromagnetNode extends FELMovableNode {
     electromagnet.positionProperty.link( position => {
       this.backgroundNode.translation = position;
     } );
+  }
+
+  public step( dt: number ): void {
+    this.coilNode.step( dt );
   }
 }
 

@@ -20,7 +20,6 @@ import { EmptySelfOptions } from '../../../../phet-core/js/optionize.js';
 import RangeWithValue from '../../../../dot/js/RangeWithValue.js';
 import Coil from './Coil.js';
 import FELConstants from '../FELConstants.js';
-import ConstantStepEmitter from './ConstantStepEmitter.js';
 
 const STRENGTH_RANGE = new Range( 0, 300 ); // gauss
 const WIRE_WIDTH = 16;
@@ -115,7 +114,6 @@ export default class Electromagnet extends CoilMagnet {
   }
 
   public step( dt: number ): void {
-    assert && assert( dt === ConstantStepEmitter.CONSTANT_DT, `invalid dt=${dt}, see ConstantStepEmitter` );
     if ( this.currentSourceProperty.value === this.acPowerSupply ) {
       this.acPowerSupply.step( dt );
     }

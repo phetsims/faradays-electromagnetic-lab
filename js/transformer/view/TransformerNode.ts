@@ -25,12 +25,12 @@ export default class TransformerNode extends Node {
                       dragBoundsProperty: TReadOnlyProperty<Bounds2>,
                       tandem: Tandem ) {
 
-    const electromagnetNode = new ElectromagnetNode( transformer.electromagnet, stepEmitter, {
+    const electromagnetNode = new ElectromagnetNode( transformer.electromagnet, {
       dragBoundsProperty: dragBoundsProperty,
       tandem: tandem.createTandem( 'electromagnetNode' )
     } );
 
-    const pickupCoilNode = new PickupCoilNode( transformer.pickupCoil, stepEmitter, {
+    const pickupCoilNode = new PickupCoilNode( transformer.pickupCoil, {
       dragBoundsProperty: dragBoundsProperty,
       tandem: tandem.createTandem( 'pickupCoilNode' )
     } );
@@ -45,6 +45,11 @@ export default class TransformerNode extends Node {
     this.pickupCoilNode = pickupCoilNode;
 
     this.addLinkedElement( transformer );
+  }
+
+  public step( dt: number ): void {
+    this.electromagnetNode.step( dt );
+    this.pickupCoilNode.step( dt );
   }
 }
 
