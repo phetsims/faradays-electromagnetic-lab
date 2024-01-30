@@ -147,7 +147,7 @@ export default class Coil extends PhetioObject {
   }
 
   /**
-   * Gets the current radius of one loop of the coil.
+   * Gets the radius of one loop of the coil.
    */
   public getLoopRadius(): number {
     const loopArea = ( this.loopAreaPercentProperty.value / 100 ) * this.maxLoopArea;
