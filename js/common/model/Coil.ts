@@ -46,7 +46,7 @@ export type CoilOptions = SelfOptions & PickRequired<PhetioObjectOptions, 'tande
 
 export default class Coil extends PhetioObject {
 
-  // This is a quantity that we made up. It is a percentage [-1,1] that describes the amount of current relative to
+  // This is a quantity that PhET made up. It is a percentage [-1,1] that describes the amount of current relative to
   // some maximum current in the model, and direction of that current. View components can use this value to determine
   // how they should behave (eg, how far to move a voltmeter needle, how bright to make a lightbulb, etc.)
   public readonly currentAmplitudeProperty: TReadOnlyProperty<number>;
