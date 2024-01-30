@@ -38,7 +38,7 @@ type SelfOptions = {
   // Initial value of coilSegmentIndexProperty
   coilSegmentIndex: number;
 
-  // Initial value of coilSegmentPositionProperty
+  // Initial value of coilSegmentPosition
   coilSegmentPosition: number;
 
   // Developer control used to scale the electron speed in the view.
@@ -63,8 +63,8 @@ export default class Electron {
   public readonly coilSegmentIndexProperty: TReadOnlyProperty<number>;
   private readonly _coilSegmentIndexProperty: NumberProperty;
 
-  // Electron's position along the coil segment that it occupies (1=startPoint, 0=endPoint)
-  private coilSegmentPositionProperty: NumberProperty;
+  // Electron's position along the coil segment that it occupies, [0,1] (1=startPoint, 0=endPoint)
+  private coilSegmentPosition: number;
 
   // Electron's speed & direction [-1,1], where direction is indicated by sign
   private readonly speedAndDirectionProperty: TReadOnlyProperty<number>;
@@ -79,7 +79,9 @@ export default class Electron {
   private readonly disposeElectron: () => void;
 
   public constructor( currentAmplitudeProperty: TReadOnlyProperty<number>, currentAmplitudeRange: Range, providedOptions: ElectronOptions ) {
+
     const options = providedOptions;
+    assert && assert( COIL_SEGMENT_POSITION_RANGE.contains( options.coilSegmentPosition ) );
 
     const coilSegment = options.coilSegments[ options.coilSegmentIndex ];
     const initialPosition = coilSegment.curve.evaluate( options.coilSegmentPosition );
@@ -94,9 +96,7 @@ export default class Electron {
     } );
     this.coilSegmentIndexProperty = this._coilSegmentIndexProperty;
 
-    this.coilSegmentPositionProperty = new NumberProperty( options.coilSegmentPosition, {
-      range: COIL_SEGMENT_POSITION_RANGE
-    } );
+    this.coilSegmentPosition = options.coilSegmentPosition;
 
     // Adjust speed and direction based on the current in the coil.
     this.speedAndDirectionRange = new Range( -MAX_SPEED_AND_DIRECTION, MAX_SPEED_AND_DIRECTION );
@@ -166,19 +166,20 @@ export default class Electron {
       // Move the electron along the path.
       const deltaPosition = dt * MAX_COIL_SEGMENT_POSITION_DELTA * this.speedAndDirectionProperty.value *
                             this.speedScaleProperty.value * this.getCoilSegmentSpeedScale();
-      const newPosition = this.coilSegmentPositionProperty.value - deltaPosition;
+      const newPosition = this.coilSegmentPosition - deltaPosition;
 
       // Do we need to switch curves?
       if ( newPosition <= 0 || newPosition >= 1 ) {
         this.switchCurves( newPosition );
       }
       else {
-        this.coilSegmentPositionProperty.value = newPosition;
+        this.coilSegmentPosition = newPosition;
       }
+      assert && assert( COIL_SEGMENT_POSITION_RANGE.contains( this.coilSegmentPosition ) );
 
       // Evaluate the quadratic to determine the electron's position relative to the segment.
       const coilSegment = this.coilSegments[ this._coilSegmentIndexProperty.value ];
-      this._positionProperty.value = coilSegment.curve.evaluate( this.coilSegmentPositionProperty.value );
+      this._positionProperty.value = coilSegment.curve.evaluate( this.coilSegmentPosition );
     }
   }
 
@@ -214,7 +215,7 @@ export default class Electron {
         this.switchCurves( coilSegmentPosition, ++recursionDepth );
       }
       else {
-        this.coilSegmentPositionProperty.value = coilSegmentPosition;
+        this.coilSegmentPosition = coilSegmentPosition;
       }
     }
     else if ( coilSegmentPosition >= 1.0 ) {
@@ -236,7 +237,7 @@ export default class Electron {
         this.switchCurves( coilSegmentPosition, ++recursionDepth );
       }
       else {
-        this.coilSegmentPositionProperty.value = coilSegmentPosition;
+        this.coilSegmentPosition = coilSegmentPosition;
       }
     }
   }
