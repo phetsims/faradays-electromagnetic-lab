@@ -22,6 +22,7 @@ import { SliderOptions } from '../../../sun/js/Slider.js';
 import Tandem from '../../../tandem/js/Tandem.js';
 import Range from '../../../dot/js/Range.js';
 import FELQueryParameters from './FELQueryParameters.js';
+import { PreferencesControlOptions } from '../../../joist/js/preferences/PreferencesControl.js';
 
 // Credits are shared by all sims in this family.
 //TODO https://github.com/phetsims/faradays-electromagnetic-lab/issues/2 fill in credits
@@ -149,6 +150,14 @@ const PERCENT_SLIDER_OPTIONS: SliderOptions = {
   pageKeyboardStep: 10
 };
 
+const PREFERENCES_CONTROL_OPTIONS: PreferencesControlOptions = {
+  isDisposable: false,
+  labelSpacing: 20,
+  visiblePropertyOptions: {
+    phetioFeatured: true
+  }
+};
+
 const FELConstants = {
 
   // Sim
@@ -166,6 +175,7 @@ const FELConstants = {
   NUMBER_CONTROL_OPTIONS: NUMBER_CONTROL_OPTIONS,
   PANEL_OPTIONS: PANEL_OPTIONS,
   RECTANGULAR_RADIO_BUTTON_OPTIONS: RECTANGULAR_RADIO_BUTTON_OPTIONS,
+  PREFERENCES_CONTROL_OPTIONS: PREFERENCES_CONTROL_OPTIONS,
 
   // Other options
   PANEL_TITLE_OPTIONS: PANEL_TITLE_OPTIONS,

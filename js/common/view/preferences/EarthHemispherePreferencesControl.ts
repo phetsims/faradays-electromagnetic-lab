@@ -10,7 +10,7 @@
 import { EarthHemisphere, EarthHemisphereValues } from '../../FELQueryParameters.js';
 import StringUnionProperty from '../../../../../axon/js/StringUnionProperty.js';
 import Tandem from '../../../../../tandem/js/Tandem.js';
-import PreferencesControl from '../../../../../joist/js/preferences/PreferencesControl.js';
+import PreferencesControl, { PreferencesControlOptions } from '../../../../../joist/js/preferences/PreferencesControl.js';
 import { Image, Text } from '../../../../../scenery/js/imports.js';
 import FELConstants from '../../FELConstants.js';
 import RectangularRadioButtonGroup, { RectangularRadioButtonGroupItem } from '../../../../../sun/js/buttons/RectangularRadioButtonGroup.js';
@@ -20,6 +20,7 @@ import faradaysElectromagneticLab from '../../../faradaysElectromagneticLab.js';
 import FaradaysElectromagneticLabStrings from '../../../FaradaysElectromagneticLabStrings.js';
 import earthEasternHemisphere_svg from '../../../../images/earthEasternHemisphere_svg.js';
 import earthWesternHemisphere_svg from '../../../../images/earthWesternHemisphere_svg.js';
+import { combineOptions } from '../../../../../phet-core/js/optionize.js';
 
 export default class EarthHemispherePreferencesControl extends PreferencesControl {
 
@@ -33,16 +34,11 @@ export default class EarthHemispherePreferencesControl extends PreferencesContro
     const radioButtonGroup = new EarthHemisphereRadioButtonGroup( earthImageProperty,
       tandem.createTandem( 'radioButtonGroup' ) );
 
-    super( {
-      isDisposable: false,
+    super( combineOptions<PreferencesControlOptions>( {
       labelNode: labelText,
       controlNode: radioButtonGroup,
-      labelSpacing: 20,
-      tandem: tandem,
-      visiblePropertyOptions: {
-        phetioFeatured: true
-      }
-    } );
+      tandem: tandem
+    }, FELConstants.PREFERENCES_CONTROL_OPTIONS ) );
   }
 }
 

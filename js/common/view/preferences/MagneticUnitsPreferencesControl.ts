@@ -13,12 +13,13 @@ import AquaRadioButton from '../../../../../sun/js/AquaRadioButton.js';
 import TReadOnlyProperty from '../../../../../axon/js/TReadOnlyProperty.js';
 import PreferencesDialog from '../../../../../joist/js/preferences/PreferencesDialog.js';
 import Tandem from '../../../../../tandem/js/Tandem.js';
-import PreferencesControl from '../../../../../joist/js/preferences/PreferencesControl.js';
+import PreferencesControl, { PreferencesControlOptions } from '../../../../../joist/js/preferences/PreferencesControl.js';
 import FaradaysElectromagneticLabStrings from '../../../FaradaysElectromagneticLabStrings.js';
 import faradaysElectromagneticLab from '../../../faradaysElectromagneticLab.js';
 import AquaRadioButtonGroup, { AquaRadioButtonGroupItem } from '../../../../../sun/js/AquaRadioButtonGroup.js';
 import { MagneticUnits } from '../../FELQueryParameters.js';
 import FELConstants from '../../FELConstants.js';
+import { combineOptions } from '../../../../../phet-core/js/optionize.js';
 
 export default class MagneticUnitsPreferencesControl extends PreferencesControl {
 
@@ -32,16 +33,11 @@ export default class MagneticUnitsPreferencesControl extends PreferencesControl 
     const radioButtonGroup = new MagneticUnitsRadioButtonGroup( magneticUnitsProperty,
       tandem.createTandem( 'radioButtonGroup' ) );
 
-    super( {
-      isDisposable: false,
+    super( combineOptions<PreferencesControlOptions>( {
       labelNode: labelText,
       controlNode: radioButtonGroup,
-      labelSpacing: 20,
-      tandem: tandem,
-      visiblePropertyOptions: {
-        phetioFeatured: true
-      }
-    } );
+      tandem: tandem
+    }, FELConstants.PREFERENCES_CONTROL_OPTIONS ) );
   }
 }
 

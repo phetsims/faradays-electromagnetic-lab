@@ -7,7 +7,7 @@
  * @author Chris Malley (PixelZoom, Inc.)
  */
 
-import PreferencesControl from '../../../../../joist/js/preferences/PreferencesControl.js';
+import PreferencesControl, { PreferencesControlOptions } from '../../../../../joist/js/preferences/PreferencesControl.js';
 import faradaysElectromagneticLab from '../../../faradaysElectromagneticLab.js';
 import Property from '../../../../../axon/js/Property.js';
 import Tandem from '../../../../../tandem/js/Tandem.js';
@@ -39,17 +39,12 @@ export default class AddEarthCheckboxPreferencesControl extends PreferencesContr
       font: FELConstants.PREFERENCES_DESCRIPTION_FONT
     } );
 
-    super( {
-      isDisposable: false,
+    super( combineOptions<PreferencesControlOptions>( {
       labelNode: labelText,
       controlNode: toggleSwitch,
       descriptionNode: descriptionText,
-      labelSpacing: 20,
-      tandem: tandem,
-      visiblePropertyOptions: {
-        phetioFeatured: true
-      }
-    } );
+      tandem: tandem
+    }, FELConstants.PREFERENCES_CONTROL_OPTIONS ) );
   }
 }
 
