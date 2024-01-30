@@ -1,8 +1,7 @@
 // Copyright 2023-2024, University of Colorado Boulder
 
 /**
- * Electromagnet is the model of the electromagnet. The shape of the model is a circle, and the calculation of the
- * magnetic field at some point of interest varies depending on whether the point is inside or outside the circle.
+ * Electromagnet is the model of the electromagnet. It includes a source coil, and selectable power supplies (DC & AC).
  *
  * @author Chris Malley (PixelZoom, Inc.)
  */

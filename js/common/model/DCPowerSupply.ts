@@ -1,7 +1,7 @@
 // Copyright 2023-2024, University of Colorado Boulder
 
 /**
- * DCPowerSupply is the model for DC power supply, used to power the electromagnet.
+ * DCPowerSupply is the model for a DC power supply, used to power the electromagnet.
  *
  * @author Chris Malley (PixelZoom, Inc.)
  */

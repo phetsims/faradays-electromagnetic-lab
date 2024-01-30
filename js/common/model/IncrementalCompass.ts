@@ -3,7 +3,7 @@
 /**
  * IncrementalCompass tracks the B-field exactly, except when the delta angle exceeds some threshold.
  * When the threshold is exceeded, the needle angle changes incrementally over time.
- * This compass is used with the Electromagnet and the Transformer.
+ * This compass is used in the Electromagnet and Transformer screens.
  *
  * @author Chris Malley (PixelZoom, Inc.)
  */

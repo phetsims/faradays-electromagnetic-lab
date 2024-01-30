@@ -4,7 +4,7 @@
  * KinematicCompass rotates the compass needle using the Verlet algorithm to mimic rotational kinematics of a real
  * compass. The needle must overcome inertia, and it has angular velocity and angular acceleration. This causes the
  * needle to accelerate at it starts to move, and to wobble as it comes to rest.
- * This compass is used with the BarMagnet and the PickupCoil.
+ * This compass is used in the Bar Magnet and Pickup Coil screens.
  *
  * @author Chris Malley (PixelZoom, Inc.)
  */

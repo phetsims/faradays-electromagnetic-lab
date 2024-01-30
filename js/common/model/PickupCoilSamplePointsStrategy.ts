@@ -1,7 +1,7 @@
 // Copyright 2024, University of Colorado Boulder
 
 /**
- * SamplePointsStrategy is the base class for a strategy that creates B-field sample points for a pickup coil.
+ * PickupCoilSamplePointsStrategy is the base class for a strategy that creates B-field sample points for a pickup coil.
  * Sample points are distributed along a vertical line that goes through the center of a pickup coil. The B-field is
  * sampled at these points, and used to compute the induced EMF in the pickup coil.
  *

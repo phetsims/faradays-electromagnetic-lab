@@ -2,7 +2,7 @@
 
 /**
  * ImmediateCompass immediately sets the compass direction to match the direction of the B-field.
- * This compass is used with the Generator.
+ * This compass is used in the Generator screen.
  *
  * @author Chris Malley (PixelZoom, Inc.)
  */
