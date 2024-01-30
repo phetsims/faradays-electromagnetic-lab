@@ -66,8 +66,8 @@ export default class Electron {
   private coilSegmentPositionProperty: NumberProperty;
 
   // Electron's speed & direction [-1,1], where direction is indicated by sign
-  public readonly speedAndDirectionProperty: TReadOnlyProperty<number>;
-  public readonly speedAndDirectionRange: Range;
+  private readonly speedAndDirectionProperty: TReadOnlyProperty<number>;
+  private readonly speedAndDirectionRange: Range;
 
   // Scale for adjusting speed.
   private readonly speedScaleProperty: TReadOnlyProperty<number>;
