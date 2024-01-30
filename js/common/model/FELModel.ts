@@ -44,7 +44,7 @@ export default class FELModel implements TModel {
   // Whether time is progressing in the sim
   public readonly isPlayingProperty: Property<boolean>;
 
-  // Fires at a constant rate, with a constant dt. Subclass should listen to this instead of overriding step.
+  // Fires at a constant rate, with a constant dt. Subclasses should listen to this instead of overriding step.
   public readonly stepEmitter: ConstantStepEmitter;
 
   // Devices that measure the magnet's B-field
