@@ -19,8 +19,8 @@ import Utils from '../../../../dot/js/Utils.js';
 import Tandem from '../../../../tandem/js/Tandem.js';
 import DerivedStringProperty from '../../../../axon/js/DerivedStringProperty.js';
 
-const PHI = '\u03A6';
-const DELTA_PHI = `\u2206${PHI}`;
+const PHI = '\u03A6'; // flux
+const DELTA_PHI = `\u2206${PHI}`; // delta flux
 
 const LABEL_TEXT_OPTIONS: RichTextOptions = {
   font: new PhetFont( 12 ),
