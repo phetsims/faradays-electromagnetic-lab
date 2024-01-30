@@ -63,7 +63,7 @@ export default class Electron {
   public readonly coilSegmentIndexProperty: TReadOnlyProperty<number>;
   private readonly _coilSegmentIndexProperty: NumberProperty;
 
-  // Electron's position along the coil segment that it occupies, [0,1] (1=startPoint, 0=endPoint)
+  // Electron's position [0,1] along the coil segment that it occupies: 0=endPoint, 1=startPoint
   private coilSegmentPosition: number;
 
   // Electron's speed & direction [-1,1], where direction is indicated by sign
