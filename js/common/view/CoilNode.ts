@@ -57,9 +57,12 @@ export default class CoilNode extends Node {
   // the coil associated with this Node
   private readonly coil: Coil;
 
-  // The parent of Nodes that are background elements, intended to be added to the scene graph behind the B-field, magnet,
-  // and compass, so that it looks like those things are passing through the coil. It is the responsibility of the
-  // instantiator to add backgroundNode to the scene graph. Foreground elements are children of CoilNode.
+  // The foreground portion of the coil, which is a child of this Node.
+  private readonly foregroundNode: Node;
+
+  // The background portion of the coil, intended to be added to the scene graph behind the B-field, magnet, etc.
+  // so that it looks like those things are passing through the coil. It is the responsibility of the instantiator
+  // to add backgroundNode to the scene graph.
   public readonly backgroundNode: Node;
 
   // Is electron animation enabled?
@@ -95,6 +98,9 @@ export default class CoilNode extends Node {
     this.coil = coil;
     this.addLinkedElement( this.coil );
 
+    this.foregroundNode = new Node();
+    this.addChild( this.foregroundNode );
+
     this.backgroundNode = new CoilBackgroundNode( movable, {
       isMovable: options.isMovable,
       dragBoundsProperty: options.dragBoundsProperty,
@@ -125,7 +131,7 @@ export default class CoilNode extends Node {
   private updateCoil(): void {
 
     // Start by deleting everything.
-    this.removeAllChildren();
+    this.foregroundNode.removeAllChildren();
     this.backgroundNode.removeAllChildren();
     this.coilSegments.length = 0;
 
@@ -240,7 +246,7 @@ export default class CoilNode extends Node {
         const controlPoint = new Vector2( ( -radius * 0.25 ) + xOffset, ( radius * 0.80 ) );
         const curve = new QuadraticBezierSpline( startPoint, controlPoint, endPoint );
 
-        const coilSegment = new CoilSegment( curve, this, combineOptions<CoilSegmentOptions>( {
+        const coilSegment = new CoilSegment( curve, this.foregroundNode, combineOptions<CoilSegmentOptions>( {
           stroke: frontGradient
         }, pathOptions ) );
         this.coilSegments.push( coilSegment );
@@ -254,7 +260,7 @@ export default class CoilNode extends Node {
         const controlPoint = new Vector2( ( -radius * 0.25 ) + xOffset, ( -radius * 0.80 ) );
         const curve = new QuadraticBezierSpline( startPoint, controlPoint, endPoint );
 
-        const coilSegment = new CoilSegment( curve, this, combineOptions<CoilSegmentOptions>( {
+        const coilSegment = new CoilSegment( curve, this.foregroundNode, combineOptions<CoilSegmentOptions>( {
           stroke: frontGradient
         }, pathOptions ) );
         this.coilSegments.push( coilSegment );
@@ -268,7 +274,7 @@ export default class CoilNode extends Node {
         const controlPoint = new Vector2( startPoint.x + 20, startPoint.y - 20 );
         const curve = new QuadraticBezierSpline( startPoint, controlPoint, endPoint );
 
-        const coilSegment = new CoilSegment( curve, this, combineOptions<CoilSegmentOptions>( {
+        const coilSegment = new CoilSegment( curve, this.foregroundNode, combineOptions<CoilSegmentOptions>( {
           stroke: FELColors.coilMiddleColorProperty,
 
           // Scale the speed, since this segment is different from the others in the coil.
