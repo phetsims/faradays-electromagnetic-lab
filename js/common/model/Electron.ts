@@ -76,6 +76,10 @@ export default class Electron {
   // Whether electrons are visible.
   public readonly visibleProperty: TReadOnlyProperty<boolean>;
 
+  // Reusable Vector2 instances
+  public readonly reusablePosition1: Vector2;
+  public readonly reusablePosition2: Vector2;
+
   private readonly disposeElectron: () => void;
 
   public constructor( currentAmplitudeProperty: TReadOnlyProperty<number>, currentAmplitudeRange: Range, providedOptions: ElectronOptions ) {
@@ -83,8 +87,11 @@ export default class Electron {
     const options = providedOptions;
     assert && assert( COIL_SEGMENT_POSITION_RANGE.contains( options.coilSegmentPosition ) );
 
+    this.reusablePosition1 = new Vector2( 0, 0 );
+    this.reusablePosition2 = new Vector2( 0, 0 );
+
     const coilSegment = options.coilSegments[ options.coilSegmentIndex ];
-    const initialPosition = coilSegment.curve.evaluate( options.coilSegmentPosition );
+    const initialPosition = coilSegment.curve.evaluate( options.coilSegmentPosition, this.reusablePosition1 );
 
     this._positionProperty = new Vector2Property( initialPosition );
     this.positionProperty = this._positionProperty;
@@ -178,8 +185,10 @@ export default class Electron {
       assert && assert( COIL_SEGMENT_POSITION_RANGE.contains( this.coilSegmentPosition ) );
 
       // Evaluate the quadratic to determine the electron's position relative to the segment.
+      // Use a different reusable Vector2 each time that curve.evaluate is called, so that
       const coilSegment = this.coilSegments[ this._coilSegmentIndexProperty.value ];
-      this._positionProperty.value = coilSegment.curve.evaluate( this.coilSegmentPosition );
+      const returnValue = ( this._positionProperty.value === this.reusablePosition1 ) ? this.reusablePosition2 : this.reusablePosition1;
+      this._positionProperty.value = coilSegment.curve.evaluate( this.coilSegmentPosition, returnValue );
     }
   }
 

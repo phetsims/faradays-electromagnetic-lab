@@ -29,8 +29,9 @@ export default class QuadraticBezierSpline {
    * the start point to the end point.
    *
    * @param t - a value between 0 and 1. t=1 is at the start point, and t=0 is at the end point.
+   * @param returnValue - the return value is written to this vector
    */
-  public evaluate( t: number ): Vector2 {
+  public evaluate( t: number, returnValue: Vector2 ): Vector2 {
     assert && assert( t >= 0 && t <= 1, `invalid t: ${t}` );
 
     const x1 = this.startPoint.x;
@@ -43,7 +44,7 @@ export default class QuadraticBezierSpline {
     const x = ( x1 * t * t ) + ( cx * 2 * t * ( 1 - t ) ) + ( x2 * ( 1 - t ) * ( 1 - t ) );
     const y = ( y1 * t * t ) + ( cy * 2 * t * ( 1 - t ) ) + ( y2 * ( 1 - t ) * ( 1 - t ) );
 
-    return new Vector2( x, y );
+    return returnValue.setXY( x, y );
   }
 
   /**
