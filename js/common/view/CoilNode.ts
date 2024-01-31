@@ -126,11 +126,9 @@ export default class CoilNode extends Node {
    */
   private updateElectrons( coilSegments: CoilSegment[] ): void {
 
-    // Delete existing Electron and ElectronNode instances.
+    // Delete existing Electron instances.
     this.electrons.forEach( electron => electron.dispose() );
     this.electrons.length = 0;
-    this.electronNodes.forEach( electronNode => electronNode.dispose() );
-    this.electronNodes.length = 0;
 
     // coilSegments is ordered from left to right. So these are the indices for the ends of the coil.
     const leftEndIndex = 0;
@@ -167,14 +165,27 @@ export default class CoilNode extends Node {
           speedScaleProperty: this.coil.electronSpeedScaleProperty
         } );
         this.electrons.push( electron );
-
-        // View
-        const electronNode = new ElectronNode( electron, this.foregroundNode, this.backgroundNode,
-          this.coil.electronsVisibleProperty );
-        this.electronNodes.push( electronNode );
       }
     }
-    assert && assert( this.electrons.length === this.electronNodes.length );
+
+    this.updateElectronNodes( this.electrons );
+  }
+
+  /**
+   * Creates an ElectronNode for each Electron in the model.
+   */
+  private updateElectronNodes( electrons: Electron[] ): void {
+
+    // Delete existing ElectronNode instances.
+    this.electronNodes.forEach( electronNode => electronNode.dispose() );
+    this.electronNodes.length = 0;
+
+    // Create new ElectronNode instances.
+    electrons.forEach( electron => {
+      const electronNode = new ElectronNode( electron, this.foregroundNode, this.backgroundNode,
+        this.coil.electronsVisibleProperty );
+      this.electronNodes.push( electronNode );
+    } );
   }
 }
 
