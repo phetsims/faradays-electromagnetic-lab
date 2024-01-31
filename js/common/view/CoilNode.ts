@@ -180,7 +180,8 @@ export default class CoilNode extends Node {
     this.electronNodes.forEach( electronNode => electronNode.dispose() );
     this.electronNodes.length = 0;
 
-    // Create new ElectronNode instances.
+    // Create new ElectronNode instances. ElectronNode adds itself to foregroundNode or backgroundNode, and
+    // moves between foregroundNode and backgroundNode as the Electron moves through the coil.
     electrons.forEach( electron => {
       const electronNode = new ElectronNode( electron, this.foregroundNode, this.backgroundNode,
         this.coil.electronsVisibleProperty );
