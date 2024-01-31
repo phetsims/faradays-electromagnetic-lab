@@ -93,10 +93,11 @@ export default class FELScreenView extends ScreenView {
       } );
 
     // ResetAllButton in the right bottom corner of the visible bounds.
-    this.visibleBoundsProperty.link( visibleBounds => {
-      this.resetAllButton.right = visibleBounds.maxX - FELConstants.SCREEN_VIEW_X_MARGIN;
-      this.resetAllButton.bottom = visibleBounds.maxY - FELConstants.SCREEN_VIEW_Y_MARGIN;
-    } );
+    Multilink.multilink( [ this.visibleBoundsProperty, this.resetAllButton.boundsProperty ],
+      ( visibleBounds, resetAllButtonBounds ) => {
+        this.resetAllButton.right = visibleBounds.maxX - FELConstants.SCREEN_VIEW_X_MARGIN;
+        this.resetAllButton.bottom = visibleBounds.maxY - FELConstants.SCREEN_VIEW_Y_MARGIN;
+      } );
 
     // Developer accordion box in the left top corner of the visible bounds.
     Multilink.multilink( [ this.visibleBoundsProperty, options.developerAccordionBox.boundsProperty ],
@@ -107,10 +108,12 @@ export default class FELScreenView extends ScreenView {
 
     // Time control at center bottom of the visible bounds.
     if ( options.timeControlNode ) {
-      this.visibleBoundsProperty.link( visibleBounds => {
-        options.timeControlNode!.centerX = visibleBounds.centerX;
-        options.timeControlNode!.bottom = visibleBounds.bottom - FELConstants.SCREEN_VIEW_Y_MARGIN;
-      } );
+      const timeControlNode = options.timeControlNode;
+      Multilink.multilink( [ this.visibleBoundsProperty, timeControlNode.boundsProperty ],
+        ( visibleBounds, timeControlNodeBounds ) => {
+          timeControlNode.centerX = visibleBounds.centerX;
+          timeControlNode.bottom = visibleBounds.bottom - FELConstants.SCREEN_VIEW_Y_MARGIN;
+        } );
     }
   }
 
