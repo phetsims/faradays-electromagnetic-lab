@@ -122,7 +122,7 @@ export default class CoilNode extends Node {
   }
 
   /**
-   * Updates the electrons to match the physical appearance of the coil.
+   * Updates the Electrons to match the coil, as described by coilSegments.
    */
   private updateElectrons( coilSegments: CoilSegment[] ): void {
 
@@ -134,7 +134,7 @@ export default class CoilNode extends Node {
     const leftEndIndex = 0;
     const rightEndIndex = coilSegments.length - 1;
 
-    // Add Electron and ElectronNode instances to each coil segment.
+    // Add Electron instances for each coil segment.
     for ( let coilSegmentIndex = 0; coilSegmentIndex < coilSegments.length; coilSegmentIndex++ ) {
 
       // Compute how many electrons to add to the segment. The ends of the coil have a fixed number of electrons,
