@@ -63,9 +63,6 @@ export default class CoilNode extends Node {
   // to the scene graph.
   public readonly backgroundNode: Node;
 
-  // Is electron animation enabled?
-  private electronAnimationEnabled: boolean;
-
   // Electrons in the coil
   private readonly electrons: Electron[];
   private readonly electronNodes: ElectronNode[];
@@ -101,8 +98,6 @@ export default class CoilNode extends Node {
       dragBoundsProperty: options.dragBoundsProperty,
       visibleProperty: this.visibleProperty
     } );
-
-    this.electronAnimationEnabled = false;
 
     this.electrons = [];
     this.electronNodes = [];
