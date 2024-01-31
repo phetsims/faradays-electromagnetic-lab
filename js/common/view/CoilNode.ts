@@ -154,20 +154,21 @@ export default class CoilNode extends Node {
    */
   private updateElectrons( coilSegments: CoilSegment[] ): void {
 
-    // Start by deleting the model and view for all electrons.
+    // Delete existing Electron and ElectronNode instances.
     this.electrons.forEach( electron => electron.dispose() );
     this.electrons.length = 0;
     this.electronNodes.forEach( electronNode => electronNode.dispose() );
     this.electronNodes.length = 0;
 
-    // Add electrons to the coil.
+    // coilSegments is ordered from left to right. So these are the indices for the ends of the coil.
     const leftEndIndex = 0;
     const rightEndIndex = coilSegments.length - 1;
 
-    // For each curve segment...
+    // Add Electron and ElectronNode instances to each curve segment.
     for ( let coilSegmentIndex = 0; coilSegmentIndex < coilSegments.length; coilSegmentIndex++ ) {
 
-      // Different segments contain a different number of electrons.
+      // Compute how many electrons to add to the curve segment. The ends of the coil have a fixed number of electrons,
+      // while the other segments is a function of loop radius.
       let numberOfElectrons;
       if ( coilSegmentIndex === leftEndIndex ) {
         numberOfElectrons = ELECTRONS_IN_LEFT_END;

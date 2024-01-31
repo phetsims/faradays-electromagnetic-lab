@@ -89,7 +89,7 @@ export default class Coil extends PhetioObject {
   // Called by step method
   private readonly stepListeners: StepListener[];
 
-  // Segments that describe the shape of the coil
+  // Segments that describe the shape of the coil, from left to right.
   public readonly coilSegmentsProperty: TReadOnlyProperty<CoilSegment[]>;
 
   public constructor( currentAmplitudeProperty: TReadOnlyProperty<number>, currentAmplitudeRange: Range, providedOptions: CoilOptions ) {
