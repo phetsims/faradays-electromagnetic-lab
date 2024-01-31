@@ -214,7 +214,7 @@ export default class Coil extends PhetioObject {
     const xStart = -( loopSpacing * ( numberOfLoops - 1 ) / 2 );
 
     // Create the wire ends & loops from left to right.
-    // Segments are created in the order that they are pieced together.
+    // Segments are created in the order that they would be visited by electron flow.
     for ( let i = 0; i < numberOfLoops; i++ ) {
 
       const xOffset = xStart + ( i * loopSpacing );
