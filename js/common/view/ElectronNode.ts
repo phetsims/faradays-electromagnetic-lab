@@ -34,22 +34,20 @@ export default class ElectronNode extends ShadedSphereNode {
     };
     electron.positionProperty.link( positionListener );
 
-    // If the electron has jumped to a different layer (foreground vs background), move it to the new parent Node.
+    // If the electron has jumped to a different layer (foreground vs background), move it to the new layer.
     const coilSegmentIndexListener = ( newIndex: number, oldIndex: number | null ) => {
 
       const newParentNode = ( electron.getCoilSegment( newIndex ).layer === 'foreground' ) ? foregroundNode : backgroundNode;
-      assert && assert( newParentNode );
 
-      if ( oldIndex !== null ) {
+      if ( oldIndex === null ) {
+        newParentNode.addChild( this );
+      }
+      else {
         const oldParentNode = ( electron.getCoilSegment( oldIndex ).layer === 'foreground' ) ? foregroundNode : backgroundNode;
-        assert && assert( oldParentNode );
-        if ( newParentNode !== oldParentNode ) {
+        if ( oldParentNode !== newParentNode ) {
           oldParentNode.removeChild( this );
           newParentNode.addChild( this );
         }
-      }
-      else {
-        newParentNode.addChild( this );
       }
       assert && assert( this.getParent(), 'expected this ElectronNode to have a parent' );
     };
