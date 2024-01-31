@@ -42,7 +42,7 @@ export default abstract class Compass extends FieldMeasurementTool {
     this.reusableFieldVector = new Vector2( 0, 0 );
 
     // This is not a DerivedProperty so that we can support kinematics in KinematicCompass.
-    this._angleProperty = new NumberProperty( 0, {
+    this._angleProperty = new NumberProperty( this.fieldVectorProperty.value.angle, {
       units: 'radians',
       tandem: options.tandem.createTandem( 'angleProperty' ),
       phetioReadOnly: true,
