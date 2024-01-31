@@ -3,6 +3,14 @@
 /**
  * Coil is the model of a coil of wire, with a current flowing through it.
  *
+ * The coil is described as array of CoilSegment, which includes a 'wire end' attached at each end of the coil.
+ * The wire ends is where things can be connected to the coil (eg, lightbulb, voltmeter, battery, AC power supply).
+ *
+ * The CoilSegments describe the coil's path, and contains the information that the electrons need to flow through
+ * the coil, move between layers (foreground or background), and how to adjust ("scale") their speed so that they
+ * appear to flow at the same rate in all coil segments. For example, the wire ends are significantly shorter coil
+ * segments that the other segments in the coil.
+ *
  * @author Chris Malley (PixelZoom, Inc.)
  */
 
@@ -25,11 +33,6 @@ import Vector2 from '../../../../dot/js/Vector2.js';
 import QuadraticBezierSpline from './QuadraticBezierSpline.js';
 import { LinearGradient, TColor } from '../../../../scenery/js/imports.js';
 import FELColors from '../FELColors.js';
-
-// Space between electrons, determines the number of electrons add to each curve.
-const ELECTRON_SPACING = 25;
-const ELECTRONS_IN_LEFT_END = 2;
-const ELECTRONS_IN_RIGHT_END = 2;
 
 type StepListener = ( dt: number ) => void;
 
@@ -57,6 +60,15 @@ type SelfOptions = {
 export type CoilOptions = SelfOptions & PickRequired<PhetioObjectOptions, 'tandem'>;
 
 export default class Coil extends PhetioObject {
+
+  //TODO https://github.com/phetsims/faradays-electromagnetic-lab/issues/49 ELECTRON_* might become private
+
+  // Spacing between electrons in the coil
+  public static readonly ELECTRON_SPACING = 25;
+
+  // Ends of the coil contain a fixed number of electrons.
+  public static readonly ELECTRONS_IN_LEFT_END = 2;
+  public static readonly ELECTRONS_IN_RIGHT_END = 2;
 
   // This is a quantity that PhET made up. It is a percentage [-1,1] that describes the amount of current relative to
   // some maximum current in the model, and the sign indicates the direction of that current. View components can use
@@ -194,7 +206,11 @@ export default class Coil extends PhetioObject {
   }
 
   /**
-   * Creates the segments that describe the shape of a coil.
+   * Creates the segments that describe the shape of a coil, from left to right.
+   *
+   * WARNING! This method is particularly complicated. The segments that it creates have been tuned so that all
+   * segments are smoothly joined to form a pseudo-3D coil. If you change values, do so with caution, test frequently,
+   * and perform a close visual inspection of your changes.
    */
   private static createCoilSegments( numberOfLoops: number, loopRadius: number, loopSpacing: number,
                                      frontColor: TColor, middleColor: TColor, backColor: TColor ): CoilSegment[] {
@@ -229,7 +245,7 @@ export default class Coil extends PhetioObject {
             stroke: gradient,
 
             // Scale the speed, since this segment is different from the others in the coil.
-            speedScale: ( loopRadius / ELECTRON_SPACING ) / ELECTRONS_IN_LEFT_END
+            speedScale: ( loopRadius / Coil.ELECTRON_SPACING ) / Coil.ELECTRONS_IN_LEFT_END
           } );
           coilSegments.push( coilSegment );
         }
@@ -326,7 +342,7 @@ export default class Coil extends PhetioObject {
           stroke: middleColor,
 
           // Scale the speed, since this segment is different from the others in the coil.
-          speedScale: ( loopRadius / ELECTRON_SPACING ) / ELECTRONS_IN_RIGHT_END
+          speedScale: ( loopRadius / Coil.ELECTRON_SPACING ) / Coil.ELECTRONS_IN_RIGHT_END
         } );
         coilSegments.push( coilSegment );
       }

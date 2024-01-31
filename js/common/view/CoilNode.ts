@@ -1,23 +1,11 @@
 // Copyright 2023-2024, University of Colorado Boulder
 
 /**
- * CoilNode is the visualization of a coil of wire. In order to simulate objects passing "through" the
- * coil, CoilNode consists of two layers, referred to as the foreground and background. Foreground elements
- * are children of CoilNode. Background elements are children of this.backgroundNode, and it is the responsibility
- * of the instantiator to add this.backgroundNode to the scene graph.
+ * CoilNode is the visualization of a coil of wire, with electrons flowing through the coil to represent current.
  *
- * The coil is drawn as a set of curves, with a "wire end" attached at each end of the coil. The wire ends is where
- * things can be connected to the coil (eg, a lightbulb or voltmeter).
- *
- * The coil is also responsible for showing the flow of electrons. The number of electrons is a function of the
- * loop radius and number of loops. An array of CoilSegment describes the coil's path, and contains the information
- * that the electrons need to flow through the coil, move between layers (foreground or background), and how to
- * adjust ("scale") their speed so that they appear to flow at the same rate in all curve segments. For example,
- * the wire ends are significantly shorter curves that the other segments in the coil.
- *
- * WARNING! The updateCoil method in particular is very complicated, and the curves that it creates have been tuned
- * so that all curve segments are smoothly joined to form a 3D-looking coil. If you change values, do so with caution,
- * test frequently, and perform a close visual inspection of your changes.
+ * In order to simulate objects passing "through" the coil, CoilNode consists of two layers, referred to as the
+ * foreground and background. Foreground elements are children of CoilNode. Background elements are children of
+ * this.backgroundNode, and it is the responsibility of the instantiator to add this.backgroundNode to the scene graph.
  *
  * @author Chris Malley (PixelZoom, Inc.)
  */
@@ -37,11 +25,6 @@ import TReadOnlyProperty from '../../../../axon/js/TReadOnlyProperty.js';
 import Bounds2 from '../../../../dot/js/Bounds2.js';
 import CoilSegment from '../model/CoilSegment.js';
 import CoilSegmentNode from './CoilSegmentNode.js';
-
-// Space between electrons, determines the number of electrons add to each curve.
-const ELECTRON_SPACING = 25;
-const ELECTRONS_IN_LEFT_END = 2;
-const ELECTRONS_IN_RIGHT_END = 2;
 
 type SelfOptions = {
   isMovable?: boolean; // Whether the coil is movable.
@@ -153,25 +136,25 @@ export default class CoilNode extends Node {
     const leftEndIndex = 0;
     const rightEndIndex = coilSegments.length - 1;
 
-    // Add Electron and ElectronNode instances to each curve segment.
+    // Add Electron and ElectronNode instances to each coil segment.
     for ( let coilSegmentIndex = 0; coilSegmentIndex < coilSegments.length; coilSegmentIndex++ ) {
 
-      // Compute how many electrons to add to the curve segment. The ends of the coil have a fixed number of electrons,
+      // Compute how many electrons to add to the segment. The ends of the coil have a fixed number of electrons,
       // while the other segments is a function of loop radius.
       let numberOfElectrons;
       if ( coilSegmentIndex === leftEndIndex ) {
-        numberOfElectrons = ELECTRONS_IN_LEFT_END;
+        numberOfElectrons = Coil.ELECTRONS_IN_LEFT_END;
       }
       else if ( coilSegmentIndex === rightEndIndex ) {
-        numberOfElectrons = ELECTRONS_IN_RIGHT_END;
+        numberOfElectrons = Coil.ELECTRONS_IN_RIGHT_END;
       }
       else {
-        numberOfElectrons = Math.trunc( this.coil.loopRadiusProperty.value / ELECTRON_SPACING );
+        numberOfElectrons = Math.trunc( this.coil.loopRadiusProperty.value / Coil.ELECTRON_SPACING );
       }
       assert && assert( Number.isInteger( numberOfElectrons ) && numberOfElectrons > 0,
         `invalid numberOfElectrons: ${numberOfElectrons}` );
 
-      // Add electrons to the curve segment.
+      // Add electrons to the coil segment.
       for ( let i = 0; i < numberOfElectrons; i++ ) {
 
         const coilSegmentPosition = i / numberOfElectrons;
