@@ -77,6 +77,7 @@ export default class BarMagnetScreenView extends FELScreenView {
     } );
     this.addChild( rootNode );
 
+    // The order of focusable elements in the DOM
     rootNode.pdomOrder = [
       barMagnetNode,
       // Exclude earthNode from alt input because barMagnetNode is draggable with the keyboard, and earthNode follows it.

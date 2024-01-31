@@ -59,6 +59,7 @@ export default class ElectromagnetScreenView extends FELScreenView {
     } );
     this.addChild( rootNode );
 
+    // The order of focusable elements in the DOM
     rootNode.pdomOrder = [
       electromagnetNode,
       this.compassNode,

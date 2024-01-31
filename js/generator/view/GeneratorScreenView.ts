@@ -63,6 +63,7 @@ export default class GeneratorScreenView extends FELScreenView {
     } );
     this.addChild( rootNode );
 
+    // The order of focusable elements in the DOM
     rootNode.pdomOrder = [
       generatorNode,
       this.compassNode,
