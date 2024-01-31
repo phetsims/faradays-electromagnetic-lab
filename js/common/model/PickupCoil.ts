@@ -240,7 +240,7 @@ export default class PickupCoil extends FELMovable {
     this.reusableSamplePoint = new Vector2( 0, 0 );
     this.reusableFieldVector = new Vector2( 0, 0 );
 
-    this.coil.loopAreaProperty.link( () => this.updateSamplePoints() );
+    this.coil.loopRadiusProperty.link( loopRadius => this.updateSamplePoints( loopRadius ) );
   }
 
   public override reset(): void {
@@ -267,9 +267,9 @@ export default class PickupCoil extends FELMovable {
    * Updates the sample points for the coil.
    * The samples points are used to measure the B-field in the calculation of EMF.
    */
-  private updateSamplePoints(): void {
+  private updateSamplePoints( loopRadius: number ): void {
     this.samplePoints.clear();
-    this.samplePoints.push( ...this.samplePointsStrategy.createSamplePoints( this.coil.getLoopRadius() ) );
+    this.samplePoints.push( ...this.samplePointsStrategy.createSamplePoints( loopRadius ) );
   }
 
   /**
@@ -377,7 +377,7 @@ export default class PickupCoil extends FELMovable {
    */
   private getEffectiveLoopArea(): number {
     const width = this.coil.getMinLoopRadius();
-    const height = 2 * this.coil.getLoopRadius();
+    const height = 2 * this.coil.loopRadiusProperty.value;
     return width * height;
   }
 }

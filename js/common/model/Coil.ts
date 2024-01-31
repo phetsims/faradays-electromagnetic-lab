@@ -76,8 +76,11 @@ export default class Coil extends PhetioObject {
 
   // Area of one loop
   public readonly loopAreaPercentProperty: NumberProperty;
-  public readonly loopAreaProperty: TReadOnlyProperty<number>;
+  private readonly loopAreaProperty: TReadOnlyProperty<number>; // provided for PhET-iO
   private readonly maxLoopArea: number;
+
+  // Radius of one loop
+  public readonly loopRadiusProperty: TReadOnlyProperty<number>;
 
   // Whether electrons are visible in the coil in the view
   public readonly electronsVisibleProperty: Property<boolean>;
@@ -135,17 +138,16 @@ export default class Coil extends PhetioObject {
       phetioFeatured: true
     } );
 
-    const loopAreaRange = new Range( ( this.loopAreaPercentProperty.range.min / 100 ) * this.maxLoopArea,
-      ( this.loopAreaPercentProperty.range.max / 100 ) * this.maxLoopArea );
-
     this.loopAreaProperty = new DerivedProperty( [ this.loopAreaPercentProperty ],
       loopAreaPercent => ( loopAreaPercent / 100 ) * this.maxLoopArea, {
-        isValidValue: loopArea => loopAreaRange.contains( loopArea ),
         tandem: options.tandem.createTandem( 'loopAreaProperty' ),
         phetioFeatured: true,
         phetioValueType: NumberIO,
         phetioDocumentation: hasFixedLoopArea ? 'Loop area is fixed.' : 'To change loop area, use loopAreaPercentProperty.'
       } );
+
+    this.loopRadiusProperty = new DerivedProperty( [ this.loopAreaProperty ],
+      loopArea => Math.sqrt( loopArea / Math.PI ) );
 
     this.electronsVisibleProperty = new BooleanProperty( true, {
       tandem: options.tandem.createTandem( 'electronsVisibleProperty' ),
@@ -158,10 +160,10 @@ export default class Coil extends PhetioObject {
     } );
 
     this.coilSegmentsProperty = new DerivedProperty(
-      [ this.numberOfLoopsProperty, this.loopAreaPercentProperty,
+      [ this.numberOfLoopsProperty, this.loopRadiusProperty,
         FELColors.coilFrontColorProperty, FELColors.coilMiddleColorProperty, FELColors.coilBackColorProperty ],
-      ( numberOfLoops, loopAreaPercent, frontColor, middleColor, backColor ) =>
-        this.createCoilSegments( frontColor, middleColor, backColor ) );
+      ( numberOfLoops, loopRadius, frontColor, middleColor, backColor ) =>
+        Coil.createCoilSegments( numberOfLoops, loopRadius, this.loopSpacing, frontColor, middleColor, backColor ) );
   }
 
   public reset(): void {
@@ -184,14 +186,6 @@ export default class Coil extends PhetioObject {
   }
 
   /**
-   * Gets the radius of one loop of the coil.
-   */
-  public getLoopRadius(): number {
-    const loopArea = ( this.loopAreaPercentProperty.value / 100 ) * this.maxLoopArea;
-    return Math.sqrt( loopArea / Math.PI );
-  }
-
-  /**
    * Gets the minimum radius of one loop of the coil.
    */
   public getMinLoopRadius(): number {
@@ -200,16 +194,12 @@ export default class Coil extends PhetioObject {
   }
 
   /**
-   * Creates the segments that describe the shape of the coil.
+   * Creates the segments that describe the shape of a coil.
    */
-  private createCoilSegments( frontColor: TColor, middleColor: TColor, backColor: TColor ): CoilSegment[] {
+  private static createCoilSegments( numberOfLoops: number, loopRadius: number, loopSpacing: number,
+                                     frontColor: TColor, middleColor: TColor, backColor: TColor ): CoilSegment[] {
 
     const coilSegments: CoilSegment[] = [];
-
-    // Get some coil model values, to improve code readability.
-    const radius = this.getLoopRadius();
-    const numberOfLoops = this.numberOfLoopsProperty.value;
-    const loopSpacing = this.loopSpacing;
 
     // Start at the left-most loop, keeping the coil centered.
     const xStart = -( loopSpacing * ( numberOfLoops - 1 ) / 2 );
@@ -225,7 +215,7 @@ export default class Coil extends PhetioObject {
 
         // Left wire end in background
         {
-          const endPoint = new Vector2( -loopSpacing / 2 + xOffset, -radius ); // lower
+          const endPoint = new Vector2( -loopSpacing / 2 + xOffset, -loopRadius ); // lower
           const startPoint = new Vector2( endPoint.x - 15, endPoint.y - 40 ); // upper
           const controlPoint = new Vector2( endPoint.x - 20, endPoint.y - 20 );
           const curve = new QuadraticBezierSpline( startPoint, controlPoint, endPoint );
@@ -239,16 +229,16 @@ export default class Coil extends PhetioObject {
             stroke: gradient,
 
             // Scale the speed, since this segment is different from the others in the coil.
-            speedScale: ( radius / ELECTRON_SPACING ) / ELECTRONS_IN_LEFT_END
+            speedScale: ( loopRadius / ELECTRON_SPACING ) / ELECTRONS_IN_LEFT_END
           } );
           coilSegments.push( coilSegment );
         }
 
         // Back top (left-most) is slightly different, because it connects to the left wire end.
         {
-          const startPoint = new Vector2( -loopSpacing / 2 + xOffset, -radius ); // upper
-          const endPoint = new Vector2( ( radius * 0.25 ) + xOffset, 0 ); // lower
-          const controlPoint = new Vector2( ( radius * 0.15 ) + xOffset, ( -radius * 0.70 ) );
+          const startPoint = new Vector2( -loopSpacing / 2 + xOffset, -loopRadius ); // upper
+          const endPoint = new Vector2( ( loopRadius * 0.25 ) + xOffset, 0 ); // lower
+          const controlPoint = new Vector2( ( loopRadius * 0.15 ) + xOffset, ( -loopRadius * 0.70 ) );
           const curve = new QuadraticBezierSpline( startPoint, controlPoint, endPoint );
 
           const coilSegment = new CoilSegment( curve, 'background', {
@@ -260,13 +250,13 @@ export default class Coil extends PhetioObject {
       else {
 
         // Back top (no wire end connection)
-        const startPoint = new Vector2( -loopSpacing + xOffset, -radius ); // upper
-        const endPoint = new Vector2( ( radius * 0.25 ) + xOffset, 0 ); // lower
-        const controlPoint = new Vector2( ( radius * 0.15 ) + xOffset, ( -radius * 1.20 ) );
+        const startPoint = new Vector2( -loopSpacing + xOffset, -loopRadius ); // upper
+        const endPoint = new Vector2( ( loopRadius * 0.25 ) + xOffset, 0 ); // lower
+        const controlPoint = new Vector2( ( loopRadius * 0.15 ) + xOffset, ( -loopRadius * 1.20 ) );
         const curve = new QuadraticBezierSpline( startPoint, controlPoint, endPoint );
 
         // Diagonal gradient, upper left to lower right.
-        const gradient = new LinearGradient( startPoint.x + ( radius * 0.10 ), -radius, xOffset, -radius * 0.92 )
+        const gradient = new LinearGradient( startPoint.x + ( loopRadius * 0.10 ), -loopRadius, xOffset, -loopRadius * 0.92 )
           .addColorStop( 0, middleColor )
           .addColorStop( 1, backColor );
 
@@ -278,13 +268,13 @@ export default class Coil extends PhetioObject {
 
       // Back bottom
       {
-        const startPoint = new Vector2( ( radius * 0.25 ) + xOffset, 0 ); // upper
-        const endPoint = new Vector2( xOffset, radius ); // lower
-        const controlPoint = new Vector2( ( radius * 0.35 ) + xOffset, ( radius * 1.20 ) );
+        const startPoint = new Vector2( ( loopRadius * 0.25 ) + xOffset, 0 ); // upper
+        const endPoint = new Vector2( xOffset, loopRadius ); // lower
+        const controlPoint = new Vector2( ( loopRadius * 0.35 ) + xOffset, ( loopRadius * 1.20 ) );
         const curve = new QuadraticBezierSpline( startPoint, controlPoint, endPoint );
 
         // Vertical gradient, upper to lower
-        const gradient = new LinearGradient( 0, radius * 0.92, 0, radius )
+        const gradient = new LinearGradient( 0, loopRadius * 0.92, 0, loopRadius )
           .addColorStop( 0, backColor )
           .addColorStop( 1, middleColor );
 
@@ -295,15 +285,15 @@ export default class Coil extends PhetioObject {
       }
 
       // Horizontal gradient, left to right, for the front segments
-      const frontGradient = new LinearGradient( ( -radius * 0.25 ) + xOffset, 0, -radius * 0.15 + xOffset, 0 )
+      const frontGradient = new LinearGradient( ( -loopRadius * 0.25 ) + xOffset, 0, -loopRadius * 0.15 + xOffset, 0 )
         .addColorStop( 0, frontColor )
         .addColorStop( 1, middleColor );
 
       // Front bottom
       {
-        const startPoint = new Vector2( xOffset, radius ); // lower
-        const endPoint = new Vector2( ( -radius * 0.25 ) + xOffset, 0 ); // upper
-        const controlPoint = new Vector2( ( -radius * 0.25 ) + xOffset, ( radius * 0.80 ) );
+        const startPoint = new Vector2( xOffset, loopRadius ); // lower
+        const endPoint = new Vector2( ( -loopRadius * 0.25 ) + xOffset, 0 ); // upper
+        const controlPoint = new Vector2( ( -loopRadius * 0.25 ) + xOffset, ( loopRadius * 0.80 ) );
         const curve = new QuadraticBezierSpline( startPoint, controlPoint, endPoint );
 
         const coilSegment = new CoilSegment( curve, 'foreground', {
@@ -314,9 +304,9 @@ export default class Coil extends PhetioObject {
 
       // Front top
       {
-        const startPoint = new Vector2( ( -radius * 0.25 ) + xOffset, 0 ); // lower
-        const endPoint = new Vector2( xOffset, -radius ); // upper
-        const controlPoint = new Vector2( ( -radius * 0.25 ) + xOffset, ( -radius * 0.80 ) );
+        const startPoint = new Vector2( ( -loopRadius * 0.25 ) + xOffset, 0 ); // lower
+        const endPoint = new Vector2( xOffset, -loopRadius ); // upper
+        const controlPoint = new Vector2( ( -loopRadius * 0.25 ) + xOffset, ( -loopRadius * 0.80 ) );
         const curve = new QuadraticBezierSpline( startPoint, controlPoint, endPoint );
 
         const coilSegment = new CoilSegment( curve, 'foreground', {
@@ -327,7 +317,7 @@ export default class Coil extends PhetioObject {
 
       // For the rightmost loop.... Right wire end in foreground
       if ( i === numberOfLoops - 1 ) {
-        const startPoint = new Vector2( xOffset, -radius ); // lower
+        const startPoint = new Vector2( xOffset, -loopRadius ); // lower
         const endPoint = new Vector2( startPoint.x + 15, startPoint.y - 40 ); // upper
         const controlPoint = new Vector2( startPoint.x + 20, startPoint.y - 20 );
         const curve = new QuadraticBezierSpline( startPoint, controlPoint, endPoint );
@@ -336,7 +326,7 @@ export default class Coil extends PhetioObject {
           stroke: middleColor,
 
           // Scale the speed, since this segment is different from the others in the coil.
-          speedScale: ( radius / ELECTRON_SPACING ) / ELECTRONS_IN_RIGHT_END
+          speedScale: ( loopRadius / ELECTRON_SPACING ) / ELECTRONS_IN_RIGHT_END
         } );
         coilSegments.push( coilSegment );
       }

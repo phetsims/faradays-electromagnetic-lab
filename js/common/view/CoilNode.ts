@@ -177,7 +177,7 @@ export default class CoilNode extends Node {
         numberOfElectrons = ELECTRONS_IN_RIGHT_END;
       }
       else {
-        numberOfElectrons = Math.trunc( this.coil.getLoopRadius() / ELECTRON_SPACING );
+        numberOfElectrons = Math.trunc( this.coil.loopRadiusProperty.value / ELECTRON_SPACING );
       }
       assert && assert( Number.isInteger( numberOfElectrons ) && numberOfElectrons > 0,
         `invalid numberOfElectrons: ${numberOfElectrons}` );

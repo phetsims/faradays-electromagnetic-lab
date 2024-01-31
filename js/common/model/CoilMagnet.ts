@@ -34,7 +34,7 @@ export default class CoilMagnet extends Magnet {
 
     assert && assert( coil.loopAreaPercentProperty.range.getLength() === 0,
       'This model does not support dynamic loop area for the coil magnet.' );
-    const loopRadius = coil.getLoopRadius();
+    const loopRadius = coil.loopRadiusProperty.value;
 
     const options = optionize<CoilMagnetOptions, SelfOptions, MagnetOptions>()( {
 
