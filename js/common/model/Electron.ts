@@ -2,7 +2,7 @@
 
 /**
  * Electron is the model of an electron that moves through a coil. The path through the coil is described by
- * an ordered set of CoilSegment elements.
+ * an ordered set of CoilSegment instances, each of which is a segment of the coil.
  *
  * Note that Electron and its Properties are NOT instrumented for PhET-iO. The exact positions of electrons
  * are not significant. We do not care (for example) if electron position are different in the Upstream and
