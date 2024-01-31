@@ -192,13 +192,13 @@ export default class CoilNode extends Node {
           coilSegments: coilSegments,
           coilSegmentIndex: coilSegmentIndex,
           coilSegmentPosition: coilSegmentPosition,
-          speedScaleProperty: this.coil.electronSpeedScaleProperty,
-          visibleProperty: this.coil.electronsVisibleProperty
+          speedScaleProperty: this.coil.electronSpeedScaleProperty
         } );
         this.electrons.push( electron );
 
         // View
-        const electronNode = new ElectronNode( electron, this.foregroundNode, this.backgroundNode );
+        const electronNode = new ElectronNode( electron, this.foregroundNode, this.backgroundNode,
+          this.coil.electronsVisibleProperty );
         this.electronNodes.push( electronNode );
       }
     }

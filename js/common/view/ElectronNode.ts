@@ -13,6 +13,7 @@ import ShadedSphereNode from '../../../../scenery-phet/js/ShadedSphereNode.js';
 import FELColors from '../FELColors.js';
 import Vector2 from '../../../../dot/js/Vector2.js';
 import { Node } from '../../../../scenery/js/imports.js';
+import TReadOnlyProperty from '../../../../axon/js/TReadOnlyProperty.js';
 
 const DIAMETER = 9;
 
@@ -20,10 +21,10 @@ export default class ElectronNode extends ShadedSphereNode {
 
   private readonly disposeElectronNode: () => void;
 
-  public constructor( electron: Electron, foregroundNode: Node, backgroundNode: Node ) {
+  public constructor( electron: Electron, foregroundNode: Node, backgroundNode: Node, visibleProperty: TReadOnlyProperty<boolean> ) {
 
     super( DIAMETER, {
-      visibleProperty: electron.visibleProperty,
+      visibleProperty: visibleProperty,
       mainColor: FELColors.electronColorProperty,
       pickable: false
     } );

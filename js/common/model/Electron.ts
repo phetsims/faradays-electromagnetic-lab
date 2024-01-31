@@ -43,9 +43,6 @@ type SelfOptions = {
 
   // Developer control used to scale the electron speed in the view.
   speedScaleProperty: TReadOnlyProperty<number>;
-
-  // Whether electrons are visible.
-  visibleProperty: TReadOnlyProperty<boolean>;
 };
 
 type ElectronOptions = SelfOptions;
@@ -72,9 +69,6 @@ export default class Electron {
 
   // Scale for adjusting speed.
   private readonly speedScaleProperty: TReadOnlyProperty<number>;
-
-  // Whether electrons are visible.
-  public readonly visibleProperty: TReadOnlyProperty<boolean>;
 
   // Reusable Vector2 instances
   public readonly reusablePosition1: Vector2;
@@ -125,7 +119,6 @@ export default class Electron {
       } );
 
     this.speedScaleProperty = options.speedScaleProperty;
-    this.visibleProperty = options.visibleProperty;
 
     this.disposeElectron = () => {
       this.positionProperty.dispose();
@@ -168,7 +161,7 @@ export default class Electron {
   public step( dt: number ): void {
     assert && assert( dt === ConstantStepEmitter.CONSTANT_DT, `invalid dt=${dt}, ConstantStepEmitter` );
 
-    if ( this.visibleProperty.value && this.speedAndDirectionProperty.value !== 0 ) {
+    if ( this.speedAndDirectionProperty.value !== 0 ) {
 
       // Move the electron along the path.
       const deltaPosition = dt * MAX_COIL_SEGMENT_POSITION_DELTA * this.speedAndDirectionProperty.value *
