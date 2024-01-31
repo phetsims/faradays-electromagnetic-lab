@@ -164,7 +164,7 @@ export default class CoilNode extends Node {
     const leftEndIndex = 0;
     const rightEndIndex = coilSegments.length - 1;
 
-    // For each curve...
+    // For each curve segment...
     for ( let coilSegmentIndex = 0; coilSegmentIndex < coilSegments.length; coilSegmentIndex++ ) {
 
       // Different segments contain a different number of electrons.
@@ -181,7 +181,7 @@ export default class CoilNode extends Node {
       assert && assert( Number.isInteger( numberOfElectrons ) && numberOfElectrons > 0,
         `invalid numberOfElectrons: ${numberOfElectrons}` );
 
-      // Add the electrons to the curve.
+      // Add electrons to the curve segment.
       for ( let i = 0; i < numberOfElectrons; i++ ) {
 
         const coilSegmentPosition = i / numberOfElectrons;
