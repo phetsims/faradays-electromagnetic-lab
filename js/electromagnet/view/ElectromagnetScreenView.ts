@@ -44,6 +44,7 @@ export default class ElectromagnetScreenView extends FELScreenView {
       tandem: tandem.createTandem( 'electromagnetNode' )
     } );
 
+    // Rendering order, from back to front
     const rootNode = new Node( {
       children: [
         electromagnetNode.backgroundNode,

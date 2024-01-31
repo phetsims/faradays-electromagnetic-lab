@@ -63,6 +63,7 @@ export default class BarMagnetScreenView extends FELScreenView {
       tandem: tandem.createTandem( 'earthNode' )
     } );
 
+    // Rendering order, from back to front
     const rootNode = new Node( {
       children: [
         this.fieldNode,
