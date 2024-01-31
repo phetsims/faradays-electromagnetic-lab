@@ -20,19 +20,17 @@ export type CoilSegmentOptions = SelfOptions & PathOptions;
 
 export default class CoilSegment extends Path {
 
-  // The default speed scale
-  public static readonly DEFAULT_SPEED_SCALE = 1.0;
-
   // The curve
   public readonly curve: QuadraticBezierSpline;
 
   // The parent Node for this segment and any electrons that appear in this segment.
+  // This will be either CoilNode foregroundNode or backgroundNode.
   //TODO https://github.com/phetsims/faradays-electromagnetic-lab/issues/49 parentNode may become unnecessary if we change how electrons are rendered.
   public readonly parentNode: Node;
 
-  // How to scale the speed for this curve (any positive value). This value is used to adjust the speed of electrons
-  // along the curve. It's useful in cases where a set of ElectronPathDescriptors contains curves of different lengths,
-  // and the speed needs to be scaled in order to make electron "speed" appear the same on all curves.
+  // This value is used to adjust the speed of electrons along this segment. It's useful in cases where a set of
+  // CoilSegments contains segments of different lengths, and the speed needs to be scaled in order to make electrons
+  // appear to move at the same speed along all segments.
   public readonly speedScale;
 
   public constructor( curve: QuadraticBezierSpline, parentNode: Node, providedOptions: CoilSegmentOptions ) {
@@ -40,7 +38,7 @@ export default class CoilSegment extends Path {
     const options = optionize<CoilSegmentOptions, SelfOptions, PathOptions>()( {
 
       // SelfOptions
-      speedScale: CoilSegment.DEFAULT_SPEED_SCALE
+      speedScale: 1
     }, providedOptions );
 
     assert && assert( options.speedScale > 0, `invalid speedScale: ${options.speedScale}` );
