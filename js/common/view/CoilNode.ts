@@ -24,21 +24,18 @@
 
 import faradaysElectromagneticLab from '../../faradaysElectromagneticLab.js';
 import Coil from '../model/Coil.js';
-import { LinearGradient, Node, NodeOptions, PathOptions } from '../../../../scenery/js/imports.js';
-import CoilSegment, { CoilSegmentOptions } from '../model/CoilSegment.js';
+import { Node, NodeOptions, Path, PathOptions } from '../../../../scenery/js/imports.js';
 import PickRequired from '../../../../phet-core/js/types/PickRequired.js';
 import optionize, { combineOptions } from '../../../../phet-core/js/optionize.js';
 import Multilink from '../../../../axon/js/Multilink.js';
-import Vector2 from '../../../../dot/js/Vector2.js';
 import Electron from '../model/Electron.js';
 import Tandem from '../../../../tandem/js/Tandem.js';
 import ElectronNode from './ElectronNode.js';
-import QuadraticBezierSpline from '../model/QuadraticBezierSpline.js';
-import FELColors from '../FELColors.js';
 import FELMovableNode, { FELMovableNodeOptions } from './FELMovableNode.js';
 import FELMovable from '../model/FELMovable.js';
 import TReadOnlyProperty from '../../../../axon/js/TReadOnlyProperty.js';
 import Bounds2 from '../../../../dot/js/Bounds2.js';
+import CoilSegment from '../model/CoilSegment.js';
 
 // Space between electrons, determines the number of electrons add to each curve.
 const ELECTRON_SPACING = 25;
@@ -68,9 +65,6 @@ export default class CoilNode extends Node {
 
   // Is electron animation enabled?
   private electronAnimationEnabled: boolean;
-
-  // Ordered collection of the curves that make up the coil
-  private readonly coilSegments: CoilSegment[];
 
   // Electrons in the coil
   private readonly electrons: Electron[];
@@ -110,13 +104,12 @@ export default class CoilNode extends Node {
 
     this.electronAnimationEnabled = false;
 
-    this.coilSegments = [];
     this.electrons = [];
     this.electronNodes = [];
 
-    Multilink.multilink( [ coil.numberOfLoopsProperty, coil.loopAreaProperty ], () => {
-      this.updateCoil();
-      this.updateElectrons();
+    Multilink.multilink( [ coil.coilSegmentsProperty ], coilSegments => {
+      this.updateCoilSegments( coilSegments );
+      this.updateElectrons( coilSegments );
     } );
 
     coil.addStepListener( dt => {
@@ -129,21 +122,13 @@ export default class CoilNode extends Node {
   /**
    * Updates the physical appearance of the coil.
    */
-  private updateCoil(): void {
+  private updateCoilSegments( coilSegments: CoilSegment[] ): void {
 
     // Start by deleting everything.
     this.foregroundNode.removeAllChildren();
     this.backgroundNode.removeAllChildren();
-    this.coilSegments.length = 0;
 
-    // Get some coil model values, to improve code readability.
-    const radius = this.coil.getLoopRadius();
-    const numberOfLoops = this.coil.numberOfLoopsProperty.value;
-    const loopSpacing = this.coil.loopSpacing;
-
-    // Start at the left-most loop, keeping the coil centered.
-    const xStart = -( loopSpacing * ( numberOfLoops - 1 ) / 2 );
-
+    // Options shared by all segments of the coil.
     const pathOptions: PathOptions = {
       lineWidth: this.coil.wireWidth,
       lineCap: 'round',
@@ -151,146 +136,23 @@ export default class CoilNode extends Node {
       strokePickable: true
     };
 
-    // Create the wire ends & loops from left to right.
-    // Segments are created in the order that they are pieced together.
-    for ( let i = 0; i < numberOfLoops; i++ ) {
+    coilSegments.forEach( coilSegment => {
 
-      const xOffset = xStart + ( i * loopSpacing );
+      // Create a Path to render the CoilSegment.
+      const path = new Path( coilSegment.curve.toShape(), combineOptions<PathOptions>( {}, pathOptions, {
+        stroke: coilSegment.stroke
+      } ) );
 
-      // For the left-most loop...
-      if ( i === 0 ) {
-
-        // Left wire end in background
-        {
-          const endPoint = new Vector2( -loopSpacing / 2 + xOffset, -radius ); // lower
-          const startPoint = new Vector2( endPoint.x - 15, endPoint.y - 40 ); // upper
-          const controlPoint = new Vector2( endPoint.x - 20, endPoint.y - 20 );
-          const curve = new QuadraticBezierSpline( startPoint, controlPoint, endPoint );
-
-          // Horizontal gradient, left to right.
-          const gradient = new LinearGradient( startPoint.x, 0, endPoint.x, 0 )
-            .addColorStop( 0, FELColors.coilMiddleColorProperty )
-            .addColorStop( 1, FELColors.coilBackColorProperty );
-
-          const coilSegment = new CoilSegment( curve, this.backgroundNode, combineOptions<CoilSegmentOptions>( {
-            stroke: gradient,
-
-            // Scale the speed, since this segment is different from the others in the coil.
-            speedScale: ( radius / ELECTRON_SPACING ) / ELECTRONS_IN_LEFT_END
-          }, pathOptions ) );
-          this.coilSegments.push( coilSegment );
-          coilSegment.parentNode.addChild( coilSegment );
-        }
-
-        // Back top (left-most) is slightly different, because it connects to the left wire end.
-        {
-          const startPoint = new Vector2( -loopSpacing / 2 + xOffset, -radius ); // upper
-          const endPoint = new Vector2( ( radius * 0.25 ) + xOffset, 0 ); // lower
-          const controlPoint = new Vector2( ( radius * 0.15 ) + xOffset, ( -radius * 0.70 ) );
-          const curve = new QuadraticBezierSpline( startPoint, controlPoint, endPoint );
-
-          const coilSegment = new CoilSegment( curve, this.backgroundNode, combineOptions<CoilSegmentOptions>( {
-            stroke: FELColors.coilBackColorProperty
-          }, pathOptions ) );
-          this.coilSegments.push( coilSegment );
-          coilSegment.parentNode.addChild( coilSegment );
-        }
-      }
-      else {
-
-        // Back top (no wire end connection)
-        const startPoint = new Vector2( -loopSpacing + xOffset, -radius ); // upper
-        const endPoint = new Vector2( ( radius * 0.25 ) + xOffset, 0 ); // lower
-        const controlPoint = new Vector2( ( radius * 0.15 ) + xOffset, ( -radius * 1.20 ) );
-        const curve = new QuadraticBezierSpline( startPoint, controlPoint, endPoint );
-
-        // Diagonal gradient, upper left to lower right.
-        const gradient = new LinearGradient( startPoint.x + ( radius * 0.10 ), -radius, xOffset, -radius * 0.92 )
-          .addColorStop( 0, FELColors.coilMiddleColorProperty )
-          .addColorStop( 1, FELColors.coilBackColorProperty );
-
-        const coilSegment = new CoilSegment( curve, this.backgroundNode, combineOptions<CoilSegmentOptions>( {
-          stroke: gradient
-        }, pathOptions ) );
-        this.coilSegments.push( coilSegment );
-        coilSegment.parentNode.addChild( coilSegment );
-      }
-
-      // Back bottom
-      {
-        const startPoint = new Vector2( ( radius * 0.25 ) + xOffset, 0 ); // upper
-        const endPoint = new Vector2( xOffset, radius ); // lower
-        const controlPoint = new Vector2( ( radius * 0.35 ) + xOffset, ( radius * 1.20 ) );
-        const curve = new QuadraticBezierSpline( startPoint, controlPoint, endPoint );
-
-        // Vertical gradient, upper to lower
-        const gradient = new LinearGradient( 0, radius * 0.92, 0, radius )
-          .addColorStop( 0, FELColors.coilBackColorProperty )
-          .addColorStop( 1, FELColors.coilMiddleColorProperty );
-
-        const coilSegment = new CoilSegment( curve, this.backgroundNode, combineOptions<CoilSegmentOptions>( {
-          stroke: gradient
-        }, pathOptions ) );
-        this.coilSegments.push( coilSegment );
-        coilSegment.parentNode.addChild( coilSegment );
-      }
-
-      // Horizontal gradient, left to right, for the front segments
-      const frontGradient = new LinearGradient( ( -radius * 0.25 ) + xOffset, 0, -radius * 0.15 + xOffset, 0 )
-        .addColorStop( 0, FELColors.coilFrontColorProperty )
-        .addColorStop( 1, FELColors.coilMiddleColorProperty );
-
-      // Front bottom
-      {
-        const startPoint = new Vector2( xOffset, radius ); // lower
-        const endPoint = new Vector2( ( -radius * 0.25 ) + xOffset, 0 ); // upper
-        const controlPoint = new Vector2( ( -radius * 0.25 ) + xOffset, ( radius * 0.80 ) );
-        const curve = new QuadraticBezierSpline( startPoint, controlPoint, endPoint );
-
-        const coilSegment = new CoilSegment( curve, this.foregroundNode, combineOptions<CoilSegmentOptions>( {
-          stroke: frontGradient
-        }, pathOptions ) );
-        this.coilSegments.push( coilSegment );
-        coilSegment.parentNode.addChild( coilSegment );
-      }
-
-      // Front top
-      {
-        const startPoint = new Vector2( ( -radius * 0.25 ) + xOffset, 0 ); // lower
-        const endPoint = new Vector2( xOffset, -radius ); // upper
-        const controlPoint = new Vector2( ( -radius * 0.25 ) + xOffset, ( -radius * 0.80 ) );
-        const curve = new QuadraticBezierSpline( startPoint, controlPoint, endPoint );
-
-        const coilSegment = new CoilSegment( curve, this.foregroundNode, combineOptions<CoilSegmentOptions>( {
-          stroke: frontGradient
-        }, pathOptions ) );
-        this.coilSegments.push( coilSegment );
-        coilSegment.parentNode.addChild( coilSegment );
-      }
-
-      // For the rightmost loop.... Right wire end in foreground
-      if ( i === numberOfLoops - 1 ) {
-        const startPoint = new Vector2( xOffset, -radius ); // lower
-        const endPoint = new Vector2( startPoint.x + 15, startPoint.y - 40 ); // upper
-        const controlPoint = new Vector2( startPoint.x + 20, startPoint.y - 20 );
-        const curve = new QuadraticBezierSpline( startPoint, controlPoint, endPoint );
-
-        const coilSegment = new CoilSegment( curve, this.foregroundNode, combineOptions<CoilSegmentOptions>( {
-          stroke: FELColors.coilMiddleColorProperty,
-
-          // Scale the speed, since this segment is different from the others in the coil.
-          speedScale: ( radius / ELECTRON_SPACING ) / ELECTRONS_IN_RIGHT_END
-        }, pathOptions ) );
-        this.coilSegments.push( coilSegment );
-        coilSegment.parentNode.addChild( coilSegment );
-      }
-    }
+      // Add the Path to the appropriate layer.
+      const parentNode = ( coilSegment.layer === 'foreground' ) ? this.foregroundNode : this.backgroundNode;
+      parentNode.addChild( path );
+    } );
   }
 
   /**
    * Updates the electrons to match the physical appearance of the coil.
    */
-  private updateElectrons(): void {
+  private updateElectrons( coilSegments: CoilSegment[] ): void {
 
     // Start by deleting the model and view for all electrons.
     this.electrons.forEach( electron => electron.dispose() );
@@ -300,10 +162,10 @@ export default class CoilNode extends Node {
 
     // Add electrons to the coil.
     const leftEndIndex = 0;
-    const rightEndIndex = this.coilSegments.length - 1;
+    const rightEndIndex = coilSegments.length - 1;
 
     // For each curve...
-    for ( let coilSegmentIndex = 0; coilSegmentIndex < this.coilSegments.length; coilSegmentIndex++ ) {
+    for ( let coilSegmentIndex = 0; coilSegmentIndex < coilSegments.length; coilSegmentIndex++ ) {
 
       // Different segments contain a different number of electrons.
       let numberOfElectrons;
@@ -326,7 +188,7 @@ export default class CoilNode extends Node {
 
         // Model
         const electron = new Electron( this.coil.currentAmplitudeProperty, this.coil.currentAmplitudeRange, {
-          coilSegments: this.coilSegments,
+          coilSegments: coilSegments,
           coilSegmentIndex: coilSegmentIndex,
           coilSegmentPosition: coilSegmentPosition,
           speedScaleProperty: this.coil.electronSpeedScaleProperty,
@@ -335,7 +197,7 @@ export default class CoilNode extends Node {
         this.electrons.push( electron );
 
         // View
-        const electronNode = new ElectronNode( electron );
+        const electronNode = new ElectronNode( electron, this.foregroundNode, this.backgroundNode );
         this.electronNodes.push( electronNode );
       }
     }

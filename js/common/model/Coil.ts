@@ -20,8 +20,18 @@ import PhetioObject, { PhetioObjectOptions } from '../../../../tandem/js/PhetioO
 import PickRequired from '../../../../phet-core/js/types/PickRequired.js';
 import Tandem from '../../../../tandem/js/Tandem.js';
 import FELConstants from '../FELConstants.js';
+import CoilSegment from './CoilSegment.js';
+import Vector2 from '../../../../dot/js/Vector2.js';
+import QuadraticBezierSpline from './QuadraticBezierSpline.js';
+import { LinearGradient, TColor } from '../../../../scenery/js/imports.js';
+import FELColors from '../FELColors.js';
 
-type StepListener = ( dt :number ) => void;
+// Space between electrons, determines the number of electrons add to each curve.
+const ELECTRON_SPACING = 25;
+const ELECTRONS_IN_LEFT_END = 2;
+const ELECTRONS_IN_RIGHT_END = 2;
+
+type StepListener = ( dt: number ) => void;
 
 type SelfOptions = {
 
@@ -78,6 +88,9 @@ export default class Coil extends PhetioObject {
 
   // Called by step method
   private readonly stepListeners: StepListener[];
+
+  // Segments that describe the shape of the coil
+  public readonly coilSegmentsProperty: TReadOnlyProperty<CoilSegment[]>;
 
   public constructor( currentAmplitudeProperty: TReadOnlyProperty<number>, currentAmplitudeRange: Range, providedOptions: CoilOptions ) {
     assert && assert( currentAmplitudeRange.equals( FELConstants.CURRENT_AMPLITUDE_RANGE ) );
@@ -143,6 +156,11 @@ export default class Coil extends PhetioObject {
       range: new Range( 1, 100 )
       // Do not instrument. This is a PhET developer Property.
     } );
+
+    this.coilSegmentsProperty = new DerivedProperty(
+      [ this.numberOfLoopsProperty, this.loopAreaPercentProperty, FELColors.coilFrontColorProperty, FELColors.coilMiddleColorProperty, FELColors.coilBackColorProperty ],
+      ( numberOfLoops, loopAreaPercent, frontColor, middleColor, backColor ) =>
+        this.createCoilSegments( frontColor, middleColor, backColor ) );
   }
 
   public reset(): void {
@@ -178,6 +196,151 @@ export default class Coil extends PhetioObject {
   public getMinLoopRadius(): number {
     const minLoopArea = ( this.loopAreaPercentProperty.range.min / 100 ) * this.maxLoopArea;
     return Math.sqrt( minLoopArea / Math.PI );
+  }
+
+  /**
+   * Creates the segments that describe the shape of the coil.
+   */
+  private createCoilSegments( frontColor: TColor, middleColor: TColor, backColor: TColor ): CoilSegment[] {
+
+    const coilSegments: CoilSegment[] = [];
+
+    // Get some coil model values, to improve code readability.
+    const radius = this.getLoopRadius();
+    const numberOfLoops = this.numberOfLoopsProperty.value;
+    const loopSpacing = this.loopSpacing;
+
+    // Start at the left-most loop, keeping the coil centered.
+    const xStart = -( loopSpacing * ( numberOfLoops - 1 ) / 2 );
+
+    // Create the wire ends & loops from left to right.
+    // Segments are created in the order that they are pieced together.
+    for ( let i = 0; i < numberOfLoops; i++ ) {
+
+      const xOffset = xStart + ( i * loopSpacing );
+
+      // For the left-most loop...
+      if ( i === 0 ) {
+
+        // Left wire end in background
+        {
+          const endPoint = new Vector2( -loopSpacing / 2 + xOffset, -radius ); // lower
+          const startPoint = new Vector2( endPoint.x - 15, endPoint.y - 40 ); // upper
+          const controlPoint = new Vector2( endPoint.x - 20, endPoint.y - 20 );
+          const curve = new QuadraticBezierSpline( startPoint, controlPoint, endPoint );
+
+          // Horizontal gradient, left to right.
+          const gradient = new LinearGradient( startPoint.x, 0, endPoint.x, 0 )
+            .addColorStop( 0, middleColor )
+            .addColorStop( 1, backColor );
+
+          const coilSegment = new CoilSegment( curve, 'background', {
+            stroke: gradient,
+
+            // Scale the speed, since this segment is different from the others in the coil.
+            speedScale: ( radius / ELECTRON_SPACING ) / ELECTRONS_IN_LEFT_END
+          } );
+          coilSegments.push( coilSegment );
+        }
+
+        // Back top (left-most) is slightly different, because it connects to the left wire end.
+        {
+          const startPoint = new Vector2( -loopSpacing / 2 + xOffset, -radius ); // upper
+          const endPoint = new Vector2( ( radius * 0.25 ) + xOffset, 0 ); // lower
+          const controlPoint = new Vector2( ( radius * 0.15 ) + xOffset, ( -radius * 0.70 ) );
+          const curve = new QuadraticBezierSpline( startPoint, controlPoint, endPoint );
+
+          const coilSegment = new CoilSegment( curve, 'background', {
+            stroke: backColor
+          } );
+          coilSegments.push( coilSegment );
+        }
+      }
+      else {
+
+        // Back top (no wire end connection)
+        const startPoint = new Vector2( -loopSpacing + xOffset, -radius ); // upper
+        const endPoint = new Vector2( ( radius * 0.25 ) + xOffset, 0 ); // lower
+        const controlPoint = new Vector2( ( radius * 0.15 ) + xOffset, ( -radius * 1.20 ) );
+        const curve = new QuadraticBezierSpline( startPoint, controlPoint, endPoint );
+
+        // Diagonal gradient, upper left to lower right.
+        const gradient = new LinearGradient( startPoint.x + ( radius * 0.10 ), -radius, xOffset, -radius * 0.92 )
+          .addColorStop( 0, middleColor )
+          .addColorStop( 1, backColor );
+
+        const coilSegment = new CoilSegment( curve, 'background', {
+          stroke: gradient
+        } );
+        coilSegments.push( coilSegment );
+      }
+
+      // Back bottom
+      {
+        const startPoint = new Vector2( ( radius * 0.25 ) + xOffset, 0 ); // upper
+        const endPoint = new Vector2( xOffset, radius ); // lower
+        const controlPoint = new Vector2( ( radius * 0.35 ) + xOffset, ( radius * 1.20 ) );
+        const curve = new QuadraticBezierSpline( startPoint, controlPoint, endPoint );
+
+        // Vertical gradient, upper to lower
+        const gradient = new LinearGradient( 0, radius * 0.92, 0, radius )
+          .addColorStop( 0, backColor )
+          .addColorStop( 1, middleColor );
+
+        const coilSegment = new CoilSegment( curve, 'background', {
+          stroke: gradient
+        } );
+        coilSegments.push( coilSegment );
+      }
+
+      // Horizontal gradient, left to right, for the front segments
+      const frontGradient = new LinearGradient( ( -radius * 0.25 ) + xOffset, 0, -radius * 0.15 + xOffset, 0 )
+        .addColorStop( 0, frontColor )
+        .addColorStop( 1, middleColor );
+
+      // Front bottom
+      {
+        const startPoint = new Vector2( xOffset, radius ); // lower
+        const endPoint = new Vector2( ( -radius * 0.25 ) + xOffset, 0 ); // upper
+        const controlPoint = new Vector2( ( -radius * 0.25 ) + xOffset, ( radius * 0.80 ) );
+        const curve = new QuadraticBezierSpline( startPoint, controlPoint, endPoint );
+
+        const coilSegment = new CoilSegment( curve, 'foreground', {
+          stroke: frontGradient
+        } );
+        coilSegments.push( coilSegment );
+      }
+
+      // Front top
+      {
+        const startPoint = new Vector2( ( -radius * 0.25 ) + xOffset, 0 ); // lower
+        const endPoint = new Vector2( xOffset, -radius ); // upper
+        const controlPoint = new Vector2( ( -radius * 0.25 ) + xOffset, ( -radius * 0.80 ) );
+        const curve = new QuadraticBezierSpline( startPoint, controlPoint, endPoint );
+
+        const coilSegment = new CoilSegment( curve, 'foreground', {
+          stroke: frontGradient
+        } );
+        coilSegments.push( coilSegment );
+      }
+
+      // For the rightmost loop.... Right wire end in foreground
+      if ( i === numberOfLoops - 1 ) {
+        const startPoint = new Vector2( xOffset, -radius ); // lower
+        const endPoint = new Vector2( startPoint.x + 15, startPoint.y - 40 ); // upper
+        const controlPoint = new Vector2( startPoint.x + 20, startPoint.y - 20 );
+        const curve = new QuadraticBezierSpline( startPoint, controlPoint, endPoint );
+
+        const coilSegment = new CoilSegment( curve, 'foreground', {
+          stroke: middleColor,
+
+          // Scale the speed, since this segment is different from the others in the coil.
+          speedScale: ( radius / ELECTRON_SPACING ) / ELECTRONS_IN_RIGHT_END
+        } );
+        coilSegments.push( coilSegment );
+      }
+    }
+    return coilSegments;
   }
 }
 

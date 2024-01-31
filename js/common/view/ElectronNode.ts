@@ -12,6 +12,7 @@ import Electron from '../model/Electron.js';
 import ShadedSphereNode from '../../../../scenery-phet/js/ShadedSphereNode.js';
 import FELColors from '../FELColors.js';
 import Vector2 from '../../../../dot/js/Vector2.js';
+import { Node } from '../../../../scenery/js/imports.js';
 
 const DIAMETER = 9;
 
@@ -19,7 +20,7 @@ export default class ElectronNode extends ShadedSphereNode {
 
   private readonly disposeElectronNode: () => void;
 
-  public constructor( electron: Electron ) {
+  public constructor( electron: Electron, foregroundNode: Node, backgroundNode: Node ) {
 
     super( DIAMETER, {
       visibleProperty: electron.visibleProperty,
@@ -36,11 +37,11 @@ export default class ElectronNode extends ShadedSphereNode {
     // If the electron has jumped to a different layer (foreground vs background), move it to the new parent Node.
     const coilSegmentIndexListener = ( newIndex: number, oldIndex: number | null ) => {
 
-      const newParentNode = electron.getCoilSegment( newIndex ).parentNode;
+      const newParentNode = ( electron.getCoilSegment( newIndex ).layer === 'foreground' ) ? foregroundNode : backgroundNode;
       assert && assert( newParentNode );
 
       if ( oldIndex !== null ) {
-        const oldParentNode = electron.getCoilSegment( oldIndex ).parentNode;
+        const oldParentNode = ( electron.getCoilSegment( oldIndex ).layer === 'foreground' ) ? foregroundNode : backgroundNode;
         assert && assert( oldParentNode );
         if ( newParentNode !== oldParentNode ) {
           oldParentNode.removeChild( this );

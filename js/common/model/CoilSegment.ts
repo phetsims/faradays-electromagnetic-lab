@@ -8,32 +8,36 @@
  */
 
 import faradaysElectromagneticLab from '../../faradaysElectromagneticLab.js';
-import { Node, Path, PathOptions } from '../../../../scenery/js/imports.js';
+import { PathOptions, TPaint } from '../../../../scenery/js/imports.js';
 import QuadraticBezierSpline from './QuadraticBezierSpline.js';
 import optionize from '../../../../phet-core/js/optionize.js';
 
+type CoilLayer = 'foreground' | 'background';
+
 type SelfOptions = {
+  stroke: TPaint;
   speedScale?: number; // see field speedScale
 };
 
 export type CoilSegmentOptions = SelfOptions & PathOptions;
 
-export default class CoilSegment extends Path {
+export default class CoilSegment {
 
-  // The curve
+  // The curve that describes this segment of the coil
   public readonly curve: QuadraticBezierSpline;
 
-  // The parent Node for this segment and any electrons that appear in this segment.
-  // This will be either CoilNode foregroundNode or backgroundNode.
-  //TODO https://github.com/phetsims/faradays-electromagnetic-lab/issues/49 parentNode may become unnecessary if we change how electrons are rendered.
-  public readonly parentNode: Node;
+  // The layer for this segment and any electrons that appear in this segment.
+  public readonly layer: CoilLayer;
+
+  // Paint that will be used to stroke this coil segment
+  public readonly stroke: TPaint;
 
   // This value is used to adjust the speed of electrons along this segment. It's useful in cases where a set of
   // CoilSegments contains segments of different lengths, and the speed needs to be scaled in order to make electrons
   // appear to move at the same speed along all segments.
   public readonly speedScale;
 
-  public constructor( curve: QuadraticBezierSpline, parentNode: Node, providedOptions: CoilSegmentOptions ) {
+  public constructor( curve: QuadraticBezierSpline, layer: CoilLayer, providedOptions: CoilSegmentOptions ) {
 
     const options = optionize<CoilSegmentOptions, SelfOptions, PathOptions>()( {
 
@@ -43,10 +47,9 @@ export default class CoilSegment extends Path {
 
     assert && assert( options.speedScale > 0, `invalid speedScale: ${options.speedScale}` );
 
-    super( curve.toShape(), options );
-
     this.curve = curve;
-    this.parentNode = parentNode;
+    this.layer = layer;
+    this.stroke = options.stroke;
     this.speedScale = options.speedScale;
   }
 }
