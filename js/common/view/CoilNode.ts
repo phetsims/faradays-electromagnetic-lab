@@ -191,8 +191,9 @@ export default class CoilNode extends Node {
 }
 
 /**
- * CoilBackgroundNode is the background layer of CoilNode. It is not a child of CoilNode, and must be added to
- * the scene graph separately. See documentation for CoilNode backgroundNode.
+ * CoilBackgroundNode is the background layer of CoilNode, a subclass of FELMovableNode so that it is possible to
+ * drag the coil by its background layer. It is not a child of CoilNode, and must be added to the scene graph
+ * separately. See documentation for CoilNode backgroundNode.
  */
 type CoilBackgroundNodeOptions = PickRequired<FELMovableNodeOptions, 'isMovable' | 'dragBoundsProperty' | 'visibleProperty'>;
 
