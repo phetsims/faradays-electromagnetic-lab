@@ -158,7 +158,8 @@ export default class Coil extends PhetioObject {
     } );
 
     this.coilSegmentsProperty = new DerivedProperty(
-      [ this.numberOfLoopsProperty, this.loopAreaPercentProperty, FELColors.coilFrontColorProperty, FELColors.coilMiddleColorProperty, FELColors.coilBackColorProperty ],
+      [ this.numberOfLoopsProperty, this.loopAreaPercentProperty,
+        FELColors.coilFrontColorProperty, FELColors.coilMiddleColorProperty, FELColors.coilBackColorProperty ],
       ( numberOfLoops, loopAreaPercent, frontColor, middleColor, backColor ) =>
         this.createCoilSegments( frontColor, middleColor, backColor ) );
   }
