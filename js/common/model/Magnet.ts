@@ -118,27 +118,27 @@ export default abstract class Magnet extends FELMovable {
    * Gets the B-field vector at the specified point in the global coordinate frame.
    *
    * @param position - in the global coordinate frame
-   * @param [outputVector] - result is written to this vector, or a Vector2 is allocated if not provided
+   * @param [returnVector] - result is written to this vector, or a Vector2 is allocated if not provided
    */
-  public getFieldVector( position: Vector2, outputVector?: Vector2 ): Vector2 {
+  public getFieldVector( position: Vector2, returnVector?: Vector2 ): Vector2 {
 
-    outputVector = outputVector || new Vector2( 0, 0 );
+    returnVector = returnVector || new Vector2( 0, 0 );
 
     // Convert to the magnet's local coordinate frame, writes to this.reusablePosition.
     this.globalToLocalPosition( position, this.reusablePosition );
 
-    // Get strength in the magnet's local coordinate frame, writes to outputVector.
-    this.getLocalFieldVector( this.reusablePosition, outputVector );
+    // Get strength in the magnet's local coordinate frame, writes to returnVector.
+    this.getLocalFieldVector( this.reusablePosition, returnVector );
 
     // Adjust the field vector to match the magnet's direction.
-    outputVector.rotate( this.rotationProperty.value );
+    returnVector.rotate( this.rotationProperty.value );
 
     // Do not allow field vector magnitude to exceed magnet strength, due to small floating-point error.
     // This was a problem in both the Java and HTML5 versions of the sim.
-    if ( outputVector.magnitude > this.strengthProperty.value ) {
-      outputVector.setMagnitude( this.strengthProperty.value );
+    if ( returnVector.magnitude > this.strengthProperty.value ) {
+      returnVector.setMagnitude( this.strengthProperty.value );
     }
-    return outputVector;
+    return returnVector;
   }
 
   /**
@@ -148,9 +148,9 @@ export default abstract class Magnet extends FELMovable {
    * and its north pole is pointing down the positive x-axis.
    *
    * @param position - in the magnet's local coordinate frame
-   * @param outputVector - result is written to this vector
+   * @param returnVector - result is written to this vector
    */
-  protected abstract getLocalFieldVector( position: Vector2, outputVector: Vector2 ): Vector2;
+  protected abstract getLocalFieldVector( position: Vector2, returnVector: Vector2 ): Vector2;
 
   /**
    * Converts a position from the global coordinate frame to the magnet's local coordinate frame. This is essential

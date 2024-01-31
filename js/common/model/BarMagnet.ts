@@ -70,19 +70,19 @@ export default class BarMagnet extends Magnet {
    * Gets the B-field vector at a point in the magnet's local 2D coordinate frame.
    *
    * @param position - in the magnet's local coordinate frame
-   * @param outputVector - result is written to this vector
+   * @param returnVector - result is written to this vector
    */
-  protected override getLocalFieldVector( position: Vector2, outputVector: Vector2 ): Vector2 {
+  protected override getLocalFieldVector( position: Vector2, returnVector: Vector2 ): Vector2 {
 
     // Compute the B-field components by interpolating over precomputed B-field data.
     const x = this.getBx( position.x, position.y );
     const y = this.getBy( position.x, position.y );
-    outputVector.setXY( x, y );
+    returnVector.setXY( x, y );
 
     // Scale the B-field to match the bar magnet's strength.
-    outputVector.multiplyScalar( this.strengthProperty.value / BarMagnetFieldData.MAGNET_STRENGTH );
+    returnVector.multiplyScalar( this.strengthProperty.value / BarMagnetFieldData.MAGNET_STRENGTH );
 
-    return outputVector;
+    return returnVector;
   }
 
   /**

@@ -51,12 +51,12 @@ export default class CoilMagnet extends Magnet {
    * Gets the B-field vector at a point in the magnet's local 2D coordinate frame.
    *
    * @param position - in the magnet's local coordinate frame
-   * @param outputVector - result is written to this vector
+   * @param returnVector - result is written to this vector
    */
-  protected override getLocalFieldVector( position: Vector2, outputVector: Vector2 ): Vector2 {
+  protected override getLocalFieldVector( position: Vector2, returnVector: Vector2 ): Vector2 {
     return ( this.localBounds.containsPoint( position ) ) ?
-           this.getLocalFieldVectorInside( outputVector ) :
-           this.getLocalFieldVectorOutside( position, outputVector );
+           this.getLocalFieldVectorInside( returnVector ) :
+           this.getLocalFieldVectorOutside( position, returnVector );
   }
 
   /**
@@ -70,10 +70,10 @@ export default class CoilMagnet extends Magnet {
    * Bx = ( 2 * m ) / R^e = magnet strength
    * By = 0
    *
-   * @param outputVector - result is written to this vector
+   * @param returnVector - result is written to this vector
    */
-  private getLocalFieldVectorInside( outputVector: Vector2 ): Vector2 {
-    return outputVector.setPolar( this.strengthProperty.value, 0 );
+  private getLocalFieldVectorInside( returnVector: Vector2 ): Vector2 {
+    return returnVector.setPolar( this.strengthProperty.value, 0 );
   }
 
   /**
@@ -103,9 +103,9 @@ export default class CoilMagnet extends Magnet {
    * sin(theta) = y / r
    *
    * @param position - in the magnet's local coordinate frame
-   * @param outputVector - result is written to this vector
+   * @param returnVector - result is written to this vector
    */
-  private getLocalFieldVectorOutside( position: Vector2, outputVector: Vector2 ): Vector2 {
+  private getLocalFieldVectorOutside( position: Vector2, returnVector: Vector2 ): Vector2 {
 
     // Elemental terms
     const x = position.x;
@@ -128,9 +128,9 @@ export default class CoilMagnet extends Magnet {
     const By = C1 * ( 3 * cosTheta * sinTheta );
 
     // B-field vector
-    outputVector.setXY( Bx, By );
+    returnVector.setXY( Bx, By );
 
-    return outputVector;
+    return returnVector;
   }
 }
 
