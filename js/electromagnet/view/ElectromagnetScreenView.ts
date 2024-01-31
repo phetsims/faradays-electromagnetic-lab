@@ -67,7 +67,7 @@ export default class ElectromagnetScreenView extends FELScreenView {
       panels,
       timeControlNode,
       this.resetAllButton
-      // Exclude developerAccordionBox from alt input because it is not part of the production UI.
+      // Exclude developerAccordionBox because it is not part of the production UI.
     ];
   }
 }

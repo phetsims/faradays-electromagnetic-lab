@@ -85,7 +85,7 @@ export default class BarMagnetScreenView extends FELScreenView {
       this.fieldMeterNode,
       panels,
       this.resetAllButton
-      // Exclude developerAccordionBox from alt input because it is not part of the production UI.
+      // Exclude developerAccordionBox because it is not part of the production UI.
     ];
   }
 }
