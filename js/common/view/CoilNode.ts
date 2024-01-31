@@ -24,7 +24,7 @@
 
 import faradaysElectromagneticLab from '../../faradaysElectromagneticLab.js';
 import Coil from '../model/Coil.js';
-import { Node, NodeOptions, Path, PathOptions } from '../../../../scenery/js/imports.js';
+import { Node, NodeOptions } from '../../../../scenery/js/imports.js';
 import PickRequired from '../../../../phet-core/js/types/PickRequired.js';
 import optionize, { combineOptions } from '../../../../phet-core/js/optionize.js';
 import Multilink from '../../../../axon/js/Multilink.js';
@@ -36,6 +36,7 @@ import FELMovable from '../model/FELMovable.js';
 import TReadOnlyProperty from '../../../../axon/js/TReadOnlyProperty.js';
 import Bounds2 from '../../../../dot/js/Bounds2.js';
 import CoilSegment from '../model/CoilSegment.js';
+import CoilSegmentNode from './CoilSegmentNode.js';
 
 // Space between electrons, determines the number of electrons add to each curve.
 const ELECTRON_SPACING = 25;
@@ -62,6 +63,9 @@ export default class CoilNode extends Node {
   // like those things are passing through the coil. It is the responsibility of the instantiator to add backgroundNode
   // to the scene graph.
   public readonly backgroundNode: Node;
+
+  // Segments of the coil
+  private readonly coilSegmentNodes: CoilSegmentNode[];
 
   // Electrons in the coil
   private readonly electrons: Electron[];
@@ -99,11 +103,12 @@ export default class CoilNode extends Node {
       visibleProperty: this.visibleProperty
     } );
 
+    this.coilSegmentNodes = [];
     this.electrons = [];
     this.electronNodes = [];
 
     Multilink.multilink( [ coil.coilSegmentsProperty ], coilSegments => {
-      this.updateCoilSegments( coilSegments );
+      this.updateCoilSegmentNodes( coilSegments );
       this.updateElectrons( coilSegments );
     } );
 
@@ -115,32 +120,21 @@ export default class CoilNode extends Node {
   }
 
   /**
-   * Updates the physical appearance of the coil.
+   * Creates a CoilSegmentNode for each CoilSegment that describes the coil.
    */
-  private updateCoilSegments( coilSegments: CoilSegment[] ): void {
+  private updateCoilSegmentNodes( coilSegments: CoilSegment[] ): void {
 
-    // Start by deleting everything.
-    this.foregroundNode.removeAllChildren();
-    this.backgroundNode.removeAllChildren();
+    // Delete existing CoilSegmentNode instances.
+    this.coilSegmentNodes.forEach( coilSegmentNode => coilSegmentNode.dispose() );
+    this.coilSegmentNodes.length = 0;
 
-    // Options shared by all segments of the coil.
-    const pathOptions: PathOptions = {
-      lineWidth: this.coil.wireWidth,
-      lineCap: 'round',
-      lineJoin: 'bevel',
-      strokePickable: true
-    };
-
+    // Create new CoilSegmentNode instances, and add to the foreground or background layer.
     coilSegments.forEach( coilSegment => {
+      const coilSegmentNode = new CoilSegmentNode( coilSegment, this.coil.wireWidth );
+      this.coilSegmentNodes.push( coilSegmentNode );
 
-      // Create a Path to render the CoilSegment.
-      const path = new Path( coilSegment.curve.toShape(), combineOptions<PathOptions>( {}, pathOptions, {
-        stroke: coilSegment.stroke
-      } ) );
-
-      // Add the Path to the appropriate layer.
       const parentNode = ( coilSegment.layer === 'foreground' ) ? this.foregroundNode : this.backgroundNode;
-      parentNode.addChild( path );
+      parentNode.addChild( coilSegmentNode );
     } );
   }
 
