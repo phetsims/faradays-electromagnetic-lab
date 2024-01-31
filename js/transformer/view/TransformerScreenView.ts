@@ -55,7 +55,7 @@ export default class TransformerScreenView extends FELScreenView {
       tandem: tandem
     } );
 
-    // Will be set to correct bounds by configureDragBoundsProperty below.
+    // Set to correct bounds by calling this.configureDragBoundsProperty below.
     const dragBoundsProperty = new Property( this.layoutBounds );
 
     const transformerNode = new TransformerNode( model.transformer, model.stepEmitter, dragBoundsProperty,
