@@ -15,7 +15,6 @@ import Coil from '../model/Coil.js';
 import { Node, NodeOptions } from '../../../../scenery/js/imports.js';
 import PickRequired from '../../../../phet-core/js/types/PickRequired.js';
 import optionize, { combineOptions } from '../../../../phet-core/js/optionize.js';
-import Multilink from '../../../../axon/js/Multilink.js';
 import Electron from '../model/Electron.js';
 import Tandem from '../../../../tandem/js/Tandem.js';
 import ElectronNode from './ElectronNode.js';
@@ -42,16 +41,23 @@ export default class CoilNode extends Node {
   // the B-field, magnet, etc., so that it looks like those things are passing through the coil.
   private readonly foregroundNode: Node;
 
+  // Children of foregroundNode, to maintain rendering order of coil segments and electrons.
+  private readonly foregroundCoilSegmentsParent: Node;
+  private readonly foregroundElectronsParent: Node;
+
   // The background layer, intended to be added to the scene graph behind the B-field, magnet, etc., so that it looks
   // like those things are passing through the coil. It is the responsibility of the instantiator to add backgroundNode
   // to the scene graph.
   public readonly backgroundNode: Node;
 
+  // Children of backgroundNode, to maintain rendering order of coil segments and electrons.
+  private readonly backgroundCoilSegmentsParent: Node;
+  private readonly backgroundElectronsParent: Node;
+
   // Segments of the coil
   private readonly coilSegmentNodes: CoilSegmentNode[];
 
   // Electrons in the coil
-  private readonly electrons: Electron[];
   private readonly electronNodes: ElectronNode[];
 
   /**
@@ -77,29 +83,31 @@ export default class CoilNode extends Node {
     this.coil = coil;
     this.addLinkedElement( this.coil );
 
-    this.foregroundNode = new Node();
+    // Foreground layer, with coil segments behind electrons
+    this.foregroundCoilSegmentsParent = new Node();
+    this.foregroundElectronsParent = new Node();
+    this.foregroundNode = new Node( {
+      children: [ this.foregroundCoilSegmentsParent, this.foregroundElectronsParent ]
+    } );
     this.addChild( this.foregroundNode );
 
+    // Background layer, with coil segments behind electrons
+    this.backgroundCoilSegmentsParent = new Node();
+    this.backgroundElectronsParent = new Node();
     this.backgroundNode = new CoilBackgroundNode( movable, {
+      children: [ this.backgroundCoilSegmentsParent, this.backgroundElectronsParent ],
       isMovable: options.isMovable,
       dragBoundsProperty: options.dragBoundsProperty,
       visibleProperty: this.visibleProperty
     } );
 
+    // Render the segments that make up the coil's wire.
     this.coilSegmentNodes = [];
-    this.electrons = [];
+    coil.coilSegmentsProperty.link( coilSegments => this.updateCoilSegmentNodes( coilSegments ) );
+
+    // Render the electrons that move through the coil.
     this.electronNodes = [];
-
-    Multilink.multilink( [ coil.coilSegmentsProperty ], coilSegments => {
-      this.updateCoilSegmentNodes( coilSegments );
-      this.updateElectrons( coilSegments );
-    } );
-
-    coil.addStepListener( dt => {
-      if ( this.coil.electronsVisibleProperty ) {
-        this.electrons.forEach( electron => electron.step( dt ) );
-      }
-    } );
+    coil.electronsProperty.link( electrons => this.updateElectronNodes( electrons ) );
   }
 
   /**
@@ -116,59 +124,10 @@ export default class CoilNode extends Node {
       const coilSegmentNode = new CoilSegmentNode( coilSegment, this.coil.wireWidth );
       this.coilSegmentNodes.push( coilSegmentNode );
 
-      const parentNode = ( coilSegment.layer === 'foreground' ) ? this.foregroundNode : this.backgroundNode;
+      const parentNode = ( coilSegment.layer === 'foreground' ) ? this.foregroundCoilSegmentsParent : this.backgroundElectronsParent;
       parentNode.addChild( coilSegmentNode );
+      coilSegmentNode.moveToBack();
     } );
-  }
-
-  /**
-   * Updates the Electrons to match the coil, as described by coilSegments.
-   */
-  private updateElectrons( coilSegments: CoilSegment[] ): void {
-
-    // Delete existing Electron instances.
-    this.electrons.forEach( electron => electron.dispose() );
-    this.electrons.length = 0;
-
-    // coilSegments is ordered from left to right. So these are the indices for the ends of the coil.
-    const leftEndIndex = 0;
-    const rightEndIndex = coilSegments.length - 1;
-
-    // Add Electron instances for each coil segment.
-    for ( let coilSegmentIndex = 0; coilSegmentIndex < coilSegments.length; coilSegmentIndex++ ) {
-
-      // Compute how many electrons to add to the segment. The ends of the coil have a fixed number of electrons,
-      // while the other segments is a function of loop radius.
-      let numberOfElectrons;
-      if ( coilSegmentIndex === leftEndIndex ) {
-        numberOfElectrons = Coil.ELECTRONS_IN_LEFT_END;
-      }
-      else if ( coilSegmentIndex === rightEndIndex ) {
-        numberOfElectrons = Coil.ELECTRONS_IN_RIGHT_END;
-      }
-      else {
-        numberOfElectrons = Math.trunc( this.coil.loopRadiusProperty.value / Coil.ELECTRON_SPACING );
-      }
-      assert && assert( Number.isInteger( numberOfElectrons ) && numberOfElectrons > 0,
-        `invalid numberOfElectrons: ${numberOfElectrons}` );
-
-      // Add electrons to the coil segment.
-      for ( let i = 0; i < numberOfElectrons; i++ ) {
-
-        const coilSegmentPosition = i / numberOfElectrons;
-
-        // Model
-        const electron = new Electron( this.coil.currentAmplitudeProperty, this.coil.currentAmplitudeRange, {
-          coilSegments: coilSegments,
-          coilSegmentIndex: coilSegmentIndex,
-          coilSegmentPosition: coilSegmentPosition,
-          speedScaleProperty: this.coil.electronSpeedScaleProperty
-        } );
-        this.electrons.push( electron );
-      }
-    }
-
-    this.updateElectronNodes( this.electrons );
   }
 
   /**
@@ -180,10 +139,10 @@ export default class CoilNode extends Node {
     this.electronNodes.forEach( electronNode => electronNode.dispose() );
     this.electronNodes.length = 0;
 
-    // Create new ElectronNode instances. ElectronNode adds itself to foregroundNode or backgroundNode, and
-    // moves between foregroundNode and backgroundNode as the Electron moves through the coil.
+    // Create new ElectronNode instances. ElectronNode adds itself to foreground or background layer, and moves between
+    // foreground and background layers as the Electron moves through the coil.
     electrons.forEach( electron => {
-      const electronNode = new ElectronNode( electron, this.foregroundNode, this.backgroundNode,
+      const electronNode = new ElectronNode( electron, this.foregroundElectronsParent, this.backgroundElectronsParent,
         this.coil.electronsVisibleProperty );
       this.electronNodes.push( electronNode );
     } );
@@ -195,7 +154,7 @@ export default class CoilNode extends Node {
  * drag the coil by its background layer. It is not a child of CoilNode, and must be added to the scene graph
  * separately. See documentation for CoilNode backgroundNode.
  */
-type CoilBackgroundNodeOptions = PickRequired<FELMovableNodeOptions, 'isMovable' | 'dragBoundsProperty' | 'visibleProperty'>;
+type CoilBackgroundNodeOptions = PickRequired<FELMovableNodeOptions, 'children' | 'isMovable' | 'dragBoundsProperty' | 'visibleProperty'>;
 
 class CoilBackgroundNode extends FELMovableNode {
 

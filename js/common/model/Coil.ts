@@ -3,8 +3,8 @@
 /**
  * Coil is the model of a coil of wire, with a current flowing through it.
  *
- * The coil is described as array of CoilSegment, which includes a 'wire end' attached at each end of the coil.
- * The wire ends is where things can be connected to the coil (eg, lightbulb, voltmeter, battery, AC power supply).
+ * The coil is described as array of CoilSegment, as set of loops which are not connected at the ends. The ends
+ * of the coil is where things can be connected to the coil (eg, lightbulb, voltmeter, battery, AC power supply).
  *
  * The CoilSegments describe the coil's path, and contains the information that the electrons need to flow through
  * the coil, move between layers (foreground or background), and how to adjust ("scale") their speed so that they
@@ -33,8 +33,14 @@ import Vector2 from '../../../../dot/js/Vector2.js';
 import QuadraticBezierSpline from './QuadraticBezierSpline.js';
 import { LinearGradient, TColor } from '../../../../scenery/js/imports.js';
 import FELColors from '../FELColors.js';
+import Electron from './Electron.js';
 
-type StepListener = ( dt: number ) => void;
+// Spacing between electrons in the coil
+const ELECTRON_SPACING = 25;
+
+// Ends of the coil contain a fixed number of electrons.
+const ELECTRONS_IN_LEFT_END = 2;
+const ELECTRONS_IN_RIGHT_END = 2;
 
 type SelfOptions = {
 
@@ -60,15 +66,6 @@ type SelfOptions = {
 export type CoilOptions = SelfOptions & PickRequired<PhetioObjectOptions, 'tandem'>;
 
 export default class Coil extends PhetioObject {
-
-  //TODO https://github.com/phetsims/faradays-electromagnetic-lab/issues/49 ELECTRON_* might become private
-
-  // Spacing between electrons in the coil
-  public static readonly ELECTRON_SPACING = 25;
-
-  // Ends of the coil contain a fixed number of electrons.
-  public static readonly ELECTRONS_IN_LEFT_END = 2;
-  public static readonly ELECTRONS_IN_RIGHT_END = 2;
 
   // This is a quantity that PhET made up. It is a percentage [-1,1] that describes the amount of current relative to
   // some maximum current in the model, and the sign indicates the direction of that current. View components can use
@@ -101,11 +98,11 @@ export default class Coil extends PhetioObject {
   // Scale used for electron speed in the view.
   public readonly electronSpeedScaleProperty: NumberProperty;
 
-  // Called by step method
-  private readonly stepListeners: StepListener[];
-
   // Segments that describe the shape of the coil, from left to right.
   public readonly coilSegmentsProperty: TReadOnlyProperty<CoilSegment[]>;
+
+  // Electrons that represent current flow in the coil
+  public readonly electronsProperty: TReadOnlyProperty<Electron[]>;
 
   public constructor( currentAmplitudeProperty: TReadOnlyProperty<number>, currentAmplitudeRange: Range, providedOptions: CoilOptions ) {
     assert && assert( currentAmplitudeRange.equals( FELConstants.CURRENT_AMPLITUDE_RANGE ) );
@@ -131,7 +128,6 @@ export default class Coil extends PhetioObject {
     this.wireWidth = options.wireWidth;
     this.loopSpacing = options.loopSpacing;
     this.maxLoopArea = options.maxLoopArea;
-    this.stepListeners = [];
 
     this.numberOfLoopsProperty = new NumberProperty( options.numberOfLoopsRange.defaultValue, {
       numberType: 'Integer',
@@ -176,6 +172,16 @@ export default class Coil extends PhetioObject {
         FELColors.coilFrontColorProperty, FELColors.coilMiddleColorProperty, FELColors.coilBackColorProperty ],
       ( numberOfLoops, loopRadius, frontColor, middleColor, backColor ) =>
         Coil.createCoilSegments( numberOfLoops, loopRadius, this.loopSpacing, frontColor, middleColor, backColor ) );
+
+    this.electronsProperty = new DerivedProperty( [ this.coilSegmentsProperty ],
+      coilSegments => this.createElectrons( coilSegments ), {
+        // Erroneously identifies options to new Electron in createElectrons as dependencies.
+        strictAxonDependencies: false
+      } );
+
+    // When the set of electrons changes, dispose of the old electrons.
+    this.electronsProperty.lazyLink( ( newElectrons, oldElectrons ) =>
+      oldElectrons.forEach( electron => electron.dispose() ) );
   }
 
   public reset(): void {
@@ -186,15 +192,9 @@ export default class Coil extends PhetioObject {
   }
 
   public step( dt: number ): void {
-    this.stepListeners.forEach( stepListener => stepListener( dt ) );
-  }
-
-  /**
-   * Adds a listener that will be called when the step method is called. This was added to keep all stepping in
-   * the model, and is used by CoilNode. See https://github.com/phetsims/faradays-electromagnetic-lab/issues/72.
-   */
-  public addStepListener( stepListener: StepListener ): void {
-    this.stepListeners.push( stepListener );
+    if ( this.electronsVisibleProperty ) {
+      this.electronsProperty.value.forEach( electron => electron.step( dt ) );
+    }
   }
 
   /**
@@ -245,7 +245,7 @@ export default class Coil extends PhetioObject {
             stroke: gradient,
 
             // Scale the speed, since this segment is different from the others in the coil.
-            speedScale: ( loopRadius / Coil.ELECTRON_SPACING ) / Coil.ELECTRONS_IN_LEFT_END
+            speedScale: ( loopRadius / ELECTRON_SPACING ) / ELECTRONS_IN_LEFT_END
           } );
           coilSegments.push( coilSegment );
         }
@@ -342,12 +342,60 @@ export default class Coil extends PhetioObject {
           stroke: middleColor,
 
           // Scale the speed, since this segment is different from the others in the coil.
-          speedScale: ( loopRadius / Coil.ELECTRON_SPACING ) / Coil.ELECTRONS_IN_RIGHT_END
+          speedScale: ( loopRadius / ELECTRON_SPACING ) / ELECTRONS_IN_RIGHT_END
         } );
         coilSegments.push( coilSegment );
       }
     }
     return coilSegments;
+  }
+
+  /**
+   * Creates a set of electrons to occupy coil segments.
+   */
+  private createElectrons( coilSegments: CoilSegment[] ): Electron[] {
+
+    const electrons: Electron[] = [];
+
+    // coilSegments is ordered from left to right. So these are the indices for the ends of the coil.
+    const leftEndIndex = 0;
+    const rightEndIndex = coilSegments.length - 1;
+
+    // Add Electron instances for each curve segment.
+    for ( let coilSegmentIndex = 0; coilSegmentIndex < coilSegments.length; coilSegmentIndex++ ) {
+
+      // Compute how many electrons to add for this curve segment. The number of electrons is fixed for the ends
+      // of the coil, and a function of loop radius for the other segments.
+      let numberOfElectrons;
+      if ( coilSegmentIndex === leftEndIndex ) {
+        numberOfElectrons = ELECTRONS_IN_LEFT_END;
+      }
+      else if ( coilSegmentIndex === rightEndIndex ) {
+        numberOfElectrons = ELECTRONS_IN_RIGHT_END;
+      }
+      else {
+        numberOfElectrons = Math.trunc( this.loopRadiusProperty.value / ELECTRON_SPACING );
+      }
+      assert && assert( Number.isInteger( numberOfElectrons ) && numberOfElectrons > 0,
+        `invalid numberOfElectrons: ${numberOfElectrons}` );
+
+      // Add electrons for this curve segment.
+      for ( let i = 0; i < numberOfElectrons; i++ ) {
+
+        const coilSegmentPosition = i / numberOfElectrons;
+
+        // Model
+        const electron = new Electron( this.currentAmplitudeProperty, this.currentAmplitudeRange, {
+          coilSegments: coilSegments,
+          coilSegmentIndex: coilSegmentIndex,
+          coilSegmentPosition: coilSegmentPosition,
+          speedScaleProperty: this.electronSpeedScaleProperty
+        } );
+        electrons.push( electron );
+      }
+    }
+
+    return electrons;
   }
 }
 
