@@ -3,9 +3,9 @@
 //TODO https://github.com/phetsims/faradays-electromagnetic-lab/issues/68 Replace with NumberDisplay or migrate to scenery-phet.
 
 /**
- * StringDisplay displays the value of a string Property in a fixed-size display area.  This is a nice alternative
- * to NumberDisplay when the thing you're displaying is not a number, or there is a more complicated formatting
- * of a number that is cleaner with a TReadOnlyProperty<string>.
+ * StringDisplay displays the value of a string or TReadOnlyProperty<string> in a fixed-size display area.
+ * This is a nice alternative to NumberDisplay when the thing you're displaying is not a number, or there
+ * is a more complicated formatting of a number that is cleaner with a TReadOnlyProperty<string>.
  *
  * @author Chris Malley (PixelZoom, Inc.)
  */
