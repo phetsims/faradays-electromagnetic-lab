@@ -58,7 +58,7 @@ export default class TransformerScreenView extends FELScreenView {
     // Set to correct bounds by calling this.configureDragBoundsProperty below.
     const dragBoundsProperty = new Property( this.layoutBounds );
 
-    const transformerNode = new TransformerNode( model.transformer, model.stepEmitter, dragBoundsProperty,
+    const transformerNode = new TransformerNode( model.transformer, dragBoundsProperty,
       tandem.createTandem( 'transformerNode' ) );
 
     this.configureDragBoundsProperty( dragBoundsProperty, isLockedToAxisProperty, panels.boundsProperty,

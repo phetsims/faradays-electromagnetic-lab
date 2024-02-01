@@ -19,12 +19,12 @@ import WaterFaucet from './WaterFaucet.js';
 import PhetioObject from '../../../../tandem/js/PhetioObject.js';
 import Vector2 from '../../../../dot/js/Vector2.js';
 import Tandem from '../../../../tandem/js/Tandem.js';
-import ConstantStepEmitter from '../../common/model/ConstantStepEmitter.js';
+import ConstantDtClock from '../../common/model/ConstantDtClock.js';
 
 const MAX_RPM = 100;
 
 // Maximum change in angle per clock tick.
-const MAX_DELTA_ANGLE = ( 2 * Math.PI ) * ( MAX_RPM / ( ConstantStepEmitter.FRAMES_PER_SECOND * 60 ) );
+const MAX_DELTA_ANGLE = ( 2 * Math.PI ) * ( MAX_RPM / ( ConstantDtClock.FRAMES_PER_SECOND * 60 ) );
 
 export default class Turbine extends PhetioObject {
 
@@ -74,7 +74,7 @@ export default class Turbine extends PhetioObject {
   }
 
   public step( dt: number ): void {
-    assert && assert( dt === ConstantStepEmitter.CONSTANT_DT, `invalid dt=${dt}, see ConstantStepEmitter` );
+    assert && assert( dt === ConstantDtClock.CONSTANT_DT, `invalid dt=${dt}, see ConstantStepEmitter` );
     const flowRate = this.waterFaucet.flowRateProperty.value;
     if ( flowRate !== 0 ) {
 

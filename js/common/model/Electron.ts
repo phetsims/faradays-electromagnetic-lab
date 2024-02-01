@@ -25,7 +25,7 @@ import NumberProperty from '../../../../axon/js/NumberProperty.js';
 import DerivedProperty from '../../../../axon/js/DerivedProperty.js';
 import FELConstants from '../FELConstants.js';
 import Utils from '../../../../dot/js/Utils.js';
-import ConstantStepEmitter from './ConstantStepEmitter.js';
+import ConstantDtClock from './ConstantDtClock.js';
 
 // Maximum distance along a coil segment that can be traveled in one clock tick.
 const MAX_COIL_SEGMENT_POSITION_DELTA = 0.15;
@@ -161,7 +161,7 @@ export default class Electron {
    * the "overshoot". The order of curves is determined by the order of elements in the CoilSegment array.
    */
   public step( dt: number ): void {
-    assert && assert( dt === ConstantStepEmitter.CONSTANT_DT, `invalid dt=${dt}, ConstantStepEmitter` );
+    assert && assert( dt === ConstantDtClock.CONSTANT_DT, `invalid dt=${dt}, ConstantStepEmitter` );
 
     if ( this.speedAndDirectionProperty.value !== 0 ) {
 

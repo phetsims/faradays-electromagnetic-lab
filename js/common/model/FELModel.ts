@@ -21,7 +21,7 @@ import StrictOmit from '../../../../phet-core/js/types/StrictOmit.js';
 import TReadOnlyProperty from '../../../../axon/js/TReadOnlyProperty.js';
 import Compass from './Compass.js';
 import Tandem from '../../../../tandem/js/Tandem.js';
-import ConstantStepEmitter from './ConstantStepEmitter.js';
+import ConstantDtClock from './ConstantDtClock.js';
 
 const DEFAULT_FIELD_METER_POSITION = new Vector2( 150, 400 );
 
@@ -44,8 +44,9 @@ export default class FELModel implements TModel {
   // Whether time is progressing in the sim
   public readonly isPlayingProperty: Property<boolean>;
 
-  // Emits at a constant rate, with a constant dt. Subclasses should listen to this instead of overriding step.
-  public readonly stepEmitter: ConstantStepEmitter;
+  // Fires at a constant rate, with a constant dt, as required by most of the model code ported from Java.
+  // Subclasses should listen to this instead of overriding step.
+  public readonly clock: ConstantDtClock;
 
   // Devices that measure the magnet's B-field
   public readonly fieldMeter: FieldMeter;
@@ -59,7 +60,7 @@ export default class FELModel implements TModel {
       tandem: options.tandem.createTandem( 'isPlayingProperty' )
     }, options.isPlayingPropertyOptions ) );
 
-    this.stepEmitter = new ConstantStepEmitter( options.tandem.createTandem( 'stepEmitter' ) );
+    this.clock = new ConstantDtClock( options.tandem.createTandem( 'clock' ) );
 
     this.fieldMeter = new FieldMeter( magnet, combineOptions<FieldMeterOptions>( {
       position: DEFAULT_FIELD_METER_POSITION,
@@ -69,23 +70,23 @@ export default class FELModel implements TModel {
 
     this.compass = options.createCompass( magnet, this.isPlayingProperty, options.tandem.createTandem( 'compass' ) );
 
-    this.stepEmitter.addListener( dt => this.compass.step( dt ) );
+    this.clock.addListener( dt => this.compass.step( dt ) );
   }
 
   public reset(): void {
     this.isPlayingProperty.reset();
-    this.stepEmitter.reset();
+    this.clock.reset();
     this.fieldMeter.reset();
     this.compass.reset();
   }
 
   /**
-   * DO NOT OVERRIDE! Subclasses should not override step, and should instead listen to stepEmitter.
+   * DO NOT OVERRIDE! Subclasses should not override step, and should instead listen to clock.
    * @param dt - time change, in seconds
    */
   public step( dt: number ): void {
     if ( this.isPlayingProperty.value ) {
-      this.stepEmitter.accumulateTime( dt );
+      this.clock.accumulateTime( dt );
     }
   }
 }

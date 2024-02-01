@@ -32,7 +32,7 @@ export default class TransformerModel extends FELModel {
 
     this.transformer = transformer;
 
-    this.stepEmitter.addListener( dt => transformer.step( dt ) );
+    this.clock.addListener( dt => transformer.step( dt ) );
   }
 
   /**

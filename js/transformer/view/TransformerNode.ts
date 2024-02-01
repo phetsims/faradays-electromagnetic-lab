@@ -11,7 +11,6 @@ import { Node } from '../../../../scenery/js/imports.js';
 import ElectromagnetNode from '../../common/view/ElectromagnetNode.js';
 import PickupCoilNode from '../../common/view/PickupCoilNode.js';
 import Transformer from '../model/Transformer.js';
-import Emitter from '../../../../axon/js/Emitter.js';
 import TReadOnlyProperty from '../../../../axon/js/TReadOnlyProperty.js';
 import Bounds2 from '../../../../dot/js/Bounds2.js';
 import Tandem from '../../../../tandem/js/Tandem.js';
@@ -21,9 +20,7 @@ export default class TransformerNode extends Node {
   public readonly electromagnetNode: ElectromagnetNode;
   public readonly pickupCoilNode: PickupCoilNode;
 
-  public constructor( transformer: Transformer, stepEmitter: Emitter<[ number ]>,
-                      dragBoundsProperty: TReadOnlyProperty<Bounds2>,
-                      tandem: Tandem ) {
+  public constructor( transformer: Transformer, dragBoundsProperty: TReadOnlyProperty<Bounds2>, tandem: Tandem ) {
 
     const electromagnetNode = new ElectromagnetNode( transformer.electromagnet, {
       dragBoundsProperty: dragBoundsProperty,

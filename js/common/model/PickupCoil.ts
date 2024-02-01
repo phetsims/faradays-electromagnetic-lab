@@ -30,7 +30,7 @@ import PickOptional from '../../../../phet-core/js/types/PickOptional.js';
 import DerivedProperty from '../../../../axon/js/DerivedProperty.js';
 import FELQueryParameters from '../FELQueryParameters.js';
 import NumberIO from '../../../../tandem/js/types/NumberIO.js';
-import ConstantStepEmitter from './ConstantStepEmitter.js';
+import ConstantDtClock from './ConstantDtClock.js';
 
 const WIRE_WIDTH = 16;
 const LOOP_SPACING = 1.5 * WIRE_WIDTH; // loosely-packed loops
@@ -253,7 +253,7 @@ export default class PickupCoil extends FELMovable {
    * Updates the induced EMF (and other related Properties) using Faraday's Law.
    */
   private updateEMF( dt: number ): void {
-    assert && assert( dt === ConstantStepEmitter.CONSTANT_DT, `invalid dt=${dt}, ConstantStepEmitter` );
+    assert && assert( dt === ConstantDtClock.CONSTANT_DT, `invalid dt=${dt}, ConstantStepEmitter` );
 
     // Flux in the coil.
     const flux = this.getFlux();

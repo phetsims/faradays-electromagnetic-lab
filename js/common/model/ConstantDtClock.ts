@@ -1,8 +1,7 @@
 // Copyright 2024, University of Colorado Boulder
 
 /**
- * ConstantStepEmitter implements a constant dt clock, like PhET had in Java simulations. It fires at a constant
- * framerate, with a constant dt on each step.
+ * ConstantDtClock implements a clock that fires at a constant rate, with a constant dt.
  *
  * In the Java version of this sim, we used a clock that fires 25 times per second, with constant dt = 1.
  * See FaradayModule.java: new SwingClock( 1000 / 25, 1 )
@@ -18,16 +17,16 @@ import Tandem from '../../../../tandem/js/Tandem.js';
 import NumberProperty from '../../../../axon/js/NumberProperty.js';
 import NumberIO from '../../../../tandem/js/types/NumberIO.js';
 
-export default class ConstantStepEmitter extends Emitter<[ number ]> {
+export default class ConstantDtClock extends Emitter<[ number ]> {
 
   // Constant dt (per frame) that the step method was designed to support in the Java version.
   public static readonly CONSTANT_DT = 1;
 
   // Frame rate that the step method was designed to support in the Java version.
   public static readonly FRAMES_PER_SECOND = 25;
-  private static readonly SECONDS_PER_FRAME = 1 / ConstantStepEmitter.FRAMES_PER_SECOND;
+  private static readonly SECONDS_PER_FRAME = 1 / ConstantDtClock.FRAMES_PER_SECOND;
 
-  // Accumulated time since stepEmitter fired, to maintain consistent framerate
+  // Accumulated time since clock fired, to maintain consistent framerate
   private readonly accumulatedTimeProperty: Property<number>;
 
   public constructor( tandem: Tandem ) {
@@ -43,7 +42,7 @@ export default class ConstantStepEmitter extends Emitter<[ number ]> {
       units: 's',
       tandem: tandem.createTandem( 'accumulatedTimeProperty' ),
       phetioReadOnly: true,
-      phetioDocumentation: 'Time since stepEmitter last fired. For internal use only.',
+      phetioDocumentation: 'Time since the clock last fired and advanced the model. For internal use only.',
       phetioHighFrequency: true
     } );
   }
@@ -58,8 +57,8 @@ export default class ConstantStepEmitter extends Emitter<[ number ]> {
    */
   public accumulateTime( dt: number ): void {
     this.accumulatedTimeProperty.value += dt;
-    if ( this.accumulatedTimeProperty.value > ConstantStepEmitter.SECONDS_PER_FRAME ) {
-      this.accumulatedTimeProperty.value -= ConstantStepEmitter.SECONDS_PER_FRAME;
+    if ( this.accumulatedTimeProperty.value > ConstantDtClock.SECONDS_PER_FRAME ) {
+      this.accumulatedTimeProperty.value -= ConstantDtClock.SECONDS_PER_FRAME;
       this.stepOnce();
     }
   }
@@ -68,8 +67,8 @@ export default class ConstantStepEmitter extends Emitter<[ number ]> {
    * Advances the model by one constant-dt step. Used by the step button in time controls.
    */
   public stepOnce(): void {
-    this.emit( ConstantStepEmitter.CONSTANT_DT );
+    this.emit( ConstantDtClock.CONSTANT_DT );
   }
 }
 
-faradaysElectromagneticLab.register( 'ConstantStepEmitter', ConstantStepEmitter );
+faradaysElectromagneticLab.register( 'ConstantDtClock', ConstantDtClock );

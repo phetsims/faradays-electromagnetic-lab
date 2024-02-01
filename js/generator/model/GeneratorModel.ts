@@ -31,7 +31,7 @@ export default class GeneratorModel extends FELModel {
 
     this.generator = generator;
 
-    this.stepEmitter.addListener( dt => generator.step( dt ) );
+    this.clock.addListener( dt => generator.step( dt ) );
   }
 
   public override reset(): void {

@@ -34,7 +34,7 @@ export default class ElectromagnetModel extends FELModel {
 
     this.electromagnet = electromagnet;
 
-    this.stepEmitter.addListener( dt => electromagnet.step( dt ) );
+    this.clock.addListener( dt => electromagnet.step( dt ) );
   }
 
   public override reset(): void {

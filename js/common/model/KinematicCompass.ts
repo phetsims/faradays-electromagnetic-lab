@@ -20,7 +20,7 @@ import Property from '../../../../axon/js/Property.js';
 import NumberProperty from '../../../../axon/js/NumberProperty.js';
 import optionize, { EmptySelfOptions } from '../../../../phet-core/js/optionize.js';
 import TReadOnlyProperty from '../../../../axon/js/TReadOnlyProperty.js';
-import ConstantStepEmitter from './ConstantStepEmitter.js';
+import ConstantDtClock from './ConstantDtClock.js';
 
 const SENSITIVITY = 0.01; // increase this to make the compass more sensitive to smaller fields
 const DAMPING = 0.08; // increase this to make the needle wobble less
@@ -76,7 +76,7 @@ export default class KinematicCompass extends Compass {
    * @param dt - time step, in seconds
    */
   protected override updateAngle( fieldVector: Vector2, dt: number ): void {
-    assert && assert( dt === ConstantStepEmitter.CONSTANT_DT, `invalid dt=${dt}, see ConstantStepEmitter` );
+    assert && assert( dt === ConstantDtClock.CONSTANT_DT, `invalid dt=${dt}, see ConstantStepEmitter` );
 
     const magnitude = fieldVector.magnitude;
     const angle = fieldVector.angle;

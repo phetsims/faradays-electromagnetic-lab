@@ -52,7 +52,7 @@ export default class PickupCoilModel extends FELModel {
       tandem: tandem.createTandem( 'pickupCoil' )
     } );
 
-    this.stepEmitter.addListener( dt => this.pickupCoil.step( dt ) );
+    this.clock.addListener( dt => this.pickupCoil.step( dt ) );
 
     assert && this.isPlayingProperty.link(
       isPlaying => assert && assert( isPlaying, 'isPlaying must always be true for the Pickup Coil screen.' ) );

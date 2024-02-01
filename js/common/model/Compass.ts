@@ -17,7 +17,7 @@ import TReadOnlyProperty from '../../../../axon/js/TReadOnlyProperty.js';
 import { EmptySelfOptions } from '../../../../phet-core/js/optionize.js';
 import Multilink from '../../../../axon/js/Multilink.js';
 import FieldMeasurementTool, { FieldMeasurementToolOptions } from './FieldMeasurementTool.js';
-import ConstantStepEmitter from './ConstantStepEmitter.js';
+import ConstantDtClock from './ConstantDtClock.js';
 
 type SelfOptions = EmptySelfOptions;
 
@@ -67,7 +67,7 @@ export default abstract class Compass extends FieldMeasurementTool {
   }
 
   public step( dt: number ): void {
-    assert && assert( dt === ConstantStepEmitter.CONSTANT_DT, `invalid dt=${dt}, see ConstantStepEmitter` );
+    assert && assert( dt === ConstantDtClock.CONSTANT_DT, `invalid dt=${dt}, see ConstantStepEmitter` );
     if ( this.fieldVectorProperty.value.magnitude !== 0 ) {
       this.updateAngle( this.fieldVectorProperty.value, dt );
     }
