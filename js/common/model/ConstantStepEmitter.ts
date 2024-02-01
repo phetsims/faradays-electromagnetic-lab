@@ -35,12 +35,8 @@ export default class ConstantStepEmitter extends Emitter<[ number ]> {
     super( {
       parameters: [
         { name: 'dt', phetioType: NumberIO }
-      ],
-      //TODO https://github.com/phetsims/faradays-electromagnetic-lab/issues/69 Does this need to be instrumented?
-      tandem: tandem,
-      phetioReadOnly: true, // ... so that PhET-iO clients cannot call emit
-      phetioDocumentation: 'Fires when the model is to be stepped.',
-      phetioHighFrequency: true
+      ]
+      // Do not instrument this Emitter, see https://github.com/phetsims/faradays-electromagnetic-lab/issues/69
     } );
 
     this.accumulatedTimeProperty = new NumberProperty( 0, {
