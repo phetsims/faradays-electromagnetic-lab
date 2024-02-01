@@ -3,6 +3,8 @@
 /**
  * CurrentSource is the base class for all devices that are capable of acting as a current source for an electromagnet.
  *
+ * This was ported from AbstractCurrentSource.java in the Java version of this sim.
+ *
  * @author Chris Malley (PixelZoom, Inc.)
  */
 

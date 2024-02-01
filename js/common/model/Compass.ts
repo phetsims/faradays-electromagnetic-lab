@@ -3,6 +3,8 @@
 /**
  * Compass is the abstract base class for compass models.
  *
+ * This was ported from Compass.java in the Java version of this sim.
+ *
  * @author Chris Malley (PixelZoom, Inc.)
  */
 

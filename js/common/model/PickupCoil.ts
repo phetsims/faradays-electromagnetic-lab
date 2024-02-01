@@ -3,6 +3,8 @@
 /**
  * PickupCoil is the model of a pickup coil. Its behavior follows Faraday's Law for electromagnetic induction.
  *
+ * This was ported from PickupCoil.java in the Java version of this sim.
+ *
  * @author Chris Malley (PixelZoom, Inc.)
  */
 

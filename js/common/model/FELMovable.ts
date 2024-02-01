@@ -3,6 +3,8 @@
 /**
  * FELMovable is the base class for model elements that have a mutable position.
  *
+ * This was ported from FaradayObservable.java in the Java version of this sim.
+ *
  * @author Chris Malley (PixelZoom, Inc.)
  */
 

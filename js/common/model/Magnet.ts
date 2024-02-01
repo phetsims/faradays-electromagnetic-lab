@@ -3,6 +3,8 @@
 /**
  * Magnet is the base class for magnet models.
  *
+ * This was ported from AbstractMagnet.java in the Java version of this sim.
+ *
  * @author Chris Malley (PixelZoom, Inc.)
  */
 

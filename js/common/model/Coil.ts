@@ -11,6 +11,8 @@
  * appear to flow at the same rate in all coil segments. For example, the wire ends are significantly shorter coil
  * segments that the other segments in the coil.
  *
+ * This was ported from Coil.java in the Java version of this sim.
+ *
  * @author Chris Malley (PixelZoom, Inc.)
  */
 

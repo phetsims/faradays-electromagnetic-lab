@@ -4,6 +4,8 @@
  * Voltmeter is the model of a voltmeter, as an indicator of current in the pickup coil. The meter's needle behaves
  * somewhat realistically, by jiggling around the zero point.
  *
+ * This was ported from Voltmeter.java in the Java version of this sim.
+ *
  * @author Chris Malley (PixelZoom, Inc.)
  */
 

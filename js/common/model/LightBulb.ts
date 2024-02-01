@@ -4,6 +4,8 @@
  * LightBulb is the model of the light bulb, as an indicator of current in the pickup coil. Brightness of the light
  * is proportional to the current amplitude in the pickup coil.
  *
+ * This was ported from LightBulb.java in the Java version of this sim.
+ *
  * @author Chris Malley (PixelZoom, Inc.)
  */
 

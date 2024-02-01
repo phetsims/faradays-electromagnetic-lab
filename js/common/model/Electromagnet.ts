@@ -3,6 +3,8 @@
 /**
  * Electromagnet is the model of the electromagnet. It includes a source coil, and selectable power supplies (DC & AC).
  *
+ * This was ported from Electromagnet.java in the Java version of this sim.
+ *
  * @author Chris Malley (PixelZoom, Inc.)
  */
 
