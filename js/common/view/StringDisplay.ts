@@ -31,7 +31,7 @@ export default class StringDisplay extends Node {
 
   private readonly disposeStringDisplay: () => void;
 
-  public constructor( stringProperty: TReadOnlyProperty<string>, providedOptions?: StringDisplayOptions ) {
+  public constructor( string: TReadOnlyProperty<string> | string, providedOptions?: StringDisplayOptions ) {
 
     const options = optionize<StringDisplayOptions, StrictOmit<SelfOptions, 'textOptions' | 'rectangleOptions'>, NodeOptions>()( {
 
@@ -48,7 +48,7 @@ export default class StringDisplay extends Node {
         cornerRadius: 4
       }, options.rectangleOptions ) );
 
-    const text = new RichText( stringProperty, combineOptions<RichTextOptions>( {
+    const text = new RichText( string, combineOptions<RichTextOptions>( {
 
       // Text is constrained to fit the background rectangle.
       maxWidth: options.size.width - ( 2 * options.xMargin ),
@@ -72,7 +72,7 @@ export default class StringDisplay extends Node {
 
     this.disposeStringDisplay = () => {
       background.dispose(); // may be listening to color Properties
-      text.dispose(); // is listening to a string Property
+      text.dispose(); // is listening to a TReadOnlyProperty<string>
     };
   }
 
