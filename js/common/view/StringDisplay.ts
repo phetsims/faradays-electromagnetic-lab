@@ -18,12 +18,23 @@ import optionize, { combineOptions } from '../../../../phet-core/js/optionize.js
 import StrictOmit from '../../../../phet-core/js/types/StrictOmit.js';
 
 type SelfOptions = {
+
+  // Fixed size of the background
   size: Dimension2;
+
+  // Margins inside the background
   xMargin?: number;
   yMargin?: number;
-  align?: 'left' | 'right';
+
+  // How the string is aligned in the background
+  alignX?: 'left' | 'right' | 'center';
+  alignY?: 'top' | 'bottom' | 'center';
+
+  // Options passed to the background Rectangle
   rectangleOptions?: RectangleOptions;
-  textOptions?: StrictOmit<RichTextOptions, 'maxWidth' | 'maxHeight'>;
+
+  // Options passed to the RichText that displays the string
+  richTextOptions?: StrictOmit<RichTextOptions, 'maxWidth' | 'maxHeight'>;
 };
 
 export type StringDisplayOptions = SelfOptions & NodeOptions;
@@ -34,12 +45,13 @@ export default class StringDisplay extends Node {
 
   public constructor( string: TReadOnlyProperty<string> | string, providedOptions?: StringDisplayOptions ) {
 
-    const options = optionize<StringDisplayOptions, StrictOmit<SelfOptions, 'textOptions' | 'rectangleOptions'>, NodeOptions>()( {
+    const options = optionize<StringDisplayOptions, StrictOmit<SelfOptions, 'richTextOptions' | 'rectangleOptions'>, NodeOptions>()( {
 
       // SelfOptions
       xMargin: 2,
       yMargin: 2,
-      align: 'right'
+      alignX: 'right',
+      alignY: 'center'
     }, providedOptions );
 
     const background = new Rectangle( 0, 0, options.size.width, options.size.height,
@@ -51,20 +63,35 @@ export default class StringDisplay extends Node {
 
     const text = new RichText( string, combineOptions<RichTextOptions>( {
 
-      // Text is constrained to fit the background rectangle.
+      // Text will be scaled down if it does not fit in the background.
       maxWidth: options.size.width - ( 2 * options.xMargin ),
       maxHeight: options.size.height - ( 2 * options.yMargin )
-    }, options.textOptions ) );
+    }, options.richTextOptions ) );
 
     // Dynamically align the text in the background.
     text.boundsProperty.link( bounds => {
-      if ( options.align === 'right' ) {
+
+      // x align
+      if ( options.alignX === 'right' ) {
         text.right = background.right - options.xMargin;
       }
-      else {
+      else if ( options.alignX === 'left' ) {
         text.left = background.left + options.xMargin;
       }
-      text.centerY = background.centerY;
+      else {
+        text.centerX = background.centerX;
+      }
+
+      // y align
+      if ( options.alignY === 'top' ) {
+        text.top = background.top + options.yMargin;
+      }
+      else if ( options.alignY === 'bottom' ) {
+        text.bottom = background.bottom - options.yMargin;
+      }
+      else {
+        text.centerY = background.centerY;
+      }
     } );
 
     options.children = [ background, text ];

@@ -59,7 +59,7 @@ const STRING_DISPLAY_OPTIONS: StringDisplayOptions = {
   size: new Dimension2( 90, 22 ),
   xMargin: 5,
   yMargin: 2,
-  textOptions: {
+  richTextOptions: {
     font: new PhetFont( 14 ),
     fill: FELColors.fieldMeterLabelsColorProperty
   },
