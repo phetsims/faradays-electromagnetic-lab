@@ -138,13 +138,6 @@ export default class PickupCoil extends FELMovable {
 
     this.magnet = magnet;
 
-    this._fluxProperty = new NumberProperty( 0, {
-      tandem: options.tandem.createTandem( 'fluxProperty' ),
-      phetioReadOnly: true,
-      phetioDocumentation: 'Relative flux in the coil.'
-    } );
-    this.fluxProperty = this._fluxProperty;
-
     this._deltaFluxProperty = new NumberProperty( 0, {
       tandem: options.tandem.createTandem( 'deltaFluxProperty' ),
       phetioReadOnly: true,
@@ -241,6 +234,16 @@ export default class PickupCoil extends FELMovable {
     this.reusableFieldVector = new Vector2( 0, 0 );
 
     this.coil.loopRadiusProperty.link( loopRadius => this.updateSamplePoints( loopRadius ) );
+
+    // Instantiate _fluxProperty last, so that it's initial value is correct for the configuration of the coil.
+    //TODO https://github.com/phetsims/faradays-electromagnetic-lab/issues/47 duplicate code from updateEMF
+    const initialFlux = this.getEffectiveLoopArea() * this.getAverageBx() * this.coil.numberOfLoopsProperty.value;
+    this._fluxProperty = new NumberProperty( initialFlux, {
+      tandem: options.tandem.createTandem( 'fluxProperty' ),
+      phetioReadOnly: true,
+      phetioDocumentation: 'Relative flux in the coil.'
+    } );
+    this.fluxProperty = this._fluxProperty;
   }
 
   public override reset(): void {
