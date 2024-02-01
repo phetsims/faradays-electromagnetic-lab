@@ -14,6 +14,7 @@ import Property from '../../../../axon/js/Property.js';
 import optionize, { combineOptions } from '../../../../phet-core/js/optionize.js';
 import Vector2Property, { Vector2PropertyOptions } from '../../../../dot/js/Vector2Property.js';
 import StrictOmit from '../../../../phet-core/js/types/StrictOmit.js';
+import PickOptional from '../../../../phet-core/js/types/PickOptional.js';
 
 type SelfOptions = {
 
@@ -24,7 +25,9 @@ type SelfOptions = {
   positionPropertyOptions?: Vector2PropertyOptions;
 };
 
-export type FELMovableOptions = SelfOptions & PickRequired<PhetioObjectOptions, 'tandem'>;
+export type FELMovableOptions = SelfOptions &
+  PickOptional<PhetioObjectOptions, 'phetioDocumentation'> &
+  PickRequired<PhetioObjectOptions, 'tandem'>;
 
 export default class FELMovable extends PhetioObject {
 

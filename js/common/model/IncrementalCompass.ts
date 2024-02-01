@@ -13,7 +13,7 @@ import faradaysElectromagneticLab from '../../faradaysElectromagneticLab.js';
 import Magnet from './Magnet.js';
 import Vector2 from '../../../../dot/js/Vector2.js';
 import Utils from '../../../../dot/js/Utils.js';
-import { EmptySelfOptions } from '../../../../phet-core/js/optionize.js';
+import optionize, { EmptySelfOptions } from '../../../../phet-core/js/optionize.js';
 import TReadOnlyProperty from '../../../../axon/js/TReadOnlyProperty.js';
 
 const MAX_DELTA_ANGLE = Utils.toRadians( 45 );
@@ -25,7 +25,15 @@ type IncrementalCompassOptions = SelfOptions & CompassOptions;
 export default class IncrementalCompass extends Compass {
 
   public constructor( magnet: Magnet, isPlayingProperty: TReadOnlyProperty<boolean>, providedOptions: IncrementalCompassOptions ) {
-    super( magnet, isPlayingProperty, providedOptions );
+
+    const options = optionize<IncrementalCompassOptions, SelfOptions, CompassOptions>()( {
+
+      // CompassOptions
+      phetioDocumentation: 'A compass that moves immediately to match the direction of the magnetic field, except ' +
+                           'when the field change is large. In that case, the compass moves incrementally.'
+    }, providedOptions );
+
+    super( magnet, isPlayingProperty, options );
   }
 
   /**

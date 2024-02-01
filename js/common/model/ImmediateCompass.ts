@@ -11,7 +11,7 @@ import Compass, { CompassOptions } from './Compass.js';
 import faradaysElectromagneticLab from '../../faradaysElectromagneticLab.js';
 import Magnet from './Magnet.js';
 import Vector2 from '../../../../dot/js/Vector2.js';
-import { EmptySelfOptions } from '../../../../phet-core/js/optionize.js';
+import optionize, { EmptySelfOptions } from '../../../../phet-core/js/optionize.js';
 import TReadOnlyProperty from '../../../../axon/js/TReadOnlyProperty.js';
 
 type SelfOptions = EmptySelfOptions;
@@ -21,7 +21,14 @@ type ImmediateCompassOptions = SelfOptions & CompassOptions;
 export default class ImmediateCompass extends Compass {
 
   public constructor( magnet: Magnet, isPlayingProperty: TReadOnlyProperty<boolean>, providedOptions: ImmediateCompassOptions ) {
-    super( magnet, isPlayingProperty, providedOptions );
+
+    const options = optionize<ImmediateCompassOptions, SelfOptions, CompassOptions>()( {
+
+      // CompassOptions
+      phetioDocumentation: 'A compass that moves immediately to match the direction of the magnetic field.'
+    }, providedOptions );
+
+    super( magnet, isPlayingProperty, options );
   }
 
   /**

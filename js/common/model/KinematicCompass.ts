@@ -16,7 +16,7 @@ import Vector2 from '../../../../dot/js/Vector2.js';
 import Utils from '../../../../dot/js/Utils.js';
 import Property from '../../../../axon/js/Property.js';
 import NumberProperty from '../../../../axon/js/NumberProperty.js';
-import { EmptySelfOptions } from '../../../../phet-core/js/optionize.js';
+import optionize, { EmptySelfOptions } from '../../../../phet-core/js/optionize.js';
 import TReadOnlyProperty from '../../../../axon/js/TReadOnlyProperty.js';
 import ConstantStepEmitter from './ConstantStepEmitter.js';
 
@@ -38,7 +38,11 @@ export default class KinematicCompass extends Compass {
 
   public constructor( magnet: Magnet, isPlayingProperty: TReadOnlyProperty<boolean>, providedOptions: KinematicCompassOptions ) {
 
-    const options = providedOptions;
+    const options = optionize<KinematicCompassOptions, SelfOptions, CompassOptions>()( {
+
+      // CompassOptions
+      phetioDocumentation: 'A compass that moves gradually to match the magnetic field, like a real-world compass.'
+    }, providedOptions );
 
     super( magnet, isPlayingProperty, options );
 
