@@ -23,7 +23,7 @@ import FELPreferences from '../model/FELPreferences.js';
 import FELMovableNode, { FELMovableNodeOptions } from './FELMovableNode.js';
 import Vector2 from '../../../../dot/js/Vector2.js';
 import Dimension2 from '../../../../dot/js/Dimension2.js';
-import StringDisplay, { StringDisplayOptions } from './StringDisplay.js';
+import StringDisplay, { StringDisplayOptions } from '../../../../scenery-phet/js/StringDisplay.js';
 import StringUtils from '../../../../phetcommon/js/util/StringUtils.js';
 import optionize, { EmptySelfOptions } from '../../../../phet-core/js/optionize.js';
 import PickRequired from '../../../../phet-core/js/types/PickRequired.js';
