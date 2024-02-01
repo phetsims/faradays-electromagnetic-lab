@@ -40,9 +40,6 @@ export default class PickupCoilDebuggerPanel extends Panel {
 
   public constructor( pickupCoil: PickupCoil ) {
 
-    const averageBxStringProperty = new DerivedStringProperty( [ pickupCoil.averageBxProperty ],
-      averageBx => `${Utils.toFixed( averageBx, 2 )} G` );
-
     const fluxStringProperty = new DerivedStringProperty( [ pickupCoil.fluxProperty ],
       flux => `${Utils.toFixed( flux, 0 )} Wb` );
 
@@ -61,7 +58,6 @@ export default class PickupCoilDebuggerPanel extends Panel {
       columns: [
         // Labels
         [
-          new RichText( 'Avg B<sub>x</sub> =', LABEL_TEXT_OPTIONS ),
           new RichText( `${PHI} =`, LABEL_TEXT_OPTIONS ),
           new RichText( `${DELTA_PHI} =`, LABEL_TEXT_OPTIONS ),
           new RichText( 'EMF =', LABEL_TEXT_OPTIONS )
@@ -69,7 +65,6 @@ export default class PickupCoilDebuggerPanel extends Panel {
 
         // Values
         [
-          new RichText( averageBxStringProperty, VALUE_TEXT_OPTIONS ),
           new RichText( fluxStringProperty, VALUE_TEXT_OPTIONS ),
           new RichText( deltaFluxStringProperty, VALUE_TEXT_OPTIONS ),
           new RichText( emfStringProperty, VALUE_TEXT_OPTIONS )

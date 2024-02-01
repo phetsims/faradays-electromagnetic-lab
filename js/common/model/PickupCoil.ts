@@ -83,11 +83,6 @@ export default class PickupCoil extends FELMovable {
   // Used exclusively in calibrateMaxEMF, does not need to be stateful for PhET-iO
   private _biggestAbsEmf; // in volts
 
-  // DEBUG: Displayed in PickupCoilDebuggerPanel, when running with &dev query parameter.
-  // Average of the B-field samples perpendicular (Bx) to the coil's vertical axis.
-  private readonly _averageBxProperty: Property<number>;
-  public readonly averageBxProperty: TReadOnlyProperty<number>;
-
   // DEBUG: Writeable via developer controls only, when running with &dev query parameter.
   // Dividing the coil's EMF by this number will give us the coil's current amplitude, a number between 0 and 1 that
   // determines the responsiveness of view components. This number should be set as close as possible to the maximum
@@ -212,11 +207,6 @@ export default class PickupCoil extends FELMovable {
 
     this._biggestAbsEmf = 0.0;
 
-    this._averageBxProperty = new NumberProperty( 0
-      // Do not instrument. This is a PhET developer Property.
-    );
-    this.averageBxProperty = this._averageBxProperty;
-
     this.transitionSmoothingScaleProperty = new NumberProperty( options.transitionSmoothingScale, {
       range: new Range( 0.1, 1 )
       // Do not instrument. This is a PhET developer Property.
@@ -236,9 +226,7 @@ export default class PickupCoil extends FELMovable {
     this.coil.loopRadiusProperty.link( loopRadius => this.updateSamplePoints( loopRadius ) );
 
     // Instantiate _fluxProperty last, so that it's initial value is correct for the configuration of the coil.
-    //TODO https://github.com/phetsims/faradays-electromagnetic-lab/issues/47 duplicate code from updateEMF
-    const initialFlux = this.getEffectiveLoopArea() * this.getAverageBx() * this.coil.numberOfLoopsProperty.value;
-    this._fluxProperty = new NumberProperty( initialFlux, {
+    this._fluxProperty = new NumberProperty( this.getFlux(), {
       tandem: options.tandem.createTandem( 'fluxProperty' ),
       phetioReadOnly: true,
       phetioDocumentation: 'Relative flux in the coil.'
@@ -281,15 +269,8 @@ export default class PickupCoil extends FELMovable {
   private updateEMF( dt: number ): void {
     assert && assert( dt === ConstantStepEmitter.CONSTANT_DT, `invalid dt=${dt}, ConstantStepEmitter` );
 
-    // Get an average for Bx over the sample points.
-    this._averageBxProperty.value = this.getAverageBx();
-
-    // Flux in one loop.
-    const A = this.getEffectiveLoopArea();
-    const loopFlux = A * this._averageBxProperty.value;
-
     // Flux in the coil.
-    const flux = this.coil.numberOfLoopsProperty.value * loopFlux;
+    const flux = this.getFlux();
 
     // Change in flux.
     this._deltaFluxProperty.value = flux - this._fluxProperty.value;
@@ -297,6 +278,22 @@ export default class PickupCoil extends FELMovable {
 
     // Induced EMF.
     this._emfProperty.value = -( this._deltaFluxProperty.value / dt );
+  }
+
+  /**
+   * Gets the flux in the pickup coil.
+   */
+  private getFlux(): number {
+
+    // Get an average for Bx over the sample points.
+    const averageBx = this.getAverageBx();
+
+    // Flux in one loop.
+    const A = this.getEffectiveLoopArea();
+    const loopFlux = A * averageBx;
+
+    // Flux in the coil.
+    return this.coil.numberOfLoopsProperty.value * loopFlux;
   }
 
   /**
