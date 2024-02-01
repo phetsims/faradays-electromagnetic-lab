@@ -1,4 +1,4 @@
-// Copyright 2023-2024, University of Colorado Boulder
+// Copyright 2024, University of Colorado Boulder
 
 /**
  * CoilSegmentNode renders one segment of a coil.
