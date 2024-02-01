@@ -16,7 +16,6 @@ import Property from '../../../../axon/js/Property.js';
 import BooleanProperty from '../../../../axon/js/BooleanProperty.js';
 import NumberProperty from '../../../../axon/js/NumberProperty.js';
 import Range from '../../../../dot/js/Range.js';
-import createObservableArray, { ObservableArray } from '../../../../axon/js/createObservableArray.js';
 import TReadOnlyProperty from '../../../../axon/js/TReadOnlyProperty.js';
 import LightBulb, { LightBulbOptions } from './LightBulb.js';
 import Voltmeter from './Voltmeter.js';
@@ -37,7 +36,7 @@ const LOOP_SPACING = 1.5 * WIRE_WIDTH; // loosely-packed loops
 type SelfOptions = {
   maxEMF: number; // the initial value of maxEMFProperty
   transitionSmoothingScale?: number; // the initial value of transitionSmoothingScaleProperty
-  samplePointsStrategy: PickupCoilSamplePointsStrategy; // see PickupCoilSamplePointsStrategy.ts
+  samplePointsStrategy: PickupCoilSamplePointsStrategy; // strategy used to populate B-field samplePoints
   coilOptions?: PickOptional<CoilOptions, 'electronSpeedScale'>; // passed to Coil
   lightBulbOptions?: PickOptional<LightBulbOptions, 'lightsWhenCurrentChangesDirection'>; // passed to LightBulb
 };
@@ -64,6 +63,10 @@ export default class PickupCoil extends FELMovable {
   private readonly _emfProperty: Property<number>;
   public readonly emfProperty: TReadOnlyProperty<number>;
 
+  // Used exclusively in calibrateMaxEMF, does not need to be stateful for PhET-iO
+  //TODO https://github.com/phetsims/faradays-electromagnetic-lab/issues/66 This can likely be deleted when calibration method is changed.
+  private _biggestAbsEmf; // in volts
+
   // Amplitude and direction of current in the coil. See Coil currentAmplitudeProperty.
   private readonly currentAmplitudeProperty: TReadOnlyProperty<number>;
 
@@ -75,13 +78,7 @@ export default class PickupCoil extends FELMovable {
   public readonly currentIndicatorProperty: Property<CurrentIndicator>;
 
   // B-field sample points along the vertical axis of the coil
-  public samplePoints: ObservableArray<Vector2>;
-
-  // Strategy used to populate samplePoints
-  private readonly samplePointsStrategy: PickupCoilSamplePointsStrategy;
-
-  // Used exclusively in calibrateMaxEMF, does not need to be stateful for PhET-iO
-  private _biggestAbsEmf; // in volts
+  public readonly samplePointsProperty: TReadOnlyProperty<Vector2[]>;
 
   // DEBUG: Writeable via developer controls only, when running with &dev query parameter.
   // Dividing the coil's EMF by this number will give us the coil's current amplitude, a number between 0 and 1 that
@@ -149,6 +146,8 @@ export default class PickupCoil extends FELMovable {
     } );
     this.emfProperty = this._emfProperty;
 
+    this._biggestAbsEmf = 0.0;
+
     // Check that maxEMFProperty is calibrated properly.
     if ( FELQueryParameters.calibrateEMF ) {
       this._emfProperty.lazyLink( () => this.calibrateMaxEMF() );
@@ -196,16 +195,8 @@ export default class PickupCoil extends FELMovable {
       phetioFeatured: true
     } );
 
-    this.samplePoints = createObservableArray( {
-      tandem: options.tandem.createTandem( 'samplePoints' ),
-      phetioReadOnly: true,
-      phetioType: createObservableArray.ObservableArrayIO( Vector2.Vector2IO ),
-      phetioDocumentation: 'B-field sample points along the vertical axis of the coil'
-    } );
-
-    this.samplePointsStrategy = options.samplePointsStrategy;
-
-    this._biggestAbsEmf = 0.0;
+    this.samplePointsProperty = new DerivedProperty( [ this.coil.loopRadiusProperty ], loopRadius =>
+      options.samplePointsStrategy.createSamplePoints( loopRadius ) );
 
     this.transitionSmoothingScaleProperty = new NumberProperty( options.transitionSmoothingScale, {
       range: new Range( 0.1, 1 )
@@ -222,8 +213,6 @@ export default class PickupCoil extends FELMovable {
 
     this.reusableSamplePoint = new Vector2( 0, 0 );
     this.reusableFieldVector = new Vector2( 0, 0 );
-
-    this.coil.loopRadiusProperty.link( loopRadius => this.updateSamplePoints( loopRadius ) );
 
     // Instantiate _fluxProperty last, so that it's initial value is correct for the configuration of the coil.
     this._fluxProperty = new NumberProperty( this.getFlux(), {
@@ -252,15 +241,6 @@ export default class PickupCoil extends FELMovable {
     if ( this.currentIndicatorProperty.value === this.voltmeter ) {
       this.voltmeter.step( dt );
     }
-  }
-
-  /**
-   * Updates the sample points for the coil.
-   * The samples points are used to measure the B-field in the calculation of EMF.
-   */
-  private updateSamplePoints( loopRadius: number ): void {
-    this.samplePoints.clear();
-    this.samplePoints.push( ...this.samplePointsStrategy.createSamplePoints( loopRadius ) );
   }
 
   /**
@@ -336,13 +316,14 @@ export default class PickupCoil extends FELMovable {
    */
   private getAverageBx(): number {
 
+    const samplePoints = this.samplePointsProperty.value;
     const magnetStrength = this.magnet.strengthProperty.value;
 
     let sumBx = 0;
-    for ( let i = 0; i < this.samplePoints.length; i++ ) {
+    for ( let i = 0; i < samplePoints.length; i++ ) {
 
-      const x = this.positionProperty.value.x + this.samplePoints[ i ].x;
-      const y = this.positionProperty.value.y + this.samplePoints[ i ].y;
+      const x = this.positionProperty.value.x + samplePoints[ i ].x;
+      const y = this.positionProperty.value.y + samplePoints[ i ].y;
       this.reusableSamplePoint.setXY( x, y );
 
       // Find the B-field vector at that point.
@@ -360,7 +341,7 @@ export default class PickupCoil extends FELMovable {
       sumBx += Bx;
     }
 
-    return sumBx / this.samplePoints.length;
+    return sumBx / samplePoints.length;
   }
 
   /**

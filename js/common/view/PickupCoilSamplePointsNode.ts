@@ -21,25 +21,21 @@ export default class PickupCoilSamplePointsNode extends Node {
       fill: 'yellow'
     } );
 
-    const update = () => {
+    pickupCoil.samplePointsProperty.link( () => {
       const shape = new Shape();
-      for ( let i = 0; i < pickupCoil.samplePoints.length; i++ ) {
-        const samplePoint = pickupCoil.samplePoints[ i ];
+      const samplePoints = pickupCoil.samplePointsProperty.value;
+      for ( let i = 0; i < samplePoints.length; i++ ) {
+        const samplePoint = samplePoints[ i ];
         shape.moveToPoint( samplePoint );
         shape.circle( samplePoint, 2 );
         path.shape = shape;
       }
-    };
-
-    pickupCoil.samplePoints.addItemAddedListener( () => update() );
-    pickupCoil.samplePoints.addItemRemovedListener( () => update() );
+    } );
 
     super( {
       children: [ path ],
       visibleProperty: pickupCoil.samplePointsVisibleProperty
     } );
-
-    update();
   }
 }
 
