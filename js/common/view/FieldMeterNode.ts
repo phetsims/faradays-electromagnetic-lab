@@ -118,22 +118,25 @@ export default class FieldMeterNode extends FELMovableNode {
     // Dynamic values. We decided that Bx and By should be signed.
     const stringBValueProperty = new DerivedStringProperty(
       [ FELPreferences.magneticUnitsProperty, fieldMeter.fieldVectorProperty, GStringProperty, TStringProperty, valueUnitsStringProperty ],
-      ( magneticUnits, fieldVector, G, T ) =>
-        ( magneticUnits === 'G' ) ? `${toGaussString( fieldVector.magnitude, G )}`
-                                  : `${toTeslaString( fieldVector.magnitude, T )}`
+      ( magneticUnits, fieldVector, G, T ) => {
+        const B = fieldVector.magnitude;
+        return ( magneticUnits === 'G' ) ? `${toGaussString( B, G )}` : `${toTeslaString( B, T )}`;
+      }
     );
     const stringBxValueProperty = new DerivedStringProperty(
       [ FELPreferences.magneticUnitsProperty, fieldMeter.fieldVectorProperty, GStringProperty, TStringProperty, valueUnitsStringProperty ],
-      ( magneticUnits, fieldVector, G, T ) =>
-        ( magneticUnits === 'G' ) ? `${toGaussString( fieldVector.x, G )}`
-                                  : `${toTeslaString( fieldVector.x, T )}`
+      ( magneticUnits, fieldVector, G, T ) => {
+        const Bx = fieldVector.x;
+        return ( magneticUnits === 'G' ) ? `${toGaussString( Bx, G )}` : `${toTeslaString( Bx, T )}`;
+      }
     );
     const stringByValueProperty = new DerivedStringProperty(
       [ FELPreferences.magneticUnitsProperty, fieldMeter.fieldVectorProperty, GStringProperty, TStringProperty, valueUnitsStringProperty ],
-      //TODO https://github.com/phetsims/faradays-electromagnetic-lab/issues/19 -fieldVector.y to convert to +y up, should be done in the model
-      ( magneticUnits, fieldVector, G, T ) =>
-        ( magneticUnits === 'G' ) ? `${toGaussString( -fieldVector.y, G )}`
-                                  : `${toTeslaString( fieldVector.y, T )}`
+      ( magneticUnits, fieldVector, G, T ) => {
+        const By = -fieldVector.y;  // +y is down in the model, so flip the sign. See https://github.com/phetsims/faradays-electromagnetic-lab/issues/19
+        return ( magneticUnits === 'G' ) ? `${toGaussString( By, G )}`
+                                         : `${toTeslaString( By, T )}`;
+      }
     );
     const stringThetaValueProperty = new DerivedStringProperty(
       [ fieldMeter.fieldVectorProperty, valueDegreesStringProperty ],
@@ -229,7 +232,7 @@ function toDegreesString( fieldVector: Vector2 ): string {
       stringValue = '0';
     }
     else {
-      //TODO https://github.com/phetsims/faradays-electromagnetic-lab/issues/19 -angle to convert to +rotation counterclockwise, should be done in the model
+      // +angle is clockwise in the model, so flip the sign. See https://github.com/phetsims/faradays-electromagnetic-lab/issues/19
       stringValue = `${Utils.toFixed( Utils.toDegrees( -fieldVector.angle ), ANGLE_DECIMAL_PLACES )}`;
     }
     return StringUtils.fillIn( FaradaysElectromagneticLabStrings.pattern.valueDegreesStringProperty, {
