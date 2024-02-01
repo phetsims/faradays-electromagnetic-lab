@@ -4,7 +4,7 @@
  * QuadraticBezierSpline is a quadratic bezier spline, described by a start point, an end point, and a control point.
  * de Caselijau's algorithm is used to find points along the curve.
  *
- * This was ported from QuadraticBezierSpline.java in the Java version of this sim.
+ * This is based on QuadraticBezierSpline.java in the Java version of this sim.
  *
  * @author Chris Malley (PixelZoom, Inc.)
  */

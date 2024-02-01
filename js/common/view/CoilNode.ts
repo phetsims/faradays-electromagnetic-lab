@@ -7,6 +7,8 @@
  * foreground and background. Foreground elements are children of CoilNode. Background elements are children of
  * this.backgroundNode, and it is the responsibility of the instantiator to add this.backgroundNode to the scene graph.
  *
+ * This is based on CoilGraphic.java in the Java version of this sim.
+ *
  * @author Chris Malley (PixelZoom, Inc.)
  */
 

@@ -8,7 +8,7 @@
  * Note that Electromagnet is currently the only concrete subclass of CoilMagnet. So CoilMagnet could be absorbed
  * into Electromagnet. But as in the Java version, we've chosen to keep them separate.
  *
- * This was ported from CoilMagnet.java in the Java version of this sim.
+ * This is based on CoilMagnet.java in the Java version of this sim.
  *
  * @author Chris Malley (PixelZoom, Inc.)
  */

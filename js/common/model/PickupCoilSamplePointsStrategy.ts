@@ -5,7 +5,7 @@
  * Sample points are distributed along a vertical line that goes through the center of a pickup coil. The B-field is
  * sampled at these points, and used to compute the induced EMF in the pickup coil.
  *
- * This was ported from inner classes of PickupCoil.java in the Java version of this sim.
+ * This is based on inner classes of PickupCoil.java in the Java version of this sim.
  *
  * @author Chris Malley (PixelZoom, Inc.)
  */

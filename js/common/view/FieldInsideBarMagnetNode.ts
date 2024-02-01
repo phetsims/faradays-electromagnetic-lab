@@ -5,6 +5,8 @@
  * the bounds of the bar magnet. Alpha is modulated as the strength of the magnet changes.  It is assumed that this
  * will be added to BarMagnetNode, and will therefore move with the bar magnet.
  *
+ * This is based on BFieldInsideGraphic.java and AbstractBFieldGraphic.java in the Java version of this sim.
+ *
  * @author Chris Malley (PixelZoom, Inc.)
  */
 

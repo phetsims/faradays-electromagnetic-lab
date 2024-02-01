@@ -4,6 +4,8 @@
  * VoltmeterNode is the visualization of the voltmeter, used as an indicator of current in the pickup coil.
  * The origin is at the center bottom of the body.
  *
+ * This is based on VoltmeterGraphic.java in the Java version of this sim.
+ *
  * @author Chris Malley (PixelZoom, Inc.)
  */
 

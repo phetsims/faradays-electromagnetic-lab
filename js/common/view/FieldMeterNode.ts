@@ -5,6 +5,8 @@
  * It can be dragged to a specific position, and shows the field vector's magnitude, x and y components, and angle.
  * The origin is at the center of the crosshairs.
  *
+ * This is based on FieldMeterGraphic.java in the Java version of this sim.
+ *
  * @author Chris Malley (PixelZoom, Inc.)
  */
 

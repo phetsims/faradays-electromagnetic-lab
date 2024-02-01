@@ -5,7 +5,7 @@
  * When the threshold is exceeded, the needle angle changes incrementally over time.
  * This compass is used in the Electromagnet and Transformer screens.
  *
- * This was ported from an inner class of Compass.java in the Java version of this sim.
+ * This is based on an inner class of Compass.java in the Java version of this sim.
  *
  * @author Chris Malley (PixelZoom, Inc.)
  */

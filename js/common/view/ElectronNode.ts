@@ -4,6 +4,8 @@
  * ElectronNode is the visual representation of an electron in a coil. It is responsible for moving the electron,
  * and for jumping the electron between foreground and background layers of the scene graph.
  *
+ * This is based on ElectronGraphic.java in the Java version of this sim.
+ *
  * @author Chris Malley (PixelZoom, Inc.)
  */
 

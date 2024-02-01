@@ -4,6 +4,8 @@
  * EarthNode is the view of planet earth, which aligns itself the poles of a bar magnet.
  * Origin is at the center.
  *
+ * This is based on EarthGraphic.java in the Java version of this sim.
+ *
  * @author Chris Malley (PixelZoom, Inc.)
  */
 

@@ -4,6 +4,8 @@
  * Turbine is the model of a simple turbine generator, where water flow rotates a bar magnet, causing the magnetic
  * field to modulate.
  *
+ * This is based on Turbine.java in the Java version of this sim.
+ *
  * @author Chris Malley (PixelZoom, Inc.)
  */
 

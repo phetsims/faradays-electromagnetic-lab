@@ -4,6 +4,8 @@
  * DCPowerSupplyNode is the view of a DC power supply, used to power the electromagnet. It has a slider for changing
  * a battery's voltage and polarity, and displays the voltage value.
  *
+ * This is based on BatteryGraphic.java in the Java version of this sim.
+ *
  * @author Chris Malley (PixelZoom, Inc.)
  */
 

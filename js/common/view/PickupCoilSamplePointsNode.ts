@@ -5,6 +5,8 @@
  * vertical axis of the pickup coil. These are the points at which the B-field is sampled by the coil.
  * This Node can be made visible via the developer controls that are available when running with &dev query parameter.
  *
+ * This is based on PickupCoilSamplePointsGraphic.java in the Java version of this sim.
+ *
  * @author Chris Malley (PixelZoom, Inc.)
  */
 

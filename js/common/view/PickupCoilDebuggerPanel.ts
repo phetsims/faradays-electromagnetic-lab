@@ -5,6 +5,8 @@
  * be used solely for development and debugging. It is not intended to be displayed in the production version. It does
  * not support switching between gauss and tesla, alternative input, and translated strings.
  *
+ * This is based on FluxDisplayGraphic.java in the Java version of this sim.
+ *
  * @author Chris Malley (PixelZoom, Inc.)
  */
 

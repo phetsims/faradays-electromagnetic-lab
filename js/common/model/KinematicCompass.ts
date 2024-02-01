@@ -6,7 +6,7 @@
  * needle to accelerate at it starts to move, and to wobble as it comes to rest.
  * This compass is used in the Bar Magnet and Pickup Coil screens.
  *
- * This was ported from an inner class of Compass.java in the Java version of this sim.
+ * This is based on an inner class of Compass.java in the Java version of this sim.
  *
  * @author Chris Malley (PixelZoom, Inc.)
  */

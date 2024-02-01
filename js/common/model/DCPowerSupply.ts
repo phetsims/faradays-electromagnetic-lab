@@ -3,7 +3,7 @@
 /**
  * DCPowerSupply is the model for a DC power supply, used to power the electromagnet.
  *
- * This was ported from Battery.java in the Java version of this sim.
+ * This is based on Battery.java in the Java version of this sim.
  *
  * @author Chris Malley (PixelZoom, Inc.)
  */
