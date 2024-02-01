@@ -130,8 +130,12 @@ export default class PickupCoil extends FELMovable {
 
     this.magnet = magnet;
 
+    // We want some Properties to appear to be children of the coil element. We could also have done this by
+    // subclassing Coil, but having something like PickupCoilCoil seemed confusing, and unnecessary.
+    const coilTandem = options.tandem.createTandem( 'coil' );
+
     this._deltaFluxProperty = new NumberProperty( 0, {
-      tandem: options.tandem.createTandem( 'deltaFluxProperty' ),
+      tandem: coilTandem.createTandem( 'deltaFluxProperty' ),
       phetioReadOnly: true,
       phetioFeatured: true,
       phetioDocumentation: 'Relative change in flux in the coil'
@@ -139,7 +143,7 @@ export default class PickupCoil extends FELMovable {
     this.deltaFluxProperty = this._deltaFluxProperty;
 
     this._emfProperty = new NumberProperty( 0, {
-      tandem: options.tandem.createTandem( 'emfProperty' ),
+      tandem: coilTandem.createTandem( 'emfProperty' ),
       phetioReadOnly: true,
       phetioFeatured: true,
       phetioDocumentation: 'Relative EMF induced by the change in flux'
@@ -164,7 +168,7 @@ export default class PickupCoil extends FELMovable {
         return FELConstants.CURRENT_AMPLITUDE_RANGE.constrainValue( currentAmplitude );
       }, {
         isValidValue: currentAmplitude => FELConstants.CURRENT_AMPLITUDE_RANGE.contains( currentAmplitude ),
-        tandem: options.tandem.createTandem( 'currentAmplitudeProperty' ),
+        tandem: coilTandem.createTandem( 'currentAmplitudeProperty' ),
         phetioValueType: NumberIO,
         phetioFeatured: true,
         phetioDocumentation: 'For internal use only.'
@@ -177,7 +181,7 @@ export default class PickupCoil extends FELMovable {
         numberOfLoopsRange: new RangeWithValue( 1, 4, 2 ),
         wireWidth: WIRE_WIDTH,
         loopSpacing: LOOP_SPACING,
-        tandem: options.tandem.createTandem( 'coil' )
+        tandem: coilTandem
       }, options.coilOptions ) );
 
     this.lightBulb = new LightBulb( this.currentAmplitudeProperty, FELConstants.CURRENT_AMPLITUDE_RANGE,
@@ -216,7 +220,7 @@ export default class PickupCoil extends FELMovable {
 
     // Instantiate _fluxProperty last, so that it's initial value is correct for the configuration of the coil.
     this._fluxProperty = new NumberProperty( this.getFlux(), {
-      tandem: options.tandem.createTandem( 'fluxProperty' ),
+      tandem: coilTandem.createTandem( 'fluxProperty' ),
       phetioReadOnly: true,
       phetioDocumentation: 'Relative flux in the coil.'
     } );

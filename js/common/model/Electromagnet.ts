@@ -45,6 +45,10 @@ export default class Electromagnet extends CoilMagnet {
 
     const options = providedOptions;
 
+    // We want some Properties to appear to be children of the coil element. We could also have done this by
+    // subclassing Coil, but that seemed unnecessary in this case.
+    const coilTandem = options.tandem.createTandem( 'coil' );
+
     const dcPowerSupply = new DCPowerSupply( options.tandem.createTandem( 'dcPowerSupply' ) );
 
     const acPowerSupply = new ACPowerSupply( options.tandem.createTandem( 'acPowerSupply' ) );
@@ -63,7 +67,7 @@ export default class Electromagnet extends CoilMagnet {
       ( currentSource, dcCurrentAmplitude, acCurrentAmplitude ) =>
         ( currentSource === dcPowerSupply ) ? dcCurrentAmplitude : acCurrentAmplitude, {
         isValidValue: currentAmplitude => FELConstants.CURRENT_AMPLITUDE_RANGE.contains( currentAmplitude ),
-        tandem: options.tandem.createTandem( 'currentAmplitudeProperty' ),
+        tandem: coilTandem.createTandem( 'currentAmplitudeProperty' ),
         phetioValueType: NumberIO,
         phetioFeatured: true
       } );
@@ -74,7 +78,7 @@ export default class Electromagnet extends CoilMagnet {
       numberOfLoopsRange: new RangeWithValue( 1, 4, 4 ),
       wireWidth: WIRE_WIDTH,
       loopSpacing: LOOP_SPACING,
-      tandem: options.tandem.createTandem( 'coil' )
+      tandem: coilTandem
     } );
 
     // Strength of the magnet is proportional to its EMF.
