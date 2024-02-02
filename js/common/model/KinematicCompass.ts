@@ -71,7 +71,8 @@ export default class KinematicCompass extends Compass {
 
   //TODO https://github.com/phetsims/faradays-electromagnetic-lab/issues/67 Compass spins wildly near bar magnet poles.
   /**
-   * Updates the compass needle's angle.
+   * Updates the compass needle's angle, using the Verlet algorithm to simulate the kinematics of a real-world compass.
+   *
    * @param fieldVector - the magnet's B-field vector at the compass position
    * @param dt - time step, in seconds
    */
