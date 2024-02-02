@@ -1,5 +1,7 @@
 TODO https://github.com/phetsims/faradays-electromagnetic-lab/issues/71
 
+Reuse description from doc/java-version/Physics_Implementation.pdf.
+
 MathCAD data and the B-field. See BarMagnetFieldData.ts.
 
 Model algorithms ported from Java require a constant dt clock, firing at a constant framerate. 
