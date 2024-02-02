@@ -61,7 +61,6 @@ export default class Turbine extends PhetioObject {
     this.waterFaucet = new WaterFaucet( tandem.createTandem( 'waterFaucet' ) );
 
     const flowRateRange = this.waterFaucet.flowRateProperty.range;
-    const rpmRange = new Range( ( flowRateRange.min / 100 ) * MAX_RPM, ( flowRateRange.max / 100 ) * MAX_RPM );
 
     this.dragFactorProperty = new NumberProperty( 0, {
       range: new Range( 0, FELQueryParameters.turbineDragFactor ),
@@ -70,10 +69,11 @@ export default class Turbine extends PhetioObject {
       phetioDocumentation: 'Drag on the turbine caused by the pickup coil.'
     } );
 
+    const rpmRange = new Range( ( flowRateRange.min / 100 ) * MAX_RPM, ( flowRateRange.max / 100 ) * MAX_RPM );
     this.rpmProperty = new DerivedProperty( [ this.waterFaucet.flowRateProperty, this.dragFactorProperty ],
-      ( flowRate, rpmDragFactor ) => {
+      ( flowRate, dragFactor ) => {
         const rpm = ( flowRate / 100 ) * MAX_RPM;
-        return rpm - ( rpmDragFactor * rpm );
+        return rpm - ( dragFactor * rpm );
       }, {
         isValidValue: rpm => rpmRange.contains( rpm ),
         units: 'rpm',
