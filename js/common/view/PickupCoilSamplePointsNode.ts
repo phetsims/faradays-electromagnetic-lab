@@ -1,4 +1,4 @@
-// Copyright 2023, University of Colorado Boulder
+// Copyright 2023-2024, University of Colorado Boulder
 
 /**
  * PickupCoilSamplePointsNode is a debugging Node for displaying the sample points that are distributed along the
