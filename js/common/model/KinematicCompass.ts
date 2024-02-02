@@ -43,7 +43,7 @@ export default class KinematicCompass extends Compass {
     const options = optionize<KinematicCompassOptions, SelfOptions, CompassOptions>()( {
 
       // CompassOptions
-      phetioDocumentation: 'A compass that moves gradually to match the magnetic field, like a real-world compass.'
+      phetioDocumentation: 'A compass that moves gradually to match the magnetic field. It simulates the kinematics of a real-world compass.'
     }, providedOptions );
 
     super( magnet, isPlayingProperty, options );
