@@ -92,6 +92,7 @@ export default class Coil extends PhetioObject {
 
   // Radius of one loop
   public readonly loopRadiusProperty: TReadOnlyProperty<number>;
+  public readonly loopRadiusRange: Range;
 
   // Whether electrons are visible in the coil in the view
   public readonly electronsVisibleProperty: Property<boolean>;
@@ -156,6 +157,11 @@ export default class Coil extends PhetioObject {
         phetioDocumentation: hasFixedLoopArea ? 'Loop area is fixed.' : 'To change loop area, use loopAreaPercentProperty.'
       } );
 
+    this.loopRadiusRange = new Range(
+      Math.sqrt( ( this.loopAreaPercentProperty.range.min / 100 ) * this.maxLoopArea / Math.PI ),
+      Math.sqrt( ( this.loopAreaPercentProperty.range.max / 100 ) * this.maxLoopArea / Math.PI )
+    );
+
     this.loopRadiusProperty = new DerivedProperty( [ this.loopAreaProperty ],
       loopArea => Math.sqrt( loopArea / Math.PI ) );
 
@@ -197,14 +203,6 @@ export default class Coil extends PhetioObject {
     if ( this.electronsVisibleProperty ) {
       this.electronsProperty.value.forEach( electron => electron.step( dt ) );
     }
-  }
-
-  /**
-   * Gets the minimum radius of one loop of the coil.
-   */
-  public getMinLoopRadius(): number {
-    const minLoopArea = ( this.loopAreaPercentProperty.range.min / 100 ) * this.maxLoopArea;
-    return Math.sqrt( minLoopArea / Math.PI );
   }
 
   /**

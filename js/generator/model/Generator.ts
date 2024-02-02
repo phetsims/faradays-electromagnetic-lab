@@ -14,6 +14,8 @@ import Turbine from './Turbine.js';
 import PickupCoil from '../../common/model/PickupCoil.js';
 import Vector2 from '../../../../dot/js/Vector2.js';
 import { FixedNumberOfSamplePointsStrategy } from '../../common/model/PickupCoilSamplePointsStrategy.js';
+import Utils from '../../../../dot/js/Utils.js';
+import Multilink from '../../../../axon/js/Multilink.js';
 
 export default class Generator extends PhetioObject {
 
@@ -43,6 +45,19 @@ export default class Generator extends PhetioObject {
       samplePointsStrategy: new FixedNumberOfSamplePointsStrategy( 9 /* numberOfSamplePoints */ ),
       tandem: tandem.createTandem( 'pickupCoil' )
     } );
+
+    // Apply drag to the turbine based on the characteristics of the pickup coil.
+    // See https://github.com/phetsims/faradays-electromagnetic-lab/issues/11
+    const numberOfLoopsRange = this.pickupCoil.coil.numberOfLoopsProperty.range;
+    const loopRadiusRange = this.pickupCoil.coil.loopRadiusRange;
+    const dragFactorRange = this.turbine.dragFactorProperty.range;
+    Multilink.multilink( [ this.pickupCoil.coil.numberOfLoopsProperty, this.pickupCoil.coil.loopRadiusProperty ],
+      ( numberOfLoops, loopRadius ) => {
+        const area = numberOfLoops * Math.PI * loopRadius * loopRadius;
+        const minArea = numberOfLoopsRange.min * Math.PI * loopRadiusRange.min * loopRadiusRange.min;
+        const maxArea = numberOfLoopsRange.max * Math.PI * loopRadiusRange.max * loopRadiusRange.max;
+        this.turbine.dragFactorProperty.value = Utils.linear( minArea, maxArea, dragFactorRange.min, dragFactorRange.max, area );
+      } );
   }
 
   public reset(): void {

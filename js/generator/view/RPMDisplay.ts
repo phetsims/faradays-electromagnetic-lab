@@ -41,11 +41,11 @@ export default class RPMDisplay extends Node {
       fill: FELColors.rpmDisplayCenterColorProperty
     } );
 
-    const rpmValueStringProperty = new DerivedStringProperty( [ rpmProperty ], rpm => `${Utils.toFixed( rpm, 0 )}` );
+    const rpmValueStringProperty = new DerivedStringProperty( [ rpmProperty ], rpm => `${Utils.toFixed( rpm, 1 )}` );
 
     // RPM value in a larger font
     const rpmValueText = new Text( rpmValueStringProperty, {
-      font: new PhetFont( 20 ),
+      font: new PhetFont( 18 ),
       fill: FELColors.rpmDisplayTextColorProperty
     } );
 

@@ -20,6 +20,8 @@ import PhetioObject from '../../../../tandem/js/PhetioObject.js';
 import Vector2 from '../../../../dot/js/Vector2.js';
 import Tandem from '../../../../tandem/js/Tandem.js';
 import ConstantDtClock from '../../common/model/ConstantDtClock.js';
+import NumberProperty from '../../../../axon/js/NumberProperty.js';
+import FELQueryParameters from '../../common/FELQueryParameters.js';
 
 const MAX_RPM = 100;
 
@@ -33,6 +35,9 @@ export default class Turbine extends PhetioObject {
 
   // Water flowing from this faucet rotates the magnet
   public readonly waterFaucet: WaterFaucet;
+
+  // Drag on rotation caused by the pickup coil.
+  public readonly dragFactorProperty: NumberProperty;
 
   // Rotational speed of the magnet
   public readonly rpmProperty: TReadOnlyProperty<number>;
@@ -58,8 +63,18 @@ export default class Turbine extends PhetioObject {
     const flowRateRange = this.waterFaucet.flowRateProperty.range;
     const rpmRange = new Range( ( flowRateRange.min / 100 ) * MAX_RPM, ( flowRateRange.max / 100 ) * MAX_RPM );
 
-    this.rpmProperty = new DerivedProperty( [ this.waterFaucet.flowRateProperty ],
-      flowRate => ( flowRate / 100 ) * MAX_RPM, {
+    this.dragFactorProperty = new NumberProperty( 0, {
+      range: new Range( 0, FELQueryParameters.turbineDragFactor ),
+      tandem: tandem.createTandem( 'dragFactorProperty' ),
+      phetioReadOnly: true,
+      phetioDocumentation: 'Drag on the turbine caused by the pickup coil.'
+    } );
+
+    this.rpmProperty = new DerivedProperty( [ this.waterFaucet.flowRateProperty, this.dragFactorProperty ],
+      ( flowRate, rpmDragFactor ) => {
+        const rpm = ( flowRate / 100 ) * MAX_RPM;
+        return rpm - ( rpmDragFactor * rpm );
+      }, {
         isValidValue: rpm => rpmRange.contains( rpm ),
         units: 'rpm',
         tandem: tandem.createTandem( 'rpmProperty' ),
@@ -71,6 +86,7 @@ export default class Turbine extends PhetioObject {
   public reset(): void {
     this.barMagnet.reset();
     this.waterFaucet.reset();
+    // Do not reset this.dragFactorProperty
   }
 
   public step( dt: number ): void {

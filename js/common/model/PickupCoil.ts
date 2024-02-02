@@ -363,7 +363,7 @@ export default class PickupCoil extends FELMovable {
    * This fix required recalibration of all the scaling factors accessible via developer controls.
    */
   private getEffectiveLoopArea(): number {
-    const width = this.coil.getMinLoopRadius();
+    const width = this.coil.loopRadiusRange.min;
     const height = 2 * this.coil.loopRadiusProperty.value;
     return width * height;
   }
