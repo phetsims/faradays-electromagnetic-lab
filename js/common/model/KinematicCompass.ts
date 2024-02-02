@@ -33,10 +33,10 @@ type KinematicCompassOptions = SelfOptions & CompassOptions;
 export default class KinematicCompass extends Compass {
 
   // Angular velocity of the needle, the change in angle over time, in radians/s
-  private omegaProperty: Property<number>;
+  private angularVelocityProperty: Property<number>;
 
   // Angular acceleration of the needle, the change in angular velocity over time, in radians/s^2
-  private alphaProperty: Property<number>;
+  private angularAccelerationProperty: Property<number>;
 
   public constructor( magnet: Magnet, isPlayingProperty: TReadOnlyProperty<boolean>, providedOptions: KinematicCompassOptions ) {
 
@@ -48,25 +48,25 @@ export default class KinematicCompass extends Compass {
 
     super( magnet, isPlayingProperty, options );
 
-    this.omegaProperty = new NumberProperty( 0, {
+    this.angularVelocityProperty = new NumberProperty( 0, {
       units: 'radians/s',
-      tandem: options.tandem.createTandem( 'omegaProperty' ),
+      tandem: options.tandem.createTandem( 'angularVelocityProperty' ),
       phetioReadOnly: true,
-      phetioDocumentation: 'Angular velocity of the compass needle'
+      phetioDocumentation: 'Angular velocity of the compass needle, to simulate kinematics.'
     } );
 
-    this.alphaProperty = new NumberProperty( 0, {
+    this.angularAccelerationProperty = new NumberProperty( 0, {
       units: 'radians/s^2',
-      tandem: options.tandem.createTandem( 'alphaProperty' ),
+      tandem: options.tandem.createTandem( 'angularAccelerationProperty' ),
       phetioReadOnly: true,
-      phetioDocumentation: 'Angular acceleration of the compass needle'
+      phetioDocumentation: 'Angular acceleration of the compass needle, to simulate kinematics.'
     } );
   }
 
   public override reset(): void {
     super.reset();
-    this.omegaProperty.reset();
-    this.alphaProperty.reset();
+    this.angularVelocityProperty.reset();
+    this.angularAccelerationProperty.reset();
   }
 
   //TODO https://github.com/phetsims/faradays-electromagnetic-lab/issues/67 Compass spins wildly near bar magnet poles.
@@ -90,22 +90,22 @@ export default class KinematicCompass extends Compass {
       // When the difference between the field angle and the compass angle is insignificant, or the compass is inside
       // the magnet, then simply set the angle and consider the compass to be at rest.
       this._angleProperty.value = angle;
-      this.omegaProperty.value = 0;
-      this.alphaProperty.value = 0;
+      this.angularVelocityProperty.value = 0;
+      this.angularAccelerationProperty.value = 0;
     }
     else {
       // Use the Verlet algorithm to compute angle, angular velocity, and angular acceleration.
 
       // Step 1: rotation
-      const alphaTemp = ( SENSITIVITY * Math.sin( phi ) * magnitude ) - ( DAMPING * this.omegaProperty.value );
-      this._angleProperty.value = this._angleProperty.value + ( this.omegaProperty.value * dt ) + ( 0.5 * alphaTemp * dt * dt );
+      const angularAccelerationTemp = ( SENSITIVITY * Math.sin( phi ) * magnitude ) - ( DAMPING * this.angularVelocityProperty.value );
+      this._angleProperty.value = this._angleProperty.value + ( this.angularVelocityProperty.value * dt ) + ( 0.5 * angularAccelerationTemp * dt * dt );
 
       // Step 2: angular acceleration
-      const omegaTemp = this.omegaProperty.value + ( alphaTemp * dt );
-      this.alphaProperty.value = ( SENSITIVITY * Math.sin( phi ) * magnitude ) - ( DAMPING * omegaTemp );
+      const angularVelocityTemp = this.angularVelocityProperty.value + ( angularAccelerationTemp * dt );
+      this.angularAccelerationProperty.value = ( SENSITIVITY * Math.sin( phi ) * magnitude ) - ( DAMPING * angularVelocityTemp );
 
       // Step 3: angular velocity
-      this.omegaProperty.value = this.omegaProperty.value + ( 0.5 * ( this.alphaProperty.value + alphaTemp ) * dt );
+      this.angularVelocityProperty.value = this.angularVelocityProperty.value + ( 0.5 * ( this.angularAccelerationProperty.value + angularAccelerationTemp ) * dt );
     }
   }
 
@@ -115,7 +115,7 @@ export default class KinematicCompass extends Compass {
    * velocity to get it going.
    */
   public override startMovingNow(): void {
-    this.omegaProperty.value = 0.03; // adjust this value as needed for desired behavior
+    this.angularVelocityProperty.value = 0.03; // adjust this value as needed for desired behavior
   }
 }
 
