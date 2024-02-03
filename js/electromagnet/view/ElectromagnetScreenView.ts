@@ -45,7 +45,7 @@ export default class ElectromagnetScreenView extends FELScreenView {
     } );
 
     // Rendering order, from back to front
-    const rootNode = new Node( {
+    const screenViewRootNode = new Node( {
       children: [
         electromagnetNode.backgroundNode,
         this.fieldNode,
@@ -58,10 +58,10 @@ export default class ElectromagnetScreenView extends FELScreenView {
         developerAccordionBox
       ]
     } );
-    this.addChild( rootNode );
+    this.addChild( screenViewRootNode );
 
     // The order of focusable elements in the DOM
-    rootNode.pdomOrder = [
+    screenViewRootNode.pdomOrder = [
       electromagnetNode,
       this.compassNode,
       this.fieldMeterNode,

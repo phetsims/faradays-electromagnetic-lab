@@ -72,7 +72,7 @@ export default class PickupCoilScreenView extends FELScreenView {
     pickupCoilDebuggerPanel.top = this.layoutBounds.top + FELConstants.SCREEN_VIEW_Y_MARGIN;
 
     // Rendering order, from back to front
-    const rootNode = new Node( {
+    const screenViewRootNode = new Node( {
       children: [
         pickupCoilNode.backgroundNode,
         this.fieldNode,
@@ -87,10 +87,10 @@ export default class PickupCoilScreenView extends FELScreenView {
         pickupCoilDebuggerPanel
       ]
     } );
-    this.addChild( rootNode );
+    this.addChild( screenViewRootNode );
 
     // The order of focusable elements in the DOM
-    rootNode.pdomOrder = [
+    screenViewRootNode.pdomOrder = [
       barMagnetNode,
       pickupCoilNode,
       this.compassNode,

@@ -73,7 +73,7 @@ export default class TransformerScreenView extends FELScreenView {
     pickupCoilDebuggerPanel.top = this.layoutBounds.top + FELConstants.SCREEN_VIEW_Y_MARGIN;
 
     // Rendering order, from back to front
-    const rootNode = new Node( {
+    const screenViewRootNode = new Node( {
       children: [
         transformerNode.pickupCoilNode.backgroundNode,
         transformerNode.electromagnetNode.backgroundNode,
@@ -89,10 +89,10 @@ export default class TransformerScreenView extends FELScreenView {
         pickupCoilDebuggerPanel
       ]
     } );
-    this.addChild( rootNode );
+    this.addChild( screenViewRootNode );
 
     // The order of focusable elements in the DOM
-    rootNode.pdomOrder = [
+    screenViewRootNode.pdomOrder = [
       transformerNode.electromagnetNode,
       transformerNode.pickupCoilNode,
       this.compassNode,

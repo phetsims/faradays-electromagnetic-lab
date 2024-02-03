@@ -48,7 +48,7 @@ export default class GeneratorScreenView extends FELScreenView {
     pickupCoilDebuggerPanel.top = this.layoutBounds.top + FELConstants.SCREEN_VIEW_Y_MARGIN;
 
     // Rendering order, from back to front
-    const rootNode = new Node( {
+    const screenViewRootNode = new Node( {
       children: [
         generatorNode.backgroundNode,
         this.fieldNode,
@@ -62,10 +62,10 @@ export default class GeneratorScreenView extends FELScreenView {
         pickupCoilDebuggerPanel
       ]
     } );
-    this.addChild( rootNode );
+    this.addChild( screenViewRootNode );
 
     // The order of focusable elements in the DOM
-    rootNode.pdomOrder = [
+    screenViewRootNode.pdomOrder = [
       generatorNode,
       this.compassNode,
       this.fieldMeterNode,

@@ -64,7 +64,7 @@ export default class BarMagnetScreenView extends FELScreenView {
     } );
 
     // Rendering order, from back to front
-    const rootNode = new Node( {
+    const screenViewRootNode = new Node( {
       children: [
         this.fieldNode,
         this.compassNode, // behind barMagnetNode, see https://github.com/phetsims/faradays-electromagnetic-lab/issues/10#issuecomment-1911160748
@@ -76,10 +76,10 @@ export default class BarMagnetScreenView extends FELScreenView {
         developerAccordionBox
       ]
     } );
-    this.addChild( rootNode );
+    this.addChild( screenViewRootNode );
 
     // The order of focusable elements in the DOM
-    rootNode.pdomOrder = [
+    screenViewRootNode.pdomOrder = [
       barMagnetNode,
       // Exclude earthNode from alt input because barMagnetNode is draggable with the keyboard, and earthNode follows it.
       this.compassNode,
