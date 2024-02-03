@@ -72,10 +72,7 @@ export default class Turbine extends PhetioObject {
 
     const rpmRange = new Range( ( flowRateRange.min / 100 ) * MAX_RPM, ( flowRateRange.max / 100 ) * MAX_RPM );
     this.rpmProperty = new DerivedProperty( [ this.waterFaucet.flowRateProperty, this.dragFactorProperty ],
-      ( flowRate, dragFactor ) => {
-        const rpm = ( flowRate / 100 ) * MAX_RPM;
-        return rpm - ( dragFactor * rpm );
-      }, {
+      ( flowRate, dragFactor ) => ( 1 - dragFactor ) * ( flowRate / 100 ) * MAX_RPM, {
         isValidValue: rpm => rpmRange.contains( rpm ),
         units: 'rpm',
         tandem: tandem.createTandem( 'rpmProperty' ),
