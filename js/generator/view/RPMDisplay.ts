@@ -1,4 +1,4 @@
-// Copyright 2023, University of Colorado Boulder
+// Copyright 2023-2024, University of Colorado Boulder
 
 /**
  * RPMDisplay is the display of RPM (rotations per minute) that appears on the turbine generator.
