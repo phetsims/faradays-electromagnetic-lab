@@ -36,7 +36,8 @@ export default class Turbine extends PhetioObject {
   // Water flowing from this faucet rotates the magnet
   public readonly waterFaucet: WaterFaucet;
 
-  // Drag on rotation caused by the pickup coil.
+  // Drag (or "back EMF") due to the pickup coil. This was not a feature in the Java version.
+  // See https://github.com/phetsims/faradays-electromagnetic-lab/issues/11
   public readonly dragFactorProperty: NumberProperty;
 
   // Rotational speed of the magnet
