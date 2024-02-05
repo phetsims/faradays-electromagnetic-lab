@@ -82,6 +82,8 @@ export default class FELModel implements TModel {
 
   /**
    * DO NOT OVERRIDE! Subclasses should not override step, and should instead listen to this.clock.
+   * See documentation in ConstantDtClock.ts.
+   *
    * @param dt - time change, in seconds
    */
   public step( dt: number ): void {
