@@ -27,6 +27,7 @@ import Tandem from '../../../../tandem/js/Tandem.js';
 
 const NUMBER_DISPLAY_FONT = new PhetFont( 12 );
 const HORIZONTAL_TRACK_SIZE = new Dimension2( 100, 3 );
+const SLIDER_STEP = 1; // %
 
 type SelfOptions = {
   orientation: 'horizontal' | 'vertical';
@@ -47,6 +48,7 @@ export default class ACNumberControl extends NumberControl {
         tandem: Tandem.OPT_OUT
       },
       sliderOptions: {
+        constrainValue: ( value: number ) => Utils.roundToInterval( value, SLIDER_STEP ),
         orientation: ( providedOptions.orientation === 'horizontal' ) ? Orientation.HORIZONTAL : Orientation.VERTICAL,
         trackSize: ( providedOptions.orientation === 'horizontal' ) ? HORIZONTAL_TRACK_SIZE : HORIZONTAL_TRACK_SIZE.swapped()
       },

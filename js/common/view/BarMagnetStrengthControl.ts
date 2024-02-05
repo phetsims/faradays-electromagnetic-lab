@@ -19,7 +19,7 @@ import StringUtils from '../../../../phetcommon/js/util/StringUtils.js';
 import NumberProperty from '../../../../axon/js/NumberProperty.js';
 
 const valuePercentStringProperty = FaradaysElectromagneticLabStrings.pattern.valuePercentStringProperty;
-const SLIDER_STEP = 1;
+const SLIDER_STEP = 1; // %
 
 export default class BarMagnetStrengthControl extends NumberControl {
 

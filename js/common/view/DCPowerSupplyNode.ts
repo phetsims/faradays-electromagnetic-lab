@@ -30,6 +30,8 @@ import { Shape } from '../../../../kite/js/imports.js';
 import BatteryNode from './BatteryNode.js';
 import DerivedStringProperty from '../../../../axon/js/DerivedStringProperty.js';
 
+const SLIDER_STEP = 1; // V
+
 export default class DCPowerSupplyNode extends Node {
 
   public constructor( dcPowerSupply: DCPowerSupply, currentSourceProperty: TReadOnlyProperty<CurrentSource>, tandem: Tandem ) {
@@ -44,7 +46,7 @@ export default class DCPowerSupplyNode extends Node {
     bracketNode.top = batteryNode.top + 10;
 
     const voltageSlider = new HSlider( dcPowerSupply.voltageProperty, dcPowerSupply.voltageProperty.range, {
-      constrainValue: ( value: number ) => Utils.roundToInterval( value, 1 ), // 1 V steps
+      constrainValue: ( value: number ) => Utils.roundToInterval( value, SLIDER_STEP ),
       majorTickLength: 18,
       keyboardStep: 2,
       shiftKeyboardStep: 1,
