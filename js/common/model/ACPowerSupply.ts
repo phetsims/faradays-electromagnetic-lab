@@ -76,7 +76,10 @@ export default class ACPowerSupply extends CurrentSource {
 
     this.frequencyProperty = new NumberProperty( 50, {
       units: '%',
-      // range was [5,100] in Java version, see https://github.com/phetsims/faradays-electromagnetic-lab/issues/58
+
+      // Range was [5,100] in Java version, with 100% showing 20 cycles and 5% showing 1 cycle. Showing 20 cycles
+      // resulted in a very jagged-looking waveform, and was unnecessary. So we changed the range such that 100% shows
+      // 10 cycles, and 10% shows 1 cycle. See https://github.com/phetsims/faradays-electromagnetic-lab/issues/58
       range: new Range( 10, 100 ),
       tandem: tandem.createTandem( 'frequencyProperty' ),
       phetioFeatured: true
