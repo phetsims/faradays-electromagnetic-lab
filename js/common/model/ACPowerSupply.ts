@@ -23,9 +23,8 @@ const MAX_VOLTAGE = 110; // V
 const MAX_VOLTAGE_PERCENT_RANGE = new Range( 0, 100 ); // %
 const MAX_VOLTAGE_RANGE = new Range( ( MAX_VOLTAGE_PERCENT_RANGE.min / 100 ) * MAX_VOLTAGE, ( MAX_VOLTAGE_PERCENT_RANGE.max / 100 ) * MAX_VOLTAGE );
 
-// Steps to approximate one sine wave cycle.
-//TODO https://github.com/phetsims/faradays-electromagnetic-lab/issues/58 STEPS_PER_CYCLE is poorly named.
-const STEPS_PER_CYCLE = 10;
+// Change in angle per step when frequency is 100%
+const MAX_DELTA_ANGLE = 2 * Math.PI / 10;
 
 export default class ACPowerSupply extends CurrentSource {
 
@@ -124,7 +123,7 @@ export default class ACPowerSupply extends CurrentSource {
       this.voltageProperty.value = 0;
     }
     else {
-      const deltaAngle = ( 2 * Math.PI * this.frequencyProperty.value / 100 ) / STEPS_PER_CYCLE;
+      const deltaAngle = ( this.frequencyProperty.value / 100 ) * MAX_DELTA_ANGLE;
       const previousAngle = this.angleProperty.value;
 
       // Compute the next angle.
