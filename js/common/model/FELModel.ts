@@ -81,7 +81,7 @@ export default class FELModel implements TModel {
   }
 
   /**
-   * DO NOT OVERRIDE! Subclasses should not override step, and should instead listen to clock.
+   * DO NOT OVERRIDE! Subclasses should not override step, and should instead listen to this.clock.
    * @param dt - time change, in seconds
    */
   public step( dt: number ): void {
