@@ -18,6 +18,7 @@ import DerivedProperty from '../../../../axon/js/DerivedProperty.js';
 import NumberIO from '../../../../tandem/js/types/NumberIO.js';
 import TReadOnlyProperty from '../../../../axon/js/TReadOnlyProperty.js';
 import ConstantDtClock from './ConstantDtClock.js';
+import Multilink from '../../../../axon/js/Multilink.js';
 
 const MAX_VOLTAGE = 110; // V
 const MAX_VOLTAGE_PERCENT_RANGE = new Range( 0, 100 ); // %
@@ -28,6 +29,9 @@ const MAX_DELTA_ANGLE = 2 * Math.PI / 10;
 
 export default class ACPowerSupply extends CurrentSource {
 
+  // Number of cycles to display. This was 20 in the Java version, but looked very jagged. We decreased to smooth it out.
+  public static readonly MAX_CYCLES = 10;
+
   // How high the voltage can go.
   public readonly maxVoltagePercentProperty: NumberProperty;
   public readonly maxVoltageProperty: TReadOnlyProperty<number>;
@@ -35,12 +39,12 @@ export default class ACPowerSupply extends CurrentSource {
   // How fast the voltage will vary.
   public readonly frequencyProperty: NumberProperty;
 
-  // The current angle of the sine wave that describes the AC (in radians)
-  private readonly angleProperty: NumberProperty;
+  // Number of cycles to display, [1,MAX_CYCLES].
+  public readonly numberOfCyclesProperty: TReadOnlyProperty<number>;
 
-  // The change in angle that occurred the last time stepInTime was called (in radians)
-  public readonly stepAngleProperty: TReadOnlyProperty<number>;
-  private readonly _stepAngleProperty: NumberProperty;
+  // The current angle on the cycles of sine waves that are displayed.
+  public readonly angleProperty: TReadOnlyProperty<number>;
+  private readonly _angleProperty: NumberProperty;
 
   public constructor( tandem: Tandem ) {
 
@@ -83,62 +87,43 @@ export default class ACPowerSupply extends CurrentSource {
       phetioDocumentation: 'Relative frequency of the change in voltage over time.'
     } );
 
-    this.angleProperty = new NumberProperty( 0, {
-      range: new Range( 0, 2 * Math.PI ),
+    this.numberOfCyclesProperty = new DerivedProperty( [ this.frequencyProperty ],
+      frequency => ACPowerSupply.MAX_CYCLES * frequency / 100, {
+        isValidValue: value => value >= 1 && value <= ACPowerSupply.MAX_CYCLES
+      } );
+
+    this._angleProperty = new NumberProperty( 0, {
+      range: new Range( 0, 2 * Math.PI * ACPowerSupply.MAX_CYCLES ),
       units: 'radians',
       tandem: tandem.createTandem( 'angleProperty' ),
       phetioReadOnly: true,
       phetioDocumentation: 'For internal use only.',
       phetioHighFrequency: true
     } );
+    this.angleProperty = this._angleProperty;
 
-    // Reset angle when frequency is changed.
-    this.frequencyProperty.link( () => {
-      this.angleProperty.value = 0;
+    Multilink.multilink( [ this.maxVoltagePercentProperty, this.numberOfCyclesProperty ], () => {
+      this._angleProperty.reset();
     } );
-
-    this._stepAngleProperty = new NumberProperty( 0, {
-      units: 'radians',
-      tandem: tandem.createTandem( 'stepAngleProperty' ),
-      phetioReadOnly: true,
-      phetioDocumentation: 'For internal use only.'
-    } );
-    this.stepAngleProperty = this._stepAngleProperty;
   }
 
   public override reset(): void {
     super.reset();
     this.maxVoltagePercentProperty.reset();
     this.frequencyProperty.reset();
-    this.angleProperty.reset();
-    this._stepAngleProperty.reset();
+    this._angleProperty.reset();
   }
 
   /**
-   * Varies the amplitude over time. Guaranteed to hit all peaks and zero crossings.
+   * Varies the voltage over time.
    */
   public step( dt: number ): void {
     assert && assert( dt === ConstantDtClock.CONSTANT_DT, `invalid dt=${dt}, see ConstantStepEmitter` );
 
-    if ( this.maxVoltageProperty.value === 0 ) {
-      this.voltageProperty.value = 0;
-    }
-    else {
-      const deltaAngle = dt * ( this.frequencyProperty.value / 100 ) * MAX_DELTA_ANGLE;
-      const previousAngle = this.angleProperty.value;
-
-      // Compute the next angle.
-      const nextAngle = previousAngle + deltaAngle;
-
-      // The change in angle on this tick of the simulation clock.
-      this._stepAngleProperty.value = nextAngle - previousAngle;
-
-      // Limit the angle to 360 degrees.
-      this.angleProperty.value = nextAngle % ( 2 * Math.PI );
-
-      // Calculate and set the voltage.
-      this.voltageProperty.value = this.maxVoltageProperty.value * Math.sin( this.angleProperty.value );
-    }
+    const deltaAngle = dt * ( this.frequencyProperty.value / 100 ) * MAX_DELTA_ANGLE;
+    const maxAngle = 2 * Math.PI * Math.ceil( this.numberOfCyclesProperty.value );
+    this._angleProperty.value = ( this._angleProperty.value + deltaAngle ) % maxAngle;
+    this.voltageProperty.value = this.maxVoltageProperty.value * Math.sin( this._angleProperty.value );
   }
 }
 

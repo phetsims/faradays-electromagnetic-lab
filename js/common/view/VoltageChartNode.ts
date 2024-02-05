@@ -14,7 +14,6 @@ import Range from '../../../../dot/js/Range.js';
 import ChartRectangle from '../../../../bamboo/js/ChartRectangle.js';
 import ChartTransform from '../../../../bamboo/js/ChartTransform.js';
 import faradaysElectromagneticLab from '../../faradaysElectromagneticLab.js';
-import NumberProperty from '../../../../axon/js/NumberProperty.js';
 import Orientation from '../../../../phet-core/js/Orientation.js';
 import AxisLine, { AxisLineOptions } from '../../../../bamboo/js/AxisLine.js';
 import TickMarkSet, { TickMarkSetOptions } from '../../../../bamboo/js/TickMarkSet.js';
@@ -26,7 +25,6 @@ import LinePlot from '../../../../bamboo/js/LinePlot.js';
 import Dimension2 from '../../../../dot/js/Dimension2.js';
 import FELColors from '../FELColors.js';
 import ACPowerSupply from '../model/ACPowerSupply.js';
-import Utils from '../../../../dot/js/Utils.js';
 
 const AXIS_LINE_OPTIONS: AxisLineOptions = {
   stroke: FELColors.acPowerSupplyAxesColorProperty,
@@ -37,12 +35,7 @@ const TICK_MARK_SET_OPTIONS: TickMarkSetOptions = {
   lineWidth: 0.5,
   extent: 10
 };
-const X_AXIS_TICK_SPACING = 10;
-const Y_AXIS_TICK_SPACING = 10;
-const MAX_CYCLES = 10; // This was 20 in the Java version, but looked very jagged. We decreased to smooth it out.
-const NUMBER_OF_POINTS = 1000; // The larger MAX_CYCLES is, the larger NUMBER_OF_POINTS must be to draw smooth sines.
-const PHASE_ANGLE = Math.PI; // 180-degree phase angle at (0,0).
-const CURSOR_WRAP_AROUND_TOLERANCE = Utils.toRadians( 5 );
+const NUMBER_OF_POINTS = 1000; // The larger ACPowerSupply.MAX_CYCLES is, the larger NUMBER_OF_POINTS must be to draw smooth sines.
 
 type SelfOptions = {
   viewSize: Dimension2;
@@ -64,11 +57,6 @@ export default class VoltageChartNode extends Node {
   private readonly cursorPlot: LinePlot;
   private readonly cursorDataSet: Vector2[];
 
-  //TODO https://github.com/phetsims/faradays-electromagnetic-lab/issues/59 Document these Properties.
-  private readonly cursorAngleProperty: NumberProperty;
-  private readonly startAngleProperty: NumberProperty;
-  private readonly endAngleProperty: NumberProperty;
-
   public constructor( acPowerSupply: ACPowerSupply, providedOptions: VoltageChartNodeOptions ) {
 
     const options = optionize<VoltageChartNodeOptions, SelfOptions, NodeOptions>()( {
@@ -78,16 +66,18 @@ export default class VoltageChartNode extends Node {
       phetioVisiblePropertyInstrumented: false
     }, providedOptions );
 
-    const voltageRange = acPowerSupply.voltageProperty.range;
+    // x-axis range
+    const angleRange = new Range( 0, 2 * Math.PI * ACPowerSupply.MAX_CYCLES );
 
-    // Vertical space above and below the largest waveform
-    const yMargin = 0.05 * voltageRange.getLength();
+    // y-axis range, with a margin above and below the largest waveform
+    const yMargin = 0.05 * acPowerSupply.voltageProperty.range.getLength();
+    const voltageRange = new Range( acPowerSupply.voltageProperty.range.min - yMargin, acPowerSupply.voltageProperty.range.max + yMargin );
 
     const chartTransform = new ChartTransform( {
       viewWidth: options.viewSize.width,
       viewHeight: options.viewSize.height,
-      modelXRange: new Range( -options.viewSize.width / 2, options.viewSize.width / 2 ),
-      modelYRange: new Range( voltageRange.min - yMargin, voltageRange.max + yMargin )
+      modelXRange: angleRange,
+      modelYRange: voltageRange
     } );
 
     const chartRectangle = new ChartRectangle( chartTransform, {
@@ -97,17 +87,11 @@ export default class VoltageChartNode extends Node {
       cornerYRadius: 6
     } );
 
-    // Create a dataSet with a fixed number of points and fixed x values, with x=0 at the center point.
-    // We'll recompute the y values and call wavePlot.update.
+    // Create a dataSet with a fixed number of points and fixed x values. We'll recompute the y values and call wavePlot.update.
     const waveDataSet: Vector2[] = [];
-    //TODO https://github.com/phetsims/faradays-electromagnetic-lab/issues/59 dx was 1 in the Java version, and in view coordinates, so might be the problem with updateCursor.
-    const dx = chartTransform.modelXRange.getLength() / NUMBER_OF_POINTS;
-    const maxX = chartTransform.modelXRange.max + dx; // Go one point beyond modelXRange. Plot will be clipped to the chart.
-    for ( let x = 0; x <= maxX; x += dx ) {
-      waveDataSet.push( new Vector2( x, 0 ) );
-      if ( x !== 0 ) {
-        waveDataSet.unshift( new Vector2( -x, 0 ) );
-      }
+    const deltaAngle = angleRange.max / NUMBER_OF_POINTS;
+    for ( let angle = 0; angle <= angleRange.max; angle += deltaAngle ) {
+      waveDataSet.push( new Vector2( angle, 0 ) );
     }
 
     const wavePlot = new LinePlot( chartTransform, waveDataSet, {
@@ -126,19 +110,26 @@ export default class VoltageChartNode extends Node {
       lineWidth: 1
     } );
 
+    //TODO https://github.com/phetsims/faradays-electromagnetic-lab/issues/59 This is a hacky to make the y-axis stay centered.
+    //TODO https://github.com/phetsims/faradays-electromagnetic-lab/issues/59 Zero-crossing is not at the y-axis, and waveform is not symmetric about y-axis.
+    const axisTransform = new ChartTransform( {
+      viewWidth: options.viewSize.width,
+      viewHeight: options.viewSize.height,
+      modelXRange: new Range( -10, 10 ),
+      modelYRange: chartTransform.modelYRange
+    } );
+
     const decorationsNode = new Node( {
       clipArea: chartRectangle.getShape(),
       children: [
 
         // x & y tick marks
-        new TickMarkSet( chartTransform, Orientation.HORIZONTAL,
-          chartTransform.modelXRange.getLength() / X_AXIS_TICK_SPACING, TICK_MARK_SET_OPTIONS ),
-        new TickMarkSet( chartTransform, Orientation.VERTICAL,
-          chartTransform.modelYRange.getLength() / Y_AXIS_TICK_SPACING, TICK_MARK_SET_OPTIONS ),
+        new TickMarkSet( axisTransform, Orientation.HORIZONTAL, 2, TICK_MARK_SET_OPTIONS ),
+        new TickMarkSet( axisTransform, Orientation.VERTICAL, 20, TICK_MARK_SET_OPTIONS ),
 
         // x & y axes
-        new AxisLine( chartTransform, Orientation.HORIZONTAL, AXIS_LINE_OPTIONS ),
-        new AxisLine( chartTransform, Orientation.VERTICAL, AXIS_LINE_OPTIONS ),
+        new AxisLine( axisTransform, Orientation.HORIZONTAL, AXIS_LINE_OPTIONS ),
+        new AxisLine( axisTransform, Orientation.VERTICAL, AXIS_LINE_OPTIONS ),
 
         // plots
         wavePlot,
@@ -158,90 +149,36 @@ export default class VoltageChartNode extends Node {
     this.cursorPlot = cursorPlot;
     this.cursorDataSet = cursorDataSet;
 
-    this.startAngleProperty = new NumberProperty( 0, {
-      tandem: options.tandem.createTandem( 'startAngleProperty' ),
-      phetioReadOnly: true,
-      phetioDocumentation: 'For internal use only.'
-    } );
+    Multilink.multilink( [ acPowerSupply.frequencyProperty, acPowerSupply.maxVoltageProperty ],
+      () => this.updateWave() );
 
-    this.endAngleProperty = new NumberProperty( 0, {
-      tandem: options.tandem.createTandem( 'endAngleProperty' ),
-      phetioReadOnly: true,
-      phetioDocumentation: 'For internal use only.'
-    } );
+    acPowerSupply.numberOfCyclesProperty.link( numberOfCycles => this.updateModelXRange( numberOfCycles ) );
 
-    this.cursorAngleProperty = new NumberProperty( 0, {
-      tandem: options.tandem.createTandem( 'cursorAngleProperty' ),
-      phetioReadOnly: true,
-      phetioDocumentation: 'For internal use only.'
-    } );
-
-    Multilink.multilink( [ acPowerSupply.frequencyProperty, acPowerSupply.maxVoltageProperty ], () => this.updateWave() );
-
-    Multilink.multilink( [ this.startAngleProperty, this.endAngleProperty ],
-      () => {
-        this.cursorAngleProperty.reset();
-        this.updateCursor();
-      } );
-
-    acPowerSupply.stepAngleProperty.link( () => this.updateCursor() );
+    acPowerSupply.angleProperty.link( angle => this.updateCursor( angle ) );
   }
 
   /**
    * Updates the wave shown on the chart.
    */
   private updateWave(): void {
-
-    // Number of wave cycles to plot.
-    const numberOfCycles = ( this.acPowerSupply.frequencyProperty.value / 100 ) * MAX_CYCLES;
-
-    // Change in angle per change in x.
-    const deltaAngle = ( 2 * Math.PI * numberOfCycles ) / this.chartTransform.modelXRange.getLength();
-
-    // Mutate waveDataSet
-    //TODO https://github.com/phetsims/faradays-electromagnetic-lab/issues/59 Start in middle and work out to do half as many computations.
-    let angle = 0;
-    this.waveDataSet.forEach( point => {
-      angle = PHASE_ANGLE + ( point.x * deltaAngle );
-      const y = ( this.acPowerSupply.maxVoltageProperty.value ) * Math.sin( angle );
-      point.setY( y );
-    } );
-
-    // Since we mutated waveDataSet, calling update is our responsibility.
-    this.wavePlot.update();
-
-    // Make the start & end angles positive values, maintaining phase.
-    this.startAngleProperty.value = ( ( 2 * Math.PI ) - ( angle % ( 2 * Math.PI ) ) ) % ( 2 * Math.PI );
-    this.endAngleProperty.value = this.startAngleProperty.value + ( 2 * ( angle - PHASE_ANGLE ) );
+    this.waveDataSet.forEach( point => point.setY( this.acPowerSupply.maxVoltageProperty.value * Math.sin( point.x ) ) );
+    this.wavePlot.update(); // Since we mutated waveDataSet, calling update is our responsibility.
   }
 
-  //TODO https://github.com/phetsims/faradays-electromagnetic-lab/issues/59 This is not behaving as expected.
   /**
-   * Updates the cursor to indicate where time === now.
+   * Updates the chart transform's range for the x-axis.
    */
-  private updateCursor(): void {
+  private updateModelXRange( numberOfCycles: number ): void {
+    this.chartTransform.setModelXRange( new Range( 0, Math.ceil( 2 * Math.PI * numberOfCycles ) ) );
+  }
 
-    let cursorAngle = this.cursorAngleProperty.value + this.acPowerSupply.stepAngleProperty.value;
-
-    const startAngle = this.startAngleProperty.value;
-    const endAngle = this.endAngleProperty.value;
-
-    // Wrap around.
-    if ( cursorAngle >= endAngle ) {
-      cursorAngle = cursorAngle % ( 2 * Math.PI );
-      if ( cursorAngle > startAngle + CURSOR_WRAP_AROUND_TOLERANCE ) {
-        cursorAngle -= ( 2 * Math.PI );
-      }
-    }
-
-    // Update the dataSet used to draw the cursor.
-    const percent = ( cursorAngle - startAngle ) / ( endAngle - startAngle );
-    const x = this.chartTransform.modelXRange.min + ( percent * this.chartTransform.modelXRange.getLength() );
-    this.cursorDataSet[ 0 ].setX( x );
-    this.cursorDataSet[ 1 ].setX( x );
-    this.cursorPlot.update();
-
-    this.cursorAngleProperty.value = cursorAngle;
+  /**
+   * Moves the cursor.
+   */
+  private updateCursor( angle: number ): void {
+    this.cursorDataSet[ 0 ].setX( angle );
+    this.cursorDataSet[ 1 ].setX( angle );
+    this.cursorPlot.update(); // Since we mutated cursorDataSet, calling update is our responsibility.
   }
 }
 

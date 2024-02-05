@@ -258,7 +258,7 @@ const FELColors = {
   } ),
 
   acPowerSupplyAxesColorProperty: new ProfileColorProperty( faradaysElectromagneticLab, 'acPowerSupplyAxesColor', {
-    default: 'white'
+    default: 'rgba( 255, 255, 255, 0.7 )'
   } ),
 
   acPowerSupplyCursorColorProperty: new ProfileColorProperty( faradaysElectromagneticLab, 'acPowerSupplyCursorColor', {
