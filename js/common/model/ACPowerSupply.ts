@@ -124,7 +124,7 @@ export default class ACPowerSupply extends CurrentSource {
       this.voltageProperty.value = 0;
     }
     else {
-      const deltaAngle = ( this.frequencyProperty.value / 100 ) * MAX_DELTA_ANGLE;
+      const deltaAngle = dt * ( this.frequencyProperty.value / 100 ) * MAX_DELTA_ANGLE;
       const previousAngle = this.angleProperty.value;
 
       // Compute the next angle.
