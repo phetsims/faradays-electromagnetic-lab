@@ -19,7 +19,6 @@ import AxisLine, { AxisLineOptions } from '../../../../bamboo/js/AxisLine.js';
 import TickMarkSet, { TickMarkSetOptions } from '../../../../bamboo/js/TickMarkSet.js';
 import optionize from '../../../../phet-core/js/optionize.js';
 import PickRequired from '../../../../phet-core/js/types/PickRequired.js';
-import Multilink from '../../../../axon/js/Multilink.js';
 import Vector2 from '../../../../dot/js/Vector2.js';
 import LinePlot from '../../../../bamboo/js/LinePlot.js';
 import Dimension2 from '../../../../dot/js/Dimension2.js';
@@ -152,8 +151,7 @@ export default class VoltageChartNode extends Node {
     this.cursorPlot = cursorPlot;
     this.cursorDataSet = cursorDataSet;
 
-    Multilink.multilink( [ acPowerSupply.frequencyProperty, acPowerSupply.maxVoltageProperty ],
-      () => this.updateWave() );
+    acPowerSupply.maxVoltageProperty.link( maxVoltage => this.updateWave( maxVoltage ) );
 
     acPowerSupply.numberOfCyclesProperty.link( numberOfCycles => this.updateModelXRange( numberOfCycles ) );
 
@@ -163,8 +161,8 @@ export default class VoltageChartNode extends Node {
   /**
    * Updates the wave shown on the chart.
    */
-  private updateWave(): void {
-    this.waveDataSet.forEach( point => point.setY( this.acPowerSupply.maxVoltageProperty.value * Math.sin( point.x ) ) );
+  private updateWave( maxVoltage: number ): void {
+    this.waveDataSet.forEach( point => point.setY( maxVoltage * Math.sin( point.x ) ) );
     this.wavePlot.update(); // Since we mutated waveDataSet, calling update is our responsibility.
   }
 
