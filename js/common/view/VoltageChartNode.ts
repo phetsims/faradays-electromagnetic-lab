@@ -170,7 +170,7 @@ export default class VoltageChartNode extends Node {
    * Updates the chart transform's range for the x-axis.
    */
   private updateModelXRange( numberOfCycles: number ): void {
-    this.chartTransform.setModelXRange( new Range( 0, Math.ceil( 2 * Math.PI * numberOfCycles ) ) );
+    this.chartTransform.setModelXRange( new Range( 0, 2 * Math.PI * numberOfCycles ) );
   }
 
   /**
