@@ -49,7 +49,7 @@ export default abstract class Compass extends FieldMeasurementTool {
       tandem: options.tandem.createTandem( 'angleProperty' ),
       phetioReadOnly: true,
       phetioFeatured: true,
-      phetioDocumentation: 'Angle of the compass needle'
+      phetioDocumentation: 'Angle of the compass needle.'
     } );
     this.angleProperty = this._angleProperty;
 

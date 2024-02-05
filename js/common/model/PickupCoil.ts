@@ -140,7 +140,7 @@ export default class PickupCoil extends FELMovable {
       tandem: coilTandem.createTandem( 'deltaFluxProperty' ),
       phetioReadOnly: true,
       phetioFeatured: true,
-      phetioDocumentation: 'Relative change in flux in the coil'
+      phetioDocumentation: 'Relative change in flux in the coil.'
     } );
     this.deltaFluxProperty = this._deltaFluxProperty;
 
@@ -148,7 +148,7 @@ export default class PickupCoil extends FELMovable {
       tandem: coilTandem.createTandem( 'emfProperty' ),
       phetioReadOnly: true,
       phetioFeatured: true,
-      phetioDocumentation: 'Relative EMF induced by the change in flux'
+      phetioDocumentation: 'Relative EMF induced by the change in flux.'
     } );
     this.emfProperty = this._emfProperty;
 
