@@ -20,6 +20,7 @@ import NumberIO from '../../../../tandem/js/types/NumberIO.js';
 export default class ConstantDtClock extends Emitter<[ number ]> {
 
   // Constant dt (per frame) that the step method was designed to support in the Java version.
+  // CHANGE THIS VALUE AT YOUR PERIL!
   public static readonly CONSTANT_DT = 1;
 
   // Frame rate that the step method was designed to support in the Java version.
