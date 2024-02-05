@@ -110,8 +110,11 @@ export default class VoltageChartNode extends Node {
       lineWidth: 1
     } );
 
-    //TODO https://github.com/phetsims/faradays-electromagnetic-lab/issues/59 This is a hacky to make the y-axis stay centered.
-    //TODO https://github.com/phetsims/faradays-electromagnetic-lab/issues/59 Zero-crossing is not at the y-axis, and waveform is not symmetric about y-axis.
+    //TODO https://github.com/phetsims/faradays-electromagnetic-lab/issues/59
+    // Zero-crossing is not at the y-axis, and waveform is not symmetric about y-axis.
+
+    //TODO https://github.com/phetsims/faradays-electromagnetic-lab/issues/59
+    // This is a hack to make the x-axis tick marks remain static, and the y-axis remain centered.
     const axisTransform = new ChartTransform( {
       viewWidth: options.viewSize.width,
       viewHeight: options.viewSize.height,
