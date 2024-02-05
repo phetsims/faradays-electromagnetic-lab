@@ -68,7 +68,7 @@ export default class ACPowerSupply extends CurrentSource {
         tandem: tandem.createTandem( 'maxVoltageProperty' ),
         phetioFeatured: true,
         phetioValueType: NumberIO,
-        phetioDocumentation: 'To change maximum voltage, use maxVoltagePercentProperty'
+        phetioDocumentation: 'To change maximum voltage, use maxVoltagePercentProperty.'
       } );
 
     this.frequencyProperty = new NumberProperty( 50, {
@@ -79,7 +79,8 @@ export default class ACPowerSupply extends CurrentSource {
       // 10 cycles, and 10% shows 1 cycle. See https://github.com/phetsims/faradays-electromagnetic-lab/issues/58
       range: new Range( 10, 100 ),
       tandem: tandem.createTandem( 'frequencyProperty' ),
-      phetioFeatured: true
+      phetioFeatured: true,
+      phetioDocumentation: 'Relative frequency of the change in voltage over time.'
     } );
 
     this.angleProperty = new NumberProperty( 0, {
