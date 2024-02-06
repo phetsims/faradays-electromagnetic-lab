@@ -58,6 +58,7 @@ export default class IncrementalCompass extends Compass {
       deltaAngle = deltaAngle % ( 2 * Math.PI );
 
       // If |deltaAngle| is > 180 degrees, rotate the shorter equivalent angle in the opposite direction.
+      // For example, if deltaAngle is 270 degrees, the shorter rotation is 90 degrees.
       if ( deltaAngle > Math.PI ) {
         deltaAngle = deltaAngle - ( 2 * Math.PI );
       }
