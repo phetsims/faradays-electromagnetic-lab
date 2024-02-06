@@ -17,6 +17,7 @@ import Vector2 from '../../../../dot/js/Vector2.js';
 import Utils from '../../../../dot/js/Utils.js';
 import optionize, { EmptySelfOptions } from '../../../../phet-core/js/optionize.js';
 import TReadOnlyProperty from '../../../../axon/js/TReadOnlyProperty.js';
+import ConstantDtClock from './ConstantDtClock.js';
 
 const MAX_DELTA_ANGLE = Utils.toRadians( 45 );
 
@@ -44,6 +45,7 @@ export default class IncrementalCompass extends Compass {
    * @param dt - time step, in seconds
    */
   protected override updateAngle( fieldVector: Vector2, dt: number ): void {
+    assert && assert( dt === ConstantDtClock.CONSTANT_DT, `invalid dt=${dt}, see ConstantStepEmitter` );
 
     // Calculate the delta angle
     const fieldAngle = fieldVector.angle;
