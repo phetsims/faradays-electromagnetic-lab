@@ -47,20 +47,16 @@ export default class IncrementalCompass extends Compass {
   protected override updateAngle( fieldVector: Vector2, dt: number ): void {
     assert && assert( dt === ConstantDtClock.CONSTANT_DT, `invalid dt=${dt}, see ConstantDtClock` );
 
-    // Calculate the delta angle
+    // Calculate the change in angle needed to align the compass needle with the magnetic field.
     const fieldAngle = fieldVector.angle;
     const needleAngle = this._angleProperty.value;
     let deltaAngle = fieldAngle - needleAngle;
 
     if ( deltaAngle !== 0 ) {
 
-      // Normalize the angle to the range [-359,+359] degrees
-      if ( Math.abs( deltaAngle ) >= ( 2 * Math.PI ) ) {
-        const sign = ( deltaAngle < 0 ) ? -1 : +1;
-        deltaAngle = sign * ( deltaAngle % ( 2 * Math.PI ) );
-      }
+      deltaAngle = deltaAngle % ( 2 * Math.PI );
 
-      // Convert to an equivalent angle in the range [-180,+180] degrees.
+      // If |deltaAngle| is > 180 degrees, rotate the shorter equivalent angle in the opposite direction.
       if ( deltaAngle > Math.PI ) {
         deltaAngle = deltaAngle - ( 2 * Math.PI );
       }
@@ -76,9 +72,7 @@ export default class IncrementalCompass extends Compass {
       else {
 
         // If the delta is large, rotate incrementally.
-        const sign = ( deltaAngle < 0 ) ? -1 : 1;
-        deltaAngle = sign * MAX_DELTA_ANGLE;
-        this._angleProperty.value = needleAngle + deltaAngle;
+        this._angleProperty.value += Math.sign( deltaAngle ) * MAX_DELTA_ANGLE;
       }
     }
   }
