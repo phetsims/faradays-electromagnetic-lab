@@ -22,9 +22,9 @@ import optionize, { EmptySelfOptions } from '../../../../phet-core/js/optionize.
 import TReadOnlyProperty from '../../../../axon/js/TReadOnlyProperty.js';
 import ConstantDtClock from './ConstantDtClock.js';
 
-const SENSITIVITY = 0.01; // increase this to make the compass more sensitive to smaller fields
-const DAMPING = 0.08; // increase this to make the needle wobble less
-const THRESHOLD = Utils.toRadians( 0.2 ); // angle at which the needle stops wobbling and snaps to the actual field orientation
+const SENSITIVITY = 0.01; // Increase this to make the compass more sensitive to smaller fields.
+const DAMPING = 0.08; // Increase this to make the needle wobble less.
+const THRESHOLD = Utils.toRadians( 0.2 ); // Angle at which the needle stops wobbling and snaps to the actual field orientation.
 
 type SelfOptions = EmptySelfOptions;
 
