@@ -87,7 +87,6 @@ export default class ACPowerSupply extends CurrentSource {
       phetioDocumentation: 'Relative frequency of the change in voltage over time.'
     } );
 
-    //TODO https://github.com/phetsims/faradays-electromagnetic-lab/issues/59 Should numberOfCyclesProperty be an integer?
     this.numberOfCyclesProperty = new DerivedProperty( [ this.frequencyProperty ],
       frequency => ACPowerSupply.MAX_CYCLES * frequency / 100, {
         isValidValue: value => value >= 1 && value <= ACPowerSupply.MAX_CYCLES
