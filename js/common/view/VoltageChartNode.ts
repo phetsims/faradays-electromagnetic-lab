@@ -44,8 +44,6 @@ type VoltageChartNodeOptions = SelfOptions & NodeTranslationOptions & PickRequir
 
 export default class VoltageChartNode extends Node {
 
-  private readonly acPowerSupply: ACPowerSupply;
-
   private readonly chartTransform: ChartTransform;
 
   // Plot and dataSet for the wave
@@ -138,8 +136,6 @@ export default class VoltageChartNode extends Node {
     options.children = [ chartRectangle, decorationsNode ];
 
     super( options );
-
-    this.acPowerSupply = acPowerSupply;
 
     this.chartTransform = chartTransform;
     this.wavePlot = wavePlot;
