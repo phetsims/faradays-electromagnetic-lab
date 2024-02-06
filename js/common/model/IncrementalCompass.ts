@@ -45,7 +45,7 @@ export default class IncrementalCompass extends Compass {
    * @param dt - time step, in seconds
    */
   protected override updateAngle( fieldVector: Vector2, dt: number ): void {
-    assert && assert( dt === ConstantDtClock.CONSTANT_DT, `invalid dt=${dt}, see ConstantStepEmitter` );
+    assert && assert( dt === ConstantDtClock.CONSTANT_DT, `invalid dt=${dt}, see ConstantDtClock` );
 
     // Calculate the delta angle
     const fieldAngle = fieldVector.angle;

@@ -88,7 +88,7 @@ export default class Turbine extends PhetioObject {
   }
 
   public step( dt: number ): void {
-    assert && assert( dt === ConstantDtClock.CONSTANT_DT, `invalid dt=${dt}, see ConstantStepEmitter` );
+    assert && assert( dt === ConstantDtClock.CONSTANT_DT, `invalid dt=${dt}, see ConstantDtClock` );
     const flowRate = this.waterFaucet.flowRateProperty.value;
     if ( flowRate !== 0 ) {
 

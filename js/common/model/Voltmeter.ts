@@ -74,7 +74,7 @@ export default class Voltmeter extends CurrentIndicator {
   }
 
   public step( dt: number ): void {
-    assert && assert( dt === ConstantDtClock.CONSTANT_DT, `invalid dt=${dt}, see ConstantStepEmitter` );
+    assert && assert( dt === ConstantDtClock.CONSTANT_DT, `invalid dt=${dt}, see ConstantDtClock` );
 
     // Determine the desired needle deflection angle.
     const needleAngle = this.getDesiredNeedleAngle();

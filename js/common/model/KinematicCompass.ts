@@ -77,7 +77,7 @@ export default class KinematicCompass extends Compass {
    * @param dt - time step, in seconds
    */
   protected override updateAngle( fieldVector: Vector2, dt: number ): void {
-    assert && assert( dt === ConstantDtClock.CONSTANT_DT, `invalid dt=${dt}, see ConstantStepEmitter` );
+    assert && assert( dt === ConstantDtClock.CONSTANT_DT, `invalid dt=${dt}, see ConstantDtClock` );
 
     const magnitude = fieldVector.magnitude;
     const angle = fieldVector.angle;
