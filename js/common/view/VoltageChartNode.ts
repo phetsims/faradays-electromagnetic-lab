@@ -34,7 +34,9 @@ const TICK_MARK_SET_OPTIONS: TickMarkSetOptions = {
   lineWidth: 0.5,
   extent: 10
 };
-const NUMBER_OF_POINTS = 1000; // The larger ACPowerSupply.MAX_CYCLES is, the larger NUMBER_OF_POINTS must be to draw smooth sines.
+
+// The larger ACPowerSupply.MAX_CYCLES is, the larger NUMBER_OF_POINTS must be to draw a smooth waveform.
+const NUMBER_OF_POINTS = 1000;
 
 type SelfOptions = {
   viewSize: Dimension2;
@@ -43,16 +45,6 @@ type SelfOptions = {
 type VoltageChartNodeOptions = SelfOptions & NodeTranslationOptions & PickRequired<NodeOptions, 'tandem'>;
 
 export default class VoltageChartNode extends Node {
-
-  private readonly chartTransform: ChartTransform;
-
-  // Plot and dataSet for the wave
-  private readonly wavePlot: LinePlot;
-  private readonly waveDataSet: Vector2[];
-
-  // Plot and dataSet for the cursor
-  private readonly cursorPlot: LinePlot;
-  private readonly cursorDataSet: Vector2[];
 
   public constructor( acPowerSupply: ACPowerSupply, providedOptions: VoltageChartNodeOptions ) {
 
@@ -63,9 +55,6 @@ export default class VoltageChartNode extends Node {
       phetioVisiblePropertyInstrumented: false
     }, providedOptions );
 
-    // x-axis range
-    const angleRange = new Range( 0, 2 * Math.PI * ACPowerSupply.MAX_CYCLES );
-
     // y-axis range, with a margin above and below the largest waveform
     const yMargin = 0.05 * acPowerSupply.voltageProperty.range.getLength();
     const voltageRange = new Range( acPowerSupply.voltageProperty.range.min - yMargin, acPowerSupply.voltageProperty.range.max + yMargin );
@@ -73,7 +62,7 @@ export default class VoltageChartNode extends Node {
     const chartTransform = new ChartTransform( {
       viewWidth: options.viewSize.width,
       viewHeight: options.viewSize.height,
-      modelXRange: angleRange,
+      modelXRange: acPowerSupply.maxAngleRange,
       modelYRange: voltageRange
     } );
 
@@ -84,10 +73,12 @@ export default class VoltageChartNode extends Node {
       cornerYRadius: 6
     } );
 
-    // Create a dataSet with a fixed number of points and fixed x values. We'll recompute the y values and call wavePlot.update.
+    // Create a dataSet with a fixed number of points and fixed x values. We'll recompute the y values to match
+    // acPowerSupply.maxVoltageProperty, and change chartTransform.modelXRange to display the relevant portion of
+    // the dataSet.
     const waveDataSet: Vector2[] = [];
-    const deltaAngle = angleRange.max / NUMBER_OF_POINTS;
-    for ( let angle = 0; angle <= angleRange.max; angle += deltaAngle ) {
+    const deltaAngle = acPowerSupply.maxAngleRange.max / NUMBER_OF_POINTS;
+    for ( let angle = 0; angle <= acPowerSupply.maxAngleRange.max; angle += deltaAngle ) {
       waveDataSet.push( new Vector2( angle, 0 ) );
     }
 
@@ -96,7 +87,8 @@ export default class VoltageChartNode extends Node {
       lineWidth: 1.5
     } );
 
-    // Create a dataSet with 2 points that describe the vertical cursor line.
+    // Create a dataSet with 2 points that describe the cursor (vertical line) that traces the voltage over time.
+    // We'll change the x values to match acPowerSupply.angleProperty.
     const cursorDataSet = [
       new Vector2( 0, chartTransform.modelYRange.min ),
       new Vector2( 0, chartTransform.modelYRange.max )
@@ -107,25 +99,28 @@ export default class VoltageChartNode extends Node {
       lineWidth: 1
     } );
 
-    // This is a hack to make the x-axis tick marks remain static, with x=0 at the center.
-    const axisTransform = new ChartTransform( {
+    // This is a bit of a hack to make the x-axis appear to be something that it is not.
+    // In the model, the x-axis is actually the angle of the waveform, and its range varies based on frequency.
+    // For the chart, we want the x-axis to appear to be time, with a fixed range, and origin at the center.
+    const axesTransform = new ChartTransform( {
       viewWidth: options.viewSize.width,
       viewHeight: options.viewSize.height,
-      modelXRange: new Range( -10, 10 ), // unitless, arbitrary
+      modelXRange: new Range( -10, 10 ), // unitless, arbitrary range
       modelYRange: chartTransform.modelYRange // Volts
     } );
 
-    const decorationsNode = new Node( {
+    // Parent for all chart elements that should be clipped to chartRectangle.
+    const clippedNode = new Node( {
       clipArea: chartRectangle.getShape(),
       children: [
 
         // x & y tick marks
-        new TickMarkSet( axisTransform, Orientation.HORIZONTAL, 2, TICK_MARK_SET_OPTIONS ), // unitless
-        new TickMarkSet( axisTransform, Orientation.VERTICAL, 20, TICK_MARK_SET_OPTIONS ), // Volts
+        new TickMarkSet( axesTransform, Orientation.HORIZONTAL, 2, TICK_MARK_SET_OPTIONS ), // unitless
+        new TickMarkSet( axesTransform, Orientation.VERTICAL, 20, TICK_MARK_SET_OPTIONS ), // Volts
 
         // x & y axes
-        new AxisLine( axisTransform, Orientation.HORIZONTAL, AXIS_LINE_OPTIONS ),
-        new AxisLine( axisTransform, Orientation.VERTICAL, AXIS_LINE_OPTIONS ),
+        new AxisLine( axesTransform, Orientation.HORIZONTAL, AXIS_LINE_OPTIONS ),
+        new AxisLine( axesTransform, Orientation.VERTICAL, AXIS_LINE_OPTIONS ),
 
         // plots
         wavePlot,
@@ -133,47 +128,22 @@ export default class VoltageChartNode extends Node {
       ]
     } );
 
-    options.children = [ chartRectangle, decorationsNode ];
+    options.children = [ chartRectangle, clippedNode ];
 
     super( options );
 
-    this.chartTransform = chartTransform;
-    this.wavePlot = wavePlot;
-    this.waveDataSet = waveDataSet;
-    this.cursorPlot = cursorPlot;
-    this.cursorDataSet = cursorDataSet;
+    acPowerSupply.maxVoltageProperty.link( maxVoltage => {
+      waveDataSet.forEach( point => point.setY( maxVoltage * Math.sin( point.x ) ) );
+      wavePlot.update(); // Since we mutated waveDataSet, calling update is our responsibility.
+    } );
 
-    acPowerSupply.maxVoltageProperty.link( maxVoltage => this.updateWave( maxVoltage ) );
+    acPowerSupply.angleProperty.link( angle => {
+      cursorDataSet[ 0 ].setX( angle );
+      cursorDataSet[ 1 ].setX( angle );
+      cursorPlot.update(); // Since we mutated cursorDataSet, calling update is our responsibility.
+    } );
 
-    acPowerSupply.numberOfCyclesProperty.link( numberOfCycles => this.updateModelXRange( numberOfCycles ) );
-
-    acPowerSupply.angleProperty.link( angle => this.updateCursor( angle ) );
-  }
-
-  /**
-   * Updates the wave shown on the chart.
-   */
-  private updateWave( maxVoltage: number ): void {
-    this.waveDataSet.forEach( point => point.setY( maxVoltage * Math.sin( point.x ) ) );
-    this.wavePlot.update(); // Since we mutated waveDataSet, calling update is our responsibility.
-  }
-
-  //TODO https://github.com/phetsims/faradays-electromagnetic-lab/issues/59
-  // Zero-crossing is not at the y-axis, and waveform is not symmetric about y-axis.
-  /**
-   * Updates the chart transform's range for the x-axis.
-   */
-  private updateModelXRange( numberOfCycles: number ): void {
-    this.chartTransform.setModelXRange( new Range( 0, 2 * Math.PI * numberOfCycles ) );
-  }
-
-  /**
-   * Moves the cursor.
-   */
-  private updateCursor( angle: number ): void {
-    this.cursorDataSet[ 0 ].setX( angle );
-    this.cursorDataSet[ 1 ].setX( angle );
-    this.cursorPlot.update(); // Since we mutated cursorDataSet, calling update is our responsibility.
+    acPowerSupply.visibleAngleRangeProperty.link( range => chartTransform.setModelXRange( range ) );
   }
 }
 

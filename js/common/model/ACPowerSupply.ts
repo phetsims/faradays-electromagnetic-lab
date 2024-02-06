@@ -30,7 +30,7 @@ const MAX_DELTA_ANGLE = 2 * Math.PI / 20;
 export default class ACPowerSupply extends CurrentSource {
 
   // Number of cycles to display. This was 20 in the Java version, but looked very jagged. We decreased to smooth it out.
-  public static readonly MAX_CYCLES = 10;
+  private static readonly MAX_CYCLES = 10;
 
   // How high the voltage can go.
   public readonly maxVoltagePercentProperty: NumberProperty;
@@ -45,6 +45,16 @@ export default class ACPowerSupply extends CurrentSource {
   // The current angle on the cycles of sine waves that are displayed.
   public readonly angleProperty: TReadOnlyProperty<number>;
   private readonly _angleProperty: NumberProperty;
+  public readonly maxAngleRange: Range;
+
+  // Angle range computing voltage. This is based on an integer number of cycles. It's centered on the max range,
+  // so that there is a zero crossing at the center of the range, and increasing the frequency makes the waveform
+  // appear to grow out from the center.  This is also the angle that voltmeter's cursor follows.
+  public readonly angleRangeProperty: TReadOnlyProperty<Range>;
+
+  // Angle range for the portion of the waveform that is visible on the AC Power supply's display.
+  // Like angleRangeProperty, but derived from the actual number of cycles (non-integer), which may include a partial cycle.
+  public readonly visibleAngleRangeProperty: TReadOnlyProperty<Range>;
 
   public constructor( tandem: Tandem ) {
 
@@ -92,8 +102,22 @@ export default class ACPowerSupply extends CurrentSource {
         isValidValue: value => value >= 1 && value <= ACPowerSupply.MAX_CYCLES
       } );
 
-    this._angleProperty = new NumberProperty( 0, {
-      range: new Range( 0, 2 * Math.PI * ACPowerSupply.MAX_CYCLES ),
+    this.maxAngleRange = new Range( 0, 2 * Math.PI * ACPowerSupply.MAX_CYCLES );
+
+    this.angleRangeProperty = new DerivedProperty( [ this.numberOfCyclesProperty ], numberOfCycles => {
+      const middle = this.maxAngleRange.getCenter();
+      const offset = Math.PI * Math.ceil( numberOfCycles ); // complete cycles, hence Math.ceil
+      return new Range( middle - offset, middle + offset );
+    } );
+
+    this.visibleAngleRangeProperty = new DerivedProperty( [ this.numberOfCyclesProperty ], numberOfCycles => {
+      const middle = this.maxAngleRange.getCenter();
+      const offset = Math.PI * numberOfCycles;
+      return new Range( middle - offset, middle + offset );
+    } );
+
+    this._angleProperty = new NumberProperty( this.angleRangeProperty.value.min, {
+      range: this.maxAngleRange,
       units: 'radians',
       tandem: tandem.createTandem( 'angleProperty' ),
       phetioReadOnly: true,
@@ -102,9 +126,10 @@ export default class ACPowerSupply extends CurrentSource {
     } );
     this.angleProperty = this._angleProperty;
 
-    Multilink.multilink( [ this.maxVoltagePercentProperty, this.numberOfCyclesProperty ], () => {
-      this._angleProperty.reset();
-    } );
+    Multilink.multilink( [ this.maxVoltagePercentProperty, this.angleRangeProperty ],
+      ( maxVoltagePercent, angleRange ) => {
+        this._angleProperty.value = angleRange.min;
+      } );
   }
 
   public override reset(): void {
@@ -123,9 +148,13 @@ export default class ACPowerSupply extends CurrentSource {
     // Change in angle is a function of relative frequency.
     const deltaAngle = dt * ( this.frequencyProperty.value / 100 ) * MAX_DELTA_ANGLE;
 
-    // The angle must range over complete cycles, hence Math.ceil.
-    const maxAngle = 2 * Math.PI * Math.ceil( this.numberOfCyclesProperty.value );
-    this._angleProperty.value = ( this._angleProperty.value + deltaAngle ) % maxAngle;
+    // New angle, with wrap around.
+    const angleRange = this.angleRangeProperty.value;
+    let newAngle = ( this._angleProperty.value + deltaAngle );
+    if ( newAngle > angleRange.max ) {
+      newAngle = angleRange.min + ( newAngle - angleRange.max );
+    }
+    this._angleProperty.value = newAngle;
 
     // Voltage varies with the sine of the angle.
     this.voltageProperty.value = this.maxVoltageProperty.value * Math.sin( this._angleProperty.value );
