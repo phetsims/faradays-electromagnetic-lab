@@ -109,16 +109,12 @@ export default class VoltageChartNode extends Node {
       lineWidth: 1
     } );
 
-    //TODO https://github.com/phetsims/faradays-electromagnetic-lab/issues/59
-    // Zero-crossing is not at the y-axis, and waveform is not symmetric about y-axis.
-
-    //TODO https://github.com/phetsims/faradays-electromagnetic-lab/issues/59
-    // This is a hack to make the x-axis tick marks remain static, and the y-axis remain centered.
+    // This is a hack to make the x-axis tick marks remain static, with x=0 at the center.
     const axisTransform = new ChartTransform( {
       viewWidth: options.viewSize.width,
       viewHeight: options.viewSize.height,
-      modelXRange: new Range( -10, 10 ),
-      modelYRange: chartTransform.modelYRange
+      modelXRange: new Range( -10, 10 ), // unitless, arbitrary
+      modelYRange: chartTransform.modelYRange // Volts
     } );
 
     const decorationsNode = new Node( {
@@ -126,8 +122,8 @@ export default class VoltageChartNode extends Node {
       children: [
 
         // x & y tick marks
-        new TickMarkSet( axisTransform, Orientation.HORIZONTAL, 2, TICK_MARK_SET_OPTIONS ),
-        new TickMarkSet( axisTransform, Orientation.VERTICAL, 20, TICK_MARK_SET_OPTIONS ),
+        new TickMarkSet( axisTransform, Orientation.HORIZONTAL, 2, TICK_MARK_SET_OPTIONS ), // unitless
+        new TickMarkSet( axisTransform, Orientation.VERTICAL, 20, TICK_MARK_SET_OPTIONS ), // Volts
 
         // x & y axes
         new AxisLine( axisTransform, Orientation.HORIZONTAL, AXIS_LINE_OPTIONS ),
@@ -166,6 +162,8 @@ export default class VoltageChartNode extends Node {
     this.wavePlot.update(); // Since we mutated waveDataSet, calling update is our responsibility.
   }
 
+  //TODO https://github.com/phetsims/faradays-electromagnetic-lab/issues/59
+  // Zero-crossing is not at the y-axis, and waveform is not symmetric about y-axis.
   /**
    * Updates the chart transform's range for the x-axis.
    */
