@@ -54,6 +54,7 @@ export default class IncrementalCompass extends Compass {
 
     if ( deltaAngle !== 0 ) {
 
+      // Constrain the delta to [-359,+359] degrees.
       deltaAngle = deltaAngle % ( 2 * Math.PI );
 
       // If |deltaAngle| is > 180 degrees, rotate the shorter equivalent angle in the opposite direction.
