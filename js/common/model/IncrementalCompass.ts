@@ -54,6 +54,20 @@ export default class IncrementalCompass extends Compass {
 
     if ( deltaAngle !== 0 ) {
 
+      // Normalize the angle to the range -355...+355 degrees
+      if ( Math.abs( deltaAngle ) >= ( 2 * Math.PI ) ) {
+        const sign = ( deltaAngle < 0 ) ? -1 : +1;
+        deltaAngle = sign * ( deltaAngle % ( 2 * Math.PI ) );
+      }
+
+      // Convert to an equivalent angle in the range -180...+180 degrees.
+      if ( deltaAngle > Math.PI ) {
+        deltaAngle = deltaAngle - ( 2 * Math.PI );
+      }
+      else if ( deltaAngle < -Math.PI ) {
+        deltaAngle = deltaAngle + ( 2 * Math.PI );
+      }
+
       if ( Math.abs( deltaAngle ) < MAX_DELTA_ANGLE ) {
 
         // If the delta is small, rotate immediately to the field angle.
