@@ -11,7 +11,7 @@ import TwoColumnKeyboardHelpContent from '../../../../scenery-phet/js/keyboard/h
 import faradaysElectromagneticLab from '../../faradaysElectromagneticLab.js';
 import MoveDraggableItemsKeyboardHelpSection from '../../../../scenery-phet/js/keyboard/help/MoveDraggableItemsKeyboardHelpSection.js';
 import SliderControlsKeyboardHelpSection from '../../../../scenery-phet/js/keyboard/help/SliderControlsKeyboardHelpSection.js';
-import FaucetControlsKeyboardHelpContent from '../../../../scenery-phet/js/keyboard/help/FaucetControlsKeyboardHelpContent.js';
+import FaucetControlsKeyboardHelpSection from '../../../../scenery-phet/js/keyboard/help/FaucetControlsKeyboardHelpSection.js';
 
 export default class GeneratorKeyboardHelpContent extends TwoColumnKeyboardHelpContent {
 
@@ -21,7 +21,7 @@ export default class GeneratorKeyboardHelpContent extends TwoColumnKeyboardHelpC
     const leftSections = [
 
       // FaucetControls
-      new FaucetControlsKeyboardHelpContent(),
+      new FaucetControlsKeyboardHelpSection(),
 
       // Move Draggable Items
       new MoveDraggableItemsKeyboardHelpSection()
