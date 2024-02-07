@@ -21,9 +21,7 @@ export default class GeneratorKeyboardHelpContent extends TwoColumnKeyboardHelpC
     const leftSections = [
 
       // FaucetControls
-      new FaucetControlsKeyboardHelpContent( {
-        tapToDispenseEnabled: true
-      } ),
+      new FaucetControlsKeyboardHelpContent(),
 
       // Move Draggable Items
       new MoveDraggableItemsKeyboardHelpSection()
