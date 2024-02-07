@@ -62,8 +62,8 @@ export default class IncrementalCompass extends Compass {
       if ( Math.abs( Math.abs( deltaAngle ) - Math.PI ) < 1e-6 ) {
 
         // This first case addresses https://github.com/phetsims/faradays-electromagnetic-lab/issues/76.
-        // When deltaAngle is very close to Math.PI, floating-point error may cause the compass need to rotate
-        // clockwise on one cycle, counterclockwise on the next. This workaround gives us consistent rotation
+        // When deltaAngle is very close to Math.PI, floating-point error may cause the compass needle to rotate
+        // clockwise on one cycle, counterclockwise on the next cycle. This workaround gives us consistent rotation
         // direction on every cycle. This is obvious with the electromagnet and AC power supply, where the magnetic
         // field polarity is constantly flipping, and a stationary compass will repeatedly rotate Math.PI.
         deltaAngle = Math.PI;
