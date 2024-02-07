@@ -8,19 +8,17 @@
  */
 
 import faradaysElectromagneticLab from '../../faradaysElectromagneticLab.js';
-import { DragListener, InteractiveHighlighting, InteractiveHighlightingOptions, KeyboardDragListener, KeyboardDragListenerOptions, Node, NodeOptions } from '../../../../scenery/js/imports.js';
+import { InteractiveHighlighting, InteractiveHighlightingOptions, KeyboardDragListenerOptions, Node, NodeOptions } from '../../../../scenery/js/imports.js';
 import optionize, { combineOptions } from '../../../../phet-core/js/optionize.js';
 import FELConstants from '../FELConstants.js';
 import FELMovable from '../model/FELMovable.js';
 import PickOptional from '../../../../phet-core/js/types/PickOptional.js';
-import SoundClip from '../../../../tambo/js/sound-generators/SoundClip.js';
-import grab_mp3 from '../../../../tambo/sounds/grab_mp3.js';
-import release_mp3 from '../../../../tambo/sounds/release_mp3.js';
-import soundManager from '../../../../tambo/js/soundManager.js';
 import PickRequired from '../../../../phet-core/js/types/PickRequired.js';
 import TReadOnlyProperty from '../../../../axon/js/TReadOnlyProperty.js';
 import Bounds2 from '../../../../dot/js/Bounds2.js';
 import StrictOmit from '../../../../phet-core/js/types/StrictOmit.js';
+import RichDragListener from '../../../../sun/js/RichDragListener.js';
+import RichKeyboardDragListener, { RichKeyboardDragListenerOptions } from '../../../../sun/js/RichKeyboardDragListener.js';
 
 type SelfOptions = {
 
@@ -85,31 +83,22 @@ export default class FELMovableNode extends InteractiveHighlighting( Node ) {
     } );
 
     if ( options.isMovable ) {
-
-      // Sounds clips associated with dragging
-      const grabClip = new SoundClip( grab_mp3, FELConstants.GRAB_RELEASE_SOUND_CLIP_OPTIONS );
-      const releaseClip = new SoundClip( release_mp3, FELConstants.GRAB_RELEASE_SOUND_CLIP_OPTIONS );
-      soundManager.addSoundGenerator( grabClip );
-      soundManager.addSoundGenerator( releaseClip );
-
-      const dragListener = new DragListener( {
+      const dragListener = new RichDragListener( {
         positionProperty: movable.positionProperty,
         dragBoundsProperty: options.dragBoundsProperty,
         useParentOffset: true,
-        start: () => grabClip.play(),
-        end: () => releaseClip.play(),
-        tandem: options.tandem.createTandem( 'dragListener' )
+        tandem: options.tandem.createTandem( 'dragListener' ),
+        dragClipOptions: FELConstants.GRAB_RELEASE_SOUND_CLIP_OPTIONS
       } );
       this.addInputListener( dragListener );
 
       if ( options.hasKeyboardDragListener ) {
-        const keyboardDragListener = new KeyboardDragListener(
-          combineOptions<KeyboardDragListenerOptions>( {}, FELConstants.KEYBOARD_DRAG_LISTENER_OPTIONS, {
+        const keyboardDragListener = new RichKeyboardDragListener(
+          combineOptions<RichKeyboardDragListenerOptions>( {}, FELConstants.KEYBOARD_DRAG_LISTENER_OPTIONS, {
             positionProperty: movable.positionProperty,
             dragBoundsProperty: options.dragBoundsProperty,
-            start: () => grabClip.play(),
-            end: () => releaseClip.play(),
-            tandem: options.tandem.createTandem( 'keyboardDragListener' )
+            tandem: options.tandem.createTandem( 'keyboardDragListener' ),
+            dragClipOptions: FELConstants.GRAB_RELEASE_SOUND_CLIP_OPTIONS
           }, options.keyboardDragListenerOptions ) );
         this.addInputListener( keyboardDragListener );
       }
