@@ -59,7 +59,16 @@ export default class IncrementalCompass extends Compass {
 
       // If |deltaAngle| is > 180 degrees, rotate the shorter equivalent angle in the opposite direction.
       // For example, if deltaAngle is +270 degrees, the shorter equivalent is -90 degrees.
-      if ( deltaAngle > Math.PI ) {
+      if ( Math.abs( Math.abs( deltaAngle ) - Math.PI ) < 1e-6 ) {
+
+        // This first case addresses https://github.com/phetsims/faradays-electromagnetic-lab/issues/76.
+        // When deltaAngle is very close to Math.PI, floating-point error may cause the compass need to rotate
+        // clockwise on one cycle, counterclockwise on the next. This workaround gives us consistent rotation
+        // direction on every cycle. This is obvious with the electromagnet and AC power supply, where the magnetic
+        // field polarity is constantly flipping, and a stationary compass will repeatedly rotate Math.PI.
+        deltaAngle = Math.PI;
+      }
+      else if ( deltaAngle > Math.PI ) {
         deltaAngle = deltaAngle - ( 2 * Math.PI );
       }
       else if ( deltaAngle < -Math.PI ) {
@@ -69,7 +78,7 @@ export default class IncrementalCompass extends Compass {
       if ( Math.abs( deltaAngle ) < MAX_DELTA_ANGLE ) {
 
         // If the delta is small, rotate immediately to the field angle.
-        this._angleProperty.value = fieldAngle;
+        this._angleProperty.value = fieldAngle % ( 2 * Math.PI );
       }
       else {
 
