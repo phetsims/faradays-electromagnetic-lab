@@ -1,7 +1,7 @@
-// Copyright 2023, University of Colorado Boulder
+// Copyright 2024, University of Colorado Boulder
 
 /**
- * FELKeyboardHelpContent is the keyboard help for all screens.
+ * GeneratorKeyboardHelpContent is the keyboard help for the 'Generator' screen.
  *
  * @author Chris Malley (PixelZoom, Inc.)
  */
@@ -11,23 +11,29 @@ import TwoColumnKeyboardHelpContent from '../../../../scenery-phet/js/keyboard/h
 import faradaysElectromagneticLab from '../../faradaysElectromagneticLab.js';
 import MoveDraggableItemsKeyboardHelpSection from '../../../../scenery-phet/js/keyboard/help/MoveDraggableItemsKeyboardHelpSection.js';
 import SliderControlsKeyboardHelpSection from '../../../../scenery-phet/js/keyboard/help/SliderControlsKeyboardHelpSection.js';
+import FaucetControlsKeyboardHelpContent from '../../../../scenery-phet/js/keyboard/help/FaucetControlsKeyboardHelpContent.js';
 
-export default class FELKeyboardHelpContent extends TwoColumnKeyboardHelpContent {
+export default class GeneratorKeyboardHelpContent extends TwoColumnKeyboardHelpContent {
 
   public constructor() {
 
     // Sections in the left column.
     const leftSections = [
 
-      // Move Draggable Items
-      new MoveDraggableItemsKeyboardHelpSection(),
+      // FaucetControls
+      new FaucetControlsKeyboardHelpContent( {
+        tapToDispenseEnabled: true
+      } ),
 
-      // Slider Controls
-      new SliderControlsKeyboardHelpSection()
+      // Move Draggable Items
+      new MoveDraggableItemsKeyboardHelpSection()
     ];
 
     // Sections in the right column.
     const rightSections = [
+
+      // Slider Controls
+      new SliderControlsKeyboardHelpSection(),
 
       // Basic Actions
       new BasicActionsKeyboardHelpSection( {
@@ -41,4 +47,4 @@ export default class FELKeyboardHelpContent extends TwoColumnKeyboardHelpContent
   }
 }
 
-faradaysElectromagneticLab.register( 'FELKeyboardHelpContent', FELKeyboardHelpContent );
+faradaysElectromagneticLab.register( 'GeneratorKeyboardHelpContent', GeneratorKeyboardHelpContent );

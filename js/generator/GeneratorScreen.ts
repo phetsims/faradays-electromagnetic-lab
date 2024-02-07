@@ -17,9 +17,9 @@ import Tandem from '../../../tandem/js/Tandem.js';
 import { Image, Node } from '../../../scenery/js/imports.js';
 import { combineOptions } from '../../../phet-core/js/optionize.js';
 import FELConstants from '../common/FELConstants.js';
-import FELKeyboardHelpContent from '../common/view/FELKeyboardHelpContent.js';
 import waterWheel_png from '../../images/waterWheel_png.js';
 import BarMagnetNode from '../common/view/BarMagnetNode.js';
+import GeneratorKeyboardHelpContent from './view/GeneratorKeyboardHelpContent.js';
 
 export default class GeneratorScreen extends Screen<GeneratorModel, GeneratorScreenView> {
 
@@ -30,7 +30,7 @@ export default class GeneratorScreen extends Screen<GeneratorModel, GeneratorScr
       combineOptions<ScreenOptions>( {}, FELConstants.SCREEN_OPTIONS, {
           name: FaradaysElectromagneticLabStrings.screen.generatorStringProperty,
           homeScreenIcon: createScreenIcon(),
-          createKeyboardHelpNode: () => new FELKeyboardHelpContent(),
+          createKeyboardHelpNode: () => new GeneratorKeyboardHelpContent(),
           tandem: tandem
         }
       ) );
