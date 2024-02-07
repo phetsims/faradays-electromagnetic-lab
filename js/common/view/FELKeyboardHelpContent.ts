@@ -11,6 +11,7 @@ import TwoColumnKeyboardHelpContent from '../../../../scenery-phet/js/keyboard/h
 import faradaysElectromagneticLab from '../../faradaysElectromagneticLab.js';
 import MoveDraggableItemsKeyboardHelpSection from '../../../../scenery-phet/js/keyboard/help/MoveDraggableItemsKeyboardHelpSection.js';
 import SliderControlsKeyboardHelpSection from '../../../../scenery-phet/js/keyboard/help/SliderControlsKeyboardHelpSection.js';
+import FaucetControlsKeyboardHelpContent from '../../../../scenery-phet/js/keyboard/help/FaucetControlsKeyboardHelpContent.js';
 
 export default class FELKeyboardHelpContent extends TwoColumnKeyboardHelpContent {
 
@@ -32,6 +33,11 @@ export default class FELKeyboardHelpContent extends TwoColumnKeyboardHelpContent
       // Basic Actions
       new BasicActionsKeyboardHelpSection( {
         withCheckboxContent: true
+      } ),
+
+      // FaucetControls
+      new FaucetControlsKeyboardHelpContent( {
+        tapToDispenseEnabled: true
       } )
     ];
 
