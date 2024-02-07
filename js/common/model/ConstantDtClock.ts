@@ -58,9 +58,15 @@ export default class ConstantDtClock extends Emitter<[ number ]> {
    */
   public accumulateTime( dt: number ): void {
     this.accumulatedTimeProperty.value += dt;
-    if ( this.accumulatedTimeProperty.value > ConstantDtClock.SECONDS_PER_FRAME ) {
-      this.accumulatedTimeProperty.value -= ConstantDtClock.SECONDS_PER_FRAME;
+
+    // When we've accumulated enough time to step ...
+    if ( this.accumulatedTimeProperty.value >= ConstantDtClock.SECONDS_PER_FRAME ) {
+
+      // Advance one step.
       this.stepOnce();
+
+      // Keep the remainder, in case we've accumulated more than one step.
+      this.accumulatedTimeProperty.value %= ConstantDtClock.SECONDS_PER_FRAME;
     }
   }
 
