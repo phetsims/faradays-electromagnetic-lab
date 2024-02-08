@@ -1,4 +1,4 @@
-// Copyright 2024, University of Colorado Boulder
+// Copyright 2023-2024, University of Colorado Boulder
 
 /**
  * GeneratorKeyboardHelpContent is the keyboard help for the 'Generator' screen.
