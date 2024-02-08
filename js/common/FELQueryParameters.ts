@@ -55,7 +55,7 @@ const SCHEMA_MAP = {
   },
 
   // KeyboardDragListenerOptions.dragSpeed for all draggable objects
-  //TODO https://github.com/phetsims/faradays-electromagnetic-lab/issues/54
+  //TODO https://github.com/phetsims/faradays-electromagnetic-lab/issues/79
   dragSpeed: {
     type: 'number',
     defaultValue: 500,
@@ -63,7 +63,7 @@ const SCHEMA_MAP = {
   },
 
   // KeyboardDragListenerOptions.shiftDragSpeed for all draggable objects
-  //TODO https://github.com/phetsims/faradays-electromagnetic-lab/issues/54
+  //TODO https://github.com/phetsims/faradays-electromagnetic-lab/issues/79
   shiftDragSpeed: {
     type: 'number',
     defaultValue: 250,
