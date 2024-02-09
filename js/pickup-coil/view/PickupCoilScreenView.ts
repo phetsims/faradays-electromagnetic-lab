@@ -89,7 +89,7 @@ export default class PickupCoilScreenView extends FELScreenView {
     } );
     this.addChild( screenViewRootNode );
 
-    // The order of focusable elements in the DOM
+    // Focus order
     screenViewRootNode.pdomOrder = [
       barMagnetNode,
       pickupCoilNode,

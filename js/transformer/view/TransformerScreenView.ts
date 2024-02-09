@@ -91,7 +91,7 @@ export default class TransformerScreenView extends FELScreenView {
     } );
     this.addChild( screenViewRootNode );
 
-    // The order of focusable elements in the DOM
+    // Focus order
     screenViewRootNode.pdomOrder = [
       transformerNode.electromagnetNode,
       transformerNode.pickupCoilNode,
