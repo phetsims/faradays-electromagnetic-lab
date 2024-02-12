@@ -51,12 +51,14 @@ export default class Generator extends PhetioObject {
     const numberOfLoopsRange = this.pickupCoil.coil.numberOfLoopsProperty.range;
     const loopRadiusRange = this.pickupCoil.coil.loopRadiusRange;
     const dragFactorRange = this.turbine.dragFactorProperty.range;
-    Multilink.multilink( [ this.pickupCoil.coil.numberOfLoopsProperty, this.pickupCoil.coil.loopRadiusProperty ],
-      ( numberOfLoops, loopRadius ) => {
+    Multilink.multilink(
+      [ this.pickupCoil.coil.numberOfLoopsProperty, this.pickupCoil.coil.loopRadiusProperty, this.turbine.barMagnet.strengthPercentProperty ],
+      ( numberOfLoops, loopRadius, magnetStrengthPercent ) => {
         const area = numberOfLoops * Math.PI * loopRadius * loopRadius;
         const minArea = numberOfLoopsRange.min * Math.PI * loopRadiusRange.min * loopRadiusRange.min;
         const maxArea = numberOfLoopsRange.max * Math.PI * loopRadiusRange.max * loopRadiusRange.max;
-        this.turbine.dragFactorProperty.value = Utils.linear( minArea, maxArea, dragFactorRange.min, dragFactorRange.max, area );
+        this.turbine.dragFactorProperty.value =
+          ( magnetStrengthPercent / 100 ) * Utils.linear( minArea, maxArea, dragFactorRange.min, dragFactorRange.max, area );
       } );
   }
 
