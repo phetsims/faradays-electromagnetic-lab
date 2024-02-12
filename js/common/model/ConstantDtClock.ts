@@ -65,7 +65,7 @@ export default class ConstantDtClock extends Emitter<[ number ]> {
       // Advance one step.
       this.stepOnce();
 
-      // Keep the remainder, in case we've accumulated more than one step.
+      // Apply the remainder to the next step.
       this.accumulatedTimeProperty.value %= ConstantDtClock.SECONDS_PER_FRAME;
     }
   }
