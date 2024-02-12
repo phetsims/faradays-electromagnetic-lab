@@ -4,6 +4,10 @@
  * KinematicCompass rotates the compass needle using the Verlet algorithm to mimic rotational kinematics of a real
  * compass. The needle must overcome inertia, and it has angular velocity and angular acceleration. This causes the
  * needle to accelerate at it starts to move, and to wobble as it comes to rest.
+ *
+ * When the magnetic field strength exceeds MAX_FIELD_MAGNITUDE, the kinematics are totally dampened, and the needle
+ * immediately aligns with the field. See documentation for MAX_FIELD_MAGNITUDE.
+ *
  * This compass is used in the Bar Magnet and Pickup Coil screens.
  *
  * This is based on inner class KinematicBehavior of Compass.java in the Java version of this sim.
@@ -22,9 +26,21 @@ import optionize, { EmptySelfOptions } from '../../../../phet-core/js/optionize.
 import TReadOnlyProperty from '../../../../axon/js/TReadOnlyProperty.js';
 import ConstantDtClock from './ConstantDtClock.js';
 
-const SENSITIVITY = 0.01; // Increase this to make the compass more sensitive to smaller fields.
-const DAMPING = 0.08; // Increase this to make the needle wobble less.
-const THRESHOLD = Utils.toRadians( 0.2 ); // Angle at which the needle stops wobbling and snaps to the actual field orientation.
+// The maximum field magnitude, in G, for which the compass will exhibit kinematic behavior.
+// Field magnitudes greater than this value cause the compass need to immediately align with the field. This is a
+// workaround to prevent the compass from spinning wildly for large magnitudes, which occur near the bar magnet poles.
+// And in reality, a compass would align more quickly with a stronger magnet, with less wobble.
+// See https://github.com/phetsims/faradays-electromagnetic-lab/issues/67
+const MAX_FIELD_MAGNITUDE = 10;
+
+// Increase this to make the compass more sensitive to smaller fields.
+const SENSITIVITY = 0.01;
+
+// Increase this to make the needle wobble less.
+const DAMPING = 0.08;
+
+// Angle at which the needle stops wobbling and snaps to the actual field orientation.
+const WOBBLE_THRESHOLD = Utils.toRadians( 0.2 );
 
 type SelfOptions = EmptySelfOptions;
 
@@ -69,7 +85,6 @@ export default class KinematicCompass extends Compass {
     this.angularAccelerationProperty.reset();
   }
 
-  //TODO https://github.com/phetsims/faradays-electromagnetic-lab/issues/67 Compass spins wildly near bar magnet poles.
   /**
    * Updates the compass needle's angle, using the Verlet algorithm to simulate the kinematics of a real-world compass.
    *
@@ -85,7 +100,7 @@ export default class KinematicCompass extends Compass {
     // Difference between the field angle and the compass angle.
     const phi = ( magnitude === 0 ) ? 0 : ( ( angle - this._angleProperty.value ) % ( 2 * Math.PI ) );
 
-    if ( Math.abs( phi ) < THRESHOLD || this.magnet.isInside( this.positionProperty.value ) ) {
+    if ( Math.abs( phi ) < WOBBLE_THRESHOLD || magnitude > MAX_FIELD_MAGNITUDE || this.magnet.isInside( this.positionProperty.value ) ) {
 
       // When the difference between the field angle and the compass angle is insignificant, or the compass is inside
       // the magnet, then simply set the angle and consider the compass to be at rest.
