@@ -60,15 +60,19 @@ export default class ElectromagnetScreenView extends FELScreenView {
     } );
     this.addChild( screenViewRootNode );
 
-    // Focus order
-    screenViewRootNode.pdomOrder = [
+    // Play Area focus order, see https://github.com/phetsims/faradays-electromagnetic-lab/issues/81
+    this.pdomPlayAreaNode.pdomOrder = [
       electromagnetNode,
       this.compassNode,
       this.fieldMeterNode,
-      panels,
+      panels.electromagnetPanel
+    ];
+
+    // Control Area focus order, see https://github.com/phetsims/faradays-electromagnetic-lab/issues/81
+    this.pdomControlAreaNode.pdomOrder = [
+      panels.toolsPanel,
       timeControlNode,
       this.resetAllButton
-      // Exclude developerAccordionBox because it is not part of the production UI.
     ];
   }
 }

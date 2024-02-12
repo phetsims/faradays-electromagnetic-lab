@@ -14,8 +14,13 @@ import Compass from '../../common/model/Compass.js';
 import ElectromagnetPanel from '../../common/view/ElectromagnetPanel.js';
 import Electromagnet from '../../common/model/Electromagnet.js';
 import FELPanels from '../../common/view/FELPanels.js';
+import { Node } from '../../../../scenery/js/imports.js';
 
 export default class ElectromagnetPanels extends FELPanels {
+
+  // For putting panels in pdomOrder for PlayArea vs ControlPanel
+  public readonly electromagnetPanel: Node;
+  public readonly toolsPanel: Node;
 
   public constructor( electromagnet: Electromagnet, compass: Compass, fieldMeter: FieldMeter, tandem: Tandem ) {
 
@@ -29,6 +34,9 @@ export default class ElectromagnetPanels extends FELPanels {
       children: [ electromagnetPanel, toolsPanel ],
       tandem: tandem
     } );
+
+    this.electromagnetPanel = electromagnetPanel;
+    this.toolsPanel = toolsPanel;
   }
 }
 

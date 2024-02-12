@@ -15,8 +15,13 @@ import BarMagnet from '../../common/model/BarMagnet.js';
 import FieldMeter from '../../common/model/FieldMeter.js';
 import Compass from '../../common/model/Compass.js';
 import FELPanels from '../../common/view/FELPanels.js';
+import { Node } from '../../../../scenery/js/imports.js';
 
 export default class BarMagnetPanels extends FELPanels {
+
+  // For putting panels in pdomOrder for PlayArea vs ControlPanel
+  public readonly barMagnetPanel: Node;
+  public readonly toolsPanel: Node;
 
   public constructor( barMagnet: BarMagnet, compass: Compass, fieldMeter: FieldMeter,
                       viewProperties: BarMagnetViewProperties, tandem: Tandem ) {
@@ -35,6 +40,9 @@ export default class BarMagnetPanels extends FELPanels {
       children: [ barMagnetPanel, toolsPanel ],
       tandem: tandem
     } );
+
+    this.barMagnetPanel = barMagnetPanel;
+    this.toolsPanel = toolsPanel;
   }
 }
 

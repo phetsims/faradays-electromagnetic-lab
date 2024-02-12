@@ -16,8 +16,14 @@ import ElectromagnetPanel from '../../common/view/ElectromagnetPanel.js';
 import Property from '../../../../axon/js/Property.js';
 import FELPanels from '../../common/view/FELPanels.js';
 import Transformer from '../model/Transformer.js';
+import { Node } from '../../../../scenery/js/imports.js';
 
 export default class TransformerPanels extends FELPanels {
+
+  // For putting panels in pdomOrder for PlayArea vs ControlPanel
+  public readonly electromagnetPanel: Node;
+  public readonly pickupCoilPanel: Node;
+  public readonly toolsPanel: Node;
 
   public constructor( transformer: Transformer, compass: Compass, fieldMeter: FieldMeter,
                       isLockedToAxisProperty: Property<boolean>, tandem: Tandem ) {
@@ -35,6 +41,10 @@ export default class TransformerPanels extends FELPanels {
       children: [ electromagnetPanel, pickupCoilPanel, toolsPanel ],
       tandem: tandem
     } );
+
+    this.electromagnetPanel = electromagnetPanel;
+    this.pickupCoilPanel = pickupCoilPanel;
+    this.toolsPanel = toolsPanel;
   }
 }
 

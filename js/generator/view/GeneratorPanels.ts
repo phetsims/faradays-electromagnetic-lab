@@ -15,8 +15,14 @@ import PickupCoilPanel from '../../common/view/PickupCoilPanel.js';
 import BarMagnetPanel from '../../common/view/BarMagnetPanel.js';
 import FELPanels from '../../common/view/FELPanels.js';
 import Generator from '../model/Generator.js';
+import { Node } from '../../../../scenery/js/imports.js';
 
 export default class GeneratorPanels extends FELPanels {
+
+  // For putting panels in pdomOrder for PlayArea vs ControlPanel
+  public readonly barMagnetPanel: Node;
+  public readonly pickupCoilPanel: Node;
+  public readonly toolsPanel: Node;
 
   public constructor( generator: Generator, compass: Compass, fieldMeter: FieldMeter, tandem: Tandem ) {
 
@@ -35,6 +41,10 @@ export default class GeneratorPanels extends FELPanels {
       children: [ barMagnetPanel, pickupCoilPanel, toolsPanel ],
       tandem: tandem
     } );
+
+    this.barMagnetPanel = barMagnetPanel;
+    this.pickupCoilPanel = pickupCoilPanel;
+    this.toolsPanel = toolsPanel;
   }
 }
 

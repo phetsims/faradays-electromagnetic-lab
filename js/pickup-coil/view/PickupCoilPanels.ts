@@ -17,8 +17,14 @@ import BarMagnetPanel from '../../common/view/BarMagnetPanel.js';
 import BarMagnet from '../../common/model/BarMagnet.js';
 import Property from '../../../../axon/js/Property.js';
 import FELPanels from '../../common/view/FELPanels.js';
+import { Node } from '../../../../scenery/js/imports.js';
 
 export default class PickupCoilPanels extends FELPanels {
+
+  // For putting panels in pdomOrder for PlayArea vs ControlPanel
+  public readonly barMagnetPanel: Node;
+  public readonly pickupCoilPanel: Node;
+  public readonly toolsPanel: Node;
 
   public constructor( barMagnet: BarMagnet, pickupCoil: PickupCoil, compass: Compass, fieldMeter: FieldMeter,
                       isLockedToAxisProperty: Property<boolean>, tandem: Tandem ) {
@@ -38,6 +44,10 @@ export default class PickupCoilPanels extends FELPanels {
       children: [ barMagnetPanel, pickupCoilPanel, toolsPanel ],
       tandem: tandem
     } );
+
+    this.barMagnetPanel = barMagnetPanel;
+    this.pickupCoilPanel = pickupCoilPanel;
+    this.toolsPanel = toolsPanel;
   }
 }
 
