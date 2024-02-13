@@ -69,7 +69,7 @@ export default class Turbine extends PhetioObject {
       range: DRAG_FACTOR_RANGE,
       tandem: tandem.createTandem( 'dragFactorProperty' ),
       phetioReadOnly: true,
-      phetioDocumentation: 'Drag on the turbine caused by the pickup coil.'
+      phetioDocumentation: 'Drag on the turbine caused by the pickup coil. For internal use only.'
     } );
 
     const rpmRange = new Range( ( flowRateRange.min / 100 ) * MAX_RPM, ( flowRateRange.max / 100 ) * MAX_RPM );
