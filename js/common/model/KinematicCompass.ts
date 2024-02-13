@@ -92,15 +92,19 @@ export default class KinematicCompass extends Compass {
    * @param dt - time step, in seconds
    */
   protected override updateAngle( fieldVector: Vector2, dt: number ): void {
+    assert && assert( fieldVector.magnitude !== 0, 'When the field magnitude is zero, the compass needle should not be moved.' );
     assert && assert( dt === ConstantDtClock.CONSTANT_DT, `invalid dt=${dt}, see ConstantDtClock` );
 
     const magnitude = fieldVector.magnitude;
     const angle = fieldVector.angle;
 
     // Difference between the field angle and the compass angle.
-    const phi = ( magnitude === 0 ) ? 0 : ( ( angle - this._angleProperty.value ) % ( 2 * Math.PI ) );
+    const phi = ( angle - this._angleProperty.value ) % ( 2 * Math.PI );
 
-    if ( Math.abs( phi ) < WOBBLE_THRESHOLD || magnitude > MAX_FIELD_MAGNITUDE || this.magnet.isInside( this.positionProperty.value ) ) {
+    if ( Math.abs( phi ) < WOBBLE_THRESHOLD ||
+         magnitude > MAX_FIELD_MAGNITUDE ||  // See https://github.com/phetsims/faradays-electromagnetic-lab/issues/67
+         this.magnet.isInside( this.positionProperty.value ) // See https://github.com/phetsims/faradays-electromagnetic-lab/issues/46
+    ) {
 
       // When the difference between the field angle and the compass angle is insignificant, or the compass is inside
       // the magnet, then simply set the angle and consider the compass to be at rest.

@@ -45,6 +45,7 @@ export default class IncrementalCompass extends Compass {
    * @param dt - time step, in seconds
    */
   protected override updateAngle( fieldVector: Vector2, dt: number ): void {
+    assert && assert( fieldVector.magnitude !== 0, 'When the field magnitude is zero, the compass needle should not be moved.' );
     assert && assert( dt === ConstantDtClock.CONSTANT_DT, `invalid dt=${dt}, see ConstantDtClock` );
 
     // Calculate the change in angle needed to align the compass needle with the magnetic field.
