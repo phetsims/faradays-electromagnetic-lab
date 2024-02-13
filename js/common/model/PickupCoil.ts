@@ -253,7 +253,7 @@ export default class PickupCoil extends FELMovable {
    * Updates the induced EMF (and other related Properties) using Faraday's Law.
    */
   private updateEMF( dt: number ): void {
-    assert && assert( dt === ConstantDtClock.CONSTANT_DT, `invalid dt=${dt}, ConstantStepEmitter` );
+    assert && assert( dt === ConstantDtClock.DT, `invalid dt=${dt}` );
 
     // Flux in the coil.
     const flux = this.getFlux();

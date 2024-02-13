@@ -67,7 +67,7 @@ export default abstract class Compass extends FieldMeasurementTool {
   }
 
   public step( dt: number ): void {
-    assert && assert( dt === ConstantDtClock.CONSTANT_DT, `invalid dt=${dt}, see ConstantDtClock` );
+    assert && assert( dt === ConstantDtClock.DT, `invalid dt=${dt}` );
     if ( this.fieldVectorProperty.value.magnitude !== 0 ) {
       this.updateAngle( this.fieldVectorProperty.value, dt );
     }

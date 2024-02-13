@@ -143,7 +143,7 @@ export default class ACPowerSupply extends CurrentSource {
    * Varies the voltage over time.
    */
   public step( dt: number ): void {
-    assert && assert( dt === ConstantDtClock.CONSTANT_DT, `invalid dt=${dt}, see ConstantDtClock` );
+    assert && assert( dt === ConstantDtClock.DT, `invalid dt=${dt}` );
 
     // Change in angle is a function of relative frequency.
     const deltaAngle = dt * ( this.frequencyProperty.value / 100 ) * MAX_DELTA_ANGLE;

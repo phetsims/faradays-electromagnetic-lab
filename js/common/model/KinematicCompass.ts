@@ -93,7 +93,7 @@ export default class KinematicCompass extends Compass {
    */
   protected override updateAngle( fieldVector: Vector2, dt: number ): void {
     assert && assert( fieldVector.magnitude !== 0, 'When the field magnitude is zero, the compass needle should not be moved.' );
-    assert && assert( dt === ConstantDtClock.CONSTANT_DT, `invalid dt=${dt}, see ConstantDtClock` );
+    assert && assert( dt === ConstantDtClock.DT, `invalid dt=${dt}` );
 
     const magnitude = fieldVector.magnitude;
     const angle = fieldVector.angle;

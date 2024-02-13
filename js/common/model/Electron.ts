@@ -161,7 +161,7 @@ export default class Electron {
    * the "overshoot". The order of curves is determined by the order of elements in the CoilSegment array.
    */
   public step( dt: number ): void {
-    assert && assert( dt === ConstantDtClock.CONSTANT_DT, `invalid dt=${dt}, ConstantStepEmitter` );
+    assert && assert( dt === ConstantDtClock.DT, `invalid dt=${dt}` );
 
     if ( this.speedAndDirectionProperty.value !== 0 ) {
 

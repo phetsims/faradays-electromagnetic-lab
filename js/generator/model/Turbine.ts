@@ -88,8 +88,10 @@ export default class Turbine extends PhetioObject {
   }
 
   public step( dt: number ): void {
-    assert && assert( dt === ConstantDtClock.CONSTANT_DT, `invalid dt=${dt}, see ConstantDtClock` );
+    assert && assert( dt === ConstantDtClock.DT, `invalid dt=${dt}` );
+
     const flowRate = this.waterFaucet.flowRateProperty.value;
+
     if ( flowRate !== 0 ) {
 
       // Determine the change in rotation angle.

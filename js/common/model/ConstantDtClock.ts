@@ -19,11 +19,8 @@ import NumberIO from '../../../../tandem/js/types/NumberIO.js';
 
 export default class ConstantDtClock extends Emitter<[ number ]> {
 
-  // Constant dt (per frame) that the step method was designed to support in the Java version.
-  // CHANGE THIS VALUE AT YOUR PERIL!
-  public static readonly CONSTANT_DT = 1;
-
-  // Frame rate that the step method was designed to support in the Java version.
+  // Constant frame rate and constant dt. CHANGE THIS VALUE AT YOUR PERIL!
+  public static readonly DT = 1;
   public static readonly FRAMES_PER_SECOND = 25;
   private static readonly SECONDS_PER_FRAME = 1 / ConstantDtClock.FRAMES_PER_SECOND;
 
@@ -74,7 +71,7 @@ export default class ConstantDtClock extends Emitter<[ number ]> {
    * Advances the model by one constant-dt step. Used by the step button in time controls.
    */
   public stepOnce(): void {
-    this.emit( ConstantDtClock.CONSTANT_DT );
+    this.emit( ConstantDtClock.DT );
   }
 }
 
