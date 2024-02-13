@@ -51,12 +51,9 @@ export default class IncrementalCompass extends Compass {
     // Calculate the change in angle needed to align the compass needle with the magnetic field.
     const fieldAngle = fieldVector.angle;
     const needleAngle = this._angleProperty.value;
-    let deltaAngle = fieldAngle - needleAngle;
+    let deltaAngle = ( fieldAngle - needleAngle ) % ( 2 * Math.PI );
 
     if ( deltaAngle !== 0 ) {
-
-      // Constrain the delta to [-359,+359] degrees.
-      deltaAngle = deltaAngle % ( 2 * Math.PI );
 
       // If |deltaAngle| is > 180 degrees, rotate the shorter equivalent angle in the opposite direction.
       // For example, if deltaAngle is +270 degrees, the shorter equivalent is -90 degrees.

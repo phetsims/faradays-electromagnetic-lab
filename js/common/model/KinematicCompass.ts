@@ -101,30 +101,32 @@ export default class KinematicCompass extends Compass {
     // Difference between the field angle and the compass angle.
     const deltaAngle = ( angle - this._angleProperty.value ) % ( 2 * Math.PI );
 
-    if ( Math.abs( deltaAngle ) < WOBBLE_THRESHOLD ||
-         magnitude > MAX_FIELD_MAGNITUDE ||  // See https://github.com/phetsims/faradays-electromagnetic-lab/issues/67
-         this.magnet.isInside( this.positionProperty.value ) // See https://github.com/phetsims/faradays-electromagnetic-lab/issues/46
-    ) {
+    if ( deltaAngle !== 0 ) {
+      if ( Math.abs( deltaAngle ) < WOBBLE_THRESHOLD ||
+           magnitude > MAX_FIELD_MAGNITUDE ||  // See https://github.com/phetsims/faradays-electromagnetic-lab/issues/67
+           this.magnet.isInside( this.positionProperty.value ) // See https://github.com/phetsims/faradays-electromagnetic-lab/issues/46
+      ) {
 
-      // When the difference between the field angle and the compass angle is insignificant, or the compass is inside
-      // the magnet, then simply set the angle and consider the compass to be at rest.
-      this._angleProperty.value = angle;
-      this.angularVelocityProperty.value = 0;
-      this.angularAccelerationProperty.value = 0;
-    }
-    else {
-      // Use the Verlet algorithm to compute angle, angular velocity, and angular acceleration.
+        // When the difference between the field angle and the compass angle is insignificant, or the compass is inside
+        // the magnet, then simply set the angle and consider the compass to be at rest.
+        this._angleProperty.value = angle;
+        this.angularVelocityProperty.value = 0;
+        this.angularAccelerationProperty.value = 0;
+      }
+      else {
+        // Use the Verlet algorithm to compute angle, angular velocity, and angular acceleration.
 
-      // Step 1: rotation
-      const angularAccelerationTemp = ( SENSITIVITY * Math.sin( deltaAngle ) * magnitude ) - ( DAMPING * this.angularVelocityProperty.value );
-      this._angleProperty.value = this._angleProperty.value + ( this.angularVelocityProperty.value * dt ) + ( 0.5 * angularAccelerationTemp * dt * dt );
+        // Step 1: rotation
+        const angularAccelerationTemp = ( SENSITIVITY * Math.sin( deltaAngle ) * magnitude ) - ( DAMPING * this.angularVelocityProperty.value );
+        this._angleProperty.value = this._angleProperty.value + ( this.angularVelocityProperty.value * dt ) + ( 0.5 * angularAccelerationTemp * dt * dt );
 
-      // Step 2: angular acceleration
-      const angularVelocityTemp = this.angularVelocityProperty.value + ( angularAccelerationTemp * dt );
-      this.angularAccelerationProperty.value = ( SENSITIVITY * Math.sin( deltaAngle ) * magnitude ) - ( DAMPING * angularVelocityTemp );
+        // Step 2: angular acceleration
+        const angularVelocityTemp = this.angularVelocityProperty.value + ( angularAccelerationTemp * dt );
+        this.angularAccelerationProperty.value = ( SENSITIVITY * Math.sin( deltaAngle ) * magnitude ) - ( DAMPING * angularVelocityTemp );
 
-      // Step 3: angular velocity
-      this.angularVelocityProperty.value = this.angularVelocityProperty.value + ( 0.5 * ( this.angularAccelerationProperty.value + angularAccelerationTemp ) * dt );
+        // Step 3: angular velocity
+        this.angularVelocityProperty.value = this.angularVelocityProperty.value + ( 0.5 * ( this.angularAccelerationProperty.value + angularAccelerationTemp ) * dt );
+      }
     }
   }
 
