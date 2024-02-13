@@ -68,13 +68,6 @@ const SCHEMA_MAP = {
     type: 'number',
     defaultValue: 250,
     isValidValue: ( value: number ) => ( value > 0 )
-  },
-
-  //TODO https://github.com/phetsims/faradays-electromagnetic-lab/issues/11 delete this when calibrated
-  turbineDragFactor: {
-    type: 'number',
-    defaultValue: 0.2,
-    isValidValue: ( value: number ) => ( value > 0 && value < 1 )
   }
 } as const;
 

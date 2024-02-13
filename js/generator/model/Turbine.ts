@@ -21,7 +21,6 @@ import Vector2 from '../../../../dot/js/Vector2.js';
 import Tandem from '../../../../tandem/js/Tandem.js';
 import ConstantDtClock from '../../common/model/ConstantDtClock.js';
 import NumberProperty from '../../../../axon/js/NumberProperty.js';
-import FELQueryParameters from '../../common/FELQueryParameters.js';
 
 const MAX_RPM = 100;
 
@@ -64,7 +63,7 @@ export default class Turbine extends PhetioObject {
     const flowRateRange = this.waterFaucet.flowRateProperty.range;
 
     this.dragFactorProperty = new NumberProperty( 0, {
-      range: new Range( 0, FELQueryParameters.turbineDragFactor ),
+      range: new Range( 0, 0.2 ),
       tandem: tandem.createTandem( 'dragFactorProperty' ),
       phetioReadOnly: true,
       phetioDocumentation: 'Drag on the turbine caused by the pickup coil.'
