@@ -50,15 +50,16 @@ export default class Generator extends PhetioObject {
     // See https://github.com/phetsims/faradays-electromagnetic-lab/issues/11
     const numberOfLoopsRange = this.pickupCoil.coil.numberOfLoopsProperty.range;
     const loopRadiusRange = this.pickupCoil.coil.loopRadiusRange;
-    const dragFactorRange = this.turbine.dragFactorProperty.range;
+    const maxArea = numberOfLoopsRange.max * Math.PI * loopRadiusRange.max * loopRadiusRange.max;
+    const minArea = numberOfLoopsRange.min * Math.PI * loopRadiusRange.min * loopRadiusRange.min;
+    const maxDragFactor = this.turbine.dragFactorProperty.range.max;
+    const minDragFactor = ( minArea / maxArea ) * maxDragFactor; // non-zero loop area must have non-zero drag factor
     Multilink.multilink(
       [ this.pickupCoil.coil.numberOfLoopsProperty, this.pickupCoil.coil.loopRadiusProperty, this.turbine.barMagnet.strengthPercentProperty ],
       ( numberOfLoops, loopRadius, magnetStrengthPercent ) => {
         const area = numberOfLoops * Math.PI * loopRadius * loopRadius;
-        const minArea = numberOfLoopsRange.min * Math.PI * loopRadiusRange.min * loopRadiusRange.min;
-        const maxArea = numberOfLoopsRange.max * Math.PI * loopRadiusRange.max * loopRadiusRange.max;
         this.turbine.dragFactorProperty.value =
-          ( magnetStrengthPercent / 100 ) * Utils.linear( minArea, maxArea, dragFactorRange.min, dragFactorRange.max, area );
+          ( magnetStrengthPercent / 100 ) * Utils.linear( minArea, maxArea, minDragFactor, maxDragFactor, area );
       } );
   }
 
