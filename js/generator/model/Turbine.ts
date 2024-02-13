@@ -27,6 +27,9 @@ const MAX_RPM = 100;
 // Maximum change in angle per clock tick.
 const MAX_DELTA_ANGLE = ( 2 * Math.PI ) * ( MAX_RPM / ( ConstantDtClock.FRAMES_PER_SECOND * 60 ) );
 
+// Range of the drag factor applied to the turbine caused by the pickup coil (unitless)
+const DRAG_FACTOR_RANGE = new Range( 0, 0.2 );
+
 export default class Turbine extends PhetioObject {
 
   // Bar magnet that rotates as the turbine spins
@@ -62,8 +65,8 @@ export default class Turbine extends PhetioObject {
 
     const flowRateRange = this.waterFaucet.flowRateProperty.range;
 
-    this.dragFactorProperty = new NumberProperty( 0, {
-      range: new Range( 0, 0.2 ),
+    this.dragFactorProperty = new NumberProperty( DRAG_FACTOR_RANGE.min, {
+      range: DRAG_FACTOR_RANGE,
       tandem: tandem.createTandem( 'dragFactorProperty' ),
       phetioReadOnly: true,
       phetioDocumentation: 'Drag on the turbine caused by the pickup coil.'
