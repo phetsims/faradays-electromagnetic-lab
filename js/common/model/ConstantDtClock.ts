@@ -1,77 +1,60 @@
 // Copyright 2024, University of Colorado Boulder
 
 /**
- * ConstantDtClock implements a clock that fires at a constant rate, with a constant dt.
- *
+ * ConstantDtClock implements a clock that 'ticks' at a constant rate, with a constant dt.
  * In the Java version of this sim, we used a clock that fires 25 times per second, with constant dt = 1.
- * See FaradayModule.java: new SwingClock( 1000 / 25, 1 )
+ * In FaradayModule.java, see new SwingClock( 1000 / 25, 1 ).
  * Because so much of the code ported from Java relies on this, we implement something similar here.
+ *
+ * Note that this is an extension of EventTimer, with the ability to add listeners that are notified when
+ * the event occurs. In EventTimer terminology, the event is a 'clock tick'.
  *
  * @author Chris Malley (PixelZoom, Inc.)
  */
 
 import Emitter from '../../../../axon/js/Emitter.js';
 import faradaysElectromagneticLab from '../../faradaysElectromagneticLab.js';
-import Property from '../../../../axon/js/Property.js';
-import Tandem from '../../../../tandem/js/Tandem.js';
-import NumberProperty from '../../../../axon/js/NumberProperty.js';
+import { EventTimer } from '../../../../phet-core/js/imports.js';
 import NumberIO from '../../../../tandem/js/types/NumberIO.js';
 
-export default class ConstantDtClock extends Emitter<[ number ]> {
+export default class ConstantDtClock extends EventTimer {
 
-  // Constant frame rate and constant dt. CHANGE THIS VALUE AT YOUR PERIL!
-  public static readonly DT = 1;
+  // Constant framerate and constant dt. CHANGE THESE VALUES AT YOUR PERIL!
   public static readonly FRAMES_PER_SECOND = 25;
-  private static readonly SECONDS_PER_FRAME = 1 / ConstantDtClock.FRAMES_PER_SECOND;
+  public static readonly DT = 1; // unitless
 
-  // Accumulated time since clock fired, to maintain consistent framerate
-  private readonly accumulatedTimeProperty: Property<number>;
+  // For notifying listeners when the clock ticks. The single parameter to emit is dt.
+  private readonly emitter: Emitter<[ number ]>;
 
-  public constructor( tandem: Tandem ) {
+  public constructor() {
 
-    super( {
-      parameters: [
-        { name: 'dt', phetioType: NumberIO }
-      ]
-      // Do not instrument this Emitter, see https://github.com/phetsims/faradays-electromagnetic-lab/issues/69
+    // Notify listeners that the clock has ticked, with a constant dt.
+    // Calling ConstantDtClock step with a large dt will result in multiple clock ticks.
+    const eventCallback = () => this.emitter.emit( ConstantDtClock.DT );
+
+    // eventCallback will be called every 1 / FRAMES_PER_SECOND seconds.
+    const eventModel = new EventTimer.ConstantEventModel( ConstantDtClock.FRAMES_PER_SECOND );
+
+    super( eventModel, eventCallback );
+
+    this.emitter = new Emitter( {
+      parameters: [ { name: 'dt', phetioType: NumberIO } ]
     } );
-
-    this.accumulatedTimeProperty = new NumberProperty( 0, {
-      units: 's',
-      tandem: tandem.createTandem( 'accumulatedTimeProperty' ),
-      phetioReadOnly: true,
-      phetioDocumentation: 'Time since the clock last fired and advanced the model. For internal use only.',
-      phetioHighFrequency: true
-    } );
-  }
-
-  public reset(): void {
-    this.accumulatedTimeProperty.reset();
   }
 
   /**
-   * Accumulates dt until it reaches the constant dt, then emits.
-   * @param dt - time change, in seconds
+   * Adds a listener that will be notified when the clock ticks.
+   * @param listener
    */
-  public accumulateTime( dt: number ): void {
-    this.accumulatedTimeProperty.value += dt;
-
-    // When we've accumulated enough time to step ...
-    if ( this.accumulatedTimeProperty.value >= ConstantDtClock.SECONDS_PER_FRAME ) {
-
-      // Advance one step.
-      this.stepOnce();
-
-      // Apply the remainder to the next step.
-      this.accumulatedTimeProperty.value %= ConstantDtClock.SECONDS_PER_FRAME;
-    }
+  public addListener( listener: ( dt: number ) => void ): void {
+    this.emitter.addListener( listener );
   }
 
   /**
    * Advances the model by one constant-dt step. Used by the step button in time controls.
    */
   public stepOnce(): void {
-    this.emit( ConstantDtClock.DT );
+    this.emitter.emit( ConstantDtClock.DT );
   }
 }
 

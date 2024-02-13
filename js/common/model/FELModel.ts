@@ -60,7 +60,7 @@ export default class FELModel implements TModel {
       tandem: options.tandem.createTandem( 'isPlayingProperty' )
     }, options.isPlayingPropertyOptions ) );
 
-    this.clock = new ConstantDtClock( options.tandem.createTandem( 'clock' ) );
+    this.clock = new ConstantDtClock();
 
     this.fieldMeter = new FieldMeter( magnet, combineOptions<FieldMeterOptions>( {
       position: DEFAULT_FIELD_METER_POSITION,
@@ -75,7 +75,6 @@ export default class FELModel implements TModel {
 
   public reset(): void {
     this.isPlayingProperty.reset();
-    this.clock.reset();
     this.fieldMeter.reset();
     this.compass.reset();
   }
@@ -88,7 +87,7 @@ export default class FELModel implements TModel {
    */
   public step( dt: number ): void {
     if ( this.isPlayingProperty.value ) {
-      this.clock.accumulateTime( dt );
+      this.clock.step( dt );
     }
   }
 }
