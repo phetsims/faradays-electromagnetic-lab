@@ -30,7 +30,7 @@ export default class ConstantDtClock extends EventTimer {
 
     // Notify listeners that the clock has ticked, with a constant dt.
     // Calling ConstantDtClock step with a large dt will result in multiple clock ticks.
-    const eventCallback = () => this.emitter.emit( ConstantDtClock.DT );
+    const eventCallback = ( timeElapsed: number ) => this.emitter.emit( ConstantDtClock.DT );
 
     // eventCallback will be called every 1 / FRAMES_PER_SECOND seconds.
     const eventModel = new EventTimer.ConstantEventModel( ConstantDtClock.FRAMES_PER_SECOND );
