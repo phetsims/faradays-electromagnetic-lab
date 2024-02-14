@@ -183,6 +183,17 @@ export default class FieldMeterNode extends FELMovableNode {
     options.children = [ probeNode, crosshairsNode, bodyNode, gridBox ];
 
     super( fieldMeter, options );
+
+    this.addInputListener( {
+      focus: () => {
+        //TODO https://github.com/phetsims/faradays-electromagnetic-lab/issues/77 fieldMeter.fieldVectorProperty.link
+        //TODO https://github.com/phetsims/faradays-electromagnetic-lab/issues/77 start sound
+      },
+      blur: () => {
+        //TODO https://github.com/phetsims/faradays-electromagnetic-lab/issues/77 fieldMeter.fieldVectorProperty.unlink
+        //TODO https://github.com/phetsims/faradays-electromagnetic-lab/issues/77 stop sound
+      }
+    } );
   }
 }
 
