@@ -27,6 +27,7 @@ import TReadOnlyProperty from '../../../../axon/js/TReadOnlyProperty.js';
 import Property from '../../../../axon/js/Property.js';
 import PickupCoilNode from './PickupCoilNode.js';
 import DerivedProperty from '../../../../axon/js/DerivedProperty.js';
+import isResettingAllProperty from '../isResettingAllProperty.js';
 
 type SelfOptions = {
   magnet: Magnet;
@@ -72,15 +73,18 @@ export default class FELScreenView extends ScreenView {
       tandem: options.tandem.createTandem( 'compassNode' )
     } );
 
-    this.fieldMeterNode = new FieldMeterNode( options.fieldMeter, {
-      dragBoundsProperty: this.visibleBoundsProperty,
-      tandem: options.tandem.createTandem( 'fieldMeterNode' )
-    } );
+    this.fieldMeterNode = new FieldMeterNode( options.fieldMeter, options.magnet.strengthRange,
+      options.magnet.fieldScaleProperty, {
+        dragBoundsProperty: this.visibleBoundsProperty,
+        tandem: options.tandem.createTandem( 'fieldMeterNode' )
+      } );
 
     this.resetAllButton = new ResetAllButton( {
       listener: () => {
+        isResettingAllProperty.value = true;
         this.interruptSubtreeInput(); // cancel interactions that may be in progress
         options.resetAll();
+        isResettingAllProperty.value = false;
       },
       tandem: options.tandem.createTandem( 'resetAllButton' )
     } );

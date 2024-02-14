@@ -25,11 +25,14 @@ import FELPreferences from '../model/FELPreferences.js';
 import FELMovableNode, { FELMovableNodeOptions } from './FELMovableNode.js';
 import Vector2 from '../../../../dot/js/Vector2.js';
 import Dimension2 from '../../../../dot/js/Dimension2.js';
+import Range from '../../../../dot/js/Range.js';
 import StringDisplay, { StringDisplayOptions } from '../../../../scenery-phet/js/StringDisplay.js';
 import StringUtils from '../../../../phetcommon/js/util/StringUtils.js';
 import optionize, { EmptySelfOptions } from '../../../../phet-core/js/optionize.js';
 import PickRequired from '../../../../phet-core/js/types/PickRequired.js';
 import DerivedStringProperty from '../../../../axon/js/DerivedStringProperty.js';
+import FieldMeterSoundListener from './FieldMeterSoundListener.js';
+import { TReadOnlyProperty } from '../../../../axon/js/imports.js';
 
 const BStringProperty = FaradaysElectromagneticLabStrings.symbol.BStringProperty;
 const xStringProperty = FaradaysElectromagneticLabStrings.symbol.xStringProperty;
@@ -80,7 +83,10 @@ type FieldMeterNodeOptions = SelfOptions & PickRequired<FELMovableNodeOptions, '
 
 export default class FieldMeterNode extends FELMovableNode {
 
-  public constructor( fieldMeter: FieldMeter, providedOptions: FieldMeterNodeOptions ) {
+  private readonly fieldMeterSoundListener: FieldMeterSoundListener;
+
+  public constructor( fieldMeter: FieldMeter, magnetStrengthRange: Range, fieldScaleProperty: TReadOnlyProperty<number>,
+                      providedOptions: FieldMeterNodeOptions ) {
 
     const options = optionize<FieldMeterNodeOptions, SelfOptions, FELMovableNodeOptions>()( {
 
@@ -184,28 +190,9 @@ export default class FieldMeterNode extends FELMovableNode {
 
     super( fieldMeter, options );
 
-    const startSound = () => {
-      phet.log && phet.log( 'FieldMeterNode startSound' );
-      //TODO https://github.com/phetsims/faradays-electromagnetic-lab/issues/77 fieldMeter.fieldVectorProperty.link
-      //TODO https://github.com/phetsims/faradays-electromagnetic-lab/issues/77 start sound
-    };
-
-    const stopSound = () => {
-      phet.log && phet.log( 'FieldMeterNode stopSound' );
-      //TODO https://github.com/phetsims/faradays-electromagnetic-lab/issues/77 stop sound
-      //TODO https://github.com/phetsims/faradays-electromagnetic-lab/issues/77 fieldMeter.fieldVectorProperty.unlink
-    };
-
-    this.addInputListener( {
-
-      // Start sound for pointer and keyboard input.
-      down: () => startSound(),
-      focus: () => startSound(),
-
-      // Stop sound for pointer and keyboard input.
-      up: () => stopSound(),
-      blur: () => stopSound()
-    } );
+    this.fieldMeterSoundListener = new FieldMeterSoundListener( fieldMeter.fieldVectorProperty, magnetStrengthRange,
+      fieldScaleProperty );
+    this.addInputListener( this.fieldMeterSoundListener );
   }
 }
 

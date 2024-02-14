@@ -118,33 +118,32 @@ export default class FieldNode extends Sprites {
     this.spriteInstances.forEach( spriteInstance => {
       const fieldVector = this.magnet.getFieldVector( spriteInstance.position, this.reusableFieldVector );
       spriteInstance.setRotation( fieldVector.angle );
-      spriteInstance.alpha = this.strengthToAlpha( fieldVector.magnitude, this.magnet.fieldScaleProperty.value );
+      spriteInstance.alpha = FieldNode.normalizeMagnitude( fieldVector.magnitude, this.magnet.strengthRange.max, this.magnet.fieldScaleProperty.value );
     } );
     this.invalidatePaint();
   }
 
   /**
-   * Converts magnet strength to alpha color component.
+   * Converts field magnitude to a normalized value in the range [0,1].
    */
-  private strengthToAlpha( strength: number, fieldIntensityScale: number ): number {
-    assert && assert( fieldIntensityScale >= 1, `invalid fieldIntensityScale: ${fieldIntensityScale}` );
+  public static normalizeMagnitude( magnitude: number, maxMagnitude: number, fieldScale: number ): number {
+    assert && assert( magnitude >= 0 && magnitude <= maxMagnitude, `invalid strength: ${magnitude}` );
+    assert && assert( fieldScale >= 1, `invalid fieldScale: ${fieldScale}` );
 
-    const maxStrength = this.magnet.strengthRange.max;
-    assert && assert( strength >= 0 && strength <= maxStrength, `invalid strength: ${strength}` );
+    // Range is [0,1]
+    let normalizedMagnitude = ( magnitude / maxMagnitude );
 
-    let alpha = ( strength / maxStrength );
+    // Scale, because in reality the strength drops off quickly, and we wouldn't see much of the B-field.
+    normalizedMagnitude = Math.pow( normalizedMagnitude, 1 / fieldScale );
 
-    // Scale the alpha, because in reality the strength drops off quickly, and we wouldn't see much of the B-field.
-    alpha = Math.pow( alpha, 1 / fieldIntensityScale );
-
-    // Increase the alpha of needles just outside the ends of magnet to improve the "look".
-    alpha *= 2;
-    if ( alpha > 1 ) {
-      alpha = 1;
+    // Increase normalizedStrength just outside the ends of the magnet to improve the transition in that area.
+    normalizedMagnitude *= 2;
+    if ( normalizedMagnitude > 1 ) {
+      normalizedMagnitude = 1;
     }
 
-    assert && assert( alpha >= 0 && alpha <= 1, `invalid scaledIntensity: ${alpha}` );
-    return alpha;
+    assert && assert( normalizedMagnitude >= 0 && normalizedMagnitude <= 1, `invalid normalizedStrength: ${normalizedMagnitude}` );
+    return normalizedMagnitude;
   }
 }
 
