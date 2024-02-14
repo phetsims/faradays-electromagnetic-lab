@@ -18,14 +18,23 @@ import SoundClip from '../../../../tambo/js/sound-generators/SoundClip.js';
 import Utils from '../../../../dot/js/Utils.js';
 import FieldNode from './FieldNode.js';
 
-const OUTPUT_LEVEL = 0.7;
+// Output level is constant, except during fade in and fade out. 
+const NORMAL_OUTPUT_LEVEL = 0.7;
 
-const PLAYBACK_RATE_RANGE = new Range( 1, 2 ); // 1 octave
+// Pitch varies over 12 semitones (1 octave) so the rate double.
+const PLAYBACK_RATE_RANGE = new Range( 1, 2 );
+
+// Fade in parameters
+const FADE_IN_INTERVAL = 250; // time over which fade out occurs, in ms
+const FADE_IN_LEVEL_DELTA = 0.1; // change in output level per step
+const FADE_IN_STEPS = PLAYBACK_RATE_RANGE.getLength() / FADE_IN_LEVEL_DELTA; // steps to complete fade in
+const FADE_IN_DT = FADE_IN_INTERVAL / FADE_IN_STEPS;
 
 // Fade out parameters
 const FADE_OUT_INTERVAL = 500; // time over which fade out occurs, in ms
 const FADE_OUTPUT_LEVEL_DELTA = 0.1; // change in output level per step
-const FADE_OUT_STEPS = PLAYBACK_RATE_RANGE.getLength() / FADE_OUTPUT_LEVEL_DELTA; // steps to complete the fade out
+const FADE_OUT_STEPS = PLAYBACK_RATE_RANGE.getLength() / FADE_OUTPUT_LEVEL_DELTA; // steps to complete fade out
+const FADE_OUT_DT = FADE_OUT_INTERVAL / FADE_OUT_STEPS;
 
 export default class FieldMeterSoundListener implements TInputListener {
 
@@ -36,12 +45,13 @@ export default class FieldMeterSoundListener implements TInputListener {
   private readonly fieldVectorListener: ( fieldVector: Vector2 ) => void;
 
   private stepTimerListener: TimerListener | null;
-  private readonly fadeOutAndStopCallback: () => void;
+  private readonly fadeInCallback: () => void;
+  private readonly fadeOutCallback: () => void;
 
   public constructor( fieldVectorProperty: TReadOnlyProperty<Vector2>, fieldMagnitudeRange: Range, fieldScaleProperty: TReadOnlyProperty<number> ) {
 
     this.soundClip = new SoundClip( felFieldMeterLoop_mp3, {
-      initialOutputLevel: OUTPUT_LEVEL,
+      initialOutputLevel: NORMAL_OUTPUT_LEVEL,
       loop: true
     } );
     soundManager.addSoundGenerator( this.soundClip );
@@ -56,19 +66,32 @@ export default class FieldMeterSoundListener implements TInputListener {
       else {
         const playbackRate = this.fieldMagnitudeToPlaybackRate( fieldVector.magnitude, fieldScaleProperty.value );
         this.soundClip.setPlaybackRate( playbackRate );
-        this.soundClip.setOutputLevel( OUTPUT_LEVEL );
+        this.soundClip.setOutputLevel( NORMAL_OUTPUT_LEVEL );
       }
     };
 
     this.stepTimerListener = null;
 
-    this.fadeOutAndStopCallback = () => {
+    // Fades in the sound by increasing its output level over time, until it reaches the normal output level.
+    this.fadeInCallback = () => {
+      assert && assert( this.stepTimerListener, 'expected stepTimerListener to be set' );
+      const outputLevel = Math.min( NORMAL_OUTPUT_LEVEL, this.soundClip.outputLevel + FADE_IN_LEVEL_DELTA );
+      this.soundClip.setOutputLevel( outputLevel );
+      if ( outputLevel === NORMAL_OUTPUT_LEVEL ) {
+        stepTimer.clearInterval( this.stepTimerListener! );
+        this.stepTimerListener = null;
+      }
+    };
+
+    // Fades out the sound by reducing the output level over time, then stopping the sound when output level reaches 0.
+    this.fadeOutCallback = () => {
       assert && assert( this.stepTimerListener, 'expected stepTimerListener to be set' );
       const outputLevel = Math.max( 0, this.soundClip.outputLevel - FADE_OUTPUT_LEVEL_DELTA );
       this.soundClip.setOutputLevel( outputLevel );
       if ( outputLevel === 0 ) {
         this.soundClip.stop();
         stepTimer.clearInterval( this.stepTimerListener! );
+        this.stepTimerListener = null;
       }
     };
   }
@@ -77,34 +100,42 @@ export default class FieldMeterSoundListener implements TInputListener {
     Disposable.assertNotDisposable();
   }
 
+  // Start the sound when the field meter on pointer down.
   public down( event: PressListenerEvent ): void {
     this.startSound();
   }
 
+  // Stop the sound when the field meter on pointer up.
   public up( event: PressListenerEvent ): void {
     this.stopSound();
   }
 
+  // Start the sound when the field meter gets keyboard focus.
   public focus( event: PressListenerEvent ): void {
     this.startSound();
   }
 
+  // Stop the sound when the field meter loses keyboard focus.
   public blur( event: PressListenerEvent ): void {
     this.stopSound();
   }
 
+  // Starts the sound, with fade in.
   private startSound(): void {
     phet.log && phet.log( 'FieldMeterSoundListener startSound' );
     this.fieldVectorProperty.link( this.fieldVectorListener );
-    this.stepTimerListener && stepTimer.clearInterval( this.stepTimerListener ); // Clear the fade that was in progress.
-    this.soundClip.setOutputLevel( OUTPUT_LEVEL );
+    this.stepTimerListener && stepTimer.clearInterval( this.stepTimerListener ); // Clear a fade that was in progress.
+    this.soundClip.setOutputLevel( 0 ); // Prepare to fade in.
     this.soundClip.play();
+    this.stepTimerListener = stepTimer.setInterval( this.fadeInCallback, FADE_IN_DT );
   }
 
+  // Stops the sound, with fade out.
   private stopSound(): void {
     phet.log && phet.log( 'FieldMeterSoundListener stopSound' );
     this.fieldVectorProperty.unlink( this.fieldVectorListener );
-    this.stepTimerListener = stepTimer.setInterval( this.fadeOutAndStopCallback, FADE_OUT_INTERVAL / FADE_OUT_STEPS );
+    this.stepTimerListener && stepTimer.clearInterval( this.stepTimerListener ); // Clear a fade that was in progress.
+    this.stepTimerListener = stepTimer.setInterval( this.fadeOutCallback, FADE_OUT_DT );
   }
 
   /**
