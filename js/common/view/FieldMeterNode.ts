@@ -184,15 +184,27 @@ export default class FieldMeterNode extends FELMovableNode {
 
     super( fieldMeter, options );
 
+    const startSound = () => {
+      phet.log && phet.log( 'FieldMeterNode startSound' );
+      //TODO https://github.com/phetsims/faradays-electromagnetic-lab/issues/77 fieldMeter.fieldVectorProperty.link
+      //TODO https://github.com/phetsims/faradays-electromagnetic-lab/issues/77 start sound
+    };
+
+    const stopSound = () => {
+      phet.log && phet.log( 'FieldMeterNode stopSound' );
+      //TODO https://github.com/phetsims/faradays-electromagnetic-lab/issues/77 stop sound
+      //TODO https://github.com/phetsims/faradays-electromagnetic-lab/issues/77 fieldMeter.fieldVectorProperty.unlink
+    };
+
     this.addInputListener( {
-      focus: () => {
-        //TODO https://github.com/phetsims/faradays-electromagnetic-lab/issues/77 fieldMeter.fieldVectorProperty.link
-        //TODO https://github.com/phetsims/faradays-electromagnetic-lab/issues/77 start sound
-      },
-      blur: () => {
-        //TODO https://github.com/phetsims/faradays-electromagnetic-lab/issues/77 fieldMeter.fieldVectorProperty.unlink
-        //TODO https://github.com/phetsims/faradays-electromagnetic-lab/issues/77 stop sound
-      }
+
+      // Start sound for pointer and keyboard input.
+      down: () => startSound(),
+      focus: () => startSound(),
+
+      // Stop sound for pointer and keyboard input.
+      up: () => stopSound(),
+      blur: () => stopSound()
     } );
   }
 }
