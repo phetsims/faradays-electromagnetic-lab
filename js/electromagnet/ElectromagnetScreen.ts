@@ -8,7 +8,7 @@
 
 import Screen, { ScreenOptions } from '../../../joist/js/Screen.js';
 import faradaysElectromagneticLab from '../faradaysElectromagneticLab.js';
-import ElectromagnetModel from './model/ElectromagnetModel.js';
+import ElectromagnetScreenModel from './model/ElectromagnetScreenModel.js';
 import ElectromagnetScreenView from './view/ElectromagnetScreenView.js';
 import FaradaysElectromagneticLabStrings from '../FaradaysElectromagneticLabStrings.js';
 import FELColors from '../common/FELColors.js';
@@ -19,11 +19,11 @@ import FELConstants from '../common/FELConstants.js';
 import FELKeyboardHelpContent from '../common/view/FELKeyboardHelpContent.js';
 import DCPowerSupplyNode from '../common/view/DCPowerSupplyNode.js';
 
-export default class ElectromagnetScreen extends Screen<ElectromagnetModel, ElectromagnetScreenView> {
+export default class ElectromagnetScreen extends Screen<ElectromagnetScreenModel, ElectromagnetScreenView> {
 
   public constructor( tandem: Tandem ) {
     super(
-      () => new ElectromagnetModel( tandem.createTandem( 'model' ) ),
+      () => new ElectromagnetScreenModel( tandem.createTandem( 'model' ) ),
       model => new ElectromagnetScreenView( model, tandem.createTandem( 'view' ) ),
       combineOptions<ScreenOptions>( {}, FELConstants.SCREEN_OPTIONS, {
           name: FaradaysElectromagneticLabStrings.screen.electromagnetStringProperty,

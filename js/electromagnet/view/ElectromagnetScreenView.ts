@@ -7,7 +7,7 @@
  */
 
 import faradaysElectromagneticLab from '../../faradaysElectromagneticLab.js';
-import ElectromagnetModel from '../model/ElectromagnetModel.js';
+import ElectromagnetScreenModel from '../model/ElectromagnetScreenModel.js';
 import Tandem from '../../../../tandem/js/Tandem.js';
 import { Node } from '../../../../scenery/js/imports.js';
 import ElectromagnetDeveloperAccordionBox from './ElectromagnetDeveloperAccordionBox.js';
@@ -18,7 +18,7 @@ import FELScreenView from '../../common/view/FELScreenView.js';
 
 export default class ElectromagnetScreenView extends FELScreenView {
 
-  public constructor( model: ElectromagnetModel, tandem: Tandem ) {
+  public constructor( model: ElectromagnetScreenModel, tandem: Tandem ) {
 
     const panels = new ElectromagnetPanels( model.electromagnet, model.compass, model.fieldMeter, tandem.createTandem( 'panels' ) );
 

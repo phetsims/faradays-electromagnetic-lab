@@ -1,7 +1,7 @@
 // Copyright 2023-2024, University of Colorado Boulder
 
 /**
- * ElectromagnetModel is the top-level model for the 'Electromagnet' screen.
+ * ElectromagnetScreenModel is the top-level model for the 'Electromagnet' screen.
  *
  * @author Chris Malley (PixelZoom, Inc.)
  */
@@ -13,7 +13,7 @@ import Vector2 from '../../../../dot/js/Vector2.js';
 import IncrementalCompass from '../../common/model/IncrementalCompass.js';
 import FELModel from '../../common/model/FELModel.js';
 
-export default class ElectromagnetModel extends FELModel {
+export default class ElectromagnetScreenModel extends FELModel {
 
   public readonly electromagnet: Electromagnet;
 
@@ -43,4 +43,4 @@ export default class ElectromagnetModel extends FELModel {
   }
 }
 
-faradaysElectromagneticLab.register( 'ElectromagnetModel', ElectromagnetModel );
+faradaysElectromagneticLab.register( 'ElectromagnetScreenModel', ElectromagnetScreenModel );
