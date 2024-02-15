@@ -78,7 +78,7 @@ export default class FieldMeterSoundListener implements TInputListener {
       }
     };
 
-    // Fades out the sound by reducing the output level over time, then stopping the sound when output level reaches 0.
+    // Fades out the sound by reducing the output level over time, until it reaches 0.
     this.fadeOutCallback = () => {
       assert && assert( this.stepTimerListener, 'expected stepTimerListener to be set' );
       const outputLevel = Math.max( 0, this.soundClip.outputLevel - FADE_OUTPUT_LEVEL_DELTA );
