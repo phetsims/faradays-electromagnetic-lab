@@ -3,6 +3,9 @@
 /**
  * BarMagnetScreenModel is the top-level model for the 'Bar Magnet' screen.
  *
+ * Note that the name of this class differs from PhET conventions (BarMagnetModel) to avoid confusion with the
+ * BarMagnet model element.
+ *
  * @author Chris Malley (PixelZoom, Inc.)
  */
 
