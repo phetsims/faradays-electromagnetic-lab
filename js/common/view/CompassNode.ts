@@ -40,7 +40,11 @@ export default class CompassNode extends FELMovableNode {
     const options = optionize<CompassNodeOptions, SelfOptions, FELMovableNodeOptions>()( {
 
       // FELMovableNodeOptions
-      visibleProperty: compass.visibleProperty
+      visibleProperty: compass.visibleProperty,
+      keyboardDragListenerOptions: {
+        dragSpeed: 150, // See https://github.com/phetsims/faradays-electromagnetic-lab/issues/79
+        shiftDragSpeed: 50
+      }
     }, providedOptions );
 
     const ringNode = new Circle( RING_CENTER_RADIUS, {

@@ -13,7 +13,7 @@ import { CreditsData } from '../../../joist/js/CreditsNode.js';
 import { PanelOptions } from '../../../sun/js/Panel.js';
 import PhetFont from '../../../scenery-phet/js/PhetFont.js';
 import { CheckboxOptions } from '../../../sun/js/Checkbox.js';
-import { KeyboardDragListenerOptions, RichTextOptions, Text, TextOptions, VBoxOptions } from '../../../scenery/js/imports.js';
+import { RichTextOptions, Text, TextOptions, VBoxOptions } from '../../../scenery/js/imports.js';
 import NumberControl, { NumberControlOptions } from '../../../scenery-phet/js/NumberControl.js';
 import Dimension2 from '../../../dot/js/Dimension2.js';
 import { RectangularRadioButtonOptions } from '../../../sun/js/buttons/RectangularRadioButton.js';
@@ -21,7 +21,6 @@ import { SoundClipOptions } from '../../../tambo/js/sound-generators/SoundClip.j
 import { SliderOptions } from '../../../sun/js/Slider.js';
 import Tandem from '../../../tandem/js/Tandem.js';
 import Range from '../../../dot/js/Range.js';
-import FELQueryParameters from './FELQueryParameters.js';
 import { PreferencesControlOptions } from '../../../joist/js/preferences/PreferencesControl.js';
 
 // Credits are shared by all sims in this family.
@@ -105,11 +104,6 @@ const PANEL_TITLE_OPTIONS: TextOptions = {
   maxWidth: 200
 };
 
-const KEYBOARD_DRAG_LISTENER_OPTIONS: KeyboardDragListenerOptions = {
-  dragSpeed: FELQueryParameters.dragSpeed,
-  shiftDragSpeed: FELQueryParameters.shiftDragSpeed
-};
-
 const VBOX_OPTIONS: VBoxOptions = {
   spacing: 10,
   align: 'left',
@@ -181,7 +175,6 @@ const FELConstants = {
   PANEL_TITLE_OPTIONS: PANEL_TITLE_OPTIONS,
   CHECKBOX_TEXT_OPTIONS: CHECKBOX_TEXT_OPTIONS,
   TICK_LABEL_OPTIONS: TICK_LABEL_OPTIONS,
-  KEYBOARD_DRAG_LISTENER_OPTIONS: KEYBOARD_DRAG_LISTENER_OPTIONS,
   VBOX_OPTIONS: VBOX_OPTIONS,
   GRAB_RELEASE_SOUND_CLIP_OPTIONS: GRAB_RELEASE_SOUND_CLIP_OPTIONS,
   PERCENT_SLIDER_OPTIONS: PERCENT_SLIDER_OPTIONS,

@@ -16,7 +16,6 @@ import PickOptional from '../../../../phet-core/js/types/PickOptional.js';
 import PickRequired from '../../../../phet-core/js/types/PickRequired.js';
 import TReadOnlyProperty from '../../../../axon/js/TReadOnlyProperty.js';
 import Bounds2 from '../../../../dot/js/Bounds2.js';
-import StrictOmit from '../../../../phet-core/js/types/StrictOmit.js';
 import RichDragListener from '../../../../sun/js/RichDragListener.js';
 import RichKeyboardDragListener, { RichKeyboardDragListenerOptions } from '../../../../sun/js/RichKeyboardDragListener.js';
 
@@ -47,12 +46,16 @@ export default class FELMovableNode extends InteractiveHighlighting( Node ) {
 
   protected constructor( movable: FELMovable, providedOptions: FELMovableNodeOptions ) {
 
-    const options = optionize<FELMovableNodeOptions, StrictOmit<SelfOptions, 'keyboardDragListenerOptions'>, ParentOptions>()( {
+    const options = optionize<FELMovableNodeOptions, SelfOptions, ParentOptions>()( {
 
       // SelfOptions
       isMovable: true,
       hasKeyboardDragListener: true,
       dragBoundsProperty: null,
+      keyboardDragListenerOptions: {
+        dragSpeed: 600, // See https://github.com/phetsims/faradays-electromagnetic-lab/issues/79
+        shiftDragSpeed: 150
+      },
 
       // NodeOptions
       isDisposable: false,
@@ -94,7 +97,7 @@ export default class FELMovableNode extends InteractiveHighlighting( Node ) {
 
       if ( options.hasKeyboardDragListener ) {
         const keyboardDragListener = new RichKeyboardDragListener(
-          combineOptions<RichKeyboardDragListenerOptions>( {}, FELConstants.KEYBOARD_DRAG_LISTENER_OPTIONS, {
+          combineOptions<RichKeyboardDragListenerOptions>( {
             positionProperty: movable.positionProperty,
             dragBoundsProperty: options.dragBoundsProperty,
             tandem: options.tandem.createTandem( 'keyboardDragListener' ),

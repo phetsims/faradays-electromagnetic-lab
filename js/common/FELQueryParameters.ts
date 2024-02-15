@@ -52,22 +52,6 @@ const SCHEMA_MAP = {
   // Prints info to the console that is useful for calibrating the pickup coil. See PickupCoil.calibrateEMF.
   calibrateEMF: {
     type: 'flag'
-  },
-
-  // KeyboardDragListenerOptions.dragSpeed for all draggable objects
-  //TODO https://github.com/phetsims/faradays-electromagnetic-lab/issues/79
-  dragSpeed: {
-    type: 'number',
-    defaultValue: 500,
-    isValidValue: ( value: number ) => ( value > 0 )
-  },
-
-  // KeyboardDragListenerOptions.shiftDragSpeed for all draggable objects
-  //TODO https://github.com/phetsims/faradays-electromagnetic-lab/issues/79
-  shiftDragSpeed: {
-    type: 'number',
-    defaultValue: 250,
-    isValidValue: ( value: number ) => ( value > 0 )
   }
 } as const;
 

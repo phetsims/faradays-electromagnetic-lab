@@ -91,7 +91,12 @@ export default class FieldMeterNode extends FELMovableNode {
     const options = optionize<FieldMeterNodeOptions, SelfOptions, FELMovableNodeOptions>()( {
 
       // FELMovableNodeOptions
-      visibleProperty: fieldMeter.visibleProperty
+      visibleProperty: fieldMeter.visibleProperty,
+      keyboardDragListenerOptions: {
+        dragSpeed: 150, // See https://github.com/phetsims/faradays-electromagnetic-lab/issues/79
+        shiftDragSpeed: 50
+      }
+
     }, providedOptions );
 
     // Origin is at the center of the crosshairs.
