@@ -1,7 +1,7 @@
 // Copyright 2023-2024, University of Colorado Boulder
 
 /**
- * PickupCoilModel is the top-level model for the 'Pickup Coil' screen.
+ * PickupCoilScreenModel is the top-level model for the 'Pickup Coil' screen.
  *
  * @author Chris Malley (PixelZoom, Inc.)
  */
@@ -15,7 +15,7 @@ import KinematicCompass from '../../common/model/KinematicCompass.js';
 import FELModel from '../../common/model/FELModel.js';
 import { FixedSpacingSamplePointsStrategy } from '../../common/model/PickupCoilSamplePointsStrategy.js';
 
-export default class PickupCoilModel extends FELModel {
+export default class PickupCoilScreenModel extends FELModel {
 
   public readonly barMagnet: BarMagnet;
   public readonly pickupCoil: PickupCoil;
@@ -65,4 +65,4 @@ export default class PickupCoilModel extends FELModel {
   }
 }
 
-faradaysElectromagneticLab.register( 'PickupCoilModel', PickupCoilModel );
+faradaysElectromagneticLab.register( 'PickupCoilScreenModel', PickupCoilScreenModel );

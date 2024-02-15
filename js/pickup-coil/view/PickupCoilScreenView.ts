@@ -11,7 +11,7 @@ import faradaysElectromagneticLab from '../../faradaysElectromagneticLab.js';
 import Tandem from '../../../../tandem/js/Tandem.js';
 import BarMagnetNode from '../../common/view/BarMagnetNode.js';
 import { Node } from '../../../../scenery/js/imports.js';
-import PickupCoilModel from '../model/PickupCoilModel.js';
+import PickupCoilScreenModel from '../model/PickupCoilScreenModel.js';
 import PickupCoilDeveloperAccordionBox from './PickupCoilDeveloperAccordionBox.js';
 import PickupCoilDebuggerPanel from '../../common/view/PickupCoilDebuggerPanel.js';
 import PickupCoilNode from '../../common/view/PickupCoilNode.js';
@@ -23,7 +23,7 @@ import Property from '../../../../axon/js/Property.js';
 
 export default class PickupCoilScreenView extends FELScreenView {
 
-  public constructor( model: PickupCoilModel, tandem: Tandem ) {
+  public constructor( model: PickupCoilScreenModel, tandem: Tandem ) {
 
     const isLockedToAxisProperty = new BooleanProperty( false, {
       tandem: tandem.createTandem( 'isLockedToAxisProperty' ),

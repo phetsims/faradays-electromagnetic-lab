@@ -8,7 +8,7 @@
 
 import Screen, { ScreenOptions } from '../../../joist/js/Screen.js';
 import faradaysElectromagneticLab from '../faradaysElectromagneticLab.js';
-import PickupCoilModel from './model/PickupCoilModel.js';
+import PickupCoilScreenModel from './model/PickupCoilScreenModel.js';
 import PickupCoilScreenView from './view/PickupCoilScreenView.js';
 import FaradaysElectromagneticLabStrings from '../FaradaysElectromagneticLabStrings.js';
 import FELColors from '../common/FELColors.js';
@@ -20,11 +20,11 @@ import FELConstants from '../common/FELConstants.js';
 import FELKeyboardHelpContent from '../common/view/FELKeyboardHelpContent.js';
 import lightBulbOn_png from '../../../scenery-phet/mipmaps/lightBulbOn_png.js';
 
-export default class PickupCoilScreen extends Screen<PickupCoilModel, PickupCoilScreenView> {
+export default class PickupCoilScreen extends Screen<PickupCoilScreenModel, PickupCoilScreenView> {
 
   public constructor( tandem: Tandem ) {
     super(
-      () => new PickupCoilModel( tandem.createTandem( 'model' ) ),
+      () => new PickupCoilScreenModel( tandem.createTandem( 'model' ) ),
       model => new PickupCoilScreenView( model, tandem.createTandem( 'view' ) ),
       combineOptions<ScreenOptions>( {}, FELConstants.SCREEN_OPTIONS, {
           name: FaradaysElectromagneticLabStrings.screen.pickupCoilStringProperty,
