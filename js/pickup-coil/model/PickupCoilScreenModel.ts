@@ -3,6 +3,9 @@
 /**
  * PickupCoilScreenModel is the top-level model for the 'Pickup Coil' screen.
  *
+ * Note that the name of this class differs from PhET conventions (PickupCoilModel) to avoid confusion with the
+ * PickupCoil model element.
+ *
  * @author Chris Malley (PixelZoom, Inc.)
  */
 
