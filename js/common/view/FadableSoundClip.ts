@@ -35,8 +35,8 @@ export default class FadableSoundClip extends SoundClip {
   private readonly dtFadeIn: number;
   private readonly dtFadeOut: number;
 
-  // Output level immediately before we start to fade in
-  private fadeInOutputLevel: number;
+  // Output level at the end of fade in.
+  private readonly fadeInOutputLevel: number;
 
   // Listener returned by stepTimer.setInterval, to be stopped using stepTimer.clearInterval
   private stepTimerListener: TimerListener | null;
@@ -64,15 +64,13 @@ export default class FadableSoundClip extends SoundClip {
    * Plays the sound clip, with fade in.
    */
   public override play(): void {
-    assert && assert( !this.isPlaying );
 
     // Clear a fade that was in progress.
     if ( this.stepTimerListener ) {
       stepTimer.clearInterval( this.stepTimerListener );
     }
 
-    // Fade in to the current output level.
-    this.fadeInOutputLevel = this.outputLevel;
+    // Fade in.
     this.outputLevel = 0;
     super.play();
     this.stepTimerListener = stepTimer.setInterval( this.fadeIn.bind( this ), this.dtFadeIn );
@@ -82,7 +80,6 @@ export default class FadableSoundClip extends SoundClip {
    * Plays the sound clip, with fade out.
    */
   public override stop(): void {
-    assert && assert( this.isPlaying );
 
     // Clear a fade that was in progress.
     if ( this.stepTimerListener ) {

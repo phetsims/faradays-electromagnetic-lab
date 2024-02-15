@@ -23,7 +23,7 @@ const PLAYBACK_RATE_RANGE = new Range( 1, 2 );
 
 // Output level is constant, except during fade in and fade out.
 //TODO https://github.com/phetsims/faradays-electromagnetic-lab/issues/77 This seems a little loud, 0.2 in GFLB. But then fades are inaudible.
-const NORMAL_OUTPUT_LEVEL = 0.7;
+const INITIAL_OUTPUT_LEVEL = 0.7;
 
 export default class FieldMeterSoundListener implements TInputListener {
 
@@ -37,7 +37,7 @@ export default class FieldMeterSoundListener implements TInputListener {
 
     this.soundClip = new FadableSoundClip( felFieldMeterLoop_mp3, {
       loop: true,
-      initialOutputLevel: NORMAL_OUTPUT_LEVEL,
+      initialOutputLevel: INITIAL_OUTPUT_LEVEL,
       deltaOutputLevel: 0.07,
       dtFadeIn: 25,
       dtFadeOut: 50
@@ -54,7 +54,7 @@ export default class FieldMeterSoundListener implements TInputListener {
       else {
         const playbackRate = this.fieldMagnitudeToPlaybackRate( fieldVector.magnitude, fieldScaleProperty.value );
         this.soundClip.setPlaybackRate( playbackRate );
-        this.soundClip.setOutputLevel( NORMAL_OUTPUT_LEVEL );
+        this.soundClip.setOutputLevel( INITIAL_OUTPUT_LEVEL );
       }
     };
   }
