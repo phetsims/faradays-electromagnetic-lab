@@ -39,7 +39,7 @@ const SCHEMA_MAP = {
     public: true
   },
 
-  // Which hemisphere of the Earth to show, a sim-specific lightweight way to address 'Region and Culture'.
+  // Which hemisphere of the Earth to show, a sim-specific lightweight way to be inclusive.
   // See https://github.com/phetsims/faradays-electromagnetic-lab/issues/27
   earthHemisphere: {
     type: 'string',
