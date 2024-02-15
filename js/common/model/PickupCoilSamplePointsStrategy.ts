@@ -51,9 +51,7 @@ export class FixedNumberOfSamplePointsStrategy extends PickupCoilSamplePointsStr
   public override createSamplePointsProtected( loopRadius: number ): Vector2[] {
     const numberOfSamplePointsOnRadius = ( this.numberOfSamplePoints - 1 ) / 2;
     const ySpacing = loopRadius / numberOfSamplePointsOnRadius;
-    const samplePoints = createSamplePoints( numberOfSamplePointsOnRadius, ySpacing );
-    phet.log && phet.log( `FixedNumberOfSamplePointsStrategy.createSamplePoints: numberOfSamplePoints=${samplePoints.length} ySpacing=${ySpacing}` );
-    return samplePoints;
+    return createSamplePoints( numberOfSamplePointsOnRadius, ySpacing );
   }
 }
 
@@ -74,9 +72,7 @@ export class FixedSpacingSamplePointsStrategy extends PickupCoilSamplePointsStra
 
   public override createSamplePointsProtected( loopRadius: number ): Vector2[] {
     const numberOfSamplePointsOnRadius = Math.trunc( loopRadius / this.ySpacing );
-    const samplePoints = createSamplePoints( numberOfSamplePointsOnRadius, this.ySpacing );
-    phet.log && phet.log( `FixedSpacingSamplePointsStrategy.createSamplePoints: numberOfSamplePoints=${samplePoints.length} ySpacing=${this.ySpacing}` );
-    return samplePoints;
+    return createSamplePoints( numberOfSamplePointsOnRadius, this.ySpacing );
   }
 }
 
