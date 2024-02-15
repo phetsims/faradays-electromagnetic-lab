@@ -22,7 +22,8 @@ import FieldNode from './FieldNode.js';
 // Pitch varies over 12 semitones (1 octave), so the playback rate doubles.
 const PLAYBACK_RATE_RANGE = new Range( 1, 2 );
 
-// Output level is constant, except during fade in and fade out. 
+// Output level is constant, except during fade in and fade out.
+//TODO https://github.com/phetsims/faradays-electromagnetic-lab/issues/77 This seems a little loud, 0.2 in GFLB. But then fades are inaudible.
 const NORMAL_OUTPUT_LEVEL = 0.7;
 
 // Fade parameters
