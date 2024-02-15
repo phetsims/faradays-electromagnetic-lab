@@ -9,7 +9,7 @@
 
 import faradaysElectromagneticLab from '../../faradaysElectromagneticLab.js';
 import { PressListenerEvent, TInputListener } from '../../../../scenery/js/imports.js';
-import { Disposable, stepTimer, TimerListener, TReadOnlyProperty } from '../../../../axon/js/imports.js';
+import { Disposable, PropertyLinkListener, stepTimer, TimerListener, TReadOnlyProperty } from '../../../../axon/js/imports.js';
 import Range from '../../../../dot/js/Range.js';
 import Vector2 from '../../../../dot/js/Vector2.js';
 import soundManager from '../../../../tambo/js/soundManager.js';
@@ -36,7 +36,7 @@ export default class FieldMeterSoundListener implements TInputListener {
 
   private readonly fieldVectorProperty: TReadOnlyProperty<Vector2>;
   private readonly fieldMagnitudeRange: Range;
-  private readonly fieldVectorListener: ( fieldVector: Vector2 ) => void;
+  private readonly fieldVectorListener: PropertyLinkListener<Vector2>;
 
   private stepTimerListener: TimerListener | null;
   private readonly fadeInCallback: () => void;
@@ -94,41 +94,63 @@ export default class FieldMeterSoundListener implements TInputListener {
     Disposable.assertNotDisposable();
   }
 
-  // Start the sound when the field meter on pointer down.
+  // Starts the sound when the field meter on pointer down.
   public down( event: PressListenerEvent ): void {
     this.startSound();
   }
 
-  // Stop the sound when the field meter on pointer up.
+  // Stops the sound when the field meter on pointer up.
   public up( event: PressListenerEvent ): void {
     this.stopSound();
   }
 
-  // Start the sound when the field meter gets keyboard focus.
+  // Starts the sound when the field meter gets keyboard focus.
   public focus( event: PressListenerEvent ): void {
     this.startSound();
   }
 
-  // Stop the sound when the field meter loses keyboard focus.
+  // Stops the sound when the field meter loses keyboard focus.
   public blur( event: PressListenerEvent ): void {
     this.stopSound();
   }
 
   // Starts the sound, with fade in.
   private startSound(): void {
+    assert && assert( !this.soundClip.isPlaying );
+
     phet.log && phet.log( 'FieldMeterSoundListener startSound' );
+
+    // Listen to changes in fieldVectorProperty
     this.fieldVectorProperty.link( this.fieldVectorListener );
-    this.stepTimerListener && stepTimer.clearInterval( this.stepTimerListener ); // Clear a fade that was in progress.
-    this.soundClip.setOutputLevel( 0 ); // Prepare to fade in.
+
+    // Clear a fade that was in progress.
+    if ( this.stepTimerListener ) {
+      stepTimer.clearInterval( this.stepTimerListener );
+    }
+
+    // Fade in.
+    this.soundClip.setOutputLevel( 0 );
     this.soundClip.play();
-    this.stepTimerListener = stepTimer.setInterval( this.fadeInCallback, FADE_IN_INTERVAL / FADE_STEPS );
+    if ( this.fieldVectorProperty.value.magnitude > 0 ) {
+      this.stepTimerListener = stepTimer.setInterval( this.fadeInCallback, FADE_IN_INTERVAL / FADE_STEPS );
+    }
   }
 
   // Stops the sound, with fade out.
   private stopSound(): void {
+    assert && assert( this.soundClip.isPlaying );
+
     phet.log && phet.log( 'FieldMeterSoundListener stopSound' );
+
+    // Stop listening to fieldVectorProperty
     this.fieldVectorProperty.unlink( this.fieldVectorListener );
-    this.stepTimerListener && stepTimer.clearInterval( this.stepTimerListener ); // Clear a fade that was in progress.
+
+    // Clear a fade that was in progress.
+    if ( this.stepTimerListener ) {
+      stepTimer.clearInterval( this.stepTimerListener );
+    }
+
+    // Fade out.
     this.stepTimerListener = stepTimer.setInterval( this.fadeOutCallback, FADE_OUT_INTERVAL / FADE_STEPS );
   }
 
