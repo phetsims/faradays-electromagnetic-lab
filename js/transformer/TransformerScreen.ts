@@ -8,7 +8,7 @@
 
 import Screen, { ScreenOptions } from '../../../joist/js/Screen.js';
 import faradaysElectromagneticLab from '../faradaysElectromagneticLab.js';
-import TransformerModel from './model/TransformerModel.js';
+import TransformerScreenModel from './model/TransformerScreenModel.js';
 import TransformerScreenView from './view/TransformerScreenView.js';
 import FaradaysElectromagneticLabStrings from '../FaradaysElectromagneticLabStrings.js';
 import FELColors from '../common/FELColors.js';
@@ -21,11 +21,11 @@ import FELKeyboardHelpContent from '../common/view/FELKeyboardHelpContent.js';
 import lightBulbOn_png from '../../../scenery-phet/mipmaps/lightBulbOn_png.js';
 import DCPowerSupplyNode from '../common/view/DCPowerSupplyNode.js';
 
-export default class TransformerScreen extends Screen<TransformerModel, TransformerScreenView> {
+export default class TransformerScreen extends Screen<TransformerScreenModel, TransformerScreenView> {
 
   public constructor( tandem: Tandem ) {
     super(
-      () => new TransformerModel( tandem.createTandem( 'model' ) ),
+      () => new TransformerScreenModel( tandem.createTandem( 'model' ) ),
       model => new TransformerScreenView( model, tandem.createTandem( 'view' ) ),
       combineOptions<ScreenOptions>( {}, FELConstants.SCREEN_OPTIONS, {
           name: FaradaysElectromagneticLabStrings.screen.transformerStringProperty,

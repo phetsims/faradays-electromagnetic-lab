@@ -1,7 +1,7 @@
 // Copyright 2023-2024, University of Colorado Boulder
 
 /**
- * TransformerModel is the top-level model for the 'Transformer' screen.
+ * TransformerScreenModel is the top-level model for the 'Transformer' screen.
  *
  * @author Chris Malley (PixelZoom, Inc.)
  */
@@ -13,7 +13,7 @@ import IncrementalCompass from '../../common/model/IncrementalCompass.js';
 import FELModel from '../../common/model/FELModel.js';
 import Transformer from './Transformer.js';
 
-export default class TransformerModel extends FELModel {
+export default class TransformerScreenModel extends FELModel {
 
   public readonly transformer: Transformer;
 
@@ -44,4 +44,4 @@ export default class TransformerModel extends FELModel {
   }
 }
 
-faradaysElectromagneticLab.register( 'TransformerModel', TransformerModel );
+faradaysElectromagneticLab.register( 'TransformerScreenModel', TransformerScreenModel );
