@@ -1,5 +1,6 @@
 // Copyright 2024, University of Colorado Boulder
 
+//TODO https://github.com/phetsims/faradays-electromagnetic-lab/issues/77 Should fades be logarithmic?
 /**
  * FadableSoundClip is an extension of SoundClip that supports fading in and fading out.
  *

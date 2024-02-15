@@ -1,7 +1,6 @@
 // Copyright 2024, University of Colorado Boulder
 
 //TODO https://github.com/phetsims/faradays-electromagnetic-lab/issues/77 Can this be generalized for other similar sound designs?
-//TODO https://github.com/phetsims/faradays-electromagnetic-lab/issues/77 Should fades be logarithmic?
 /**
  * FieldMeterSoundListener is responsible for sound related to the field meter.
  *
