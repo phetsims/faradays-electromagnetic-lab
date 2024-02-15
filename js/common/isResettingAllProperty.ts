@@ -1,4 +1,4 @@
-// Copyright 2023, University of Colorado Boulder
+// Copyright 2024, University of Colorado Boulder
 
 /**
  * isResettingAllProperty is a global Property that is true while a 'reset all' is in progress.
