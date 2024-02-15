@@ -18,23 +18,17 @@ import SoundClip from '../../../../tambo/js/sound-generators/SoundClip.js';
 import Utils from '../../../../dot/js/Utils.js';
 import FieldNode from './FieldNode.js';
 
+// Pitch varies over 12 semitones (1 octave), so the playback rate doubles.
+const PLAYBACK_RATE_RANGE = new Range( 1, 2 );
+
 // Output level is constant, except during fade in and fade out. 
 const NORMAL_OUTPUT_LEVEL = 0.7;
 
-// Pitch varies over 12 semitones (1 octave) so the rate double.
-const PLAYBACK_RATE_RANGE = new Range( 1, 2 );
-
-// Fade in parameters
+// Fade parameters
+const FADE_OUTPUT_LEVEL_DELTA = NORMAL_OUTPUT_LEVEL / 10;
+const FADE_STEPS = PLAYBACK_RATE_RANGE.getLength() / FADE_OUTPUT_LEVEL_DELTA;
 const FADE_IN_INTERVAL = 250; // time over which fade out occurs, in ms
-const FADE_IN_LEVEL_DELTA = 0.1; // change in output level per step
-const FADE_IN_STEPS = PLAYBACK_RATE_RANGE.getLength() / FADE_IN_LEVEL_DELTA; // steps to complete fade in
-const FADE_IN_DT = FADE_IN_INTERVAL / FADE_IN_STEPS;
-
-// Fade out parameters
 const FADE_OUT_INTERVAL = 500; // time over which fade out occurs, in ms
-const FADE_OUTPUT_LEVEL_DELTA = 0.1; // change in output level per step
-const FADE_OUT_STEPS = PLAYBACK_RATE_RANGE.getLength() / FADE_OUTPUT_LEVEL_DELTA; // steps to complete fade out
-const FADE_OUT_DT = FADE_OUT_INTERVAL / FADE_OUT_STEPS;
 
 export default class FieldMeterSoundListener implements TInputListener {
 
@@ -75,7 +69,7 @@ export default class FieldMeterSoundListener implements TInputListener {
     // Fades in the sound by increasing its output level over time, until it reaches the normal output level.
     this.fadeInCallback = () => {
       assert && assert( this.stepTimerListener, 'expected stepTimerListener to be set' );
-      const outputLevel = Math.min( NORMAL_OUTPUT_LEVEL, this.soundClip.outputLevel + FADE_IN_LEVEL_DELTA );
+      const outputLevel = Math.min( NORMAL_OUTPUT_LEVEL, this.soundClip.outputLevel + FADE_OUTPUT_LEVEL_DELTA );
       this.soundClip.setOutputLevel( outputLevel );
       if ( outputLevel === NORMAL_OUTPUT_LEVEL ) {
         stepTimer.clearInterval( this.stepTimerListener! );
@@ -127,7 +121,7 @@ export default class FieldMeterSoundListener implements TInputListener {
     this.stepTimerListener && stepTimer.clearInterval( this.stepTimerListener ); // Clear a fade that was in progress.
     this.soundClip.setOutputLevel( 0 ); // Prepare to fade in.
     this.soundClip.play();
-    this.stepTimerListener = stepTimer.setInterval( this.fadeInCallback, FADE_IN_DT );
+    this.stepTimerListener = stepTimer.setInterval( this.fadeInCallback, FADE_IN_INTERVAL / FADE_STEPS );
   }
 
   // Stops the sound, with fade out.
@@ -135,7 +129,7 @@ export default class FieldMeterSoundListener implements TInputListener {
     phet.log && phet.log( 'FieldMeterSoundListener stopSound' );
     this.fieldVectorProperty.unlink( this.fieldVectorListener );
     this.stepTimerListener && stepTimer.clearInterval( this.stepTimerListener ); // Clear a fade that was in progress.
-    this.stepTimerListener = stepTimer.setInterval( this.fadeOutCallback, FADE_OUT_DT );
+    this.stepTimerListener = stepTimer.setInterval( this.fadeOutCallback, FADE_OUT_INTERVAL / FADE_STEPS );
   }
 
   /**
