@@ -8,7 +8,7 @@
 
 import Screen, { ScreenOptions } from '../../../joist/js/Screen.js';
 import faradaysElectromagneticLab from '../faradaysElectromagneticLab.js';
-import GeneratorModel from './model/GeneratorModel.js';
+import GeneratorScreenModel from './model/GeneratorScreenModel.js';
 import GeneratorScreenView from './view/GeneratorScreenView.js';
 import FaradaysElectromagneticLabStrings from '../FaradaysElectromagneticLabStrings.js';
 import FELColors from '../common/FELColors.js';
@@ -21,11 +21,11 @@ import waterWheel_png from '../../images/waterWheel_png.js';
 import BarMagnetNode from '../common/view/BarMagnetNode.js';
 import GeneratorKeyboardHelpContent from './view/GeneratorKeyboardHelpContent.js';
 
-export default class GeneratorScreen extends Screen<GeneratorModel, GeneratorScreenView> {
+export default class GeneratorScreen extends Screen<GeneratorScreenModel, GeneratorScreenView> {
 
   public constructor( tandem: Tandem ) {
     super(
-      () => new GeneratorModel( tandem.createTandem( 'model' ) ),
+      () => new GeneratorScreenModel( tandem.createTandem( 'model' ) ),
       model => new GeneratorScreenView( model, tandem.createTandem( 'view' ) ),
       combineOptions<ScreenOptions>( {}, FELConstants.SCREEN_OPTIONS, {
           name: FaradaysElectromagneticLabStrings.screen.generatorStringProperty,

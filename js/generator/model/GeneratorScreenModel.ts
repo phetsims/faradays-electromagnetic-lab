@@ -1,7 +1,7 @@
 // Copyright 2023-2024, University of Colorado Boulder
 
 /**
- * GeneratorModel is the top-level model for the 'Generator' screen.
+ * GeneratorScreenModel is the top-level model for the 'Generator' screen.
  *
  * @author Chris Malley (PixelZoom, Inc.)
  */
@@ -13,7 +13,7 @@ import Generator from './Generator.js';
 import ImmediateCompass from '../../common/model/ImmediateCompass.js';
 import FELModel from '../../common/model/FELModel.js';
 
-export default class GeneratorModel extends FELModel {
+export default class GeneratorScreenModel extends FELModel {
 
   public readonly generator: Generator;
 
@@ -40,4 +40,4 @@ export default class GeneratorModel extends FELModel {
   }
 }
 
-faradaysElectromagneticLab.register( 'GeneratorModel', GeneratorModel );
+faradaysElectromagneticLab.register( 'GeneratorScreenModel', GeneratorScreenModel );

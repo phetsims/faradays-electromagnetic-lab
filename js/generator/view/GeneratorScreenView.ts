@@ -8,7 +8,7 @@
 
 import FELConstants from '../../common/FELConstants.js';
 import faradaysElectromagneticLab from '../../faradaysElectromagneticLab.js';
-import GeneratorModel from '../model/GeneratorModel.js';
+import GeneratorScreenModel from '../model/GeneratorScreenModel.js';
 import Tandem from '../../../../tandem/js/Tandem.js';
 import { Node } from '../../../../scenery/js/imports.js';
 import GeneratorDeveloperAccordionBox from './GeneratorDeveloperAccordionBox.js';
@@ -20,7 +20,7 @@ import GeneratorNode from './GeneratorNode.js';
 
 export default class GeneratorScreenView extends FELScreenView {
 
-  public constructor( model: GeneratorModel, tandem: Tandem ) {
+  public constructor( model: GeneratorScreenModel, tandem: Tandem ) {
 
     const panels = new GeneratorPanels( model.generator, model.compass, model.fieldMeter,
       tandem.createTandem( 'panels' ) );
