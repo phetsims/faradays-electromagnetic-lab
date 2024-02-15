@@ -23,7 +23,7 @@ type SelfOptions = {
   dtFadeIn?: number;
 
   // dt for each fade-out step, in ms.
-  dtFadeOut?: number; // ms
+  dtFadeOut?: number;
 };
 
 export type FadableSoundClipOptions = SelfOptions & SoundClipOptions;
@@ -50,6 +50,10 @@ export default class FadableSoundClip extends SoundClip {
       dtFadeIn: 10,
       dtFadeOut: 10
     }, providedOptions );
+
+    assert && assert( options.deltaOutputLevel >= 0 && options.deltaOutputLevel <= 1, `invalid deltaOutputLevel: ${options.deltaOutputLevel}` );
+    assert && assert( options.dtFadeIn > 0, `invalid dtFadeIn: ${options.dtFadeIn}` );
+    assert && assert( options.dtFadeOut > 0, `invalid dtFadeOut: ${options.dtFadeOut}` );
 
     super( wrappedAudioBuffer, options );
 
