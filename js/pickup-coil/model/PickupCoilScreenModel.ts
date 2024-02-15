@@ -15,10 +15,10 @@ import PickupCoil from '../../common/model/PickupCoil.js';
 import Vector2 from '../../../../dot/js/Vector2.js';
 import BarMagnet from '../../common/model/BarMagnet.js';
 import KinematicCompass from '../../common/model/KinematicCompass.js';
-import FELModel from '../../common/model/FELModel.js';
+import FELScreenModel from '../../common/model/FELScreenModel.js';
 import { FixedSpacingSamplePointsStrategy } from '../../common/model/PickupCoilSamplePointsStrategy.js';
 
-export default class PickupCoilScreenModel extends FELModel {
+export default class PickupCoilScreenModel extends FELScreenModel {
 
   public readonly barMagnet: BarMagnet;
   public readonly pickupCoil: PickupCoil;

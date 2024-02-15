@@ -1,7 +1,7 @@
 // Copyright 2023-2024, University of Colorado Boulder
 
 /**
- * FELModel is the base class for all top-level models in the simulation.
+ * FELScreenModel is the base class for all top-level models in the simulation.
  *
  * @author Chris Malley (PixelZoom, Inc.)
  */
@@ -39,7 +39,7 @@ type SelfOptions = {
 
 export type FELModelOptions = SelfOptions & PickRequired<PhetioObjectOptions, 'tandem'>;
 
-export default class FELModel implements TModel {
+export default class FELScreenModel implements TModel {
 
   // Whether time is progressing in the sim
   public readonly isPlayingProperty: Property<boolean>;
@@ -92,4 +92,4 @@ export default class FELModel implements TModel {
   }
 }
 
-faradaysElectromagneticLab.register( 'FELModel', FELModel );
+faradaysElectromagneticLab.register( 'FELScreenModel', FELScreenModel );

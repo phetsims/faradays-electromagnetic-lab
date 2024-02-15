@@ -8,12 +8,12 @@
 
 import TimeControlNode from '../../../../scenery-phet/js/TimeControlNode.js';
 import faradaysElectromagneticLab from '../../faradaysElectromagneticLab.js';
-import FELModel from '../model/FELModel.js';
+import FELScreenModel from '../model/FELScreenModel.js';
 import Tandem from '../../../../tandem/js/Tandem.js';
 
 export default class FELTimeControlNode extends TimeControlNode {
 
-  public constructor( model: FELModel, tandem: Tandem ) {
+  public constructor( model: FELScreenModel, tandem: Tandem ) {
     super( model.isPlayingProperty, {
       playPauseStepButtonOptions: {
         stepForwardButtonOptions: {

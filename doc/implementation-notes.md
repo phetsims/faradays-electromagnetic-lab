@@ -5,9 +5,9 @@ Reuse description from doc/java-version/Physics_Implementation.pdf.
 MathCAD data and the B-field. See BarMagnetFieldData.ts.
 
 Model algorithms ported from Java require a constant dt clock, firing at a constant framerate. 
-FELModel creates an instance of ConstantDtClock to implement this.  Instead of overriding
-step, subclasses of FELModel should add a listener to the ConstantDtClock.
-See ConstantDtClock.ts and FELModel.ts.
+FELScreenModel creates an instance of ConstantDtClock to implement this.  Instead of overriding
+step, subclasses of FELScreenModel should add a listener to the ConstantDtClock.
+See ConstantDtClock.ts and FELScreenModel.ts.
 
 All stepping is handled by the model.
 

@@ -14,9 +14,9 @@ import Tandem from '../../../../tandem/js/Tandem.js';
 import Electromagnet from '../../common/model/Electromagnet.js';
 import Vector2 from '../../../../dot/js/Vector2.js';
 import IncrementalCompass from '../../common/model/IncrementalCompass.js';
-import FELModel from '../../common/model/FELModel.js';
+import FELScreenModel from '../../common/model/FELScreenModel.js';
 
-export default class ElectromagnetScreenModel extends FELModel {
+export default class ElectromagnetScreenModel extends FELScreenModel {
 
   public readonly electromagnet: Electromagnet;
 

@@ -14,9 +14,9 @@ import Tandem from '../../../../tandem/js/Tandem.js';
 import Vector2 from '../../../../dot/js/Vector2.js';
 import Generator from './Generator.js';
 import ImmediateCompass from '../../common/model/ImmediateCompass.js';
-import FELModel from '../../common/model/FELModel.js';
+import FELScreenModel from '../../common/model/FELScreenModel.js';
 
-export default class GeneratorScreenModel extends FELModel {
+export default class GeneratorScreenModel extends FELScreenModel {
 
   public readonly generator: Generator;
 

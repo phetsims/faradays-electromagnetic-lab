@@ -13,10 +13,10 @@ import faradaysElectromagneticLab from '../../faradaysElectromagneticLab.js';
 import Tandem from '../../../../tandem/js/Tandem.js';
 import Vector2 from '../../../../dot/js/Vector2.js';
 import IncrementalCompass from '../../common/model/IncrementalCompass.js';
-import FELModel from '../../common/model/FELModel.js';
+import FELScreenModel from '../../common/model/FELScreenModel.js';
 import Transformer from './Transformer.js';
 
-export default class TransformerScreenModel extends FELModel {
+export default class TransformerScreenModel extends FELScreenModel {
 
   public readonly transformer: Transformer;
 

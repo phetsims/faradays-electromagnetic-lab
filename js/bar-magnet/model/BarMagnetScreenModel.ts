@@ -14,9 +14,9 @@ import Tandem from '../../../../tandem/js/Tandem.js';
 import BarMagnet from '../../common/model/BarMagnet.js';
 import Vector2 from '../../../../dot/js/Vector2.js';
 import KinematicCompass from '../../common/model/KinematicCompass.js';
-import FELModel from '../../common/model/FELModel.js';
+import FELScreenModel from '../../common/model/FELScreenModel.js';
 
-export default class BarMagnetScreenModel extends FELModel {
+export default class BarMagnetScreenModel extends FELScreenModel {
 
   public readonly barMagnet: BarMagnet;
 
