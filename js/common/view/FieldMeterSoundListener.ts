@@ -1,4 +1,4 @@
-// Copyright 2023-2024, University of Colorado Boulder
+// Copyright 2024, University of Colorado Boulder
 
 //TODO https://github.com/phetsims/faradays-electromagnetic-lab/issues/77 Can this be generalized for other similar sound designs?
 //TODO https://github.com/phetsims/faradays-electromagnetic-lab/issues/77 Should fades be logarithmic?
@@ -10,14 +10,14 @@
 
 import faradaysElectromagneticLab from '../../faradaysElectromagneticLab.js';
 import { PressListenerEvent, TInputListener } from '../../../../scenery/js/imports.js';
-import { Disposable, PropertyLinkListener, stepTimer, TimerListener, TReadOnlyProperty } from '../../../../axon/js/imports.js';
+import { Disposable, PropertyLinkListener, TReadOnlyProperty } from '../../../../axon/js/imports.js';
 import Range from '../../../../dot/js/Range.js';
 import Vector2 from '../../../../dot/js/Vector2.js';
 import soundManager from '../../../../tambo/js/soundManager.js';
 import felFieldMeterLoop_mp3 from '../../../sounds/felFieldMeterLoop_mp3.js';
-import SoundClip from '../../../../tambo/js/sound-generators/SoundClip.js';
 import Utils from '../../../../dot/js/Utils.js';
 import FieldNode from './FieldNode.js';
+import FadableSoundClip from './FadableSoundClip.js';
 
 // Pitch varies over 12 semitones (1 octave), so the playback rate doubles.
 const PLAYBACK_RATE_RANGE = new Range( 1, 2 );
@@ -26,29 +26,22 @@ const PLAYBACK_RATE_RANGE = new Range( 1, 2 );
 //TODO https://github.com/phetsims/faradays-electromagnetic-lab/issues/77 This seems a little loud, 0.2 in GFLB. But then fades are inaudible.
 const NORMAL_OUTPUT_LEVEL = 0.7;
 
-// Fade parameters
-const FADE_OUTPUT_LEVEL_DELTA = NORMAL_OUTPUT_LEVEL / 10;
-const FADE_STEPS = PLAYBACK_RATE_RANGE.getLength() / FADE_OUTPUT_LEVEL_DELTA;
-const FADE_IN_INTERVAL = 250; // time over which fade out occurs, in ms
-const FADE_OUT_INTERVAL = 500; // time over which fade out occurs, in ms
-
 export default class FieldMeterSoundListener implements TInputListener {
 
-  private readonly soundClip: SoundClip;
+  private readonly soundClip: FadableSoundClip;
 
   private readonly fieldVectorProperty: TReadOnlyProperty<Vector2>;
   private readonly fieldMagnitudeRange: Range;
   private readonly fieldVectorListener: PropertyLinkListener<Vector2>;
 
-  private stepTimerListener: TimerListener | null;
-  private readonly fadeInCallback: () => void;
-  private readonly fadeOutCallback: () => void;
-
   public constructor( fieldVectorProperty: TReadOnlyProperty<Vector2>, fieldMagnitudeRange: Range, fieldScaleProperty: TReadOnlyProperty<number> ) {
 
-    this.soundClip = new SoundClip( felFieldMeterLoop_mp3, {
+    this.soundClip = new FadableSoundClip( felFieldMeterLoop_mp3, {
+      loop: true,
       initialOutputLevel: NORMAL_OUTPUT_LEVEL,
-      loop: true
+      deltaOutputLevel: 0.07,
+      dtFadeIn: 25,
+      dtFadeOut: 50
     } );
     soundManager.addSoundGenerator( this.soundClip );
 
@@ -65,95 +58,42 @@ export default class FieldMeterSoundListener implements TInputListener {
         this.soundClip.setOutputLevel( NORMAL_OUTPUT_LEVEL );
       }
     };
-
-    this.stepTimerListener = null;
-
-    // Fades in the sound by increasing its output level over time, until it reaches the normal output level.
-    this.fadeInCallback = () => {
-      assert && assert( this.stepTimerListener, 'expected stepTimerListener to be set' );
-      const outputLevel = Math.min( NORMAL_OUTPUT_LEVEL, this.soundClip.outputLevel + FADE_OUTPUT_LEVEL_DELTA );
-      this.soundClip.setOutputLevel( outputLevel );
-      if ( outputLevel === NORMAL_OUTPUT_LEVEL ) {
-        stepTimer.clearInterval( this.stepTimerListener! );
-        this.stepTimerListener = null;
-      }
-    };
-
-    // Fades out the sound by reducing the output level over time, until it reaches 0.
-    this.fadeOutCallback = () => {
-      assert && assert( this.stepTimerListener, 'expected stepTimerListener to be set' );
-      const outputLevel = Math.max( 0, this.soundClip.outputLevel - FADE_OUTPUT_LEVEL_DELTA );
-      this.soundClip.setOutputLevel( outputLevel );
-      if ( outputLevel === 0 ) {
-        this.soundClip.stop();
-        stepTimer.clearInterval( this.stepTimerListener! );
-        this.stepTimerListener = null;
-      }
-    };
   }
 
   public dispose(): void {
     Disposable.assertNotDisposable();
   }
 
-  // Starts the sound when the field meter on pointer down.
+  // Plays the sound on pointer down.
   public down( event: PressListenerEvent ): void {
-    this.startSound();
+    this.play();
   }
 
-  // Stops the sound when the field meter on pointer up.
+  // Stops the sound on pointer up.
   public up( event: PressListenerEvent ): void {
-    this.stopSound();
+    this.stop();
   }
 
-  // Starts the sound when the field meter gets keyboard focus.
+  // Plays the sound when the field meter gets keyboard focus.
   public focus( event: PressListenerEvent ): void {
-    this.startSound();
+    this.play();
   }
 
   // Stops the sound when the field meter loses keyboard focus.
   public blur( event: PressListenerEvent ): void {
-    this.stopSound();
+    this.stop();
   }
 
-  // Starts the sound, with fade in.
-  private startSound(): void {
-    assert && assert( !this.soundClip.isPlaying );
-
+  private play(): void {
     phet.log && phet.log( 'FieldMeterSoundListener startSound' );
-
-    // Listen to changes in fieldVectorProperty
     this.fieldVectorProperty.link( this.fieldVectorListener );
-
-    // Clear a fade that was in progress.
-    if ( this.stepTimerListener ) {
-      stepTimer.clearInterval( this.stepTimerListener );
-    }
-
-    // Fade in.
-    this.soundClip.setOutputLevel( 0 );
     this.soundClip.play();
-    if ( this.fieldVectorProperty.value.magnitude > 0 ) {
-      this.stepTimerListener = stepTimer.setInterval( this.fadeInCallback, FADE_IN_INTERVAL / FADE_STEPS );
-    }
   }
 
-  // Stops the sound, with fade out.
-  private stopSound(): void {
-    assert && assert( this.soundClip.isPlaying );
-
+  private stop(): void {
     phet.log && phet.log( 'FieldMeterSoundListener stopSound' );
-
-    // Stop listening to fieldVectorProperty
     this.fieldVectorProperty.unlink( this.fieldVectorListener );
-
-    // Clear a fade that was in progress.
-    if ( this.stepTimerListener ) {
-      stepTimer.clearInterval( this.stepTimerListener );
-    }
-
-    // Fade out.
-    this.stepTimerListener = stepTimer.setInterval( this.fadeOutCallback, FADE_OUT_INTERVAL / FADE_STEPS );
+    this.soundClip.stop();
   }
 
   /**
