@@ -7,7 +7,7 @@
  */
 
 import faradaysElectromagneticLab from '../../faradaysElectromagneticLab.js';
-import BarMagnetModel from '../model/BarMagnetModel.js';
+import BarMagnetScreenModel from '../model/BarMagnetScreenModel.js';
 import Tandem from '../../../../tandem/js/Tandem.js';
 import { Node } from '../../../../scenery/js/imports.js';
 import BarMagnetViewProperties from './BarMagnetViewProperties.js';
@@ -19,7 +19,7 @@ import FELScreenView from '../../common/view/FELScreenView.js';
 
 export default class BarMagnetScreenView extends FELScreenView {
 
-  public constructor( model: BarMagnetModel, tandem: Tandem ) {
+  public constructor( model: BarMagnetScreenModel, tandem: Tandem ) {
 
     const viewProperties = new BarMagnetViewProperties( tandem.createTandem( 'viewProperties' ) );
 

@@ -11,7 +11,7 @@ import FELColors from '../common/FELColors.js';
 import faradaysElectromagneticLab from '../faradaysElectromagneticLab.js';
 import BarMagnetScreenView from './view/BarMagnetScreenView.js';
 import FaradaysElectromagneticLabStrings from '../FaradaysElectromagneticLabStrings.js';
-import BarMagnetModel from './model/BarMagnetModel.js';
+import BarMagnetScreenModel from './model/BarMagnetScreenModel.js';
 import ScreenIcon from '../../../joist/js/ScreenIcon.js';
 import Tandem from '../../../tandem/js/Tandem.js';
 import { combineOptions } from '../../../phet-core/js/optionize.js';
@@ -20,11 +20,11 @@ import FELKeyboardHelpContent from '../common/view/FELKeyboardHelpContent.js';
 import BarMagnetNode from '../common/view/BarMagnetNode.js';
 import Dimension2 from '../../../dot/js/Dimension2.js';
 
-export default class BarMagnetScreen extends Screen<BarMagnetModel, BarMagnetScreenView> {
+export default class BarMagnetScreen extends Screen<BarMagnetScreenModel, BarMagnetScreenView> {
 
   public constructor( tandem: Tandem ) {
     super(
-      () => new BarMagnetModel( tandem.createTandem( 'model' ) ),
+      () => new BarMagnetScreenModel( tandem.createTandem( 'model' ) ),
       model => new BarMagnetScreenView( model, tandem.createTandem( 'view' ) ),
       combineOptions<ScreenOptions>( {}, FELConstants.SCREEN_OPTIONS, {
           name: FaradaysElectromagneticLabStrings.screen.barMagnetStringProperty,

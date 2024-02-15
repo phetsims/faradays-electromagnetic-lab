@@ -1,7 +1,7 @@
 // Copyright 2023-2024, University of Colorado Boulder
 
 /**
- * BarMagnetModel is the top-level model for the 'Bar Magnet' screen.
+ * BarMagnetScreenModel is the top-level model for the 'Bar Magnet' screen.
  *
  * @author Chris Malley (PixelZoom, Inc.)
  */
@@ -13,7 +13,7 @@ import Vector2 from '../../../../dot/js/Vector2.js';
 import KinematicCompass from '../../common/model/KinematicCompass.js';
 import FELModel from '../../common/model/FELModel.js';
 
-export default class BarMagnetModel extends FELModel {
+export default class BarMagnetScreenModel extends FELModel {
 
   public readonly barMagnet: BarMagnet;
 
@@ -47,4 +47,4 @@ export default class BarMagnetModel extends FELModel {
   }
 }
 
-faradaysElectromagneticLab.register( 'BarMagnetModel', BarMagnetModel );
+faradaysElectromagneticLab.register( 'BarMagnetScreenModel', BarMagnetScreenModel );
