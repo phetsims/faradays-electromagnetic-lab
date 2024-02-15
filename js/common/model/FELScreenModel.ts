@@ -3,6 +3,9 @@
 /**
  * FELScreenModel is the base class for all top-level models in the simulation.
  *
+ * Note that this class name is FELScreenModel instead of the typical FELModel, because all subclasses are named
+ * {ScreenName}ScreenModel to avoid confusion with model elements that have the same names as screens.
+ *
  * @author Chris Malley (PixelZoom, Inc.)
  */
 
