@@ -23,6 +23,7 @@ const SCHEMA_MAP = {
   //----------------------------------------------------------------------------------------------------------------
 
   // Magnetic units to be displayed. Initializes FELPreferences.magneticUnitsProperty.
+  // See https://github.com/phetsims/faradays-electromagnetic-lab/issues/24
   magneticUnits: {
     type: 'string',
     defaultValue: 'G',
@@ -31,13 +32,15 @@ const SCHEMA_MAP = {
   },
 
   // Adds an "Earth" checkbox to screens where it is relevant. Initializes FELPreferences.addEarthCheckboxProperty.
+  // See https://github.com/phetsims/faradays-electromagnetic-lab/issues/23
   addEarthCheckbox: {
     type: 'boolean',
     defaultValue: false,
     public: true
   },
 
-  // Which hemisphere of the Earth to show
+  // Which hemisphere of the Earth to show, a sim-specific lightweight way to address 'Region and Culture'.
+  // See https://github.com/phetsims/faradays-electromagnetic-lab/issues/27
   earthHemisphere: {
     type: 'string',
     defaultValue: 'western',
