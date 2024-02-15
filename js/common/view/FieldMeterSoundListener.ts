@@ -85,13 +85,17 @@ export default class FieldMeterSoundListener implements TInputListener {
 
   private play(): void {
     phet.log && phet.log( 'FieldMeterSoundListener startSound' );
-    this.fieldVectorProperty.link( this.fieldVectorListener );
+    if ( !this.fieldVectorProperty.hasListener( this.fieldVectorListener ) ) {
+      this.fieldVectorProperty.link( this.fieldVectorListener );
+    }
     this.soundClip.play();
   }
 
   private stop(): void {
     phet.log && phet.log( 'FieldMeterSoundListener stopSound' );
-    this.fieldVectorProperty.unlink( this.fieldVectorListener );
+    if ( this.fieldVectorProperty.hasListener( this.fieldVectorListener ) ) {
+      this.fieldVectorProperty.unlink( this.fieldVectorListener );
+    }
     this.soundClip.stop();
   }
 
