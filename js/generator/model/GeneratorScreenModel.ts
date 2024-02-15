@@ -3,6 +3,9 @@
 /**
  * GeneratorScreenModel is the top-level model for the 'Generator' screen.
  *
+ * Note that the name of this class differs from PhET conventions (GeneratorModel) to avoid confusion with the
+ * Generator model element.
+ *
  * @author Chris Malley (PixelZoom, Inc.)
  */
 

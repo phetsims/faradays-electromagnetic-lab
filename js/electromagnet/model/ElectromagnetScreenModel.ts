@@ -3,6 +3,9 @@
 /**
  * ElectromagnetScreenModel is the top-level model for the 'Electromagnet' screen.
  *
+ * Note that the name of this class differs from PhET conventions (ElectromagnetModel) to avoid confusion with the
+ * Electromagnet model element.
+ *
  * @author Chris Malley (PixelZoom, Inc.)
  */
 

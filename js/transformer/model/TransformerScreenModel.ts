@@ -3,6 +3,9 @@
 /**
  * TransformerScreenModel is the top-level model for the 'Transformer' screen.
  *
+ * Note that the name of this class differs from PhET conventions (TransformerModel) to avoid confusion with the
+ * Transformer model element.
+ *
  * @author Chris Malley (PixelZoom, Inc.)
  */
 
