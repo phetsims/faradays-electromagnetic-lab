@@ -16,18 +16,21 @@ import soundManager from '../../../../tambo/js/soundManager.js';
 import felFieldMeterLoop_mp3 from '../../../sounds/felFieldMeterLoop_mp3.js';
 import Utils from '../../../../dot/js/Utils.js';
 import FieldNode from './FieldNode.js';
-import FadableSoundClip from './FadableSoundClip.js';
+import SoundClip from '../../../../tambo/js/sound-generators/SoundClip.js';
 
 // Pitch varies over 12 semitones (1 octave), so the playback rate doubles.
 const PLAYBACK_RATE_RANGE = new Range( 1, 2 );
 
-// Output level is constant, except during fade in and fade out.
-//TODO https://github.com/phetsims/faradays-electromagnetic-lab/issues/77 This seems a little loud, 0.2 in GFLB. But then fades are inaudible.
-const INITIAL_OUTPUT_LEVEL = 0.7;
+// Output level is constant, except during fades, or when field magnitude is zero,
+const MAX_OUTPUT_LEVEL = 0.7;
+
+// Fade times, in seconds
+const FADE_IN_TIME = 0.5;
+const FADE_OUT_TIME = 1;
 
 export default class FieldMeterSoundListener implements TInputListener {
 
-  private readonly soundClip: FadableSoundClip;
+  private readonly soundClip: SoundClip;
 
   private readonly fieldVectorProperty: TReadOnlyProperty<Vector2>;
   private readonly fieldMagnitudeRange: Range;
@@ -35,12 +38,9 @@ export default class FieldMeterSoundListener implements TInputListener {
 
   public constructor( fieldVectorProperty: TReadOnlyProperty<Vector2>, fieldMagnitudeRange: Range, fieldScaleProperty: TReadOnlyProperty<number> ) {
 
-    this.soundClip = new FadableSoundClip( felFieldMeterLoop_mp3, {
+    this.soundClip = new SoundClip( felFieldMeterLoop_mp3, {
       loop: true,
-      initialOutputLevel: INITIAL_OUTPUT_LEVEL,
-      deltaOutputLevel: 0.07,
-      dtFadeIn: 25,
-      dtFadeOut: 50
+      initialOutputLevel: 0
     } );
     soundManager.addSoundGenerator( this.soundClip );
 
@@ -54,7 +54,9 @@ export default class FieldMeterSoundListener implements TInputListener {
       else {
         const playbackRate = this.fieldMagnitudeToPlaybackRate( fieldVector.magnitude, fieldScaleProperty.value );
         this.soundClip.setPlaybackRate( playbackRate );
-        this.soundClip.setOutputLevel( INITIAL_OUTPUT_LEVEL );
+        if ( this.soundClip.isPlaying && this.soundClip.outputLevel === 0 ) {
+          this.soundClip.setOutputLevel( MAX_OUTPUT_LEVEL );
+        }
       }
     };
   }
@@ -84,17 +86,32 @@ export default class FieldMeterSoundListener implements TInputListener {
   }
 
   private play(): void {
+
+    // Start observing fieldVectorProperty.
     if ( !this.fieldVectorProperty.hasListener( this.fieldVectorListener ) ) {
       this.fieldVectorProperty.link( this.fieldVectorListener );
     }
+
+    // Start playing the sound clip.
     this.soundClip.play();
+
+    // Fade in.
+    const outputLevel = ( this.fieldVectorProperty.value.magnitude === 0 ) ? 0 : MAX_OUTPUT_LEVEL;
+    this.soundClip.setOutputLevel( outputLevel, secondsToTimeConstant( FADE_IN_TIME ) );
   }
 
   private stop(): void {
+
+    // Stop observing fieldVectorProperty.
     if ( this.fieldVectorProperty.hasListener( this.fieldVectorListener ) ) {
       this.fieldVectorProperty.unlink( this.fieldVectorListener );
     }
-    this.soundClip.stop();
+
+    // Fade out.
+    this.soundClip.setOutputLevel( 0, secondsToTimeConstant( FADE_OUT_TIME ) );
+
+    // Stop when the fade has completed.
+    this.soundClip.stop( FADE_OUT_TIME );
   }
 
   /**
@@ -112,6 +129,21 @@ export default class FieldMeterSoundListener implements TInputListener {
     assert && assert( PLAYBACK_RATE_RANGE.contains( playbackRate ), `unexpected playbackRate: ${playbackRate}` );
     return playbackRate;
   }
+}
+
+//TODO https://github.com/phetsims/faradays-electromagnetic-lab/issues/77 Improve this so that it's 1 - e^-n
+/**
+ * SoundClip.setOutputLevel uses WebAudio setTargetAtTime to set output level, with optional fade. The timeConstant
+ * argument to setTargetAtTime is NOT the fade time, it's an exponential approach to the target output level.
+ *
+ * For setTargetAtTime, see https://developer.mozilla.org/en-US/docs/Web/API/AudioParam/setTargetAtTime#timeconstant
+ *
+ * For this function, see https://stackoverflow.com/questions/20588678/webaudio-how-does-timeconstant-in-settargetattime-work
+ * (where this function is described as 'not technically correct, trial and error')
+ */
+//
+function secondsToTimeConstant( seconds: number ): number {
+  return ( seconds * 2 ) / 10;
 }
 
 faradaysElectromagneticLab.register( 'FieldMeterSoundListener', FieldMeterSoundListener );
