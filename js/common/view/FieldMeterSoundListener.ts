@@ -25,8 +25,8 @@ const PLAYBACK_RATE_RANGE = new Range( 1, 2 );
 const MAX_OUTPUT_LEVEL = 0.7;
 
 // Fade times, in seconds
-const FADE_IN_TIME = 0.5;
-const FADE_OUT_TIME = 1;
+const FADE_IN_TIME = 0.25;
+const FADE_OUT_TIME = 0.50;
 
 export default class FieldMeterSoundListener implements TInputListener {
 
@@ -131,19 +131,15 @@ export default class FieldMeterSoundListener implements TInputListener {
   }
 }
 
-//TODO https://github.com/phetsims/faradays-electromagnetic-lab/issues/77 Improve this so that it's 1 - e^-n
 /**
  * SoundClip.setOutputLevel uses WebAudio setTargetAtTime to set output level, with optional fade. The timeConstant
  * argument to setTargetAtTime is NOT the fade time, it's an exponential approach to the target output level.
- *
- * For setTargetAtTime, see https://developer.mozilla.org/en-US/docs/Web/API/AudioParam/setTargetAtTime#timeconstant
- *
- * For this function, see https://stackoverflow.com/questions/20588678/webaudio-how-does-timeconstant-in-settargetattime-work
- * (where this function is described as 'not technically correct, trial and error')
+ * Doc for setTargetAtTime at https://developer.mozilla.org/en-US/docs/Web/API/AudioParam/setTargetAtTime#timeconstant
+ * says: "Depending on your use case, getting 95% toward the target value may already be enough; in that case, you
+ * could set timeConstant to one third of the desired duration."  So that's the basis for this implementation.
  */
-//
 function secondsToTimeConstant( seconds: number ): number {
-  return ( seconds * 2 ) / 10;
+  return seconds / 3;
 }
 
 faradaysElectromagneticLab.register( 'FieldMeterSoundListener', FieldMeterSoundListener );
