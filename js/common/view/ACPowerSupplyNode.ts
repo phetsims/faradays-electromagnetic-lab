@@ -10,7 +10,7 @@
  */
 
 import faradaysElectromagneticLab from '../../faradaysElectromagneticLab.js';
-import { Circle, Node, Path, Text, VBox } from '../../../../scenery/js/imports.js';
+import { Circle, HBox, Node, Path, Text, VBox } from '../../../../scenery/js/imports.js';
 import Vector2 from '../../../../dot/js/Vector2.js';
 import { Shape } from '../../../../kite/js/imports.js';
 import TReadOnlyProperty from '../../../../axon/js/TReadOnlyProperty.js';
@@ -19,14 +19,14 @@ import Tandem from '../../../../tandem/js/Tandem.js';
 import ACPowerSupply from '../model/ACPowerSupply.js';
 import DerivedProperty from '../../../../axon/js/DerivedProperty.js';
 import BooleanIO from '../../../../tandem/js/types/BooleanIO.js';
-import ShadedRectangle, { ShadedRectangleOptions } from '../../../../scenery-phet/js/ShadedRectangle.js';
-import Bounds2 from '../../../../dot/js/Bounds2.js';
 import FELColors from '../FELColors.js';
 import FaradaysElectromagneticLabStrings from '../../FaradaysElectromagneticLabStrings.js';
 import Dimension2 from '../../../../dot/js/Dimension2.js';
 import FELConstants from '../FELConstants.js';
 import VoltageChartNode from './VoltageChartNode.js';
 import ACNumberControl from './ACNumberControl.js';
+import ShadedRectangle, { ShadedRectangleOptions } from '../../../../scenery-phet/js/ShadedRectangle.js';
+import Bounds2 from '../../../../dot/js/Bounds2.js';
 
 const CORNER_RADIUS = 10;
 const BODY_X_MARGIN = 12;
@@ -41,29 +41,34 @@ export default class ACPowerSupplyNode extends Node {
 
   public constructor( acPowerSupply: ACPowerSupply, currentSourceProperty: TReadOnlyProperty<CurrentSource>, tandem: Tandem ) {
 
-    // Chart of voltage over time
-    const chartNode = new VoltageChartNode( acPowerSupply, {
-      viewSize: new Dimension2( 156, 122 )
-    } );
-
     // Frequency control
     const frequencyControl = new ACNumberControl( acPowerSupply.frequencyProperty, {
       orientation: 'horizontal',
-      right: chartNode.right,
-      top: chartNode.bottom + 10,
       tandem: tandem.createTandem( 'frequencyControl' )
     } );
 
     // Max voltage control
     const maxVoltageControl = new ACNumberControl( acPowerSupply.maxVoltagePercentProperty, {
       orientation: 'vertical',
-      right: chartNode.left - 10,
-      top: chartNode.top,
       tandem: tandem.createTandem( 'maxVoltageControl' )
     } );
 
-    const chartAndSliders = new Node( {
-      children: [ chartNode, frequencyControl, maxVoltageControl ]
+    // Chart of voltage over time
+    const chartNode = new VoltageChartNode( acPowerSupply, {
+      viewSize: new Dimension2( 165, 122 )
+    } );
+
+    const chartAndSliders = new HBox( {
+      children: [
+        maxVoltageControl,
+        new VBox( {
+          align: 'right',
+          spacing: 8,
+          children: [ chartNode, frequencyControl ]
+        } )
+      ],
+      align: 'top',
+      spacing: 8
     } );
 
     const titleText = new Text( FaradaysElectromagneticLabStrings.acPowerSupplyStringProperty, {
@@ -80,18 +85,27 @@ export default class ACPowerSupplyNode extends Node {
       align: 'center'
     } );
 
-    // Body of the AC power supply, sized to fit.
-    const bodyNode = new ShadedRectangle( new Bounds2( 0, 0, contentNode.width + ( 2 * BODY_X_MARGIN ), contentNode.height + ( 2 * BODY_Y_MARGIN ) ), BODY_OPTIONS );
-    contentNode.center = bodyNode.center;
-
     super( {
-      children: [ bodyNode, contentNode ],
+      children: [ contentNode ],
       visibleProperty: new DerivedProperty( [ currentSourceProperty ], currentSource => ( currentSource === acPowerSupply ), {
         tandem: tandem.createTandem( 'visibleProperty' ),
         phetioValueType: BooleanIO
       } ),
       tandem: tandem,
       phetioFeatured: true
+    } );
+
+    // Body of the AC power supply, sized to fit. Because ShadedRectangle is not resizable, we need to create a new one
+    // if the size of contentNode is changed by making elements invisible via PhET-iO.
+    let bodyNode: Node;
+    contentNode.boundsProperty.link( () => {
+      if ( bodyNode && this.hasChild( bodyNode ) ) {
+        this.removeChild( bodyNode );
+      }
+      bodyNode = new ShadedRectangle( new Bounds2( 0, 0, contentNode.width + ( 2 * BODY_X_MARGIN ), contentNode.height + ( 2 * BODY_Y_MARGIN ) ), BODY_OPTIONS );
+      this.addChild( bodyNode );
+      bodyNode.moveToBack();
+      contentNode.center = bodyNode.center;
     } );
 
     // Interrupt interaction when this Node becomes invisible.

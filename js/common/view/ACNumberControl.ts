@@ -14,7 +14,7 @@ import Orientation from '../../../../phet-core/js/Orientation.js';
 import StringUtils from '../../../../phetcommon/js/util/StringUtils.js';
 import FaradaysElectromagneticLabStrings from '../../FaradaysElectromagneticLabStrings.js';
 import Utils from '../../../../dot/js/Utils.js';
-import { HBox, Node, NodeTranslationOptions, VBox } from '../../../../scenery/js/imports.js';
+import { HBox, Node, VBox } from '../../../../scenery/js/imports.js';
 import NumberDisplay from '../../../../scenery-phet/js/NumberDisplay.js';
 import Slider from '../../../../sun/js/Slider.js';
 import ArrowButton from '../../../../sun/js/buttons/ArrowButton.js';
@@ -33,7 +33,7 @@ type SelfOptions = {
   orientation: 'horizontal' | 'vertical';
 };
 
-type PercentNumberControlOptions = SelfOptions & NodeTranslationOptions & PickRequired<NumberControlOptions, 'tandem'>;
+type PercentNumberControlOptions = SelfOptions & PickRequired<NumberControlOptions, 'tandem'>;
 
 export default class ACNumberControl extends NumberControl {
 

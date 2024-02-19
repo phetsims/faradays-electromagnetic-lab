@@ -62,18 +62,6 @@ export default class ElectromagnetNode extends FELMovableNode {
     const acPowerSupplyNode = new ACPowerSupplyNode( electromagnet.acPowerSupply, electromagnet.currentSourceProperty,
       options.tandem.createTandem( 'acPowerSupplyNode' ) );
 
-    // Dynamically position the battery and power supply when the size of the coil changes.
-    coilNode.boundsProperty.link( () => {
-
-      // Position the DC power supply.
-      dcPowerSupplyNode.centerX = coilNode.centerX;
-      dcPowerSupplyNode.bottom = coilNode.top + electromagnet.coil.wireWidth / 2; // overlap end of coil
-
-      // Position the AC power supply.
-      acPowerSupplyNode.centerX = coilNode.centerX;
-      acPowerSupplyNode.bottom = coilNode.top + electromagnet.coil.wireWidth / 2; // overlap end of coil
-    } );
-
     // Debug: Show the shape used to determine whether a B-field position is inside or outside the electromagnet.
     const magnetShapeNode = new Path( Shape.bounds( electromagnet.localBounds ), {
       visibleProperty: electromagnet.shapeVisibleProperty,
@@ -85,6 +73,24 @@ export default class ElectromagnetNode extends FELMovableNode {
     super( electromagnet, options );
 
     this.backgroundNode = coilNode.backgroundNode;
+
+    // Dynamically position the battery and power supply when the size of the coil changes.
+    Multilink.multilink( [ coilNode.localBoundsProperty, coilNode.backgroundNode.localBoundsProperty, acPowerSupplyNode.localBoundsProperty ],
+      () => {
+
+        // Include the background layer of the coil, which is added to the scene graph in a different coordinate frame.
+        const globalBounds = coilNode.backgroundNode.localToGlobalBounds( coilNode.backgroundNode.localBounds );
+        const localBounds = coilNode.globalToParentBounds( globalBounds );
+        const coilBounds = coilNode.bounds.union( localBounds );
+
+        // Position the DC power supply.
+        dcPowerSupplyNode.centerX = coilBounds.centerX;
+        dcPowerSupplyNode.bottom = coilBounds.top + electromagnet.coil.wireWidth / 2; // overlap end of coil
+
+        // Position the AC power supply.
+        acPowerSupplyNode.centerX = coilBounds.centerX;
+        acPowerSupplyNode.bottom = coilBounds.top + electromagnet.coil.wireWidth / 2; // overlap end of coil
+      } );
 
     // Because backgroundNode is added to the scene graph elsewhere, ensure that its visibility remains synchronized with this Node.
     this.visibleProperty.link( visible => {
