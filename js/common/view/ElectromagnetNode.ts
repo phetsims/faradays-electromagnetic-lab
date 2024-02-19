@@ -19,6 +19,7 @@ import ACPowerSupplyNode from './ACPowerSupplyNode.js';
 import { Shape } from '../../../../kite/js/imports.js';
 import optionize, { EmptySelfOptions } from '../../../../phet-core/js/optionize.js';
 import PickRequired from '../../../../phet-core/js/types/PickRequired.js';
+import { BooleanProperty, Multilink } from '../../../../axon/js/imports.js';
 
 type SelfOptions = EmptySelfOptions;
 
@@ -30,7 +31,26 @@ export default class ElectromagnetNode extends FELMovableNode {
 
   public constructor( electromagnet: Electromagnet, providedOptions: ElectromagnetNodeOptions ) {
 
-    const options = optionize<ElectromagnetNodeOptions, SelfOptions, FELMovableNodeOptions>()( {}, providedOptions );
+    // For most Nodes, PhET-iO clients would typically use inputEnabledProperty to control whether the Node is draggable.
+    // ElectromagnetNode is more complicated, because its subcomponents have sliders that should be disabled
+    // independently of dragging, and because coilNode.backgroundNode is also draggable. So the cleanest way to
+    // address this is to introduce this new Property.
+    const dragEnabledProperty = new BooleanProperty( true, {
+      tandem: providedOptions.tandem.createTandem( 'dragEnabledProperty' ),
+      phetioFeatured: true,
+      phetioDocumentation: 'Set this to false to disable dragging, while still being able to change sliders.'
+    } );
+
+    const options = optionize<ElectromagnetNodeOptions, SelfOptions, FELMovableNodeOptions>()( {
+
+      // FELMovableNodeOptions
+      dragListenerOptions: {
+        enabledProperty: dragEnabledProperty
+      },
+      keyboardDragListenerOptions: {
+        enabledProperty: dragEnabledProperty
+      }
+    }, providedOptions );
 
     const coilNode = new CoilNode( electromagnet.coil, electromagnet, {
       tandem: options.tandem.createTandem( 'coilNode' )
@@ -72,6 +92,12 @@ export default class ElectromagnetNode extends FELMovableNode {
     } );
 
     // Because backgroundNode is added to the scene graph elsewhere, ensure that it is draggable only if this Node is draggable.
+    Multilink.multilink( [ dragEnabledProperty, this.inputEnabledProperty ],
+      ( dragEnabled, inputEnabled ) => {
+        this.backgroundNode.inputEnabled = ( dragEnabled && inputEnabled );
+        this.cursor = ( dragEnabled && inputEnabled ) ? 'pointer' : null;
+      } );
+
     this.inputEnabledProperty.link( inputEnabled => {
       this.backgroundNode.inputEnabledProperty.value = inputEnabled;
     } );

@@ -16,7 +16,7 @@ import PickOptional from '../../../../phet-core/js/types/PickOptional.js';
 import PickRequired from '../../../../phet-core/js/types/PickRequired.js';
 import TReadOnlyProperty from '../../../../axon/js/TReadOnlyProperty.js';
 import Bounds2 from '../../../../dot/js/Bounds2.js';
-import RichDragListener from '../../../../sun/js/RichDragListener.js';
+import RichDragListener, { RichDragListenerOptions } from '../../../../sun/js/RichDragListener.js';
 import RichKeyboardDragListener, { RichKeyboardDragListenerOptions } from '../../../../sun/js/RichKeyboardDragListener.js';
 
 type SelfOptions = {
@@ -24,13 +24,16 @@ type SelfOptions = {
   // Use this option to enable or disable interaction.
   isMovable?: boolean;
 
+  // Options passed to RichKeyboardDragListener.
+  dragListenerOptions?: PickOptional<RichKeyboardDragListenerOptions, 'enabledProperty'>;
+
   // Whether this Node has a KeyboardDragListener. Ignored if isMovable: false.
   hasKeyboardDragListener?: boolean;
 
   // Options passed to KeyboardDragListener. Ignored if isMovable: false.
   // This allows us to set different drag speeds for different subclasses and instances of FELMovableNode.
   // See https://github.com/phetsims/faradays-electromagnetic-lab/issues/79.
-  keyboardDragListenerOptions?: PickOptional<KeyboardDragListenerOptions, 'dragSpeed' | 'shiftDragSpeed'>;
+  keyboardDragListenerOptions?: PickOptional<KeyboardDragListenerOptions, 'dragSpeed' | 'shiftDragSpeed' | 'enabledProperty'>;
 
   // dragBoundsProperty for DragListener and KeyboardDragListener. Ignored if Ignored if isMovable: false.
   dragBoundsProperty?: TReadOnlyProperty<Bounds2> | null;
@@ -50,12 +53,13 @@ export default class FELMovableNode extends InteractiveHighlighting( Node ) {
 
       // SelfOptions
       isMovable: true,
+      dragListenerOptions: {},
       hasKeyboardDragListener: true,
-      dragBoundsProperty: null,
       keyboardDragListenerOptions: {
         dragSpeed: 600, // See https://github.com/phetsims/faradays-electromagnetic-lab/issues/79
         shiftDragSpeed: 150
       },
+      dragBoundsProperty: null,
 
       // NodeOptions
       isDisposable: false,
@@ -86,13 +90,13 @@ export default class FELMovableNode extends InteractiveHighlighting( Node ) {
     } );
 
     if ( options.isMovable ) {
-      const dragListener = new RichDragListener( {
+      const dragListener = new RichDragListener( combineOptions<RichDragListenerOptions>( {
         positionProperty: movable.positionProperty,
         dragBoundsProperty: options.dragBoundsProperty,
         useParentOffset: true,
         tandem: options.tandem.createTandem( 'dragListener' ),
         dragClipOptions: FELConstants.GRAB_RELEASE_SOUND_CLIP_OPTIONS
-      } );
+      }, options.dragListenerOptions ) );
       this.addInputListener( dragListener );
 
       if ( options.hasKeyboardDragListener ) {
