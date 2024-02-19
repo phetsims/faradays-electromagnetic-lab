@@ -10,6 +10,8 @@ import faradaysElectromagneticLab from '../../faradaysElectromagneticLab.js';
 import Magnet from './Magnet.js';
 import FieldMeasurementTool, { FieldMeasurementToolOptions } from './FieldMeasurementTool.js';
 import { EmptySelfOptions } from '../../../../phet-core/js/optionize.js';
+import { DerivedProperty, TReadOnlyProperty } from '../../../../axon/js/imports.js';
+import NumberIO from '../../../../tandem/js/types/NumberIO.js';
 
 type SelfOptions = EmptySelfOptions;
 
@@ -17,8 +19,29 @@ export type FieldMeterOptions = SelfOptions & FieldMeasurementToolOptions;
 
 export default class FieldMeter extends FieldMeasurementTool {
 
+  // These are convenience Properties, requested for PhET-iO, private because they should NOT be used elsewhere.
+  // See https://github.com/phetsims/faradays-electromagnetic-lab/issues/62#issuecomment-1952874051
+  private readonly magnitudeProperty: TReadOnlyProperty<number>;
+  private readonly angleProperty: TReadOnlyProperty<number>;
+
   public constructor( magnet: Magnet, providedOptions: FieldMeterOptions ) {
     super( magnet, providedOptions );
+
+    this.magnitudeProperty = new DerivedProperty( [ this.fieldVectorProperty ],
+      fieldVector => fieldVector.magnitude, {
+        units: 'G',
+        tandem: providedOptions.tandem.createTandem( 'magnitudeProperty' ),
+        phetioValueType: NumberIO,
+        phetioDocumentation: 'Magnitude of the field vector at the meter\'s position.'
+      } );
+
+    this.angleProperty = new DerivedProperty( [ this.fieldVectorProperty ],
+      fieldVector => fieldVector.angle, {
+        units: 'radians',
+        tandem: providedOptions.tandem.createTandem( 'angleProperty' ),
+        phetioValueType: NumberIO,
+        phetioDocumentation: 'Angle of the field vector at the meter\'s position.'
+      } );
   }
 }
 
