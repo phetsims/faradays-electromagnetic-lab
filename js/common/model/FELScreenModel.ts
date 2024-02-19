@@ -60,7 +60,8 @@ export default class FELScreenModel implements TModel {
     const options = optionize<FELModelOptions, StrictOmit<SelfOptions, 'isPlayingPropertyOptions' | 'fieldMeterOptions'>>()( {}, providedOptions );
 
     this.isPlayingProperty = new BooleanProperty( true, combineOptions<BooleanPropertyOptions>( {
-      tandem: options.tandem.createTandem( 'isPlayingProperty' )
+      tandem: options.tandem.createTandem( 'isPlayingProperty' ),
+      phetioFeatured: true
     }, options.isPlayingPropertyOptions ) );
 
     this.clock = new ConstantDtClock();
