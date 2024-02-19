@@ -54,7 +54,8 @@ export default class PickupCoilPanel extends Panel {
     } ) );
 
     super( content, combineOptions<PanelOptions>( {}, FELConstants.PANEL_OPTIONS, {
-      tandem: tandem
+      tandem: tandem,
+      phetioFeatured: true
     } ) );
 
     this.addLinkedElement( pickupCoil );

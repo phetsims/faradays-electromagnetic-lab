@@ -57,7 +57,8 @@ export default class LoopAreaControl extends NumberControl {
         constrainValue: ( value: number ) => Utils.roundToInterval( value, SLIDER_STEP ),
         majorTicks: majorTicks
       }, FELConstants.PERCENT_SLIDER_OPTIONS ),
-      tandem: tandem
+      tandem: tandem,
+      phetioFeatured: true
     } );
 
     super( FaradaysElectromagneticLabStrings.loopAreaStringProperty, loopAreaPercentProperty, range, options );

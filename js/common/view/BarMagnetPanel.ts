@@ -40,7 +40,10 @@ export default class BarMagnetPanel extends Panel {
       {}, FELConstants.PANEL_OPTIONS, {
 
         // SelfOptions
-        hasFlipPolarityButton: true
+        hasFlipPolarityButton: true,
+
+        // BarMagnetPanelOptions
+        phetioFeatured: true
       }, providedOptions );
 
     const titleText = new Text( FaradaysElectromagneticLabStrings.barMagnetStringProperty, FELConstants.PANEL_TITLE_OPTIONS );
