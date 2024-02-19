@@ -50,7 +50,8 @@ export default class ACNumberControl extends NumberControl {
       sliderOptions: {
         constrainValue: ( value: number ) => Utils.roundToInterval( value, SLIDER_STEP ),
         orientation: ( providedOptions.orientation === 'horizontal' ) ? Orientation.HORIZONTAL : Orientation.VERTICAL,
-        trackSize: ( providedOptions.orientation === 'horizontal' ) ? HORIZONTAL_TRACK_SIZE : HORIZONTAL_TRACK_SIZE.swapped()
+        trackSize: ( providedOptions.orientation === 'horizontal' ) ? HORIZONTAL_TRACK_SIZE : HORIZONTAL_TRACK_SIZE.swapped(),
+        tandem: Tandem.OPT_OUT
       },
       numberDisplayOptions: {
         backgroundFill: FELColors.acPowerSupplyDisplayColorProperty,
