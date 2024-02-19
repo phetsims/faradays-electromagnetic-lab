@@ -33,6 +33,7 @@ export default class GeneratorNode extends Node {
     super( {
       children: [ turbineNode, pickupCoilNode ],
       tandem: tandem,
+      phetioFeatured: true, // so that featured linked element will appear in 'Featured' tree
       phetioVisiblePropertyInstrumented: false
     } );
 
