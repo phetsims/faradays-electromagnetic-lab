@@ -43,8 +43,7 @@ export default class ACPowerSupplyNode extends Node {
 
     // Chart of voltage over time
     const chartNode = new VoltageChartNode( acPowerSupply, {
-      viewSize: new Dimension2( 156, 122 ),
-      tandem: tandem.createTandem( 'chartNode' )
+      viewSize: new Dimension2( 156, 122 )
     } );
 
     // Frequency control

@@ -18,7 +18,6 @@ import Orientation from '../../../../phet-core/js/Orientation.js';
 import AxisLine, { AxisLineOptions } from '../../../../bamboo/js/AxisLine.js';
 import TickMarkSet, { TickMarkSetOptions } from '../../../../bamboo/js/TickMarkSet.js';
 import optionize from '../../../../phet-core/js/optionize.js';
-import PickRequired from '../../../../phet-core/js/types/PickRequired.js';
 import Vector2 from '../../../../dot/js/Vector2.js';
 import LinePlot from '../../../../bamboo/js/LinePlot.js';
 import Dimension2 from '../../../../dot/js/Dimension2.js';
@@ -42,7 +41,7 @@ type SelfOptions = {
   viewSize: Dimension2;
 };
 
-type VoltageChartNodeOptions = SelfOptions & NodeTranslationOptions & PickRequired<NodeOptions, 'tandem'>;
+type VoltageChartNodeOptions = SelfOptions & NodeTranslationOptions;
 
 export default class VoltageChartNode extends Node {
 
