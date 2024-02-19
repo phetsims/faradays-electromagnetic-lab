@@ -88,7 +88,8 @@ export default class Electromagnet extends CoilMagnet {
         units: 'G',
         isValidValue: strength => STRENGTH_RANGE.contains( strength ),
         tandem: options.tandem.createTandem( 'strengthProperty' ),
-        phetioValueType: NumberIO
+        phetioValueType: NumberIO,
+        phetioFeatured: true
       } );
 
     super( coil, strengthProperty, STRENGTH_RANGE, options );
