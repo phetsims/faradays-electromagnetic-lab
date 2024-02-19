@@ -71,6 +71,11 @@ export default class ElectromagnetNode extends FELMovableNode {
       this.backgroundNode.visible = visible;
     } );
 
+    // Because backgroundNode is added to the scene graph elsewhere, ensure that it is draggable only if this Node is draggable.
+    this.inputEnabledProperty.link( inputEnabled => {
+      this.backgroundNode.inputEnabledProperty.value = inputEnabled;
+    } );
+
     // Superclass FELMovableNode handles positioning this Node. But because backgroundNode is added to the scene graph
     // elsewhere, we also need to handle positioning of backgroundNode.
     electromagnet.positionProperty.link( position => {
