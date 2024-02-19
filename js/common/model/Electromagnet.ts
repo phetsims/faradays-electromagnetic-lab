@@ -86,6 +86,7 @@ export default class Electromagnet extends CoilMagnet {
     // Strength of the magnet is proportional to its EMF.
     const strengthProperty = new DerivedProperty( [ coil.currentAmplitudeProperty ],
       currentAmplitude => Math.abs( currentAmplitude ) * STRENGTH_RANGE.max, {
+        units: 'G',
         isValidValue: strength => STRENGTH_RANGE.contains( strength ),
         tandem: options.tandem.createTandem( 'strengthProperty' ),
         phetioValueType: NumberIO
