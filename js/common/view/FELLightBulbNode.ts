@@ -66,7 +66,8 @@ export default class FELLightBulbNode extends Node {
         tandem: tandem.createTandem( 'visibleProperty' ),
         phetioValueType: BooleanIO
       } ),
-      tandem: tandem
+      tandem: tandem,
+      phetioFeatured: true
     } );
 
     this.addLinkedElement( lightBulb );
