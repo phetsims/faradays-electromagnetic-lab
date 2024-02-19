@@ -38,6 +38,7 @@ import FELColors from '../FELColors.js';
 import Electron from './Electron.js';
 
 // Spacing between electrons in the coil
+//TODO https://github.com/phetsims/faradays-electromagnetic-lab/issues/49 If electrons move more than this distance, they'll appear to be moving in the wrong direction.
 const ELECTRON_SPACING = 25;
 
 // Ends of the coil contain a fixed number of electrons.
