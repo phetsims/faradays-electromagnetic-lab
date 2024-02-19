@@ -66,7 +66,7 @@ export default class BarMagnetPanel extends Panel {
       const seeInsideText = new Text( FaradaysElectromagneticLabStrings.seeInsideStringProperty, FELConstants.CHECKBOX_TEXT_OPTIONS );
       const seeInsideCheckbox = new Checkbox( options.seeInsideProperty, seeInsideText,
         combineOptions<CheckboxOptions>( {}, FELConstants.CHECKBOX_OPTIONS, {
-          tandem: options.tandem.createTandem( 'seeIndexCheckbox' )
+          tandem: options.tandem.createTandem( 'seeInsideCheckbox' )
         } ) );
       contentChildren.push( seeInsideCheckbox );
     }
