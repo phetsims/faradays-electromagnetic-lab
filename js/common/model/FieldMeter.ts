@@ -31,6 +31,7 @@ export default class FieldMeter extends FieldMeasurementTool {
       fieldVector => fieldVector.magnitude, {
         units: 'G',
         tandem: providedOptions.tandem.createTandem( 'magnitudeProperty' ),
+        phetioFeatured: true,
         phetioValueType: NumberIO,
         phetioDocumentation: 'Magnitude of the field vector at the meter\'s position.'
       } );
@@ -39,6 +40,7 @@ export default class FieldMeter extends FieldMeasurementTool {
       fieldVector => fieldVector.angle, {
         units: 'radians',
         tandem: providedOptions.tandem.createTandem( 'angleProperty' ),
+        phetioFeatured: true,
         phetioValueType: NumberIO,
         phetioDocumentation: 'Angle of the field vector at the meter\'s position.'
       } );
