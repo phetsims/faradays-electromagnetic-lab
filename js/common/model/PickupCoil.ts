@@ -147,7 +147,6 @@ export default class PickupCoil extends FELMovable {
     this._emfProperty = new NumberProperty( 0, {
       tandem: coilTandem.createTandem( 'emfProperty' ),
       phetioReadOnly: true,
-      phetioFeatured: true,
       phetioDocumentation: 'Relative EMF induced by the change in flux.'
     } );
     this.emfProperty = this._emfProperty;
@@ -172,7 +171,6 @@ export default class PickupCoil extends FELMovable {
         isValidValue: currentAmplitude => FELConstants.CURRENT_AMPLITUDE_RANGE.contains( currentAmplitude ),
         tandem: coilTandem.createTandem( 'currentAmplitudeProperty' ),
         phetioValueType: NumberIO,
-        phetioFeatured: true,
         phetioDocumentation: 'For internal use only.'
       } );
 

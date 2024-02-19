@@ -152,7 +152,6 @@ export default class Coil extends PhetioObject {
     this.loopAreaProperty = new DerivedProperty( [ this.loopAreaPercentProperty ],
       loopAreaPercent => ( loopAreaPercent / 100 ) * this.maxLoopArea, {
         tandem: options.tandem.createTandem( 'loopAreaProperty' ),
-        phetioFeatured: true,
         phetioValueType: NumberIO,
         phetioDocumentation: hasFixedLoopArea ? 'Loop area is fixed.' : 'To change loop area, use loopAreaPercentProperty.'
       } );

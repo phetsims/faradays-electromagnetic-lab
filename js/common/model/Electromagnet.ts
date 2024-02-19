@@ -70,8 +70,7 @@ export default class Electromagnet extends CoilMagnet {
         ( currentSource === dcPowerSupply ) ? dcCurrentAmplitude : acCurrentAmplitude, {
         isValidValue: currentAmplitude => FELConstants.CURRENT_AMPLITUDE_RANGE.contains( currentAmplitude ),
         tandem: coilTandem.createTandem( 'currentAmplitudeProperty' ),
-        phetioValueType: NumberIO,
-        phetioFeatured: true
+        phetioValueType: NumberIO
       } );
 
     const coil = new Coil( currentAmplitudeProperty, FELConstants.CURRENT_AMPLITUDE_RANGE, {
