@@ -52,7 +52,7 @@ export default class CompassSoundListener implements TInputListener {
     this.fieldVectorProperty = fieldVectorProperty;
 
     this.fieldVectorListener = fieldVector => {
-      const playbackRate = CompassSoundListener.fieldAngleToPlaybackRateCircle( fieldVector.angle );
+      const playbackRate = CompassSoundListener.fieldAngleToPlaybackRateMirror( fieldVector.angle );
       this.soundClip.setPlaybackRate( playbackRate );
     };
   }
@@ -135,11 +135,11 @@ export default class CompassSoundListener implements TInputListener {
 
     // Mirror about the x-axis at 0 and PI radians.
     if ( normalizedAngle > Math.PI ) {
-      normalizedAngle = Math.abs( ( 2 * Math.PI ) - angle );
+      normalizedAngle = Math.abs( ( 2 * Math.PI ) - normalizedAngle );
     }
 
     const playbackRate = Utils.linear( 0, Math.PI, PLAYBACK_RATE_RANGE.min, PLAYBACK_RATE_RANGE.max, normalizedAngle );
-    assert && assert( PLAYBACK_RATE_RANGE.contains( playbackRate ), `invalid playbackRate: ${playbackRate}` );
+    assert && assert( PLAYBACK_RATE_RANGE.contains( playbackRate ), `invalid playbackRate: ${playbackRate} normalizedAngle=${normalizedAngle}` );
     return playbackRate;
   }
 }
