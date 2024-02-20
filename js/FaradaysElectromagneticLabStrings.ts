@@ -41,6 +41,7 @@ type StringsType = {
   'pattern': {
     'valuePercentStringProperty': LocalizedStringProperty;
     'valueUnitsStringProperty': LocalizedStringProperty;
+    'lessThanValueUnitsStringProperty': LocalizedStringProperty;
     'valueDegreesStringProperty': LocalizedStringProperty;
   };
   'symbol': {
