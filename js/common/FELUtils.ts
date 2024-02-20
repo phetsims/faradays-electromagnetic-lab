@@ -16,6 +16,16 @@ const FELUtils = {
    */
   toDegrees( radians: number, decimalPlaces = 0 ): number {
     return Utils.toFixedNumber( Utils.toDegrees( radians ), decimalPlaces );
+  },
+
+  /**
+   * Normalizes an angle (in radians) so that it in the range [ 0, 2 * Math.PI ] radians.
+   */
+  normalizeAngle( angle: number ): number {
+    const remainder = angle % ( 2 * Math.PI );
+    const normalizedAngle = ( remainder >= 0 ) ? Math.abs( remainder ) : ( 2 * Math.PI + remainder );
+    assert && assert( normalizedAngle >= 0 && normalizedAngle <= 2 * Math.PI, `unexpected normalizedAngle: ${normalizedAngle}` );
+    return normalizedAngle;
   }
 };
 

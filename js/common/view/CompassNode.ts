@@ -20,6 +20,9 @@ import FELColors from '../FELColors.js';
 import FELMovableNode, { FELMovableNodeOptions } from './FELMovableNode.js';
 import optionize, { EmptySelfOptions } from '../../../../phet-core/js/optionize.js';
 import PickRequired from '../../../../phet-core/js/types/PickRequired.js';
+import CompassSoundListener from './CompassSoundListener.js';
+import { RichDragListenerOptions } from '../../../../sun/js/RichDragListener.js';
+import { RichKeyboardDragListenerOptions } from '../../../../sun/js/RichKeyboardDragListener.js';
 
 const NEEDLE_LENGTH = 55;
 const NEEDLE_ANCHOR_RADIUS = 3;
@@ -28,6 +31,24 @@ const RING_OUTER_RADIUS = ( NEEDLE_LENGTH + ( 2 * RING_LINE_WIDTH ) + 5 ) / 2;
 const RING_CENTER_RADIUS = RING_OUTER_RADIUS - ( RING_LINE_WIDTH / 2 ); // adjust for lineWidth
 const INDICATOR_RADIUS = 3;
 const INDICATOR_SPACING = Utils.toRadians( 45 );
+
+const DRAG_LISTENER_OPTIONS: RichDragListenerOptions = {
+
+  // Turn off default grab and release sounds, because we have CompassSoundListener.
+  grabSound: null,
+  releaseSound: null
+};
+
+const KEYBOARD_DRAG_LISTENER_OPTIONS: RichKeyboardDragListenerOptions = {
+
+  // See https://github.com/phetsims/faradays-electromagnetic-lab/issues/79 for design of drag speeds.
+  dragSpeed: 150,
+  shiftDragSpeed: 50,
+
+  // Turn off default grab and release sounds, because we have CompassSoundListener.
+  grabSound: null,
+  releaseSound: null
+};
 
 type SelfOptions = EmptySelfOptions;
 
@@ -41,10 +62,8 @@ export default class CompassNode extends FELMovableNode {
 
       // FELMovableNodeOptions
       visibleProperty: compass.visibleProperty,
-      keyboardDragListenerOptions: {
-        dragSpeed: 150, // See https://github.com/phetsims/faradays-electromagnetic-lab/issues/79
-        shiftDragSpeed: 50
-      }
+      dragListenerOptions: DRAG_LISTENER_OPTIONS,
+      keyboardDragListenerOptions: KEYBOARD_DRAG_LISTENER_OPTIONS
     }, providedOptions );
 
     const ringNode = new Circle( RING_CENTER_RADIUS, {
@@ -93,6 +112,9 @@ export default class CompassNode extends FELMovableNode {
       needleNode.rotation = angle;
       needleNode.center = ringNode.center;
     } );
+
+    // Sonification, see https://github.com/phetsims/faradays-electromagnetic-lab/issues/78
+    this.addInputListener( new CompassSoundListener( compass.fieldVectorProperty ) );
   }
 }
 

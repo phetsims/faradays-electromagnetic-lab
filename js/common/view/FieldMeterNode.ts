@@ -111,8 +111,6 @@ type FieldMeterNodeOptions = SelfOptions & PickRequired<FELMovableNodeOptions, '
 
 export default class FieldMeterNode extends FELMovableNode {
 
-  private readonly fieldMeterSoundListener: FieldMeterSoundListener;
-
   public constructor( fieldMeter: FieldMeter, magnetStrengthRange: Range, providedOptions: FieldMeterNodeOptions ) {
 
     const options = optionize<FieldMeterNodeOptions, SelfOptions, FELMovableNodeOptions>()( {
@@ -219,8 +217,8 @@ export default class FieldMeterNode extends FELMovableNode {
 
     super( fieldMeter, options );
 
-    this.fieldMeterSoundListener = new FieldMeterSoundListener( fieldMeter.fieldVectorProperty, magnetStrengthRange );
-    this.addInputListener( this.fieldMeterSoundListener );
+    // Sonification, see https://github.com/phetsims/faradays-electromagnetic-lab/issues/77
+    this.addInputListener( new FieldMeterSoundListener( fieldMeter.fieldVectorProperty, magnetStrengthRange ) );
   }
 }
 

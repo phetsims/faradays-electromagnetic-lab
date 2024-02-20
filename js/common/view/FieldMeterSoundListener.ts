@@ -61,6 +61,7 @@ export default class FieldMeterSoundListener implements TInputListener {
       }
       else {
         const playbackRate = FieldMeterSoundListener.fieldMagnitudeToPlaybackRatePiecewiseLinear( fieldVector.magnitude, fieldMagnitudeRange, FIELD_SCALE );
+        assert && assert( PLAYBACK_RATE_RANGE.contains( playbackRate ), `invalid playbackRate: ${playbackRate}` );
         this.soundClip.setPlaybackRate( playbackRate );
         if ( this.soundClip.isPlaying && this.soundClip.outputLevel === 0 ) {
           this.soundClip.setOutputLevel( MAX_OUTPUT_LEVEL );
