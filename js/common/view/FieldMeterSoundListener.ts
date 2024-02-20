@@ -23,8 +23,10 @@ import SoundClip from '../../../../tambo/js/sound-generators/SoundClip.js';
 import FieldNode from './FieldNode.js';
 import FELQueryParameters from '../FELQueryParameters.js';
 
-// Pitch varies over 12 semitones (1 octave), so the playback rate doubles.
-const PLAYBACK_RATE_RANGE = new Range( 1, 2 );
+// Pitch varies by 12 semitones. There are 12 semitones per octave.
+const SEMITONES = 12;
+const MIN_PLAYBACK_RATE = 1;
+const PLAYBACK_RATE_RANGE = new Range( MIN_PLAYBACK_RATE, MIN_PLAYBACK_RATE + SEMITONES / 12 );
 
 // Output level is constant, except during fades, or when field magnitude is zero.
 const MAX_OUTPUT_LEVEL = 0.7;
