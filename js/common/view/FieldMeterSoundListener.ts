@@ -26,7 +26,7 @@ const MAX_OUTPUT_LEVEL = 0.7;
 
 // Fade times, in seconds
 const FADE_IN_TIME = 0.25;
-const FADE_OUT_TIME = 0.50;
+const FADE_OUT_TIME = 0.25;
 
 export default class FieldMeterSoundListener implements TInputListener {
 
