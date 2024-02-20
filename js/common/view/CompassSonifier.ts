@@ -2,7 +2,7 @@
 
 //TODO https://github.com/phetsims/faradays-electromagnetic-lab/issues/77 Lots of duplication with FieldMeterSoundListener
 /**
- * CompassSoundListener is responsible for sonification of the compass. The angle of the magnetic field at the
+ * CompassSonifier is responsible for sonification of the compass. The angle of the magnetic field at the
  * compass position is mapped to the pitch of a sound clip, with a constant output level. Sound plays continuously
  * during the drag cycle of the compass, for both pointer and keyboard dragging.
  *
@@ -34,7 +34,7 @@ const MAX_OUTPUT_LEVEL = 0.7;
 const FADE_IN_TIME = 0.25;
 const FADE_OUT_TIME = 0.25;
 
-export default class CompassSoundListener implements TInputListener {
+export default class CompassSonifier implements TInputListener {
 
   // Pitch of soundClip is modulated to match field magnitude. The clip plays continuously during a drag cycle.
   private readonly soundClip: SoundClip;
@@ -54,7 +54,7 @@ export default class CompassSoundListener implements TInputListener {
     this.fieldVectorProperty = fieldVectorProperty;
 
     this.fieldVectorListener = fieldVector => {
-      const playbackRate = CompassSoundListener.fieldAngleToPlaybackRateMirror( fieldVector.angle );
+      const playbackRate = CompassSonifier.fieldAngleToPlaybackRateMirror( fieldVector.angle );
       this.soundClip.setPlaybackRate( playbackRate );
     };
   }
@@ -157,4 +157,4 @@ function secondsToTimeConstant( seconds: number ): number {
   return seconds / 3;
 }
 
-faradaysElectromagneticLab.register( 'CompassSoundListener', CompassSoundListener );
+faradaysElectromagneticLab.register( 'CompassSonifier', CompassSonifier );
