@@ -94,11 +94,16 @@ export default class FieldMeterNode extends FELMovableNode {
 
       // FELMovableNodeOptions
       visibleProperty: fieldMeter.visibleProperty,
+      dragListenerOptions: {
+        grabSound: null,
+        releaseSound: null
+      },
       keyboardDragListenerOptions: {
         dragSpeed: 150, // See https://github.com/phetsims/faradays-electromagnetic-lab/issues/79
-        shiftDragSpeed: 50
+        shiftDragSpeed: 50,
+        grabSound: null,
+        releaseSound: null
       }
-
     }, providedOptions );
 
     // Origin is at the center of the crosshairs.

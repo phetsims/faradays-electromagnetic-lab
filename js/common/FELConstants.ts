@@ -17,7 +17,6 @@ import { RichTextOptions, Text, TextOptions, VBoxOptions } from '../../../scener
 import NumberControl, { NumberControlOptions } from '../../../scenery-phet/js/NumberControl.js';
 import Dimension2 from '../../../dot/js/Dimension2.js';
 import { RectangularRadioButtonOptions } from '../../../sun/js/buttons/RectangularRadioButton.js';
-import { SoundClipOptions } from '../../../tambo/js/sound-generators/SoundClip.js';
 import { SliderOptions } from '../../../sun/js/Slider.js';
 import Tandem from '../../../tandem/js/Tandem.js';
 import Range from '../../../dot/js/Range.js';
@@ -134,10 +133,6 @@ const RECTANGULAR_RADIO_BUTTON_OPTIONS: RectangularRadioButtonOptions = {
   }
 };
 
-const GRAB_RELEASE_SOUND_CLIP_OPTIONS: SoundClipOptions = {
-  initialOutputLevel: 0.4
-};
-
 const PERCENT_SLIDER_OPTIONS: SliderOptions = {
   keyboardStep: 5,
   shiftKeyboardStep: 1,
@@ -176,7 +171,6 @@ const FELConstants = {
   CHECKBOX_TEXT_OPTIONS: CHECKBOX_TEXT_OPTIONS,
   TICK_LABEL_OPTIONS: TICK_LABEL_OPTIONS,
   VBOX_OPTIONS: VBOX_OPTIONS,
-  GRAB_RELEASE_SOUND_CLIP_OPTIONS: GRAB_RELEASE_SOUND_CLIP_OPTIONS,
   PERCENT_SLIDER_OPTIONS: PERCENT_SLIDER_OPTIONS,
 
   // Fonts

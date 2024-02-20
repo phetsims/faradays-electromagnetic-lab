@@ -8,9 +8,8 @@
  */
 
 import faradaysElectromagneticLab from '../../faradaysElectromagneticLab.js';
-import { InteractiveHighlighting, InteractiveHighlightingOptions, KeyboardDragListenerOptions, Node, NodeOptions } from '../../../../scenery/js/imports.js';
+import { InteractiveHighlighting, InteractiveHighlightingOptions, Node, NodeOptions } from '../../../../scenery/js/imports.js';
 import optionize, { combineOptions } from '../../../../phet-core/js/optionize.js';
-import FELConstants from '../FELConstants.js';
 import FELMovable from '../model/FELMovable.js';
 import PickOptional from '../../../../phet-core/js/types/PickOptional.js';
 import PickRequired from '../../../../phet-core/js/types/PickRequired.js';
@@ -24,8 +23,8 @@ type SelfOptions = {
   // Use this option to enable or disable interaction.
   isMovable?: boolean;
 
-  // Options passed to RichKeyboardDragListener.
-  dragListenerOptions?: PickOptional<RichKeyboardDragListenerOptions, 'enabledProperty'>;
+  // Options passed to RichDragListener.
+  dragListenerOptions?: RichDragListenerOptions;
 
   // Whether this Node has a KeyboardDragListener. Ignored if isMovable: false.
   hasKeyboardDragListener?: boolean;
@@ -33,7 +32,7 @@ type SelfOptions = {
   // Options passed to KeyboardDragListener. Ignored if isMovable: false.
   // This allows us to set different drag speeds for different subclasses and instances of FELMovableNode.
   // See https://github.com/phetsims/faradays-electromagnetic-lab/issues/79.
-  keyboardDragListenerOptions?: PickOptional<KeyboardDragListenerOptions, 'dragSpeed' | 'shiftDragSpeed' | 'enabledProperty'>;
+  keyboardDragListenerOptions?: RichKeyboardDragListenerOptions;
 
   // dragBoundsProperty for DragListener and KeyboardDragListener. Ignored if Ignored if isMovable: false.
   dragBoundsProperty?: TReadOnlyProperty<Bounds2> | null;
@@ -94,8 +93,7 @@ export default class FELMovableNode extends InteractiveHighlighting( Node ) {
         positionProperty: movable.positionProperty,
         dragBoundsProperty: options.dragBoundsProperty,
         useParentOffset: true,
-        tandem: options.tandem.createTandem( 'dragListener' ),
-        dragClipOptions: FELConstants.GRAB_RELEASE_SOUND_CLIP_OPTIONS
+        tandem: options.tandem.createTandem( 'dragListener' )
       }, options.dragListenerOptions ) );
       this.addInputListener( dragListener );
 
@@ -104,8 +102,7 @@ export default class FELMovableNode extends InteractiveHighlighting( Node ) {
           combineOptions<RichKeyboardDragListenerOptions>( {
             positionProperty: movable.positionProperty,
             dragBoundsProperty: options.dragBoundsProperty,
-            tandem: options.tandem.createTandem( 'keyboardDragListener' ),
-            dragClipOptions: FELConstants.GRAB_RELEASE_SOUND_CLIP_OPTIONS
+            tandem: options.tandem.createTandem( 'keyboardDragListener' )
           }, options.keyboardDragListenerOptions ) );
         this.addInputListener( keyboardDragListener );
       }
