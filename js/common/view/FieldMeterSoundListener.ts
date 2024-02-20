@@ -2,7 +2,11 @@
 
 //TODO https://github.com/phetsims/faradays-electromagnetic-lab/issues/77 Can this be generalized for other similar sound designs?
 /**
- * FieldMeterSoundListener is responsible for sound related to the field meter.
+ * FieldMeterSoundListener is responsible for sonification of the field meter. The magnitude of the magnetic field at the
+ * meter's position is used to modulate the pitch of a sound clip, with a constant output level. Sound plays continuously
+ * during the drag cycle of the field meter, for both pointer and keyboard dragging.
+ *
+ * See https://github.com/phetsims/faradays-electromagnetic-lab/issues/77 for design history.
  *
  * @author Chris Malley (PixelZoom, Inc.)
  */
