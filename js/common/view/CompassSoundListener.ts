@@ -22,8 +22,8 @@ import SoundClip from '../../../../tambo/js/sound-generators/SoundClip.js';
 import felCompassSaturatedSineLoop_wav from '../../../sounds/felCompassSaturatedSineLoop_wav.js';
 import FELUtils from '../FELUtils.js';
 
-// Pitch varies over 12 semitones (1 octave), so the playback rate doubles.
-const PLAYBACK_RATE_RANGE = new Range( 1, 2 );
+// Pitch varies over 6 semitones (1/2 octave), so the playback rate doubles.
+const PLAYBACK_RATE_RANGE = new Range( 1, 1.5 );
 
 // Output level is constant, except during fades, or when field magnitude is zero.
 const MAX_OUTPUT_LEVEL = 0.7;
@@ -52,11 +52,7 @@ export default class CompassSoundListener implements TInputListener {
     this.fieldVectorProperty = fieldVectorProperty;
 
     this.fieldVectorListener = fieldVector => {
-
-      // +angle is clockwise in the model, so flip the sign. See https://github.com/phetsims/faradays-electromagnetic-lab/issues/19
-      const angle = FELUtils.normalizeAngle( -fieldVector.angle );
-      const playbackRate = Utils.linear( 0, 2 * Math.PI, PLAYBACK_RATE_RANGE.min, PLAYBACK_RATE_RANGE.max, angle );
-      assert && assert( PLAYBACK_RATE_RANGE.contains( playbackRate ), `invalid playbackRate: ${playbackRate}` );
+      const playbackRate = CompassSoundListener.fieldAngleToPlaybackRateCircle( fieldVector.angle );
       this.soundClip.setPlaybackRate( playbackRate );
     };
   }
@@ -112,6 +108,39 @@ export default class CompassSoundListener implements TInputListener {
 
     // Stop when the fade has completed.
     this.soundClip.stop( FADE_OUT_TIME );
+  }
+
+  /**
+   * Maps compass angle to pitch linearly in the range [0,2*PI], a full circle. This results in an abrupt change
+   * in pitch when the angle crosses the +x-axis at zero radians.
+   */
+  public static fieldAngleToPlaybackRateCircle( angle: number ): number {
+
+    // +angle is clockwise in the model, so flip the sign. See https://github.com/phetsims/faradays-electromagnetic-lab/issues/19
+    const normalizedAngle = FELUtils.normalizeAngle( -angle );
+
+    const playbackRate = Utils.linear( 0, 2 * Math.PI, PLAYBACK_RATE_RANGE.min, PLAYBACK_RATE_RANGE.max, normalizedAngle );
+    assert && assert( PLAYBACK_RATE_RANGE.contains( playbackRate ), `invalid playbackRate: ${playbackRate}` );
+    return playbackRate;
+  }
+
+  /**
+   * Maps compass angle to pitch linearly in the range [0,PI]. Mirroring about the x-axis at zero and PI radians
+   * avoids any abrupt changes in pitch.
+   */
+  public static fieldAngleToPlaybackRateMirror( angle: number ): number {
+
+    // +angle is clockwise in the model, so flip the sign. See https://github.com/phetsims/faradays-electromagnetic-lab/issues/19
+    let normalizedAngle = FELUtils.normalizeAngle( -angle );
+
+    // Mirror about the x-axis at 0 and PI radians.
+    if ( normalizedAngle > Math.PI ) {
+      normalizedAngle = Math.abs( ( 2 * Math.PI ) - angle );
+    }
+
+    const playbackRate = Utils.linear( 0, Math.PI, PLAYBACK_RATE_RANGE.min, PLAYBACK_RATE_RANGE.max, normalizedAngle );
+    assert && assert( PLAYBACK_RATE_RANGE.contains( playbackRate ), `invalid playbackRate: ${playbackRate}` );
+    return playbackRate;
   }
 }
 
