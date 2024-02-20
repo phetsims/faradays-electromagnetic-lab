@@ -22,6 +22,7 @@ import Utils from '../../../../dot/js/Utils.js';
 import SoundClip from '../../../../tambo/js/sound-generators/SoundClip.js';
 import FieldNode from './FieldNode.js';
 import FELQueryParameters from '../FELQueryParameters.js';
+import FELUtils from '../FELUtils.js';
 
 // Pitch varies by 12 semitones. There are 12 semitones per octave.
 const SEMITONES = 12;
@@ -108,7 +109,7 @@ export default class FieldMeterSonifier implements TInputListener {
 
     // Fade in.
     const outputLevel = ( this.fieldVectorProperty.value.magnitude === 0 ) ? 0 : MAX_OUTPUT_LEVEL;
-    this.soundClip.setOutputLevel( outputLevel, secondsToTimeConstant( FADE_IN_TIME ) );
+    this.soundClip.setOutputLevel( outputLevel, FELUtils.secondsToTimeConstant( FADE_IN_TIME ) );
   }
 
   private stop(): void {
@@ -119,7 +120,7 @@ export default class FieldMeterSonifier implements TInputListener {
     }
 
     // Fade out.
-    this.soundClip.setOutputLevel( 0, secondsToTimeConstant( FADE_OUT_TIME ) );
+    this.soundClip.setOutputLevel( 0, FELUtils.secondsToTimeConstant( FADE_OUT_TIME ) );
 
     // Stop when the fade has completed.
     this.soundClip.stop( FADE_OUT_TIME );
@@ -184,17 +185,6 @@ export default class FieldMeterSonifier implements TInputListener {
     assert && assert( PLAYBACK_RATE_RANGE.contains( playbackRate ), `unexpected playbackRate: ${playbackRate}` );
     return playbackRate;
   }
-}
-
-/**
- * SoundClip.setOutputLevel uses WebAudio setTargetAtTime to set output level, with optional fade. The timeConstant
- * argument to setTargetAtTime is NOT the fade time, it's an exponential approach to the target output level.
- * Doc for setTargetAtTime at https://developer.mozilla.org/en-US/docs/Web/API/AudioParam/setTargetAtTime#timeconstant
- * says: "Depending on your use case, getting 95% toward the target value may already be enough; in that case, you
- * could set timeConstant to one third of the desired duration."  So that's the basis for this implementation.
- */
-function secondsToTimeConstant( seconds: number ): number {
-  return seconds / 3;
 }
 
 faradaysElectromagneticLab.register( 'FieldMeterSonifier', FieldMeterSonifier );
