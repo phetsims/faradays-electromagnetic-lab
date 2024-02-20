@@ -2,7 +2,7 @@
 
 //TODO https://github.com/phetsims/faradays-electromagnetic-lab/issues/77 Can this be generalized for other similar sound designs?
 /**
- * FieldMeterSoundListener is responsible for sonification of the field meter. The magnitude of the magnetic field at the
+ * FieldMeterSonifier is responsible for sonification of the field meter. The magnitude of the magnetic field at the
  * meter's position is used to modulate the pitch of a sound clip, with a constant output level. Sound plays continuously
  * during the drag cycle of the field meter, for both pointer and keyboard dragging.
  *
@@ -38,7 +38,7 @@ const FADE_OUT_TIME = 0.25;
 // Scale factor to use for mapping field magnitude to playback rate.
 const FIELD_SCALE = 2.7;
 
-export default class FieldMeterSoundListener implements TInputListener {
+export default class FieldMeterSonifier implements TInputListener {
 
   // Pitch of soundClip is modulated to match field magnitude. The clip plays continuously during a drag cycle.
   private readonly soundClip: SoundClip;
@@ -62,7 +62,7 @@ export default class FieldMeterSoundListener implements TInputListener {
         this.soundClip.setOutputLevel( 0 );
       }
       else {
-        const playbackRate = FieldMeterSoundListener.fieldMagnitudeToPlaybackRatePiecewiseLinear( fieldVector.magnitude, fieldMagnitudeRange, FIELD_SCALE );
+        const playbackRate = FieldMeterSonifier.fieldMagnitudeToPlaybackRatePiecewiseLinear( fieldVector.magnitude, fieldMagnitudeRange, FIELD_SCALE );
         assert && assert( PLAYBACK_RATE_RANGE.contains( playbackRate ), `invalid playbackRate: ${playbackRate}` );
         this.soundClip.setPlaybackRate( playbackRate );
         if ( this.soundClip.isPlaying && this.soundClip.outputLevel === 0 ) {
@@ -197,4 +197,4 @@ function secondsToTimeConstant( seconds: number ): number {
   return seconds / 3;
 }
 
-faradaysElectromagneticLab.register( 'FieldMeterSoundListener', FieldMeterSoundListener );
+faradaysElectromagneticLab.register( 'FieldMeterSonifier', FieldMeterSonifier );

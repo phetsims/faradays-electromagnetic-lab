@@ -1,6 +1,6 @@
 // Copyright 2024, University of Colorado Boulder
 
-//TODO https://github.com/phetsims/faradays-electromagnetic-lab/issues/77 Lots of duplication with FieldMeterSoundListener
+//TODO https://github.com/phetsims/faradays-electromagnetic-lab/issues/77 Lots of duplication with FieldMeterSonifier
 /**
  * CompassSonifier is responsible for sonification of the compass. The angle of the magnetic field at the
  * compass position is mapped to the pitch of a sound clip, with a constant output level. Sound plays continuously
