@@ -20,6 +20,7 @@ import Vector2 from '../../../../dot/js/Vector2.js';
 import FELPreferences from '../model/FELPreferences.js';
 import earthWesternHemisphere_svg from '../../../images/earthWesternHemisphere_svg.js';
 import earthEasternHemisphere_svg from '../../../images/earthEasternHemisphere_svg.js';
+import DerivedProperty from '../../../../axon/js/DerivedProperty.js';
 
 type SelfOptions = EmptySelfOptions;
 
@@ -29,21 +30,16 @@ export default class EarthNode extends FELMovableNode {
 
   public constructor( barMagnet: BarMagnet, providedOptions: EarthNodeOptions ) {
 
-    const earthImage = new Image( earthWesternHemisphere_svg, {
+    const earthImageSourceProperty = new DerivedProperty( [ FELPreferences.earthHemisphereProperty ], earthHemisphere => {
+      return earthHemisphere === 'western' ? earthWesternHemisphere_svg : earthEasternHemisphere_svg;
+    } );
+
+    const earthImage = new Image( earthImageSourceProperty, {
       scale: 0.6,
       opacity: 0.75,
       rotation: Math.PI / 2, // earth_png has north up, bar magnet has north to the right
       pickable: false, // ... so earthPath determines where this Node can be grabbed.
       center: Vector2.ZERO
-    } );
-
-    FELPreferences.earthHemisphereProperty.link( earthHemisphere => {
-      if ( earthHemisphere === 'western' ) {
-        earthImage.image = earthWesternHemisphere_svg;
-      }
-      else {
-        earthImage.image = earthEasternHemisphere_svg;
-      }
     } );
 
     // ... so this Node can only be grabbed by the circular shape that matches earthImage.
