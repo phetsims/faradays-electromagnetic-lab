@@ -30,8 +30,10 @@ const FADE_OUT_TIME = 0.25;
 
 export default class FieldMeterSoundListener implements TInputListener {
 
+  // Pitch of soundClip is modulated to match field magnitude. The clip plays continuously during a drag cycle.
   private readonly soundClip: SoundClip;
 
+  // fieldVectorProperty is observed by fieldVectorListener while a drag cycle is in progress.
   private readonly fieldVectorProperty: TReadOnlyProperty<Vector2>;
   private readonly fieldMagnitudeRange: Range;
   private readonly fieldVectorListener: PropertyLinkListener<Vector2>;
