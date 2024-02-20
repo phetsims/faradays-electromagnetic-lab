@@ -73,8 +73,7 @@ export default class FELScreenView extends ScreenView {
       tandem: options.tandem.createTandem( 'compassNode' )
     } );
 
-    this.fieldMeterNode = new FieldMeterNode( options.fieldMeter, options.magnet.strengthRange,
-      options.magnet.fieldScaleProperty, {
+    this.fieldMeterNode = new FieldMeterNode( options.fieldMeter, options.magnet.strengthRange, {
         dragBoundsProperty: this.visibleBoundsProperty,
         tandem: options.tandem.createTandem( 'fieldMeterNode' )
       } );

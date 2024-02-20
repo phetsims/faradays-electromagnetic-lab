@@ -32,7 +32,6 @@ import optionize, { EmptySelfOptions } from '../../../../phet-core/js/optionize.
 import PickRequired from '../../../../phet-core/js/types/PickRequired.js';
 import DerivedStringProperty from '../../../../axon/js/DerivedStringProperty.js';
 import FieldMeterSoundListener from './FieldMeterSoundListener.js';
-import { TReadOnlyProperty } from '../../../../axon/js/imports.js';
 
 const BStringProperty = FaradaysElectromagneticLabStrings.symbol.BStringProperty;
 const xStringProperty = FaradaysElectromagneticLabStrings.symbol.xStringProperty;
@@ -87,8 +86,7 @@ export default class FieldMeterNode extends FELMovableNode {
 
   private readonly fieldMeterSoundListener: FieldMeterSoundListener;
 
-  public constructor( fieldMeter: FieldMeter, magnetStrengthRange: Range, fieldScaleProperty: TReadOnlyProperty<number>,
-                      providedOptions: FieldMeterNodeOptions ) {
+  public constructor( fieldMeter: FieldMeter, magnetStrengthRange: Range, providedOptions: FieldMeterNodeOptions ) {
 
     const options = optionize<FieldMeterNodeOptions, SelfOptions, FELMovableNodeOptions>()( {
 
@@ -202,8 +200,7 @@ export default class FieldMeterNode extends FELMovableNode {
 
     super( fieldMeter, options );
 
-    this.fieldMeterSoundListener = new FieldMeterSoundListener( fieldMeter.fieldVectorProperty, magnetStrengthRange,
-      fieldScaleProperty );
+    this.fieldMeterSoundListener = new FieldMeterSoundListener( fieldMeter.fieldVectorProperty, magnetStrengthRange );
     this.addInputListener( this.fieldMeterSoundListener );
   }
 }

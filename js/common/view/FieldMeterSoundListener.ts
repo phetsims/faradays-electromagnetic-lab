@@ -21,12 +21,15 @@ import SoundClip from '../../../../tambo/js/sound-generators/SoundClip.js';
 // Pitch varies over 12 semitones (1 octave), so the playback rate doubles.
 const PLAYBACK_RATE_RANGE = new Range( 1, 2 );
 
-// Output level is constant, except during fades, or when field magnitude is zero,
+// Output level is constant, except during fades, or when field magnitude is zero.
 const MAX_OUTPUT_LEVEL = 0.7;
 
-// Fade times, in seconds
+// Fade times, in seconds.
 const FADE_IN_TIME = 0.25;
 const FADE_OUT_TIME = 0.25;
+
+// Scale factor to use for mapping field magnitude to playback rate.
+const FIELD_SCALE = 2.7;
 
 export default class FieldMeterSoundListener implements TInputListener {
 
@@ -37,7 +40,7 @@ export default class FieldMeterSoundListener implements TInputListener {
   private readonly fieldVectorProperty: TReadOnlyProperty<Vector2>;
   private readonly fieldVectorListener: PropertyLinkListener<Vector2>;
 
-  public constructor( fieldVectorProperty: TReadOnlyProperty<Vector2>, fieldMagnitudeRange: Range, fieldScaleProperty: TReadOnlyProperty<number> ) {
+  public constructor( fieldVectorProperty: TReadOnlyProperty<Vector2>, fieldMagnitudeRange: Range ) {
 
     this.soundClip = new SoundClip( felFieldMeterLoop_mp3, {
       loop: true,
@@ -52,7 +55,7 @@ export default class FieldMeterSoundListener implements TInputListener {
         this.soundClip.setOutputLevel( 0 );
       }
       else {
-        const playbackRate = FieldMeterSoundListener.fieldMagnitudeToPlaybackRate( fieldVector.magnitude, fieldMagnitudeRange, fieldScaleProperty.value );
+        const playbackRate = FieldMeterSoundListener.fieldMagnitudeToPlaybackRate( fieldVector.magnitude, fieldMagnitudeRange, FIELD_SCALE );
         this.soundClip.setPlaybackRate( playbackRate );
         if ( this.soundClip.isPlaying && this.soundClip.outputLevel === 0 ) {
           this.soundClip.setOutputLevel( MAX_OUTPUT_LEVEL );
