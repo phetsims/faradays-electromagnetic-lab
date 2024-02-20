@@ -28,7 +28,7 @@ const MIN_PLAYBACK_RATE = 1;
 const PLAYBACK_RATE_RANGE = new Range( MIN_PLAYBACK_RATE, MIN_PLAYBACK_RATE + SEMITONES / 12 );
 
 // Output level is constant, except during fades, or when field magnitude is zero.
-const MAX_OUTPUT_LEVEL = 0.7;
+const MAX_OUTPUT_LEVEL = 0.2;
 
 // Fade times, in seconds.
 const FADE_IN_TIME = 0.25;
