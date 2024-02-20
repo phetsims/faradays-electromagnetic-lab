@@ -16,14 +16,12 @@ import DCPowerSupply from './DCPowerSupply.js';
 import CurrentSource from './CurrentSource.js';
 import DerivedProperty from '../../../../axon/js/DerivedProperty.js';
 import NumberIO from '../../../../tandem/js/types/NumberIO.js';
-import Range from '../../../../dot/js/Range.js';
 import CoilMagnet, { CoilMagnetOptions } from './CoilMagnet.js';
 import { EmptySelfOptions } from '../../../../phet-core/js/optionize.js';
 import RangeWithValue from '../../../../dot/js/RangeWithValue.js';
 import Coil from './Coil.js';
 import FELConstants from '../FELConstants.js';
 
-const STRENGTH_RANGE = new Range( 0, 300 ); // gauss
 const WIRE_WIDTH = 16;
 const LOOP_SPACING = WIRE_WIDTH; // closely-packed loops
 
@@ -84,15 +82,15 @@ export default class Electromagnet extends CoilMagnet {
 
     // Strength of the magnet is proportional to its EMF.
     const strengthProperty = new DerivedProperty( [ coil.currentAmplitudeProperty ],
-      currentAmplitude => Math.abs( currentAmplitude ) * STRENGTH_RANGE.max, {
+      currentAmplitude => Math.abs( currentAmplitude ) * FELConstants.MAGNET_STRENGTH_RANGE.max, {
         units: 'G',
-        isValidValue: strength => STRENGTH_RANGE.contains( strength ),
+        isValidValue: strength => FELConstants.MAGNET_STRENGTH_RANGE.contains( strength ),
         tandem: options.tandem.createTandem( 'strengthProperty' ),
         phetioValueType: NumberIO,
         phetioFeatured: true
       } );
 
-    super( coil, strengthProperty, STRENGTH_RANGE, options );
+    super( coil, strengthProperty, FELConstants.MAGNET_STRENGTH_RANGE, options );
 
     this.coil = coil;
     this.dcPowerSupply = dcPowerSupply;

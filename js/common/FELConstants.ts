@@ -188,6 +188,7 @@ const FELConstants = {
   PREFERENCES_DESCRIPTION_LINE_WRAP: 500,
 
   // Model
+  MAGNET_STRENGTH_RANGE: new Range( 0, 300 ), // G
 
   // Range of currentAmplitudeProperty. The magnitude determines the relative amount of current, while the sign
   // determines the current direction. See Coil currentAmplitudeProperty and

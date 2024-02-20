@@ -21,9 +21,10 @@ import Range from '../../../../dot/js/Range.js';
 import DerivedProperty from '../../../../axon/js/DerivedProperty.js';
 import NumberIO from '../../../../tandem/js/types/NumberIO.js';
 import WithOptional from '../../../../phet-core/js/types/WithOptional.js';
+import FELConstants from '../FELConstants.js';
 
 const DEFAULT_SIZE = new Dimension2( 250, 50 );
-const MAX_STRENGTH = 300; // G
+const MAX_STRENGTH = FELConstants.MAGNET_STRENGTH_RANGE.max; // G
 const STRENGTH_PERCENT_RANGE = new Range( 0, 100 ); // %
 const STRENGTH_RANGE = new Range( ( STRENGTH_PERCENT_RANGE.min / 100 ) * MAX_STRENGTH, ( STRENGTH_PERCENT_RANGE.max / 100 ) * MAX_STRENGTH ); // G
 

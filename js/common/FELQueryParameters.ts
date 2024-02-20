@@ -9,6 +9,7 @@
 
 import logGlobal from '../../../phet-core/js/logGlobal.js';
 import faradaysElectromagneticLab from '../faradaysElectromagneticLab.js';
+import FELConstants from './FELConstants.js';
 
 export const MagneticUnitsValues = [ 'G', 'T' ] as const;
 export type MagneticUnits = ( typeof MagneticUnitsValues )[number];
@@ -62,7 +63,7 @@ const SCHEMA_MAP = {
   piecewiseCutoff: {
     type: 'number',
     defaultValue: 20,
-    isValidValue: ( value: number ) => ( value > 0 && value < 300 )
+    isValidValue: ( value: number ) => FELConstants.MAGNET_STRENGTH_RANGE.contains( value )
   }
 } as const;
 
