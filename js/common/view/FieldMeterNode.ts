@@ -42,15 +42,21 @@ const valueUnitsStringProperty = FaradaysElectromagneticLabStrings.pattern.value
 const lessThanValueUnitsStringProperty = FaradaysElectromagneticLabStrings.pattern.lessThanValueUnitsStringProperty;
 const valueDegreesStringProperty = FaradaysElectromagneticLabStrings.pattern.valueDegreesStringProperty;
 
-const G_DECIMAL_PLACES = 2;
-const G_MIN_DISPLAY = Math.pow( 10, -G_DECIMAL_PLACES );
-const T_DECIMAL_PLACES = 2;
+// Decimal places for each quantity displayed by the meter.
+const GAUSS_DECIMAL_PLACES = 2;
+const TESLA_DECIMAL_PLACES = 2;
 const ANGLE_DECIMAL_PLACES = 2;
+
+// Minimum value that is displayable in gauss (G). Values < this will be displayed as '< 0.01'.
+const GAUSS_MIN_DISPLAY_VALUE = Math.pow( 10, -GAUSS_DECIMAL_PLACES );
+
+// For various parts of the meter...
 const CROSSHAIRS_RADIUS = 10;
 const PROBE_RADIUS = CROSSHAIRS_RADIUS + 8;
 const BODY_X_MARGIN = 12;
 const BODY_Y_MARGIN = 8;
 
+// Options for the labels that appear to the left of each value displayed by the meter.
 const LABEL_TEXT_OPTIONS: RichTextOptions = {
   font: new PhetFont( 14 ),
   fill: FELColors.fieldMeterLabelsColorProperty,
@@ -61,6 +67,7 @@ const LABEL_TEXT_OPTIONS: RichTextOptions = {
   maxHeight: 20 // RichText may be multiline
 };
 
+// Options for the values that are displayed by the meter.
 const STRING_DISPLAY_OPTIONS: StringDisplayOptions = {
   size: new Dimension2( 90, 22 ),
   xMargin: 5,
@@ -210,16 +217,16 @@ export default class FieldMeterNode extends FELMovableNode {
  * If the value is exactly zero, display '0' with no decimal places.
  */
 function toGaussString( gauss: number, G: string ): string {
-  if ( gauss < G_MIN_DISPLAY ) {
+  if ( gauss < GAUSS_MIN_DISPLAY_VALUE ) {
 
     // Display '< 0.01' instead of '0.00', see https://github.com/phetsims/faradays-electromagnetic-lab/issues/84
     return StringUtils.fillIn( lessThanValueUnitsStringProperty, {
-      value: `${G_MIN_DISPLAY}`,
+      value: `${GAUSS_MIN_DISPLAY_VALUE}`,
       units: G
     } );
   }
   else {
-    const stringValue = ( gauss === 0 ) ? '0' : Utils.toFixed( gauss, G_DECIMAL_PLACES );
+    const stringValue = ( gauss === 0 ) ? '0' : Utils.toFixed( gauss, GAUSS_DECIMAL_PLACES );
     return StringUtils.fillIn( valueUnitsStringProperty, {
       value: stringValue,
       units: G
@@ -237,7 +244,7 @@ function toTeslaString( gauss: number, T: string ): string {
     stringValue = '0';
   }
   else {
-    const tesla = ( gauss / 10000 ).toExponential( T_DECIMAL_PLACES );
+    const tesla = ( gauss / 10000 ).toExponential( TESLA_DECIMAL_PLACES );
     const tokens = `${tesla}`.split( 'e' );
     assert && assert( tokens.length === 2, `unexpected tokens for ${tesla}` );
     stringValue = `${tokens[ 0 ]} ${MathSymbols.TIMES} 10<sup>${tokens[ 1 ]}</sup>`;
