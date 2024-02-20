@@ -112,6 +112,7 @@ export default class CompassSonifier implements TInputListener {
     this.soundClip.stop( FADE_OUT_TIME );
   }
 
+  //TODO https://github.com/phetsims/faradays-electromagnetic-lab/issues/77 Delete if not used.
   /**
    * Maps compass angle to pitch linearly in the range [0,2*PI], a full circle. This results in an abrupt change
    * in pitch when the angle crosses the +x-axis at zero radians.
@@ -126,6 +127,7 @@ export default class CompassSonifier implements TInputListener {
     return playbackRate;
   }
 
+  //TODO https://github.com/phetsims/faradays-electromagnetic-lab/issues/77 Delete if not used.
   /**
    * Maps compass angle to pitch linearly in the range [0,PI]. Mirroring about the x-axis at zero and PI radians
    * avoids any abrupt changes in pitch.

@@ -1,6 +1,6 @@
 // Copyright 2024, University of Colorado Boulder
 
-//TODO https://github.com/phetsims/faradays-electromagnetic-lab/issues/77 Can this be generalized for other similar sound designs?
+//TODO https://github.com/phetsims/faradays-electromagnetic-lab/issues/77 Can this be generalized?
 /**
  * FieldMeterSonifier is responsible for sonification of the field meter. The magnitude of the magnetic field at the
  * meter's position is used to modulate the pitch of a sound clip, with a constant output level. Sound plays continuously
@@ -30,7 +30,7 @@ const MIN_PLAYBACK_RATE = 1;
 const PLAYBACK_RATE_RANGE = new Range( MIN_PLAYBACK_RATE, MIN_PLAYBACK_RATE + SEMITONES / 12 );
 
 // Output level is constant, except during fades, or when field magnitude is zero.
-const MAX_OUTPUT_LEVEL = 0.7;
+const MAX_OUTPUT_LEVEL = 0.2;
 
 // Fade times, in seconds.
 const FADE_IN_TIME = 0.25;
@@ -126,7 +126,7 @@ export default class FieldMeterSonifier implements TInputListener {
     this.soundClip.stop( FADE_OUT_TIME );
   }
 
-  //TODO https://github.com/phetsims/faradays-electromagnetic-lab/issues/77 Delete all but 1 of the fieldMagnitudeToPlaybackRate methods.
+  //TODO https://github.com/phetsims/faradays-electromagnetic-lab/issues/77 Delete if not used.
   /**
    * Converts field magnitude to playback rate.
    */
@@ -144,6 +144,7 @@ export default class FieldMeterSonifier implements TInputListener {
     return playbackRate;
   }
 
+  //TODO https://github.com/phetsims/faradays-electromagnetic-lab/issues/77 Delete if not used.
   /**
    * Converts field magnitude to playback rate using a linear interpolation.
    */
@@ -159,6 +160,7 @@ export default class FieldMeterSonifier implements TInputListener {
     return playbackRate;
   }
 
+  //TODO https://github.com/phetsims/faradays-electromagnetic-lab/issues/77 Delete if not used.
   /**
    * Converts field magnitude to playback rate using a piecewise linear interpolation, where the range is divided
    * into 2 separate linear mappings.
