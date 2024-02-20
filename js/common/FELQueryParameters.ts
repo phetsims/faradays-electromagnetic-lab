@@ -55,6 +55,14 @@ const SCHEMA_MAP = {
   // Prints info to the console that is useful for calibrating the pickup coil. See PickupCoil.calibrateEMF.
   calibrateEMF: {
     type: 'flag'
+  },
+
+  // Field magnitude cutoff value in G, used for FieldMeterSoundListener.fieldMagnitudeToPlaybackRatePiecewiseLinear
+  //TODO https://github.com/phetsims/faradays-electromagnetic-lab/issues/77 delete this
+  piecewiseCutoff: {
+    type: 'number',
+    defaultValue: 20,
+    isValidValue: ( value: number ) => ( value > 0 && value < 300 )
   }
 } as const;
 

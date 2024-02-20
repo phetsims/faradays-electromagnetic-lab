@@ -15,8 +15,9 @@ import Vector2 from '../../../../dot/js/Vector2.js';
 import soundManager from '../../../../tambo/js/soundManager.js';
 import felFieldMeterLoop_mp3 from '../../../sounds/felFieldMeterLoop_mp3.js';
 import Utils from '../../../../dot/js/Utils.js';
-import FieldNode from './FieldNode.js';
 import SoundClip from '../../../../tambo/js/sound-generators/SoundClip.js';
+import FieldNode from './FieldNode.js';
+import FELQueryParameters from '../FELQueryParameters.js';
 
 // Pitch varies over 12 semitones (1 octave), so the playback rate doubles.
 const PLAYBACK_RATE_RANGE = new Range( 1, 2 );
@@ -55,7 +56,7 @@ export default class FieldMeterSoundListener implements TInputListener {
         this.soundClip.setOutputLevel( 0 );
       }
       else {
-        const playbackRate = FieldMeterSoundListener.fieldMagnitudeToPlaybackRate( fieldVector.magnitude, fieldMagnitudeRange, FIELD_SCALE );
+        const playbackRate = FieldMeterSoundListener.fieldMagnitudeToPlaybackRatePiecewiseLinear( fieldVector.magnitude, fieldMagnitudeRange, FIELD_SCALE );
         this.soundClip.setPlaybackRate( playbackRate );
         if ( this.soundClip.isPlaying && this.soundClip.outputLevel === 0 ) {
           this.soundClip.setOutputLevel( MAX_OUTPUT_LEVEL );
@@ -117,17 +118,61 @@ export default class FieldMeterSoundListener implements TInputListener {
     this.soundClip.stop( FADE_OUT_TIME );
   }
 
+  //TODO https://github.com/phetsims/faradays-electromagnetic-lab/issues/77 Delete all but 1 of the fieldMagnitudeToPlaybackRate methods.
   /**
    * Converts field magnitude to playback rate.
    */
-  public static fieldMagnitudeToPlaybackRate( fieldMagnitude: number, fieldMagnitudeRange: Range, fieldScale: number ): number {
+  public static fieldMagnitudeToPlaybackRateScaled( fieldMagnitude: number, fieldMagnitudeRange: Range, fieldScale: number ): number {
     assert && assert( fieldMagnitudeRange.contains( fieldMagnitude ), `invalid fieldMagnitude: ${fieldMagnitude}` );
+    console.log( 'Scaled' );
 
     // Normalize to [0,1] with scaling.
     const normalizedMagnitude = FieldNode.normalizeMagnitude( fieldMagnitude, fieldMagnitudeRange.max, fieldScale );
 
     // Map to playback rate.
     const playbackRate = Utils.linear( 0, 1, PLAYBACK_RATE_RANGE.min, PLAYBACK_RATE_RANGE.max, normalizedMagnitude );
+
+    assert && assert( PLAYBACK_RATE_RANGE.contains( playbackRate ), `unexpected playbackRate: ${playbackRate}` );
+    return playbackRate;
+  }
+
+  /**
+   * Converts field magnitude to playback rate using a linear interpolation.
+   */
+  public static fieldMagnitudeToPlaybackRateLinear( fieldMagnitude: number, fieldMagnitudeRange: Range, fieldScale: number ): number {
+    assert && assert( fieldMagnitudeRange.contains( fieldMagnitude ), `invalid fieldMagnitude: ${fieldMagnitude}` );
+    console.log( 'Linear' );
+
+    const playbackRate = Utils.linear( fieldMagnitudeRange.min, fieldMagnitudeRange.max,
+      PLAYBACK_RATE_RANGE.min, PLAYBACK_RATE_RANGE.max,
+      fieldMagnitude );
+
+    assert && assert( PLAYBACK_RATE_RANGE.contains( playbackRate ), `unexpected playbackRate: ${playbackRate}` );
+    return playbackRate;
+  }
+
+  /**
+   * Converts field magnitude to playback rate using a piecewise linear interpolation, where the range is divided
+   * into 2 separate linear mappings.
+   */
+  public static fieldMagnitudeToPlaybackRatePiecewiseLinear( fieldMagnitude: number, fieldMagnitudeRange: Range, fieldScale: number ): number {
+    assert && assert( fieldMagnitudeRange.contains( fieldMagnitude ), `invalid fieldMagnitude: ${fieldMagnitude}` );
+
+    const piecewiseCutoff = FELQueryParameters.piecewiseCutoff; // G
+    assert && assert( fieldMagnitudeRange.contains( piecewiseCutoff ), `invalid piecewiseCutoff: ${piecewiseCutoff}` );
+    console.log( `Piecewise linear: piecewiseCutoff=${piecewiseCutoff}` );
+
+    let playbackRate: number;
+    if ( fieldMagnitude < piecewiseCutoff ) {
+      playbackRate = Utils.linear( fieldMagnitudeRange.min, piecewiseCutoff,
+        PLAYBACK_RATE_RANGE.min, PLAYBACK_RATE_RANGE.getCenter(),
+        fieldMagnitude );
+    }
+    else {
+      playbackRate = Utils.linear( piecewiseCutoff, fieldMagnitudeRange.max,
+        PLAYBACK_RATE_RANGE.getCenter(), PLAYBACK_RATE_RANGE.max,
+        fieldMagnitude );
+    }
 
     assert && assert( PLAYBACK_RATE_RANGE.contains( playbackRate ), `unexpected playbackRate: ${playbackRate}` );
     return playbackRate;
