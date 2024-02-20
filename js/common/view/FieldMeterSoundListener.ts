@@ -35,7 +35,6 @@ export default class FieldMeterSoundListener implements TInputListener {
 
   // fieldVectorProperty is observed by fieldVectorListener while a drag cycle is in progress.
   private readonly fieldVectorProperty: TReadOnlyProperty<Vector2>;
-  private readonly fieldMagnitudeRange: Range;
   private readonly fieldVectorListener: PropertyLinkListener<Vector2>;
 
   public constructor( fieldVectorProperty: TReadOnlyProperty<Vector2>, fieldMagnitudeRange: Range, fieldScaleProperty: TReadOnlyProperty<number> ) {
@@ -47,14 +46,13 @@ export default class FieldMeterSoundListener implements TInputListener {
     soundManager.addSoundGenerator( this.soundClip );
 
     this.fieldVectorProperty = fieldVectorProperty;
-    this.fieldMagnitudeRange = fieldMagnitudeRange;
 
     this.fieldVectorListener = fieldVector => {
       if ( fieldVector.magnitude === 0 ) {
         this.soundClip.setOutputLevel( 0 );
       }
       else {
-        const playbackRate = this.fieldMagnitudeToPlaybackRate( fieldVector.magnitude, fieldScaleProperty.value );
+        const playbackRate = FieldMeterSoundListener.fieldMagnitudeToPlaybackRate( fieldVector.magnitude, fieldMagnitudeRange, fieldScaleProperty.value );
         this.soundClip.setPlaybackRate( playbackRate );
         if ( this.soundClip.isPlaying && this.soundClip.outputLevel === 0 ) {
           this.soundClip.setOutputLevel( MAX_OUTPUT_LEVEL );
@@ -119,11 +117,11 @@ export default class FieldMeterSoundListener implements TInputListener {
   /**
    * Converts field magnitude to playback rate.
    */
-  private fieldMagnitudeToPlaybackRate( fieldMagnitude: number, fieldScale: number ): number {
-    assert && assert( this.fieldMagnitudeRange.contains( fieldMagnitude ), `invalid fieldMagnitude: ${fieldMagnitude}` );
+  public static fieldMagnitudeToPlaybackRate( fieldMagnitude: number, fieldMagnitudeRange: Range, fieldScale: number ): number {
+    assert && assert( fieldMagnitudeRange.contains( fieldMagnitude ), `invalid fieldMagnitude: ${fieldMagnitude}` );
 
     // Normalize to [0,1] with scaling.
-    const normalizedMagnitude = FieldNode.normalizeMagnitude( fieldMagnitude, this.fieldMagnitudeRange.max, fieldScale );
+    const normalizedMagnitude = FieldNode.normalizeMagnitude( fieldMagnitude, fieldMagnitudeRange.max, fieldScale );
 
     // Map to playback rate.
     const playbackRate = Utils.linear( 0, 1, PLAYBACK_RATE_RANGE.min, PLAYBACK_RATE_RANGE.max, normalizedMagnitude );
