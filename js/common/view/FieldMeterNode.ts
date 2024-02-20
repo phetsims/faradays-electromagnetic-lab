@@ -32,6 +32,8 @@ import optionize, { EmptySelfOptions } from '../../../../phet-core/js/optionize.
 import PickRequired from '../../../../phet-core/js/types/PickRequired.js';
 import DerivedStringProperty from '../../../../axon/js/DerivedStringProperty.js';
 import FieldMeterSoundListener from './FieldMeterSoundListener.js';
+import { RichDragListenerOptions } from '../../../../sun/js/RichDragListener.js';
+import { RichKeyboardDragListenerOptions } from '../../../../sun/js/RichKeyboardDragListener.js';
 
 const BStringProperty = FaradaysElectromagneticLabStrings.symbol.BStringProperty;
 const xStringProperty = FaradaysElectromagneticLabStrings.symbol.xStringProperty;
@@ -85,6 +87,24 @@ const STRING_DISPLAY_OPTIONS: StringDisplayOptions = {
   }
 };
 
+const DRAG_LISTENER_OPTIONS: RichDragListenerOptions = {
+
+  // Turn off default grab and release sounds, because we have FieldMeterSoundListener.
+  grabSound: null,
+  releaseSound: null
+};
+
+const KEYBOARD_DRAG_LISTENER_OPTIONS: RichKeyboardDragListenerOptions = {
+
+  // See https://github.com/phetsims/faradays-electromagnetic-lab/issues/79 for design of drag speeds.
+  dragSpeed: 150,
+  shiftDragSpeed: 50,
+
+  // Turn off default grab and release sounds, because we have FieldMeterSoundListener.
+  grabSound: null,
+  releaseSound: null
+};
+
 type SelfOptions = EmptySelfOptions;
 
 type FieldMeterNodeOptions = SelfOptions & PickRequired<FELMovableNodeOptions, 'tandem' | 'dragBoundsProperty'>;
@@ -99,16 +119,8 @@ export default class FieldMeterNode extends FELMovableNode {
 
       // FELMovableNodeOptions
       visibleProperty: fieldMeter.visibleProperty,
-      dragListenerOptions: {
-        grabSound: null,
-        releaseSound: null
-      },
-      keyboardDragListenerOptions: {
-        dragSpeed: 150, // See https://github.com/phetsims/faradays-electromagnetic-lab/issues/79
-        shiftDragSpeed: 50,
-        grabSound: null,
-        releaseSound: null
-      }
+      dragListenerOptions: DRAG_LISTENER_OPTIONS,
+      keyboardDragListenerOptions: KEYBOARD_DRAG_LISTENER_OPTIONS
     }, providedOptions );
 
     // Origin is at the center of the crosshairs.
