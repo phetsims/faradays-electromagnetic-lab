@@ -54,7 +54,7 @@ export default class CompassSoundListener implements TInputListener {
     this.fieldVectorProperty = fieldVectorProperty;
 
     this.fieldVectorListener = fieldVector => {
-      const playbackRate = CompassSoundListener.fieldAngleToPlaybackRateCircle( fieldVector.angle );
+      const playbackRate = CompassSoundListener.fieldAngleToPlaybackRateMirror( fieldVector.angle );
       this.soundClip.setPlaybackRate( playbackRate );
     };
   }
