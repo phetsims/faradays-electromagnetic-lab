@@ -68,6 +68,11 @@ export default class BarMagnet extends Magnet {
     this.strengthPercentProperty = strengthPercentProperty;
   }
 
+  public override reset(): void {
+    super.reset();
+    this.strengthPercentProperty.reset();
+  }
+
   /**
    * Gets the B-field vector at a point in the magnet's local 2D coordinate frame.
    *
