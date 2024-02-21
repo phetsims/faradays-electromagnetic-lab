@@ -124,7 +124,41 @@ export default class FieldMeterSonifier implements TInputListener {
     this.soundClip.stop( FADE_OUT_TIME );
   }
 
-  //TODO https://github.com/phetsims/faradays-electromagnetic-lab/issues/77 Delete if not used.
+  //TODO https://github.com/phetsims/faradays-electromagnetic-lab/issues/77 This mapping was our best attempt so far, see notes in the GitHub issue.
+  /**
+   * Converts B-field magnitude to playback rate using a piecewise linear interpolation, where the range is divided
+   * into 2 separate linear mappings. It provides discernible changes in pitch at for these important pedagogical
+   * interactions:
+   *
+   * - Big discontinuity in pitch when entering/leaving the magnet from the top/bottom edges.
+   * - No discontinuity in pitch when entering/leaving the magnet at the poles.
+   * - A noticeable difference in pitch in a roughly circular area near the poles.
+   * - Fast drop-off as distance from the magnet increases, with little/no discernible pitch difference in places
+   *   that are "far" from the magnet.
+   */
+  public static fieldMagnitudeToPlaybackRatePiecewiseLinear( fieldMagnitude: number, fieldMagnitudeRange: Range ): number {
+    assert && assert( fieldMagnitudeRange.contains( fieldMagnitude ), `invalid fieldMagnitude: ${fieldMagnitude}` );
+
+    const piecewiseCutoff = FELQueryParameters.piecewiseCutoff; // G
+    assert && assert( fieldMagnitudeRange.contains( piecewiseCutoff ), `invalid piecewiseCutoff: ${piecewiseCutoff}` );
+
+    let playbackRate: number;
+    if ( fieldMagnitude < piecewiseCutoff ) {
+      playbackRate = Utils.linear( fieldMagnitudeRange.min, piecewiseCutoff,
+        PLAYBACK_RATE_RANGE.min, PLAYBACK_RATE_RANGE.getCenter(),
+        fieldMagnitude );
+    }
+    else {
+      playbackRate = Utils.linear( piecewiseCutoff, fieldMagnitudeRange.max,
+        PLAYBACK_RATE_RANGE.getCenter(), PLAYBACK_RATE_RANGE.max,
+        fieldMagnitude );
+    }
+
+    assert && assert( PLAYBACK_RATE_RANGE.contains( playbackRate ), `unexpected playbackRate: ${playbackRate}` );
+    return playbackRate;
+  }
+
+  //TODO https://github.com/phetsims/faradays-electromagnetic-lab/issues/77 Delete if not used. This mapping had problems, see notes in the GitHub issue.
   /**
    * Converts B-field magnitude to playback rate. This uses the same scaling algorithm that is used for scaling
    * the visualization of the B-field.
@@ -159,33 +193,6 @@ export default class FieldMeterSonifier implements TInputListener {
     const playbackRate = Utils.linear( fieldMagnitudeRange.min, fieldMagnitudeRange.max,
       PLAYBACK_RATE_RANGE.min, PLAYBACK_RATE_RANGE.max,
       fieldMagnitude );
-
-    assert && assert( PLAYBACK_RATE_RANGE.contains( playbackRate ), `unexpected playbackRate: ${playbackRate}` );
-    return playbackRate;
-  }
-
-  //TODO https://github.com/phetsims/faradays-electromagnetic-lab/issues/77 Delete if not used.
-  /**
-   * Converts B-field magnitude to playback rate using a piecewise linear interpolation, where the range is divided
-   * into 2 separate linear mappings.
-   */
-  public static fieldMagnitudeToPlaybackRatePiecewiseLinear( fieldMagnitude: number, fieldMagnitudeRange: Range ): number {
-    assert && assert( fieldMagnitudeRange.contains( fieldMagnitude ), `invalid fieldMagnitude: ${fieldMagnitude}` );
-
-    const piecewiseCutoff = FELQueryParameters.piecewiseCutoff; // G
-    assert && assert( fieldMagnitudeRange.contains( piecewiseCutoff ), `invalid piecewiseCutoff: ${piecewiseCutoff}` );
-
-    let playbackRate: number;
-    if ( fieldMagnitude < piecewiseCutoff ) {
-      playbackRate = Utils.linear( fieldMagnitudeRange.min, piecewiseCutoff,
-        PLAYBACK_RATE_RANGE.min, PLAYBACK_RATE_RANGE.getCenter(),
-        fieldMagnitude );
-    }
-    else {
-      playbackRate = Utils.linear( piecewiseCutoff, fieldMagnitudeRange.max,
-        PLAYBACK_RATE_RANGE.getCenter(), PLAYBACK_RATE_RANGE.max,
-        fieldMagnitude );
-    }
 
     assert && assert( PLAYBACK_RATE_RANGE.contains( playbackRate ), `unexpected playbackRate: ${playbackRate}` );
     return playbackRate;
