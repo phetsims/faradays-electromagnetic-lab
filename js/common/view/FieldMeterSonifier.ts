@@ -1,7 +1,7 @@
 // Copyright 2024, University of Colorado Boulder
 
 /**
- * FieldMeterSonifier is responsible for sonification of the FieldMeterNode view element.
+ * FieldMeterSonifier is responsible for sonification of a FieldMeterNode view element.
  *
  * The magnitude of the magnetic field at the meter's position is used to modulate the pitch of a sound clip,
  * with a constant output level. Sound plays continuously during the drag cycle of the field meter, for both
