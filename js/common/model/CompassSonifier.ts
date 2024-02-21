@@ -20,7 +20,7 @@ import Utils from '../../../../dot/js/Utils.js';
 import SoundClip from '../../../../tambo/js/sound-generators/SoundClip.js';
 import felCompassSaturatedSineLoop_wav from '../../../sounds/felCompassSaturatedSineLoop_wav.js';
 import FELUtils from '../FELUtils.js';
-import Compass from '../model/Compass.js';
+import Compass from './Compass.js';
 import isResettingAllProperty from '../isResettingAllProperty.js';
 
 // Pitch varies by 10 semitones. There are 12 semitones per octave.

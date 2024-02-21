@@ -18,8 +18,7 @@ import { EmptySelfOptions } from '../../../../phet-core/js/optionize.js';
 import Multilink from '../../../../axon/js/Multilink.js';
 import FieldMeasurementTool, { FieldMeasurementToolOptions } from './FieldMeasurementTool.js';
 import ConstantDtClock from './ConstantDtClock.js';
-// eslint-disable-next-line no-view-imported-from-model
-import CompassSonifier from '../view/CompassSonifier.js';
+import CompassSonifier from './CompassSonifier.js';
 
 type SelfOptions = EmptySelfOptions;
 
