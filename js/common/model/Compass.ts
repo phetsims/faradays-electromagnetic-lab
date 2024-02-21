@@ -59,15 +59,13 @@ export default abstract class Compass extends FieldMeasurementTool {
     } );
     this.needleAngleProperty = this._needleAngleProperty;
 
-    // If the clock is paused, update immediately to match the field vector.
-    Multilink.multilink( [ this.fieldVectorProperty ], fieldVector => {
-      if ( !isPlayingProperty.value && fieldVector.magnitude !== 0 ) {
-        this._needleAngleProperty.value = fieldVector.angle;
-      }
-    } );
-
-    // When visibility changes, immediately sync with field angle.
-    this.visibleProperty.lazyLink( visible => this.updateAngleImmediately( this.fieldVectorProperty.value.angle ) );
+    // If the clock is paused or the compass becomes invisible, update immediately to match the field vector.
+    Multilink.multilink( [ this.fieldVectorProperty, this.visibleProperty ],
+      ( fieldVector, visible ) => {
+        if ( ( !isPlayingProperty.value || !visible ) && fieldVector.magnitude !== 0 ) {
+          this._needleAngleProperty.value = fieldVector.angle;
+        }
+      } );
 
     this.sonifier = new CompassSonifier( this );
   }
