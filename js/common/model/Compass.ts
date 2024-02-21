@@ -60,9 +60,9 @@ export default abstract class Compass extends FieldMeasurementTool {
     this.needleAngleProperty = this._needleAngleProperty;
 
     // If the clock is paused or the compass becomes invisible, update immediately to match the field vector.
-    Multilink.lazyMultilink( [ this.fieldVectorProperty, this.visibleProperty ],
-      ( fieldVector, visible ) => {
-        if ( ( !isPlayingProperty.value || !visible ) && fieldVector.magnitude !== 0 ) {
+    Multilink.lazyMultilink( [ isPlayingProperty, this.visibleProperty, this.fieldVectorProperty ],
+      ( isPlaying, visible, fieldVector ) => {
+        if ( ( !isPlaying || !visible ) && fieldVector.magnitude !== 0 ) {
           this.updateAngleImmediately( fieldVector.angle );
         }
       } );
