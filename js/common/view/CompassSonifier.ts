@@ -1,10 +1,10 @@
 // Copyright 2024, University of Colorado Boulder
 
-//TODO https://github.com/phetsims/faradays-electromagnetic-lab/issues/77 Lots of duplication with FieldMeterSonifier
 /**
  * CompassSonifier is responsible for sonification of the compass. The angle of the magnetic field at the
- * compass position is mapped to the pitch of a sound clip, with a constant output level. Sound plays continuously
- * during the drag cycle of the compass, for both pointer and keyboard dragging.
+ * compass position is mapped to the pitch of a sound clip, with a constant output level. Sound plays whenever
+ * the compass is visible and the needle angle is changing, and stops playing when the needle angle comes to
+ * reset for some time interval.
  *
  * See https://github.com/phetsims/faradays-electromagnetic-lab/issues/78 for design history.
  *
@@ -12,15 +12,15 @@
  */
 
 import faradaysElectromagneticLab from '../../faradaysElectromagneticLab.js';
-import { PressListenerEvent, TInputListener } from '../../../../scenery/js/imports.js';
-import { Disposable, PropertyLinkListener, TReadOnlyProperty } from '../../../../axon/js/imports.js';
+import { Disposable, stepTimer, TimerListener } from '../../../../axon/js/imports.js';
 import Range from '../../../../dot/js/Range.js';
-import Vector2 from '../../../../dot/js/Vector2.js';
 import soundManager from '../../../../tambo/js/soundManager.js';
 import Utils from '../../../../dot/js/Utils.js';
 import SoundClip from '../../../../tambo/js/sound-generators/SoundClip.js';
 import felCompassSaturatedSineLoop_wav from '../../../sounds/felCompassSaturatedSineLoop_wav.js';
 import FELUtils from '../FELUtils.js';
+import Compass from '../model/Compass.js';
+import isResettingAllProperty from '../isResettingAllProperty.js';
 
 // Pitch varies by 10 semitones. There are 12 semitones per octave.
 const SEMITONES = 10;
@@ -34,16 +34,18 @@ const MAX_OUTPUT_LEVEL = 0.2;
 const FADE_IN_TIME = 0.25;
 const FADE_OUT_TIME = 0.25;
 
-export default class CompassSonifier implements TInputListener {
+// If the compass is at reset this long (in ms), sound will fade out and stop.
+const TIMEOUT = 500;
 
-  // Pitch of soundClip is modulated to match field magnitude. The clip plays continuously during a drag cycle.
+export default class CompassSonifier {
+
+  // Pitch of soundClip is modulated by the needle angle, output level is constant.
   private readonly soundClip: SoundClip;
 
-  // fieldVectorProperty is observed by fieldVectorListener while a drag cycle is in progress.
-  private readonly fieldVectorProperty: TReadOnlyProperty<Vector2>;
-  private readonly fieldVectorListener: PropertyLinkListener<Vector2>;
+  // Called if the needle angle has not changed for TIMEOUT seconds.
+  private intervalCallback: TimerListener | null;
 
-  public constructor( fieldVectorProperty: TReadOnlyProperty<Vector2> ) {
+  public constructor( compass: Compass ) {
 
     this.soundClip = new SoundClip( felCompassSaturatedSineLoop_wav, {
       loop: true,
@@ -51,59 +53,74 @@ export default class CompassSonifier implements TInputListener {
     } );
     soundManager.addSoundGenerator( this.soundClip );
 
-    this.fieldVectorProperty = fieldVectorProperty;
+    this.intervalCallback = null;
 
-    this.fieldVectorListener = fieldVector => {
-      const playbackRate = CompassSonifier.fieldAngleToPlaybackRateMirror( fieldVector.angle );
+    // Map needle angle to playback rate.
+    compass.angleProperty.lazyLink( angle => {
+
+      // If the angle changed before the timeout, clear the timeout.
+      this.clearTimeout();
+
+      // If the clip is not playing, start it playing.
+      !this.isPlaying && this.play();
+
+      // Map angle to playback rate.
+      const playbackRate = CompassSonifier.fieldAngleToPlaybackRateMirror( angle );
       this.soundClip.setPlaybackRate( playbackRate );
-    };
+
+      // Schedule a timer to stop sound if it does not change TIMEOUT seconds from now.
+      // NOTE: Tried using setTimeout here and had problems with listener removal. So handle clearInterval ourselves.
+      this.intervalCallback = stepTimer.setInterval( () => this.stop(), TIMEOUT );
+    } );
+
+    // Stop sound when the compass becomes invisible.
+    compass.visibleProperty.lazyLink( visible => {
+      !visible && this.stop();
+    } );
+
+    // Stop sound when 'Reset All' is in progress.
+    isResettingAllProperty.lazyLink( isResettingAll => {
+      isResettingAll && this.stop();
+    } );
   }
 
   public dispose(): void {
     Disposable.assertNotDisposable();
   }
 
-  // Plays the sound on pointer down.
-  public down( event: PressListenerEvent ): void {
-    this.play();
+  public reset(): void {
+
+    // Clear the timer.
+    this.clearTimeout();
+
+    // Stop the clip.
+    this.isPlaying && this.stop();
   }
 
-  // Stops the sound on pointer up.
-  public up( event: PressListenerEvent ): void {
-    this.stop();
+  private clearTimeout(): void {
+    if ( this.intervalCallback ) {
+      stepTimer.clearInterval( this.intervalCallback );
+      this.intervalCallback = null;
+    }
   }
 
-  // Plays the sound when the field meter gets keyboard focus.
-  public focus( event: PressListenerEvent ): void {
-    this.play();
-  }
-
-  // Stops the sound when the field meter loses keyboard focus.
-  public blur( event: PressListenerEvent ): void {
-    this.stop();
+  private get isPlaying(): boolean {
+    return this.soundClip.isPlaying;
   }
 
   private play(): void {
-
-    // Start observing fieldVectorProperty.
-    if ( !this.fieldVectorProperty.hasListener( this.fieldVectorListener ) ) {
-      this.fieldVectorProperty.link( this.fieldVectorListener );
-    }
 
     // Start playing the sound clip.
     this.soundClip.play();
 
     // Fade in.
-    const outputLevel = ( this.fieldVectorProperty.value.magnitude === 0 ) ? 0 : MAX_OUTPUT_LEVEL;
-    this.soundClip.setOutputLevel( outputLevel, FELUtils.secondsToTimeConstant( FADE_IN_TIME ) );
+    this.soundClip.setOutputLevel( MAX_OUTPUT_LEVEL, FELUtils.secondsToTimeConstant( FADE_IN_TIME ) );
   }
 
   private stop(): void {
 
-    // Stop observing fieldVectorProperty.
-    if ( this.fieldVectorProperty.hasListener( this.fieldVectorListener ) ) {
-      this.fieldVectorProperty.unlink( this.fieldVectorListener );
-    }
+    // If stopped by the timer, clear it.
+    this.clearTimeout();
 
     // Fade out.
     this.soundClip.setOutputLevel( 0, FELUtils.secondsToTimeConstant( FADE_OUT_TIME ) );

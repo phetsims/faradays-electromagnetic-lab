@@ -18,6 +18,8 @@ import { EmptySelfOptions } from '../../../../phet-core/js/optionize.js';
 import Multilink from '../../../../axon/js/Multilink.js';
 import FieldMeasurementTool, { FieldMeasurementToolOptions } from './FieldMeasurementTool.js';
 import ConstantDtClock from './ConstantDtClock.js';
+// eslint-disable-next-line no-view-imported-from-model
+import CompassSonifier from '../view/CompassSonifier.js';
 
 type SelfOptions = EmptySelfOptions;
 
@@ -33,6 +35,10 @@ export default abstract class Compass extends FieldMeasurementTool {
 
   // A reusable vector instance, for getting the field vector value at the compass' position
   private readonly reusableFieldVector: Vector2;
+
+  // Responsible for sonification of the compass.
+  // See
+  private readonly sonifier: CompassSonifier;
 
   protected constructor( magnet: Magnet, isPlayingProperty: TReadOnlyProperty<boolean>, providedOptions: CompassOptions ) {
 
@@ -59,11 +65,14 @@ export default abstract class Compass extends FieldMeasurementTool {
         this._angleProperty.value = fieldVector.angle;
       }
     } );
+
+    this.sonifier = new CompassSonifier( this );
   }
 
   public override reset(): void {
     super.reset();
     this._angleProperty.reset();
+    this.sonifier.reset();
   }
 
   public step( dt: number ): void {

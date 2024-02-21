@@ -20,7 +20,6 @@ import FELColors from '../FELColors.js';
 import FELMovableNode, { FELMovableNodeOptions } from './FELMovableNode.js';
 import optionize, { EmptySelfOptions } from '../../../../phet-core/js/optionize.js';
 import PickRequired from '../../../../phet-core/js/types/PickRequired.js';
-import CompassSonifier from './CompassSonifier.js';
 import { RichDragListenerOptions } from '../../../../sun/js/RichDragListener.js';
 import { RichKeyboardDragListenerOptions } from '../../../../sun/js/RichKeyboardDragListener.js';
 
@@ -112,9 +111,6 @@ export default class CompassNode extends FELMovableNode {
       needleNode.rotation = angle;
       needleNode.center = ringNode.center;
     } );
-
-    // Sonification, see https://github.com/phetsims/faradays-electromagnetic-lab/issues/78
-    this.addInputListener( new CompassSonifier( compass.fieldVectorProperty ) );
   }
 }
 
