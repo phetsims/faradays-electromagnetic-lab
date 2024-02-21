@@ -58,25 +58,29 @@ export default class CompassSonifier {
 
     // Map needle angle to playback rate.
     compass.needleAngleProperty.lazyLink( needleAngle => {
+      if ( compass.visibleProperty.value ) {
 
-      // If the angle changed before the timeout, clear the timeout.
-      this.clearTimeout();
+        // If the angle changed before the timeout, clear the timeout.
+        this.clearTimeout();
 
-      // If the clip is not playing, start it playing.
-      !this.isPlaying && this.play();
+        // If the clip is not playing, start it playing.
+        !this.isPlaying && this.play();
 
-      // Map angle to playback rate.
-      const playbackRate = CompassSonifier.needleAngleToPlaybackRateMirror( needleAngle );
-      this.soundClip.setPlaybackRate( playbackRate );
+        // Map angle to playback rate.
+        const playbackRate = CompassSonifier.needleAngleToPlaybackRateMirror( needleAngle );
+        this.soundClip.setPlaybackRate( playbackRate );
 
-      // Schedule a timer to stop sound if it does not change TIMEOUT seconds from now.
-      // NOTE: Tried using setTimeout here and had problems with listener removal. So handle clearInterval ourselves.
-      this.intervalCallback = stepTimer.setInterval( () => this.stop(), TIMEOUT );
+        // Schedule a timer to stop sound if it does not change TIMEOUT seconds from now.
+        // NOTE: Tried using setTimeout here and had problems with listener removal. So handle clearInterval ourselves.
+        this.intervalCallback = stepTimer.setInterval( () => this.stop(), TIMEOUT );
+      }
     } );
 
     // Stop sound when the compass becomes invisible.
     compass.visibleProperty.lazyLink( visible => {
-      !visible && this.stop();
+      if ( !visible ) {
+        this.stop( 0 );
+      }
     } );
 
     // Stop sound when 'Reset All' is in progress.
@@ -118,16 +122,16 @@ export default class CompassSonifier {
     this.soundClip.setOutputLevel( MAX_OUTPUT_LEVEL, FELUtils.secondsToTimeConstant( FADE_IN_TIME ) );
   }
 
-  private stop(): void {
+  private stop( fadeOutTime = FADE_OUT_TIME ): void {
 
     // If stopped by the timer, clear it.
     this.clearTimeout();
 
     // Fade out.
-    this.soundClip.setOutputLevel( 0, FELUtils.secondsToTimeConstant( FADE_OUT_TIME ) );
+    this.soundClip.setOutputLevel( 0, FELUtils.secondsToTimeConstant( fadeOutTime ) );
 
     // Stop when the fade has completed.
-    this.soundClip.stop( FADE_OUT_TIME );
+    this.soundClip.stop( fadeOutTime );
   }
 
   //TODO https://github.com/phetsims/faradays-electromagnetic-lab/issues/77 Delete if not used.
