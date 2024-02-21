@@ -1,10 +1,11 @@
 // Copyright 2024, University of Colorado Boulder
 
 /**
- * CompassSonifier is responsible for sonification of the compass. The angle of the magnetic field at the
- * compass position is mapped to the pitch of a sound clip, with a constant output level. Sound plays whenever
- * the compass is visible and the needle angle is changing, and stops playing when the needle angle comes to
- * reset for some time interval.
+ * CompassSonifier is responsible for sonification of a Compass model element.
+ *
+ * The compass needle angle is mapped to the pitch of a sound clip, with a constant output level. Sound plays
+ * whenever the compass is visible and the needle angle is changing, and stops playing when the needle angle
+ * comes to reset for some time interval.
  *
  * See https://github.com/phetsims/faradays-electromagnetic-lab/issues/78 for design history.
  *
