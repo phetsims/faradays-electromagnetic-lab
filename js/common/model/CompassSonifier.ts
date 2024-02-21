@@ -31,12 +31,12 @@ const PLAYBACK_RATE_RANGE = new Range( MIN_PLAYBACK_RATE, MIN_PLAYBACK_RATE + SE
 // Output level is constant, except during fades, or when field magnitude is zero.
 const MAX_OUTPUT_LEVEL = 0.2;
 
+// If the compass is at reset this long (in ms), sound will fade out and stop.
+const TIMEOUT = 500;
+
 // Fade times, in seconds.
 const FADE_IN_TIME = 0.25;
 const FADE_OUT_TIME = 0.25;
-
-// If the compass is at reset this long (in ms), sound will fade out and stop.
-const TIMEOUT = 500;
 
 export default class CompassSonifier {
 

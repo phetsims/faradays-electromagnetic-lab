@@ -37,9 +37,6 @@ const MAX_OUTPUT_LEVEL = 0.2;
 const FADE_IN_TIME = 0.25;
 const FADE_OUT_TIME = 0.25;
 
-// Scale factor to use for mapping field magnitude to playback rate.
-const FIELD_SCALE = 2.7;
-
 export default class FieldMeterSonifier implements TInputListener {
 
   // Pitch of soundClip is modulated to match field magnitude. The clip plays continuously during a drag cycle.
@@ -64,7 +61,7 @@ export default class FieldMeterSonifier implements TInputListener {
         this.soundClip.setOutputLevel( 0 );
       }
       else {
-        const playbackRate = FieldMeterSonifier.fieldMagnitudeToPlaybackRatePiecewiseLinear( fieldVector.magnitude, fieldMagnitudeRange, FIELD_SCALE );
+        const playbackRate = FieldMeterSonifier.fieldMagnitudeToPlaybackRatePiecewiseLinear( fieldVector.magnitude, fieldMagnitudeRange );
         assert && assert( PLAYBACK_RATE_RANGE.contains( playbackRate ), `invalid playbackRate: ${playbackRate}` );
         this.soundClip.setPlaybackRate( playbackRate );
         if ( this.soundClip.isPlaying && this.soundClip.outputLevel === 0 ) {
@@ -129,13 +126,19 @@ export default class FieldMeterSonifier implements TInputListener {
 
   //TODO https://github.com/phetsims/faradays-electromagnetic-lab/issues/77 Delete if not used.
   /**
-   * Converts field magnitude to playback rate.
+   * Converts B-field magnitude to playback rate. This uses the same scaling algorithm that is used for scaling
+   * the visualization of the B-field.
    */
-  public static fieldMagnitudeToPlaybackRateScaled( fieldMagnitude: number, fieldMagnitudeRange: Range, fieldScale: number ): number {
+  public static fieldMagnitudeToPlaybackRateScaled( fieldMagnitude: number, fieldMagnitudeRange: Range ): number {
     assert && assert( fieldMagnitudeRange.contains( fieldMagnitude ), `invalid fieldMagnitude: ${fieldMagnitude}` );
 
+    // We're using FieldNode.normalizeMagnitude, the same mapping used for the B-field visualization. That visualization
+    // uses Magnet.fieldScaleProperty whose default value is 2.7.  We did not use Magnet.fieldScaleProperty here because
+    // we need independent control for auditory scaling.
+    const FIELD_SCALE = 2.7;
+
     // Normalize to [0,1] with scaling.
-    const normalizedMagnitude = FieldNode.normalizeMagnitude( fieldMagnitude, fieldMagnitudeRange.max, fieldScale );
+    const normalizedMagnitude = FieldNode.normalizeMagnitude( fieldMagnitude, fieldMagnitudeRange.max, FIELD_SCALE );
 
     // Map to playback rate.
     const playbackRate = Utils.linear( 0, 1, PLAYBACK_RATE_RANGE.min, PLAYBACK_RATE_RANGE.max, normalizedMagnitude );
@@ -144,11 +147,13 @@ export default class FieldMeterSonifier implements TInputListener {
     return playbackRate;
   }
 
-  //TODO https://github.com/phetsims/faradays-electromagnetic-lab/issues/77 Delete if not used.
+  //TODO https://github.com/phetsims/faradays-electromagnetic-lab/issues/77 Delete this, when no longer need to demonstrate.
   /**
-   * Converts field magnitude to playback rate using a linear interpolation.
+   * Converts B-field magnitude to playback rate using a linear interpolation. This mapping is to demonstrate that
+   * a linear mapping is not appropriate, because of how the B-field behaves. With a linear mapping, there will be
+   * no discernible change in pitch outside the magnet.
    */
-  public static fieldMagnitudeToPlaybackRateLinear( fieldMagnitude: number, fieldMagnitudeRange: Range, fieldScale: number ): number {
+  public static fieldMagnitudeToPlaybackRateLinear( fieldMagnitude: number, fieldMagnitudeRange: Range ): number {
     assert && assert( fieldMagnitudeRange.contains( fieldMagnitude ), `invalid fieldMagnitude: ${fieldMagnitude}` );
 
     const playbackRate = Utils.linear( fieldMagnitudeRange.min, fieldMagnitudeRange.max,
@@ -161,10 +166,10 @@ export default class FieldMeterSonifier implements TInputListener {
 
   //TODO https://github.com/phetsims/faradays-electromagnetic-lab/issues/77 Delete if not used.
   /**
-   * Converts field magnitude to playback rate using a piecewise linear interpolation, where the range is divided
+   * Converts B-field magnitude to playback rate using a piecewise linear interpolation, where the range is divided
    * into 2 separate linear mappings.
    */
-  public static fieldMagnitudeToPlaybackRatePiecewiseLinear( fieldMagnitude: number, fieldMagnitudeRange: Range, fieldScale: number ): number {
+  public static fieldMagnitudeToPlaybackRatePiecewiseLinear( fieldMagnitude: number, fieldMagnitudeRange: Range ): number {
     assert && assert( fieldMagnitudeRange.contains( fieldMagnitude ), `invalid fieldMagnitude: ${fieldMagnitude}` );
 
     const piecewiseCutoff = FELQueryParameters.piecewiseCutoff; // G
