@@ -99,7 +99,7 @@ export default class KinematicCompass extends Compass {
     const angle = fieldVector.angle;
 
     // Difference between the field angle and the compass angle.
-    const deltaAngle = ( angle - this._angleProperty.value ) % ( 2 * Math.PI );
+    const deltaAngle = ( angle - this._needleAngleProperty.value ) % ( 2 * Math.PI );
 
     if ( deltaAngle !== 0 ) {
       if ( Math.abs( deltaAngle ) < WOBBLE_THRESHOLD ||
@@ -109,7 +109,7 @@ export default class KinematicCompass extends Compass {
 
         // When the difference between the field angle and the compass angle is insignificant, or the compass is inside
         // the magnet, then simply set the angle and consider the compass to be at rest.
-        this._angleProperty.value = angle;
+        this._needleAngleProperty.value = angle;
         this.angularVelocityProperty.value = 0;
         this.angularAccelerationProperty.value = 0;
       }
@@ -118,7 +118,7 @@ export default class KinematicCompass extends Compass {
 
         // Step 1: rotation
         const angularAccelerationTemp = ( SENSITIVITY * Math.sin( deltaAngle ) * magnitude ) - ( DAMPING * this.angularVelocityProperty.value );
-        this._angleProperty.value = this._angleProperty.value + ( this.angularVelocityProperty.value * dt ) + ( 0.5 * angularAccelerationTemp * dt * dt );
+        this._needleAngleProperty.value = this._needleAngleProperty.value + ( this.angularVelocityProperty.value * dt ) + ( 0.5 * angularAccelerationTemp * dt * dt );
 
         // Step 2: angular acceleration
         const angularVelocityTemp = this.angularVelocityProperty.value + ( angularAccelerationTemp * dt );

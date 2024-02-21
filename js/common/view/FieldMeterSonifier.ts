@@ -133,7 +133,6 @@ export default class FieldMeterSonifier implements TInputListener {
    */
   public static fieldMagnitudeToPlaybackRateScaled( fieldMagnitude: number, fieldMagnitudeRange: Range, fieldScale: number ): number {
     assert && assert( fieldMagnitudeRange.contains( fieldMagnitude ), `invalid fieldMagnitude: ${fieldMagnitude}` );
-    console.log( 'Scaled' );
 
     // Normalize to [0,1] with scaling.
     const normalizedMagnitude = FieldNode.normalizeMagnitude( fieldMagnitude, fieldMagnitudeRange.max, fieldScale );
@@ -151,7 +150,6 @@ export default class FieldMeterSonifier implements TInputListener {
    */
   public static fieldMagnitudeToPlaybackRateLinear( fieldMagnitude: number, fieldMagnitudeRange: Range, fieldScale: number ): number {
     assert && assert( fieldMagnitudeRange.contains( fieldMagnitude ), `invalid fieldMagnitude: ${fieldMagnitude}` );
-    console.log( 'Linear' );
 
     const playbackRate = Utils.linear( fieldMagnitudeRange.min, fieldMagnitudeRange.max,
       PLAYBACK_RATE_RANGE.min, PLAYBACK_RATE_RANGE.max,
@@ -171,7 +169,6 @@ export default class FieldMeterSonifier implements TInputListener {
 
     const piecewiseCutoff = FELQueryParameters.piecewiseCutoff; // G
     assert && assert( fieldMagnitudeRange.contains( piecewiseCutoff ), `invalid piecewiseCutoff: ${piecewiseCutoff}` );
-    console.log( `Piecewise linear: piecewiseCutoff=${piecewiseCutoff}` );
 
     let playbackRate: number;
     if ( fieldMagnitude < piecewiseCutoff ) {

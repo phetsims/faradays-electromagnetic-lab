@@ -57,7 +57,7 @@ export default class CompassSonifier {
     this.intervalCallback = null;
 
     // Map needle angle to playback rate.
-    compass.angleProperty.lazyLink( angle => {
+    compass.needleAngleProperty.lazyLink( needleAngle => {
 
       // If the angle changed before the timeout, clear the timeout.
       this.clearTimeout();
@@ -66,7 +66,7 @@ export default class CompassSonifier {
       !this.isPlaying && this.play();
 
       // Map angle to playback rate.
-      const playbackRate = CompassSonifier.fieldAngleToPlaybackRateMirror( angle );
+      const playbackRate = CompassSonifier.needleAngleToPlaybackRateMirror( needleAngle );
       this.soundClip.setPlaybackRate( playbackRate );
 
       // Schedule a timer to stop sound if it does not change TIMEOUT seconds from now.
@@ -132,10 +132,10 @@ export default class CompassSonifier {
 
   //TODO https://github.com/phetsims/faradays-electromagnetic-lab/issues/77 Delete if not used.
   /**
-   * Maps compass angle to pitch linearly in the range [0,2*PI], a full circle. This results in an abrupt change
-   * in pitch when the angle crosses the +x-axis at zero radians.
+   * Maps the compass needle angle to pitch linearly in the range [0,2*PI], a full circle. This results in an abrupt
+   * change in pitch when the angle crosses the +x-axis at zero radians.
    */
-  public static fieldAngleToPlaybackRateCircle( angle: number ): number {
+  public static needleAngleToPlaybackRateCircle( angle: number ): number {
 
     // +angle is clockwise in the model, so flip the sign. See https://github.com/phetsims/faradays-electromagnetic-lab/issues/19
     const normalizedAngle = FELUtils.normalizeAngle( -angle );
@@ -147,10 +147,10 @@ export default class CompassSonifier {
 
   //TODO https://github.com/phetsims/faradays-electromagnetic-lab/issues/77 Delete if not used.
   /**
-   * Maps compass angle to pitch linearly in the range [0,PI]. Mirroring about the x-axis at zero and PI radians
-   * avoids any abrupt changes in pitch.
+   * Maps the compass needle angle to pitch linearly in the range [0,PI]. Mirroring about the x-axis at zero and
+   * PI radians avoids any abrupt changes in pitch.
    */
-  public static fieldAngleToPlaybackRateMirror( angle: number ): number {
+  public static needleAngleToPlaybackRateMirror( angle: number ): number {
 
     // +angle is clockwise in the model, so flip the sign. See https://github.com/phetsims/faradays-electromagnetic-lab/issues/19
     let normalizedAngle = FELUtils.normalizeAngle( -angle );

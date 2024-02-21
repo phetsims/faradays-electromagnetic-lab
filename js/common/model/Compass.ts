@@ -27,17 +27,18 @@ export type CompassOptions = SelfOptions & FieldMeasurementToolOptions;
 
 export default abstract class Compass extends FieldMeasurementTool {
 
-  // The public API is readonly, while the internal API is read + write.
-  public readonly angleProperty: TReadOnlyProperty<number>; // radians
-  protected readonly _angleProperty: Property<number>;
-
+  // The magnet whose magnetic field the compass is observing.
   protected readonly magnet: Magnet;
+
+  // Angle of the needle. The public API is readonly, while the internal API is read + write.
+  public readonly needleAngleProperty: TReadOnlyProperty<number>; // radians
+  protected readonly _needleAngleProperty: Property<number>;
 
   // A reusable vector instance, for getting the field vector value at the compass' position
   private readonly reusableFieldVector: Vector2;
 
   // Responsible for sonification of the compass.
-  // See
+  // See https://github.com/phetsims/faradays-electromagnetic-lab/issues/78
   private readonly sonifier: CompassSonifier;
 
   protected constructor( magnet: Magnet, isPlayingProperty: TReadOnlyProperty<boolean>, providedOptions: CompassOptions ) {
@@ -50,19 +51,19 @@ export default abstract class Compass extends FieldMeasurementTool {
     this.reusableFieldVector = new Vector2( 0, 0 );
 
     // This is not a DerivedProperty so that we can support kinematics in KinematicCompass.
-    this._angleProperty = new NumberProperty( this.fieldVectorProperty.value.angle, {
+    this._needleAngleProperty = new NumberProperty( this.fieldVectorProperty.value.angle, {
       units: 'radians',
-      tandem: options.tandem.createTandem( 'angleProperty' ),
+      tandem: options.tandem.createTandem( 'needleAngleProperty' ),
       phetioReadOnly: true,
       phetioFeatured: true,
       phetioDocumentation: 'Angle of the compass needle.'
     } );
-    this.angleProperty = this._angleProperty;
+    this.needleAngleProperty = this._needleAngleProperty;
 
     // If the clock is paused, update immediately to match the field vector.
     Multilink.multilink( [ this.fieldVectorProperty ], fieldVector => {
       if ( !isPlayingProperty.value && fieldVector.magnitude !== 0 ) {
-        this._angleProperty.value = fieldVector.angle;
+        this._needleAngleProperty.value = fieldVector.angle;
       }
     } );
 
@@ -71,7 +72,7 @@ export default abstract class Compass extends FieldMeasurementTool {
 
   public override reset(): void {
     super.reset();
-    this._angleProperty.reset();
+    this._needleAngleProperty.reset();
     this.sonifier.reset();
   }
 

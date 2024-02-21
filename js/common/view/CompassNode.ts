@@ -107,8 +107,8 @@ export default class CompassNode extends FELMovableNode {
 
     super( compass, options );
 
-    compass.angleProperty.link( angle => {
-      needleNode.rotation = angle;
+    compass.needleAngleProperty.link( needleAngle => {
+      needleNode.rotation = needleAngle;
       needleNode.center = ringNode.center;
     } );
   }
