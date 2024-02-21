@@ -127,7 +127,7 @@ export default class FieldMeterSonifier implements TInputListener {
   //TODO https://github.com/phetsims/faradays-electromagnetic-lab/issues/77 This mapping was our best attempt so far, see notes in the GitHub issue.
   /**
    * Converts B-field magnitude to playback rate using a piecewise linear interpolation, where the range is divided
-   * into 2 separate linear mappings. It provides discernible changes in pitch at for these important pedagogical
+   * into 2 separate linear mappings. It provides discernible changes in pitch at for these pedagogically important
    * interactions:
    *
    * - Big discontinuity in pitch when entering/leaving the magnet from the top/bottom edges.
