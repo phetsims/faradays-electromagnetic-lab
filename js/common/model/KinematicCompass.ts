@@ -109,9 +109,7 @@ export default class KinematicCompass extends Compass {
 
         // When the difference between the field angle and the compass angle is insignificant, or the compass is inside
         // the magnet, then simply set the angle and consider the compass to be at rest.
-        this._needleAngleProperty.value = angle;
-        this.angularVelocityProperty.value = 0;
-        this.angularAccelerationProperty.value = 0;
+        this.updateAngleImmediately( angle );
       }
       else {
         // Use the Verlet algorithm to compute angle, angular velocity, and angular acceleration.
@@ -128,6 +126,15 @@ export default class KinematicCompass extends Compass {
         this.angularVelocityProperty.value = this.angularVelocityProperty.value + ( 0.5 * ( this.angularAccelerationProperty.value + angularAccelerationTemp ) * dt );
       }
     }
+  }
+
+  /**
+   * Immediately updates the needle angle to match the field angle.
+   */
+  protected override updateAngleImmediately( fieldAngle: number ): void {
+    super.updateAngleImmediately( fieldAngle );
+    this.angularVelocityProperty.value = 0;
+    this.angularAccelerationProperty.value = 0;
   }
 
   /**

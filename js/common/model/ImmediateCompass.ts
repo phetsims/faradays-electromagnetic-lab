@@ -40,7 +40,7 @@ export default class ImmediateCompass extends Compass {
    */
   protected override updateAngle( fieldVector: Vector2, dt: number ): void {
     assert && assert( fieldVector.magnitude !== 0, 'When the field magnitude is zero, the compass needle should not be moved.' );
-    this._needleAngleProperty.value = fieldVector.angle;
+    this.updateAngleImmediately( fieldVector.angle );
   }
 }
 

@@ -66,6 +66,9 @@ export default abstract class Compass extends FieldMeasurementTool {
       }
     } );
 
+    // When visibility changes, immediately sync with field angle.
+    this.visibleProperty.lazyLink( visible => this.updateAngleImmediately( this.fieldVectorProperty.value.angle ) );
+
     this.sonifier = new CompassSonifier( this );
   }
 
@@ -80,6 +83,13 @@ export default abstract class Compass extends FieldMeasurementTool {
     if ( this.fieldVectorProperty.value.magnitude !== 0 ) {
       this.updateAngle( this.fieldVectorProperty.value, dt );
     }
+  }
+
+  /**
+   * Immediately updates the needle angle to match the field angle.
+   */
+  protected updateAngleImmediately( fieldAngle: number ): void {
+    this._needleAngleProperty.value = fieldAngle % ( 2 * Math.PI );
   }
 
   /**

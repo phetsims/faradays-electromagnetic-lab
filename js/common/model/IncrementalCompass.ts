@@ -76,7 +76,7 @@ export default class IncrementalCompass extends Compass {
       if ( Math.abs( deltaAngle ) < MAX_DELTA_ANGLE ) {
 
         // If the delta is small, rotate immediately to the field angle.
-        this._needleAngleProperty.value = fieldAngle % ( 2 * Math.PI );
+        this.updateAngleImmediately( fieldAngle );
       }
       else {
 
