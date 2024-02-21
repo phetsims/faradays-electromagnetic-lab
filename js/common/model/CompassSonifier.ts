@@ -18,7 +18,7 @@ import Range from '../../../../dot/js/Range.js';
 import soundManager from '../../../../tambo/js/soundManager.js';
 import Utils from '../../../../dot/js/Utils.js';
 import SoundClip from '../../../../tambo/js/sound-generators/SoundClip.js';
-import felCompassSaturatedSineLoop_wav from '../../../sounds/felCompassSaturatedSineLoop_wav.js';
+import felCompassSaturatedSineLoop_mp3 from '../../../sounds/felCompassSaturatedSineLoop_mp3.js';
 import FELUtils from '../FELUtils.js';
 import Compass from './Compass.js';
 import isResettingAllProperty from '../isResettingAllProperty.js';
@@ -48,7 +48,7 @@ export default class CompassSonifier {
 
   public constructor( compass: Compass ) {
 
-    this.soundClip = new SoundClip( felCompassSaturatedSineLoop_wav, {
+    this.soundClip = new SoundClip( felCompassSaturatedSineLoop_mp3, {
       loop: true,
       initialOutputLevel: MAX_OUTPUT_LEVEL
     } );
