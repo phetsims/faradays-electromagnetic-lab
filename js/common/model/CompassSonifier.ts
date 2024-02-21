@@ -44,7 +44,7 @@ export default class CompassSonifier {
   private readonly soundClip: SoundClip;
 
   // Called if the needle angle has not changed for TIMEOUT seconds.
-  private intervalCallback: TimerListener | null;
+  private timeoutCallback: TimerListener | null;
 
   public constructor( compass: Compass ) {
 
@@ -54,7 +54,7 @@ export default class CompassSonifier {
     } );
     soundManager.addSoundGenerator( this.soundClip );
 
-    this.intervalCallback = null;
+    this.timeoutCallback = null;
 
     // Map needle angle to playback rate.
     compass.needleAngleProperty.lazyLink( needleAngle => {
@@ -71,8 +71,10 @@ export default class CompassSonifier {
         this.soundClip.setPlaybackRate( playbackRate );
 
         // Schedule a timer to stop sound if it does not change TIMEOUT seconds from now.
-        // NOTE: Tried using setTimeout here and had problems with listener removal. So handle clearInterval ourselves.
-        this.intervalCallback = stepTimer.setInterval( () => this.stop(), TIMEOUT );
+        this.timeoutCallback = stepTimer.setTimeout( () => {
+          this.timeoutCallback = null; // setTimeOut removes timeoutCallback
+          this.stop();
+        }, TIMEOUT );
       }
     } );
 
@@ -103,9 +105,9 @@ export default class CompassSonifier {
   }
 
   private clearTimeout(): void {
-    if ( this.intervalCallback ) {
-      stepTimer.clearInterval( this.intervalCallback );
-      this.intervalCallback = null;
+    if ( this.timeoutCallback ) {
+      stepTimer.clearTimeout( this.timeoutCallback );
+      this.timeoutCallback = null;
     }
   }
 
