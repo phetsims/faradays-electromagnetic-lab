@@ -4,8 +4,12 @@
  * FieldMeterSonifier is responsible for sonification of a FieldMeterNode view element.
  *
  * The magnitude of the magnetic field at the meter's position is used to modulate the pitch of a sound clip,
- * with a constant output level. Sound plays continuously during the drag cycle of the field meter, for both
- * pointer and keyboard dragging.
+ * with a constant output level. During the drag cycle of the field meter, there are 2 types of behavior that
+ * are controlled by TIMEOUT:
+ *
+ * (1) With TIMEOUT === Infinity, the sound plays continuously throughout the drag cycle.
+ * (2) With TIMEOUT !== Infinity, the sound plays while the field magnitude is changing, then fades out when it
+ *     has not changed for TIMEOUT milliseconds.
  *
  * See https://github.com/phetsims/faradays-electromagnetic-lab/issues/77 for design history.
  *
@@ -14,7 +18,7 @@
 
 import faradaysElectromagneticLab from '../../faradaysElectromagneticLab.js';
 import { PressListenerEvent, TInputListener } from '../../../../scenery/js/imports.js';
-import { Disposable, PropertyLinkListener, TReadOnlyProperty } from '../../../../axon/js/imports.js';
+import { Disposable, PropertyLinkListener, stepTimer, TimerListener, TReadOnlyProperty } from '../../../../axon/js/imports.js';
 import Range from '../../../../dot/js/Range.js';
 import Vector2 from '../../../../dot/js/Vector2.js';
 import soundManager from '../../../../tambo/js/soundManager.js';
@@ -37,6 +41,10 @@ const MAX_OUTPUT_LEVEL = 0.2;
 const FADE_IN_TIME = 0.25;
 const FADE_OUT_TIME = 0.25;
 
+// If the field vector does not change in this amount of time (in ms), sound will fade out and stop.
+// Infinity means that the sound plays continuously during the drag cycle.
+const TIMEOUT = 250;
+
 export default class FieldMeterSonifier implements TInputListener {
 
   // Pitch of soundClip is modulated to match field magnitude. The clip plays continuously during a drag cycle.
@@ -45,6 +53,9 @@ export default class FieldMeterSonifier implements TInputListener {
   // fieldVectorProperty is observed by fieldVectorListener while a drag cycle is in progress.
   private readonly fieldVectorProperty: TReadOnlyProperty<Vector2>;
   private readonly fieldVectorListener: PropertyLinkListener<Vector2>;
+
+  // Called if fieldVectorProperty has not changed for TIMEOUT seconds.
+  private timeoutCallback: TimerListener | null;
 
   public constructor( fieldVectorProperty: TReadOnlyProperty<Vector2>, fieldMagnitudeRange: Range ) {
 
@@ -56,16 +67,32 @@ export default class FieldMeterSonifier implements TInputListener {
 
     this.fieldVectorProperty = fieldVectorProperty;
 
+    this.timeoutCallback = null;
+
     this.fieldVectorListener = fieldVector => {
+
+      // If fieldVectorProperty changes before the timeout, clear the timeout.
+      this.clearTimeout();
+
       if ( fieldVector.magnitude === 0 ) {
-        this.soundClip.setOutputLevel( 0 );
+        this.stop();
       }
       else {
+
+        // If the clip is not playing, start it playing.
+        !this.isPlaying && this.play();
+
+        // Map field magnitude to playback rate.
         const playbackRate = FieldMeterSonifier.fieldMagnitudeToPlaybackRatePiecewiseLinear( fieldVector.magnitude, fieldMagnitudeRange );
         assert && assert( PLAYBACK_RATE_RANGE.contains( playbackRate ), `invalid playbackRate: ${playbackRate}` );
         this.soundClip.setPlaybackRate( playbackRate );
-        if ( this.soundClip.isPlaying && this.soundClip.outputLevel === 0 ) {
-          this.soundClip.setOutputLevel( MAX_OUTPUT_LEVEL );
+
+        // Schedule a timer to stop sound if fieldVectorProperty does not change TIMEOUT seconds from now.
+        if ( TIMEOUT !== Infinity ) {
+          this.timeoutCallback = stepTimer.setTimeout( () => {
+            this.timeoutCallback = null; // setTimeOut removes timeoutCallback
+            this.stop();
+          }, TIMEOUT );
         }
       }
     };
@@ -75,53 +102,83 @@ export default class FieldMeterSonifier implements TInputListener {
     Disposable.assertNotDisposable();
   }
 
-  // Plays the sound on pointer down.
+  // Interaction started using the pointer.
   public down( event: PressListenerEvent ): void {
-    this.play();
+    this.beginInteraction();
   }
 
-  // Stops the sound on pointer up.
+  // Interaction ended using the pointer.
   public up( event: PressListenerEvent ): void {
-    this.stop();
+    this.endInteraction();
   }
 
-  // Plays the sound when the field meter gets keyboard focus.
+  // Interaction started using the keyboard.
   public focus( event: PressListenerEvent ): void {
-    this.play();
+    this.beginInteraction();
   }
 
-  // Stops the sound when the field meter loses keyboard focus.
+  // Interaction ended using the keyboard.
   public blur( event: PressListenerEvent ): void {
-    this.stop();
+    this.endInteraction();
   }
 
-  private play(): void {
+  private beginInteraction(): void {
 
-    // Start observing fieldVectorProperty.
+    // Start observing fieldVectorProperty - note lazyLink!
     if ( !this.fieldVectorProperty.hasListener( this.fieldVectorListener ) ) {
-      this.fieldVectorProperty.link( this.fieldVectorListener );
+      this.fieldVectorProperty.lazyLink( this.fieldVectorListener );
     }
 
-    // Start playing the sound clip.
-    this.soundClip.play();
-
-    // Fade in.
-    const outputLevel = ( this.fieldVectorProperty.value.magnitude === 0 ) ? 0 : MAX_OUTPUT_LEVEL;
-    this.soundClip.setOutputLevel( outputLevel, FELUtils.secondsToTimeConstant( FADE_IN_TIME ) );
+    // If the sound is continuous, start it playing.
+    if ( TIMEOUT === Infinity ) {
+      this.play();
+    }
   }
 
-  private stop(): void {
+  private endInteraction(): void {
 
     // Stop observing fieldVectorProperty.
     if ( this.fieldVectorProperty.hasListener( this.fieldVectorListener ) ) {
       this.fieldVectorProperty.unlink( this.fieldVectorListener );
     }
 
+    // Stop the sound.
+    this.stop();
+  }
+
+  private play(): void {
+
+    if ( this.fieldVectorProperty.value.magnitude > 0 ) {
+
+      // Start playing the sound clip.
+      this.soundClip.play();
+
+      // Fade in.
+      this.soundClip.setOutputLevel( MAX_OUTPUT_LEVEL, FELUtils.secondsToTimeConstant( FADE_IN_TIME ) );
+    }
+  }
+
+  private stop(): void {
+
+    // If stopped by the timer, clear it.
+    this.clearTimeout();
+
     // Fade out.
     this.soundClip.setOutputLevel( 0, FELUtils.secondsToTimeConstant( FADE_OUT_TIME ) );
 
     // Stop when the fade has completed.
     this.soundClip.stop( FADE_OUT_TIME );
+  }
+
+  private clearTimeout(): void {
+    if ( this.timeoutCallback ) {
+      stepTimer.clearTimeout( this.timeoutCallback );
+      this.timeoutCallback = null;
+    }
+  }
+
+  private get isPlaying(): boolean {
+    return this.soundClip.isPlaying;
   }
 
   //TODO https://github.com/phetsims/faradays-electromagnetic-lab/issues/77 This mapping was our best attempt so far, see notes in the GitHub issue.
