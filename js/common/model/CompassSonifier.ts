@@ -10,12 +10,13 @@
  * See https://github.com/phetsims/faradays-electromagnetic-lab/issues/78 for design history.
  *
  * TODO https://github.com/phetsims/faradays-electromagnetic-lab/issues/77 Next steps:
- * Using a 'model sonifier' for the compass is inconsistent with using a 'view sonifier' for the field meter; they are
+ * (1) Using a 'model sonifier' for the compass is inconsistent with using a 'view sonifier' for the field meter; they are
  * both tools for measuring the B-field, and should have a similar sonification. Having the compass constantly making
  * sound is also an annoying UX, and likely to encourage users to hide the compass. And having the compass constantly
  * making sound is likely to interfere with other sounds to be added later, some of which are more pedagogically
  * important, like the sound associated with change in flux. So I recommend changing to a 'view sonifier', similar
  * to FieldMeterSonifier.
+ * (2) Decide which of the needleAngleToPlaybackRate* methods to keep, and delete the others.
  *
  * @author Chris Malley (PixelZoom, Inc.)
  */
