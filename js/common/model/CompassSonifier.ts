@@ -70,7 +70,7 @@ export default class CompassSonifier {
         const playbackRate = CompassSonifier.needleAngleToPlaybackRateMirror( needleAngle );
         this.soundClip.setPlaybackRate( playbackRate );
 
-        // Schedule a timer to stop sound if the needle angle does not change TIMEOUT seconds from now.
+        // Schedule a timer to stop sound if needleAngleProperty does not change TIMEOUT seconds from now.
         this.timeoutCallback = stepTimer.setTimeout( () => {
           this.timeoutCallback = null; // setTimeOut removes timeoutCallback
           this.stop();
