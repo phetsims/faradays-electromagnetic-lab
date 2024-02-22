@@ -242,7 +242,7 @@ export default class FieldMeterSonifier implements TInputListener {
     return playbackRate;
   }
 
-  //TODO https://github.com/phetsims/faradays-electromagnetic-lab/issues/77 Delete this, when no longer need to demonstrate.
+  //TODO https://github.com/phetsims/faradays-electromagnetic-lab/issues/77 This mapping is not useful. Delete it when no longer need to demonstrate.
   /**
    * Converts B-field magnitude to playback rate using a linear interpolation. This mapping is to demonstrate that
    * a linear mapping is not appropriate, because of how the B-field behaves. With a linear mapping, there will be
