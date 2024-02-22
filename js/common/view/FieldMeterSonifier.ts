@@ -13,6 +13,10 @@
  *
  * See https://github.com/phetsims/faradays-electromagnetic-lab/issues/77 for design history.
  *
+ * TODO https://github.com/phetsims/faradays-electromagnetic-lab/issues/77 Next steps:
+ * Decide whether to use behavior (1) or (2) above. I recommend (2) because it is more consistent with other
+ * PhET sims (e.g. Gravity Force Lab: Basics) and it provides a significantly better UX for alternative input.
+ *
  * @author Chris Malley (PixelZoom, Inc.)
  */
 
