@@ -43,6 +43,7 @@ export default class CompassSonifier extends FELSonifier {
       needleAngle => CompassSonifier.needleAngleToPlaybackRateMirror( needleAngle ) );
 
     super( playbackRateProperty, {
+      isDisposable: false,
       wrappedAudioBuffer: felCompassSaturatedSineLoop_mp3,
       maxOutputLevel: 0.2,
       enabledProperty: compass.visibleProperty

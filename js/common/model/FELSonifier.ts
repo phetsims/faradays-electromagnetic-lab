@@ -1,10 +1,15 @@
 // Copyright 2024, University of Colorado Boulder
 
 /**
- * FELSonifier is the base class for 'model element sonifiers'. This is a pattern that I was experimenting with during
- * sonification of Faraday's Electromagnetic Lab. It is not necessarily ready for production.
- * See https://github.com/phetsims/faradays-electromagnetic-lab/issues/77
- * and https://github.com/phetsims/faradays-electromagnetic-lab/issues/78.
+ * FELSonifier is the base class for 'sonifiers'. This is a pattern that I was experimenting with during sonification
+ * of Faraday's Electromagnetic Lab. It is not necessarily ready for production.
+ *
+ * Responsibilities include:
+ * - creating the SoundClip for a sound file
+ * - modulating the sound's playback rate
+ * - playing and stopping the sound when the playback rate has not changed, with fade in and face out
+ *
+ *  See https://github.com/phetsims/faradays-electromagnetic-lab/issues/77 and https://github.com/phetsims/faradays-electromagnetic-lab/issues/78.
  *
  * @author Chris Malley (PixelZoom, Inc.)
  */
@@ -37,6 +42,7 @@ type SelfOptions = {
   stepEmitter?: TEmitter<[ number ]> | null;
 
   // If the compass is at rest this long (in seconds), sound will fade out and stop.
+  // Setting this to Infinity will effectively disable the timeout.
   timeout?: number;
 
   // Fade times, in seconds.
