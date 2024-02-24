@@ -44,6 +44,7 @@ export default class CompassSonifier extends FELSonifier {
 
     super( playbackRateProperty, {
       wrappedAudioBuffer: felCompassSaturatedSineLoop_mp3,
+      maxOutputLevel: 0.2,
       enabledProperty: compass.visibleProperty
     } );
   }

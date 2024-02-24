@@ -71,7 +71,7 @@ export default class FELSonifier extends Disposable {
     const options = optionize<FELSonifierOptions, SelfOptions, DisposableOptions>()( {
 
       // SelfOptions
-      maxOutputLevel: 0.2,
+      maxOutputLevel: 1,
       stepEmitter: stepTimer,
       timeout: 0.5,
       fadeInTime: 0.25,
@@ -79,6 +79,7 @@ export default class FELSonifier extends Disposable {
       enabledProperty: null
     }, providedOptions );
 
+    assert && assert( options.maxOutputLevel > 0, `invalid timeout: ${options.maxOutputLevel}` );
     assert && assert( options.timeout > 0, `invalid timeout: ${options.timeout}` );
     assert && assert( options.fadeInTime >= 0, `invalid fadeInTime: ${options.fadeInTime}` );
     assert && assert( options.fadeOutTime >= 0, `invalid fadeOutTime: ${options.fadeOutTime}` );
