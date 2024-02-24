@@ -22,7 +22,7 @@
  */
 
 import faradaysElectromagneticLab from '../../faradaysElectromagneticLab.js';
-import { Disposable, stepTimer, TimerListener } from '../../../../axon/js/imports.js';
+import { Disposable, DisposableOptions, stepTimer, TEmitterListener } from '../../../../axon/js/imports.js';
 import Range from '../../../../dot/js/Range.js';
 import soundManager from '../../../../tambo/js/soundManager.js';
 import Utils from '../../../../dot/js/Utils.js';
@@ -31,118 +31,178 @@ import felCompassSaturatedSineLoop_mp3 from '../../../sounds/felCompassSaturated
 import FELUtils from '../FELUtils.js';
 import Compass from './Compass.js';
 import isResettingAllProperty from '../isResettingAllProperty.js';
+import TEmitter from '../../../../axon/js/TEmitter.js';
+import optionize from '../../../../phet-core/js/optionize.js';
+import Property from '../../../../axon/js/Property.js';
+import BooleanProperty from '../../../../axon/js/BooleanProperty.js';
+import WrappedAudioBuffer from '../../../../tambo/js/WrappedAudioBuffer.js';
 
 // Pitch varies by 10 semitones. There are 12 semitones per octave.
 const SEMITONES = 10;
 const MIN_PLAYBACK_RATE = 1;
 const PLAYBACK_RATE_RANGE = new Range( MIN_PLAYBACK_RATE, MIN_PLAYBACK_RATE + SEMITONES / 12 );
 
-// Output level is constant, except during fades, or when field magnitude is zero.
-const MAX_OUTPUT_LEVEL = 0.2;
+type SelfOptions = {
 
-// If the compass is at reset this long (in ms), sound will fade out and stop.
-const TIMEOUT = 500;
+  // The audio file to play using a tambo SoundClip.
+  wrappedAudioBuffer?: WrappedAudioBuffer;
 
-// Fade times, in seconds.
-const FADE_IN_TIME = 0.25;
-const FADE_OUT_TIME = 0.25;
+  // Max output level when the sound is playing.
+  maxOutputLevel?: number;
 
-export default class CompassSonifier {
+  // The Emitter (which provides a dt {number} value on emit) which drives the animation, or null if the client
+  // will drive the animation by calling step(dt) manually. Defaults to stepTimer (the joist Timer) which fires
+  // automatically when Sim is stepped.
+  stepEmitter?: TEmitter<[ number ]> | null;
+
+  // If the compass is at rest this long (in seconds), sound will fade out and stop.
+  timeout?: number;
+
+  // Fade times, in seconds.
+  fadeInTime?: number;
+  fadeOutTime?: number;
+};
+
+type CompassSonifierOptions = SelfOptions & DisposableOptions;
+
+export default class CompassSonifier extends Disposable {
 
   // Pitch of soundClip is modulated by the needle angle, output level is constant.
   private readonly soundClip: SoundClip;
 
-  // Called if the needle angle has not changed for TIMEOUT seconds.
-  private timeoutCallback: TimerListener | null;
+  // Controls whether soundClip is playing.
+  private readonly isPlayingProperty: Property<boolean>;
 
-  public constructor( compass: Compass ) {
+  // If the compass is at rest this long (in ms), sound will fade out and stop.
+  private readonly timeout: number;
 
-    this.soundClip = new SoundClip( felCompassSaturatedSineLoop_mp3, {
+  // The last time that compass.needleProperty changed.
+  private lastChangedTime: number | null;
+
+  public constructor( compass: Compass, providedOptions?: CompassSonifierOptions ) {
+
+    const options = optionize<CompassSonifierOptions, SelfOptions, DisposableOptions>()( {
+
+      // SelfOptions
+      wrappedAudioBuffer: felCompassSaturatedSineLoop_mp3,
+      maxOutputLevel: 0.2,
+      stepEmitter: stepTimer,
+      timeout: 0.5,
+      fadeInTime: 0.25,
+      fadeOutTime: 0.25
+    }, providedOptions );
+
+    assert && assert( options.timeout > 0, `invalid timeout: ${options.timeout}` );
+    assert && assert( options.fadeInTime >= 0, `invalid fadeInTime: ${options.fadeInTime}` );
+    assert && assert( options.fadeOutTime >= 0, `invalid fadeOutTime: ${options.fadeOutTime}` );
+
+    super( options );
+
+    this.soundClip = new SoundClip( options.wrappedAudioBuffer, {
       loop: true,
-      initialOutputLevel: MAX_OUTPUT_LEVEL
+      initialOutputLevel: 0
     } );
     soundManager.addSoundGenerator( this.soundClip );
 
-    this.timeoutCallback = null;
+    this.isPlayingProperty = new BooleanProperty( false );
+
+    this.isPlayingProperty.lazyLink( isPlaying => {
+      if ( isPlaying ) {
+        this.soundClip.play();
+        this.soundClip.setOutputLevel( options.maxOutputLevel, FELUtils.secondsToTimeConstant( options.fadeInTime ) );
+      }
+      else {
+        this.soundClip.setOutputLevel( 0, FELUtils.secondsToTimeConstant( options.fadeOutTime ) );
+        this.soundClip.stop( options.fadeOutTime );
+      }
+    } );
+
+    this.timeout = options.timeout;
+    this.lastChangedTime = null;
 
     // Map needle angle to playback rate.
-    compass.needleAngleProperty.lazyLink( needleAngle => {
+    const needleAngleListener = ( needleAngle: number ) => {
       if ( compass.visibleProperty.value ) {
 
-        // If the angle changed before the timeout, clear the timeout.
-        this.clearTimeout();
+        this.lastChangedTime = Date.now();
 
-        // If the clip is not playing, start it playing.
-        !this.isPlaying && this.play();
+        this.isPlayingProperty.value = true;
 
         // Map angle to playback rate.
         const playbackRate = CompassSonifier.needleAngleToPlaybackRateMirror( needleAngle );
         this.soundClip.setPlaybackRate( playbackRate );
-
-        // Schedule a timer to stop sound if needleAngleProperty does not change TIMEOUT seconds from now.
-        this.timeoutCallback = stepTimer.setTimeout( () => {
-          this.timeoutCallback = null; // setTimeOut removes timeoutCallback
-          this.stop();
-        }, TIMEOUT );
       }
-    } );
+    };
+    compass.needleAngleProperty.lazyLink( needleAngleListener );
 
     // Stop sound when the compass becomes invisible.
-    compass.visibleProperty.lazyLink( visible => {
+    const visiblePropertyListener = ( visible: boolean ) => {
       if ( !visible ) {
-        this.stop( 0 );
+        this.isPlayingProperty.value = false;
       }
-    } );
+    };
+    compass.visibleProperty.lazyLink( visiblePropertyListener );
 
     // Stop sound when 'Reset All' is in progress.
-    isResettingAllProperty.lazyLink( isResettingAll => {
-      isResettingAll && this.stop();
+    const isResettingAllListener = ( isResettingAll: boolean ) => {
+      if ( isResettingAll ) {
+        this.isPlayingProperty.value = false;
+      }
+    };
+    isResettingAllProperty.lazyLink( isResettingAllListener );
+
+    // Wire up to the provided Emitter, if any. Whenever this animation is started, it will add a listener to the Timer
+    // (and conversely, will be removed when stopped). This means it will animate with the timer, but will not leak
+    // memory as long as the animation doesn't last forever.
+    if ( options.stepEmitter ) {
+      const stepEmitter = options.stepEmitter;
+      const stepListener: TEmitterListener<[ number ]> = this.step.bind( this );
+
+      this.isPlayingProperty.link( isPlaying => {
+        if ( isPlaying && !stepEmitter.hasListener( stepListener ) ) {
+          stepEmitter.addListener( stepListener );
+        }
+        else if ( !isPlaying && stepEmitter.hasListener( stepListener ) ) {
+          stepEmitter.removeListener( stepListener );
+        }
+      } );
+
+      this.disposeEmitter.addListener( () => {
+        if ( stepEmitter.hasListener( stepListener ) ) {
+          stepEmitter.removeListener( stepListener );
+        }
+      } );
+    }
+
+    this.disposeEmitter.addListener( () => {
+
+      if ( compass.needleAngleProperty.hasListener( needleAngleListener ) ) {
+        compass.needleAngleProperty.unlink( needleAngleListener );
+      }
+
+      if ( compass.needleAngleProperty.hasListener( needleAngleListener ) ) {
+        compass.needleAngleProperty.unlink( needleAngleListener );
+      }
+
+      if ( isResettingAllProperty.hasListener( isResettingAllListener ) ) {
+        isResettingAllProperty.unlink( isResettingAllListener );
+      }
     } );
   }
 
-  public dispose(): void {
-    Disposable.assertNotDisposable();
-  }
+  public step( dt: number ): void {
 
-  public reset(): void {
-
-    // Clear the timer.
-    this.clearTimeout();
-
-    // Stop the clip.
-    this.isPlaying && this.stop();
-  }
-
-  private clearTimeout(): void {
-    if ( this.timeoutCallback ) {
-      stepTimer.clearTimeout( this.timeoutCallback );
-      this.timeoutCallback = null;
+    // If this.timeout seconds have passed since needleProperty changed, stop the sound.
+    if ( this.lastChangedTime !== null ) {
+      if ( Date.now() - this.lastChangedTime >= ( this.timeout * 1000 ) ) {
+        this.isPlayingProperty.value = false;
+      }
     }
   }
 
-  private get isPlaying(): boolean {
-    return this.soundClip.isPlaying;
-  }
-
-  private play(): void {
-
-    // Start playing the sound clip.
-    this.soundClip.play();
-
-    // Fade in.
-    this.soundClip.setOutputLevel( MAX_OUTPUT_LEVEL, FELUtils.secondsToTimeConstant( FADE_IN_TIME ) );
-  }
-
-  private stop( fadeOutTime = FADE_OUT_TIME ): void {
-
-    // If stopped by the timer, clear it.
-    this.clearTimeout();
-
-    // Fade out.
-    this.soundClip.setOutputLevel( 0, FELUtils.secondsToTimeConstant( fadeOutTime ) );
-
-    // Stop when the fade has completed.
-    this.soundClip.stop( fadeOutTime );
+  public reset(): void {
+    this.isPlayingProperty.reset();
+    this.lastChangedTime = null;
   }
 
   //TODO https://github.com/phetsims/faradays-electromagnetic-lab/issues/77 Delete if not used.
