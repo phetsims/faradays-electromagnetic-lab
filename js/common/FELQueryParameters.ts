@@ -58,7 +58,7 @@ const SCHEMA_MAP = {
     type: 'flag'
   },
 
-  // Field magnitude cutoff value in G, used for FieldMeterSonifier.fieldMagnitudeToPlaybackRatePiecewiseLinear
+  // Field magnitude cutoff value in G, used for FieldMeterDragSonifier.fieldMagnitudeToPlaybackRatePiecewiseLinear
   //TODO https://github.com/phetsims/faradays-electromagnetic-lab/issues/77 delete this
   piecewiseCutoff: {
     type: 'number',

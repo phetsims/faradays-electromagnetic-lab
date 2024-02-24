@@ -31,7 +31,7 @@ import StringUtils from '../../../../phetcommon/js/util/StringUtils.js';
 import optionize, { EmptySelfOptions } from '../../../../phet-core/js/optionize.js';
 import PickRequired from '../../../../phet-core/js/types/PickRequired.js';
 import DerivedStringProperty from '../../../../axon/js/DerivedStringProperty.js';
-import FieldMeterSonifier from './FieldMeterSonifier.js';
+import FieldMeterDragSonifier from './FieldMeterDragSonifier.js';
 import { RichDragListenerOptions } from '../../../../sun/js/RichDragListener.js';
 import { RichKeyboardDragListenerOptions } from '../../../../sun/js/RichKeyboardDragListener.js';
 
@@ -89,7 +89,7 @@ const STRING_DISPLAY_OPTIONS: StringDisplayOptions = {
 
 const DRAG_LISTENER_OPTIONS: RichDragListenerOptions = {
 
-  // Turn off default grab and release sounds, because we have FieldMeterSonifier.
+  // Turn off default grab and release sounds, because we have FieldMeterDragSonifier.
   grabSound: null,
   releaseSound: null
 };
@@ -100,7 +100,7 @@ const KEYBOARD_DRAG_LISTENER_OPTIONS: RichKeyboardDragListenerOptions = {
   dragSpeed: 150,
   shiftDragSpeed: 50,
 
-  // Turn off default grab and release sounds, because we have FieldMeterSonifier.
+  // Turn off default grab and release sounds, because we have FieldMeterDragSonifier.
   grabSound: null,
   releaseSound: null
 };
@@ -218,7 +218,7 @@ export default class FieldMeterNode extends FELMovableNode {
     super( fieldMeter, options );
 
     // Sonification, see https://github.com/phetsims/faradays-electromagnetic-lab/issues/77
-    this.addInputListener( new FieldMeterSonifier( fieldMeter.fieldVectorProperty, magnetStrengthRange ) );
+    this.addInputListener( new FieldMeterDragSonifier( fieldMeter.fieldVectorProperty, magnetStrengthRange ) );
   }
 }
 

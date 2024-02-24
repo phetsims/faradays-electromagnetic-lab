@@ -1,7 +1,7 @@
 // Copyright 2024, University of Colorado Boulder
 
 /**
- * FieldMeterSonifier is responsible for sonification of a FieldMeterNode view element.
+ * FieldMeterDragSonifier is responsible for sonification of a FieldMeterNode view element.
  *
  * The magnitude of the magnetic field at the meter's position is used to modulate the pitch of a sound clip,
  * with a constant output level. Sound plays while the user is interacting with the field meter.
@@ -34,14 +34,14 @@ const SEMITONES = 12;
 const MIN_PLAYBACK_RATE = 1;
 const PLAYBACK_RATE_RANGE = new Range( MIN_PLAYBACK_RATE, MIN_PLAYBACK_RATE + SEMITONES / 12 );
 
-export default class FieldMeterSonifier extends FELSonifier implements TInputListener {
+export default class FieldMeterDragSonifier extends FELSonifier implements TInputListener {
 
   private readonly isInteractingProperty: Property<boolean>;
 
   public constructor( fieldVectorProperty: TReadOnlyProperty<Vector2>, fieldMagnitudeRange: Range ) {
 
     const playbackRateProperty = new DerivedProperty( [ fieldVectorProperty ],
-      fieldVector => FieldMeterSonifier.fieldMagnitudeToPlaybackRatePiecewiseLinear( fieldVector.magnitude, fieldMagnitudeRange ) );
+      fieldVector => FieldMeterDragSonifier.fieldMagnitudeToPlaybackRatePiecewiseLinear( fieldVector.magnitude, fieldMagnitudeRange ) );
 
     const isInteractingProperty = new BooleanProperty( false );
 
@@ -151,4 +151,4 @@ export default class FieldMeterSonifier extends FELSonifier implements TInputLis
   }
 }
 
-faradaysElectromagneticLab.register( 'FieldMeterSonifier', FieldMeterSonifier );
+faradaysElectromagneticLab.register( 'FieldMeterDragSonifier', FieldMeterDragSonifier );
