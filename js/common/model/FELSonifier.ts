@@ -49,7 +49,7 @@ type SelfOptions = {
   fadeInTime?: number;
   fadeOutTime?: number;
 
-  // Used to enable and disable the sonfier.
+  // Used to enable and disable the sonifier.
   enabledProperty?: TReadOnlyProperty<boolean> | null;
 };
 
@@ -60,16 +60,13 @@ export default class FELSonifier extends Disposable {
   // SoundClip to be played.
   private readonly soundClip: SoundClip;
 
-  // Playback rate at which soundClip is playing.
-  private readonly playbackRateProperty: TReadOnlyProperty<number>;
-
   // Controls whether soundClip is playing.
   private readonly isPlayingProperty: Property<boolean>;
 
   // If playbackRateProperty does not change for this amount of time (in seconds), sound will fade out and stop.
   private readonly timeout: number;
 
-  // The last time that playbackRateProperty changed.
+  // The last time that playbackRateProperty changed. null until it has changed once.
   private lastChangedTime: number | null;
 
   protected constructor( playbackRateProperty: TReadOnlyProperty<number>, providedOptions?: FELSonifierOptions ) {
@@ -99,7 +96,6 @@ export default class FELSonifier extends Disposable {
     soundManager.addSoundGenerator( this.soundClip );
     this.disposeEmitter.addListener( () => soundManager.removeSoundGenerator( this.soundClip ) );
 
-    this.playbackRateProperty = playbackRateProperty;
     const playbackRateListener = ( playbackRate: number ) => {
       if ( !options.enabledProperty || options.enabledProperty.value ) {
         this.lastChangedTime = Date.now();
@@ -108,6 +104,11 @@ export default class FELSonifier extends Disposable {
       }
     };
     playbackRateProperty.lazyLink( playbackRateListener );
+    this.disposeEmitter.addListener( () => {
+      if ( playbackRateProperty.hasListener( playbackRateListener ) ) {
+        playbackRateProperty.unlink( playbackRateListener );
+      }
+    } );
 
     this.isPlayingProperty = new BooleanProperty( false );
     this.isPlayingProperty.lazyLink( isPlaying => {
