@@ -111,6 +111,9 @@ export default class CompassNode extends FELMovableNode {
       needleNode.rotation = needleAngle;
       needleNode.center = ringNode.center;
     } );
+
+    //TODO https://github.com/phetsims/faradays-electromagnetic-lab/issues/78
+    // this.addInputListener( new CompassDragSonifier( compass ) );
   }
 }
 

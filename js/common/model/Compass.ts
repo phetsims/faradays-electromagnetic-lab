@@ -67,6 +67,7 @@ export default abstract class Compass extends FieldMeasurementTool {
         }
       } );
 
+    //TODO https://github.com/phetsims/faradays-electromagnetic-lab/issues/78
     this.sonifier = new CompassSonifier( this );
   }
 

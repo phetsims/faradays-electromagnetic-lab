@@ -55,7 +55,7 @@ export default class CompassSonifier extends FELSonifier {
    * Maps the compass needle angle to pitch linearly in the range [0,2*PI], a full circle. This results in an abrupt
    * change in pitch when the angle crosses the +x-axis at zero radians.
    */
-  private static needleAngleToPlaybackRateCircle( angle: number ): number {
+  public static needleAngleToPlaybackRateCircle( angle: number ): number {
 
     // +angle is clockwise in the model, so flip the sign. See https://github.com/phetsims/faradays-electromagnetic-lab/issues/19
     const normalizedAngle = FELUtils.normalizeAngle( -angle );
@@ -70,7 +70,7 @@ export default class CompassSonifier extends FELSonifier {
    * Maps the compass needle angle to pitch linearly in the range [0,PI]. Mirroring about the x-axis at zero and
    * PI radians avoids any abrupt changes in pitch.
    */
-  private static needleAngleToPlaybackRateMirror( angle: number ): number {
+  public static needleAngleToPlaybackRateMirror( angle: number ): number {
 
     // +angle is clockwise in the model, so flip the sign. See https://github.com/phetsims/faradays-electromagnetic-lab/issues/19
     let normalizedAngle = FELUtils.normalizeAngle( -angle );

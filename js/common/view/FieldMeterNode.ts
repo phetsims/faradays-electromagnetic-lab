@@ -217,7 +217,7 @@ export default class FieldMeterNode extends FELMovableNode {
 
     super( fieldMeter, options );
 
-    // Sonification, see https://github.com/phetsims/faradays-electromagnetic-lab/issues/77
+    //TODO https://github.com/phetsims/faradays-electromagnetic-lab/issues/77
     this.addInputListener( new FieldMeterDragSonifier( fieldMeter.fieldVectorProperty, magnetStrengthRange ) );
   }
 }
