@@ -13,7 +13,6 @@ import faradaysElectromagneticLab from '../../faradaysElectromagneticLab.js';
 import Electron from '../model/Electron.js';
 import ShadedSphereNode from '../../../../scenery-phet/js/ShadedSphereNode.js';
 import FELColors from '../FELColors.js';
-import Vector2 from '../../../../dot/js/Vector2.js';
 import { Node } from '../../../../scenery/js/imports.js';
 import TReadOnlyProperty from '../../../../axon/js/TReadOnlyProperty.js';
 
@@ -21,7 +20,10 @@ const DIAMETER = 9;
 
 export default class ElectronNode extends ShadedSphereNode {
 
-  private readonly disposeElectronNode: () => void;
+  private readonly electron: Electron;
+  private readonly foregroundNode: Node;
+  private readonly backgroundNode: Node;
+  private parentNode: Node | null;
 
   public constructor( electron: Electron, foregroundNode: Node, backgroundNode: Node, visibleProperty: TReadOnlyProperty<boolean> ) {
 
@@ -31,40 +33,34 @@ export default class ElectronNode extends ShadedSphereNode {
       pickable: false
     } );
 
-    // Move to the electron's position.
-    const positionListener = ( position: Vector2 ) => {
-      this.translation = position;
-    };
-    electron.positionProperty.link( positionListener );
+    this.electron = electron;
+    this.foregroundNode = foregroundNode;
+    this.backgroundNode = backgroundNode;
+    this.parentNode = null;
 
-    // If the electron has jumped to a different layer (foreground vs background), move it to the new layer.
-    const coilSegmentIndexListener = ( newIndex: number, oldIndex: number | null ) => {
-
-      const newParentNode = ( electron.getCoilSegment( newIndex ).layer === 'foreground' ) ? foregroundNode : backgroundNode;
-
-      if ( oldIndex === null ) {
-        newParentNode.addChild( this );
-      }
-      else {
-        const oldParentNode = ( electron.getCoilSegment( oldIndex ).layer === 'foreground' ) ? foregroundNode : backgroundNode;
-        if ( oldParentNode !== newParentNode ) {
-          oldParentNode.removeChild( this );
-          newParentNode.addChild( this );
-        }
-      }
-      assert && assert( newParentNode.hasChild( this ), 'unexpected parent' );
-    };
-    electron.coilSegmentIndexProperty.link( coilSegmentIndexListener );
-
-    this.disposeElectronNode = () => {
-      electron.positionProperty.unlink( positionListener );
-      electron.coilSegmentIndexProperty.unlink( coilSegmentIndexListener );
-    };
+    this.move();
   }
 
-  public override dispose(): void {
-    super.dispose();
-    this.disposeElectronNode();
+  /**
+   * Moves this ElectronNode to the position and coil segment of its associated Electron.
+   */
+  public move(): void {
+
+    // Move to the electron's position.
+    this.translation = this.electron.position;
+
+    // Layer that the electron occupies (foreground vs background).
+    const layer = this.electron.getCoilSegment( this.electron.coilSegmentIndex ).layer;
+    const newParentNode = ( layer === 'foreground' ) ? this.foregroundNode : this.backgroundNode;
+
+    // If the electron has jumped to a different layer, move it to the new layer.
+    if ( newParentNode !== this.parentNode ) {
+      if ( this.parentNode ) {
+        this.parentNode.removeChild( this );
+      }
+      newParentNode.addChild( this );
+      this.parentNode = newParentNode;
+    }
   }
 }
 

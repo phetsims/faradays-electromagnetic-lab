@@ -110,6 +110,9 @@ export default class CoilNode extends Node {
     // Render the electrons that move through the coil.
     this.electronNodes = [];
     coil.electronsProperty.link( electrons => this.updateElectronNodes( electrons ) );
+
+    // Move the electrons.
+    coil.electronPositionsChangedEmitter.addListener( () => this.electronNodes.forEach( electronNode => electronNode.move() ) );
   }
 
   /**

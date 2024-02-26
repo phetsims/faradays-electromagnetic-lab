@@ -36,6 +36,7 @@ import QuadraticBezierSpline from './QuadraticBezierSpline.js';
 import { LinearGradient, TColor } from '../../../../scenery/js/imports.js';
 import FELColors from '../FELColors.js';
 import Electron from './Electron.js';
+import Emitter from '../../../../axon/js/Emitter.js';
 
 // Spacing between electrons in the coil
 //TODO https://github.com/phetsims/faradays-electromagnetic-lab/issues/49 If electrons move more than this distance, they'll appear to be moving in the wrong direction.
@@ -107,6 +108,9 @@ export default class Coil extends PhetioObject {
 
   // Electrons that represent current flow in the coil
   public readonly electronsProperty: TReadOnlyProperty<Electron[]>;
+
+  // Fires when electrons have changed their position.
+  public readonly electronPositionsChangedEmitter: Emitter;
 
   public constructor( currentAmplitudeProperty: TReadOnlyProperty<number>, currentAmplitudeRange: Range, providedOptions: CoilOptions ) {
     assert && assert( currentAmplitudeRange.equals( FELConstants.CURRENT_AMPLITUDE_RANGE ) );
@@ -187,9 +191,7 @@ export default class Coil extends PhetioObject {
         strictAxonDependencies: false
       } );
 
-    // When the set of electrons changes, dispose of the old electrons.
-    this.electronsProperty.lazyLink( ( newElectrons, oldElectrons ) =>
-      oldElectrons.forEach( electron => electron.dispose() ) );
+    this.electronPositionsChangedEmitter = new Emitter();
   }
 
   public reset(): void {
@@ -202,6 +204,7 @@ export default class Coil extends PhetioObject {
   public step( dt: number ): void {
     if ( this.electronsVisibleProperty ) {
       this.electronsProperty.value.forEach( electron => electron.step( dt ) );
+      this.electronPositionsChangedEmitter.emit();
     }
   }
 
