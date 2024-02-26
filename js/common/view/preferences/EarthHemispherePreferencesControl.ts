@@ -15,7 +15,6 @@ import { Image, Text } from '../../../../../scenery/js/imports.js';
 import FELConstants from '../../FELConstants.js';
 import RectangularRadioButtonGroup, { RectangularRadioButtonGroupItem } from '../../../../../sun/js/buttons/RectangularRadioButtonGroup.js';
 import RectangularRadioButton from '../../../../../sun/js/buttons/RectangularRadioButton.js';
-import FELColors from '../../FELColors.js';
 import faradaysElectromagneticLab from '../../../faradaysElectromagneticLab.js';
 import FaradaysElectromagneticLabStrings from '../../../FaradaysElectromagneticLabStrings.js';
 import earthEasternHemisphere_svg from '../../../../images/earthEasternHemisphere_svg.js';
@@ -60,7 +59,7 @@ class EarthHemisphereRadioButtonGroup extends RectangularRadioButtonGroup<EarthH
     super( earthImageProperty, items, {
       orientation: 'horizontal',
       radioButtonOptions: {
-        baseColor: FELColors.screenBackgroundColorProperty,
+        baseColor: 'white',
         buttonAppearanceStrategyOptions: {
           selectedLineWidth: 3,
           selectedStroke: 'rgb( 262, 68, 147 )'
