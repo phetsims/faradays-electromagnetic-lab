@@ -39,12 +39,14 @@ import Electron from './Electron.js';
 import Emitter from '../../../../axon/js/Emitter.js';
 
 // Spacing between electrons in the coil
-//TODO https://github.com/phetsims/faradays-electromagnetic-lab/issues/49 If electrons move more than this distance, they'll appear to be moving in the wrong direction.
 const ELECTRON_SPACING = 25;
 
 // Ends of the coil contain a fixed number of electrons.
 const ELECTRONS_IN_LEFT_END = 2;
 const ELECTRONS_IN_RIGHT_END = 2;
+
+// To provide a pseudo-3D view, the coil is divided into foreground and background layers that are rendered separately.
+export type CoilLayer = 'foreground' | 'background';
 
 type SelfOptions = {
 
@@ -76,7 +78,7 @@ export default class Coil extends PhetioObject {
   // this value to determine how they should behave -- eg, how far to move a voltmeter needle, how bright to make a
   // light bulb, and how fast to move electrons.
   public readonly currentAmplitudeProperty: TReadOnlyProperty<number>;
-  public readonly currentAmplitudeRange: Range;
+  private readonly currentAmplitudeRange: Range;
 
   // Width of the wire that makes up the coil.
   public readonly wireWidth: number;
@@ -109,8 +111,8 @@ export default class Coil extends PhetioObject {
   // Electrons that represent current flow in the coil
   public readonly electronsProperty: TReadOnlyProperty<Electron[]>;
 
-  // Fires when electrons have changed their position.
-  public readonly electronPositionsChangedEmitter: Emitter;
+  // Fires after electrons have moved.
+  public readonly electronsMovedEmitter: Emitter;
 
   public constructor( currentAmplitudeProperty: TReadOnlyProperty<number>, currentAmplitudeRange: Range, providedOptions: CoilOptions ) {
     assert && assert( currentAmplitudeRange.equals( FELConstants.CURRENT_AMPLITUDE_RANGE ) );
@@ -191,7 +193,7 @@ export default class Coil extends PhetioObject {
         strictAxonDependencies: false
       } );
 
-    this.electronPositionsChangedEmitter = new Emitter();
+    this.electronsMovedEmitter = new Emitter();
   }
 
   public reset(): void {
@@ -204,7 +206,7 @@ export default class Coil extends PhetioObject {
   public step( dt: number ): void {
     if ( this.electronsVisibleProperty ) {
       this.electronsProperty.value.forEach( electron => electron.step( dt ) );
-      this.electronPositionsChangedEmitter.emit();
+      this.electronsMovedEmitter.emit();
     }
   }
 

@@ -22,6 +22,7 @@ import TReadOnlyProperty from '../../../../axon/js/TReadOnlyProperty.js';
 import FELConstants from '../FELConstants.js';
 import Utils from '../../../../dot/js/Utils.js';
 import ConstantDtClock from './ConstantDtClock.js';
+import { CoilLayer } from './Coil.js';
 
 // Maximum distance along a coil segment that can be traveled in one clock tick.
 const MAX_COIL_SEGMENT_POSITION_DELTA = 0.15;
@@ -47,6 +48,7 @@ type ElectronOptions = SelfOptions;
 
 export default class Electron {
 
+  // Amplitude of the current that this electron represents.
   private readonly currentAmplitudeProperty: TReadOnlyProperty<number>;
   private readonly currentAmplitudeRange: Range;
 
@@ -57,7 +59,7 @@ export default class Electron {
   private readonly coilSegments: CoilSegment[];
 
   // Index of the coil segment that the electron currently occupies
-  public coilSegmentIndex: number;
+  private coilSegmentIndex: number;
 
   // Electron's position [0,1] along the coil segment that it occupies: 0=endPoint, 1=startPoint
   private coilSegmentPosition: number;
@@ -70,8 +72,8 @@ export default class Electron {
   private readonly speedScaleProperty: TReadOnlyProperty<number>;
 
   // Reusable Vector2 instances
-  public readonly reusablePosition1: Vector2;
-  public readonly reusablePosition2: Vector2;
+  private readonly reusablePosition1: Vector2;
+  private readonly reusablePosition2: Vector2;
 
   public constructor( currentAmplitudeProperty: TReadOnlyProperty<number>, currentAmplitudeRange: Range, providedOptions: ElectronOptions ) {
 
@@ -86,7 +88,7 @@ export default class Electron {
 
     const coilSegment = options.coilSegments[ options.coilSegmentIndex ];
 
-    this.position = coilSegment.curve.evaluate( options.coilSegmentPosition, this.reusablePosition1 );
+    this.position = coilSegment.evaluate( options.coilSegmentPosition, this.reusablePosition1 );
     this.coilSegments = options.coilSegments;
     this.coilSegmentIndex = options.coilSegmentIndex;
     this.coilSegmentPosition = options.coilSegmentPosition;
@@ -96,19 +98,16 @@ export default class Electron {
   }
 
   /**
-   * Gets a CoilSegment by index. If no index is provided, get the CoilSegment that the electron currently occupies.
+   * Gets the layer that this electron currently occupies.
    */
-  public getCoilSegment( coilSegmentIndex?: number ): CoilSegment {
-    if ( coilSegmentIndex === undefined ) {
-      coilSegmentIndex = this.coilSegmentIndex;
-    }
-    return this.coilSegments[ coilSegmentIndex ];
+  public getLayer(): CoilLayer {
+    return this.coilSegments[ this.coilSegmentIndex ].layer;
   }
 
   /**
    * Gets the speed scale for the CoilSegment that the electron currently occupies.
    */
-  private getCoilSegmentSpeedScale(): number {
+  private getSpeedScale(): number {
     return this.coilSegments[ this.coilSegmentIndex ].speedScale;
   }
 
@@ -132,7 +131,7 @@ export default class Electron {
 
       // Move the electron along the path.
       const deltaPosition = dt * MAX_COIL_SEGMENT_POSITION_DELTA * this.speedAndDirection *
-                            this.speedScaleProperty.value * this.getCoilSegmentSpeedScale();
+                            this.speedScaleProperty.value * this.getSpeedScale();
       const newPosition = this.coilSegmentPosition - deltaPosition;
 
       // Do we need to switch curves?
@@ -148,7 +147,7 @@ export default class Electron {
       // Use a different reusable Vector2 each time that curve.evaluate is called, so that
       const coilSegment = this.coilSegments[ this.coilSegmentIndex ];
       const returnValue = ( this.position === this.reusablePosition1 ) ? this.reusablePosition2 : this.reusablePosition1;
-      this.position = coilSegment.curve.evaluate( this.coilSegmentPosition, returnValue );
+      this.position = coilSegment.evaluate( this.coilSegmentPosition, returnValue );
     }
   }
 
@@ -174,7 +173,7 @@ export default class Electron {
   private switchCurves( coilSegmentPosition: number, recursionDepth = 0 ): void {
     assert && assert( recursionDepth < this.coilSegments.length, `infinite loop? recursionDepth=${recursionDepth}` );
 
-    const oldPathSpeedScale = this.getCoilSegmentSpeedScale();
+    const oldPathSpeedScale = this.getSpeedScale();
 
     if ( coilSegmentPosition <= 0 ) {
 
@@ -188,7 +187,7 @@ export default class Electron {
       }
 
       // Set the position on the curve.
-      const overshoot = Math.abs( coilSegmentPosition * this.getCoilSegmentSpeedScale() / oldPathSpeedScale );
+      const overshoot = Math.abs( coilSegmentPosition * this.getSpeedScale() / oldPathSpeedScale );
       coilSegmentPosition = 1.0 - overshoot;
 
       // Did we overshoot the curve? If so, call this method recursively.
@@ -211,7 +210,7 @@ export default class Electron {
       }
 
       // Set the position on the curve.
-      coilSegmentPosition = Math.abs( ( 1 - coilSegmentPosition ) * this.getCoilSegmentSpeedScale() / oldPathSpeedScale );
+      coilSegmentPosition = Math.abs( ( 1 - coilSegmentPosition ) * this.getSpeedScale() / oldPathSpeedScale );
 
       // Did we overshoot the curve? If so, call this method recursively.
       if ( coilSegmentPosition > 1.0 ) {

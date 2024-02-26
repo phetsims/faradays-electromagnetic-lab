@@ -13,7 +13,7 @@ import CoilSegment from '../model/CoilSegment.js';
 export default class CoilSegmentNode extends Path {
 
   public constructor( coilSegment: CoilSegment, wireWidth: number ) {
-    super( coilSegment.curve.toShape(), {
+    super( coilSegment.toShape(), {
       stroke: coilSegment.stroke,
       lineWidth: wireWidth,
       lineCap: 'round',

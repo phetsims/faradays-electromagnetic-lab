@@ -13,8 +13,9 @@ import faradaysElectromagneticLab from '../../faradaysElectromagneticLab.js';
 import { PathOptions, TPaint } from '../../../../scenery/js/imports.js';
 import QuadraticBezierSpline from './QuadraticBezierSpline.js';
 import optionize from '../../../../phet-core/js/optionize.js';
-
-type CoilLayer = 'foreground' | 'background';
+import { CoilLayer } from './Coil.js';
+import Vector2 from '../../../../dot/js/Vector2.js';
+import { Shape } from '../../../../kite/js/imports.js';
 
 type SelfOptions = {
   stroke: TPaint;
@@ -26,7 +27,7 @@ export type CoilSegmentOptions = SelfOptions & PathOptions;
 export default class CoilSegment {
 
   // The curve that describes this segment of the coil
-  public readonly curve: QuadraticBezierSpline;
+  private readonly curve: QuadraticBezierSpline;
 
   // The layer for this segment and any electrons that appear in this segment.
   public readonly layer: CoilLayer;
@@ -53,6 +54,20 @@ export default class CoilSegment {
     this.layer = layer;
     this.stroke = options.stroke;
     this.speedScale = options.speedScale;
+  }
+
+  /**
+   * Gets the Shape needed to render this CoilSegment using scenery.
+   */
+  public toShape(): Shape {
+    return this.curve.toShape();
+  }
+
+  /**
+   * Determines a point along the CoilSegment. See QuadraticBezierSpline.evaluate.
+   */
+  public evaluate( t: number, returnVector?: Vector2 ): Vector2 {
+    return this.curve.evaluate( t, returnVector );
   }
 }
 
