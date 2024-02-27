@@ -1,4 +1,4 @@
-// Copyright 2023-2024, University of Colorado Boulder
+// Copyright 2024, University of Colorado Boulder
 
 /**
  * ElectronsNode is the visual representation of a collection of electrons in a coil. It shows electrons for one layer
