@@ -114,7 +114,7 @@ const FELColors = {
   } ),
 
   radioButtonFillProperty: new ProfileColorProperty( faradaysElectromagneticLab, 'radioButtonFill', {
-    default: 'rgb( 153, 206, 255 )'
+    default: 'white'
   } ),
 
   radioButtonSelectedStrokeProperty: new ProfileColorProperty( faradaysElectromagneticLab, 'radioButtonSelectedStroke', {
