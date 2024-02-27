@@ -72,7 +72,7 @@ export default class TransformerScreenView extends FELScreenView {
     pickupCoilDebuggerPanel.centerX = this.layoutBounds.centerX;
     pickupCoilDebuggerPanel.top = this.layoutBounds.top + FELConstants.SCREEN_VIEW_Y_MARGIN;
 
-    // Rendering order, from back to front
+    // Rendering order, from back to front.
     const screenViewRootNode = new Node( {
       children: [
         transformerNode.pickupCoilNode.backgroundNode,

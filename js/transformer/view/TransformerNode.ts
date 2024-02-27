@@ -35,7 +35,7 @@ export default class TransformerNode extends Node {
     super( {
       children: [ electromagnetNode, pickupCoilNode ],
       tandem: tandem,
-      phetioFeatured: true, // so that featured linked element will appear in 'Featured' tree
+      phetioFeatured: true, // ... so that featured linked element will appear in 'Featured' tree.
       phetioVisiblePropertyInstrumented: false
     } );
 

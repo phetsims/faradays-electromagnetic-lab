@@ -18,7 +18,7 @@ import { Node } from '../../../../scenery/js/imports.js';
 
 export default class ElectromagnetPanels extends FELPanels {
 
-  // For putting panels in pdomOrder for PlayArea vs ControlPanel
+  // These fields are provided solely for putting panels in pdomOrder for PlayArea vs ControlPanel.
   public readonly electromagnetPanel: Node;
   public readonly toolsPanel: Node;
 

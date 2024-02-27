@@ -25,7 +25,7 @@ export default class Transformer extends PhetioObject {
     super( {
       isDisposable: false,
       tandem: tandem,
-      phetioFeatured: true, // so that featured linked element will appear in 'Featured' tree
+      phetioFeatured: true, // ... so that featured linked element will appear in 'Featured' tree.
       phetioState: false
     } );
 

@@ -69,7 +69,7 @@ function createIcon(): Node {
     ],
     spacing: 3,
     layoutOptions: {
-      stretch: false // prevent space from being introduced between text and needle
+      stretch: false // Prevent space from being introduced between text and needle.
     }
   } );
 }
