@@ -15,8 +15,11 @@
  * sound is also an annoying UX, and likely to encourage users to hide the compass. And having the compass constantly
  * making sound is likely to interfere with other sounds to be added later, some of which are more pedagogically
  * important, like the sound associated with change in flux. So I recommend changing to a 'view sonifier', similar
- * to FieldMeterDragSonifier.
- * (2) Decide which of the needleAngleToPlaybackRate* methods to keep, and delete the others.
+ * to FieldMeterDragSonifier. That said...
+ * (2) Decide whether to use CompassSonifier or CompassDragSonifier. If CompassSonifier, add to Compass.ts like this:
+ *  this.sonifier = new CompassSonifier( this );
+ *  ... and be sure to call this.sonifier.reset() in the Compass' reset method.
+ * (3) Decide which of the needleAngleToPlaybackRate* methods to keep, and delete the others.
  *
  * @author Chris Malley (PixelZoom, Inc.)
  */

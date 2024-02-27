@@ -9,7 +9,8 @@
  * - modulating the sound's playback rate
  * - playing and stopping the sound when the playback rate has not changed, with fade in and face out
  *
- *  See https://github.com/phetsims/faradays-electromagnetic-lab/issues/77 and https://github.com/phetsims/faradays-electromagnetic-lab/issues/78.
+ *  See https://github.com/phetsims/faradays-electromagnetic-lab/issues/77 and
+ *  https://github.com/phetsims/faradays-electromagnetic-lab/issues/78.
  *
  * @author Chris Malley (PixelZoom, Inc.)
  */

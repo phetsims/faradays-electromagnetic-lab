@@ -10,7 +10,8 @@
  * See https://github.com/phetsims/faradays-electromagnetic-lab/issues/78 for design history.
  *
  * TODO https://github.com/phetsims/faradays-electromagnetic-lab/issues/78 Next steps:
- * (1) Decide whether to use CompassDragSonifier (view) or CompassDragSonifier (model)
+ * (1) Decide whether to use CompassDragSonifier (view) or CompassSonifier (model). If CompassDragSonifier,
+ *     then add to CompassNode like this: this.addInputListener( new CompassDragSonifier( compass ) );
  * (2) Decide whether to use timeout: Infinity to effectively disable the timeout during dragging
  * (3) Decide which of the needleAngleToPlaybackRate* methods to keep, and delete the others.
  *

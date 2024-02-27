@@ -18,7 +18,6 @@ import { EmptySelfOptions } from '../../../../phet-core/js/optionize.js';
 import Multilink from '../../../../axon/js/Multilink.js';
 import FieldMeasurementTool, { FieldMeasurementToolOptions } from './FieldMeasurementTool.js';
 import ConstantDtClock from './ConstantDtClock.js';
-import CompassSonifier from './CompassSonifier.js';
 
 type SelfOptions = EmptySelfOptions;
 
@@ -35,10 +34,6 @@ export default abstract class Compass extends FieldMeasurementTool {
 
   // A reusable vector instance, for getting the field vector value at the compass' position
   private readonly reusableFieldVector: Vector2;
-
-  // Responsible for sonification of the compass.
-  // See https://github.com/phetsims/faradays-electromagnetic-lab/issues/78
-  private readonly sonifier: CompassSonifier;
 
   protected constructor( magnet: Magnet, isPlayingProperty: TReadOnlyProperty<boolean>, providedOptions: CompassOptions ) {
 
@@ -66,15 +61,11 @@ export default abstract class Compass extends FieldMeasurementTool {
           this.updateAngleImmediately( fieldVector.angle );
         }
       } );
-
-    //TODO https://github.com/phetsims/faradays-electromagnetic-lab/issues/78
-    this.sonifier = new CompassSonifier( this );
   }
 
   public override reset(): void {
     super.reset();
     this._needleAngleProperty.reset();
-    this.sonifier.reset();
   }
 
   public step( dt: number ): void {

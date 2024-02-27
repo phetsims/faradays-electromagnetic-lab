@@ -20,7 +20,6 @@ import FELColors from '../FELColors.js';
 import FELMovableNode, { FELMovableNodeOptions } from './FELMovableNode.js';
 import optionize, { EmptySelfOptions } from '../../../../phet-core/js/optionize.js';
 import PickRequired from '../../../../phet-core/js/types/PickRequired.js';
-import { RichDragListenerOptions } from '../../../../sun/js/RichDragListener.js';
 import { RichKeyboardDragListenerOptions } from '../../../../sun/js/RichKeyboardDragListener.js';
 
 const NEEDLE_LENGTH = 55;
@@ -31,22 +30,11 @@ const RING_CENTER_RADIUS = RING_OUTER_RADIUS - ( RING_LINE_WIDTH / 2 ); // adjus
 const INDICATOR_RADIUS = 3;
 const INDICATOR_SPACING = Utils.toRadians( 45 );
 
-const DRAG_LISTENER_OPTIONS: RichDragListenerOptions = {
-
-  // Turn off default grab and release sounds, because we have CompassSonifier.
-  grabSound: null,
-  releaseSound: null
-};
-
 const KEYBOARD_DRAG_LISTENER_OPTIONS: RichKeyboardDragListenerOptions = {
 
   // See https://github.com/phetsims/faradays-electromagnetic-lab/issues/79 for design of drag speeds.
   dragSpeed: 150,
-  shiftDragSpeed: 50,
-
-  // Turn off default grab and release sounds, because we have CompassSonifier.
-  grabSound: null,
-  releaseSound: null
+  shiftDragSpeed: 50
 };
 
 type SelfOptions = EmptySelfOptions;
@@ -61,7 +49,6 @@ export default class CompassNode extends FELMovableNode {
 
       // FELMovableNodeOptions
       visibleProperty: compass.visibleProperty,
-      dragListenerOptions: DRAG_LISTENER_OPTIONS,
       keyboardDragListenerOptions: KEYBOARD_DRAG_LISTENER_OPTIONS
     }, providedOptions );
 
@@ -111,9 +98,6 @@ export default class CompassNode extends FELMovableNode {
       needleNode.rotation = needleAngle;
       needleNode.center = ringNode.center;
     } );
-
-    //TODO https://github.com/phetsims/faradays-electromagnetic-lab/issues/78
-    // this.addInputListener( new CompassDragSonifier( compass ) );
   }
 }
 
