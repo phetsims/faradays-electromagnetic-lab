@@ -31,8 +31,6 @@ import StringUtils from '../../../../phetcommon/js/util/StringUtils.js';
 import optionize, { EmptySelfOptions } from '../../../../phet-core/js/optionize.js';
 import PickRequired from '../../../../phet-core/js/types/PickRequired.js';
 import DerivedStringProperty from '../../../../axon/js/DerivedStringProperty.js';
-import FieldMeterDragSonifier from './FieldMeterDragSonifier.js';
-import { RichDragListenerOptions } from '../../../../sun/js/RichDragListener.js';
 import { RichKeyboardDragListenerOptions } from '../../../../sun/js/RichKeyboardDragListener.js';
 
 const BStringProperty = FaradaysElectromagneticLabStrings.symbol.BStringProperty;
@@ -87,22 +85,11 @@ const STRING_DISPLAY_OPTIONS: StringDisplayOptions = {
   }
 };
 
-const DRAG_LISTENER_OPTIONS: RichDragListenerOptions = {
-
-  // Turn off default grab and release sounds, because we have FieldMeterDragSonifier.
-  grabSound: null,
-  releaseSound: null
-};
-
 const KEYBOARD_DRAG_LISTENER_OPTIONS: RichKeyboardDragListenerOptions = {
 
   // See https://github.com/phetsims/faradays-electromagnetic-lab/issues/79 for design of drag speeds.
   dragSpeed: 150,
-  shiftDragSpeed: 50,
-
-  // Turn off default grab and release sounds, because we have FieldMeterDragSonifier.
-  grabSound: null,
-  releaseSound: null
+  shiftDragSpeed: 50
 };
 
 type SelfOptions = EmptySelfOptions;
@@ -117,7 +104,6 @@ export default class FieldMeterNode extends FELMovableNode {
 
       // FELMovableNodeOptions
       visibleProperty: fieldMeter.visibleProperty,
-      dragListenerOptions: DRAG_LISTENER_OPTIONS,
       keyboardDragListenerOptions: KEYBOARD_DRAG_LISTENER_OPTIONS
     }, providedOptions );
 
@@ -216,9 +202,6 @@ export default class FieldMeterNode extends FELMovableNode {
     options.children = [ probeNode, crosshairsNode, bodyNode, gridBox ];
 
     super( fieldMeter, options );
-
-    //TODO https://github.com/phetsims/faradays-electromagnetic-lab/issues/77
-    this.addInputListener( new FieldMeterDragSonifier( fieldMeter.fieldVectorProperty, magnetStrengthRange ) );
   }
 }
 

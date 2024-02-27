@@ -9,8 +9,10 @@
  * See https://github.com/phetsims/faradays-electromagnetic-lab/issues/77 for design history.
  *
  * TODO https://github.com/phetsims/faradays-electromagnetic-lab/issues/77 Next steps:
- * (1) Decide whether to use timeout: Infinity to effectively disable the timeout during dragging
- * (2) Decide which of the fieldMagnitudeToPlaybackRate* methods to keep, and delete the others.
+ * (1) Add to FieldMeterNode like this:
+ *     this.addInputListener( new FieldMeterDragSonifier( fieldMeter.fieldVectorProperty, magnetStrengthRange ) );
+ * (2) Decide whether to use timeout: Infinity to effectively disable the timeout during dragging
+ * (3) Decide which of the fieldMagnitudeToPlaybackRate* methods to keep, and delete the others.
  *
  * @author Chris Malley (PixelZoom, Inc.)
  */
