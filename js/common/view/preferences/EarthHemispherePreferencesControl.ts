@@ -14,7 +14,6 @@ import PreferencesControl, { PreferencesControlOptions } from '../../../../../jo
 import { Image, Text } from '../../../../../scenery/js/imports.js';
 import FELConstants from '../../FELConstants.js';
 import RectangularRadioButtonGroup, { RectangularRadioButtonGroupItem } from '../../../../../sun/js/buttons/RectangularRadioButtonGroup.js';
-import RectangularRadioButton from '../../../../../sun/js/buttons/RectangularRadioButton.js';
 import faradaysElectromagneticLab from '../../../faradaysElectromagneticLab.js';
 import FaradaysElectromagneticLabStrings from '../../../FaradaysElectromagneticLabStrings.js';
 import earthEasternHemisphere_svg from '../../../../images/earthEasternHemisphere_svg.js';
@@ -52,7 +51,7 @@ class EarthHemisphereRadioButtonGroup extends RectangularRadioButtonGroup<EarthH
       return {
         value: value,
         createNode: () => new EarthHemisphereRadioButtonLabel( value ),
-        tandemName: `${value}${RectangularRadioButton.TANDEM_NAME_SUFFIX}`
+        tandemName: `${value}RadioButton`
       };
     } );
 

@@ -9,7 +9,6 @@
 
 import { RichText, Text } from '../../../../../scenery/js/imports.js';
 import StringUnionProperty from '../../../../../axon/js/StringUnionProperty.js';
-import AquaRadioButton from '../../../../../sun/js/AquaRadioButton.js';
 import TReadOnlyProperty from '../../../../../axon/js/TReadOnlyProperty.js';
 import PreferencesDialog from '../../../../../joist/js/preferences/PreferencesDialog.js';
 import Tandem from '../../../../../tandem/js/Tandem.js';
@@ -52,12 +51,12 @@ class MagneticUnitsRadioButtonGroup extends AquaRadioButtonGroup<MagneticUnits> 
       {
         value: 'G',
         createNode: radioButtonTandem => new MagneticUnitsRadioButtonText( FaradaysElectromagneticLabStrings.gaussPreferenceStringProperty, radioButtonTandem ),
-        tandemName: `x${AquaRadioButton.TANDEM_NAME_SUFFIX}`
+        tandemName: 'xRadioButton'
       },
       {
         value: 'T',
         createNode: radioButtonTandem => new MagneticUnitsRadioButtonText( FaradaysElectromagneticLabStrings.teslaPreferenceStringProperty, radioButtonTandem ),
-        tandemName: `t${AquaRadioButton.TANDEM_NAME_SUFFIX}`
+        tandemName: 'tRadioButton'
       }
     ];
 
