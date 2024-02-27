@@ -41,7 +41,7 @@ const TICK_LABEL_FONT = new PhetFont( 10 );
 
 const CHECKBOX_TEXT_OPTIONS: TextOptions = {
   font: CONTROL_FONT,
-  maxWidth: 165
+  maxWidth: 130
 };
 
 const NUMBER_CONTROL_OPTIONS: NumberControlOptions = {

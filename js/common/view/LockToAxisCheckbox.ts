@@ -32,9 +32,6 @@ export default class LockToAxisCheckbox extends Checkbox {
     } );
 
     const options = combineOptions<CheckboxOptions>( {}, FELConstants.CHECKBOX_OPTIONS, {
-      layoutOptions: {
-        stretch: false // prevent space from being introduced between text and icon
-      },
       tandem: tandem
     } );
 

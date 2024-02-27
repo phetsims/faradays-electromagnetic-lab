@@ -8,16 +8,16 @@
 
 import faradaysElectromagneticLab from '../../faradaysElectromagneticLab.js';
 import Panel, { PanelOptions } from '../../../../sun/js/Panel.js';
-import Checkbox, { CheckboxOptions } from '../../../../sun/js/Checkbox.js';
-import { Text, VBox, VBoxOptions } from '../../../../scenery/js/imports.js';
+import { VBox, VBoxOptions } from '../../../../scenery/js/imports.js';
 import { combineOptions, optionize4 } from '../../../../phet-core/js/optionize.js';
 import FELConstants from '../../common/FELConstants.js';
-import FaradaysElectromagneticLabStrings from '../../FaradaysElectromagneticLabStrings.js';
 import Compass from '../model/Compass.js';
 import FieldMeter from '../model/FieldMeter.js';
 import Property from '../../../../axon/js/Property.js';
 import PickRequired from '../../../../phet-core/js/types/PickRequired.js';
 import LockToAxisCheckbox from './LockToAxisCheckbox.js';
+import CompassCheckbox from './CompassCheckbox.js';
+import FieldMeterCheckbox from './FieldMeterCheckbox.js';
 
 type SelfOptions = {
 
@@ -37,31 +37,23 @@ export default class ToolsPanel extends Panel {
       isLockedToAxisProperty: null
     }, providedOptions );
 
-    // 'Compass' checkbox
-    const compassText = new Text( FaradaysElectromagneticLabStrings.compassStringProperty, FELConstants.CHECKBOX_TEXT_OPTIONS );
-    const compassCheckbox = new Checkbox( compass.visibleProperty, compassText,
-      combineOptions<CheckboxOptions>( {}, FELConstants.CHECKBOX_OPTIONS, {
-        tandem: options.tandem.createTandem( 'compassCheckbox' )
-      } ) );
+    const checkboxes = [
 
-    // 'Field Meter' checkbox
-    const fieldMeterText = new Text( FaradaysElectromagneticLabStrings.fieldMeterStringProperty, FELConstants.CHECKBOX_TEXT_OPTIONS );
-    const fieldMeterCheckbox = new Checkbox( fieldMeter.visibleProperty, fieldMeterText,
-      combineOptions<CheckboxOptions>( {}, FELConstants.CHECKBOX_OPTIONS, {
-        tandem: options.tandem.createTandem( 'fieldMeterCheckbox' )
-      } ) );
+      // 'Compass' checkbox
+      new CompassCheckbox( compass.visibleProperty, options.tandem.createTandem( 'compassCheckbox' ) ),
 
-    const children = [ compassCheckbox, fieldMeterCheckbox ];
+      // 'Field Meter' checkbox
+      new FieldMeterCheckbox( fieldMeter.visibleProperty, options.tandem.createTandem( 'fieldMeterCheckbox' ) )
+    ];
 
     // 'Lock to Axis' checkbox
     if ( options.isLockedToAxisProperty ) {
-      const lockToAxisCheckbox = new LockToAxisCheckbox( options.isLockedToAxisProperty,
-        options.tandem.createTandem( 'lockToAxisCheckbox' ) );
-      children.push( lockToAxisCheckbox );
+      const lockToAxisCheckbox = new LockToAxisCheckbox( options.isLockedToAxisProperty, options.tandem.createTandem( 'lockToAxisCheckbox' ) );
+      checkboxes.push( lockToAxisCheckbox );
     }
 
     const content = new VBox( combineOptions<VBoxOptions>( {}, FELConstants.VBOX_OPTIONS, {
-      children: children
+      children: checkboxes
     } ) );
 
     super( content, options );
