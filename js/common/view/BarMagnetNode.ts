@@ -95,6 +95,9 @@ export default class BarMagnetNode extends FELMovableNode {
         tandem: options.tandem.createTandem( 'fieldInsideNode' )
       } ) );
     }
+
+    //TODO https://github.com/phetsims/faradays-electromagnetic-lab/issues/64 delete this
+    phet.log && barMagnet.positionProperty.link( position => phet.log( `barMagnet position = ${position}` ) );
   }
 
   /**

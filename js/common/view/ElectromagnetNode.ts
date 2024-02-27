@@ -113,6 +113,9 @@ export default class ElectromagnetNode extends FELMovableNode {
     electromagnet.positionProperty.link( position => {
       this.backgroundNode.translation = position;
     } );
+
+    //TODO https://github.com/phetsims/faradays-electromagnetic-lab/issues/64 delete this
+    phet.log && electromagnet.positionProperty.link( position => phet.log( `electromagnet position = ${position}` ) );
   }
 }
 
