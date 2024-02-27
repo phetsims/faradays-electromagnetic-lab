@@ -17,6 +17,7 @@ import Checkbox, { CheckboxOptions } from '../../../../sun/js/Checkbox.js';
 import NumberOfLoopsControl from './NumberOfLoopsControl.js';
 import Electromagnet from '../model/Electromagnet.js';
 import CurrentSourceControl from './CurrentSourceControl.js';
+import ElectronsCheckbox from './ElectronsCheckbox.js';
 
 export default class ElectromagnetPanel extends Panel {
 
@@ -38,11 +39,8 @@ export default class ElectromagnetPanel extends Panel {
       } ) );
 
     // 'Electrons' checkbox
-    const electronsText = new Text( FaradaysElectromagneticLabStrings.electronsStringProperty, FELConstants.CHECKBOX_TEXT_OPTIONS );
-    const electronsCheckbox = new Checkbox( electromagnet.coil.electronsVisibleProperty, electronsText,
-      combineOptions<CheckboxOptions>( {}, FELConstants.CHECKBOX_OPTIONS, {
-        tandem: tandem.createTandem( 'electronsCheckbox' )
-      } ) );
+    const electronsCheckbox = new ElectronsCheckbox( electromagnet.coil.electronsVisibleProperty,
+      tandem.createTandem( 'electronsCheckbox' ) );
 
     const contentChildren: Node[] = [
       titleText,

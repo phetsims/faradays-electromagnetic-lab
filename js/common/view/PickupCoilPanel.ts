@@ -14,10 +14,10 @@ import FELConstants from '../FELConstants.js';
 import FaradaysElectromagneticLabStrings from '../../FaradaysElectromagneticLabStrings.js';
 import Tandem from '../../../../tandem/js/Tandem.js';
 import PickupCoil from '../model/PickupCoil.js';
-import Checkbox, { CheckboxOptions } from '../../../../sun/js/Checkbox.js';
 import LoopAreaControl from './LoopAreaControl.js';
 import NumberOfLoopsControl from './NumberOfLoopsControl.js';
 import CurrentIndicatorControl from './CurrentIndicatorControl.js';
+import ElectronsCheckbox from './ElectronsCheckbox.js';
 
 export default class PickupCoilPanel extends Panel {
 
@@ -35,11 +35,8 @@ export default class PickupCoilPanel extends Panel {
       tandem.createTandem( 'loopAreaControl' ) );
 
     // 'Electrons' checkbox
-    const electronsText = new Text( FaradaysElectromagneticLabStrings.electronsStringProperty, FELConstants.CHECKBOX_TEXT_OPTIONS );
-    const electronsCheckbox = new Checkbox( pickupCoil.coil.electronsVisibleProperty, electronsText,
-      combineOptions<CheckboxOptions>( {}, FELConstants.CHECKBOX_OPTIONS, {
-        tandem: tandem.createTandem( 'electronsCheckbox' )
-      } ) );
+    const electronsCheckbox = new ElectronsCheckbox( pickupCoil.coil.electronsVisibleProperty,
+      tandem.createTandem( 'electronsCheckbox' ) );
 
     const contentChildren: Node[] = [
       titleText,

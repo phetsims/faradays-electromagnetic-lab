@@ -9,7 +9,7 @@
  */
 
 import faradaysElectromagneticLab from '../../faradaysElectromagneticLab.js';
-import { Sprite, SpriteImage, SpriteInstance, SpriteInstanceTransformType, Sprites, TColor } from '../../../../scenery/js/imports.js';
+import { Node, Sprite, SpriteImage, SpriteInstance, SpriteInstanceTransformType, Sprites, TColor } from '../../../../scenery/js/imports.js';
 import ShadedSphereNode from '../../../../scenery-phet/js/ShadedSphereNode.js';
 import Vector2 from '../../../../dot/js/Vector2.js';
 import FELColors from '../FELColors.js';
@@ -94,6 +94,13 @@ export default class ElectronsNode extends Sprites {
   private updateSpriteInstances(): void {
     this.spriteInstances.forEach( spriteInstance => spriteInstance.update() );
     this.invalidatePaint();
+  }
+
+  /**
+   * Creates an icon for the 'Electrons' checkbox.
+   */
+  public static createIcon(): Node {
+    return new ElectronNode( electronColorProperty );
   }
 }
 
