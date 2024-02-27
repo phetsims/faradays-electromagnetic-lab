@@ -8,7 +8,7 @@
 
 import faradaysElectromagneticLab from '../../faradaysElectromagneticLab.js';
 import Checkbox, { CheckboxOptions } from '../../../../sun/js/Checkbox.js';
-import { Circle, HBox, Node, Text } from '../../../../scenery/js/imports.js';
+import { Circle, HBox, Line, Node, Text } from '../../../../scenery/js/imports.js';
 import FaradaysElectromagneticLabStrings from '../../FaradaysElectromagneticLabStrings.js';
 import FELConstants from '../FELConstants.js';
 import { combineOptions } from '../../../../phet-core/js/optionize.js';
@@ -44,19 +44,30 @@ export default class FieldMeterCheckbox extends Checkbox {
  */
 function createIcon(): Node {
 
-  const circle = new Circle( 10, {
+  const radius = 8;
+  const lineWidth = 3;
+
+  const probe = new Circle( radius, {
     stroke: FELColors.fieldMeterProbeColorProperty,
-    lineWidth: 3
+    lineWidth: lineWidth
+  } );
+
+  const stem = new Line( 0, 0, 0, 0.6 * radius, {
+    stroke: FELColors.fieldMeterProbeColorProperty,
+    lineCap: 'round',
+    lineWidth: lineWidth,
+    centerX: probe.centerX,
+    top: probe.bottom - 1
   } );
 
   const crosshairs = new PlusNode( {
-    size: new Dimension2( 13, 1 ),
+    size: new Dimension2( 1.3 * radius, 1 ),
     fill: 'black',
-    center: circle.center
+    center: probe.center
   } );
 
   return new Node( {
-    children: [ circle, crosshairs ]
+    children: [ stem, probe, crosshairs ]
   } );
 }
 

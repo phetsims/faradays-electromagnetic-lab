@@ -53,7 +53,8 @@ export default class ToolsPanel extends Panel {
     }
 
     const content = new VBox( combineOptions<VBoxOptions>( {}, FELConstants.VBOX_OPTIONS, {
-      children: checkboxes
+      children: checkboxes,
+      spacing: 7 // A bit less space because the checkbox icons are taller than the text.
     } ) );
 
     super( content, options );
