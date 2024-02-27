@@ -49,7 +49,6 @@ export default class LightBulb extends CurrentIndicator {
 
     // Unfortunately cannot be a DerivedProperty, because the derivation depends on both the new and old value
     // of currentAmplitudeProperty.
-    //TODO https://github.com/phetsims/faradays-electromagnetic-lab/issues/86 investigate using DerivedProperty
     this._brightnessProperty = new NumberProperty( 0, {
       range: BRIGHTNESS_RANGE,
       tandem: options.tandem.createTandem( 'brightnessProperty' ),
