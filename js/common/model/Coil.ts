@@ -246,7 +246,7 @@ export default class Coil extends PhetioObject {
           const curve = new QuadraticBezierSpline( startPoint, controlPoint, endPoint );
 
           // Horizontal gradient, left to right.
-          const gradient = new LinearGradient( startPoint.x, 0, endPoint.x, 0 )
+          const gradient = new LinearGradient( 0, startPoint.y, 0, endPoint.y )
             .addColorStop( 0, middleColor )
             .addColorStop( 1, backColor );
 
