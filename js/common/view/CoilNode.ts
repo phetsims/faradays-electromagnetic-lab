@@ -120,7 +120,6 @@ export default class CoilNode extends Node {
 
       const parentNode = ( coilSegment.layer === 'foreground' ) ? this.foregroundCoilSegmentsParent : this.backgroundCoilSegmentsParent;
       parentNode.addChild( coilSegmentNode );
-      coilSegmentNode.moveToBack();
     } );
   }
 }
