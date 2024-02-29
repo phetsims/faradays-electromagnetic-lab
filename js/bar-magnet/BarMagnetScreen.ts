@@ -37,7 +37,7 @@ export default class BarMagnetScreen extends Screen<BarMagnetScreenModel, BarMag
 }
 
 /**
- * Creates the icon for this screen.
+ * Creates the icon for this screen, a bar magnet.
  */
 function createScreenIcon(): ScreenIcon {
   return new ScreenIcon( BarMagnetNode.createIcon( new Dimension2( 150, 50 ) ), {

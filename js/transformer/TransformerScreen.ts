@@ -42,7 +42,7 @@ export default class TransformerScreen extends Screen<TransformerScreenModel, Tr
 }
 
 /**
- * Creates the icon for this screen.
+ * Creates the icon for this screen, and electromagnet coil next to a pickup coil.
  */
 function createScreenIcon(): ScreenIcon {
 

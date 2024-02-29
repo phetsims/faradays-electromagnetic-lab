@@ -42,7 +42,7 @@ export default class PickupCoilScreen extends Screen<PickupCoilScreenModel, Pick
 }
 
 /**
- * Creates the icon for this screen.
+ * Creates the icon for this screen, a pickup coil.
  */
 function createScreenIcon(): ScreenIcon {
 

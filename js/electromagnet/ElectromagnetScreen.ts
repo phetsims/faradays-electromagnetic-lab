@@ -36,7 +36,7 @@ export default class ElectromagnetScreen extends Screen<ElectromagnetScreenModel
 }
 
 /**
- * Creates the icon for this screen.
+ * Creates the icon for this screen, a D-cell battery.
  */
 function createScreenIcon(): ScreenIcon {
   const batteryIcon = DCPowerSupplyNode.createIcon();

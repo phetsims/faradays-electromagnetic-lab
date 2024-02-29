@@ -1,8 +1,7 @@
 // Copyright 2023-2024, University of Colorado Boulder
 
 /**
- * Turbine is the model of a simple turbine generator, where water flow rotates a bar magnet, causing the magnetic
- * field to modulate.
+ * Turbine is the model of a simple turbine. Water flow rotates a bar magnet, causing the magnetic field to modulate.
  *
  * This is based on Turbine.java in the Java version of this sim.
  *

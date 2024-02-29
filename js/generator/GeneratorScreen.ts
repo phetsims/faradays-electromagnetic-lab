@@ -38,7 +38,7 @@ export default class GeneratorScreen extends Screen<GeneratorScreenModel, Genera
 }
 
 /**
- * Creates the icon for this screen.
+ * Creates the icon for this screen, a bar magnet attached to a water wheel.
  */
 function createScreenIcon(): ScreenIcon {
 
