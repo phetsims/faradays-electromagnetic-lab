@@ -100,7 +100,7 @@ function createScreenIcon(): ScreenIcon {
     children: [ electromagnetCoilNode, pickupCoilNode ]
   } );
 
-  // Clip the top part of the wire ends.
+  // Clip the top part of the wire ends, set empirically.
   //TODO https://github.com/phetsims/faradays-electromagnetic-lab/issues/28 clipArea is not working when returning to the Home screen.
   hBox.clipArea = Shape.bounds( hBox.bounds.withMinY( hBox.bounds.minY + 35 ) );
 
