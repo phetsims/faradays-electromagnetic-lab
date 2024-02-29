@@ -1,8 +1,8 @@
 // Copyright 2024, University of Colorado Boulder
 
 /**
- * PickupCoilAxisNode is the horizontal axis that runs through the center of the pickup coil.
- * When visible, this line spans the width of the browser window.
+ * PickupCoilAxisNode is the horizontal axis that runs through the center of the pickup coil, and spans the width of
+ * the browser window. It is visible when the 'Lock to Axis' feature is enabled.
  *
  * @author Chris Malley (PixelZoom, Inc.)
  */

@@ -1,8 +1,8 @@
 // Copyright 2024, University of Colorado Boulder
 
 /**
- * DCPowerSupplyNode is the view of a DC battery, used to power the electromagnet. It has a slider for changing the battery
- * voltage and polarity, and displays the voltage value.
+ * BatteryNode is the view of a D-cell battery. It has a slider for changing the battery's voltage and polarity,
+ * and displays the voltage value.
  *
  * @author Chris Malley (PixelZoom, Inc.)
  */

@@ -3,7 +3,7 @@
 /**
  * CompassNeedleNode is a compass needle, used in the compass and B-field visualization. It has no associated model
  * element. In its default orientation (rotation === 0), the north point of the needle points down the +x-axis.
- * The origin is at the geometric center.
+ * The origin is at the center.
  *
  * @author Chris Malley (PixelZoom, Inc.)
  */

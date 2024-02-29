@@ -2,7 +2,7 @@
 
 /**
  * VoltageChartNode is the voltage chart that appears on the AC power supply.
- * It shows voltage (y-axis) vs time (x-axis) as a sine wave.
+ * It displays voltage (y-axis) vs time (x-axis) as a sine wave.
  *
  * This is based on VoltmeterGraphic.java and SineWaveGraphic.java in the Java version of this sim.
  *

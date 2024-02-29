@@ -2,7 +2,7 @@
 
 /**
  * ElectronsNode is the visual representation of a collection of electrons in a coil. It shows electrons for one layer
- * (foreground or background) or the coil, and hides electrons that are in the other layer.  So 2 instances of this
+ * (foreground or background) of the coil, and hides electrons that are in the other layer. Two instances of this
  * class are needed to render all electrons in a coil.
  *
  * @author Chris Malley (PixelZoom, Inc.)

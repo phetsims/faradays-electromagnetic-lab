@@ -1,7 +1,7 @@
 // Copyright 2023-2024, University of Colorado Boulder
 
 /**
- * FELKeyboardHelpContent is the keyboard help for all screens.
+ * FELKeyboardHelpContent is the keyboard help for most screens in the sim.
  *
  * @author Chris Malley (PixelZoom, Inc.)
  */

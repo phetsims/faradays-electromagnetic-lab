@@ -1,7 +1,8 @@
 // Copyright 2023-2024, University of Colorado Boulder
 
 /**
- * CurrentSourceControl is radio button group for choosing a current source for the electromagnet.
+ * CurrentSourceControl is the control for choosing a current source (aka power supply) for the electromagnet.
+ * It is a labeled radio button group.
  *
  * @author Chris Malley (PixelZoom, Inc.)
  */
