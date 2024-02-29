@@ -58,7 +58,7 @@ const FELScreenIconFactory = {
     const pickupCoilNode = createCoilNode( 2, 16 );
 
     // Clip the top part of the wire ends, y-offset was set empirically.
-    //TODO https://github.com/phetsims/faradays-electromagnetic-lab/issues/28 clipArea is not working when returning to the Home screen.
+    //TODO https://github.com/phetsims/faradays-electromagnetic-lab/issues/89 clipArea is not working when returning to the Home screen.
     pickupCoilNode.clipArea = Shape.bounds( pickupCoilNode.bounds.withMinY( pickupCoilNode.bounds.minY + 35 ) );
 
     return new ScreenIcon( pickupCoilNode, {
@@ -87,7 +87,7 @@ const FELScreenIconFactory = {
     } );
 
     // Clip the top part of the wire ends, y-offset was set empirically.
-    //TODO https://github.com/phetsims/faradays-electromagnetic-lab/issues/28 clipArea is not working when returning to the Home screen.
+    //TODO https://github.com/phetsims/faradays-electromagnetic-lab/issues/89 clipArea is not working when returning to the Home screen.
     hBox.clipArea = Shape.bounds( hBox.bounds.withMinY( hBox.bounds.minY + 35 ) );
 
     return new ScreenIcon( hBox, {
