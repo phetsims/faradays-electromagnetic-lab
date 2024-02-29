@@ -13,7 +13,7 @@ import PickupCoilScreenView from './view/PickupCoilScreenView.js';
 import FaradaysElectromagneticLabStrings from '../FaradaysElectromagneticLabStrings.js';
 import FELColors from '../common/FELColors.js';
 import ScreenIcon from '../../../joist/js/ScreenIcon.js';
-import { Node, VBox, VStrut } from '../../../scenery/js/imports.js';
+import { Node, Rectangle, VBox, VStrut } from '../../../scenery/js/imports.js';
 import Tandem from '../../../tandem/js/Tandem.js';
 import { combineOptions } from '../../../phet-core/js/optionize.js';
 import FELConstants from '../common/FELConstants.js';
@@ -24,7 +24,6 @@ import RangeWithValue from '../../../dot/js/RangeWithValue.js';
 import BarMagnet from '../common/model/BarMagnet.js';
 import CoilNode from '../common/view/CoilNode.js';
 import { Shape } from '../../../kite/js/imports.js';
-import Bounds2 from '../../../dot/js/Bounds2.js';
 
 export default class PickupCoilScreen extends Screen<PickupCoilScreenModel, PickupCoilScreenView> {
 
@@ -47,37 +46,48 @@ export default class PickupCoilScreen extends Screen<PickupCoilScreenModel, Pick
  */
 function createScreenIcon(): ScreenIcon {
 
-  // Coil model
   const currentAmplitudeProperty = new NumberProperty( 0 );
   const currentAmplitudeRange = FELConstants.CURRENT_AMPLITUDE_RANGE;
-  const coil = new Coil( currentAmplitudeProperty, currentAmplitudeRange, {
-    numberOfLoopsRange: new RangeWithValue( 3, 3, 3 ),
+
+  // Pickup coil model
+  const pickupCoilLoops = 2;
+  const pickupCoil = new Coil( currentAmplitudeProperty, currentAmplitudeRange, {
+    numberOfLoopsRange: new RangeWithValue( pickupCoilLoops, pickupCoilLoops, pickupCoilLoops ),
     maxLoopArea: 7000,
     loopAreaPercentRange: new RangeWithValue( 100, 100, 100 ),
     tandem: Tandem.OPT_OUT
   } );
-  coil.electronsVisibleProperty.value = false;
+  pickupCoil.electronsVisibleProperty.value = false;
 
   // A hack, because we must have a subclass of FELMovable associated with the coil's background layer.
   const movable = new BarMagnet( {
     tandem: Tandem.OPT_OUT
   } );
 
-  // Coil foreground
-  const coilForegroundNode = new CoilNode( coil, movable, {
+  // Combine the coil foreground and background.
+  const pickupCoilForegroundNode = new CoilNode( pickupCoil, movable, {
     tandem: Tandem.OPT_OUT
   } );
-
-  // Combine the coil foreground and background. Clip the top part of the wire ends.
-  const coilNode = new Node( {
-    children: [ coilForegroundNode.backgroundNode, coilForegroundNode ]
+  const pickupCoilNode = new Node( {
+    children: [ pickupCoilForegroundNode.backgroundNode, pickupCoilForegroundNode ]
   } );
+
+  // Clip the top part of the wire ends.
   //TODO https://github.com/phetsims/faradays-electromagnetic-lab/issues/28 clipArea is not working when returning to the Home screen.
-  coilNode.clipArea = Shape.bounds( new Bounds2( coilNode.bounds.minX, coilNode.bounds.minY + 30, coilNode.bounds.maxX, coilNode.bounds.maxY ) );
+  pickupCoilNode.clipArea = Shape.bounds( pickupCoilNode.bounds.withMinY( pickupCoilNode.bounds.minY + 35 ) );
 
   // Add a bit of space below the coil.
-  const icon = new VBox( {
-    children: [ coilNode, new VStrut( 8 ) ]
+  const vBox = new VBox( {
+    children: [ pickupCoilNode, new VStrut( 8 ) ]
+  } );
+
+  //TODO https://github.com/phetsims/faradays-electromagnetic-lab/issues/28 For debugging bounds and clipArea, delete this.
+  const boundsRectangle = new Rectangle( vBox.bounds, {
+    stroke: phet.chipper.queryParameters.dev ? 'red' : null
+  } );
+
+  const icon = new Node( {
+    children: [ vBox, boundsRectangle ]
   } );
 
   return new ScreenIcon( icon, {

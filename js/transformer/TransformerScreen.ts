@@ -13,7 +13,7 @@ import TransformerScreenView from './view/TransformerScreenView.js';
 import FaradaysElectromagneticLabStrings from '../FaradaysElectromagneticLabStrings.js';
 import FELColors from '../common/FELColors.js';
 import ScreenIcon from '../../../joist/js/ScreenIcon.js';
-import { HBox, Node, VBox, VStrut } from '../../../scenery/js/imports.js';
+import { Node, Rectangle, VBox, VStrut } from '../../../scenery/js/imports.js';
 import Tandem from '../../../tandem/js/Tandem.js';
 import { combineOptions } from '../../../phet-core/js/optionize.js';
 import FELConstants from '../common/FELConstants.js';
@@ -24,7 +24,6 @@ import RangeWithValue from '../../../dot/js/RangeWithValue.js';
 import BarMagnet from '../common/model/BarMagnet.js';
 import CoilNode from '../common/view/CoilNode.js';
 import { Shape } from '../../../kite/js/imports.js';
-import Bounds2 from '../../../dot/js/Bounds2.js';
 
 export default class TransformerScreen extends Screen<TransformerScreenModel, TransformerScreenView> {
 
@@ -57,18 +56,20 @@ function createScreenIcon(): ScreenIcon {
   };
 
   // Electromagnet coil model
+  const electromagnetLoops = 3;
   const electromagnetCoil = new Coil( currentAmplitudeProperty, currentAmplitudeRange,
     combineOptions<CoilOptions>( {}, coilOptions, {
-      numberOfLoopsRange: new RangeWithValue( 4, 4, 4 ),
+      numberOfLoopsRange: new RangeWithValue( electromagnetLoops, electromagnetLoops, electromagnetLoops ),
       //TODO https://github.com/phetsims/faradays-electromagnetic-lab/issues/28 Fix the implementation of loopSpacing so that we can use loopSpacing:0 here.
       loopSpacing: 16 // Electromagnet has a tightly packed coil.
     } ) );
   electromagnetCoil.electronsVisibleProperty.value = false;
 
   // Pickup coil model
+  const pickupCoilLoops = 2;
   const pickupCoil = new Coil( currentAmplitudeProperty, currentAmplitudeRange,
     combineOptions<CoilOptions>( {}, coilOptions, {
-      numberOfLoopsRange: new RangeWithValue( 2, 2, 2 )
+      numberOfLoopsRange: new RangeWithValue( pickupCoilLoops, pickupCoilLoops, pickupCoilLoops )
     } ) );
   pickupCoil.electronsVisibleProperty.value = false;
 
@@ -93,23 +94,34 @@ function createScreenIcon(): ScreenIcon {
     children: [ pickupCoilForegroundNode.backgroundNode, pickupCoilForegroundNode ]
   } );
 
-  const hBox = new HBox( {
-    children: [ electromagnetCoilNode, pickupCoilNode ],
-    spacing: 15,
-    align: 'top'
+  // Put the 2 coils side by side. HBox clipArea does not work, so use a Node and handle layout.
+  pickupCoilNode.top = electromagnetCoilNode.top;
+  pickupCoilNode.left = electromagnetCoilNode.right + 5;
+  const hBox = new Node( {
+    children: [ electromagnetCoilNode, pickupCoilNode ]
   } );
 
+  // Clip the top part of the wire ends.
   //TODO https://github.com/phetsims/faradays-electromagnetic-lab/issues/28 clipArea is not working when returning to the Home screen.
-  hBox.clipArea = Shape.bounds( new Bounds2( hBox.bounds.minX, hBox.bounds.minY + 30, hBox.bounds.maxX, hBox.bounds.maxY ) );
+  hBox.clipArea = Shape.bounds( hBox.bounds.withMinY( hBox.bounds.minY + 35 ) );
 
   // Add a bit of space below the coils.
-  const icon = new VBox( {
-    children: [ hBox, new VStrut( 20 ) ]
+  const vBox = new VBox( {
+    children: [ hBox, new VStrut( 8 ) ]
+  } );
+
+  //TODO https://github.com/phetsims/faradays-electromagnetic-lab/issues/28 For debugging bounds and clipArea, delete this.
+  const boundsRectangle = new Rectangle( vBox.bounds, {
+    stroke: phet.chipper.queryParameters.dev ? 'red' : null
+  } );
+
+  const icon = new Node( {
+    children: [ vBox, boundsRectangle ]
   } );
 
   return new ScreenIcon( icon, {
     fill: FELColors.screenBackgroundColorProperty,
-    maxIconWidthProportion: 1,
+    maxIconWidthProportion: 0.95,
     maxIconHeightProportion: 1
   } );
 }
