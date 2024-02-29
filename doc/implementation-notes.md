@@ -20,7 +20,7 @@ See `updateElectrons` in CoilNode.ts, Electron.ts, and ElectronNode.ts.
 This pattern may be unfamiliar and is used frequently in the model for Properties.
 The public API is readonly, while the private API is mutable.
 Both fields refer to the same Property instance.
-The field names are similar, with private field name using an underscore prefix.
+The field names are similar, with the private field name having an underscore prefix.
 
 ```ts
 // Position of this model element
