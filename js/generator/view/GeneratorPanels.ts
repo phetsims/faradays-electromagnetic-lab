@@ -19,7 +19,7 @@ import { Node } from '../../../../scenery/js/imports.js';
 
 export default class GeneratorPanels extends FELPanels {
 
-  // These fields are provided solely for putting panels in pdomOrder for PlayArea vs ControlPanel.
+  // These fields are provided solely for adding panels to the pdomOrder for PlayArea vs ControlPanel.
   public readonly barMagnetPanel: Node;
   public readonly pickupCoilPanel: Node;
   public readonly toolsPanel: Node;
