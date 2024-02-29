@@ -37,7 +37,7 @@ export default class EarthNode extends FELMovableNode {
     const earthImage = new Image( earthImageSourceProperty, {
       scale: 0.6,
       opacity: 0.6,
-      rotation: Math.PI / 2, // earth_png has north up, bar magnet has north to the right
+      rotation: -Math.PI / 2, // earth_png has north down, bar magnet has north to the right
       pickable: false, // ... so earthPath determines where this Node can be grabbed.
       center: Vector2.ZERO
     } );

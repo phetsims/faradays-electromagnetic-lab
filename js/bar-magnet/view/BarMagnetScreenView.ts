@@ -25,7 +25,7 @@ export default class BarMagnetScreenView extends FELScreenView {
 
     viewProperties.earthVisibleProperty.link( earthVisible => {
       if ( earthVisible ) {
-        model.barMagnet.rotationProperty.value = -Math.PI / 2; // north is up
+        model.barMagnet.rotationProperty.value = Math.PI / 2; // north is down
       }
       else {
         model.barMagnet.rotationProperty.value = 0; // north is to the right
