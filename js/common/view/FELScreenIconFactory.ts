@@ -30,7 +30,7 @@ const FELScreenIconFactory = {
    * Creates the icon for the 'Bar Magnet' screen.
    */
   createBarMagnetScreenIcon(): ScreenIcon {
-    return new ScreenIcon( BarMagnetNode.createIcon( new Dimension2( 150, 50 ) ), {
+    return new ScreenIcon( createBarMagnetNode( new Dimension2( 150, 50 ) ), {
       fill: FELColors.screenBackgroundColorProperty,
       maxIconWidthProportion: 0.85,
       maxIconHeightProportion: 1
@@ -104,7 +104,7 @@ const FELScreenIconFactory = {
 
     const waterWheelImage = new Image( waterWheel_png );
 
-    const barMagnetIcon = BarMagnetNode.createIcon();
+    const barMagnetIcon = createBarMagnetNode();
     barMagnetIcon.setScaleMagnitude( 0.95 * waterWheelImage.width / barMagnetIcon.width );
     barMagnetIcon.center = waterWheelImage.center;
 
@@ -119,6 +119,23 @@ const FELScreenIconFactory = {
     } );
   }
 };
+
+
+/**
+ * Creates an icon for the bar magnet.
+ */
+function createBarMagnetNode( size?: Dimension2 ): Node {
+
+  const barMagnet = new BarMagnet( {
+    size: size,
+    tandem: Tandem.OPT_OUT
+  } );
+
+  return new BarMagnetNode( barMagnet, {
+    isMovable: false, // This is an icon, so this bar magnet cannot be dragged.
+    tandem: Tandem.OPT_OUT
+  } );
+}
 
 /**
  * Creates a coil with a specific number of loops and loop spacing.
