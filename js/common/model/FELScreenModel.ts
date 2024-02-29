@@ -26,7 +26,7 @@ import Compass from './Compass.js';
 import Tandem from '../../../../tandem/js/Tandem.js';
 import ConstantDtClock from './ConstantDtClock.js';
 
-const DEFAULT_FIELD_METER_POSITION = new Vector2( 150, 400 );
+const DEFAULT_FIELD_METER_POSITION = new Vector2( 125, 400 );
 
 type SelfOptions = {
 

@@ -29,7 +29,7 @@ export default class ElectromagnetScreenModel extends FELScreenModel {
 
     super( electromagnet, {
       createCompass: ( magnet, isPlayingProperty, tandem ) => new IncrementalCompass( magnet, isPlayingProperty, {
-        position: new Vector2( 150, 200 ),
+        position: new Vector2( 625, 400 ),
         tandem: tandem
       } ),
       tandem: tandem

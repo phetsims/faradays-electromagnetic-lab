@@ -29,7 +29,7 @@ export default class BarMagnetScreenModel extends FELScreenModel {
 
     super( barMagnet, {
       createCompass: ( magnet, isPlayingProperty, tandem ) => new KinematicCompass( magnet, isPlayingProperty, {
-        position: new Vector2( 150, 300 ),
+        position: new Vector2( 625, 400 ),
         tandem: tandem
       } ),
       isPlayingPropertyOptions: {

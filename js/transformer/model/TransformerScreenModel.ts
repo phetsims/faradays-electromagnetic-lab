@@ -26,7 +26,7 @@ export default class TransformerScreenModel extends FELScreenModel {
 
     super( transformer.electromagnet, {
       createCompass: ( magnet, isPlayingProperty, tandem ) => new IncrementalCompass( magnet, isPlayingProperty, {
-        position: new Vector2( 100, 525 ),
+        position: new Vector2( 625, 400 ),
         visible: false,
         tandem: tandem
       } ),
