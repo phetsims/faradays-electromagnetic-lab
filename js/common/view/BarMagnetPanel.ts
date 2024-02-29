@@ -1,7 +1,7 @@
 // Copyright 2023-2024, University of Colorado Boulder
 
 /**
- * BarMagnetPanel is the panel that contains controls for changing properties of the bar magnet.
+ * BarMagnetPanel is the panel that contains controls for changing Properties of the bar magnet.
  *
  * @author Chris Malley (PixelZoom, Inc.)
  */

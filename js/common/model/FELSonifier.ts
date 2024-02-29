@@ -1,8 +1,9 @@
 // Copyright 2024, University of Colorado Boulder
 
 /**
- * FELSonifier is the base class for 'sonifiers'. This is a pattern that I was experimenting with during sonification
- * of Faraday's Electromagnetic Lab. It is not necessarily ready for production.
+ * FELSonifier is the base class for 'sonifiers' that modulate the playback rate of an audio file. This is a pattern
+ * that I was experimenting with during sonification of Faraday's Electromagnetic Lab. It is not necessarily ready
+ * for production.
  *
  * Responsibilities include:
  * - creating the SoundClip for a sound file

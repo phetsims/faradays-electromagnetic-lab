@@ -2,8 +2,8 @@
 
 /**
  * BarMagnetFieldGrid is a grid of precomputed B-field values for our BarMagnet. This was ported from the Java version of
- * the simulation. This code originally lived in BarMagnet.java, but made sense to encapsulate here.
- * This approach was motivated by a user report in https://phet.unfuddle.com/a#/projects/9404/tickets/by_number/2236
+ * the simulation, and was motivated by a user report in https://phet.unfuddle.com/a#/projects/9404/tickets/by_number/2236.
+ * This code originally lived in BarMagnet.java, but made sense to encapsulate here.
  *
  * @author Chris Malley (PixelZoom, Inc.)
  *

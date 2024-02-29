@@ -1,7 +1,7 @@
 // Copyright 2023-2024, University of Colorado Boulder
 
 /**
- * PickupCoilPanel is the panel that contains controls for changing properties of the pickup coil.
+ * PickupCoilPanel is the panel that contains controls for changing Properties of the pickup coil.
  *
  * @author Chris Malley (PixelZoom, Inc.)
  */

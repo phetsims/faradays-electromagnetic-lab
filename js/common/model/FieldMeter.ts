@@ -25,6 +25,7 @@ export default class FieldMeter extends FieldMeasurementTool {
   private readonly angleProperty: TReadOnlyProperty<number>;
 
   public constructor( magnet: Magnet, providedOptions: FieldMeterOptions ) {
+
     super( magnet, providedOptions );
 
     this.magnitudeProperty = new DerivedProperty( [ this.fieldVectorProperty ],

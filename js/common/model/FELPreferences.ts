@@ -15,7 +15,7 @@ import FELQueryParameters, { EarthHemisphere, EarthHemisphereValues, MagneticUni
 
 const FELPreferences = {
 
-  // Magnetic units to be displayed
+  // Magnetic units to be displayed by the Field Meter
   magneticUnitsProperty: new StringUnionProperty<MagneticUnits>( FELQueryParameters.magneticUnits as MagneticUnits, {
     validValues: MagneticUnitsValues,
     tandem: Tandem.PREFERENCES.createTandem( 'magneticUnitsProperty' ),

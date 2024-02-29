@@ -1,7 +1,11 @@
 // Copyright 2023-2024, University of Colorado Boulder
 
 /**
- * CurrentSource is the base class for all devices that are capable of acting as a current source for an electromagnet.
+ * CurrentSource is the base class for all devices that are capable of acting as a source of electrical current
+ * for an electromagnet. It provides CurrentSourceIO for reference-type serialization.
+ *
+ * This is regrettably named CurrentSource instead of PowerSupply because the UI label is 'Current Source',
+ * and (by convention) that naming is therefore exposed in PhET-iO.
  *
  * This is based on AbstractCurrentSource.java in the Java version of this sim.
  *

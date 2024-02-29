@@ -1,7 +1,7 @@
 // Copyright 2023-2024, University of Colorado Boulder
 
 /**
- * Electromagnet is the model of the electromagnet. It includes a source coil, and selectable power supplies (DC & AC).
+ * Electromagnet is the model of an electromagnet. It includes a source coil, and selectable power supplies (DC & AC).
  *
  * This is based on Electromagnet.java in the Java version of this sim.
  *
@@ -32,6 +32,8 @@ export default class Electromagnet extends CoilMagnet {
 
   public readonly dcPowerSupply: DCPowerSupply;
   public readonly acPowerSupply: ACPowerSupply;
+
+  // The selected power supply, called currentSourceProperty because the UI label is 'Current Source'.
   public readonly currentSourceProperty: Property<CurrentSource>;
 
   // DEBUG: Writeable via developer controls only, when running with &dev query parameter.

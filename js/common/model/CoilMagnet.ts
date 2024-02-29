@@ -5,7 +5,7 @@
  * calculation of the magnetic field at some point of interest varies depending on whether the point is inside or
  * outside the square.
  *
- * Note that Electromagnet is currently the only concrete subclass of CoilMagnet. So CoilMagnet could be absorbed
+ * Note that Electromagnet is currently the only concrete subclass of CoilMagnet, so CoilMagnet could be absorbed
  * into Electromagnet. But as in the Java version, we've chosen to keep them separate.
  *
  * This is based on CoilMagnet.java in the Java version of this sim.

@@ -2,7 +2,7 @@
 
 /**
  * CoilSegment is one segment of a coil, described by a quadratic bezier spline. An ordered array of CoilSegment
- * is used to draw the coil, and to guide the flow of electrons in the coil.
+ * is used to describe and render the coil, and to guide the flow of electrons in the coil.
  *
  * This is based on ElectronPathDescriptor.java in the Java version of this sim.
  *

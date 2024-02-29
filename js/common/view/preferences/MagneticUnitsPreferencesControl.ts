@@ -2,7 +2,7 @@
 
 /**
  * MagneticUnitsPreferencesControl is the control in the Preferences dialog for choosing which magnetic units will
- * be displayed in the sim. The user has a choice between G (gauss) and T (telsa).
+ * be displayed in the sim: G (gauss) or T (telsa).
  *
  * @author Chris Malley (PixelZoom, Inc.)
  */

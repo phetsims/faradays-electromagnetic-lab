@@ -3,13 +3,13 @@
 /**
  * Coil is the model of a coil of wire, with a current flowing through it.
  *
- * The coil is described as array of CoilSegment, as set of loops which are not connected at the ends. The ends
- * of the coil is where things can be connected to the coil (eg, lightbulb, voltmeter, battery, AC power supply).
+ * The coil is described as array of CoilSegment, which form a set of loops which are not connected at the ends.
+ * The ends of the coil are where things can be connected to the coil (eg, lightbulb, voltmeter, battery, AC power supply).
  *
- * The CoilSegments describe the coil's path, and contains the information that the electrons need to flow through
- * the coil, move between layers (foreground or background), and how to adjust ("scale") their speed so that they
- * appear to flow at the same rate in all coil segments. For example, the wire ends are significantly shorter coil
- * segments that the other segments in the coil.
+ * The CoilSegments describe the coil's shape, and contains the information that the electrons need to flow through
+ * the coil, move between layers (foreground or background), and adjust ("scale") their speed so that they appear to
+ * flow at the same rate in all coil segments. For example, the wire ends are significantly shorter coil segments than
+ * the other segments in the coil.
  *
  * This is based on Coil.java in the Java version of this sim.
  *
@@ -38,14 +38,15 @@ import FELColors from '../FELColors.js';
 import Electron from './Electron.js';
 import Emitter from '../../../../axon/js/Emitter.js';
 
-// Spacing between electrons in the coil
+// Spacing between the centers of electrons in the coil.
 const ELECTRON_SPACING = 25;
 
 // Ends of the coil contain a fixed number of electrons.
 const ELECTRONS_IN_LEFT_END = 2;
 const ELECTRONS_IN_RIGHT_END = 2;
 
-// To provide a pseudo-3D view, the coil is divided into foreground and background layers that are rendered separately.
+// To provide a pseudo-3D view, so that objects may appear to pass 'through' the coil, the coil is divided into
+// foreground and background layers that are rendered separately.
 export type CoilLayer = 'foreground' | 'background';
 
 type SelfOptions = {

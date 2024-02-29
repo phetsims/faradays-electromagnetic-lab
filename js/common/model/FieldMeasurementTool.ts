@@ -1,7 +1,7 @@
 // Copyright 2023-2024, University of Colorado Boulder
 
 /**
- * FieldMeasurementTool is base class for tools that measure the B-field at a specific position.
+ * FieldMeasurementTool is the base class for tools that measure the B-field at a specific position.
  *
  * @author Chris Malley (PixelZoom, Inc.)
  */
@@ -27,6 +27,7 @@ export default class FieldMeasurementTool extends FELMovable {
   // The field vector at the meter's position, in gauss
   public readonly fieldVectorProperty: TReadOnlyProperty<Vector2>;
 
+  // Whether the tool is visible.
   public readonly visibleProperty: Property<boolean>;
 
   protected constructor( magnet: Magnet, providedOptions: FieldMeasurementToolOptions ) {
