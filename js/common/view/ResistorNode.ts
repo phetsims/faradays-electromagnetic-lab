@@ -1,4 +1,4 @@
-// Copyright 2023, University of Colorado Boulder
+// Copyright 2023-2024, University of Colorado Boulder
 
 /**
  * ResistorNode is a 4-band resistor, which has 3 value bands and 1 tolerance band.
