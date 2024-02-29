@@ -32,9 +32,6 @@ import FELQueryParameters from '../FELQueryParameters.js';
 import NumberIO from '../../../../tandem/js/types/NumberIO.js';
 import ConstantDtClock from './ConstantDtClock.js';
 
-const WIRE_WIDTH = 16;
-const LOOP_SPACING = 1.5 * WIRE_WIDTH; // loosely-packed loops
-
 type SelfOptions = {
   maxEMF: number; // the initial value of maxEMFProperty
   transitionSmoothingScale?: number; // the initial value of transitionSmoothingScaleProperty
@@ -179,8 +176,6 @@ export default class PickupCoil extends FELMovable {
         maxLoopArea: 35345, // in the Java version, max radius was 75, so max area was Math.PI * 75 * 75 = 35342.917352885175
         loopAreaPercentRange: new RangeWithValue( 20, 100, 50 ),
         numberOfLoopsRange: new RangeWithValue( 1, 4, 2 ),
-        wireWidth: WIRE_WIDTH,
-        loopSpacing: LOOP_SPACING,
         tandem: coilTandem
       }, options.coilOptions ) );
 

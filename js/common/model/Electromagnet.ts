@@ -22,9 +22,6 @@ import RangeWithValue from '../../../../dot/js/RangeWithValue.js';
 import Coil from './Coil.js';
 import FELConstants from '../FELConstants.js';
 
-const WIRE_WIDTH = 16;
-const LOOP_SPACING = WIRE_WIDTH; // closely-packed loops
-
 type SelfOptions = EmptySelfOptions;
 
 export type ElectromagnetOptions = SelfOptions & CoilMagnetOptions;
@@ -75,8 +72,7 @@ export default class Electromagnet extends CoilMagnet {
       maxLoopArea: 7854, // in the Java version, max radius was 50, so max area was Math.PI * 50 * 50 = 7853.981633974483
       loopAreaPercentRange: new RangeWithValue( 100, 100, 100 ), // fixed loop area
       numberOfLoopsRange: new RangeWithValue( 1, 4, 4 ),
-      wireWidth: WIRE_WIDTH,
-      loopSpacing: LOOP_SPACING,
+      loopSpacing: 0, // tightly packed
       tandem: coilTandem
     } );
 

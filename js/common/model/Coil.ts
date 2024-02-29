@@ -62,7 +62,7 @@ type SelfOptions = {
   // the width of the wire that makes up the coil
   wireWidth?: number;
 
-  // Horizontal spacing between loops in the coil. Values that are closer to wireWidth result in more closely-packed loops.
+  // Horizontal spacing between loops in the coil. Zero is tightly packed.
   loopSpacing?: number;
 
   // Initial value of electronSpeedScaleProperty, a developer control.
@@ -83,7 +83,7 @@ export default class Coil extends PhetioObject {
   // Width of the wire that makes up the coil.
   public readonly wireWidth: number;
 
-  // Horizontal spacing between loops in the coil. Values that are closer to wireWidth result in more closely-packed loops.
+  // Horizontal spacing between loops in the coil. Zero is tightly packed.
   public readonly loopSpacing: number;
 
   // Number of loops in the coil
@@ -121,14 +121,15 @@ export default class Coil extends PhetioObject {
 
       // SelfOptions
       wireWidth: 16,
-      loopSpacing: 25,
+      loopSpacing: 8,
       electronSpeedScale: 1,
 
       // PhetioObjectOptions
       phetioState: false
     }, providedOptions );
 
-    assert && assert( options.loopSpacing >= options.wireWidth );
+    assert && assert( options.wireWidth >= 0, `invalid wireWidth: ${options.wireWidth}` );
+    assert && assert( options.loopSpacing >= 0, `invalid loopSpacing: ${options.loopSpacing}` );
 
     super( options );
 
@@ -185,7 +186,7 @@ export default class Coil extends PhetioObject {
       [ this.numberOfLoopsProperty, this.loopRadiusProperty,
         FELColors.coilFrontColorProperty, FELColors.coilMiddleColorProperty, FELColors.coilBackColorProperty ],
       ( numberOfLoops, loopRadius, frontColor, middleColor, backColor ) =>
-        Coil.createCoilSegments( numberOfLoops, loopRadius, this.loopSpacing, frontColor, middleColor, backColor ) );
+        Coil.createCoilSegments( numberOfLoops, loopRadius, this.wireWidth, this.loopSpacing, frontColor, middleColor, backColor ) );
 
     this.electronsProperty = new DerivedProperty( [ this.coilSegmentsProperty ],
       coilSegments => this.createElectrons( coilSegments ), {
@@ -217,26 +218,29 @@ export default class Coil extends PhetioObject {
    * segments are smoothly joined to form a pseudo-3D coil. If you change values, do so with caution, test frequently,
    * and perform a close visual inspection of your changes.
    */
-  private static createCoilSegments( numberOfLoops: number, loopRadius: number, loopSpacing: number,
+  private static createCoilSegments( numberOfLoops: number, loopRadius: number, wireWidth: number, loopSpacing: number,
                                      frontColor: TColor, middleColor: TColor, backColor: TColor ): CoilSegment[] {
+
+    // Space between the centers of loops.
+    const loopCenterSpacing = wireWidth + loopSpacing;
 
     const coilSegments: CoilSegment[] = [];
 
     // Start at the left-most loop, keeping the coil centered.
-    const xStart = -( loopSpacing * ( numberOfLoops - 1 ) / 2 );
+    const xStart = -( loopCenterSpacing * ( numberOfLoops - 1 ) / 2 );
 
     // Create the wire ends & loops from left to right.
     // Segments are created in the order that they would be visited by electron flow.
     for ( let i = 0; i < numberOfLoops; i++ ) {
 
-      const xOffset = xStart + ( i * loopSpacing );
+      const xOffset = xStart + ( i * loopCenterSpacing );
 
       // For the left-most loop...
       if ( i === 0 ) {
 
         // Left wire end in background
         {
-          const endPoint = new Vector2( -loopSpacing / 2 + xOffset, -loopRadius ); // lower
+          const endPoint = new Vector2( -loopCenterSpacing / 2 + xOffset, -loopRadius ); // lower
           const startPoint = new Vector2( endPoint.x - 15, endPoint.y - 40 ); // upper
           const controlPoint = new Vector2( endPoint.x - 20, endPoint.y - 20 );
           const curve = new QuadraticBezierSpline( startPoint, controlPoint, endPoint );
@@ -257,7 +261,7 @@ export default class Coil extends PhetioObject {
 
         // Back top (left-most) is slightly different, because it connects to the left wire end.
         {
-          const startPoint = new Vector2( -loopSpacing / 2 + xOffset, -loopRadius ); // upper
+          const startPoint = new Vector2( -loopCenterSpacing / 2 + xOffset, -loopRadius ); // upper
           const endPoint = new Vector2( ( loopRadius * 0.25 ) + xOffset, 0 ); // lower
           const controlPoint = new Vector2( ( loopRadius * 0.15 ) + xOffset, ( -loopRadius * 0.70 ) );
           const curve = new QuadraticBezierSpline( startPoint, controlPoint, endPoint );
@@ -271,7 +275,7 @@ export default class Coil extends PhetioObject {
       else {
 
         // Back top (no wire end connection)
-        const startPoint = new Vector2( -loopSpacing + xOffset, -loopRadius ); // upper
+        const startPoint = new Vector2( -loopCenterSpacing + xOffset, -loopRadius ); // upper
         const endPoint = new Vector2( ( loopRadius * 0.25 ) + xOffset, 0 ); // lower
         const controlPoint = new Vector2( ( loopRadius * 0.15 ) + xOffset, ( -loopRadius * 1.20 ) );
         const curve = new QuadraticBezierSpline( startPoint, controlPoint, endPoint );

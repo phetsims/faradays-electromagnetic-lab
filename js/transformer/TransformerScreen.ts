@@ -60,8 +60,7 @@ function createScreenIcon(): ScreenIcon {
   const electromagnetCoil = new Coil( currentAmplitudeProperty, currentAmplitudeRange,
     combineOptions<CoilOptions>( {}, coilOptions, {
       numberOfLoopsRange: new RangeWithValue( electromagnetLoops, electromagnetLoops, electromagnetLoops ),
-      //TODO https://github.com/phetsims/faradays-electromagnetic-lab/issues/28 Fix the implementation of loopSpacing so that we can use loopSpacing:0 here.
-      loopSpacing: 16 // Electromagnet has a tightly packed coil.
+      loopSpacing: 0 // tightly packed
     } ) );
   electromagnetCoil.electronsVisibleProperty.value = false;
 
