@@ -125,17 +125,14 @@ const FELScreenIconFactory = {
  */
 function createCoilNode( numberOfLoops: number, loopSpacing: number ): Node {
 
-  const currentAmplitudeProperty = new NumberProperty( 0 );
-  const currentAmplitudeRange = FELConstants.CURRENT_AMPLITUDE_RANGE;
-
-  const coil = new Coil( currentAmplitudeProperty, currentAmplitudeRange, {
+  const coil = new Coil( new NumberProperty( 0 ), FELConstants.CURRENT_AMPLITUDE_RANGE, {
     numberOfLoopsRange: new RangeWithValue( numberOfLoops, numberOfLoops, numberOfLoops ),
     loopSpacing: loopSpacing,
     maxLoopArea: 7000,
     loopAreaPercentRange: new RangeWithValue( 100, 100, 100 ),
+    electronsVisible: false,
     tandem: Tandem.OPT_OUT
   } );
-  coil.electronsVisibleProperty.value = false;
 
   // We must have a subclass of FELMovable associated with a coil's background layer. This one will do.
   const movable = new BarMagnet( { tandem: Tandem.OPT_OUT } );

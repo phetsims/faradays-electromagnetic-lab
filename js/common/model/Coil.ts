@@ -66,6 +66,9 @@ type SelfOptions = {
   // Horizontal spacing between loops in the coil. Zero is tightly packed.
   loopSpacing?: number;
 
+  // Initial value of electronsVisibleProperty.
+  electronsVisible?: boolean;
+
   // Initial value of electronSpeedScaleProperty, a developer control.
   electronSpeedScale?: number;
 };
@@ -124,6 +127,7 @@ export default class Coil extends PhetioObject {
       wireWidth: 16,
       loopSpacing: 8,
       electronSpeedScale: 1,
+      electronsVisible: true,
 
       // PhetioObjectOptions
       phetioState: false
@@ -173,7 +177,7 @@ export default class Coil extends PhetioObject {
     this.loopRadiusProperty = new DerivedProperty( [ this.loopAreaProperty ],
       loopArea => Math.sqrt( loopArea / Math.PI ) );
 
-    this.electronsVisibleProperty = new BooleanProperty( true, {
+    this.electronsVisibleProperty = new BooleanProperty( options.electronsVisible, {
       tandem: options.tandem.createTandem( 'electronsVisibleProperty' ),
       phetioFeatured: true
     } );
