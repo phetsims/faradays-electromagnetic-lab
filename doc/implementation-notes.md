@@ -11,11 +11,23 @@ See ConstantDtClock.ts and FELScreenModel.ts.
 
 All stepping is handled by the model.
 
+The most complicated part of the sim may be `Coil.createCoilSegments`. It creates
+an ordered `CoilSegment[]` that describes the shape of the coil, and the path that
+electrons follow as they flow through the coil.  So that objects (bar magnet, compass,...) may
+pass through the coil, CoilSegments are designated as belonging to either the 
+foreground layer or background layer of the coil.
+
+Coil (model) and CoilNode (view) are generalized, and are used by the pickup coil
+and electromagnet.
+
 Pickup coil model is Hollywood. See PickupCoil.ts.
 
-CoilNode handles both the model and view parts of electrons. This is because the 
-path that electrons follow is dependent on how the coil is displayed.
-See `updateElectrons` in CoilNode.ts, Electron.ts, and ElectronNode.ts.
+Electrons are lightweight, with no Properties, and no need to be PhET-iO stateful. 
+They are create by Coil in `createElectrons` when the shape of the coil is changed
+(by changing the number of loops, or the loop area).
+
+ElectronsNode renders all Electrons efficiently using scenery Sprites. Two instances
+of ElectronsNode are required, for foreground and background layers. 
 
 This pattern may be unfamiliar and is used frequently in the model for Properties.
 The public API is readonly, while the private API is mutable.
