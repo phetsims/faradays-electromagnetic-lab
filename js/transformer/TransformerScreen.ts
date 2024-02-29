@@ -13,7 +13,7 @@ import TransformerScreenView from './view/TransformerScreenView.js';
 import FaradaysElectromagneticLabStrings from '../FaradaysElectromagneticLabStrings.js';
 import FELColors from '../common/FELColors.js';
 import ScreenIcon from '../../../joist/js/ScreenIcon.js';
-import { Node, Rectangle, VBox, VStrut } from '../../../scenery/js/imports.js';
+import { Node } from '../../../scenery/js/imports.js';
 import Tandem from '../../../tandem/js/Tandem.js';
 import { combineOptions } from '../../../phet-core/js/optionize.js';
 import FELConstants from '../common/FELConstants.js';
@@ -72,23 +72,17 @@ function createScreenIcon(): ScreenIcon {
     } ) );
   pickupCoil.electronsVisibleProperty.value = false;
 
-  // A hack, because we must have a subclass of FELMovable associated with a coil's background layer.
-  const movable = new BarMagnet( {
-    tandem: Tandem.OPT_OUT
-  } );
+  // We must have a subclass of FELMovable associated with a coil's background layer. This one will do.
+  const movable = new BarMagnet( { tandem: Tandem.OPT_OUT } );
 
   // Combine the electromagnet coil's foreground and background.
-  const electromagnetCoilForegroundNode = new CoilNode( electromagnetCoil, movable, {
-    tandem: Tandem.OPT_OUT
-  } );
+  const electromagnetCoilForegroundNode = new CoilNode( electromagnetCoil, movable, { tandem: Tandem.OPT_OUT } );
   const electromagnetCoilNode = new Node( {
     children: [ electromagnetCoilForegroundNode.backgroundNode, electromagnetCoilForegroundNode ]
   } );
 
   // Combine the pickup coil's foreground and background.
-  const pickupCoilForegroundNode = new CoilNode( pickupCoil, movable, {
-    tandem: Tandem.OPT_OUT
-  } );
+  const pickupCoilForegroundNode = new CoilNode( pickupCoil, movable, { tandem: Tandem.OPT_OUT } );
   const pickupCoilNode = new Node( {
     children: [ pickupCoilForegroundNode.backgroundNode, pickupCoilForegroundNode ]
   } );
@@ -100,28 +94,14 @@ function createScreenIcon(): ScreenIcon {
     children: [ electromagnetCoilNode, pickupCoilNode ]
   } );
 
-  // Clip the top part of the wire ends, set empirically.
+  // Clip the top part of the wire ends, y-offset was set empirically.
   //TODO https://github.com/phetsims/faradays-electromagnetic-lab/issues/28 clipArea is not working when returning to the Home screen.
   hBox.clipArea = Shape.bounds( hBox.bounds.withMinY( hBox.bounds.minY + 35 ) );
 
-  // Add a bit of space below the coils.
-  const vBox = new VBox( {
-    children: [ hBox, new VStrut( 8 ) ]
-  } );
-
-  //TODO https://github.com/phetsims/faradays-electromagnetic-lab/issues/28 For debugging bounds and clipArea, delete this.
-  const boundsRectangle = new Rectangle( vBox.bounds, {
-    stroke: phet.chipper.queryParameters.dev ? 'red' : null
-  } );
-
-  const icon = new Node( {
-    children: [ vBox, boundsRectangle ]
-  } );
-
-  return new ScreenIcon( icon, {
+  return new ScreenIcon( hBox, {
     fill: FELColors.screenBackgroundColorProperty,
-    maxIconWidthProportion: 0.95,
-    maxIconHeightProportion: 1
+    maxIconWidthProportion: 0.85,
+    maxIconHeightProportion: 0.85
   } );
 }
 
