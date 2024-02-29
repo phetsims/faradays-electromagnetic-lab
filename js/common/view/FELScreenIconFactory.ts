@@ -120,7 +120,6 @@ const FELScreenIconFactory = {
   }
 };
 
-
 /**
  * Creates an icon for the bar magnet.
  */
