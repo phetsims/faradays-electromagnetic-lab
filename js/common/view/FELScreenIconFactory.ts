@@ -17,13 +17,12 @@ import waterWheel_png from '../../../images/waterWheel_png.js';
 import DCPowerSupplyNode from './DCPowerSupplyNode.js';
 import NumberProperty from '../../../../axon/js/NumberProperty.js';
 import FELConstants from '../FELConstants.js';
-import Coil, { CoilOptions } from '../model/Coil.js';
+import Coil from '../model/Coil.js';
 import RangeWithValue from '../../../../dot/js/RangeWithValue.js';
 import Tandem from '../../../../tandem/js/Tandem.js';
 import BarMagnet from '../model/BarMagnet.js';
 import CoilNode from './CoilNode.js';
 import { Shape } from '../../../../kite/js/imports.js';
-import { combineOptions } from '../../../../phet-core/js/optionize.js';
 
 const FELScreenIconFactory = {
 
@@ -55,27 +54,8 @@ const FELScreenIconFactory = {
    */
   createPickupCoilScreenIcon(): ScreenIcon {
 
-    const currentAmplitudeProperty = new NumberProperty( 0 );
-    const currentAmplitudeRange = FELConstants.CURRENT_AMPLITUDE_RANGE;
-
-    // Pickup coil model
-    const pickupCoilLoops = 2;
-    const pickupCoil = new Coil( currentAmplitudeProperty, currentAmplitudeRange, {
-      numberOfLoopsRange: new RangeWithValue( pickupCoilLoops, pickupCoilLoops, pickupCoilLoops ),
-      maxLoopArea: 7000,
-      loopAreaPercentRange: new RangeWithValue( 100, 100, 100 ),
-      tandem: Tandem.OPT_OUT
-    } );
-    pickupCoil.electronsVisibleProperty.value = false;
-
-    // We must have a subclass of FELMovable associated with a coil's background layer. This one will do.
-    const movable = new BarMagnet( { tandem: Tandem.OPT_OUT } );
-
-    // Combine the coil foreground and background.
-    const pickupCoilForegroundNode = new CoilNode( pickupCoil, movable, { tandem: Tandem.OPT_OUT } );
-    const pickupCoilNode = new Node( {
-      children: [ pickupCoilForegroundNode.backgroundNode, pickupCoilForegroundNode ]
-    } );
+    // Pickup coil - 2 loops with loose spacing.
+    const pickupCoilNode = createCoilNode( 2, 16 );
 
     // Clip the top part of the wire ends, y-offset was set empirically.
     //TODO https://github.com/phetsims/faradays-electromagnetic-lab/issues/28 clipArea is not working when returning to the Home screen.
@@ -93,46 +73,11 @@ const FELScreenIconFactory = {
    */
   createTransformerScreenIcon(): ScreenIcon {
 
-    const currentAmplitudeProperty = new NumberProperty( 0 );
-    const currentAmplitudeRange = FELConstants.CURRENT_AMPLITUDE_RANGE;
+    // Electromagnet coil - 3 loops, tightly packed.
+    const electromagnetCoilNode = createCoilNode( 3, 0 );
 
-    const coilOptions = {
-      maxLoopArea: 7000,
-      loopAreaPercentRange: new RangeWithValue( 100, 100, 100 ),
-      tandem: Tandem.OPT_OUT
-    };
-
-    // Electromagnet coil model
-    const electromagnetLoops = 3;
-    const electromagnetCoil = new Coil( currentAmplitudeProperty, currentAmplitudeRange,
-      combineOptions<CoilOptions>( {}, coilOptions, {
-        numberOfLoopsRange: new RangeWithValue( electromagnetLoops, electromagnetLoops, electromagnetLoops ),
-        loopSpacing: 0 // tightly packed
-      } ) );
-    electromagnetCoil.electronsVisibleProperty.value = false;
-
-    // Pickup coil model
-    const pickupCoilLoops = 2;
-    const pickupCoil = new Coil( currentAmplitudeProperty, currentAmplitudeRange,
-      combineOptions<CoilOptions>( {}, coilOptions, {
-        numberOfLoopsRange: new RangeWithValue( pickupCoilLoops, pickupCoilLoops, pickupCoilLoops )
-      } ) );
-    pickupCoil.electronsVisibleProperty.value = false;
-
-    // We must have a subclass of FELMovable associated with a coil's background layer. This one will do.
-    const movable = new BarMagnet( { tandem: Tandem.OPT_OUT } );
-
-    // Combine the electromagnet coil's foreground and background.
-    const electromagnetCoilForegroundNode = new CoilNode( electromagnetCoil, movable, { tandem: Tandem.OPT_OUT } );
-    const electromagnetCoilNode = new Node( {
-      children: [ electromagnetCoilForegroundNode.backgroundNode, electromagnetCoilForegroundNode ]
-    } );
-
-    // Combine the pickup coil's foreground and background.
-    const pickupCoilForegroundNode = new CoilNode( pickupCoil, movable, { tandem: Tandem.OPT_OUT } );
-    const pickupCoilNode = new Node( {
-      children: [ pickupCoilForegroundNode.backgroundNode, pickupCoilForegroundNode ]
-    } );
+    // Pickup coil - 2 loops with loose spacing.
+    const pickupCoilNode = createCoilNode( 2, 16 );
 
     // Put the 2 coils side by side. HBox clipArea does not work, so use a Node and handle layout.
     pickupCoilNode.top = electromagnetCoilNode.top;
@@ -174,6 +119,33 @@ const FELScreenIconFactory = {
     } );
   }
 };
+
+/**
+ * Creates a coil with a specific number of loops and loop spacing.
+ */
+function createCoilNode( numberOfLoops: number, loopSpacing: number ): Node {
+
+  const currentAmplitudeProperty = new NumberProperty( 0 );
+  const currentAmplitudeRange = FELConstants.CURRENT_AMPLITUDE_RANGE;
+
+  const coil = new Coil( currentAmplitudeProperty, currentAmplitudeRange, {
+    numberOfLoopsRange: new RangeWithValue( numberOfLoops, numberOfLoops, numberOfLoops ),
+    loopSpacing: loopSpacing,
+    maxLoopArea: 7000,
+    loopAreaPercentRange: new RangeWithValue( 100, 100, 100 ),
+    tandem: Tandem.OPT_OUT
+  } );
+  coil.electronsVisibleProperty.value = false;
+
+  // We must have a subclass of FELMovable associated with a coil's background layer. This one will do.
+  const movable = new BarMagnet( { tandem: Tandem.OPT_OUT } );
+
+  // Combine the coil foreground and background.
+  const coilForegroundNode = new CoilNode( coil, movable, { tandem: Tandem.OPT_OUT } );
+  return new Node( {
+    children: [ coilForegroundNode.backgroundNode, coilForegroundNode ]
+  } );
+}
 
 faradaysElectromagneticLab.register( 'FELScreenIconFactory', FELScreenIconFactory );
 export default FELScreenIconFactory;
