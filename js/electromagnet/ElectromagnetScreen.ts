@@ -11,13 +11,11 @@ import faradaysElectromagneticLab from '../faradaysElectromagneticLab.js';
 import ElectromagnetScreenModel from './model/ElectromagnetScreenModel.js';
 import ElectromagnetScreenView from './view/ElectromagnetScreenView.js';
 import FaradaysElectromagneticLabStrings from '../FaradaysElectromagneticLabStrings.js';
-import FELColors from '../common/FELColors.js';
-import ScreenIcon from '../../../joist/js/ScreenIcon.js';
 import Tandem from '../../../tandem/js/Tandem.js';
 import { combineOptions } from '../../../phet-core/js/optionize.js';
 import FELConstants from '../common/FELConstants.js';
 import FELKeyboardHelpContent from '../common/view/FELKeyboardHelpContent.js';
-import DCPowerSupplyNode from '../common/view/DCPowerSupplyNode.js';
+import FELScreenIconFactory from '../common/view/FELScreenIconFactory.js';
 
 export default class ElectromagnetScreen extends Screen<ElectromagnetScreenModel, ElectromagnetScreenView> {
 
@@ -27,24 +25,12 @@ export default class ElectromagnetScreen extends Screen<ElectromagnetScreenModel
       model => new ElectromagnetScreenView( model, tandem.createTandem( 'view' ) ),
       combineOptions<ScreenOptions>( {}, FELConstants.SCREEN_OPTIONS, {
           name: FaradaysElectromagneticLabStrings.screen.electromagnetStringProperty,
-          homeScreenIcon: createScreenIcon(),
+          homeScreenIcon: FELScreenIconFactory.createElectromagnetScreenIcon(),
           createKeyboardHelpNode: () => new FELKeyboardHelpContent(),
           tandem: tandem
         }
       ) );
   }
-}
-
-/**
- * Creates the icon for this screen, a D-cell battery.
- */
-function createScreenIcon(): ScreenIcon {
-  const batteryIcon = DCPowerSupplyNode.createIcon();
-  return new ScreenIcon( batteryIcon, {
-    fill: FELColors.screenBackgroundColorProperty,
-    maxIconWidthProportion: 0.75,
-    maxIconHeightProportion: 1
-  } );
 }
 
 faradaysElectromagneticLab.register( 'ElectromagnetScreen', ElectromagnetScreen );
