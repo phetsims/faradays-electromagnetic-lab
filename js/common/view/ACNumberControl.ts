@@ -61,7 +61,8 @@ export default class ACNumberControl extends NumberControl {
         yMargin: 5,
         textOptions: {
           font: NUMBER_DISPLAY_FONT,
-          fill: FELColors.acPowerSupplyTextColorProperty
+          fill: FELColors.acPowerSupplyTextColorProperty,
+          maxWidth: 30
         },
         numberFormatter: value => StringUtils.fillIn( FaradaysElectromagneticLabStrings.pattern.valuePercentStringProperty, {
           value: Utils.toFixed( value, 0 )
