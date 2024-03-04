@@ -192,7 +192,7 @@ export default class FELSonifier extends Disposable {
     }
   }
 
-  public reset(): void {
+  private reset(): void {
     this.isPlayingProperty.reset();
     this.lastChangedTime = null;
   }

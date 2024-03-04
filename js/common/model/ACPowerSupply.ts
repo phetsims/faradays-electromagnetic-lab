@@ -40,7 +40,7 @@ export default class ACPowerSupply extends CurrentSource {
   public readonly frequencyProperty: NumberProperty;
 
   // Number of cycles to display, [1,MAX_CYCLES].
-  public readonly numberOfCyclesProperty: TReadOnlyProperty<number>;
+  private readonly numberOfCyclesProperty: TReadOnlyProperty<number>;
 
   // The current angle on the cycles of sine waves that are displayed.
   public readonly angleProperty: TReadOnlyProperty<number>;
@@ -50,7 +50,7 @@ export default class ACPowerSupply extends CurrentSource {
   // Angle range computing voltage. This is based on an integer number of cycles. It's centered on the max range,
   // so that there is a zero crossing at the center of the range, and increasing the frequency makes the waveform
   // appear to grow out from the center.  This is also the angle that voltmeter's cursor follows.
-  public readonly angleRangeProperty: TReadOnlyProperty<Range>;
+  private readonly angleRangeProperty: TReadOnlyProperty<Range>;
 
   // Angle range for the portion of the waveform that is visible on the AC Power supply's display.
   // Like angleRangeProperty, but derived from the actual number of cycles (non-integer), which may include a partial cycle.

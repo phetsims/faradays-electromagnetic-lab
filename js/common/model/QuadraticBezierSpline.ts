@@ -16,9 +16,9 @@ import { Shape } from '../../../../kite/js/imports.js';
 
 export default class QuadraticBezierSpline {
 
-  public readonly startPoint: Vector2;
-  public readonly controlPoint: Vector2;
-  public readonly endPoint: Vector2;
+  private readonly startPoint: Vector2;
+  private readonly controlPoint: Vector2;
+  private readonly endPoint: Vector2;
 
   public constructor( startPoint: Vector2, controlPoint: Vector2, endPoint: Vector2 ) {
     this.startPoint = startPoint;

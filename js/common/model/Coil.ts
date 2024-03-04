@@ -88,7 +88,7 @@ export default class Coil extends PhetioObject {
   public readonly wireWidth: number;
 
   // Horizontal spacing between loops in the coil. Zero is tightly packed.
-  public readonly loopSpacing: number;
+  private readonly loopSpacing: number;
 
   // Number of loops in the coil
   public readonly numberOfLoopsProperty: NumberProperty;

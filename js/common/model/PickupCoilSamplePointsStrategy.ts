@@ -48,7 +48,7 @@ export class FixedNumberOfSamplePointsStrategy extends PickupCoilSamplePointsStr
     this.numberOfSamplePoints = numberOfSamplePoints;
   }
 
-  public override createSamplePointsProtected( loopRadius: number ): Vector2[] {
+  protected override createSamplePointsProtected( loopRadius: number ): Vector2[] {
     const numberOfSamplePointsOnRadius = ( this.numberOfSamplePoints - 1 ) / 2;
     const ySpacing = loopRadius / numberOfSamplePointsOnRadius;
     return createSamplePoints( numberOfSamplePointsOnRadius, ySpacing );
@@ -70,7 +70,7 @@ export class FixedSpacingSamplePointsStrategy extends PickupCoilSamplePointsStra
     this.ySpacing = ySpacing;
   }
 
-  public override createSamplePointsProtected( loopRadius: number ): Vector2[] {
+  protected override createSamplePointsProtected( loopRadius: number ): Vector2[] {
     const numberOfSamplePointsOnRadius = Math.trunc( loopRadius / this.ySpacing );
     return createSamplePoints( numberOfSamplePointsOnRadius, this.ySpacing );
   }

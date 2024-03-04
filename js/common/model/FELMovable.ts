@@ -56,7 +56,7 @@ export default class FELMovable extends PhetioObject {
     }, options.positionPropertyOptions ) );
   }
 
-  public reset(): void {
+  protected reset(): void {
     this.positionProperty.reset();
   }
 }

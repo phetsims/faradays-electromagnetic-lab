@@ -55,17 +55,17 @@ import BarMagnetFieldData from './BarMagnetFieldData.js';
 export default class BarMagnetFieldGrid {
 
   // name used for debugging purposes
-  public readonly debugName: string;
+  private readonly debugName: string;
 
   // B-field vector x & y components, generated using MathCAD
-  public readonly bxArray: number[][];
-  public readonly byArray: number[][];
+  private readonly bxArray: number[][];
+  private readonly byArray: number[][];
 
   // number of points in the grid, used MathCAD for generating the grid data
-  public readonly size: Dimension2;
+  private readonly size: Dimension2;
 
   // spacing between points in the grid, the same in both dimensions, used in MathCAD for generating the grid data
-  public readonly spacing: number;
+  private readonly spacing: number;
 
   private readonly maxX: number;
   private readonly maxY: number;

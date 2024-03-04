@@ -120,8 +120,8 @@ class ElectronNode extends ShadedSphereNode {
  */
 class ElectronSpriteInstance extends SpriteInstance {
 
-  public readonly electron: Electron;
-  public readonly coilLayer: CoilLayer;
+  private readonly electron: Electron;
+  private readonly coilLayer: CoilLayer;
 
   public constructor( electron: Electron, coilLayer: CoilLayer, sprite: Sprite ) {
 

@@ -76,18 +76,18 @@ export default class FELDeveloperAccordionBox extends AccordionBox {
     } );
   }
 
-  public static createFieldScaleControl( property: NumberProperty ): NumberControl {
+  protected static createFieldScaleControl( property: NumberProperty ): NumberControl {
     return new FELDeveloperNumberControl( 'Field Scale:', property, 2 /* decimalPlaces */ );
   }
 
-  public static createElectromagnetShapeCheckbox( property: Property<boolean> ): Checkbox {
+  protected static createElectromagnetShapeCheckbox( property: Property<boolean> ): Checkbox {
     return new FELDeveloperCheckbox( 'Electromagnet Shape', property );
   }
 
   /**
    * Creates the set of controls related to the pickup coil.
    */
-  public static createPickupCoilControls( pickupCoil: PickupCoil ): VBox {
+  protected static createPickupCoilControls( pickupCoil: PickupCoil ): VBox {
     return new VBox( {
       align: 'left',
       spacing: VBOX_SPACING,
