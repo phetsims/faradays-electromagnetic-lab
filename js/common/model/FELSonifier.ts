@@ -22,13 +22,13 @@ import TReadOnlyProperty from '../../../../axon/js/TReadOnlyProperty.js';
 import TEmitter, { TEmitterListener } from '../../../../axon/js/TEmitter.js';
 import Property from '../../../../axon/js/Property.js';
 import optionize from '../../../../phet-core/js/optionize.js';
-import { stepTimer } from '../../../../axon/js/imports.js';
 import BooleanProperty from '../../../../axon/js/BooleanProperty.js';
 import FELUtils from '../FELUtils.js';
 import isResettingAllProperty from '../isResettingAllProperty.js';
 import WrappedAudioBuffer from '../../../../tambo/js/WrappedAudioBuffer.js';
 import SoundClip from '../../../../tambo/js/sound-generators/SoundClip.js';
 import soundManager from '../../../../tambo/js/soundManager.js';
+import stepTimer from '../../../../axon/js/stepTimer.js';
 
 type SelfOptions = {
 

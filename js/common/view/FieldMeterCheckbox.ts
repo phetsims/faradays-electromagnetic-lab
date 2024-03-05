@@ -16,7 +16,7 @@ import Property from '../../../../axon/js/Property.js';
 import Tandem from '../../../../tandem/js/Tandem.js';
 import FELColors from '../FELColors.js';
 import PlusNode from '../../../../scenery-phet/js/PlusNode.js';
-import { Dimension2 } from '../../../../dot/js/imports.js';
+import Dimension2 from '../../../../dot/js/Dimension2.js';
 
 export default class FieldMeterCheckbox extends Checkbox {
 

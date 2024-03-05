@@ -10,8 +10,9 @@ import faradaysElectromagneticLab from '../../faradaysElectromagneticLab.js';
 import Magnet from './Magnet.js';
 import FieldMeasurementTool, { FieldMeasurementToolOptions } from './FieldMeasurementTool.js';
 import { EmptySelfOptions } from '../../../../phet-core/js/optionize.js';
-import { DerivedProperty, TReadOnlyProperty } from '../../../../axon/js/imports.js';
 import NumberIO from '../../../../tandem/js/types/NumberIO.js';
+import TReadOnlyProperty from '../../../../axon/js/TReadOnlyProperty.js';
+import DerivedProperty from '../../../../axon/js/DerivedProperty.js';
 
 type SelfOptions = EmptySelfOptions;
 

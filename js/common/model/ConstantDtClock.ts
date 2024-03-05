@@ -14,8 +14,8 @@
 
 import Emitter from '../../../../axon/js/Emitter.js';
 import faradaysElectromagneticLab from '../../faradaysElectromagneticLab.js';
-import { EventTimer } from '../../../../phet-core/js/imports.js';
 import NumberIO from '../../../../tandem/js/types/NumberIO.js';
+import EventTimer from '../../../../phet-core/js/EventTimer.js';
 
 export default class ConstantDtClock extends EventTimer {
 

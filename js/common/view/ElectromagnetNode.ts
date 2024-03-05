@@ -19,7 +19,8 @@ import ACPowerSupplyNode from './ACPowerSupplyNode.js';
 import { Shape } from '../../../../kite/js/imports.js';
 import optionize, { EmptySelfOptions } from '../../../../phet-core/js/optionize.js';
 import PickRequired from '../../../../phet-core/js/types/PickRequired.js';
-import { BooleanProperty, Multilink } from '../../../../axon/js/imports.js';
+import BooleanProperty from '../../../../axon/js/BooleanProperty.js';
+import Multilink from '../../../../axon/js/Multilink.js';
 
 type SelfOptions = EmptySelfOptions;
 

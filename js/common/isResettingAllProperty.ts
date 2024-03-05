@@ -16,7 +16,7 @@
  */
 
 import faradaysElectromagneticLab from '../faradaysElectromagneticLab.js';
-import { BooleanProperty } from '../../../axon/js/imports.js';
+import BooleanProperty from '../../../axon/js/BooleanProperty.js';
 
 const isResettingAllProperty = new BooleanProperty( false );
 
