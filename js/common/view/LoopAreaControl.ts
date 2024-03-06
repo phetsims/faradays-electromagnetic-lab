@@ -19,7 +19,8 @@ import StringUtils from '../../../../phetcommon/js/util/StringUtils.js';
 import NumberProperty from '../../../../axon/js/NumberProperty.js';
 
 const valuePercentStringProperty = FaradaysElectromagneticLabStrings.pattern.valuePercentStringProperty;
-const SLIDER_STEP = 1; // %
+const ARROW_STEP = 1; // %
+const SLIDER_STEP = 5; // %
 
 export default class LoopAreaControl extends NumberControl {
 
@@ -45,7 +46,7 @@ export default class LoopAreaControl extends NumberControl {
 
     const options = combineOptions<NumberControlOptions>( {}, FELConstants.NUMBER_CONTROL_OPTIONS, {
       isDisposable: false,
-      delta: SLIDER_STEP,
+      delta: ARROW_STEP,
       numberDisplayOptions: {
         decimalPlaces: 0,
         numberFormatter: percent => StringUtils.fillIn( valuePercentStringProperty, {
