@@ -16,6 +16,9 @@ import PickRequired from '../../../../phet-core/js/types/PickRequired.js';
 import WaterFaucet from '../model/WaterFaucet.js';
 import ValueChangeSoundPlayer from '../../../../tambo/js/sound-generators/ValueChangeSoundPlayer.js';
 import Tandem from '../../../../tandem/js/Tandem.js';
+import Utils from '../../../../dot/js/Utils.js';
+
+const SOUND_STEP = 5; // %, play sound when flowRateProperty changes by this much.
 
 type SelfOptions = EmptySelfOptions;
 
@@ -41,7 +44,7 @@ export default class WaterFaucetNode extends FaucetNode {
 
     // TEMPORARY SOUND: like Slider.
     const soundGenerator = new ValueChangeSoundPlayer( waterFaucet.flowRateProperty.range, {
-      numberOfMiddleThresholds: 50
+      numberOfMiddleThresholds: Utils.toFixedNumber( ( waterFaucet.flowRateProperty.range.getLength() / SOUND_STEP ) - 1, 0 )
     } );
 
     // TEMPORARY SOUND: drag function shared by mouse/touch drag and keyboard drag.
