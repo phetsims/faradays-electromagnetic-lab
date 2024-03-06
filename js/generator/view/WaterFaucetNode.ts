@@ -40,7 +40,9 @@ export default class WaterFaucetNode extends FaucetNode {
     }, providedOptions );
 
     // TEMPORARY SOUND: like Slider.
-    const soundGenerator = new ValueChangeSoundPlayer( waterFaucet.flowRateProperty.range );
+    const soundGenerator = new ValueChangeSoundPlayer( waterFaucet.flowRateProperty.range, {
+      numberOfMiddleThresholds: 50
+    } );
 
     // TEMPORARY SOUND: drag function shared by mouse/touch drag and keyboard drag.
     let previousValue = waterFaucet.flowRateProperty.value;
