@@ -56,7 +56,7 @@ export default class WaterFaucetNode extends FaucetNode {
 
     super( waterFaucet.flowRateProperty.range.max, waterFaucet.flowRateProperty, new Property( true ), options );
 
-    // TEMPORARY SOUND mouse/touch drag.
+    // TEMPORARY SOUND for mouse/touch drag.
     this.addInputListener( new DragListener( {
       attach: false,
       drag: ( event, listener ) => options.drag( event ),
