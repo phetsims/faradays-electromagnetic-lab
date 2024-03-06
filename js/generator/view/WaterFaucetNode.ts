@@ -15,6 +15,7 @@ import { DragListener, NodeTranslationOptions } from '../../../../scenery/js/imp
 import PickRequired from '../../../../phet-core/js/types/PickRequired.js';
 import WaterFaucet from '../model/WaterFaucet.js';
 import ValueChangeSoundPlayer from '../../../../tambo/js/sound-generators/ValueChangeSoundPlayer.js';
+import Tandem from '../../../../tandem/js/Tandem.js';
 
 type SelfOptions = EmptySelfOptions;
 
@@ -38,7 +39,7 @@ export default class WaterFaucetNode extends FaucetNode {
       phetioVisiblePropertyInstrumented: false
     }, providedOptions );
 
-    // TEMPORARY SOUND
+    // TEMPORARY SOUND, like Slider.
     const soundGenerator = new ValueChangeSoundPlayer( waterFaucet.flowRateProperty.range );
 
     // TEMPORARY SOUND for keyboard drag. It's unclear why options.drag does not also apply to mouse/touch drag.
@@ -58,7 +59,8 @@ export default class WaterFaucetNode extends FaucetNode {
     // TEMPORARY SOUND mouse/touch drag. It's unclear why options.drag does not also handle this.
     this.addInputListener( new DragListener( {
       attach: false,
-      drag: ( event, listener ) => options.drag( event )
+      drag: ( event, listener ) => options.drag( event ),
+      tandem: Tandem.OPT_OUT
     } ) );
   }
 }
