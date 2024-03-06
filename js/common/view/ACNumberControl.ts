@@ -7,9 +7,9 @@
  * @author Chris Malley (PixelZoom, Inc.)
  */
 
-import NumberControl, { NumberControlOptions } from '../../../../scenery-phet/js/NumberControl.js';
+import NumberControl, { NumberControlOptions, NumberControlSliderOptions } from '../../../../scenery-phet/js/NumberControl.js';
 import NumberProperty from '../../../../axon/js/NumberProperty.js';
-import optionize from '../../../../phet-core/js/optionize.js';
+import optionize, { combineOptions } from '../../../../phet-core/js/optionize.js';
 import Orientation from '../../../../phet-core/js/Orientation.js';
 import StringUtils from '../../../../phetcommon/js/util/StringUtils.js';
 import FaradaysElectromagneticLabStrings from '../../FaradaysElectromagneticLabStrings.js';
@@ -24,6 +24,7 @@ import PhetFont from '../../../../scenery-phet/js/PhetFont.js';
 import FELColors from '../FELColors.js';
 import Dimension2 from '../../../../dot/js/Dimension2.js';
 import Tandem from '../../../../tandem/js/Tandem.js';
+import FELConstants from '../FELConstants.js';
 
 const NUMBER_DISPLAY_FONT = new PhetFont( 12 );
 const HORIZONTAL_TRACK_SIZE = new Dimension2( 100, 3 );
@@ -47,12 +48,12 @@ export default class ACNumberControl extends NumberControl {
       titleNodeOptions: {
         tandem: Tandem.OPT_OUT
       },
-      sliderOptions: {
+      sliderOptions: combineOptions<NumberControlSliderOptions>( {
         constrainValue: ( value: number ) => Utils.roundToInterval( value, SLIDER_STEP ),
         orientation: ( providedOptions.orientation === 'horizontal' ) ? Orientation.HORIZONTAL : Orientation.VERTICAL,
         trackSize: ( providedOptions.orientation === 'horizontal' ) ? HORIZONTAL_TRACK_SIZE : HORIZONTAL_TRACK_SIZE.swapped(),
         tandem: Tandem.OPT_OUT
-      },
+      }, FELConstants.PERCENT_SLIDER_OPTIONS ),
       numberDisplayOptions: {
         backgroundFill: FELColors.acPowerSupplyDisplayColorProperty,
         backgroundStroke: null,
