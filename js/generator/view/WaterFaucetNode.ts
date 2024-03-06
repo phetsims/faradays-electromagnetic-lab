@@ -42,7 +42,7 @@ export default class WaterFaucetNode extends FaucetNode {
     // TEMPORARY SOUND, like Slider.
     const soundGenerator = new ValueChangeSoundPlayer( waterFaucet.flowRateProperty.range );
 
-    // TEMPORARY SOUND for keyboard drag. It's unclear why options.drag does not also apply to mouse/touch drag.
+    // TEMPORARY SOUND for keyboard drag.
     let previousValue = waterFaucet.flowRateProperty.value;
     options.drag = event => {
       if ( event.isFromPDOM() ) {
@@ -56,7 +56,7 @@ export default class WaterFaucetNode extends FaucetNode {
 
     super( waterFaucet.flowRateProperty.range.max, waterFaucet.flowRateProperty, new Property( true ), options );
 
-    // TEMPORARY SOUND mouse/touch drag. It's unclear why options.drag does not also handle this.
+    // TEMPORARY SOUND mouse/touch drag.
     this.addInputListener( new DragListener( {
       attach: false,
       drag: ( event, listener ) => options.drag( event ),
