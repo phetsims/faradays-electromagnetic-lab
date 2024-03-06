@@ -11,7 +11,7 @@ import faradaysElectromagneticLab from '../../faradaysElectromagneticLab.js';
 import FaucetNode, { FaucetNodeOptions } from '../../../../scenery-phet/js/FaucetNode.js';
 import Property from '../../../../axon/js/Property.js';
 import optionize, { EmptySelfOptions } from '../../../../phet-core/js/optionize.js';
-import { DragListener, NodeTranslationOptions } from '../../../../scenery/js/imports.js';
+import { DragListener, NodeTranslationOptions, SceneryEvent } from '../../../../scenery/js/imports.js';
 import PickRequired from '../../../../phet-core/js/types/PickRequired.js';
 import WaterFaucet from '../model/WaterFaucet.js';
 import ValueChangeSoundPlayer from '../../../../tambo/js/sound-generators/ValueChangeSoundPlayer.js';
@@ -39,12 +39,12 @@ export default class WaterFaucetNode extends FaucetNode {
       phetioVisiblePropertyInstrumented: false
     }, providedOptions );
 
-    // TEMPORARY SOUND, like Slider.
+    // TEMPORARY SOUND: like Slider.
     const soundGenerator = new ValueChangeSoundPlayer( waterFaucet.flowRateProperty.range );
 
-    // TEMPORARY SOUND for keyboard drag.
+    // TEMPORARY SOUND: drag function shared by mouse/touch drag and keyboard drag.
     let previousValue = waterFaucet.flowRateProperty.value;
-    options.drag = event => {
+    const dragSound = ( event: SceneryEvent ) => {
       if ( event.isFromPDOM() ) {
         soundGenerator.playSoundForValueChange( waterFaucet.flowRateProperty.value, previousValue );
       }
@@ -54,12 +54,15 @@ export default class WaterFaucetNode extends FaucetNode {
       previousValue = waterFaucet.flowRateProperty.value;
     };
 
+    // TEMPORARY SOUND: for keyboard drag. It is unclear why this does not also address mouse/touch drag.
+    options.drag = dragSound;
+
     super( waterFaucet.flowRateProperty.range.max, waterFaucet.flowRateProperty, new Property( true ), options );
 
-    // TEMPORARY SOUND for mouse/touch drag.
+    // TEMPORARY SOUND: for mouse/touch drag.
     this.addInputListener( new DragListener( {
       attach: false,
-      drag: ( event, listener ) => options.drag( event ),
+      drag: dragSound,
       tandem: Tandem.OPT_OUT
     } ) );
   }
