@@ -18,7 +18,7 @@ import ValueChangeSoundPlayer from '../../../../tambo/js/sound-generators/ValueC
 import Tandem from '../../../../tandem/js/Tandem.js';
 import Utils from '../../../../dot/js/Utils.js';
 
-const SOUND_STEP = 5; // %, play sound when flowRateProperty changes by this much.
+const SOUND_STEP = 10; // %, play sound when flowRateProperty changes by this much.
 
 type SelfOptions = EmptySelfOptions;
 
