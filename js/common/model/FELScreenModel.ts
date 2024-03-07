@@ -25,6 +25,7 @@ import TReadOnlyProperty from '../../../../axon/js/TReadOnlyProperty.js';
 import Compass from './Compass.js';
 import Tandem from '../../../../tandem/js/Tandem.js';
 import ConstantDtClock from './ConstantDtClock.js';
+import Disposable from '../../../../axon/js/Disposable.js';
 
 const DEFAULT_FIELD_METER_POSITION = new Vector2( 125, 400 );
 
@@ -93,6 +94,10 @@ export default class FELScreenModel implements TModel {
     if ( this.isPlayingProperty.value ) {
       this.clock.step( dt );
     }
+  }
+
+  public dispose(): void {
+    Disposable.assertNotDisposable();
   }
 }
 
