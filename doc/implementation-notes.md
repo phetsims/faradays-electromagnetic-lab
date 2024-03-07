@@ -6,7 +6,7 @@
 
 * [Introduction](https://github.com/phetsims/faradays-electromagnetic-lab/blob/main/doc/implementation-notes.md#introduction)
 * [General Considerations](https://github.com/phetsims/faradays-electromagnetic-lab/blob/main/doc/implementation-notes.md#general-considerations)
-    * [Model-View Transforms](https://github.com/phetsims/faradays-electromagnetic-lab/blob/main/doc/implementation-notes.md#model-view-transforms)
+    * [Coordinate Frames](https://github.com/phetsims/faradays-electromagnetic-lab/blob/main/doc/implementation-notes.md#coordinate-frames)
     * [Query Parameters](https://github.com/phetsims/faradays-electromagnetic-lab/blob/main/doc/implementation-notes.md#query-parameters)
     * [Memory Management](https://github.com/phetsims/faradays-electromagnetic-lab/blob/main/doc/implementation-notes.md#memory-management)
 * [Sound](https://github.com/phetsims/faradays-electromagnetic-lab/blob/main/doc/implementation-notes.md#sound)
@@ -37,13 +37,13 @@ you may find the legacy documents in [doc/java-version/](https://github.com/phet
 
 ## General Considerations
 
-### Model-View Transforms
+### Coordinate Frames
 
-This simulation does not use ModelViewTransform2. The model and view coordinate frames are identical; both use 
-the scenery coordinate frame. This is a non-standard approach for modern PhET sims, but was the approach used in the 
-Java version. Since so much code was directly reusable from the Java version, and since changing the model coordinate
-frame proved to be difficult, we decided to make this compromise. 
-For history, see [faradays-electromagnetic-lab#19](https://github.com/phetsims/faradays-electromagnetic-lab/issues/19).
+This simulation does not use `ModelViewTransform2` for mapping between model and view coordinate frames. 
+The model and view coordinate frames are identical; both use the scenery coordinate frame. This is a non-standard
+approach for modern PhET sims, but was the approach used in the Java version. Since so much code was directly reusable
+from the Java version, and since changing the model coordinate frame proved to be difficult, we decided to make this 
+compromise. For history, see [faradays-electromagnetic-lab#19](https://github.com/phetsims/faradays-electromagnetic-lab/issues/19).
 
 This has the following implications for the model, and the presentation of model values via PhET-iO:
 
@@ -52,10 +52,10 @@ This has the following implications for the model, and the presentation of model
 * +y is _down_.
 * +angle is _clockwise_. A vector with 0 angle points to the right.
 
-While ModelViewTransform2 is not used, a manual transform is applied for y and angle values. When there values are 
+While `ModelViewTransform2` is not used, a manual transform is applied for y and angle values. When there values are 
 presented in the UI, the sign of y and angle values are changes to correspond to the more standard "+y up" and 
 "+angle counterclockwise".  For performance reasons, we change the sign by multiplying by -1, rather than using a
-ModelViewTransform2.  
+`ModelViewTransform2`.  
 
 ### Query Parameters
 
