@@ -65,16 +65,23 @@ and sim-specific) to the browser console.
 
 ### Memory Management
 
-* **Dynamic allocation:** Most objects in this sim are allocated at startup, and exist for the lifetime of the
-  simulation. The exception is `Electron`, dynamically created when a coil is modified (see number of loops 
-  and loop area). Electrons do not need to be stateful, and the number of Electrons is derived.
+**Dynamic allocation:** Most objects in this sim are allocated at startup, and exist for the lifetime of the simulation. 
+The exceptions to this are as follows:
 
-* **Listeners**: Unless otherwise noted in the code, all uses of `link`, `addListener`, etc. do NOT need a
-  corresponding `unlink`, `removeListener`, etc.
+Changing a `Coil` (`numberOfLoopsProperty` or `loopAreaProperty`) results in disposal and creation of the model 
+and view elements that make up the coil: `CoilSegment`, `CoilSegmentNode`, `QuadraticBezierSpline`, `Electron`,
+and `ElectronSpriteInstance`. None of these need to be stateful for PhET-iO.
 
-* **dispose**: All classes have a `dispose` method, possibly inherited from a super class. Sim-specific classes whose
-  instances exist for the lifetime of the sim are not intended to be disposed. They are created
-  with `isDisposable: false`, or have a `dispose` method that looks like this:
+Resizing the browser window (changing ScreenView `visibleBoundsProperty`) results in disposal and creation of
+`CompassNeedleSpriteInstance`, to make the magnetic field visualization fill the browser 
+window. `CompassNeedleSpriteInstance` does not need to be stateful for PhET-iO.
+
+**Listeners**: Unless otherwise noted in the code, uses of `link`, `addListener`, etc. do _not_ need a corresponding
+`unlink`, `removeListener`, etc.
+
+**dispose**: All classes have a `dispose` method, possibly inherited from a super class. Sim-specific classes whose 
+instances exist for the lifetime of the sim are not intended to be disposed. They are created with `isDisposable: false`,
+or have a `dispose` method that looks like this:
 
 ```ts
 public dispose(): void {
@@ -84,25 +91,27 @@ public dispose(): void {
 
 ## Sound
 
-As of the 1.0 release, UI Sounds are supported, sonification is not supported.
+As of the 1.0 release, UI Sounds are supported, while sonification is not supported.
 
 `WaterFaucetNode` has a temporary implementation for UI Sound, intended to be removed when sound design is
 completed for `FaucetNode`; see [scenery-phet#840](https://github.com/phetsims/scenery-phet/issues/840). 
 
-`FELSonifier` and its subclasses may be ignored. Theey are experimental sonification code that is not included in 
-the 1.0 release.
+`FELSonifier` and its subclasses may be ignored. They are experimental sonification code that is not included in 
+the 1.0 release. We will revisit this code in a future release.
 
 ## Alternative Input
 
 To identify code related to focus order, search for `pdomOrder`.
 
 To identify sim-specific support for keyboard input, search for `tagName`. These classes have custom input listeners
-that handle keyboard events (e.g. `KeyboardDragListener`).
+(typically `KeyboardDragListener`) that handle keyboard events.
 
 This sim currently does not make use of hotkeys (aka, shortcuts). But if it does in the future... 
 To identify hotkeys, search for `addHotkey`.
 
-Setting focus for draggable objects is done via tab traversal. This sim does not use `GrabDragInteraction`.
+When a draggable object has focus, it is immediately draggable. This sim does not use `GrabDragInteraction`, which
+requires a Node that has focus to be "grabbed" before it can be dragged. PhET typically does not use `GrabDragInteraction`
+until Description is supported.
 
 ## PhET-iO
 
