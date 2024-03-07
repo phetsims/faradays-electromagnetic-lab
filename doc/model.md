@@ -50,7 +50,8 @@ frequency using sliders. The voltage amplitude varies over time.
 
 The Turbine is based on the same dipole magnet model as the BarMagnet, and is in fact graphically represented
 as a rotating bar magnet, attached to a water wheel. The B-field produced by the turbine is proportional to 
-the rotational speed of the water wheel.
+the rotational speed of the water wheel.  The pickup coil exerts a drag force on the turbine that is proportional
+to the number of loops and loop area of the pickup coil.
 
 # B-Field Consumers
 
