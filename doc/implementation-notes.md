@@ -96,9 +96,10 @@ To identify code related to focus order, search for `pdomOrder`.
 To identify sim-specific support for keyboard input, search for `tagName`. These classes have custom input listeners
 that handle keyboard events (e.g. `KeyboardDragListener`).
 
+This sim currently does not make use of hotkeys (aka, shortcuts). But if it does in the future... 
 To identify hotkeys, search for `addHotkey`.
 
-Setting focus draggable objects is done via tab traversal. This sim does not use `GrabDragInteraction`.
+Setting focus for draggable objects is done via tab traversal. This sim does not use `GrabDragInteraction`.
 
 ## PhET-iO
 
