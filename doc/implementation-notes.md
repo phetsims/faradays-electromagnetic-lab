@@ -100,7 +100,7 @@ The field names are similar, with the private field name having an underscore pr
 ```ts
 class SomeClass {
   
-  // Position of this model element, whose value is publicly readonly, privately settable.
+  // Position, whose value is publicly readonly, privately settable.
   public readonly positionProperty: TReadOnlyProperty<Vector2>;
   private readonly _positionProperty: Property<Vector2>;
   
