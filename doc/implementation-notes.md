@@ -66,7 +66,7 @@ and sim-specific) to the browser console.
 ### Memory Management
 
 * **Dynamic allocation:** Most objects in this sim are allocated at startup, and exist for the lifetime of the
-  simulation. The exception is `Electron`, which are dynamically created when a coil is modified (see number of loops 
+  simulation. The exception is `Electron`, dynamically created when a coil is modified (see number of loops 
   and loop area). Electrons do not need to be stateful, and the number of Electrons is derived.
 
 * **Listeners**: Unless otherwise noted in the code, all uses of `link`, `addListener`, etc. do NOT need a

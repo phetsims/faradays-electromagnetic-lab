@@ -12,6 +12,7 @@
 import faradaysElectromagneticLab from '../../faradaysElectromagneticLab.js';
 import Vector2 from '../../../../dot/js/Vector2.js';
 import { Shape } from '../../../../kite/js/imports.js';
+import Disposable from '../../../../axon/js/Disposable.js';
 
 
 export default class QuadraticBezierSpline {
@@ -58,6 +59,10 @@ export default class QuadraticBezierSpline {
     return new Shape()
       .moveToPoint( this.startPoint )
       .quadraticCurveToPoint( this.controlPoint, this.endPoint );
+  }
+
+  public dispose(): void {
+    Disposable.assertNotDisposable();
   }
 }
 

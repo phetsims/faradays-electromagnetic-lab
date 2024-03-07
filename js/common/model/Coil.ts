@@ -193,11 +193,19 @@ export default class Coil extends PhetioObject {
       ( numberOfLoops, loopRadius, frontColor, middleColor, backColor ) =>
         Coil.createCoilSegments( numberOfLoops, loopRadius, this.wireWidth, this.loopSpacing, frontColor, middleColor, backColor ) );
 
+    // When a new set of CoilSegments is created, dispose of the old set.
+    this.coilSegmentsProperty.lazyLink( ( newCoilSegments, oldCoilSegments ) =>
+      oldCoilSegments.forEach( coilSegment => coilSegment.dispose() ) );
+
     this.electronsProperty = new DerivedProperty( [ this.coilSegmentsProperty ],
       coilSegments => this.createElectrons( coilSegments ), {
         // Erroneously identifies options to new Electron in createElectrons as dependencies.
         strictAxonDependencies: false
       } );
+
+    // When a new set of Electrons is created, dispose of the old set.
+    this.electronsProperty.lazyLink( ( newElectrons, oldElectrons ) =>
+      oldElectrons.forEach( electron => electron.dispose() ) );
 
     this.electronsMovedEmitter = new Emitter();
   }

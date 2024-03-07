@@ -69,6 +69,10 @@ export default class CoilSegment {
   public evaluate( t: number, returnVector?: Vector2 ): Vector2 {
     return this.curve.evaluate( t, returnVector );
   }
+
+  public dispose(): void {
+    // Nothing to do currently. But this class is allocated dynamically, so keep this method as a bit of defensive programming.
+  }
 }
 
 faradaysElectromagneticLab.register( 'CoilSegment', CoilSegment );

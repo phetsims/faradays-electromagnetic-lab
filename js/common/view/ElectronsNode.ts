@@ -138,7 +138,7 @@ class ElectronSpriteInstance extends SpriteInstance {
   }
 
   public dispose(): void {
-    // Nothing to do currently. But keep this method as a bit of defensive programming.
+    // Nothing to do currently. But this class is allocated dynamically, so keep this method as a bit of defensive programming.
   }
 
   /**

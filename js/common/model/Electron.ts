@@ -97,6 +97,10 @@ export default class Electron {
     this.speedScaleProperty = options.speedScaleProperty;
   }
 
+  public dispose(): void {
+    // Nothing to do currently. But this class is allocated dynamically, so keep this method as a bit of defensive programming.
+  }
+
   /**
    * Gets the layer that this electron currently occupies.
    */
