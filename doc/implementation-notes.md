@@ -40,12 +40,12 @@ you may find the legacy documents in [doc/java-version/](https://github.com/phet
 ### Coordinate Frames
 
 This simulation does not use `ModelViewTransform2` for mapping between model and view coordinate frames. 
-The model and view coordinate frames are identical; both use the scenery coordinate frame. This is a non-standard
+The model and view coordinate frames are identical; they both use the scenery coordinate frame. This is a non-standard
 approach for modern PhET sims, but was the approach used in the Java version. Since so much code was directly reusable
 from the Java version, and since changing the model coordinate frame proved to be difficult, we decided to make this 
 compromise. For history, see [faradays-electromagnetic-lab#19](https://github.com/phetsims/faradays-electromagnetic-lab/issues/19).
 
-This has the following implications for the model, and the presentation of model values via PhET-iO:
+This has the following implications for the model, and the presentation of model values in PhET-iO:
 
 * Position and distance values are unitless.
 * +x is to the right.
