@@ -9,6 +9,9 @@
     * [Model-View Transforms](https://github.com/phetsims/faradays-electromagnetic-lab/blob/main/doc/implementation-notes.md#model-view-transforms)
     * [Query Parameters](https://github.com/phetsims/faradays-electromagnetic-lab/blob/main/doc/implementation-notes.md#query-parameters)
     * [Memory Management](https://github.com/phetsims/faradays-electromagnetic-lab/blob/main/doc/implementation-notes.md#memory-management)
+* [Sound](https://github.com/phetsims/faradays-electromagnetic-lab/blob/main/doc/implementation-notes.md#sound)
+* [Alternative Input](https://github.com/phetsims/faradays-electromagnetic-lab/blob/main/doc/implementation-notes.md#alternative-input)
+* [PhET-iO](https://github.com/phetsims/faradays-electromagnetic-lab/blob/main/doc/implementation-notes.md#phet-io)
 
 ## Introduction
 
