@@ -34,8 +34,7 @@ In addition to this document, you are encouraged to read:
 * [Faraday's Electromagnetic Lab HTML5](https://docs.google.com/document/d/12bQuonZ1hva6zsBQhLQ3pEsiEJmg_rHLyGTY5Ae1J9w/edit?usp=sharing)
 * [Faraday's Electromagnetic Lab PhET-iO Design](https://docs.google.com/document/d/1aDNiWlvI4y-TqvBI7zrV8LHQqNCgQL5XAHmQKorhbAQ/edit?usp=sharing)
 
-This is a port from the 2005 Java version. In addition to these implementation notes,
-you may find the legacy documents in [doc/java-version/](https://github.com/phetsims/faradays-electromagnetic-lab/tree/main/doc/java-version) to be helpful.
+This is a port from the 2005 Java version. You may find the legacy documents in [doc/java-version/](https://github.com/phetsims/faradays-electromagnetic-lab/tree/main/doc/java-version) to be helpful.
 
 ## General Considerations
 
