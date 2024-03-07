@@ -133,7 +133,7 @@ electrons follow as they flow through the coil.  So that objects (bar magnet, co
 pass through the coil, CoilSegments are designated as belonging to either the
 foreground layer or background layer of the coil.
 
-Pickup coil model is Hollywood. See PickupCoil.ts.
+PickupCoil is a "Hollywood" model. See PickupCoil.ts.
 
 The most important part of the model class hierarchy is:
 
@@ -141,9 +141,11 @@ The most important part of the model class hierarchy is:
 CurrentIndicator
   LightBulb
   Voltmeter
+  
 CurrentSource
   ACPowerSupply
   DCPowerSupply
+
 FELMovable
   FieldMeasurementTool
     Compass
