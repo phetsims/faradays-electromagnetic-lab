@@ -92,10 +92,10 @@ public dispose(): void {
 
 ### Software Design Patterns
 
-**Class fields of type Property**: This pattern is used frequently when we have a class field of type 
+**Class member of type Property**: This pattern is used frequently when we have a class member of type 
 Property, whose value is publicly readonly, but privately settable. This is accomplished using
 two class fields, one `public` and one `private`, both of which refer to the same Property instance.
-The field names are similar, with the private field name having an underscore prefix. For example:
+The names are similar, with the private member having an underscore prefix. For example:
 
 ```ts
 class SomeClass {
