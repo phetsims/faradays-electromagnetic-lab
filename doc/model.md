@@ -63,7 +63,7 @@ The opacity of each needle represents the field vector's magnitude. Because the 
 as a function of the distance cubed from the magnet, we scale the magnitude to provide a better "look" 
 for the visualization.
 
-The Compass measures the field vector at the Compass' location. There are 3 behaviors, used in different
+The Compass measures the field vector at its position. There are 3 behaviors, used in different
 screens:
 * **immediate**: The needle aligns with the field immediately. Used in the _Generator_ screen.
 * **incremental**: The needle aligns with the field over time, until the change in angle is below a threshold, then
@@ -71,13 +71,14 @@ screens:
 * **kinematic**: Behaves like a real compass. The needle aligns with the field over time, and exhibits inertia, 
 angular velocity, angular acceleration, and wobble. Used in the _Bar Magnet_ and _Pickup Coil_ screens.
 
-The FieldMeter measures the field vector at the meter's location, and displays the vector components. 
+The FieldMeter measures the field vector at its position, and displays the vector's magnitude, xy-components,
+and angle.
 
 The PickupCoil is the most complicated part of the model, and the place where Faraday’s Law is implemented. 
 (We will not be describing Faraday’s Law here; consult your physics textbook.) The magnetic field is sampled
 and averaged along a vertical line through the center of the coil. The average is used to compute the flux in 
-one loop of the coil, then multiplied by the number of loops. The flux is measured over time. If there is a 
-change in flux, then an EMF is induced. The current amplutude is then a function of the induced EMF. The 
+one loop of the coil, then multiplied by the number of loops. The flux is measured over time. A change in 
+flux induces an EMF, and the current amplitude is a function of the induced EMF. 
 
 The PickupCoil can have one of two indicators attached to it: a Lightbulb or a Voltmeter. These indicators
 react to the current amplitude in the coil The LightBulb’s intensity is proportional to the absolute value 
