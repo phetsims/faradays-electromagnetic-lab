@@ -23,7 +23,7 @@ export default class BarMagnetScreenModel extends FELScreenModel {
   public constructor( tandem: Tandem ) {
 
     const barMagnet = new BarMagnet( {
-      position: new Vector2( 450, 300 ),
+      position: new Vector2( 430, 285 ),
       tandem: tandem.createTandem( 'barMagnet' )
     } );
 
