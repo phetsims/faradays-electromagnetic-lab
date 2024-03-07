@@ -28,7 +28,7 @@ electrons.
 
 # B-Field Producers
 
-The simulation contains 3 B-field producers: `BarMagnet`, `Electromagnet`, and `Turbine`.
+The B-field producers in the simulation are: `BarMagnet`, `Electromagnet`, and `Turbine`.
 
 All magnets can provide the B-field vector at a point of interest, relative to the magnet’s location. 
 In reality, the B- field decreases as a function of the distance cubed (exponent=3). But to make things look 
@@ -54,8 +54,8 @@ is proportional to the number of loops and loop area of the pickup coil.
 
 # B-Field Consumers
 
-The simulation contains 4 B-field consumers: field visualization, Compass, FieldMeter, PickupCoil.
-All of these things can be influenced by only one magnet; there is no support for multiple magnets.
+The B-field consumers in the simulation are: field visualization, Compass, FieldMeter, and PickupCoil.
+They may be influenced by one magnet; there is no support for multiple magnets.
 
 The field visualization displays the magnet field as a grid of compass needles. Each needle measures the 
 field vector at the needle's position, and immediately aligns itself with the field vector's direction.
