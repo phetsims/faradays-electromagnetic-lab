@@ -1,5 +1,7 @@
 TODO https://github.com/phetsims/faradays-electromagnetic-lab/issues/70
 
+Reuse description from doc/java-version/Physics_Implementation.pdf.
+
 MathCAD for 1G bar magnet.
 
 Pickup Coil models Faraday's Law. Induced EMF is used to derive current amplitude.

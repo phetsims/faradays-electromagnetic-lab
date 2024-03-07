@@ -9,6 +9,9 @@
     * [Coordinate Frames](https://github.com/phetsims/faradays-electromagnetic-lab/blob/main/doc/implementation-notes.md#coordinate-frames)
     * [Query Parameters](https://github.com/phetsims/faradays-electromagnetic-lab/blob/main/doc/implementation-notes.md#query-parameters)
     * [Memory Management](https://github.com/phetsims/faradays-electromagnetic-lab/blob/main/doc/implementation-notes.md#memory-management)
+    * [Software Design Patterns](https://github.com/phetsims/faradays-electromagnetic-lab/blob/main/doc/implementation-notes.md#software-design-patterns)
+* [Model](https://github.com/phetsims/faradays-electromagnetic-lab/blob/main/doc/implementation-notes.md#model)
+* [View](https://github.com/phetsims/faradays-electromagnetic-lab/blob/main/doc/implementation-notes.md#view)
 * [Sound](https://github.com/phetsims/faradays-electromagnetic-lab/blob/main/doc/implementation-notes.md#sound)
 * [Alternative Input](https://github.com/phetsims/faradays-electromagnetic-lab/blob/main/doc/implementation-notes.md#alternative-input)
 * [PhET-iO](https://github.com/phetsims/faradays-electromagnetic-lab/blob/main/doc/implementation-notes.md#phet-io)
@@ -17,8 +20,7 @@
 
 This document contains notes related to the implementation of _Faraday's Electromagnetic Lab_. This is not an exhaustive description
 of the implementation. The intention is to provide a concise high-level overview, and to supplement the internal
-documentation
-(source code comments) and external documentation (design documents).
+documentation (source code comments) and external documentation (design documents).
 
 Before reading this document, please read:
 
@@ -89,44 +91,36 @@ public dispose(): void {
 }
 ```
 
-## Sound
+### Software Design Patterns
 
-As of the 1.0 release, UI Sounds are supported, while sonification is not supported.
+**Class fields of type Property** This pattern may be unfamiliar and is used frequently for model Properties.
+We desired a public API that is readonly, while the private API is mutable.  This is accomplished using
+two class fields, both of which refer to the same Property instance. The field names are similar, with the private
+field name having an underscore prefix. Here's an example:
 
-`WaterFaucetNode` has a temporary implementation for UI Sound, intended to be removed when sound design is
-completed for `FaucetNode`; see [scenery-phet#840](https://github.com/phetsims/scenery-phet/issues/840). 
+```ts
+class SomeClass {
+  
+  // Position of this model element
+  public readonly positionProperty: TReadOnlyProperty<Vector2>;
+  private readonly _positionProperty: Property<Vector2>;
+  
+  public constructor() {
+    this._positionProperty = new Vector2Property( Vector2.ZERO );
+    this.positionProperty = this._positionProperty;
+  }
+  
+  public reset() {
+    this._positionProperty.reset();
+  }
+}
+```
 
-`FELSonifier` and its subclasses may be ignored. They are experimental sonification code that is not included in 
-the 1.0 release. We will revisit this code in a future release.
-
-## Alternative Input
-
-To identify code related to focus order, search for `pdomOrder`.
-
-To identify sim-specific support for keyboard input, search for `tagName`. These classes have custom input listeners
-(typically `KeyboardDragListener`) that handle keyboard events.
-
-This sim currently does not make use of hotkeys (aka, shortcuts). But if it does in the future... 
-To identify hotkeys, search for `addHotkey`.
-
-When a draggable object has focus, it is immediately draggable. This sim does not use `GrabDragInteraction`, which
-requires a Node that has focus to be "grabbed" before it can be dragged. PhET typically does not use `GrabDragInteraction`
-until Description is supported.
-
-## PhET-iO
-
-The PhET-iO instrumentation of this sim is relatively straightforward. As described
-in [Memory Management](https://github.com/phetsims/faradays-electromagnetic-lab/blob/main/doc/implementation-notes.md#memory-management),
-everything that needs to be stateful is created at startup, and exists for the lifetime of the sim. 
-So there is no sim-specific use of `PhetioGroup` or `PhetioCapsule`.
-
------
-
-//TODO Reuse description from doc/java-version/Physics_Implementation.pdf.
+## Model
 
 MathCAD data and the B-field. See BarMagnetFieldData.ts.
 
-Model algorithms ported from Java require a constant dt clock, firing at a constant framerate. 
+Model algorithms ported from Java require a constant dt clock, firing at a constant framerate.
 FELScreenModel creates an instance of ConstantDtClock to implement this.  Instead of overriding
 step, subclasses of FELScreenModel should add a listener to the ConstantDtClock.
 See ConstantDtClock.ts and FELScreenModel.ts.
@@ -136,43 +130,12 @@ All stepping is handled by the model.
 The most complicated part of the sim may be `Coil.createCoilSegments`. It creates
 an ordered `CoilSegment[]` that describes the shape of the coil, and the path that
 electrons follow as they flow through the coil.  So that objects (bar magnet, compass,...) may
-pass through the coil, CoilSegments are designated as belonging to either the 
+pass through the coil, CoilSegments are designated as belonging to either the
 foreground layer or background layer of the coil.
-
-Coil (model) and CoilNode (view) are generalized, and are used by the pickup coil
-and electromagnet.
 
 Pickup coil model is Hollywood. See PickupCoil.ts.
 
-Electrons are lightweight, with no Properties, and no need to be PhET-iO stateful. 
-They are create by Coil in `createElectrons` when the shape of the coil is changed
-(by changing the number of loops, or the loop area).
-
-ElectronsNode renders all Electrons efficiently using scenery Sprites. Two instances
-of ElectronsNode are required, for foreground and background layers. 
-
-
-
-This pattern may be unfamiliar and is used frequently in the model for Properties.
-The public API is readonly, while the private API is mutable.
-Both fields refer to the same Property instance.
-The field names are similar, with the private field name having an underscore prefix.
-
-```ts
-// Position of this model element
-public readonly positionProperty: TReadOnlyProperty<Vector2>;
-private readonly _positionProperty: Property<Vector2>;
-
-public constructor( ... ) {
-  ...
-  this._positionProperty = new Vector2Property( ... );
-  this.positionProperty = this._positionProperty;
-}
-```
-
-## At A Glance
-
-Most important part of the model class hierarchy:
+The most important part of the model class hierarchy is:
 
 ```
 CurrentIndicator
@@ -195,7 +158,7 @@ FELMovable
   PickupCoil
 ```
 
-_Composition_ (not class hierarchy) for each Screen's TModel:
+This diagram shows the _composition_ (not class hierarchy) for each Screen's TModel:
 
 ```
 BarMagnetScreenModel
@@ -249,3 +212,39 @@ GeneratorScreenModel
   ImmediateCompass
   FieldMeter
 ```
+
+## View
+
+`ElectronsNode` renders all Electrons efficiently using scenery `Sprites`. Two instances
+of `ElectronsNode` are required, for foreground and background layers of a coil.
+
+## Sound
+
+As of the 1.0 release, UI Sounds are supported, while sonification is not supported.
+
+`WaterFaucetNode` has a temporary implementation for UI Sound, intended to be removed when sound design is
+completed for `FaucetNode`; see [scenery-phet#840](https://github.com/phetsims/scenery-phet/issues/840). 
+
+`FELSonifier` and its subclasses may be ignored. They are experimental sonification code that is not included in 
+the 1.0 release. We will revisit this code in a future release.
+
+## Alternative Input
+
+To identify code related to focus order, search for `pdomOrder`.
+
+To identify sim-specific support for keyboard input, search for `tagName`. These classes have custom input listeners
+(typically `KeyboardDragListener`) that handle keyboard events.
+
+This sim currently does not make use of hotkeys (aka, shortcuts). But if it does in the future... 
+To identify hotkeys, search for `addHotkey`.
+
+When a draggable object has focus, it is immediately draggable. This sim does not use `GrabDragInteraction`, which
+requires a Node that has focus to be "grabbed" before it can be dragged. PhET typically does not use `GrabDragInteraction`
+until Description is supported.
+
+## PhET-iO
+
+The PhET-iO instrumentation of this sim is relatively straightforward. As described
+in [Memory Management](https://github.com/phetsims/faradays-electromagnetic-lab/blob/main/doc/implementation-notes.md#memory-management),
+everything that needs to be stateful is created at startup, and exists for the lifetime of the sim. 
+So there is no sim-specific use of `PhetioGroup` or `PhetioCapsule`.
