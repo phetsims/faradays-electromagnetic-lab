@@ -95,7 +95,7 @@ public dispose(): void {
 **Class fields of type Property**": This pattern is used frequently when we have a class field of type 
 Property, the public API is readonly, and the private API is mutable. This is accomplished using
 two class fields, one `public` and one `private`, both of which refer to the same Property instance.
-The field names are similar, with the private field name having an underscore prefix. Here's an example:
+The field names are similar, with the private field name having an underscore prefix. For example:
 
 ```ts
 class SomeClass {
