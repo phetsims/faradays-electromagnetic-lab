@@ -92,10 +92,10 @@ public dispose(): void {
 
 ### Software Design Patterns
 
-**Class fields of type Property** This pattern may be unfamiliar and is used frequently for model Properties.
-We desired a public API that is readonly, while the private API is mutable.  This is accomplished using
-two class fields, both of which refer to the same Property instance. The field names are similar, with the private
-field name having an underscore prefix. Here's an example:
+**Class fields of type Property**": This pattern is used frequently when we have a class field of type 
+Property, the public API is readonly, and the private API is mutable. This is accomplished using
+two class fields, one `public` and one `private`, both of which refer to the same Property instance.
+The field names are similar, with the private field name having an underscore prefix. Here's an example:
 
 ```ts
 class SomeClass {
