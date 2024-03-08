@@ -202,9 +202,6 @@ export default class FieldMeterNode extends FELMovableNode {
     options.children = [ probeNode, crosshairsNode, bodyNode, gridBox ];
 
     super( fieldMeter, options );
-
-    //TODO https://github.com/phetsims/faradays-electromagnetic-lab/issues/64 delete this
-    phet.log && fieldMeter.positionProperty.link( position => phet.log( `field meter position = ${position}` ) );
   }
 }
 

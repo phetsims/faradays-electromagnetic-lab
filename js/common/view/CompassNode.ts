@@ -98,9 +98,6 @@ export default class CompassNode extends FELMovableNode {
       needleNode.rotation = needleAngle;
       needleNode.center = ringNode.center;
     } );
-
-    //TODO https://github.com/phetsims/faradays-electromagnetic-lab/issues/64 delete this
-    phet.log && compass.positionProperty.link( position => phet.log( `compass position = ${position}` ) );
   }
 }
 

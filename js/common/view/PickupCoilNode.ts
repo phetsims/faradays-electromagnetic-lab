@@ -87,9 +87,6 @@ export default class PickupCoilNode extends FELMovableNode {
     pickupCoil.positionProperty.link( position => {
       this.backgroundNode.translation = position;
     } );
-
-    //TODO https://github.com/phetsims/faradays-electromagnetic-lab/issues/64 delete this
-    phet.log && pickupCoil.positionProperty.link( position => phet.log( `pickupCoil position = ${position}` ) );
   }
 }
 
