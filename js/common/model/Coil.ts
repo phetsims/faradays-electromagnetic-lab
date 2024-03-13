@@ -229,6 +229,11 @@ export default class Coil extends PhetioObject {
    * WARNING! This method is particularly complicated. The segments that it creates have been tuned so that all
    * segments are smoothly joined to form a pseudo-3D coil. If you change values, do so with caution, test frequently,
    * and perform a close visual inspection of your changes.
+   *
+   * Note that there are several 'magic numbers' in this method that were empirically determined long ago in the Java
+   * version of this sim. That method ported directly from Java very nicely, and those constants are now almost
+   * 20 years old, which is downright elderly in code-years. So rather than disturb them by trying to factor out
+   * constants, it seemed preferable to leave them alone.
    */
   private static createCoilSegments( numberOfLoops: number, loopRadius: number, wireWidth: number, loopSpacing: number,
                                      frontColor: TColor, middleColor: TColor, backColor: TColor ): CoilSegment[] {
