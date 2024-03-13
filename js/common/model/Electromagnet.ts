@@ -78,7 +78,7 @@ export default class Electromagnet extends CoilMagnet {
       tandem: coilTandem
     } );
 
-    // Strength of the magnet is proportional to its EMF.
+    // As we said in the Java version... This is a bit of a "fudge". Strength of the magnet is proportional to its EMF.
     const strengthProperty = new DerivedProperty(
       [ coil.numberOfLoopsProperty, coil.numberOfLoopsProperty.rangeProperty, currentAmplitudeProperty ],
       ( numberOfLoops, numberOfLoopsRange, currentAmplitude ) => {
