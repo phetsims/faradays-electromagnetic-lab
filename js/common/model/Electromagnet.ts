@@ -79,8 +79,12 @@ export default class Electromagnet extends CoilMagnet {
     } );
 
     // Strength of the magnet is proportional to its EMF.
-    const strengthProperty = new DerivedProperty( [ coil.currentAmplitudeProperty ],
-      currentAmplitude => Math.abs( currentAmplitude ) * FELConstants.MAGNET_STRENGTH_RANGE.max, {
+    const strengthProperty = new DerivedProperty(
+      [ coil.numberOfLoopsProperty, coil.numberOfLoopsProperty.rangeProperty, currentAmplitudeProperty ],
+      ( numberOfLoops, numberOfLoopsRange, currentAmplitude ) => {
+        const amplitude = ( numberOfLoops / numberOfLoopsRange.max ) * currentAmplitude;
+        return Math.abs( amplitude ) * FELConstants.MAGNET_STRENGTH_RANGE.max;
+      }, {
         units: 'G',
         isValidValue: strength => FELConstants.MAGNET_STRENGTH_RANGE.contains( strength ),
         tandem: options.tandem.createTandem( 'strengthProperty' ),
