@@ -13,7 +13,7 @@ It's assumed that the reader is familiar with Faraday's Law.
 **Current amplitude**: A percentage with range [-1,1] that describes the amount of current relative to the 
 maximum current that may be induced in the model. The sign indicates the direction 
 of the current. View components use this value to determine how they should respond to induced current. 
-For example, deflection of the voltmeter needle, how bright to make the light bulb, and how fast to move 
+For example, deflection of the voltmeter needle, brightness of the light bulb, and speed of
 electrons.
 
 ## Abbreviations
