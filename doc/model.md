@@ -35,6 +35,7 @@ In reality, the B- field decreases as a function of the distance cubed (exponent
 better in the simulation, we adjust the exponent. The compass grid and field meter both uses exponent=3. 
 The `PickupCoil` uses exponent=2.
 
+### Bar Magnet
 The `BarMagnet` is based on a dipole magnet. It is not feasible to implement a numerical model of a bar magnet's 
 B-field directly, as it relies on double integrals. So the bar magnet was modeled in MathCAD as a horizontal cylinder
 with strength 1G, and MathCAD was used to create 3 grids of discrete, evenly-spaced B-field vectors. Those grids are:
@@ -45,6 +46,7 @@ with strength 1G, and MathCAD was used to create 3 grids of discrete, evenly-spa
 When measuring a the B-field at a point relative to the magnet, the resulting vector is is an interpolation between 
 points in these grids, scaled to match the strength of the bar magnet.
 
+### Electromagnet
 The Electromagnet is based on a coil magnet model. It's voltage source can be either a DCPowerSupply or an ACPowerSupply. 
 The strength of the B-field produced by the electromagnet is proportional to the amplitude of the voltage in the 
 voltage source and the number of loop in the coil. The current in the coil is proportional to the
@@ -56,6 +58,7 @@ amplitude is varied by the user via a slider control.
 The AC Power Supply has a configurable maximum voltage. The user varies the maximum voltage amplitude and 
 frequency using sliders. The voltage amplitude varies over time.
 
+### Turbine
 The Turbine is based on the same dipole magnet model as the BarMagnet, and is in fact graphically represented
 as a rotating bar magnet, attached to a water wheel. The pickup coil exerts a drag force on the turbine that 
 is proportional to the number of loops and loop area of the pickup coil.
