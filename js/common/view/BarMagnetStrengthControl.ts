@@ -1,7 +1,7 @@
 // Copyright 2023-2024, University of Colorado Boulder
 
 /**
- * BarMagnetStrengthControl is the control for magnet strength. The control shows values in %.
+ * BarMagnetStrengthControl is the control for magnet strength. The control shows values in % units.
  *
  * @author Chris Malley (PixelZoom, Inc.)
  */

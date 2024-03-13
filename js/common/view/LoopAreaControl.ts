@@ -1,7 +1,7 @@
 // Copyright 2023-2024, University of Colorado Boulder
 
 /**
- * LoopAreaControl controls the area of all loops in a coil. The control shows values in %.
+ * LoopAreaControl controls the area of all loops in a coil. The control shows values in % units.
  *
  * @author Chris Malley (PixelZoom, Inc.)
  */

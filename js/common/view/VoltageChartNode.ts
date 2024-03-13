@@ -81,6 +81,7 @@ export default class VoltageChartNode extends Node {
       waveDataSet.push( new Vector2( angle, 0 ) );
     }
 
+    // Plots the sine wave.
     const wavePlot = new LinePlot( chartTransform, waveDataSet, {
       stroke: FELColors.acPowerSupplyWaveColorProperty,
       lineWidth: 1.5

@@ -1,9 +1,9 @@
 // Copyright 2023-2024, University of Colorado Boulder
 
 /**
- * PickupCoilDebuggerPanel is a movable panel that displays quantities associated with a PickupCoil. This is intended to
- * be used solely for development and debugging. It is not intended to be displayed in the production version. It does
- * not support localization, alternative input, or switching magnetic units.
+ * PickupCoilDebuggerPanel is a movable panel that displays quantities associated with a PickupCoil. This is intended
+ * to be used solely for development and debugging, not in the production version. It does not support localization,
+ * alternative input, or switching magnetic units.
  *
  * This is based on FluxDisplayGraphic.java in the Java version of this sim.
  *
