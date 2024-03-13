@@ -25,7 +25,6 @@ import FELPreferences from '../model/FELPreferences.js';
 import FELMovableNode, { FELMovableNodeOptions } from './FELMovableNode.js';
 import Vector2 from '../../../../dot/js/Vector2.js';
 import Dimension2 from '../../../../dot/js/Dimension2.js';
-import Range from '../../../../dot/js/Range.js';
 import StringDisplay, { StringDisplayOptions } from '../../../../scenery-phet/js/StringDisplay.js';
 import StringUtils from '../../../../phetcommon/js/util/StringUtils.js';
 import optionize, { EmptySelfOptions } from '../../../../phet-core/js/optionize.js';
@@ -98,7 +97,7 @@ type FieldMeterNodeOptions = SelfOptions & PickRequired<FELMovableNodeOptions, '
 
 export default class FieldMeterNode extends FELMovableNode {
 
-  public constructor( fieldMeter: FieldMeter, magnetStrengthRange: Range, providedOptions: FieldMeterNodeOptions ) {
+  public constructor( fieldMeter: FieldMeter, providedOptions: FieldMeterNodeOptions ) {
 
     const options = optionize<FieldMeterNodeOptions, SelfOptions, FELMovableNodeOptions>()( {
 
