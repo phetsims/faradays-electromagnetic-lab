@@ -34,6 +34,7 @@ simLauncher.launch( () => {
 
   const options: SimOptions = {
     credits: FELConstants.CREDITS,
+    phetioDesigned: true,
     preferencesModel: new PreferencesModel( {
       visualOptions: {
         supportsProjectorMode: true
