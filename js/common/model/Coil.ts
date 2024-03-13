@@ -32,7 +32,6 @@ import Tandem from '../../../../tandem/js/Tandem.js';
 import FELConstants from '../FELConstants.js';
 import CoilSegment from './CoilSegment.js';
 import Vector2 from '../../../../dot/js/Vector2.js';
-import QuadraticBezierSpline from './QuadraticBezierSpline.js';
 import { LinearGradient, TColor } from '../../../../scenery/js/imports.js';
 import FELColors from '../FELColors.js';
 import Electron from './Electron.js';
@@ -256,14 +255,13 @@ export default class Coil extends PhetioObject {
           const endPoint = new Vector2( -loopCenterSpacing / 2 + xOffset, -loopRadius ); // lower
           const startPoint = new Vector2( endPoint.x - 15, endPoint.y - 40 ); // upper
           const controlPoint = new Vector2( endPoint.x - 20, endPoint.y - 20 );
-          const curve = new QuadraticBezierSpline( startPoint, controlPoint, endPoint );
 
           // Horizontal gradient, left to right.
           const gradient = new LinearGradient( 0, startPoint.y, 0, endPoint.y )
             .addColorStop( 0, middleColor )
             .addColorStop( 1, backColor );
 
-          const coilSegment = new CoilSegment( curve, 'background', {
+          const coilSegment = new CoilSegment( startPoint, controlPoint, endPoint, 'background', {
             stroke: gradient,
 
             // Scale the speed, since this segment is different from the others in the coil.
@@ -277,9 +275,8 @@ export default class Coil extends PhetioObject {
           const startPoint = new Vector2( -loopCenterSpacing / 2 + xOffset, -loopRadius ); // upper
           const endPoint = new Vector2( ( loopRadius * 0.25 ) + xOffset, 0 ); // lower
           const controlPoint = new Vector2( ( loopRadius * 0.15 ) + xOffset, ( -loopRadius * 0.70 ) );
-          const curve = new QuadraticBezierSpline( startPoint, controlPoint, endPoint );
 
-          const coilSegment = new CoilSegment( curve, 'background', {
+          const coilSegment = new CoilSegment( startPoint, controlPoint, endPoint, 'background', {
             stroke: backColor
           } );
           coilSegments.push( coilSegment );
@@ -291,14 +288,13 @@ export default class Coil extends PhetioObject {
         const startPoint = new Vector2( -loopCenterSpacing + xOffset, -loopRadius ); // upper
         const endPoint = new Vector2( ( loopRadius * 0.25 ) + xOffset, 0 ); // lower
         const controlPoint = new Vector2( ( loopRadius * 0.15 ) + xOffset, ( -loopRadius * 1.20 ) );
-        const curve = new QuadraticBezierSpline( startPoint, controlPoint, endPoint );
 
         // Diagonal gradient, upper left to lower right.
         const gradient = new LinearGradient( startPoint.x + ( loopRadius * 0.10 ), -loopRadius, xOffset, -loopRadius * 0.92 )
           .addColorStop( 0, middleColor )
           .addColorStop( 1, backColor );
 
-        const coilSegment = new CoilSegment( curve, 'background', {
+        const coilSegment = new CoilSegment( startPoint, controlPoint, endPoint, 'background', {
           stroke: gradient
         } );
         coilSegments.push( coilSegment );
@@ -309,14 +305,13 @@ export default class Coil extends PhetioObject {
         const startPoint = new Vector2( ( loopRadius * 0.25 ) + xOffset, 0 ); // upper
         const endPoint = new Vector2( xOffset, loopRadius ); // lower
         const controlPoint = new Vector2( ( loopRadius * 0.35 ) + xOffset, ( loopRadius * 1.20 ) );
-        const curve = new QuadraticBezierSpline( startPoint, controlPoint, endPoint );
 
         // Vertical gradient, upper to lower
         const gradient = new LinearGradient( 0, loopRadius * 0.92, 0, loopRadius )
           .addColorStop( 0, backColor )
           .addColorStop( 1, middleColor );
 
-        const coilSegment = new CoilSegment( curve, 'background', {
+        const coilSegment = new CoilSegment( startPoint, controlPoint, endPoint, 'background', {
           stroke: gradient
         } );
         coilSegments.push( coilSegment );
@@ -332,9 +327,8 @@ export default class Coil extends PhetioObject {
         const startPoint = new Vector2( xOffset, loopRadius ); // lower
         const endPoint = new Vector2( ( -loopRadius * 0.25 ) + xOffset, 0 ); // upper
         const controlPoint = new Vector2( ( -loopRadius * 0.25 ) + xOffset, ( loopRadius * 0.80 ) );
-        const curve = new QuadraticBezierSpline( startPoint, controlPoint, endPoint );
 
-        const coilSegment = new CoilSegment( curve, 'foreground', {
+        const coilSegment = new CoilSegment( startPoint, controlPoint, endPoint, 'foreground', {
           stroke: frontGradient
         } );
         coilSegments.push( coilSegment );
@@ -345,9 +339,8 @@ export default class Coil extends PhetioObject {
         const startPoint = new Vector2( ( -loopRadius * 0.25 ) + xOffset, 0 ); // lower
         const endPoint = new Vector2( xOffset, -loopRadius ); // upper
         const controlPoint = new Vector2( ( -loopRadius * 0.25 ) + xOffset, ( -loopRadius * 0.80 ) );
-        const curve = new QuadraticBezierSpline( startPoint, controlPoint, endPoint );
 
-        const coilSegment = new CoilSegment( curve, 'foreground', {
+        const coilSegment = new CoilSegment( startPoint, controlPoint, endPoint, 'foreground', {
           stroke: frontGradient
         } );
         coilSegments.push( coilSegment );
@@ -358,9 +351,8 @@ export default class Coil extends PhetioObject {
         const startPoint = new Vector2( xOffset, -loopRadius ); // lower
         const endPoint = new Vector2( startPoint.x + 15, startPoint.y - 40 ); // upper
         const controlPoint = new Vector2( startPoint.x + 20, startPoint.y - 20 );
-        const curve = new QuadraticBezierSpline( startPoint, controlPoint, endPoint );
 
-        const coilSegment = new CoilSegment( curve, 'foreground', {
+        const coilSegment = new CoilSegment( startPoint, controlPoint, endPoint, 'foreground', {
           stroke: middleColor,
 
           // Scale the speed, since this segment is different from the others in the coil.

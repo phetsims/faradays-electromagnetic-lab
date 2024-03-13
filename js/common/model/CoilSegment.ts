@@ -40,7 +40,14 @@ export default class CoilSegment {
   // appear to move at the same speed along all segments.
   public readonly speedScale;
 
-  public constructor( curve: QuadraticBezierSpline, layer: CoilLayer, providedOptions: CoilSegmentOptions ) {
+  /**
+   * @param startPoint - the start point for the QuadraticBezierSpline
+   * @param controlPoint - the control point for the QuadraticBezierSpline
+   * @param endPoint - the end point for the QuadraticBezierSpline
+   * @param layer - the layer of the coil (foreground or background) that this segment belongs to
+   * @param providedOptions
+   */
+  public constructor( startPoint: Vector2, controlPoint: Vector2, endPoint: Vector2, layer: CoilLayer, providedOptions: CoilSegmentOptions ) {
 
     const options = optionize<CoilSegmentOptions, SelfOptions, PathOptions>()( {
 
@@ -50,7 +57,7 @@ export default class CoilSegment {
 
     assert && assert( options.speedScale > 0, `invalid speedScale: ${options.speedScale}` );
 
-    this.curve = curve;
+    this.curve = new QuadraticBezierSpline( startPoint, controlPoint, endPoint );
     this.layer = layer;
     this.stroke = options.stroke;
     this.speedScale = options.speedScale;
