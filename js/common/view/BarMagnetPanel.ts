@@ -25,8 +25,14 @@ import DerivedStringProperty from '../../../../axon/js/DerivedStringProperty.js'
 import TReadOnlyProperty from '../../../../axon/js/TReadOnlyProperty.js';
 
 type SelfOptions = {
+
+  // Adds a 'Flip Polarity' button, to flip the polarity of the bar magnet.
   hasFlipPolarityButton?: boolean;
+
+  // Providing this Property adds a 'See Inside' checkbox, to see the magnetic field inside the bar magnet.
   seeInsideProperty?: Property<boolean>;
+
+  // Providing this Property adds an 'Earth' checkbox, to see the alignment of the bar magnet with planet Earth.
   earthVisibleProperty?: Property<boolean>;
 };
 
