@@ -191,7 +191,7 @@ export default class VoltmeterNode extends Node {
       headWidth: 20,
       tailWidth: 5,
       x: displayNode.centerX,
-      y: displayNode.bottom - Math.abs( ( DISPLAY_BOUNDS.height - NEEDLE_LENGTH ) / 2 )
+      centerY: displayNode.centerY
     } ) );
 
     return new Node( {
