@@ -24,7 +24,6 @@ import Vector2 from '../../../../dot/js/Vector2.js';
 import felFieldMeterLoop_mp3 from '../../../sounds/felFieldMeterLoop_mp3.js';
 import Utils from '../../../../dot/js/Utils.js';
 import FieldNode from './FieldNode.js';
-import FELQueryParameters from '../FELQueryParameters.js';
 import FELSonifier from '../model/FELSonifier.js';
 import DerivedProperty from '../../../../axon/js/DerivedProperty.js';
 import Property from '../../../../axon/js/Property.js';
@@ -93,7 +92,7 @@ export default class FieldMeterDragSonifier extends FELSonifier implements TInpu
   private static fieldMagnitudeToPlaybackRatePiecewiseLinear( fieldMagnitude: number, fieldMagnitudeRange: Range ): number {
     assert && assert( fieldMagnitudeRange.contains( fieldMagnitude ), `invalid fieldMagnitude: ${fieldMagnitude}` );
 
-    const piecewiseCutoff = FELQueryParameters.piecewiseCutoff; // G
+    const piecewiseCutoff = 20; // G
     assert && assert( fieldMagnitudeRange.contains( piecewiseCutoff ), `invalid piecewiseCutoff: ${piecewiseCutoff}` );
 
     let playbackRate: number;

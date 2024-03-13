@@ -9,7 +9,6 @@
 
 import logGlobal from '../../../phet-core/js/logGlobal.js';
 import faradaysElectromagneticLab from '../faradaysElectromagneticLab.js';
-import FELConstants from './FELConstants.js';
 
 export const MagneticUnitsValues = [ 'G', 'T' ] as const;
 export type MagneticUnits = ( typeof MagneticUnitsValues )[number];
@@ -56,14 +55,6 @@ const SCHEMA_MAP = {
   // Prints info to the console that is useful for calibrating the pickup coil. See PickupCoil.calibrateEMF.
   calibrateEMF: {
     type: 'flag'
-  },
-
-  // Field magnitude cutoff value in G, used for FieldMeterDragSonifier.fieldMagnitudeToPlaybackRatePiecewiseLinear
-  //TODO https://github.com/phetsims/faradays-electromagnetic-lab/issues/77 delete this
-  piecewiseCutoff: {
-    type: 'number',
-    defaultValue: 20,
-    isValidValue: ( value: number ) => FELConstants.MAGNET_STRENGTH_RANGE.contains( value )
   }
 } as const;
 
