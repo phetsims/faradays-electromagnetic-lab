@@ -35,7 +35,15 @@ In reality, the B- field decreases as a function of the distance cubed (exponent
 better in the simulation, we adjust the exponent. The compass grid and field meter both uses exponent=3. 
 The `PickupCoil` uses exponent=2.
 
-The `BarMagnet` is based on a dipole magnet.
+The `BarMagnet` is based on a dipole magnet. It is not feasible to implement a numerical model of a bar magnet's 
+B-field directly, as it relies on double integrals. So the bar magnet was modeled in MathCAD as a horizontal cylinder
+with strength 1G, and MathCAD was used to create 3 grids of discrete, evenly-spaced B-field vectors. Those grids are:
+- internal: field internal to the magnet
+- external-near: field near the magnet
+- external-far: field far from the magnet
+
+When measuring a the B-field at a point relative to the magnet, the resulting vector is is an interpolation between 
+points in these grids, scaled to match the strength of the bar magnet.
 
 The Electromagnet is based on a coil magnet model. It's voltage source can be either a DCPowerSupply or an ACPowerSupply. 
 The strength of the B-field produced by the electromagnet is proportional to the amplitude of the voltage in the 
