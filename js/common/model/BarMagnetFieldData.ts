@@ -2,8 +2,8 @@
 
 /**
  * BarMagnetFieldData contains precomputed data for the B-field of a bar magnet, along with the MathCAD parameters that
- * were used to compute the data. More details are provided in the documentation for BarMagnetFieldGrid.  The raw
- * data files are in assets/bfield/, see the README.txt file there.
+ * were used to compute the data. More details are provided in BarMagnetFieldGrid.ts and in
+ * faradays-electromagnetic-lab/assets/bfield/README.txt.
  *
  * In the Java version, this data lived in a set of CSV files in faraday/data/faraday/bfield/.
  *
