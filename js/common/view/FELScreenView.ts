@@ -30,12 +30,18 @@ import DerivedProperty from '../../../../axon/js/DerivedProperty.js';
 import isResettingAllProperty from '../isResettingAllProperty.js';
 
 type SelfOptions = {
+
+  // Required UI components that are common to all screens.
   magnet: Magnet;
   compass: Compass;
   fieldMeter: FieldMeter;
   panels: Node;
-  timeControlNode?: Node | null;
   developerAccordionBox: Node;
+
+  // Optional UI components.
+  timeControlNode?: Node | null;
+
+  // Called when the resetAllButton is pressed.
   resetAll: () => void;
 };
 
@@ -73,7 +79,7 @@ export default class FELScreenView extends ScreenView {
       tandem: options.tandem.createTandem( 'compassNode' )
     } );
 
-    this.fieldMeterNode = new FieldMeterNode( options.fieldMeter, options.magnet.strengthRange, {
+    this.fieldMeterNode = new FieldMeterNode( options.fieldMeter, {
         dragBoundsProperty: this.visibleBoundsProperty,
         tandem: options.tandem.createTandem( 'fieldMeterNode' )
       } );
