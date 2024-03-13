@@ -67,6 +67,7 @@ export default class DCPowerSupplyNode extends Node {
     const voltsText = new Text( voltsStringProperty, {
       font: new PhetFont( 16 ),
       fill: FELColors.batteryVoltsColorProperty,
+      maxWidth: 35,
       tandem: tandem.createTandem( 'voltsText' ),
       phetioVisiblePropertyInstrumented: true
     } );
