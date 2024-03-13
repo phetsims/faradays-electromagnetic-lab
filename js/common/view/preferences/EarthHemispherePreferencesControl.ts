@@ -32,11 +32,11 @@ export default class EarthHemispherePreferencesControl extends PreferencesContro
     const radioButtonGroup = new EarthHemisphereRadioButtonGroup( earthImageProperty,
       tandem.createTandem( 'radioButtonGroup' ) );
 
-    super( combineOptions<PreferencesControlOptions>( {
+    super( combineOptions<PreferencesControlOptions>( {}, FELConstants.PREFERENCES_CONTROL_OPTIONS, {
       labelNode: labelText,
       controlNode: radioButtonGroup,
       tandem: tandem
-    }, FELConstants.PREFERENCES_CONTROL_OPTIONS ) );
+    } ) );
   }
 }
 

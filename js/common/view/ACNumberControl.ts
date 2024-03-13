@@ -48,12 +48,12 @@ export default class ACNumberControl extends NumberControl {
       titleNodeOptions: {
         tandem: Tandem.OPT_OUT
       },
-      sliderOptions: combineOptions<NumberControlSliderOptions>( {
+      sliderOptions: combineOptions<NumberControlSliderOptions>( {}, FELConstants.PERCENT_SLIDER_OPTIONS, {
         constrainValue: ( value: number ) => Utils.roundToInterval( value, SLIDER_STEP ),
         orientation: ( providedOptions.orientation === 'horizontal' ) ? Orientation.HORIZONTAL : Orientation.VERTICAL,
         trackSize: ( providedOptions.orientation === 'horizontal' ) ? HORIZONTAL_TRACK_SIZE : HORIZONTAL_TRACK_SIZE.swapped(),
         tandem: Tandem.OPT_OUT
-      }, FELConstants.PERCENT_SLIDER_OPTIONS ),
+      } ),
       numberDisplayOptions: {
         backgroundFill: FELColors.acPowerSupplyDisplayColorProperty,
         backgroundStroke: null,

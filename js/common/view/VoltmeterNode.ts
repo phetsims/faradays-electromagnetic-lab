@@ -100,10 +100,10 @@ export default class VoltmeterNode extends Node {
     } );
 
     // Needle points straight up
-    const needleNode = new ArrowNode( 0, 0, 0, -NEEDLE_LENGTH, combineOptions<ArrowNodeOptions>( {
+    const needleNode = new ArrowNode( 0, 0, 0, -NEEDLE_LENGTH, combineOptions<ArrowNodeOptions>( {}, NEEDLE_OPTIONS, {
       x: displayNode.centerX,
       y: displayNode.bottom - Math.abs( ( DISPLAY_BOUNDS.height - NEEDLE_LENGTH ) / 2 )
-    }, NEEDLE_OPTIONS ) );
+    } ) );
 
     // Screw that holds the needle in place.
     const screwNode = new Circle( {
@@ -240,15 +240,15 @@ class GaugeNode extends Node {
     // '-' and '+' labels, centered in the left and right halves of the gauge.
     const vector = Vector2.createPolar( GAUGE_RADIUS / 2, Math.PI / 4 );
     const negativeText = new Text( MathSymbols.MINUS,
-      combineOptions<TextOptions>( {
+      combineOptions<TextOptions>( {}, GAUGE_TEXT_OPTIONS, {
         centerX: -vector.x,
         centerY: -vector.y
-      }, GAUGE_TEXT_OPTIONS ) );
+      } ) );
     const positiveText = new Text( MathSymbols.PLUS,
-      combineOptions<TextOptions>( {
+      combineOptions<TextOptions>( {}, GAUGE_TEXT_OPTIONS, {
         centerX: vector.x,
         centerY: -vector.y
-      }, GAUGE_TEXT_OPTIONS ) );
+      } ) );
 
     super( combineOptions<NodeOptions>( {
       children: [ gaugePath, ticksPath, negativeText, positiveText ],

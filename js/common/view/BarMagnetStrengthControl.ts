@@ -65,10 +65,10 @@ export default class BarMagnetStrengthControl extends NumberControl {
         } ),
         numberFormatterDependencies: [ FaradaysElectromagneticLabStrings.pattern.valuePercentStringProperty ]
       },
-      sliderOptions: combineOptions<NumberControlSliderOptions>( {
+      sliderOptions: combineOptions<NumberControlSliderOptions>( {}, FELConstants.PERCENT_SLIDER_OPTIONS, {
         constrainValue: ( value: number ) => Utils.roundToInterval( value, SLIDER_STEP ),
         majorTicks: majorTicks
-      }, FELConstants.PERCENT_SLIDER_OPTIONS ),
+      } ),
       tandem: tandem,
       phetioFeatured: true
     } );

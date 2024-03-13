@@ -39,12 +39,12 @@ export default class AddEarthCheckboxPreferencesControl extends PreferencesContr
       font: FELConstants.PREFERENCES_DESCRIPTION_FONT
     } );
 
-    super( combineOptions<PreferencesControlOptions>( {
+    super( combineOptions<PreferencesControlOptions>( {}, FELConstants.PREFERENCES_CONTROL_OPTIONS, {
       labelNode: labelText,
       controlNode: toggleSwitch,
       descriptionNode: descriptionText,
       tandem: tandem
-    }, FELConstants.PREFERENCES_CONTROL_OPTIONS ) );
+    } ) );
   }
 }
 
