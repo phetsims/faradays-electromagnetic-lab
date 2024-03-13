@@ -20,7 +20,7 @@ type StringsType = {
     'generatorStringProperty': LocalizedStringProperty;
   };
   'barMagnetStringProperty': LocalizedStringProperty;
-  'strengthColonStringProperty': LocalizedStringProperty;
+  'strengthStringProperty': LocalizedStringProperty;
   'seeInsideStringProperty': LocalizedStringProperty;
   'flipPolarityStringProperty': LocalizedStringProperty;
   'flipEarthStringProperty': LocalizedStringProperty;
