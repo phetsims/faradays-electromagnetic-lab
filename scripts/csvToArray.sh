@@ -2,8 +2,9 @@
 #=======================================================================================================================
 #
 # Converts a CSV file of B-field values to a number[][] that can be pasted into JavaScript code.
+# See faradays-electromagnetic-lab/assets/bfield/README.txt for more details.
 
-# Usage: csvToArray.sh ../data/bfield/BX_internal.csv
+# Usage: csvToArray.sh ../assets/bfield/BX_internal.csv
 #
 # NOTE: You will need to remove the final ',' at the end of the output.
 #
