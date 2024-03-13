@@ -62,9 +62,7 @@ export default class BarMagnet extends Magnet {
         phetioDocumentation: 'To change strength, use strengthPercentProperty.'
       } );
 
-    const strengthRange = new Range( ( STRENGTH_PERCENT_RANGE.min / 100 ) * MAX_STRENGTH, ( STRENGTH_PERCENT_RANGE.max / 100 ) * MAX_STRENGTH );
-
-    super( strengthProperty, strengthRange, options );
+    super( strengthProperty, STRENGTH_RANGE, options );
 
     this.strengthPercentProperty = strengthPercentProperty;
   }
