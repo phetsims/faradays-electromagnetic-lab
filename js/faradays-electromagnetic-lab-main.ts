@@ -1,7 +1,7 @@
 // Copyright 2023-2024, University of Colorado Boulder
 
 /**
- * Main entry point for the sim.
+ * Main entry point for the 'Faraday's Electromagnetic Lab' sim.
  *
  * @author Chris Malley (PixelZoom, Inc.)
  */
