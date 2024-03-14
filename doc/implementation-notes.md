@@ -159,7 +159,7 @@ the behavior of the coil. See especially `calibrateEMF`.
 
 ### Class hierarchy
 
-The most important part of the model class hierarchy is:
+This diagram shows the most important part of the model class hierarchy.
 
 ```
 CurrentIndicator
