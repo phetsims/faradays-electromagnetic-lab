@@ -103,25 +103,24 @@ export default class Voltmeter extends CurrentIndicator {
 
     const deltaAngle = ( desiredNeedleAngle - this._needleAngleProperty.value ) % ( 2 * Math.PI );
 
-    if ( deltaAngle === 0 ) {
-      // Do nothing, the needle is not moving.
-    }
-    else if ( !this.kinematicsEnabledProperty.value || desiredNeedleAngle !== ZERO_NEEDLE_ANGLE ) {
+    if ( deltaAngle !== 0 ) {
+      if ( !this.kinematicsEnabledProperty.value || desiredNeedleAngle !== ZERO_NEEDLE_ANGLE ) {
 
-      // Move immediately to the desired angle.
-      this._needleAngleProperty.value = desiredNeedleAngle;
-    }
-    else if ( Math.abs( deltaAngle ) < NEEDLE_JIGGLE_THRESHOLD ) {
+        // Move immediately to the desired angle.
+        this._needleAngleProperty.value = desiredNeedleAngle;
+      }
+      else if ( Math.abs( deltaAngle ) < NEEDLE_JIGGLE_THRESHOLD ) {
 
-      // The needle is close enough to zero, so stop jiggling.
-      this._needleAngleProperty.value = ZERO_NEEDLE_ANGLE;
-    }
-    else {
+        // The needle is close enough to zero, so stop jiggling.
+        this._needleAngleProperty.value = ZERO_NEEDLE_ANGLE;
+      }
+      else {
 
-      // Jiggle the needle around the zero point.
-      let jiggleAngle = -deltaAngle * NEEDLE_LIVELINESS;
-      jiggleAngle = Utils.clamp( jiggleAngle, -NEEDLE_JIGGLE_ANGLE, NEEDLE_JIGGLE_ANGLE );
-      this._needleAngleProperty.value = jiggleAngle;
+        // Jiggle the needle around the zero point.
+        let jiggleAngle = -deltaAngle * NEEDLE_LIVELINESS;
+        jiggleAngle = Utils.clamp( jiggleAngle, -NEEDLE_JIGGLE_ANGLE, NEEDLE_JIGGLE_ANGLE );
+        this._needleAngleProperty.value = jiggleAngle;
+      }
     }
   }
 
