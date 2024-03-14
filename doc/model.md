@@ -19,7 +19,9 @@ of the current. View components use this value to determine how they should resp
 For example, deflection of the voltmeter needle, brightness of the light bulb, and speed of
 electrons.
 
-## Abbreviations
+## Symbols
+
+These symbols appear in the user interface:
 
 * B: magnitude of the magnetic field vector (in gauss or tesla)
 * B<sub>x</sub>: x component of B
