@@ -48,19 +48,24 @@ points in these grids, scaled to match the strength of the bar magnet.
 ### Electromagnet
 The electromagnet (see `Electromagnet`) is based on a coil magnet model. It's voltage source can be either a DC or AC power supply. 
 The strength of the B-field produced by the electromagnet is proportional to the amplitude of the voltage in the 
-voltage source and the number of loop in the coil. The current in the coil is proportional to the
-amplitude of the voltage source. Note that there is no model of resistance for the coil or voltage source.
+voltage source and the number of loops in the coil. (The diameter of the loops is fixed.) The current amplitude in the coil 
+is proportional to the amplitude of the voltage source. Note that there is no model of resistance for the coil or voltage source.
 
-The DC power supply (aka battery) is rather straightforward. It has a maximum voltage, and its voltage 
-amplitude is varied by the user via a slider control. See `DCPowerSuply`.
+The DC power supply (aka battery) has a maximum voltage, and its voltage 
+amplitude and polarity is varied by the user via a slider control. See `DCPowerSuply`.
 
 The AC Power Supply has a configurable maximum voltage. The user varies the maximum voltage amplitude and 
 frequency using sliders. The voltage amplitude varies over time. See `ACPowerSupply`.
 
+Electrons in the electromagnet's coil move at a speed and direction that is proportional to the current amplitude in
+the coil. More current results in faster speed.  A change in polarity of the magnet results in change in direction
+of the electrons.
+
 ### Turbine
-The turbine (see `Turbine`) is based on the same dipole magnet model as the bar magnet, and is in fact graphically represented
-as a rotating bar magnet, attached to a water wheel. The pickup coil exerts a drag force on the turbine that 
-is proportional to the number of loops and loop area of the pickup coil.
+The turbine (see `Turbine`) is based on the same dipole magnet model as the bar magnet, and is represented
+as a rotating bar magnet, attached to a water wheel. Water flowing from a faucet turns the wheel.  
+The pickup coil exerts a drag force on the turbine that is proportional to the number of loops and loop area 
+of the pickup coil.
 
 # B-Field Consumers
 
@@ -84,11 +89,12 @@ screens:
 angular velocity, angular acceleration, and wobble. Used in the _Bar Magnet_ and _Pickup Coil_ screens.
 
 ### Field Meter
-The field meter (see `FieldMeter`) measures the field vector at its position, and displays the vector's magnitude, xy-components,
-and angle.
+The field meter (see `FieldMeter`) measures the field vector at the position of its crosshair, and displays the 
+vector's magnitude, xy-components, and angle. Units can be switched between G (gauss) and T (tesla) via the 
+Preferences dialog.
 
 ### Pickup Coil
-The pickup coil (see `PickupCoil`) is the most complicated part of the model, and the place where Faraday’s Law is implemented. 
+The pickup coil (see `PickupCoil`) is the most complicated part of the model, and implements Faraday’s Law. 
 (We will not be describing Faraday’s Law here; consult your physics textbook.) The magnetic field is sampled
 and averaged along a vertical line through the center of the coil. The average is used to compute the flux in 
 one loop of the coil, then multiplied by the number of loops. The flux is measured over time. A change in 
@@ -99,17 +105,6 @@ react to the current amplitude in the coil The LightBulb’s intensity is propor
 of the current amplitude. The Voltmeter’s needle deflection is proportional to the current amplitude, and 
 uses an ah hoc algorithm that makes the needle wobble around the zero point.
 
----
-
-Reuse description from doc/java-version/Physics_Implementation.pdf.
-
-MathCAD for 1G bar magnet.
-
-Pickup Coil models Faraday's Law. Induced EMF is used to derive current amplitude.
-
-Electromagnet also sets current amplitude based on the type of power supply (DC or AC)
-and the setting for the power supply (voltage, frequency).
-
-Electrons in the pickup coil and electromagnet move based on current amplitude.
-
-Light bulb and voltmeter respond to current amplitude in the pickup coil.
+Similar to the electromagnet coil, electrons in the pickup coil react to the current amplitude in the coil.
+More current results in faster speed.  A change in polarity of the magnet field results in change in direction
+of the electrons.
