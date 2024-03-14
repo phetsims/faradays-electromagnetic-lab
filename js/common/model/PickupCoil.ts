@@ -20,7 +20,7 @@ import NumberProperty from '../../../../axon/js/NumberProperty.js';
 import Range from '../../../../dot/js/Range.js';
 import TReadOnlyProperty from '../../../../axon/js/TReadOnlyProperty.js';
 import LightBulb, { LightBulbOptions } from './LightBulb.js';
-import Voltmeter from './Voltmeter.js';
+import Voltmeter, { VoltmeterOptions } from './Voltmeter.js';
 import CurrentIndicator from './CurrentIndicator.js';
 import PickupCoilSamplePointsStrategy from './PickupCoilSamplePointsStrategy.js';
 import FELMovable, { FELMovableOptions } from './FELMovable.js';
@@ -38,6 +38,7 @@ type SelfOptions = {
   samplePointsStrategy: PickupCoilSamplePointsStrategy; // strategy used to populate B-field samplePoints
   coilOptions?: PickOptional<CoilOptions, 'electronSpeedScale'>; // passed to Coil
   lightBulbOptions?: PickOptional<LightBulbOptions, 'lightsWhenCurrentChangesDirection'>; // passed to LightBulb
+  voltmeterOptions?: PickOptional<VoltmeterOptions, 'kinematicsEnabledProperty'>; // passed to Voltmeter
 };
 
 export type PickupCoilOptions = SelfOptions & FELMovableOptions;
@@ -119,7 +120,7 @@ export default class PickupCoil extends FELMovable {
 
   public constructor( magnet: Magnet, providedOptions: PickupCoilOptions ) {
 
-    const options = optionize<PickupCoilOptions, StrictOmit<SelfOptions, 'coilOptions' | 'lightBulbOptions'>, FELMovableOptions>()( {
+    const options = optionize<PickupCoilOptions, StrictOmit<SelfOptions, 'coilOptions' | 'lightBulbOptions' | 'voltmeterOptions'>, FELMovableOptions>()( {
 
       // SelfOptions
       transitionSmoothingScale: 1 // no smoothing
@@ -185,7 +186,9 @@ export default class PickupCoil extends FELMovable {
       }, options.lightBulbOptions ) );
 
     this.voltmeter = new Voltmeter( this.currentAmplitudeProperty, FELConstants.CURRENT_AMPLITUDE_RANGE,
-      options.tandem.createTandem( 'voltmeter' ) );
+      combineOptions<VoltmeterOptions>( {
+        tandem: options.tandem.createTandem( 'voltmeter' )
+      }, options.voltmeterOptions ) );
 
     this.currentIndicatorProperty = new Property<CurrentIndicator>( this.lightBulb, {
       validValues: [ this.lightBulb, this.voltmeter ],

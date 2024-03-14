@@ -9,16 +9,17 @@
  * @author Chris Malley (PixelZoom, Inc.)
  */
 
-import Tandem from '../../../../tandem/js/Tandem.js';
 import faradaysElectromagneticLab from '../../faradaysElectromagneticLab.js';
 import Utils from '../../../../dot/js/Utils.js';
 import FELConstants from '../FELConstants.js';
 import TReadOnlyProperty from '../../../../axon/js/TReadOnlyProperty.js';
 import NumberProperty from '../../../../axon/js/NumberProperty.js';
-import CurrentIndicator from './CurrentIndicator.js';
+import CurrentIndicator, { CurrentIndicatorOptions } from './CurrentIndicator.js';
 import Range from '../../../../dot/js/Range.js';
 import ConstantDtClock from './ConstantDtClock.js';
-import Property from '../../../../axon/js/Property.js';
+import PickRequired from '../../../../phet-core/js/types/PickRequired.js';
+import BooleanProperty from '../../../../axon/js/BooleanProperty.js';
+import optionize from '../../../../phet-core/js/optionize.js';
 
 // Define the zero point of the needle.
 const ZERO_NEEDLE_ANGLE = Utils.toRadians( 0 );
@@ -39,6 +40,15 @@ const NEEDLE_JIGGLE_THRESHOLD = Utils.toRadians( 0.5 );
 const NEEDLE_LIVELINESS = 0.6;
 assert && assert( NEEDLE_LIVELINESS > 0 && NEEDLE_LIVELINESS < 1 );
 
+// Kinematics of the needle are enabled by default.
+const DEFAULT_KINEMATICS_ENABLED_PROPERTY: TReadOnlyProperty<boolean> = new BooleanProperty( true );
+
+type SelfOptions = {
+  kinematicsEnabledProperty?: TReadOnlyProperty<boolean>;
+};
+
+export type VoltmeterOptions = SelfOptions & PickRequired<CurrentIndicatorOptions, 'tandem'>;
+
 export default class Voltmeter extends CurrentIndicator {
 
   // The amplitude of the current in the pickup coil.
@@ -50,17 +60,20 @@ export default class Voltmeter extends CurrentIndicator {
   private readonly _needleAngleProperty: NumberProperty;
   private readonly needAngleRange: Range;
 
-  // Angular velocity of the needle, the change in angle over time, in radians/s
-  private angularVelocityProperty: Property<number>;
+  // Whether kinematics of the needle is enabled.
+  private readonly kinematicsEnabledProperty: TReadOnlyProperty<boolean>;
 
-  // Angular acceleration of the needle, the change in angular velocity over time, in radians/s^2
-  private angularAccelerationProperty: Property<number>;
+  public constructor( currentAmplitudeProperty: TReadOnlyProperty<number>,
+                      currentAmplitudeRange: Range,
+                      providedOptions: VoltmeterOptions ) {
 
-  public constructor( currentAmplitudeProperty: TReadOnlyProperty<number>, currentAmplitudeRange: Range, tandem: Tandem ) {
+    const options = optionize<VoltmeterOptions, SelfOptions, CurrentIndicatorOptions>()( {
 
-    super( {
-      tandem: tandem
-    } );
+      // SelfOptions
+      kinematicsEnabledProperty: DEFAULT_KINEMATICS_ENABLED_PROPERTY
+    }, providedOptions );
+
+    super( options );
 
     this.currentAmplitudeProperty = currentAmplitudeProperty;
     this.currentAmplitudeRange = currentAmplitudeRange;
@@ -69,25 +82,13 @@ export default class Voltmeter extends CurrentIndicator {
     this._needleAngleProperty = new NumberProperty( 0, {
       units: 'radians',
       range: this.needAngleRange,
-      tandem: tandem.createTandem( 'needleAngleProperty' ),
+      tandem: options.tandem.createTandem( 'needleAngleProperty' ),
       phetioReadOnly: true,
       phetioFeatured: true
     } );
     this.needleAngleProperty = this._needleAngleProperty;
 
-    this.angularVelocityProperty = new NumberProperty( 0, {
-      units: 'radians/s',
-      tandem: tandem.createTandem( 'angularVelocityProperty' ),
-      phetioReadOnly: true,
-      phetioDocumentation: 'Angular velocity of the voltmeter needle, to simulate kinematics.'
-    } );
-
-    this.angularAccelerationProperty = new NumberProperty( 0, {
-      units: 'radians/s^2',
-      tandem: tandem.createTandem( 'angularAccelerationProperty' ),
-      phetioReadOnly: true,
-      phetioDocumentation: 'Angular acceleration of the voltmeter needle, to simulate kinematics.'
-    } );
+    this.kinematicsEnabledProperty = options.kinematicsEnabledProperty;
   }
 
   public reset(): void {
@@ -105,9 +106,9 @@ export default class Voltmeter extends CurrentIndicator {
     if ( deltaAngle === 0 ) {
       // Do nothing, the needle is not moving.
     }
-    else if ( desiredNeedleAngle !== ZERO_NEEDLE_ANGLE ) {
+    else if ( !this.kinematicsEnabledProperty.value || desiredNeedleAngle !== ZERO_NEEDLE_ANGLE ) {
 
-      // If we're not moving to zero, set the desired angle immediately.
+      // Move immediately to the desired angle.
       this._needleAngleProperty.value = desiredNeedleAngle;
     }
     else if ( Math.abs( deltaAngle ) < NEEDLE_JIGGLE_THRESHOLD ) {

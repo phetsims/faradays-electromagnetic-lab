@@ -14,6 +14,8 @@ import Electromagnet from '../../common/model/Electromagnet.js';
 import PickupCoil from '../../common/model/PickupCoil.js';
 import Vector2 from '../../../../dot/js/Vector2.js';
 import { FixedSpacingSamplePointsStrategy } from '../../common/model/PickupCoilSamplePointsStrategy.js';
+import DerivedProperty from '../../../../axon/js/DerivedProperty.js';
+import DCPowerSupply from '../../common/model/DCPowerSupply.js';
 
 export default class Transformer extends PhetioObject {
 
@@ -44,6 +46,13 @@ export default class Transformer extends PhetioObject {
       },
       lightBulbOptions: {
         lightsWhenCurrentChangesDirection: false
+      },
+      voltmeterOptions: {
+
+        // Disable voltmeter kinematics when using the AC power supply for the electromagnet.
+        kinematicsEnabledProperty: new DerivedProperty(
+          [ this.electromagnet.currentSourceProperty ],
+          currentSource => ( currentSource instanceof DCPowerSupply ) )
       },
       tandem: tandem.createTandem( 'pickupCoil' )
     } );
