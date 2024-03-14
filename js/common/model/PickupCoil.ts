@@ -36,7 +36,7 @@ type SelfOptions = {
   maxEMF: number; // the initial value of maxEMFProperty
   transitionSmoothingScale?: number; // the initial value of transitionSmoothingScaleProperty
   samplePointsStrategy: PickupCoilSamplePointsStrategy; // strategy used to populate B-field samplePoints
-  coilOptions?: PickOptional<CoilOptions, 'electronSpeedScale'>; // passed to Coil
+  coilOptions?: PickOptional<CoilOptions, 'maxLoopArea' | 'loopAreaPercentRange' | 'electronSpeedScale'>; // passed to Coil
   lightBulbOptions?: PickOptional<LightBulbOptions, 'lightsWhenCurrentChangesDirection'>; // passed to LightBulb
   voltmeterOptions?: PickOptional<VoltmeterOptions, 'kinematicsEnabledProperty'>; // passed to Voltmeter
 };
@@ -174,7 +174,7 @@ export default class PickupCoil extends FELMovable {
 
     this.coil = new Coil( this.currentAmplitudeProperty, FELConstants.CURRENT_AMPLITUDE_RANGE,
       combineOptions<CoilOptions>( {
-        maxLoopArea: 35345, // in the Java version, this was 35342.917352885175. See DEFAULT_PICKUP_LOOP_AREA in FaradayConstant.java
+        maxLoopArea: 70685, // to match Java version
         loopAreaPercentRange: new RangeWithValue( 20, 100, 50 ),
         numberOfLoopsRange: new RangeWithValue( 1, 4, 2 ),
         tandem: coilTandem

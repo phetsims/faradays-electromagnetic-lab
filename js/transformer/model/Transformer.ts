@@ -42,6 +42,7 @@ export default class Transformer extends PhetioObject {
       transitionSmoothingScale: 0.56, // see PickupCoil.transitionSmoothingScaleProperty
       samplePointsStrategy: new FixedSpacingSamplePointsStrategy( 5.4 ), // same as Java version
       coilOptions: {
+        maxLoopArea: 70685, // to match Java version
         electronSpeedScale: 2
       },
       lightBulbOptions: {
