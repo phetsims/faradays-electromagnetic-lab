@@ -49,10 +49,10 @@ type KinematicCompassOptions = SelfOptions & CompassOptions;
 export default class KinematicCompass extends Compass {
 
   // Angular velocity of the needle, the change in angle over time, in radians/s
-  private angularVelocityProperty: Property<number>;
+  private readonly angularVelocityProperty: Property<number>;
 
   // Angular acceleration of the needle, the change in angular velocity over time, in radians/s^2
-  private angularAccelerationProperty: Property<number>;
+  private readonly angularAccelerationProperty: Property<number>;
 
   public constructor( magnet: Magnet, isPlayingProperty: TReadOnlyProperty<boolean>, providedOptions: KinematicCompassOptions ) {
 
