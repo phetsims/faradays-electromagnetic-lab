@@ -54,14 +54,14 @@ This has the following implications for the model, and the presentation of model
 * +y is _down_.
 * +angle is _clockwise_. A vector with 0 angle points to the right.
 
-While `ModelViewTransform2` is not used, a manual transform is applied for y and angle values. When there values are 
-presented in the UI, the sign of y and angle values are changes to correspond to the more standard "+y up" and 
+While `ModelViewTransform2` is not used, a manual transform is applied for y and angle values. Where there values are 
+visible in the UI, the sign of y and angle values are changes to correspond to the more standard "+y up" and 
 "+angle counterclockwise".  For performance reasons, we change the sign by multiplying by -1, rather than using a
 `ModelViewTransform2`.  
 
 ### Query Parameters
 
-Query parameters are used to enable sim-specific features. Sim-specific query parameters are documented
+Query parameters are used to enable sim-specific features, and to initialize preferences. Sim-specific query parameters are documented
 in `FELQueryParameters.ts`. Running with `?log` will print the complete set of query parameters (common-code, PhET-iO,
 and sim-specific) to the browser console.
 
