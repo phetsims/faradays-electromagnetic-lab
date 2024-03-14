@@ -23,6 +23,12 @@ import WaterFaucetNode from './WaterFaucetNode.js';
 
 export default class TurbineNode extends Node {
 
+  /**
+   * @param turbine
+   * @param layoutBounds - for positioning the water faucet
+   * @param visibleBoundsProperty - for making the water flow to the bottom of the browser window
+   * @param tandem
+   */
   public constructor( turbine: Turbine, layoutBounds: Bounds2, visibleBoundsProperty: TReadOnlyProperty<Bounds2>, tandem: Tandem ) {
 
     const waterWheelNode = new WaterWheelNode( turbine.barMagnet );
