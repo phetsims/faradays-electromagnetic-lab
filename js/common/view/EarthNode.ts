@@ -1,7 +1,7 @@
 // Copyright 2023-2024, University of Colorado Boulder
 
 /**
- * EarthNode is the view of planet earth, which aligns itself the poles of a bar magnet.
+ * EarthNode is the view of planet earth, which aligns itself with the poles of a bar magnet.
  * Origin is at the center.
  *
  * This is based on EarthGraphic.java in the Java version of this sim.

@@ -1,7 +1,7 @@
 // Copyright 2023-2024, University of Colorado Boulder
 
 /**
- * FieldNode is the visualization of a magnet's B-field as a 2D grid of compass needles.  It uses scenery's Sprites
+ * FieldNode is the visualization of a magnet's B-field as a 2D grid of compass needles. It uses scenery's Sprites
  * feature for performance optimization.
  *
  * This is based on BFieldOutsideGraphic.java and AbstractBFieldGraphic.java in the Java version of this sim.

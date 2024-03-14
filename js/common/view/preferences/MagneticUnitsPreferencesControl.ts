@@ -1,8 +1,8 @@
 // Copyright 2023-2024, University of Colorado Boulder
 
 /**
- * MagneticUnitsPreferencesControl is the control in the Preferences dialog for choosing which magnetic units will
- * be displayed in the sim: G (gauss) or T (telsa).
+ * MagneticUnitsPreferencesControl is the control in the Preferences dialog for choosing the magnetic units that
+ * will be displayed by the field meter: G (gauss) or T (telsa).
  *
  * @author Chris Malley (PixelZoom, Inc.)
  */

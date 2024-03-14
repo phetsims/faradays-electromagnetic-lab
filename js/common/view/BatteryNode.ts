@@ -1,8 +1,7 @@
 // Copyright 2024, University of Colorado Boulder
 
 /**
- * BatteryNode is the view of a D-cell battery. It has a slider for changing the battery's voltage and polarity,
- * and displays the voltage value.
+ * BatteryNode is the view of a D-cell battery.
  *
  * @author Chris Malley (PixelZoom, Inc.)
  */

@@ -1,7 +1,7 @@
 // Copyright 2023-2024, University of Colorado Boulder
 
 /**
- * FieldMeter is the model of a meter for measuring the B-field at a specific position.
+ * FieldMeter is the model of a meter that measures the B-field at a specific position.
  *
  * @author Chris Malley (PixelZoom, Inc.)
  */

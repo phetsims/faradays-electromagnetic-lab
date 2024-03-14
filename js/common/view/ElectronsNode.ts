@@ -3,7 +3,7 @@
 /**
  * ElectronsNode is the visual representation of a collection of electrons in a coil. It shows electrons for one layer
  * (foreground or background) of the coil, and hides electrons that are in the other layer. Two instances of this
- * class are needed to render all electrons in a coil.
+ * class are needed to render all electrons in a coil. It uses scenery's Sprites feature for performance optimization.
  *
  * @author Chris Malley (PixelZoom, Inc.)
  */

@@ -1,8 +1,9 @@
 // Copyright 2023-2024, University of Colorado Boulder
 
 /**
- * DCPowerSupplyNode is the view of a DC power supply, used to power the electromagnet. It has a slider for changing
- * a battery's voltage and polarity, and displays the voltage value.
+ * DCPowerSupplyNode is the view of a DC power supply, used to power the electromagnet. A D-cell battery is held in
+ * a bracket that can be connected to a coil. A slider changes the battery's voltage and polarity, and the voltage
+ * is displayed on the positive end of the battery.
  *
  * This is based on BatteryGraphic.java in the Java version of this sim.
  *

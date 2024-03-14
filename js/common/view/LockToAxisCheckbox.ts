@@ -2,7 +2,7 @@
 
 /**
  * LockToAxisCheckbox is the checkbox labeled 'Lock to Axis', used to lock dragging of the magnet and pickup coil to
- * the x-axis of the pickup coil.
+ * the horizontal axis that goes through the center of the pickup coil.
  *
  * @author Chris Malley (PixelZoom, Inc.)
  */

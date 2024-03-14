@@ -3,13 +3,12 @@
 /**
  * Coil is the model of a coil of wire, with a current flowing through it.
  *
- * The coil is described as array of CoilSegment, which form a set of loops which are not connected at the ends.
- * The ends of the coil are where things can be connected to the coil (eg, lightbulb, voltmeter, battery, AC power supply).
+ * The coil is described as an array of CoilSegment, which form a set of loops which are not connected at the ends.
+ * The ends of the coil are where things can be connected to the coil (eg, lightbulb, voltmeter, power supply).
  *
- * The CoilSegments describe the coil's shape, and contains the information that the electrons need to flow through
- * the coil, move between layers (foreground or background), and adjust ("scale") their speed so that they appear to
- * flow at the same rate in all coil segments. For example, the wire ends are significantly shorter coil segments than
- * the other segments in the coil.
+ * The CoilSegments describe the coil's shape, and the path that electrons follow as they flow through the coil,
+ * move between layers (foreground or background), and adjust ("scale") their speed so that they appear to flow
+ * at the same rate in all coil segments.
  *
  * This is based on Coil.java in the Java version of this sim.
  *

@@ -1,7 +1,7 @@
 // Copyright 2024, University of Colorado Boulder
 
 /**
- * ACNumberControl is a specialization of NumberControl used for controlling frequency and max voltage of
+ * ACNumberControl is a specialization of NumberControl used for controlling frequency and maximum voltage of
  * the AC Power Supply.
  *
  * @author Chris Malley (PixelZoom, Inc.)

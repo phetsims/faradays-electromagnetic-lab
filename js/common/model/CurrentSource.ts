@@ -5,7 +5,7 @@
  * for an electromagnet. It provides CurrentSourceIO for reference-type serialization.
  *
  * This is regrettably named CurrentSource instead of PowerSupply because the UI label is 'Current Source',
- * and (by convention) that naming is therefore exposed in PhET-iO.
+ * and (by convention) that naming is exposed in PhET-iO.
  *
  * This is based on AbstractCurrentSource.java in the Java version of this sim.
  *

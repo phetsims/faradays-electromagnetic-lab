@@ -6,8 +6,8 @@
  *
  * Note that Electron is NOT instrumented for PhET-iO. The exact positions of electrons are not significant.
  * We do not care (for example) if electron positions are different in the Upstream and Downstream frames of
- * the State wrapper. What does matter is the number of electrons and their speed, both of which are computed
- * based on other state.
+ * the State wrapper. What does matter is the number of electrons and their speed, both of which are derived
+ * from other state.
  *
  * This is based on Electron.java in the Java version of this sim.
  *

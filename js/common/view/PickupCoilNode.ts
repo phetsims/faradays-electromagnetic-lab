@@ -1,7 +1,7 @@
 // Copyright 2023-2024, University of Colorado Boulder
 
 /**
- * PickupCoilGraphic is the visual representation of a pickup coil, with indicators (lightbulb and voltmeter)
+ * PickupCoilGraphic is the visual representation of a pickup coil, with indicators (light bulb and voltmeter)
  * for displaying the effect of electromagnetic induction. The origin is at the center of the coil.
  *
  * This is based on PickupCoilGraphic.java in the Java version of this sim.

@@ -7,7 +7,7 @@
  *
  * Run with &dev query parameter to add this to the sim.
  *
- * See the Property associated with a control for documentation about its semantics, how to adjust it, etc.
+ * See the Property associated with each control for documentation about its semantics, how to adjust it, etc.
  *
  * @author Chris Malley (PixelZoom, Inc.)
  */

@@ -1,8 +1,8 @@
 // Copyright 2024, University of Colorado Boulder
 
 /**
- * PercentControl is a NumberControl that shows its value in % units. It's not at all general, and exists to address
- * the needs of BarMagnetStrengthControl and LoopAreaControl.
+ * PercentControl is a NumberControl that shows its value in % units. It's not at all general, and exists as a base
+ * class to address the needs of BarMagnetStrengthControl and LoopAreaControl.
  *
  * @author Chris Malley (PixelZoom, Inc.)
  */

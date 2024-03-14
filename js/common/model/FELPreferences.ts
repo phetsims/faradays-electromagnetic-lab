@@ -15,20 +15,20 @@ import FELQueryParameters, { EarthHemisphere, EarthHemisphereValues, MagneticUni
 
 const FELPreferences = {
 
-  // Magnetic units to be displayed by the Field Meter
+  // Magnetic units to be displayed by the Field Meter.
   magneticUnitsProperty: new StringUnionProperty<MagneticUnits>( FELQueryParameters.magneticUnits as MagneticUnits, {
     validValues: MagneticUnitsValues,
     tandem: Tandem.PREFERENCES.createTandem( 'magneticUnitsProperty' ),
     phetioFeatured: true
   } ),
 
-  // Whether an "Earth" checkbox will be added to relevant screens
+  // Whether an "Earth" checkbox will be added to relevant screens.
   addEarthCheckboxProperty: new BooleanProperty( FELQueryParameters.addEarthCheckbox, {
     tandem: Tandem.PREFERENCES.createTandem( 'addEarthCheckboxProperty' ),
     phetioFeatured: true
   } ),
 
-  // Which hemisphere of the Earth to show
+  // Which hemisphere of the Earth to show when the "Earth" checkbox is checked.
   earthHemisphereProperty: new StringUnionProperty<EarthHemisphere>( FELQueryParameters.earthHemisphere as EarthHemisphere, {
     validValues: EarthHemisphereValues,
     tandem: Tandem.PREFERENCES.createTandem( 'earthHemisphereProperty' ),

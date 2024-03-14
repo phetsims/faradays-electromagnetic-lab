@@ -1,8 +1,8 @@
 // Copyright 2024, University of Colorado Boulder
 
 /**
- * Creates screen icons for this sim.  Most of the magic numbers herein were determined empirically,
- * to match design decisions made in https://github.com/phetsims/faradays-electromagnetic-lab/issues/28.
+ * FELScreenIconFactory is a collection of functions for creating screen icons. The 'magic numbers' herein were determined
+ * empirically, to match design decisions made in https://github.com/phetsims/faradays-electromagnetic-lab/issues/28.
  *
  * @author Chris Malley (PixelZoom, Inc.)
  */
