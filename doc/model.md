@@ -61,11 +61,11 @@ is proportional to the number of loops and loop area of the pickup coil.
 
 # B-Field Consumers
 
-The B-field consumers in the simulation are: field visualization, compass, fieldMeter, and pickupCoil.
+The B-field consumers in the simulation are: B-field visualization, compass, fieldMeter, and pickupCoil.
 They may be influenced by one magnet; there is no support for multiple magnets.
 
-### Field Visualization
-The field visualization (see `FieldNode`) displays the magnet field as a grid of compass needles. Each needle measures the 
+### B-Field Visualization
+The B-field visualization (see `FieldNode`) displays the magnetic field as a grid of compass needles. Each needle measures the 
 field vector at the needle's position, and immediately aligns itself with the field vector's direction.
 The opacity of each needle represents the field vector's magnitude. Because the field strength decreases 
 as a function of the distance cubed from the magnet, we scale the magnitude to provide a better "look" 
