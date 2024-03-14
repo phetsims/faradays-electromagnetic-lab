@@ -118,22 +118,37 @@ class SomeClass {
 
 ## Model
 
-MathCAD data and the B-field. See BarMagnetFieldData.ts.
+This section highlights the more interesting parts of the view.
 
-Model algorithms ported from Java require a constant dt clock, firing at a constant framerate.
-FELScreenModel creates an instance of ConstantDtClock to implement this.  Instead of overriding
-step, subclasses of FELScreenModel should add a listener to the ConstantDtClock.
-See ConstantDtClock.ts and FELScreenModel.ts.
+### Clock
 
-All stepping is handled by the model.
+Model algorithms ported from Java require a constant dt clock, firing at a constant framerate; see `ConstantDtClock`.
+Instead of overriding `step`, model subclasses listen to ConstantDtClock. All stepping in this sim is handled by the model;
+there is no stepping in the view.
 
-The most complicated part of the sim may be `Coil.createCoilSegments`. It creates
-an ordered `CoilSegment[]` that describes the shape of the coil, and the path that
-electrons follow as they flow through the coil.  So that objects (bar magnet, compass,...) may
-pass through the coil, CoilSegments are designated as belonging to either the
-foreground layer or background layer of the coil.
+### Bar Magnet 
+
+It is not feasible to implement a numerical model of a bar magnet's B-field directly, as it relies on double integrals. 
+So `BarMagnet` is a "Hollywood" model of a bar magnet, based on a static set of field vectors that were 
+generated using MathCAD. See [model.md](https://github.com/phetsims/faradays-electromagnetic-lab/blob/main/doc/model.md#bar-magnet)
+for a more complete discussion. See also `BarMagnetFieldGrid` and `BarMagnetFieldData`. 
+
+### Electromagnet 
+
+### Coil
+
+The most complicated part of the sim may be `Coil.createCoilSegments`. It creates an ordered `CoilSegment[]` that describes the 
+shape of the coil, and the path that electrons follow as they flow through the coil. So that objects (bar magnet, compass,...) may
+pass through the coil, CoilSegments are designated as belonging to either the foreground layer or background layer of the coil.
+
+The Java version also implemented collision detection, so that some (but not all) objects collided with the coil. 
+The HTML5 version takes a more consistent approach, has no collision detection, and allows all object to magically pass through the coil.
+
+### Pickup Coil
 
 PickupCoil is a "Hollywood" model. See PickupCoil.ts.
+
+### Class hierarchy
 
 The most important part of the model class hierarchy is:
 
@@ -160,7 +175,10 @@ FELMovable
   PickupCoil
 ```
 
-This diagram shows the _composition_ (not class hierarchy) for each Screen's TModel:
+### Composition at the TModel level
+
+This diagram shows the _composition_ (not class hierarchy) for each Screen's TModel.
+(Note that base class `FELScreenModel` factors out the duplication shown here.)
 
 ```
 BarMagnetScreenModel
@@ -216,6 +234,8 @@ GeneratorScreenModel
 ```
 
 ## View
+
+This section highlights the more interesting parts of the view.
 
 `FieldNode` renders a visualization of the magnetic field efficiently using scenery `Sprites`.  The field is 
 represented as a grid of evenly-spaced compass needles.  The red part of each needle points in the direction
