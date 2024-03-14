@@ -16,6 +16,7 @@ import Vector2 from '../../../../dot/js/Vector2.js';
 import { FixedSpacingSamplePointsStrategy } from '../../common/model/PickupCoilSamplePointsStrategy.js';
 import DerivedProperty from '../../../../axon/js/DerivedProperty.js';
 import DCPowerSupply from '../../common/model/DCPowerSupply.js';
+import RangeWithValue from '../../../../dot/js/RangeWithValue.js';
 
 export default class Transformer extends PhetioObject {
 
@@ -42,6 +43,7 @@ export default class Transformer extends PhetioObject {
       transitionSmoothingScale: 0.56, // see PickupCoil.transitionSmoothingScaleProperty
       samplePointsStrategy: new FixedSpacingSamplePointsStrategy( 5.4 ), // same as Java version
       coilOptions: {
+        loopAreaPercentRange: new RangeWithValue( 20, 100, 75 ),
         electronSpeedScale: 2
       },
       lightBulbOptions: {
