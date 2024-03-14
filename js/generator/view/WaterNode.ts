@@ -14,7 +14,7 @@ import Bounds2 from '../../../../dot/js/Bounds2.js';
 import Multilink from '../../../../axon/js/Multilink.js';
 import FELColors from '../../common/FELColors.js';
 
-const MAX_WIDTH = 60; // width of the fluid stream when flowRateProperty is at its maximum
+const MAX_WIDTH = 60; // width of the water stream when flowRateProperty is at its maximum
 
 type SelfOptions = EmptySelfOptions;
 
