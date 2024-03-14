@@ -94,8 +94,6 @@ export default class Coil extends PhetioObject {
 
   // Area of one loop
   public readonly loopAreaPercentProperty: NumberProperty;
-  private readonly loopAreaProperty: TReadOnlyProperty<number>; // provided for PhET-iO
-  private readonly maxLoopArea: number;
 
   // Radius of one loop
   public readonly loopRadiusProperty: TReadOnlyProperty<number>;
@@ -142,7 +140,6 @@ export default class Coil extends PhetioObject {
 
     this.wireWidth = options.wireWidth;
     this.loopSpacing = options.loopSpacing;
-    this.maxLoopArea = options.maxLoopArea;
 
     this.numberOfLoopsProperty = new NumberProperty( options.numberOfLoopsRange.defaultValue, {
       numberType: 'Integer',
@@ -161,19 +158,20 @@ export default class Coil extends PhetioObject {
       phetioFeatured: true
     } );
 
-    this.loopAreaProperty = new DerivedProperty( [ this.loopAreaPercentProperty ],
-      loopAreaPercent => ( loopAreaPercent / 100 ) * this.maxLoopArea, {
+    // Provided for PhET-iO
+    const loopAreaProperty = new DerivedProperty( [ this.loopAreaPercentProperty ],
+      loopAreaPercent => ( loopAreaPercent / 100 ) * options.maxLoopArea, {
         tandem: options.tandem.createTandem( 'loopAreaProperty' ),
         phetioValueType: NumberIO,
         phetioDocumentation: hasFixedLoopArea ? 'Loop area is fixed.' : 'To change loop area, use loopAreaPercentProperty.'
       } );
 
     this.loopRadiusRange = new Range(
-      Math.sqrt( ( this.loopAreaPercentProperty.range.min / 100 ) * this.maxLoopArea / Math.PI ),
-      Math.sqrt( ( this.loopAreaPercentProperty.range.max / 100 ) * this.maxLoopArea / Math.PI )
+      Math.sqrt( ( this.loopAreaPercentProperty.range.min / 100 ) * options.maxLoopArea / Math.PI ),
+      Math.sqrt( ( this.loopAreaPercentProperty.range.max / 100 ) * options.maxLoopArea / Math.PI )
     );
 
-    this.loopRadiusProperty = new DerivedProperty( [ this.loopAreaProperty ],
+    this.loopRadiusProperty = new DerivedProperty( [ loopAreaProperty ],
       loopArea => Math.sqrt( loopArea / Math.PI ) );
 
     this.electronsVisibleProperty = new BooleanProperty( options.electronsVisible, {
