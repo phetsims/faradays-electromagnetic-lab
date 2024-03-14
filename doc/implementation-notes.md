@@ -261,7 +261,7 @@ of `ElectronsNode` are required, for foreground and background layers of a coil.
 flow in a coil, electrons move between the foreground and background layers of the coil.
 
 The Java version implemented collision detection, so that some (but not all) objects collided with a coil. 
-The HTML5 version takes a more consistent approach, has no collision detection, and allows all object to magically pass through the coil.
+The HTML5 version takes a more consistent approach, has no collision detection, and allows all object to magically pass through the coils.
 
 ## Sound
 
