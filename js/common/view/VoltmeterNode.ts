@@ -208,7 +208,7 @@ export default class VoltmeterNode extends Node {
  */
 class GaugeNode extends Node {
 
-  public constructor( translationOptions?: NodeTranslationOptions ) {
+  public constructor( nodeTranslationOptions?: NodeTranslationOptions ) {
 
     // 180-degree arc, with a vertical line down the center at zero volts.
     const gaugeShape = new Shape()
@@ -253,7 +253,7 @@ class GaugeNode extends Node {
     super( combineOptions<NodeOptions>( {
       children: [ gaugePath, ticksPath, negativeText, positiveText ],
       pickable: false
-    }, translationOptions ) );
+    }, nodeTranslationOptions ) );
   }
 }
 
@@ -263,7 +263,7 @@ class GaugeNode extends Node {
  */
 class ProbeNode extends Path {
 
-  public constructor( fillProperty: ProfileColorProperty, strokeProperty: ProfileColorProperty, translationOptions?: NodeTranslationOptions ) {
+  public constructor( fillProperty: ProfileColorProperty, strokeProperty: ProfileColorProperty, nodeTranslationOptions?: NodeTranslationOptions ) {
 
     const w = PROBE_SIZE.width;
     const h = PROBE_SIZE.height;
@@ -280,7 +280,7 @@ class ProbeNode extends Path {
     super( shape, combineOptions<PathOptions>( {
       fill: fillProperty,
       stroke: strokeProperty
-    }, translationOptions ) );
+    }, nodeTranslationOptions ) );
   }
 }
 

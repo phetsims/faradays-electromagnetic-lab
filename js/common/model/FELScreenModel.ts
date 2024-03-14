@@ -31,14 +31,14 @@ const DEFAULT_FIELD_METER_POSITION = new Vector2( 125, 400 );
 
 type SelfOptions = {
 
-  // Options passed to FieldMeter
-  fieldMeterOptions?: PickOptional<FieldMeterOptions, 'position' | 'visible'>;
-
   // Creates a compass that is appropriate for the screen
   createCompass: ( magnet: Magnet, isPlayingProperty: TReadOnlyProperty<boolean>, tandem: Tandem ) => Compass;
 
+  // Options passed to FieldMeter
+  fieldMeterOptions?: PickOptional<FieldMeterOptions, 'position' | 'visible'>;
+
   // Options passed to isPlayingProperty
-  isPlayingPropertyOptions?: BooleanPropertyOptions;
+  isPlayingPropertyOptions?: PickOptional<BooleanPropertyOptions, 'tandem'>;
 };
 
 export type FELModelOptions = SelfOptions & PickRequired<PhetioObjectOptions, 'tandem'>;
@@ -58,7 +58,7 @@ export default class FELScreenModel implements TModel {
 
   protected constructor( magnet: Magnet, providedOptions: FELModelOptions ) {
 
-    const options = optionize<FELModelOptions, StrictOmit<SelfOptions, 'isPlayingPropertyOptions' | 'fieldMeterOptions'>>()( {}, providedOptions );
+    const options = optionize<FELModelOptions, StrictOmit<SelfOptions, 'fieldMeterOptions' | 'isPlayingPropertyOptions'>>()( {}, providedOptions );
 
     this.isPlayingProperty = new BooleanProperty( true, combineOptions<BooleanPropertyOptions>( {
       tandem: options.tandem.createTandem( 'isPlayingProperty' ),
