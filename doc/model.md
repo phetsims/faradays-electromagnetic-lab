@@ -102,9 +102,9 @@ and averaged along a vertical line through the center of the coil. The average i
 one loop of the coil, then multiplied by the number of loops. The flux is measured over time. A change in 
 flux induces an EMF, and the current amplitude is a function of the induced EMF. 
 
-The pickup coil can have one of two indicators attached to it: a Lightbulb or a Voltmeter. These indicators
-react to the current amplitude in the coil The Lightbulb’s intensity is proportional to the absolute value 
-of the current amplitude. The Voltmeter’s needle deflection is proportional to the current amplitude, and 
+The pickup coil can have one of two indicators attached to it: a light bulb (`LightBulb`) or a voltmeter (`Voltmeter`). These indicators
+react to the current amplitude in the coil The light bulb’s intensity is proportional to the absolute value 
+of the current amplitude. The voltmeter’s needle deflection is proportional to the current amplitude, and 
 uses an ah hoc algorithm that makes the needle wobble around the zero point.
 
 Similar to the electromagnet coil, electrons in the pickup coil react to the current amplitude in the coil.
