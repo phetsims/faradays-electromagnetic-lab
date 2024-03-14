@@ -16,6 +16,10 @@ import Vector2 from '../../../../dot/js/Vector2.js';
 import KinematicCompass from '../../common/model/KinematicCompass.js';
 import FELScreenModel from '../../common/model/FELScreenModel.js';
 
+// Positions are factored out here because we've changed them so many times.
+const BAR_MAGNET_POSITION = new Vector2( 430, 285 );
+const COMPASS_POSITION = new Vector2( 625, 400 );
+
 export default class BarMagnetScreenModel extends FELScreenModel {
 
   public readonly barMagnet: BarMagnet;
@@ -23,13 +27,13 @@ export default class BarMagnetScreenModel extends FELScreenModel {
   public constructor( tandem: Tandem ) {
 
     const barMagnet = new BarMagnet( {
-      position: new Vector2( 430, 285 ),
+      position: BAR_MAGNET_POSITION,
       tandem: tandem.createTandem( 'barMagnet' )
     } );
 
     super( barMagnet, {
       createCompass: ( magnet, isPlayingProperty, tandem ) => new KinematicCompass( magnet, isPlayingProperty, {
-        position: new Vector2( 625, 400 ),
+        position: COMPASS_POSITION,
         tandem: tandem
       } ),
       isPlayingPropertyOptions: {

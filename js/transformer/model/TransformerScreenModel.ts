@@ -16,17 +16,29 @@ import IncrementalCompass from '../../common/model/IncrementalCompass.js';
 import FELScreenModel from '../../common/model/FELScreenModel.js';
 import Transformer from './Transformer.js';
 
+// y position shared by all components, so that they are on the same x-axis.
+const Y_POSITION = 375;
+
+// Positions are factored out here because we've changed them so many times.
+const ELECTROMAGNET_POSITION = new Vector2( 200, Y_POSITION );
+const PICKUP_COIL_POSITION = new Vector2( 500, Y_POSITION );
+const COMPASS_POSITION = new Vector2( 635, Y_POSITION );
+
 export default class TransformerScreenModel extends FELScreenModel {
 
   public readonly transformer: Transformer;
 
   public constructor( tandem: Tandem ) {
 
-    const transformer = new Transformer( tandem.createTandem( 'transformer' ) );
+    const transformer = new Transformer( {
+      electromagnetPosition: ELECTROMAGNET_POSITION,
+      pickupCoilPosition: PICKUP_COIL_POSITION,
+      tandem: tandem.createTandem( 'transformer' )
+    } );
 
     super( transformer.electromagnet, {
       createCompass: ( magnet, isPlayingProperty, tandem ) => new IncrementalCompass( magnet, isPlayingProperty, {
-        position: new Vector2( 625, 375 ),
+        position: COMPASS_POSITION,
         visible: false,
         tandem: tandem
       } ),

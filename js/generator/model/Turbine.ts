@@ -44,7 +44,11 @@ export default class Turbine extends PhetioObject {
   // Rotational speed of the magnet
   public readonly rpmProperty: TReadOnlyProperty<number>;
 
-  public constructor( tandem: Tandem ) {
+  /**
+   * @param position - center of the water wheel and bar magnet
+   * @param tandem
+   */
+  public constructor( position: Vector2, tandem: Tandem ) {
 
     super( {
       isDisposable: false,
@@ -53,7 +57,7 @@ export default class Turbine extends PhetioObject {
     } );
 
     this.barMagnet = new BarMagnet( {
-      position: new Vector2( 285, 375 ),
+      position: position,
       positionPropertyOptions: {
         phetioReadOnly: true
       },

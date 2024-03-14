@@ -8,33 +8,42 @@
  */
 
 import faradaysElectromagneticLab from '../../faradaysElectromagneticLab.js';
-import PhetioObject from '../../../../tandem/js/PhetioObject.js';
-import Tandem from '../../../../tandem/js/Tandem.js';
+import PhetioObject, { PhetioObjectOptions } from '../../../../tandem/js/PhetioObject.js';
 import Turbine from './Turbine.js';
 import PickupCoil from '../../common/model/PickupCoil.js';
 import Vector2 from '../../../../dot/js/Vector2.js';
 import { FixedNumberOfSamplePointsStrategy } from '../../common/model/PickupCoilSamplePointsStrategy.js';
 import Utils from '../../../../dot/js/Utils.js';
 import Multilink from '../../../../axon/js/Multilink.js';
+import PickRequired from '../../../../phet-core/js/types/PickRequired.js';
+import optionize from '../../../../phet-core/js/optionize.js';
+
+type SelfOptions = {
+  turbinePosition: Vector2;
+  pickupCoilPosition: Vector2;
+};
+
+type GeneratorOptions = SelfOptions & PickRequired<PhetioObjectOptions, 'tandem'>;
 
 export default class Generator extends PhetioObject {
 
   public readonly turbine: Turbine;
   public readonly pickupCoil: PickupCoil;
 
-  public constructor( tandem: Tandem ) {
+  public constructor( providedOptions: GeneratorOptions ) {
 
-    super( {
+    const options = optionize<GeneratorOptions, SelfOptions, PhetioObjectOptions>()( {
       isDisposable: false,
-      tandem: tandem,
       phetioFeatured: true, // so that featured linked element will appear in 'Featured' tree
       phetioState: false
-    } );
+    }, providedOptions );
 
-    this.turbine = new Turbine( tandem.createTandem( 'turbine' ) );
+    super( options );
+
+    this.turbine = new Turbine( options.turbinePosition, options.tandem.createTandem( 'turbine' ) );
 
     this.pickupCoil = new PickupCoil( this.turbine.barMagnet, {
-      position: new Vector2( 520, 375 ),
+      position: options.pickupCoilPosition,
       positionPropertyOptions: {
         phetioReadOnly: true
       },
@@ -44,7 +53,7 @@ export default class Generator extends PhetioObject {
       maxEMF: 26000, // see PickupCoil.calibrateMaxEMF
       transitionSmoothingScale: 1, // see PickupCoil.transitionSmoothingScaleProperty
       samplePointsStrategy: new FixedNumberOfSamplePointsStrategy( 9 /* numberOfSamplePoints */ ),
-      tandem: tandem.createTandem( 'pickupCoil' )
+      tandem: options.tandem.createTandem( 'pickupCoil' )
     } );
 
     // Apply drag to the turbine based on the characteristics of the pickup coil.

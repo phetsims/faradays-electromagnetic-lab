@@ -8,8 +8,7 @@
  */
 
 import faradaysElectromagneticLab from '../../faradaysElectromagneticLab.js';
-import PhetioObject from '../../../../tandem/js/PhetioObject.js';
-import Tandem from '../../../../tandem/js/Tandem.js';
+import PhetioObject, { PhetioObjectOptions } from '../../../../tandem/js/PhetioObject.js';
 import Electromagnet from '../../common/model/Electromagnet.js';
 import PickupCoil from '../../common/model/PickupCoil.js';
 import Vector2 from '../../../../dot/js/Vector2.js';
@@ -17,28 +16,38 @@ import { FixedSpacingSamplePointsStrategy } from '../../common/model/PickupCoilS
 import DerivedProperty from '../../../../axon/js/DerivedProperty.js';
 import DCPowerSupply from '../../common/model/DCPowerSupply.js';
 import RangeWithValue from '../../../../dot/js/RangeWithValue.js';
+import PickRequired from '../../../../phet-core/js/types/PickRequired.js';
+import optionize from '../../../../phet-core/js/optionize.js';
+
+type SelfOptions = {
+  electromagnetPosition: Vector2;
+  pickupCoilPosition: Vector2;
+};
+
+type TransformerOptions = SelfOptions & PickRequired<PhetioObjectOptions, 'tandem'>;
 
 export default class Transformer extends PhetioObject {
 
   public readonly electromagnet: Electromagnet;
   public readonly pickupCoil: PickupCoil;
 
-  public constructor( tandem: Tandem ) {
+  public constructor( providedOptions: TransformerOptions ) {
 
-    super( {
+    const options = optionize<TransformerOptions, SelfOptions, PhetioObjectOptions>()( {
       isDisposable: false,
-      tandem: tandem,
       phetioFeatured: true, // ... so that featured linked element will appear in 'Featured' tree.
       phetioState: false
-    } );
+    }, providedOptions );
+
+    super( options );
 
     this.electromagnet = new Electromagnet( {
-      position: new Vector2( 200, 375 ),
-      tandem: tandem.createTandem( 'electromagnet' )
+      position: options.electromagnetPosition,
+      tandem: options.tandem.createTandem( 'electromagnet' )
     } );
 
     this.pickupCoil = new PickupCoil( this.electromagnet, {
-      position: new Vector2( 500, 375 ),
+      position: options.pickupCoilPosition,
       maxEMF: 3500000, // see PickupCoil.calibrateMaxEMF
       transitionSmoothingScale: 0.56, // see PickupCoil.transitionSmoothingScaleProperty
       samplePointsStrategy: new FixedSpacingSamplePointsStrategy( 5.4 ), // same as Java version
@@ -56,7 +65,7 @@ export default class Transformer extends PhetioObject {
           [ this.electromagnet.currentSourceProperty ],
           currentSource => ( currentSource instanceof DCPowerSupply ) )
       },
-      tandem: tandem.createTandem( 'pickupCoil' )
+      tandem: options.tandem.createTandem( 'pickupCoil' )
     } );
   }
 
