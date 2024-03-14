@@ -97,7 +97,7 @@ Preferences dialog.
 
 ### Pickup Coil
 The pickup coil (see `PickupCoil`) is the most complicated part of the model, and implements Faraday’s Law. 
-(We will not be describing Faraday’s Law here; consult your physics textbook.) The magnetic field is sampled
+The magnetic field is sampled
 and averaged along a vertical line through the center of the coil. The average is used to compute the flux in 
 one loop of the coil, then multiplied by the number of loops. The flux is measured over time. A change in 
 flux induces an EMF, and the current amplitude is a function of the induced EMF. 
