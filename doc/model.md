@@ -24,8 +24,8 @@ electrons.
 These symbols appear in the user interface:
 
 * B: magnitude of the magnetic field vector (in gauss or tesla)
-* B<sub>x</sub>: x component of B
-* B<sub>y</sub>: y component of B
+* B<sub>x</sub>: x-component of B
+* B<sub>y</sub>: y-component of B
 * θ: angle of the magnetic field vector (in radians)
 * N: north
 * S: south
@@ -48,7 +48,7 @@ When measuring a the B-field at a point relative to the magnet, the resulting ve
 points in these grids, scaled to match the strength of the bar magnet.
 
 ### Electromagnet
-The electromagnet (see `Electromagnet`) is based on a coil magnet model. It's voltage source can be either a DC or AC power supply. 
+The electromagnet (see `Electromagnet`) is based on a coil magnet model. Its voltage source can be either a DC or AC power supply. 
 The strength of the B-field produced by the electromagnet is proportional to the amplitude of the voltage in the 
 voltage source and the number of loops in the coil. (The diameter of the loops is fixed.) The current amplitude in the coil 
 is proportional to the amplitude of the voltage source. Note that there is no model of resistance for the coil or voltage source.
@@ -66,12 +66,12 @@ of the electrons.
 ### Turbine
 The turbine (see `Turbine`) is based on the same dipole magnet model as the bar magnet, and is represented
 as a rotating bar magnet, attached to a water wheel. Water flowing from a faucet turns the wheel.  
-The pickup coil exerts a drag force on the turbine that is proportional to the number of loops and loop area 
-of the pickup coil.
+
+The pickup coil exerts a drag force on the turbine that is proportional to the strength of the magnet, number of loops and loop area of the pickup coil.
 
 # B-Field Consumers
 
-The B-field consumers in the simulation are: B-field visualization, compass, fieldMeter, and pickupCoil.
+The B-field consumers in the simulation are: B-field visualization, compass, field meter, and pickup coil.
 They may be influenced by one magnet; there is no support for multiple magnets.
 
 ### B-Field Visualization
@@ -102,8 +102,8 @@ and averaged along a vertical line through the center of the coil. The average i
 one loop of the coil, then multiplied by the number of loops. The flux is measured over time. A change in 
 flux induces an EMF, and the current amplitude is a function of the induced EMF. 
 
-The PickupCoil can have one of two indicators attached to it: a Lightbulb or a Voltmeter. These indicators
-react to the current amplitude in the coil The LightBulb’s intensity is proportional to the absolute value 
+The pickup coil can have one of two indicators attached to it: a Lightbulb or a Voltmeter. These indicators
+react to the current amplitude in the coil The Lightbulb’s intensity is proportional to the absolute value 
 of the current amplitude. The Voltmeter’s needle deflection is proportional to the current amplitude, and 
 uses an ah hoc algorithm that makes the needle wobble around the zero point.
 
