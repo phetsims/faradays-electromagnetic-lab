@@ -120,7 +120,7 @@ class SomeClass {
 
 This section highlights the more interesting parts of the view.
 
-## Model Parameters
+### Model Parameters
 
 When the sim is run with `?dev`, a _Developer_ accordion box will appear in the upper-left corner of each screen.
 This provides controls for tuning various model parameters, and making enabling other development features 
