@@ -32,9 +32,9 @@ export default class WaterNode extends Rectangle {
                       maxFlowRate: number,
                       visibleBoundsProperty: TReadOnlyProperty<Bounds2>,
                       providedOptions?: WaterNodeOptions ) {
-    
+
     const options = optionize<WaterNodeOptions, SelfOptions, RectangleOptions>()( {
-      
+
       // RectangleOptions
       isDisposable: false,
       fill: FELColors.waterColorProperty
@@ -44,13 +44,8 @@ export default class WaterNode extends Rectangle {
 
     Multilink.multilink( [ flowRateProperty, visibleBoundsProperty ],
       ( flowRate, visibleBounds ) => {
-        if ( flowRate === 0 ) {
-          this.setRect( 0, 0, 0, 0 );
-        }
-        else {
-          const width = ( flowRate / maxFlowRate ) * MAX_WIDTH;
-          this.setRect( -width / 2, 0, width, visibleBounds.height );
-        }
+        const width = ( flowRate / maxFlowRate ) * MAX_WIDTH;
+        this.setRect( -width / 2, 0, width, visibleBounds.height );
       } );
   }
 }
