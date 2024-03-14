@@ -67,18 +67,18 @@ and sim-specific) to the browser console.
 
 ### Memory Management
 
-**Dynamic allocation:** Most objects in this sim are allocated at startup, and exist for the lifetime of the simulation. 
+**Instantiation:** Most objects in this sim are instantiated at startup, and exist for the lifetime of the simulation. 
 The exceptions to this are as follows:
 
 Changing a `Coil` (`numberOfLoopsProperty` or `loopAreaProperty`) results in disposal and creation of the model 
 and view elements that make up the coil: `CoilSegment`, `CoilSegmentNode`, `QuadraticBezierSpline`, `Electron`,
-and `ElectronSpriteInstance`. None of these need to be stateful for PhET-iO.
+and `ElectronSpriteInstance`. None of these objects need to be stateful for PhET-iO.
 
 Resizing the browser window (changing ScreenView `visibleBoundsProperty`) results in disposal and creation of
 `CompassNeedleSpriteInstance`, to make the magnetic field visualization fill the browser 
 window. `CompassNeedleSpriteInstance` does not need to be stateful for PhET-iO.
 
-**Listeners**: Unless otherwise noted in the code, uses of `link`, `addListener`, etc. do _not_ need a corresponding
+**Listeners**: Unless otherwise noted in the code, uses of `link`, `addListener`, etc. do not require a corresponding
 `unlink`, `removeListener`, etc.
 
 **dispose**: All classes have a `dispose` method, possibly inherited from a super class. Sim-specific classes whose 
