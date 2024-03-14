@@ -1,7 +1,7 @@
 // Copyright 2024, University of Colorado Boulder
 
 /**
- * WaterWheelNode is a wheel with a set of blades equally spaced around its circumference. When water hits the blades,
+ * WaterWheelNode is a wheel with a set of blades, equally spaced around its circumference. When water hits the blades,
  * it causes the wheel to rotate.
  *
  * @author Chris Malley (PixelZoom, Inc.)

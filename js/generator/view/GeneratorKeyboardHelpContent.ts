@@ -20,7 +20,7 @@ export default class GeneratorKeyboardHelpContent extends TwoColumnKeyboardHelpC
     // Sections in the left column.
     const leftSections = [
 
-      // FaucetControls
+      // Faucet Controls
       new FaucetControlsKeyboardHelpSection(),
 
       // Move Draggable Items

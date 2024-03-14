@@ -2,7 +2,7 @@
 
 /**
  * TurbineNode is the view of a turbine. A bar magnet is attached to a water wheel, which turns when water
- * is dispensed from a faucet. This rotation modulates this magnetic field around the bar magnet.
+ * is dispensed from a faucet. This rotation modulates the magnetic field around the bar magnet.
  *
  * This is based on TurbineGraphic.java in the Java version of this sim.
  *

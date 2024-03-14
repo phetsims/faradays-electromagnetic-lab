@@ -1,7 +1,7 @@
 // Copyright 2024, University of Colorado Boulder
 
 /**
- * Water faucet is the model of the water faucet in the Generator screen.
+ * Water faucet is the model of the water faucet in the Generator screen. It dispenses water at a variable rate.
  *
  * @author Chris Malley (PixelZoom, Inc.)
  */
