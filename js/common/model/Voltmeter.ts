@@ -18,6 +18,7 @@ import NumberProperty from '../../../../axon/js/NumberProperty.js';
 import CurrentIndicator from './CurrentIndicator.js';
 import Range from '../../../../dot/js/Range.js';
 import ConstantDtClock from './ConstantDtClock.js';
+import Property from '../../../../axon/js/Property.js';
 
 // Define the zero point of the needle.
 const ZERO_NEEDLE_ANGLE = Utils.toRadians( 0 );
@@ -49,6 +50,12 @@ export default class Voltmeter extends CurrentIndicator {
   private readonly _needleAngleProperty: NumberProperty;
   private readonly needAngleRange: Range;
 
+  // Angular velocity of the needle, the change in angle over time, in radians/s
+  private angularVelocityProperty: Property<number>;
+
+  // Angular acceleration of the needle, the change in angular velocity over time, in radians/s^2
+  private angularAccelerationProperty: Property<number>;
+
   public constructor( currentAmplitudeProperty: TReadOnlyProperty<number>, currentAmplitudeRange: Range, tandem: Tandem ) {
 
     super( {
@@ -67,6 +74,20 @@ export default class Voltmeter extends CurrentIndicator {
       phetioFeatured: true
     } );
     this.needleAngleProperty = this._needleAngleProperty;
+
+    this.angularVelocityProperty = new NumberProperty( 0, {
+      units: 'radians/s',
+      tandem: tandem.createTandem( 'angularVelocityProperty' ),
+      phetioReadOnly: true,
+      phetioDocumentation: 'Angular velocity of the voltmeter needle, to simulate kinematics.'
+    } );
+
+    this.angularAccelerationProperty = new NumberProperty( 0, {
+      units: 'radians/s^2',
+      tandem: tandem.createTandem( 'angularAccelerationProperty' ),
+      phetioReadOnly: true,
+      phetioDocumentation: 'Angular acceleration of the voltmeter needle, to simulate kinematics.'
+    } );
   }
 
   public reset(): void {
@@ -77,29 +98,29 @@ export default class Voltmeter extends CurrentIndicator {
     assert && assert( dt === ConstantDtClock.DT, `invalid dt=${dt}` );
 
     // Determine the desired needle deflection angle.
-    const needleAngle = this.getDesiredNeedleAngle();
+    const desiredNeedleAngle = this.getDesiredNeedleAngle();
 
-    // Make the needle jiggle around the zero point.
-    if ( needleAngle !== ZERO_NEEDLE_ANGLE ) {
-      this._needleAngleProperty.value = needleAngle;
+    const deltaAngle = ( desiredNeedleAngle - this._needleAngleProperty.value ) % ( 2 * Math.PI );
+
+    if ( deltaAngle === 0 ) {
+      // Do nothing, the needle is not moving.
+    }
+    else if ( desiredNeedleAngle !== ZERO_NEEDLE_ANGLE ) {
+
+      // If we're not moving to zero, set the desired angle immediately.
+      this._needleAngleProperty.value = desiredNeedleAngle;
+    }
+    else if ( Math.abs( deltaAngle ) < NEEDLE_JIGGLE_THRESHOLD ) {
+
+      // The needle is close enough to zero, so stop jiggling.
+      this._needleAngleProperty.value = ZERO_NEEDLE_ANGLE;
     }
     else {
-      const delta = this._needleAngleProperty.value;
-      if ( delta === 0 ) {
-        // Do nothing, the needle is resting at zero volts.
-      }
-      else if ( Math.abs( delta ) < NEEDLE_JIGGLE_THRESHOLD ) {
 
-        // The needle is close enough to zero, so stop jiggling.
-        this._needleAngleProperty.value = ZERO_NEEDLE_ANGLE;
-      }
-      else {
-
-        // Jiggle the needle around the zero point.
-        let jiggleAngle = -delta * NEEDLE_LIVELINESS;
-        jiggleAngle = Utils.clamp( jiggleAngle, -NEEDLE_JIGGLE_ANGLE, NEEDLE_JIGGLE_ANGLE );
-        this._needleAngleProperty.value = jiggleAngle;
-      }
+      // Jiggle the needle around the zero point.
+      let jiggleAngle = -deltaAngle * NEEDLE_LIVELINESS;
+      jiggleAngle = Utils.clamp( jiggleAngle, -NEEDLE_JIGGLE_ANGLE, NEEDLE_JIGGLE_ANGLE );
+      this._needleAngleProperty.value = jiggleAngle;
     }
   }
 
