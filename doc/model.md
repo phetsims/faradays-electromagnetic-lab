@@ -42,7 +42,7 @@ with strength 1G, and MathCAD was used to create 3 grids of discrete, evenly-spa
 - external-near: field near the magnet
 - external-far: field far from the magnet
 
-When measuring a the B-field at a point relative to the magnet, the resulting vector is is an interpolation between 
+When measuring a the B-field at a point relative to the magnet, the resulting vector is an interpolation between 
 points in these grids, scaled to match the strength of the bar magnet.
 
 ### Electromagnet
