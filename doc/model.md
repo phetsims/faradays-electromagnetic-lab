@@ -30,9 +30,6 @@ electrons.
 
 The B-field producers in the simulation are: bar magnet, electromagnet, and turbine.
 
-For all magnets, the B-field decreases as a function of the distance cubed. So that we can see more of the B-field
-in the simulation, we have scaled the B-field visualization. See `FieldNode.normalizeMagnitude`.
-
 ### Bar Magnet
 The bar magnet (see `BarMagnet`) is based on a dipole magnet. It is not feasible to implement a numerical model of a bar magnet's 
 B-field directly, as it relies on double integrals. So the bar magnet was modeled in MathCAD as a horizontal cylinder
@@ -64,16 +61,18 @@ is proportional to the number of loops and loop area of the pickup coil.
 
 # B-Field Consumers
 
-The B-field consumers in the simulation are: field visualization, Compass, FieldMeter, and PickupCoil.
+The B-field consumers in the simulation are: field visualization, compass, fieldMeter, and pickupCoil.
 They may be influenced by one magnet; there is no support for multiple magnets.
 
-The field visualization displays the magnet field as a grid of compass needles. Each needle measures the 
+### Field Visualization
+The field visualization (see `FieldNode`) displays the magnet field as a grid of compass needles. Each needle measures the 
 field vector at the needle's position, and immediately aligns itself with the field vector's direction.
 The opacity of each needle represents the field vector's magnitude. Because the field strength decreases 
 as a function of the distance cubed from the magnet, we scale the magnitude to provide a better "look" 
-for the visualization.
+for the visualization. See `FieldNode.normalizeMagnitude`.
 
-The Compass measures the field vector at its position. There are 3 behaviors, used in different
+### Compass
+The compass (see `Compass`) measures the field vector at its position. There are 3 behaviors, used in different
 screens:
 * **immediate**: The needle aligns with the field immediately. Used in the _Generator_ screen.
 * **incremental**: The needle aligns with the field over time, until the change in angle is below a threshold, then
@@ -81,10 +80,12 @@ screens:
 * **kinematic**: Behaves like a real compass. The needle aligns with the field over time, and exhibits inertia, 
 angular velocity, angular acceleration, and wobble. Used in the _Bar Magnet_ and _Pickup Coil_ screens.
 
-The FieldMeter measures the field vector at its position, and displays the vector's magnitude, xy-components,
+### Field Meter
+The field meter (see `FieldMeter`) measures the field vector at its position, and displays the vector's magnitude, xy-components,
 and angle.
 
-The PickupCoil is the most complicated part of the model, and the place where Faraday’s Law is implemented. 
+### Pickup Coil
+The pickup coil (see `PickupCoil`) is the most complicated part of the model, and the place where Faraday’s Law is implemented. 
 (We will not be describing Faraday’s Law here; consult your physics textbook.) The magnetic field is sampled
 and averaged along a vertical line through the center of the coil. The average is used to compute the flux in 
 one loop of the coil, then multiplied by the number of loops. The flux is measured over time. A change in 
