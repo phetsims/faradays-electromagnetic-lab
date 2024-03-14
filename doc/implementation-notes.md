@@ -217,6 +217,13 @@ GeneratorScreenModel
 
 ## View
 
+`FieldNode` renders a visualization of the magnetic field efficiently using scenery `Sprites`.  The field is 
+represented as a grid of evenly-spaced compass needles.  The red part of each needle points in the direction
+of the field vector at the needle's location. The opacity of a needle varies based on the field vector's 
+magnitude.  Because the field magnitude decreases as a function of the distance cubed from the magnet, 
+the magnitude (and therefore the needle opacity) is scaled to provide a better "look" for the visualization. 
+See `FieldNode.normalizeMagnitude`.
+
 `ElectronsNode` renders all Electrons efficiently using scenery `Sprites`. Two instances
 of `ElectronsNode` are required, for foreground and background layers of a coil.
 
