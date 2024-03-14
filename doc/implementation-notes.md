@@ -118,7 +118,7 @@ class SomeClass {
 
 ## Model
 
-This section highlights the more interesting parts of the view.
+This section highlights the more interesting parts of the model.
 
 ### Model Parameters
 
