@@ -18,7 +18,7 @@
 
 ## Introduction
 
-This document contains notes related to the implementation of _Faraday's Electromagnetic Lab_. This is not an exhaustive description
+This document contains notes related to the implementation of **Faraday's Electromagnetic Lab**. This is not an exhaustive description
 of the implementation. The intention is to provide a concise high-level overview, and to supplement the internal
 documentation (source code comments) and external documentation (design documents).
 
