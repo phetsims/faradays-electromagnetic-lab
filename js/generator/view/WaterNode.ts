@@ -22,6 +22,12 @@ type WaterNodeOptions = SelfOptions & NodeTranslationOptions;
 
 export default class WaterNode extends Rectangle {
 
+  /**
+   * @param flowRateProperty
+   * @param maxFlowRate
+   * @param visibleBoundsProperty - for making the water flow to the bottom of the browser window
+   * @param providedOptions
+   */
   public constructor( flowRateProperty: TReadOnlyProperty<number>,
                       maxFlowRate: number,
                       visibleBoundsProperty: TReadOnlyProperty<Bounds2>,
