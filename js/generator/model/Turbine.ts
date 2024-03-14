@@ -53,7 +53,7 @@ export default class Turbine extends PhetioObject {
     } );
 
     this.barMagnet = new BarMagnet( {
-      position: new Vector2( 285, 400 ),
+      position: new Vector2( 285, 375 ),
       positionPropertyOptions: {
         phetioReadOnly: true
       },

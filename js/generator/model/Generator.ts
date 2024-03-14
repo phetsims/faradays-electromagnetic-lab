@@ -34,7 +34,7 @@ export default class Generator extends PhetioObject {
     this.turbine = new Turbine( tandem.createTandem( 'turbine' ) );
 
     this.pickupCoil = new PickupCoil( this.turbine.barMagnet, {
-      position: new Vector2( 500, 400 ),
+      position: new Vector2( 520, 375 ),
       positionPropertyOptions: {
         phetioReadOnly: true
       },

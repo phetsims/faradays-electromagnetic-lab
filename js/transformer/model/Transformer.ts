@@ -33,12 +33,12 @@ export default class Transformer extends PhetioObject {
     } );
 
     this.electromagnet = new Electromagnet( {
-      position: new Vector2( 200, 400 ),
+      position: new Vector2( 200, 375 ),
       tandem: tandem.createTandem( 'electromagnet' )
     } );
 
     this.pickupCoil = new PickupCoil( this.electromagnet, {
-      position: new Vector2( 500, 400 ),
+      position: new Vector2( 500, 375 ),
       maxEMF: 3500000, // see PickupCoil.calibrateMaxEMF
       transitionSmoothingScale: 0.56, // see PickupCoil.transitionSmoothingScaleProperty
       samplePointsStrategy: new FixedSpacingSamplePointsStrategy( 5.4 ), // same as Java version

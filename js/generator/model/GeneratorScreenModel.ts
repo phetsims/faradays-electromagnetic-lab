@@ -26,7 +26,7 @@ export default class GeneratorScreenModel extends FELScreenModel {
 
     super( generator.turbine.barMagnet, {
       createCompass: ( magnet, isPlayingProperty, tandem ) => new ImmediateCompass( magnet, isPlayingProperty, {
-        position: new Vector2( 625, 400 ),
+        position: new Vector2( 645, 375 ),
         tandem: tandem
       } ),
       tandem: tandem
