@@ -254,7 +254,7 @@ See `FieldNode.normalizeMagnitude`.
 
 `CoilNode` is the visualization of a coil, used for both the electromagnet coil and pickup coil.
 To simulate objects passing "through" the coil,` CoilNode` consists of two layers, referred to as the
-foreground and background.
+foreground and background, which are added to the scene graph separately.
 
 `ElectronsNode` renders all Electrons efficiently using scenery `Sprites`. Two instances
 of `ElectronsNode` are required, for foreground and background layers of a coil.  As current
