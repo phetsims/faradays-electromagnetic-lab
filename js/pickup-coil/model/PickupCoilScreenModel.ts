@@ -18,7 +18,7 @@ import KinematicCompass from '../../common/model/KinematicCompass.js';
 import FELScreenModel from '../../common/model/FELScreenModel.js';
 import { FixedSpacingSamplePointsStrategy } from '../../common/model/PickupCoilSamplePointsStrategy.js';
 
-// y position shared by all components, so that they are on the same x-axis.
+// y position shared by all components, so that they are on the same horizontal axis.
 const Y_POSITION = 375;
 
 // Positions are factored out here because we've changed them so many times.

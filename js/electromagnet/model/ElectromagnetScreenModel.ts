@@ -16,7 +16,7 @@ import Vector2 from '../../../../dot/js/Vector2.js';
 import IncrementalCompass from '../../common/model/IncrementalCompass.js';
 import FELScreenModel from '../../common/model/FELScreenModel.js';
 
-// y position shared by all components, so that they are on the same x-axis.
+// y position shared by all components, so that they are on the same horizontal axis.
 const Y_POSITION = 400;
 
 // Positions are factored out here because we've changed them so many times.
