@@ -162,14 +162,6 @@ the behavior of the coil. See especially `calibrateEMF`.
 This diagram shows the most important part of the model class hierarchy.
 
 ```
-CurrentIndicator
-  LightBulb
-  Voltmeter
-  
-CurrentSource
-  ACPowerSupply
-  DCPowerSupply
-
 FELMovable
   FieldMeasurementTool
     Compass
@@ -182,6 +174,14 @@ FELMovable
     CoilMagnet
       Electromagnet
   PickupCoil
+
+CurrentIndicator
+  LightBulb
+  Voltmeter
+  
+CurrentSource
+  ACPowerSupply
+  DCPowerSupply
 ```
 
 ### Composition at the TModel level
