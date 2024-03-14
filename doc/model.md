@@ -6,6 +6,9 @@ This document is a high-level description of the model used in _Faraday's Electr
 
 It is assumed that the reader is familiar with Faraday's Law.
 
+For the reader who is interested in code, references to specific JavaScript classes or methods 
+are provided, e.g. `BarMagnet`.  Code can be found [here](https://github.com/phetsims/faradays-electromagnetic-lab/tree/main/js).
+
 ## Terminology
 
 **B-field**: a synonym for magnetic field.
