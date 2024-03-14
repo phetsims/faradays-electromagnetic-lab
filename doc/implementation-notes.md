@@ -187,7 +187,6 @@ CurrentSource
 ### Composition at the TModel level
 
 This diagram shows the _composition_ (not class hierarchy) for each Screen's TModel.
-(Note that base class `FELScreenModel` factors out the duplication shown here.)
 
 ```
 BarMagnetScreenModel
