@@ -34,7 +34,7 @@ electrons.
 The B-field producers in the simulation are: bar magnet, electromagnet, and turbine.
 
 ### Bar Magnet
-The bar magnet (see `BarMagnet`) is based on a dipole magnet. It is not feasible to implement a numerical model of a bar magnet's 
+The bar magnet (see `BarMagnet`) is based on a dipole magnet model. It is not feasible to implement a numerical model of a bar magnet's 
 B-field directly, as it relies on double integrals. So the bar magnet was modeled in MathCAD as a horizontal cylinder
 with strength 1G, and MathCAD was used to create 3 grids of discrete, evenly-spaced B-field vectors. Those grids 
 (see `BarMagnetFieldGrid`) are:
