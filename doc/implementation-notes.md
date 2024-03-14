@@ -123,7 +123,7 @@ This section highlights the more interesting parts of the model.
 ### Model Parameters
 
 When the sim is run with `?dev`, a _Developer_ accordion box will appear in the upper-left corner of each screen.
-This provides controls for tuning various model parameters, and making enabling other development features 
+It provides controls for tuning various model parameters, and enabling other development features 
 (pickup coil sample points, pickup coil debugger, etc.)
 
 ### Clock
