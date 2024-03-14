@@ -1,8 +1,8 @@
 // Copyright 2023-2024, University of Colorado Boulder
 
 /**
- * BarMagnet is the model of a bar magnet. It uses a precomputed B-field that was generated using MathCAD, and is
- * described in detail in BarMagnetFieldGrid.
+ * BarMagnet is the model of a bar magnet. It uses a precomputed B-field that was generated using MathCAD, described
+ * in detail in BarMagnetFieldGrid.
  *
  * This is based on BarMagnet.java in the Java version of this sim.
  *

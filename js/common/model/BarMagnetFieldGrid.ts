@@ -1,11 +1,13 @@
 // Copyright 2023-2024, University of Colorado Boulder
 
 /**
- * BarMagnetFieldGrid is a grid of precomputed B-field values for our BarMagnet. This was ported from the Java version of
- * the simulation, and was motivated by a user report in https://phet.unfuddle.com/a#/projects/9404/tickets/by_number/2236.
+ * BarMagnetFieldGrid is a grid of precomputed B-field values for BarMagnet. This was ported from the Java version of
+ * the simulation, and was motivated by a 2010 user report in https://phet.unfuddle.com/a#/projects/9404/tickets/by_number/2236.
  * This code originally lived in BarMagnet.java, but made sense to encapsulate here.
  *
  * @author Chris Malley (PixelZoom, Inc.)
+ *
+ * From BarMagnet.java:
  *
  * It was not feasible to implement a numerical model of a magnet's B-field directly in Java, as it relies on double
  * integrals. So the model was implemented in MathCAD as a horizontal cylinder, and MathCAD was used to create 3 grids

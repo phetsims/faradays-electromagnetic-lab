@@ -1,7 +1,7 @@
 // Copyright 2023-2024, University of Colorado Boulder
 
 /**
- * ACPowerSupply is the model for an AC power supply, used to power the electromagnet. The maximum voltage and
+ * ACPowerSupply is the model for an AC power supply, used to power an electromagnet. The maximum voltage and
  * frequency are mutable, and the voltage varies over time.
  *
  * This is based on ACPowerSupply.java in the Java version of this sim.
