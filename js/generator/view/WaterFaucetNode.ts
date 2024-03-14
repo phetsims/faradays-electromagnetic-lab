@@ -9,7 +9,6 @@
 
 import faradaysElectromagneticLab from '../../faradaysElectromagneticLab.js';
 import FaucetNode, { FaucetNodeOptions } from '../../../../scenery-phet/js/FaucetNode.js';
-import Property from '../../../../axon/js/Property.js';
 import optionize, { EmptySelfOptions } from '../../../../phet-core/js/optionize.js';
 import { DragListener, NodeTranslationOptions, SceneryEvent } from '../../../../scenery/js/imports.js';
 import PickRequired from '../../../../phet-core/js/types/PickRequired.js';
@@ -17,6 +16,7 @@ import WaterFaucet from '../model/WaterFaucet.js';
 import ValueChangeSoundPlayer from '../../../../tambo/js/sound-generators/ValueChangeSoundPlayer.js';
 import Tandem from '../../../../tandem/js/Tandem.js';
 import Utils from '../../../../dot/js/Utils.js';
+import BooleanProperty from '../../../../axon/js/BooleanProperty.js';
 
 const SOUND_STEP = 10; // %, play sound when flowRateProperty changes by this much.
 
@@ -62,7 +62,13 @@ export default class WaterFaucetNode extends FaucetNode {
     // TEMPORARY SOUND: for keyboard drag. It is unclear why this does not also address mouse/touch drag.
     options.drag = dragSound;
 
-    super( waterFaucet.flowRateProperty.range.max, waterFaucet.flowRateProperty, new Property( true ), options );
+    // For PhET-iO. See https://github.com/phetsims/faradays-electromagnetic-lab/issues/105
+    const enabledProperty = new BooleanProperty( true, {
+      tandem: options.tandem.createTandem( 'enabledProperty' ),
+      phetioFeatured: true
+    } );
+
+    super( waterFaucet.flowRateProperty.range.max, waterFaucet.flowRateProperty, enabledProperty, options );
 
     // TEMPORARY SOUND: for mouse/touch drag.
     this.addInputListener( new DragListener( {
