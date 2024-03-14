@@ -4,7 +4,7 @@
 
 This document is a high-level description of the model used in _Faraday's Electromagnetic Lab_.
 
-It's assumed that the reader is familiar with Faraday's Law.
+It is assumed that the reader is familiar with Faraday's Law.
 
 ## Terminology
 
