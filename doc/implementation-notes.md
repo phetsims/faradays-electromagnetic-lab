@@ -151,7 +151,6 @@ is fundamental to understand the sim model.  It is described in [model.md](https
 The most complicated part of the sim may be `Coil.createCoilSegments`. It creates an ordered `CoilSegment[]` that describes the 
 shape of the coil, and the path that electrons follow as they flow through the coil. So that objects (bar magnet, compass,...) may
 pass through the coil, CoilSegments are designated as belonging to either the foreground layer or background layer of the coil.
-CoilSegments also describe the path that electrons follow as they flow through the coil.
 
 ### Pickup Coil
 
