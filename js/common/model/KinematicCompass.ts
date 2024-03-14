@@ -112,7 +112,7 @@ export default class KinematicCompass extends Compass {
         this.updateAngleImmediately( angle );
       }
       else {
-        // Use the Verlet algorithm to compute angle, angular velocity, and angular acceleration.
+        // Use the Verlet algorithm to simulation rotational kinematics.
 
         // Step 1: rotation
         const angularAccelerationTemp = ( SENSITIVITY * Math.sin( deltaAngle ) * magnitude ) - ( DAMPING * this.angularVelocityProperty.value );
