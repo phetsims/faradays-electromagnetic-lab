@@ -249,4 +249,4 @@ until Description is supported.
 The PhET-iO instrumentation of this sim is relatively straightforward. As described
 in [Memory Management](https://github.com/phetsims/faradays-electromagnetic-lab/blob/main/doc/implementation-notes.md#memory-management),
 everything that needs to be stateful is created at startup, and exists for the lifetime of the sim. 
-So there is no sim-specific use of `PhetioGroup` or `PhetioCapsule`.
+So there are no sim-specific uses of `PhetioGroup` or `PhetioCapsule`.
