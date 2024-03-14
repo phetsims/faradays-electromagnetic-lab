@@ -120,6 +120,12 @@ class SomeClass {
 
 This section highlights the more interesting parts of the view.
 
+## Model Parameters
+
+When the sim is run with `?dev`, a _Developer_ accordion box will appear in the upper-left corner of each screen.
+This provides controls for tuning various model parameters, and making enabling other development features 
+(pickup coil sample points, pickup coil debugger, etc.)
+
 ### Clock
 
 Model algorithms ported from Java require a constant dt clock, firing at a constant framerate; see `ConstantDtClock`.
@@ -135,18 +141,22 @@ for a more complete discussion. See also `BarMagnetFieldGrid` and `BarMagnetFiel
 
 ### Electromagnet 
 
+The electromagnet is also a "Hollywood" model, based on a coil magnet. See details in `Electromagnet` and `CoilMagnet`.
+
 ### Coil
+
+The same coil implementation (`Coil`) is used for both the pickup coil and the electromagnet coil. The concept of "current amplitude"
+is fundamental to understand the sim model.  It is described in model.md and in `Coil`.
 
 The most complicated part of the sim may be `Coil.createCoilSegments`. It creates an ordered `CoilSegment[]` that describes the 
 shape of the coil, and the path that electrons follow as they flow through the coil. So that objects (bar magnet, compass,...) may
 pass through the coil, CoilSegments are designated as belonging to either the foreground layer or background layer of the coil.
-
-The Java version also implemented collision detection, so that some (but not all) objects collided with the coil. 
-The HTML5 version takes a more consistent approach, has no collision detection, and allows all object to magically pass through the coil.
+CoilSegments also describe the path that electrons follow as they flow through the coil.
 
 ### Pickup Coil
 
-PickupCoil is a "Hollywood" model. See PickupCoil.ts.
+`PickupCoil` is also a "Hollywood" model, and implements Faraday's Law. It includes a number of parameters for calibrating
+the behavior of the coil. See especially `calibrateEMF`.
 
 ### Class hierarchy
 
@@ -244,8 +254,16 @@ magnitude.  Because the field magnitude decreases as a function of the distance 
 the magnitude (and therefore the needle opacity) is scaled to provide a better "look" for the visualization. 
 See `FieldNode.normalizeMagnitude`.
 
+`CoilNode` is the visualization of a coil, used for both the electromagnet coil and pickup coil.
+To simulate objects passing "through" the coil,` CoilNode` consists of two layers, referred to as the
+foreground and background.
+
 `ElectronsNode` renders all Electrons efficiently using scenery `Sprites`. Two instances
-of `ElectronsNode` are required, for foreground and background layers of a coil.
+of `ElectronsNode` are required, for foreground and background layers of a coil.  As current
+flow in a coil, electrons move between the foreground and background layers of the coil.
+
+The Java version implemented collision detection, so that some (but not all) objects collided with a coil. 
+The HTML5 version takes a more consistent approach, has no collision detection, and allows all object to magically pass through the coil.
 
 ## Sound
 
