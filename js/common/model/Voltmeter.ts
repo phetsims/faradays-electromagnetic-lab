@@ -94,7 +94,7 @@ export default class Voltmeter extends CurrentIndicator {
     if ( deltaAngle !== 0 ) {
       if ( !this.kinematicsEnabledProperty.value || Math.abs( desiredNeedleAngle ) > Math.abs( this._needleAngleProperty.value ) ) {
 
-        // If kinematics is disabled, or the desired angle is larger, move immediately to the desired angle.
+        // If kinematics is disabled, or the desired angle is larger than the current angle, move immediately to the desired angle.
         this._needleAngleProperty.value = desiredNeedleAngle;
       }
       else if ( Math.abs( deltaAngle ) < ZERO_THRESHOLD ) {
