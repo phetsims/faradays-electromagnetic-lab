@@ -18,6 +18,7 @@ import DCPowerSupply from '../../common/model/DCPowerSupply.js';
 import RangeWithValue from '../../../../dot/js/RangeWithValue.js';
 import PickRequired from '../../../../phet-core/js/types/PickRequired.js';
 import optionize from '../../../../phet-core/js/optionize.js';
+import ConstantDtClock from '../../common/model/ConstantDtClock.js';
 
 type SelfOptions = {
   electromagnetPosition: Vector2;
@@ -66,6 +67,13 @@ export default class Transformer extends PhetioObject {
           currentSource => ( currentSource instanceof DCPowerSupply ) )
       },
       tandem: options.tandem.createTandem( 'pickupCoil' )
+    } );
+
+    // Workaround for https://github.com/phetsims/faradays-electromagnetic-lab/issues/92, to ignore the current
+    // induced by switching power supplies. Step the pickup coil twice so that we effectively have no induced current.
+    this.electromagnet.currentSourceProperty.lazyLink( () => {
+      this.pickupCoil.step( ConstantDtClock.DT );
+      this.pickupCoil.step( ConstantDtClock.DT );
     } );
   }
 
