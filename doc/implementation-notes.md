@@ -95,7 +95,7 @@ public dispose(): void {
 
 **Class member of type Property**: This pattern is used frequently when we have a class member of type 
 Property, whose value is publicly readonly, but privately settable. This is accomplished using
-two class fields, one `public` and one `private`, both of which refer to the same Property instance.
+two instance fields, one `public` and one `private`, both of which refer to the same Property instance.
 The names are similar, with the private member having an underscore prefix. For example:
 
 ```ts
@@ -129,8 +129,9 @@ It provides controls for tuning various model parameters, and enabling other dev
 ### Clock
 
 Model algorithms ported from Java require a constant dt clock, firing at a constant framerate; see `ConstantDtClock`.
-Instead of overriding `step`, model subclasses listen to ConstantDtClock. All stepping in this sim is handled by the model;
-there is no stepping in the view.
+Instead of overriding `step`, model subclasses listen to ConstantDtClock.
+
+All stepping in this sim is handled by the model; there is no stepping in the view.
 
 ### Bar Magnet 
 
@@ -267,7 +268,7 @@ is intended to be static. See https://github.com/phetsims/faradays-electromagnet
 for rendering order decisions.
 
 The Java version implemented collision detection, so that some (but not all) objects collided with a coil. 
-The HTML5 version takes a more consistent approach, has no collision detection, and allows all object to magically pass through the coils.
+The HTML5 version takes a more consistent approach, has no collision detection, and allows all objects to magically pass through the coils.
 
 ## Sound
 
