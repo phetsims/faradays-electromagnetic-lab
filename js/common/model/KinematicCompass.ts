@@ -40,7 +40,8 @@ const SENSITIVITY = 0.01;
 const DAMPING = 0.08;
 
 // Angle at which the needle stops wobbling and snaps to the actual field orientation.
-const WOBBLE_THRESHOLD = Utils.toRadians( 0.2 );
+// See https://github.com/phetsims/faradays-electromagnetic-lab/issues/108
+const WOBBLE_THRESHOLD = Utils.toRadians( 0.01 );
 
 type SelfOptions = EmptySelfOptions;
 
