@@ -17,6 +17,7 @@ import Utils from '../../../../dot/js/Utils.js';
 import Multilink from '../../../../axon/js/Multilink.js';
 import PickRequired from '../../../../phet-core/js/types/PickRequired.js';
 import optionize from '../../../../phet-core/js/optionize.js';
+import BooleanProperty from '../../../../axon/js/BooleanProperty.js';
 
 type SelfOptions = {
   turbinePosition: Vector2;
@@ -49,6 +50,11 @@ export default class Generator extends PhetioObject {
       },
       lightBulbOptions: {
         lightsWhenCurrentChangesDirection: false
+      },
+      voltmeterOptions: {
+
+        // Disable voltmeter kinematics for the generator. Immediate response is needed, due to the cyclic nature.
+        kinematicsEnabledProperty: new BooleanProperty( false )
       },
       maxEMF: 26000, // see PickupCoil.calibrateMaxEMF
       transitionSmoothingScale: 1, // see PickupCoil.transitionSmoothingScaleProperty

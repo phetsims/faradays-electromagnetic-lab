@@ -60,7 +60,7 @@ export default class Transformer extends PhetioObject {
       },
       voltmeterOptions: {
 
-        // Disable voltmeter kinematics when using the AC power supply for the electromagnet.
+        // Disable voltmeter kinematics for the AC power supply. Immediate response is needed, due to the cyclic nature.
         kinematicsEnabledProperty: new DerivedProperty(
           [ this.electromagnet.currentSourceProperty ],
           currentSource => ( currentSource instanceof DCPowerSupply ) )
