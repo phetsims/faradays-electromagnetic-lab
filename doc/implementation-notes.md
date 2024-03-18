@@ -129,8 +129,9 @@ It provides controls for tuning various model parameters, and enabling other dev
 ### Clock
 
 Model algorithms ported from Java require a constant dt clock, firing at a constant framerate; see `ConstantDtClock`.
-Instead of overriding `step`, model subclasses listen to ConstantDtClock. All stepping in this sim is handled by the model;
-there is no stepping in the view.
+Instead of overriding `step`, model subclasses listen to ConstantDtClock.
+
+All stepping in this sim is handled by the model; there is no stepping in the view.
 
 ### Bar Magnet 
 
