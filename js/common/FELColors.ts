@@ -116,7 +116,7 @@ const FELColors = {
   } ),
 
   radioButtonSelectedStrokeProperty: new ProfileColorProperty( faradaysElectromagneticLab, 'radioButtonSelectedStroke', {
-    default: PhetColorScheme.RED_COLORBLIND
+    default: 'rgb( 0, 0, 0 )'
   } ),
 
   radioButtonDeselectedStrokeProperty: new ProfileColorProperty( faradaysElectromagneticLab, 'radioButtonDeselectedStroke', {
@@ -128,15 +128,15 @@ const FELColors = {
   } ),
 
   coilFrontColorProperty: new ProfileColorProperty( faradaysElectromagneticLab, 'coilFrontColor', {
-    default: 'rgb( 153, 102, 51 )' // light brown
+    default: 'rgb( 191, 128, 64 )'
   } ),
 
   coilMiddleColorProperty: new ProfileColorProperty( faradaysElectromagneticLab, 'coilMiddleColor', {
-    default: 'rgb( 92, 52, 12 )' // dark brown
+    default: 'rgb( 134, 88, 45 )'
   } ),
 
   coilBackColorProperty: new ProfileColorProperty( faradaysElectromagneticLab, 'coilBackColor', {
-    default: 'rgb( 40, 23, 3 )' // darker brown
+    default: 'rgb( 57, 38, 19 )'
   } ),
 
   pickupCoilAxisStrokeProperty: new ProfileColorProperty( faradaysElectromagneticLab, 'pickupCoilAxisStroke', {
@@ -185,11 +185,11 @@ const FELColors = {
   } ),
 
   voltmeterNegativeProbeFillProperty: new ProfileColorProperty( faradaysElectromagneticLab, 'voltMeterNegativeProbeFill', {
-    default: Color.grayColor( 145 )
+    default: Color.grayColor( 110 )
   } ),
 
   voltmeterNegativeProbeStrokeProperty: new ProfileColorProperty( faradaysElectromagneticLab, 'voltmeterProbeStroke', {
-    default: Color.grayColor( 145 ),
+    default: Color.grayColor( 110 ),
     projector: 'black'
   } ),
 
@@ -240,7 +240,7 @@ const FELColors = {
   } ),
 
   acPowerSupplyBodyColorProperty: new ProfileColorProperty( faradaysElectromagneticLab, 'acPowerSupplyBodyColor', {
-    default: 'rgb( 90, 152, 255 )'
+    default: Color.grayColor( 200 )
   } ),
 
   acPowerSupplyDisplayColorProperty: new ProfileColorProperty( faradaysElectromagneticLab, 'acPowerSupplyDisplayColor', {
