@@ -261,6 +261,11 @@ foreground and background, which are added to the scene graph separately.
 of `ElectronsNode` are required, for foreground and background layers of a coil.  As current
 flow in a coil, electrons move between the foreground and background layers of the coil.
 
+Note that when dragging objects, they intentionally do not move to the front, as they do in many other
+PhET sims. There is pedagogical significance to the rendering order in this sim, and that rendering order 
+is intended to be static. See https://github.com/phetsims/faradays-electromagnetic-lab/issues/10#issuecomment-1911160748
+for rendering order decisions.
+
 The Java version implemented collision detection, so that some (but not all) objects collided with a coil. 
 The HTML5 version takes a more consistent approach, has no collision detection, and allows all object to magically pass through the coils.
 
