@@ -214,7 +214,7 @@ export default class Coil extends PhetioObject {
   }
 
   public step( dt: number ): void {
-    if ( this.electronsVisibleProperty ) {
+    if ( this.electronsVisibleProperty.value ) {
       this.electronsProperty.value.forEach( electron => electron.step( dt ) );
       this.electronsMovedEmitter.emit();
     }
