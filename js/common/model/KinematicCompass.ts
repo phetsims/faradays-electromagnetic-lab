@@ -110,8 +110,8 @@ export default class KinematicCompass extends Compass {
              this.magnet.isInside( this.positionProperty.value ) // See https://github.com/phetsims/faradays-electromagnetic-lab/issues/46
         ) {
 
-          // When the difference between the field angle and the compass angle is insignificant, or the compass is inside
-          // the magnet, then simply set the angle and consider the compass to be at rest.
+          // When the difference between the field angle and the compass angle is either insignificant or large,
+          // or the compass is inside the magnet, then simply set the angle and consider the compass to be at rest.
           this.updateNeedleAngleImmediately( angle );
         }
         else {
