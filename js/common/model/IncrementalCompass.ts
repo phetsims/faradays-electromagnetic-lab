@@ -40,48 +40,51 @@ export default class IncrementalCompass extends Compass {
   }
 
   /**
-   * Updates the compass needle's angle.
+   * Updates the compass needle's angle. This is a no-op if the field magnitude is zero.
+   *
    * @param fieldVector - the magnet's B-field vector at the compass position
    * @param dt - time step, in seconds
    */
-  protected override updateAngle( fieldVector: Vector2, dt: number ): void {
-    assert && assert( fieldVector.magnitude !== 0, 'When the field magnitude is zero, the compass needle should not be moved.' );
+  protected override updateNeedleAngle( fieldVector: Vector2, dt: number ): void {
     assert && assert( dt === ConstantDtClock.DT, `invalid dt=${dt}` );
 
-    // Calculate the change in angle needed to align the compass needle with the magnetic field.
-    const fieldAngle = fieldVector.angle;
-    const needleAngle = this._needleAngleProperty.value;
-    let deltaAngle = ( fieldAngle - needleAngle ) % ( 2 * Math.PI );
+    if ( fieldVector.magnitude !== 0 ) {
 
-    if ( deltaAngle !== 0 ) {
+      // Calculate the change in angle needed to align the compass needle with the magnetic field.
+      const fieldAngle = fieldVector.angle;
+      const needleAngle = this._needleAngleProperty.value;
+      let deltaAngle = ( fieldAngle - needleAngle ) % ( 2 * Math.PI );
 
-      // If |deltaAngle| is > 180 degrees, rotate the shorter equivalent angle in the opposite direction.
-      // For example, if deltaAngle is +270 degrees, the shorter equivalent is -90 degrees.
-      if ( Math.abs( Math.abs( deltaAngle ) - Math.PI ) < 1e-6 ) {
+      if ( deltaAngle !== 0 ) {
 
-        // This first case addresses https://github.com/phetsims/faradays-electromagnetic-lab/issues/76.
-        // When deltaAngle is very close to Math.PI, floating-point error may cause the compass needle to rotate
-        // clockwise on one cycle, counterclockwise on the next cycle. This workaround gives us consistent rotation
-        // direction on every cycle. This is obvious with the electromagnet and AC power supply, where the magnetic
-        // field polarity is constantly flipping, and a stationary compass will repeatedly rotate Math.PI.
-        deltaAngle = Math.PI;
-      }
-      else if ( deltaAngle > Math.PI ) {
-        deltaAngle = deltaAngle - ( 2 * Math.PI );
-      }
-      else if ( deltaAngle < -Math.PI ) {
-        deltaAngle = deltaAngle + ( 2 * Math.PI );
-      }
+        // If |deltaAngle| is > 180 degrees, rotate the shorter equivalent angle in the opposite direction.
+        // For example, if deltaAngle is +270 degrees, the shorter equivalent is -90 degrees.
+        if ( Math.abs( Math.abs( deltaAngle ) - Math.PI ) < 1e-6 ) {
 
-      if ( Math.abs( deltaAngle ) < MAX_DELTA_ANGLE ) {
+          // This first case addresses https://github.com/phetsims/faradays-electromagnetic-lab/issues/76.
+          // When deltaAngle is very close to Math.PI, floating-point error may cause the compass needle to rotate
+          // clockwise on one cycle, counterclockwise on the next cycle. This workaround gives us consistent rotation
+          // direction on every cycle. This is obvious with the electromagnet and AC power supply, where the magnetic
+          // field polarity is constantly flipping, and a stationary compass will repeatedly rotate Math.PI.
+          deltaAngle = Math.PI;
+        }
+        else if ( deltaAngle > Math.PI ) {
+          deltaAngle = deltaAngle - ( 2 * Math.PI );
+        }
+        else if ( deltaAngle < -Math.PI ) {
+          deltaAngle = deltaAngle + ( 2 * Math.PI );
+        }
 
-        // If the delta is small, rotate immediately to the field angle.
-        this.updateAngleImmediately( fieldAngle );
-      }
-      else {
+        if ( Math.abs( deltaAngle ) < MAX_DELTA_ANGLE ) {
 
-        // If the delta is large, rotate incrementally.
-        this._needleAngleProperty.value += Math.sign( deltaAngle ) * MAX_DELTA_ANGLE;
+          // If the delta is small, rotate immediately to the field angle.
+          this.updateNeedleAngleImmediately( fieldAngle );
+        }
+        else {
+
+          // If the delta is large, rotate incrementally.
+          this._needleAngleProperty.value += Math.sign( deltaAngle ) * MAX_DELTA_ANGLE;
+        }
       }
     }
   }

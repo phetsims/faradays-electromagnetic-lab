@@ -87,43 +87,46 @@ export default class KinematicCompass extends Compass {
 
   /**
    * Updates the compass needle's angle, using the Verlet algorithm to simulate the kinematics of a real-world compass.
+   * This is a no-op if the field magnitude is zero.
    *
    * @param fieldVector - the magnet's B-field vector at the compass position
    * @param dt - time step, in seconds
    */
-  protected override updateAngle( fieldVector: Vector2, dt: number ): void {
-    assert && assert( fieldVector.magnitude !== 0, 'When the field magnitude is zero, the compass needle should not be moved.' );
+  protected override updateNeedleAngle( fieldVector: Vector2, dt: number ): void {
     assert && assert( dt === ConstantDtClock.DT, `invalid dt=${dt}` );
 
     const magnitude = fieldVector.magnitude;
-    const angle = fieldVector.angle;
+    if ( magnitude !== 0 ) {
 
-    // Difference between the field angle and the compass angle.
-    const deltaAngle = ( angle - this._needleAngleProperty.value ) % ( 2 * Math.PI );
+      const angle = fieldVector.angle;
 
-    if ( deltaAngle !== 0 ) {
-      if ( Math.abs( deltaAngle ) < WOBBLE_THRESHOLD ||
-           magnitude > MAX_FIELD_MAGNITUDE ||  // See https://github.com/phetsims/faradays-electromagnetic-lab/issues/67
-           this.magnet.isInside( this.positionProperty.value ) // See https://github.com/phetsims/faradays-electromagnetic-lab/issues/46
-      ) {
+      // Difference between the field angle and the compass angle.
+      const deltaAngle = ( angle - this._needleAngleProperty.value ) % ( 2 * Math.PI );
 
-        // When the difference between the field angle and the compass angle is insignificant, or the compass is inside
-        // the magnet, then simply set the angle and consider the compass to be at rest.
-        this.updateAngleImmediately( angle );
-      }
-      else {
-        // Use the Verlet algorithm to simulation rotational kinematics.
+      if ( deltaAngle !== 0 ) {
+        if ( Math.abs( deltaAngle ) < WOBBLE_THRESHOLD ||
+             magnitude > MAX_FIELD_MAGNITUDE ||  // See https://github.com/phetsims/faradays-electromagnetic-lab/issues/67
+             this.magnet.isInside( this.positionProperty.value ) // See https://github.com/phetsims/faradays-electromagnetic-lab/issues/46
+        ) {
 
-        // Step 1: rotation
-        const angularAccelerationTemp = ( SENSITIVITY * Math.sin( deltaAngle ) * magnitude ) - ( DAMPING * this.angularVelocityProperty.value );
-        this._needleAngleProperty.value = this._needleAngleProperty.value + ( this.angularVelocityProperty.value * dt ) + ( 0.5 * angularAccelerationTemp * dt * dt );
+          // When the difference between the field angle and the compass angle is insignificant, or the compass is inside
+          // the magnet, then simply set the angle and consider the compass to be at rest.
+          this.updateNeedleAngleImmediately( angle );
+        }
+        else {
+          // Use the Verlet algorithm to simulation rotational kinematics.
 
-        // Step 2: angular acceleration
-        const angularVelocityTemp = this.angularVelocityProperty.value + ( angularAccelerationTemp * dt );
-        this.angularAccelerationProperty.value = ( SENSITIVITY * Math.sin( deltaAngle ) * magnitude ) - ( DAMPING * angularVelocityTemp );
+          // Step 1: rotation
+          const angularAccelerationTemp = ( SENSITIVITY * Math.sin( deltaAngle ) * magnitude ) - ( DAMPING * this.angularVelocityProperty.value );
+          this._needleAngleProperty.value = this._needleAngleProperty.value + ( this.angularVelocityProperty.value * dt ) + ( 0.5 * angularAccelerationTemp * dt * dt );
 
-        // Step 3: angular velocity
-        this.angularVelocityProperty.value = this.angularVelocityProperty.value + ( 0.5 * ( this.angularAccelerationProperty.value + angularAccelerationTemp ) * dt );
+          // Step 2: angular acceleration
+          const angularVelocityTemp = this.angularVelocityProperty.value + ( angularAccelerationTemp * dt );
+          this.angularAccelerationProperty.value = ( SENSITIVITY * Math.sin( deltaAngle ) * magnitude ) - ( DAMPING * angularVelocityTemp );
+
+          // Step 3: angular velocity
+          this.angularVelocityProperty.value = this.angularVelocityProperty.value + ( 0.5 * ( this.angularAccelerationProperty.value + angularAccelerationTemp ) * dt );
+        }
       }
     }
   }
@@ -131,8 +134,8 @@ export default class KinematicCompass extends Compass {
   /**
    * Immediately updates the needle angle to match the field angle.
    */
-  protected override updateAngleImmediately( fieldAngle: number ): void {
-    super.updateAngleImmediately( fieldAngle );
+  protected override updateNeedleAngleImmediately( fieldAngle: number ): void {
+    super.updateNeedleAngleImmediately( fieldAngle );
     this.angularVelocityProperty.value = 0;
     this.angularAccelerationProperty.value = 0;
   }

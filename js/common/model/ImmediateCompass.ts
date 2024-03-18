@@ -34,13 +34,15 @@ export default class ImmediateCompass extends Compass {
   }
 
   /**
-   * Updates the compass needle's angle.
+   * Updates the compass needle's angle. This is a no-op if the field magnitude is zero.
+   *
    * @param fieldVector - the magnet's B-field vector at the compass position
    * @param dt - time step, in seconds
    */
-  protected override updateAngle( fieldVector: Vector2, dt: number ): void {
-    assert && assert( fieldVector.magnitude !== 0, 'When the field magnitude is zero, the compass needle should not be moved.' );
-    this.updateAngleImmediately( fieldVector.angle );
+  protected override updateNeedleAngle( fieldVector: Vector2, dt: number ): void {
+    if ( fieldVector.magnitude !== 0 ) {
+      this.updateNeedleAngleImmediately( fieldVector.angle );
+    }
   }
 }
 

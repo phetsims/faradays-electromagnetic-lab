@@ -58,7 +58,7 @@ export default abstract class Compass extends FieldMeasurementTool {
     Multilink.lazyMultilink( [ isPlayingProperty, this.visibleProperty, this.fieldVectorProperty ],
       ( isPlaying, visible, fieldVector ) => {
         if ( ( !isPlaying || !visible ) && fieldVector.magnitude !== 0 ) {
-          this.updateAngleImmediately( fieldVector.angle );
+          this.updateNeedleAngleImmediately( fieldVector.angle );
         }
       } );
   }
@@ -71,14 +71,14 @@ export default abstract class Compass extends FieldMeasurementTool {
   public step( dt: number ): void {
     assert && assert( dt === ConstantDtClock.DT, `invalid dt=${dt}` );
     if ( this.fieldVectorProperty.value.magnitude !== 0 ) {
-      this.updateAngle( this.fieldVectorProperty.value, dt );
+      this.updateNeedleAngle( this.fieldVectorProperty.value, dt );
     }
   }
 
   /**
    * Immediately updates the needle angle to match the field angle.
    */
-  protected updateAngleImmediately( fieldAngle: number ): void {
+  protected updateNeedleAngleImmediately( fieldAngle: number ): void {
     this._needleAngleProperty.value = fieldAngle % ( 2 * Math.PI );
   }
 
@@ -87,7 +87,7 @@ export default abstract class Compass extends FieldMeasurementTool {
    * @param fieldVector - the magnet's B-field vector at the compass position
    * @param dt - time step, in seconds
    */
-  protected abstract updateAngle( fieldVector: Vector2, dt: number ): void;
+  protected abstract updateNeedleAngle( fieldVector: Vector2, dt: number ): void;
 
   /**
    * Starts the compass needle moving immediately.
