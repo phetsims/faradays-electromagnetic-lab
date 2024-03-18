@@ -268,7 +268,7 @@ is intended to be static. See https://github.com/phetsims/faradays-electromagnet
 for rendering order decisions.
 
 The Java version implemented collision detection, so that some (but not all) objects collided with a coil. 
-The HTML5 version takes a more consistent approach, has no collision detection, and allows all object to magically pass through the coils.
+The HTML5 version takes a more consistent approach, has no collision detection, and allows all objects to magically pass through the coils.
 
 ## Sound
 
