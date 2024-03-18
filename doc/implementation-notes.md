@@ -222,6 +222,7 @@ TransformerScreenModel
       DCPowerSupply
     PickupCoil
       Coil
+        Electron[]
       LightBulb
       Voltmeter
   IncrementalCompass
