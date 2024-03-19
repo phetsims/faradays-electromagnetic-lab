@@ -43,6 +43,10 @@ const DAMPING = 0.08;
 // See https://github.com/phetsims/faradays-electromagnetic-lab/issues/108
 const WOBBLE_THRESHOLD = Utils.toRadians( 0.01 );
 
+// To ensure that the needle wobbles before it snaps to the actual field angle.
+// See https://github.com/phetsims/faradays-electromagnetic-lab/issues/108
+const ANGULAR_VELOCITY_THRESHOLD = Utils.toRadians( 0.5 );
+
 type SelfOptions = EmptySelfOptions;
 
 type KinematicCompassOptions = SelfOptions & CompassOptions;
@@ -105,9 +109,18 @@ export default class KinematicCompass extends Compass {
       const deltaAngle = ( angle - this._needleAngleProperty.value ) % ( 2 * Math.PI );
 
       if ( deltaAngle !== 0 ) {
-        if ( Math.abs( deltaAngle ) < WOBBLE_THRESHOLD ||
-             magnitude > MAX_FIELD_MAGNITUDE ||  // See https://github.com/phetsims/faradays-electromagnetic-lab/issues/67
-             this.magnet.isInside( this.positionProperty.value ) // See https://github.com/phetsims/faradays-electromagnetic-lab/issues/46
+        if (
+          // The wobble angle and velocity are so small that the wobble cannot be seen.
+          // See https://github.com/phetsims/faradays-electromagnetic-lab/issues/108.
+          ( Math.abs( deltaAngle ) < WOBBLE_THRESHOLD && Math.abs( this.angularVelocityProperty.value ) < ANGULAR_VELOCITY_THRESHOLD ) ||
+
+          // OR The field is strong enough to make the compass spin wildly.
+          // See https://github.com/phetsims/faradays-electromagnetic-lab/issues/108
+          magnitude > MAX_FIELD_MAGNITUDE ||
+
+          // OR The compass is inside the magnet.
+          // See https://github.com/phetsims/faradays-electromagnetic-lab/issues/46
+          this.magnet.isInside( this.positionProperty.value )
         ) {
 
           // When the difference between the field angle and the compass angle is either insignificant or large,
