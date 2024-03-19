@@ -152,7 +152,10 @@ function createCoilNode( numberOfLoops: number, loopSpacing: number ): Node {
   const movable = new BarMagnet( { tandem: Tandem.OPT_OUT } );
 
   // Combine the coil foreground and background.
-  const coilForegroundNode = new CoilNode( coil, movable, { tandem: Tandem.OPT_OUT } );
+  const coilForegroundNode = new CoilNode( coil, movable, {
+    renderElectrons: false, // Don't create unnecessary WebGL contexts for electrons that we don't want to see.
+    tandem: Tandem.OPT_OUT
+  } );
   return new Node( {
     children: [ coilForegroundNode.backgroundNode, coilForegroundNode ]
   } );

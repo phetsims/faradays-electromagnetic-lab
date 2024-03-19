@@ -29,6 +29,12 @@ import ElectronsNode from './ElectronsNode.js';
 type SelfOptions = {
   isMovable?: boolean; // Whether the coil is movable.
   dragBoundsProperty?: TReadOnlyProperty<Bounds2> | null;
+
+  // Whether to render electrons. This was added because ElectronsNode uses scenery Sprites, which uses WebGL.
+  // If we use WebGL for creating screen icons, we apparently created too many WebGL contexts, and the sim fails
+  // at startup. So set this to false when creating screen icons.
+  // See https://github.com/phetsims/faradays-electromagnetic-lab/issues/109.
+  renderElectrons?: boolean;
 };
 
 type CoilNodeOptions = SelfOptions & PickRequired<NodeOptions, 'tandem'>;
@@ -68,6 +74,7 @@ export default class CoilNode extends Node {
       // SelfOptions
       isMovable: true,
       dragBoundsProperty: null,
+      renderElectrons: true,
 
       // NodeOptions
       isDisposable: false,
@@ -79,25 +86,30 @@ export default class CoilNode extends Node {
     this.coil = coil;
     this.addLinkedElement( this.coil );
 
-    // Render the electrons that move through the coil.
-    const foregroundElectronsNode = new ElectronsNode( 'foreground', coil );
-    const backgroundElectronsNode = new ElectronsNode( 'background', coil );
-
-    // Foreground layer, with coil segments behind electrons
+    // Foreground layer
     this.foregroundCoilSegmentsParent = new Node();
     this.foregroundNode = new Node( {
-      children: [ this.foregroundCoilSegmentsParent, foregroundElectronsNode ]
+      children: [ this.foregroundCoilSegmentsParent ]
     } );
     this.addChild( this.foregroundNode );
 
-    // Background layer, with coil segments behind electrons
+    // Background layer
     this.backgroundCoilSegmentsParent = new Node();
     this.backgroundNode = new CoilBackgroundNode( movable, {
-      children: [ this.backgroundCoilSegmentsParent, backgroundElectronsNode ],
+      children: [ this.backgroundCoilSegmentsParent ],
       isMovable: options.isMovable,
       dragBoundsProperty: options.dragBoundsProperty,
       visibleProperty: this.visibleProperty
     } );
+
+    // Render the electrons that move through the coil.
+    if ( options.renderElectrons ) {
+      const foregroundElectronsNode = new ElectronsNode( 'foreground', coil );
+      this.foregroundNode.addChild( foregroundElectronsNode );
+
+      const backgroundElectronsNode = new ElectronsNode( 'background', coil );
+      this.backgroundNode.addChild( backgroundElectronsNode );
+    }
 
     // Render the segments that make up the coil's wire.
     this.coilSegmentNodes = [];
