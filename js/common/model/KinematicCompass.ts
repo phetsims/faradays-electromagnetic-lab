@@ -39,11 +39,11 @@ const SENSITIVITY = 0.01;
 // Increase this to make the needle wobble less.
 const DAMPING = 0.08;
 
-// Angle at which the needle stops wobbling and snaps to the actual field angle.
+// Maximum difference between the needle and field angles at which the needle can snap to the field angle.
 // See https://github.com/phetsims/faradays-electromagnetic-lab/issues/108
-const WOBBLE_THRESHOLD = Utils.toRadians( 0.01 );
+const ANGULAR_DISPLACEMENT_THRESHOLD = Utils.toRadians( 0.01 );
 
-// To ensure that the needle wobbles before it snaps to the actual field angle.
+// Maximum magnitude of angular velocity in which the needle can snap to the field angle.
 // See https://github.com/phetsims/faradays-electromagnetic-lab/issues/108
 const ANGULAR_VELOCITY_THRESHOLD = Utils.toRadians( 0.5 );
 
@@ -110,9 +110,9 @@ export default class KinematicCompass extends Compass {
 
       if ( deltaAngle !== 0 ) {
         if (
-          // The wobble angle and velocity are so small that the wobble cannot be seen.
+          // If the needle is close enough to the field angle and rotating slowly enough, snap it to the field angle.
           // See https://github.com/phetsims/faradays-electromagnetic-lab/issues/108.
-          ( Math.abs( deltaAngle ) < WOBBLE_THRESHOLD && Math.abs( this.angularVelocityProperty.value ) < ANGULAR_VELOCITY_THRESHOLD ) ||
+          ( Math.abs( deltaAngle ) < ANGULAR_DISPLACEMENT_THRESHOLD && Math.abs( this.angularVelocityProperty.value ) < ANGULAR_VELOCITY_THRESHOLD ) ||
 
           // OR The field is strong enough to make the compass spin wildly.
           // See https://github.com/phetsims/faradays-electromagnetic-lab/issues/108
