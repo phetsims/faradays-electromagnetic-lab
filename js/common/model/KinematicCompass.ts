@@ -33,12 +33,6 @@ import ConstantDtClock from './ConstantDtClock.js';
 // See https://github.com/phetsims/faradays-electromagnetic-lab/issues/67
 const MAX_FIELD_MAGNITUDE = 10;
 
-// Increase this to make the compass more sensitive to smaller fields.
-const SENSITIVITY = 0.01;
-
-// Increase this to make the needle wobble less.
-const DAMPING = 0.08;
-
 // Maximum difference between the needle and field angles at which the needle can snap to the field angle.
 // See https://github.com/phetsims/faradays-electromagnetic-lab/issues/108
 const ANGULAR_DISPLACEMENT_THRESHOLD = Utils.toRadians( 0.01 );
@@ -46,6 +40,12 @@ const ANGULAR_DISPLACEMENT_THRESHOLD = Utils.toRadians( 0.01 );
 // Maximum magnitude of angular velocity in which the needle can snap to the field angle.
 // See https://github.com/phetsims/faradays-electromagnetic-lab/issues/108
 const ANGULAR_VELOCITY_THRESHOLD = Utils.toRadians( 0.5 );
+
+// Increase this to make the compass more sensitive to smaller fields.
+const SENSITIVITY = 0.01;
+
+// Increase this to make the needle wobble less.
+const DAMPING = 0.08;
 
 type SelfOptions = EmptySelfOptions;
 
