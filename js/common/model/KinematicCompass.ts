@@ -33,11 +33,11 @@ import ConstantDtClock from './ConstantDtClock.js';
 // See https://github.com/phetsims/faradays-electromagnetic-lab/issues/67
 const MAX_FIELD_MAGNITUDE = 10;
 
-// Maximum difference between the needle and field angles at which the needle can snap to the field angle.
+// Threshold for deltaAngle that is used to decide whether the needle should stop wobbling.
 // See https://github.com/phetsims/faradays-electromagnetic-lab/issues/108
 const DELTA_ANGLE_THRESHOLD = Utils.toRadians( 0.01 );
 
-// Maximum magnitude of angular velocity in which the needle can snap to the field angle.
+// Threshold for angular velocity that is used to decide whether the needle should stop wobbling.
 // See https://github.com/phetsims/faradays-electromagnetic-lab/issues/108
 const ANGULAR_VELOCITY_THRESHOLD = Utils.toRadians( 0.5 );
 
