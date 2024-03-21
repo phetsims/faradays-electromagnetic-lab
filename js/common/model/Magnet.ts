@@ -52,7 +52,7 @@ export default abstract class Magnet extends FELMovable {
   // quickly as we move away from the magnet, and we wouldn't be able to see very much of the field. So we scale the
   // intensity of the compass needles in our visualization so that we see more of the field. Smaller values make the
   // field appear to drop off more rapidly. Larger values make the field appear to drop off more slowly. Caution: If
-  // you make the value too large, the field will end abruptly at the ends of the MathCAD data sets.
+  // you make the value too large for the bar magnet, the field will end abruptly at the ends of the MathCAD data sets.
   public readonly fieldScaleProperty: NumberProperty;
 
   // reusable vector for transforming a position to the magnet's local coordinate frame
