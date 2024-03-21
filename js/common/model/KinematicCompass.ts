@@ -35,7 +35,7 @@ const MAX_FIELD_MAGNITUDE = 10;
 
 // Maximum difference between the needle and field angles at which the needle can snap to the field angle.
 // See https://github.com/phetsims/faradays-electromagnetic-lab/issues/108
-const ANGULAR_DISPLACEMENT_THRESHOLD = Utils.toRadians( 0.01 );
+const DELTA_ANGLE_THRESHOLD = Utils.toRadians( 0.01 );
 
 // Maximum magnitude of angular velocity in which the needle can snap to the field angle.
 // See https://github.com/phetsims/faradays-electromagnetic-lab/issues/108
@@ -112,7 +112,7 @@ export default class KinematicCompass extends Compass {
         if (
           // If the needle is close enough to the field angle and rotating slowly enough, snap it to the field angle.
           // See https://github.com/phetsims/faradays-electromagnetic-lab/issues/108.
-          ( Math.abs( deltaAngle ) < ANGULAR_DISPLACEMENT_THRESHOLD && Math.abs( this.angularVelocityProperty.value ) < ANGULAR_VELOCITY_THRESHOLD ) ||
+          ( Math.abs( deltaAngle ) < DELTA_ANGLE_THRESHOLD && Math.abs( this.angularVelocityProperty.value ) < ANGULAR_VELOCITY_THRESHOLD ) ||
 
           // OR The field is strong enough to make the compass spin wildly.
           // See https://github.com/phetsims/faradays-electromagnetic-lab/issues/108
