@@ -20,7 +20,7 @@ import FELColors from '../FELColors.js';
 import FELMovableNode, { FELMovableNodeOptions } from './FELMovableNode.js';
 import optionize, { EmptySelfOptions } from '../../../../phet-core/js/optionize.js';
 import PickRequired from '../../../../phet-core/js/types/PickRequired.js';
-import { RichKeyboardDragListenerOptions } from '../../../../sun/js/RichKeyboardDragListener.js';
+import { RichKeyboardDragListenerOptions } from '../../../../scenery-phet/js/RichKeyboardDragListener.js';
 
 const NEEDLE_LENGTH = 55;
 const NEEDLE_ANCHOR_RADIUS = 3;

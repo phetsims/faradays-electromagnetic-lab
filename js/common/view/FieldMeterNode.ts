@@ -30,7 +30,7 @@ import StringUtils from '../../../../phetcommon/js/util/StringUtils.js';
 import optionize, { EmptySelfOptions } from '../../../../phet-core/js/optionize.js';
 import PickRequired from '../../../../phet-core/js/types/PickRequired.js';
 import DerivedStringProperty from '../../../../axon/js/DerivedStringProperty.js';
-import { RichKeyboardDragListenerOptions } from '../../../../sun/js/RichKeyboardDragListener.js';
+import { RichKeyboardDragListenerOptions } from '../../../../scenery-phet/js/RichKeyboardDragListener.js';
 
 // Constants to improve readability.
 const BStringProperty = FaradaysElectromagneticLabStrings.symbol.BStringProperty;
