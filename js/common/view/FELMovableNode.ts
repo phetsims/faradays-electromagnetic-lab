@@ -114,4 +114,3 @@ export default class FELMovableNode extends InteractiveHighlighting( Node ) {
 }
 
 faradaysElectromagneticLab.register( 'FELMovableNode', FELMovableNode );
-

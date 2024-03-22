@@ -50,4 +50,3 @@ export default class FieldMeter extends FieldMeasurementTool {
 }
 
 faradaysElectromagneticLab.register( 'FieldMeter', FieldMeter );
-
