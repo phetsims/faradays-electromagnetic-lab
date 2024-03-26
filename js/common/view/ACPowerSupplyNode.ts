@@ -2,7 +2,7 @@
 
 /**
  * ACPowerSupplyNode is the view of the AC power supply. It provides sliders for changing the maximum voltage
- * and frequency, and depicts the fluctuation of voltage over time as a sine wave.
+ * and frequency (as percentages), and depicts the fluctuation of voltage over time as a sine wave.
  *
  * This is based on ACPowerSupplyGraphic.java in the Java version of this sim.
  *

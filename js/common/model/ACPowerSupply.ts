@@ -100,7 +100,7 @@ export default class ACPowerSupply extends CurrentSource {
     } );
 
     this.numberOfCyclesProperty = new DerivedProperty( [ this.frequencyPercentProperty ],
-      frequency => ACPowerSupply.MAX_CYCLES * frequency / 100, {
+      frequencyPercent => ( frequencyPercent / 100 ) * ACPowerSupply.MAX_CYCLES, {
         isValidValue: value => value >= 1 && value <= ACPowerSupply.MAX_CYCLES
       } );
 
