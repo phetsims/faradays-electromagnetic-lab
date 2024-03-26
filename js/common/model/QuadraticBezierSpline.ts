@@ -9,6 +9,9 @@
  * @author Chris Malley (PixelZoom, Inc.)
  */
 
+// REVIEW - Is there anything that should be generalized and migrated to common code? @samreid
+// REVIEW - Can Quadratic.ts be used instead? @samreid
+
 import faradaysElectromagneticLab from '../../faradaysElectromagneticLab.js';
 import Vector2 from '../../../../dot/js/Vector2.js';
 import { Shape } from '../../../../kite/js/imports.js';

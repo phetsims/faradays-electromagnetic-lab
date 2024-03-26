@@ -26,6 +26,9 @@ type SelfOptions = {
   // Determines whether the bulb lights when the current in the coil changes direction.
   // In some cases (e.g. flipping the bar magnet) this should be true.
   // In other cases (eg, the Generator or AC Electromagnet) this should be false.
+
+  // REVIEW - Can you explain more about the difference between these two cases?
+  // REVIEW - Why is this needed, and why does the designed behavior require this distinction?
   lightsWhenCurrentChangesDirection?: boolean;
 };
 

@@ -40,11 +40,16 @@ export default abstract class Magnet extends FELMovable {
   // Bounds of the magnet in its local coordinate frame
   public readonly localBounds: Bounds2;
 
+  // REVIEW - Document
   public readonly strengthRange: Range; // gauss
+
+  // REVIEW - Document
   public readonly strengthProperty: TReadOnlyProperty<number>; // gauss
 
+  // REVIEW - Possibly document
   public readonly rotationProperty: Property<number>; // radians
 
+  // REVIEW - Document
   public readonly fieldVisibleProperty: Property<boolean>;
 
   // DEBUG: Writeable via developer controls only, when running with &dev query parameter.
@@ -158,6 +163,8 @@ export default abstract class Magnet extends FELMovable {
    * Converts a position from the global coordinate frame to the magnet's local coordinate frame. This is essential
    * because our B-field model is in the magnet's local coordinate frame.
    */
+  // REVIEW - Should this be called localToGlobalPosition?
+  // REVIEW - Should globalPosition be named returnVector?
   private globalToLocalPosition( localPosition: Vector2, globalPosition?: Vector2 ): Vector2 {
     globalPosition = globalPosition || new Vector2( 0, 0 );
     globalPosition.set( localPosition );

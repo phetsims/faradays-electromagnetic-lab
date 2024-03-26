@@ -172,6 +172,8 @@ export default class BarMagnetFieldGrid {
       const f11 = componentValues[ columnIndex + 1 ][ rowIndex + 1 ];
 
       // interpolate
+      // REVIEW - What type of interpolation is this? Are there any reference docs?
+      // REVIEW - Should ( x1 - x ) and ( y1 - y0 ) be factored out?
       value = ( f00 * ( ( x1 - x ) / ( x1 - x0 ) ) * ( ( y1 - y ) / ( y1 - y0 ) ) ) +
               ( f10 * ( ( x - x0 ) / ( x1 - x0 ) ) * ( ( y1 - y ) / ( y1 - y0 ) ) ) +
               ( f01 * ( ( x1 - x ) / ( x1 - x0 ) ) * ( ( y - y0 ) / ( y1 - y0 ) ) ) +

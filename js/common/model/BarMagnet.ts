@@ -26,6 +26,9 @@ import FELConstants from '../FELConstants.js';
 const DEFAULT_SIZE = new Dimension2( 250, 50 );
 const MAX_STRENGTH = FELConstants.MAGNET_STRENGTH_RANGE.max; // G
 const STRENGTH_PERCENT_RANGE = new Range( 0, 100 ); // %
+
+// REVIEW - Is this equivalent to FELConstants.MAGNET_STRENGTH_RANGE?
+// REVIEW - Should this use STRENGTH_PERCENT_RANGE.getLength()?
 const STRENGTH_RANGE = new Range( ( STRENGTH_PERCENT_RANGE.min / 100 ) * MAX_STRENGTH, ( STRENGTH_PERCENT_RANGE.max / 100 ) * MAX_STRENGTH ); // G
 
 type SelfOptions = EmptySelfOptions;
@@ -50,9 +53,12 @@ export default class BarMagnet extends Magnet {
       range: STRENGTH_PERCENT_RANGE,
       tandem: options.tandem.createTandem( 'strengthPercentProperty' ),
       phetioFeatured: true
+      // REVIEW - Add phetioDocumentation?
     } );
 
     const strengthProperty = new DerivedProperty( [ strengthPercentProperty ],
+
+      // REVIEW - Should this use STRENGTH_PERCENT_RANGE.getLength()?
       strengthPercent => ( strengthPercent / 100 ) * MAX_STRENGTH, {
         isValidValue: strength => STRENGTH_RANGE.contains( strength ),
         units: 'G',

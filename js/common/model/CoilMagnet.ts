@@ -86,7 +86,7 @@ export default class CoilMagnet extends Magnet {
    * axes oriented with +X right, +Y up
    * origin is the center of the coil, at (0,0)
    * (x,y) is the point of interest where we are measuring the magnetic field
-   * C = a fudge factor, set so that the lightbulb will light
+   * C = a fudge factor, set so that the lightbulb will light // REVIEW - Is this used?
    * m = magnetic moment = C * #loops * current in the coil
    * R = radius of the coil
    * r = distance from the origin to (x,y)

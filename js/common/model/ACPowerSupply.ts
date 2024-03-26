@@ -22,20 +22,28 @@ import Multilink from '../../../../axon/js/Multilink.js';
 
 const MAX_VOLTAGE = 110; // V
 const MAX_VOLTAGE_PERCENT_RANGE = new Range( 0, 100 ); // %
+
+// REVIEW - Could 100 be replaced by MAX_VOLTAGE_PERCENT_RANGE.getLength()?
+// @samreid - Improvements to Range?
 const MAX_VOLTAGE_RANGE = new Range( ( MAX_VOLTAGE_PERCENT_RANGE.min / 100 ) * MAX_VOLTAGE, ( MAX_VOLTAGE_PERCENT_RANGE.max / 100 ) * MAX_VOLTAGE );
 
 // Change in angle per step when frequency is 100%. Increase the denominator to slow the oscillation.
+// REVIEW - Could this be done in a way that is easier to understand? For example, frequency in Hz
 const MAX_DELTA_ANGLE = 2 * Math.PI / 20;
 
 export default class ACPowerSupply extends CurrentSource {
 
   // Number of cycles to display. This was 20 in the Java version, but looked very jagged. We decreased to smooth it out.
+  // REVIEW - This is only equal to the number of cycles that are displayed when the frequency is at a maximum.
+  // REVIEW - Consider updating the documentation to be more clear as to when this is equal to the 'Number of cycles to display'
   private static readonly MAX_CYCLES = 10;
 
   // How high the voltage can go.
   public readonly maxVoltagePercentProperty: NumberProperty;
   public readonly maxVoltageProperty: TReadOnlyProperty<number>;
 
+  // REVIEW - Are the units equivalent to Hz? If so, could this be changed to Hz or explained in a way that is easier to understand?
+  // REVIEW - Or rename this to frequencyPercentProperty.
   // How fast the voltage will vary.
   public readonly frequencyProperty: NumberProperty;
 

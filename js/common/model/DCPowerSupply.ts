@@ -14,6 +14,8 @@ import CurrentSource from './CurrentSource.js';
 
 const MAX_VOLTAGE = 10; // V
 
+// REVIEW - This is not really controlling voltage, it's controlling current. Adding loops to the wire will increase its resistance,
+// but the current does not change. With a constant voltage, this would not be the case. See https://github.com/phetsims/faradays-electromagnetic-lab/issues/118
 export default class DCPowerSupply extends CurrentSource {
 
   public constructor( tandem: Tandem ) {

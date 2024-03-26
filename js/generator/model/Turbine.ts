@@ -75,6 +75,7 @@ export default class Turbine extends PhetioObject {
       phetioDocumentation: 'Drag on the turbine caused by the pickup coil. For internal use only.'
     } );
 
+    // REVIEW - Would using flowRateRange.length be more robust than 100?
     const rpmRange = new Range( ( flowRateRange.min / 100 ) * MAX_RPM, ( flowRateRange.max / 100 ) * MAX_RPM );
     this.rpmProperty = new DerivedProperty( [ this.waterFaucet.flowRateProperty, this.dragFactorProperty ],
       ( flowRate, dragFactor ) => ( 1 - dragFactor ) * ( flowRate / 100 ) * MAX_RPM, {
@@ -90,6 +91,7 @@ export default class Turbine extends PhetioObject {
     this.barMagnet.reset();
     this.waterFaucet.reset();
     // Do not reset this.dragFactorProperty
+    // REVIEW - Why?
   }
 
   public step( dt: number ): void {
@@ -100,6 +102,7 @@ export default class Turbine extends PhetioObject {
     if ( flowRate !== 0 ) {
 
       // Determine the change in rotation angle.
+      // REVIEW - Is flowRate a percent, or normalized to [0,100]? Unclear why 100 is used here
       const deltaAngle = dt * ( flowRate / 100 ) * MAX_DELTA_ANGLE;
 
       // Subtract to rotate counterclockwise.

@@ -15,6 +15,8 @@
  * @author Chris Malley (PixelZoom, Inc.)
  */
 
+// REVIEW - @samreid
+
 import RangeWithValue from '../../../../dot/js/RangeWithValue.js';
 import Range from '../../../../dot/js/Range.js';
 import faradaysElectromagneticLab from '../../faradaysElectromagneticLab.js';
@@ -40,6 +42,7 @@ import Emitter from '../../../../axon/js/Emitter.js';
 const ELECTRON_SPACING = 25;
 
 // Ends of the coil contain a fixed number of electrons.
+// REVIEW - What is considered an 'end'?
 const ELECTRONS_IN_LEFT_END = 2;
 const ELECTRONS_IN_RIGHT_END = 2;
 
@@ -92,6 +95,7 @@ export default class Coil extends PhetioObject {
   public readonly numberOfLoopsProperty: NumberProperty;
 
   // Area of one loop
+  // REVIEW - Should this be 'Percent of maximum area for one loop'?
   public readonly loopAreaPercentProperty: NumberProperty;
 
   // Radius of one loop
@@ -112,6 +116,7 @@ export default class Coil extends PhetioObject {
   public readonly electronsProperty: TReadOnlyProperty<Electron[]>;
 
   // Fires after electrons have moved.
+  // REVIEW - This fires every step, as long as the electrons are visible. Shouldn't it only fire when the electrons have moved?
   public readonly electronsMovedEmitter: Emitter;
 
   public constructor( currentAmplitudeProperty: TReadOnlyProperty<number>, currentAmplitudeRange: Range, providedOptions: CoilOptions ) {
@@ -216,6 +221,9 @@ export default class Coil extends PhetioObject {
   public step( dt: number ): void {
     if ( this.electronsVisibleProperty.value ) {
       this.electronsProperty.value.forEach( electron => electron.step( dt ) );
+
+      // REVIEW - Shouldn't this only be fired when the electrons have moved? Or renamed to electronsSteppedEmitter
+      // REVIEW - For example, when the Pickup Coil starts up, its electrons are not moving
       this.electronsMovedEmitter.emit();
     }
   }
@@ -254,6 +262,8 @@ export default class Coil extends PhetioObject {
 
         // Left wire end in background
         {
+
+          // REVIEW - Can this be factored out into a utility function?
           const endPoint = new Vector2( -loopCenterSpacing / 2 + xOffset, -loopRadius ); // lower
           const startPoint = new Vector2( endPoint.x - 15, endPoint.y - 40 ); // upper
           const controlPoint = new Vector2( endPoint.x - 20, endPoint.y - 20 );

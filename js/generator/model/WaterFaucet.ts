@@ -25,6 +25,7 @@ export default class WaterFaucet extends PhetioObject {
       phetioState: false
     } );
 
+    // REVIEW - Should this be called flowRatePercentProperty?
     this.flowRateProperty = new NumberProperty( 0, {
       units: '%',
       range: new Range( 0, 100 ),
