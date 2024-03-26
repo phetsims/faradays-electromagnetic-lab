@@ -11,7 +11,7 @@
 // REVIEW - @samreid
 
 import faradaysElectromagneticLab from '../../faradaysElectromagneticLab.js';
-import { Node, Sprite, SpriteImage, SpriteInstance, SpriteInstanceTransformType, Sprites, TColor } from '../../../../scenery/js/imports.js';
+import { Color, Node, Sprite, SpriteImage, SpriteInstance, SpriteInstanceTransformType, Sprites, TColor } from '../../../../scenery/js/imports.js';
 import ShadedSphereNode from '../../../../scenery-phet/js/ShadedSphereNode.js';
 import Vector2 from '../../../../dot/js/Vector2.js';
 import FELColors from '../FELColors.js';
@@ -21,6 +21,13 @@ import Bounds2 from '../../../../dot/js/Bounds2.js';
 
 const ELECTRON_DIAMETER = 9;
 const ELECTRON_RADIUS = ELECTRON_DIAMETER / 2;
+
+// Scale up by this much to improve resolution.
+const ELECTRON_RESOLUTION_SCALE = 8;
+
+// Inverse scale to apply when rendering.
+const ELECTRON_INVERSE_SCALE = 1 / ELECTRON_RESOLUTION_SCALE;
+
 const electronColorProperty = FELColors.electronColorProperty;
 
 export default class ElectronsNode extends Sprites {
@@ -37,12 +44,7 @@ export default class ElectronsNode extends Sprites {
   public constructor( coilLayer: CoilLayer, coil: Coil ) {
 
     // Convert an ElectronNode to a Sprite.
-    const electronNode = new ElectronNode( electronColorProperty.value );
-    let spriteImage: SpriteImage;
-    electronNode.toCanvas( ( canvas, x, y, width, height ) => {
-      spriteImage = new SpriteImage( canvas, new Vector2( ( x + electronNode.width / 2 ), ( y + electronNode.height / 2 ) ) );
-    } );
-    const sprite = new Sprite( spriteImage! );
+    const sprite = new Sprite( ElectronsNode.getSpriteImage( electronColorProperty.value ) );
 
     // To be populated by this.ElectronSpriteInstance
     const spriteInstances: ElectronSpriteInstance[] = [];
@@ -80,11 +82,8 @@ export default class ElectronsNode extends Sprites {
 
     // If the electron color changes, update the sprite and redraw.
     electronColorProperty.lazyLink( electronColor => {
-      const electronNode = new ElectronNode( electronColor );
-      electronNode.toCanvas( ( canvas, x, y, width, height ) => {
-        sprite.imageProperty.value = new SpriteImage( canvas, new Vector2( ( x + electronNode.width / 2 ), ( y + electronNode.height / 2 ) ) );
-        this.invalidatePaint();
-      } );
+      sprite.imageProperty.value = ElectronsNode.getSpriteImage( electronColor );
+      this.invalidatePaint();
     } );
   }
 
@@ -118,15 +117,37 @@ export default class ElectronsNode extends Sprites {
   public static createIcon(): Node {
     return new ElectronNode( electronColorProperty );
   }
+
+  /**
+   * Gets the SpriteImage used to visualize an electron.
+   */
+  private static getSpriteImage( electronColor: Color ): SpriteImage {
+
+    const electronNode = new ElectronNode( electronColor, ELECTRON_RESOLUTION_SCALE );
+
+    let spriteImage!: SpriteImage;
+    electronNode.toCanvas( ( canvas, x, y, width, height ) => {
+      spriteImage = new SpriteImage( canvas, new Vector2( ( x + electronNode.width / 2 ), ( y + electronNode.height / 2 ) ), {
+
+        // Mipmapping was added to address pixelation reported in https://github.com/phetsims/faradays-electromagnetic-lab/issues/121
+        mipmap: true,
+        mipmapBias: -0.7 // Use a negative value to increase the displayed resolution. See Imageable.setMipmapBias.
+      } );
+    } );
+
+    assert && assert( spriteImage );
+    return spriteImage;
+  }
 }
 
 /**
  * ElectronNode is the visual representation of an electron, a shaded sphere.
  */
 class ElectronNode extends ShadedSphereNode {
-  public constructor( color: TColor ) {
+  public constructor( color: TColor, scale = 1 ) {
     super( ELECTRON_DIAMETER, {
-      mainColor: color
+      mainColor: color,
+      scale: scale
     } );
   }
 }
@@ -164,9 +185,10 @@ class ElectronSpriteInstance extends SpriteInstance {
 
     if ( this.electron.getLayer() === this.coilLayer ) {
 
-      // Move to the electron's position. Position is at the electron's center.
-      this.matrix.set02( this.electron.position.x + ELECTRON_RADIUS );
-      this.matrix.set12( this.electron.position.y + ELECTRON_RADIUS );
+      // Move to the electron's position (at the electron's center) and apply inverse scale.
+      const position = this.electron.position;
+      this.matrix.rowMajor( ELECTRON_INVERSE_SCALE, 0, position.x + ELECTRON_RADIUS, 0,
+        ELECTRON_INVERSE_SCALE, position.y + ELECTRON_RADIUS, 0, 0, 1 );
       assert && assert( this.matrix.isFinite(), 'matrix should be finite' );
 
       // Show the electron.
