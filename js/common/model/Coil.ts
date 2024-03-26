@@ -94,8 +94,7 @@ export default class Coil extends PhetioObject {
   // Number of loops in the coil
   public readonly numberOfLoopsProperty: NumberProperty;
 
-  // Area of one loop
-  // REVIEW - Should this be 'Percent of maximum area for one loop'?
+  // Percent of maximum area for one loop
   public readonly loopAreaPercentProperty: NumberProperty;
 
   // Radius of one loop
