@@ -9,8 +9,6 @@
  * @author Chris Malley (PixelZoom, Inc.)
  */
 
-// REVIEW - @samreid
-
 import faradaysElectromagneticLab from '../../faradaysElectromagneticLab.js';
 import { Circle, Line, Node, NodeOptions, NodeTranslationOptions, Path, PathOptions, ProfileColorProperty, Text, TextOptions } from '../../../../scenery/js/imports.js';
 import Voltmeter from '../model/Voltmeter.js';
