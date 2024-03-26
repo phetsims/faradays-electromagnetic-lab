@@ -23,16 +23,14 @@ import Multilink from '../../../../axon/js/Multilink.js';
 const MAX_VOLTAGE_RANGE = new Range( 0, 110 ); // V
 const MAX_VOLTAGE_PERCENT_RANGE = new Range( 0, 100 ); // %
 
+// Number of waveform cycles to display when frequencyPercentProperty is 100%.
+// This was 20 in the Java version, but looked very jagged. We decreased to smooth it out.
+const MAX_CYCLES = 10;
+
 // Change in angle per step when frequency is 100%. Increase the denominator to slow the oscillation.
-// REVIEW - Could this be done in a way that is easier to understand? For example, frequency in Hz
 const MAX_DELTA_ANGLE = 2 * Math.PI / 20;
 
 export default class ACPowerSupply extends CurrentSource {
-
-  // Number of cycles to display. This was 20 in the Java version, but looked very jagged. We decreased to smooth it out.
-  // REVIEW - This is only equal to the number of cycles that are displayed when the frequency is at a maximum.
-  // REVIEW - Consider updating the documentation to be more clear as to when this is equal to the 'Number of cycles to display'
-  private static readonly MAX_CYCLES = 10;
 
   // How high the voltage can go.
   public readonly maxVoltagePercentProperty: NumberProperty;
@@ -96,15 +94,15 @@ export default class ACPowerSupply extends CurrentSource {
       range: new Range( 10, 100 ),
       tandem: tandem.createTandem( 'frequencyPercentProperty' ),
       phetioFeatured: true,
-      phetioDocumentation: 'Relative frequency of the change in voltage over time.'
+      phetioDocumentation: 'Relative frequency of the change in voltage over time. Frequency is qualitative.'
     } );
 
     this.numberOfCyclesProperty = new DerivedProperty( [ this.frequencyPercentProperty ],
-      frequencyPercent => ( frequencyPercent / 100 ) * ACPowerSupply.MAX_CYCLES, {
-        isValidValue: value => value >= 1 && value <= ACPowerSupply.MAX_CYCLES
+      frequencyPercent => ( frequencyPercent / 100 ) * MAX_CYCLES, {
+        isValidValue: value => value >= 1 && value <= MAX_CYCLES
       } );
 
-    this.maxAngleRange = new Range( 0, 2 * Math.PI * ACPowerSupply.MAX_CYCLES );
+    this.maxAngleRange = new Range( 0, 2 * Math.PI * MAX_CYCLES );
 
     this.angleRangeProperty = new DerivedProperty( [ this.numberOfCyclesProperty ], numberOfCycles => {
       const middle = this.maxAngleRange.getCenter();
