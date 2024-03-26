@@ -193,7 +193,6 @@ class CompassNeedleSpriteInstance extends SpriteInstance {
   public setRotation( rotation: number ): void {
     // Inlined translation/rotation/scale for efficiency
     this.matrix.setToScaleTranslationRotationPoint( COMPASS_NEEDLE_INVERSE_MULTIPLIER, this.position, rotation );
-    // this.matrix.setToScaleTranslationRotationPoint( 1, this.position, rotation );
     assert && assert( this.matrix.isFinite(), 'expected matrix to be finite' );
   }
 }
