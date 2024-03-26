@@ -81,18 +81,19 @@ export default class CoilMagnet extends Magnet {
   /**
    * Gets the B-field vector for points outside the coil (r > R).
    * Algorithm courtesy of Mike Dubson (dubson@spot.colorado.edu).
+   * See faradays-electromagnetic-lab/doc/java-version/faraday-notes-2005.pdf
    *
    * Terminology:
-   * axes oriented with +X right, +Y up
+   * axes oriented with +x right, +y up
    * origin is the center of the coil, at (0,0)
    * (x,y) is the point of interest where we are measuring the magnetic field
-   * C = a fudge factor, set so that the lightbulb will light // REVIEW - Is this used?
+   * C = a fudge factor, set so that the lightbulb will light
    * m = magnetic moment = C * #loops * current in the coil
    * R = radius of the coil
    * r = distance from the origin to (x,y)
-   * theta = angle between the X axis and (x,y)
-   * Bx = X component of the B field
-   * By = Y component of the B field
+   * theta = angle between the x-axis and (x,y)
+   * Bx = x component of the B field
+   * By = y component of the B field
    * e is the exponent that specifies how the field decreases with distance (3 in reality)
    *
    * Outside the coil, where r > R:
