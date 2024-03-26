@@ -53,7 +53,7 @@ export default class ElectronsNode extends Sprites {
       isDisposable: false,
       visibleProperty: coil.electronsVisibleProperty,
       sprites: [ sprite ], // the set of Sprites used to render this Node, must be set at instantiation
-      spriteInstances: spriteInstances, // the set of SpriteInstances, one per compass needle in the grid
+      spriteInstances: spriteInstances, // the set of SpriteInstances, one per electron in the coil
       hitTestSprites: false,
       pickable: false
     } );
