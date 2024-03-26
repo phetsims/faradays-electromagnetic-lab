@@ -162,7 +162,7 @@ export default class FieldNode extends Sprites {
         // Mipmapping was added to address pixelation reported in https://github.com/phetsims/faradays-electromagnetic-lab/issues/113.
         // It looked too "sharp" without mipmapping at the normal view distance, so we'll have these generated.
         mipmap: true,
-        mipmapBias: -0.7
+        mipmapBias: -0.7 // Use a negative value to increase the displayed resolution. See Imageable.setMipmapBias.
       } );
     } );
 
