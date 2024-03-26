@@ -131,7 +131,7 @@ export default class BarMagnetFieldGrid {
 
   /**
    * Locates the 4 grid points that form a rectangle enclosing the specified point.
-   * Then performs a linear interpolation of the B-field component at those 4 points.
+   * Then performs a bilinear interpolation of the B-field component at those 4 points.
    * Variable names in this method corresponds to those used in Mike Dubson's documentation, ie:
    *
    * f00-----------f10
@@ -171,9 +171,9 @@ export default class BarMagnetFieldGrid {
       const f01 = componentValues[ columnIndex ][ rowIndex + 1 ];
       const f11 = componentValues[ columnIndex + 1 ][ rowIndex + 1 ];
 
-      // interpolate
-      // REVIEW - What type of interpolation is this? Are there any reference docs?
-      // REVIEW - Should ( x1 - x ) and ( y1 - y0 ) be factored out?
+      // Bilinear interpolation: a resampling method that computes a distance-weighted average of the four nearest values,
+      // which in this case are the values at the 4 corners of the enclosing rectangle noted above: f00, f10, f01, f11.
+      // Common terms have not been factored out so that this matches the form typically shown in references.
       value = ( f00 * ( ( x1 - x ) / ( x1 - x0 ) ) * ( ( y1 - y ) / ( y1 - y0 ) ) ) +
               ( f10 * ( ( x - x0 ) / ( x1 - x0 ) ) * ( ( y1 - y ) / ( y1 - y0 ) ) ) +
               ( f01 * ( ( x1 - x ) / ( x1 - x0 ) ) * ( ( y - y0 ) / ( y1 - y0 ) ) ) +
