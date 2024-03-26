@@ -14,6 +14,8 @@
  * @author Chris Malley (PixelZoom, Inc.)
  */
 
+// REVIEW - @samreid
+
 import faradaysElectromagneticLab from '../../faradaysElectromagneticLab.js';
 import CoilSegment from './CoilSegment.js';
 import Range from '../../../../dot/js/Range.js';

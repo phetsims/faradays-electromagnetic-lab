@@ -12,6 +12,8 @@
  * @author Chris Malley (PixelZoom, Inc.)
  */
 
+// REVIEW - @samreid
+
 import Emitter from '../../../../axon/js/Emitter.js';
 import faradaysElectromagneticLab from '../../faradaysElectromagneticLab.js';
 import NumberIO from '../../../../tandem/js/types/NumberIO.js';

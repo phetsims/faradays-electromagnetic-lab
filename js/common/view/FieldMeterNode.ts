@@ -10,6 +10,8 @@
  * @author Chris Malley (PixelZoom, Inc.)
  */
 
+// REVIEW - @samreid
+
 import faradaysElectromagneticLab from '../../faradaysElectromagneticLab.js';
 import FieldMeter from '../model/FieldMeter.js';
 import { GridBox, Path, RichText, RichTextOptions } from '../../../../scenery/js/imports.js';

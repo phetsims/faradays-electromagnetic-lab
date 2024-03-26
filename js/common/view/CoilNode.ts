@@ -12,6 +12,8 @@
  * @author Chris Malley (PixelZoom, Inc.)
  */
 
+// REVIEW - @samreid
+
 import faradaysElectromagneticLab from '../../faradaysElectromagneticLab.js';
 import Coil from '../model/Coil.js';
 import { Node, NodeOptions } from '../../../../scenery/js/imports.js';

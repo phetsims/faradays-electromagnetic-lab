@@ -10,6 +10,8 @@
  * @author Chris Malley (PixelZoom, Inc.)
  */
 
+// REVIEW - @samreid
+
 import faradaysElectromagneticLab from '../../faradaysElectromagneticLab.js';
 import Vector2 from '../../../../dot/js/Vector2.js';
 

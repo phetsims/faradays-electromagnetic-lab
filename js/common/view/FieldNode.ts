@@ -108,6 +108,8 @@ export default class FieldNode extends Sprites {
    */
   private update(): void {
     this.spriteInstances.forEach( spriteInstance => {
+
+      //REVIEW If a new vector is created for each spriteInstance, why is the reusableFieldVector needed?
       const fieldVector = this.magnet.getFieldVector( spriteInstance.position, this.reusableFieldVector );
       spriteInstance.setRotation( fieldVector.angle );
       spriteInstance.alpha = FieldNode.normalizeMagnitude( fieldVector.magnitude, this.magnet.strengthRange.max, this.magnet.fieldScaleProperty.value );
