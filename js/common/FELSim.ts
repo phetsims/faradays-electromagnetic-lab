@@ -30,9 +30,7 @@ export default class FELSim extends Sim {
   public constructor( titleStringProperty: TReadOnlyProperty<string>, screens: FELScreen[], hasEarthFeature = true ) {
 
     super( titleStringProperty, screens, {
-
-      //TODO https://github.com/phetsims/faradays-electromagnetic-lab/issues/109
-      //webgl: true, // Enabled for high-performance Sprites
+      webgl: true, // Enabled for high-performance scenery.Sprites
       credits: FELConstants.CREDITS,
       phetioDesigned: true,
       preferencesModel: new PreferencesModel( {
