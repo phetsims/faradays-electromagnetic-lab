@@ -28,6 +28,7 @@ const MAX_STRENGTH = FELConstants.MAGNET_STRENGTH_RANGE.max; // G
 const STRENGTH_PERCENT_RANGE = new Range( 0, 100 ); // %
 
 // REVIEW - Is this equivalent to FELConstants.MAGNET_STRENGTH_RANGE?
+// REVIEW - If not, consider a Range method for this, see https://github.com/phetsims/faradays-electromagnetic-lab/issues/123
 // REVIEW - Should this use STRENGTH_PERCENT_RANGE.getLength()?
 const STRENGTH_RANGE = new Range( ( STRENGTH_PERCENT_RANGE.min / 100 ) * MAX_STRENGTH, ( STRENGTH_PERCENT_RANGE.max / 100 ) * MAX_STRENGTH ); // G
 

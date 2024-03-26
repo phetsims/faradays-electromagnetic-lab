@@ -170,6 +170,7 @@ export default class Coil extends PhetioObject {
         phetioDocumentation: hasFixedLoopArea ? 'Loop area is fixed.' : 'To change loop area, use loopAreaPercentProperty.'
       } );
 
+    // REVIEW - Consider a Range method for this, see https://github.com/phetsims/faradays-electromagnetic-lab/issues/123
     this.loopRadiusRange = new Range(
       Math.sqrt( ( this.loopAreaPercentProperty.range.min / 100 ) * options.maxLoopArea / Math.PI ),
       Math.sqrt( ( this.loopAreaPercentProperty.range.max / 100 ) * options.maxLoopArea / Math.PI )
