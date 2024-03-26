@@ -138,7 +138,8 @@ export default class ACPowerSupplyNode extends Node {
 
     return new Node( {
       children: [ circle, sinePath ],
-      pickable: false
+      pickable: false,
+      scale: scale
     } );
   }
 }
