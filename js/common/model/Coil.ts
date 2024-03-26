@@ -401,7 +401,7 @@ export default class Coil extends PhetioObject {
         numberOfElectrons = ELECTRONS_IN_RIGHT_END;
       }
       else {
-        numberOfElectrons = Math.trunc( this.loopRadiusProperty.value / ELECTRON_SPACING );
+        numberOfElectrons = Math.floor( this.loopRadiusProperty.value / ELECTRON_SPACING );
       }
       assert && assert( Number.isInteger( numberOfElectrons ) && numberOfElectrons > 0,
         `invalid numberOfElectrons: ${numberOfElectrons}` );
