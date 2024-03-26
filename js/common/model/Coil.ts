@@ -42,7 +42,7 @@ import Emitter from '../../../../axon/js/Emitter.js';
 const ELECTRON_SPACING = 25;
 
 // Ends of the coil contain a fixed number of electrons.
-// REVIEW - What is considered an 'end'?
+// REVIEW - What is considered an 'end'? CM: Is "Ends of the coil" immediately above not clear enough?
 const ELECTRONS_IN_LEFT_END = 2;
 const ELECTRONS_IN_RIGHT_END = 2;
 
