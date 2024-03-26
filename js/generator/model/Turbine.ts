@@ -86,8 +86,7 @@ export default class Turbine extends PhetioObject {
   public reset(): void {
     this.barMagnet.reset();
     this.waterFaucet.reset();
-    // Do not reset this.dragFactorProperty
-    // REVIEW - Why?
+    // Do not reset this.dragFactorProperty because it is set by Generator.
   }
 
   public step( dt: number ): void {

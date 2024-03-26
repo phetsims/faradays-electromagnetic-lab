@@ -62,8 +62,10 @@ export default class Generator extends PhetioObject {
       tandem: options.tandem.createTandem( 'pickupCoil' )
     } );
 
-    // Apply drag to the turbine based on the characteristics of the pickup coil.
-    // See https://github.com/phetsims/faradays-electromagnetic-lab/issues/11
+    // Apply drag to the turbine based on the characteristics of the pickup coil. It would be preferred to have
+    // dragFactorProperty derived in Turbine. But its derivation requires by PickupCoil and Turbine, and PickupCoil
+    // instantiation requires Turbine, so we have circular dependencies. Responsibility for setting dragFactorProperty
+    // therefore lives here in Generator. See https://github.com/phetsims/faradays-electromagnetic-lab/issues/11
     const numberOfLoopsRange = this.pickupCoil.coil.numberOfLoopsProperty.range;
     const loopRadiusRange = this.pickupCoil.coil.loopRadiusRange;
     const maxArea = numberOfLoopsRange.max * Math.PI * loopRadiusRange.max * loopRadiusRange.max;
