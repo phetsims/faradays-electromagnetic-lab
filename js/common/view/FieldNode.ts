@@ -21,8 +21,12 @@ import FELColors from '../FELColors.js';
 import Tandem from '../../../../tandem/js/Tandem.js';
 
 const NEEDLE_SPACING = 40;
-const COMPASS_NEEDLE_RESOLUTION_MULTIPLIER = 8;
-const COMPASS_NEEDLE_INVERSE_MULTIPLIER = 1 / COMPASS_NEEDLE_RESOLUTION_MULTIPLIER;
+
+// Scale up by this much to improve resolution.
+const COMPASS_NEEDLE_RESOLUTION_SCALE = 8;
+
+// Inverse scale to apply when rendering.
+const COMPASS_NEEDLE_INVERSE_SCALE = 1 / COMPASS_NEEDLE_RESOLUTION_SCALE;
 
 export default class FieldNode extends Sprites {
 
@@ -151,7 +155,7 @@ export default class FieldNode extends Sprites {
       southFill: compassNeedleSouthColor,
 
       // Apply a scale to increase resolution (we'll apply the inverse scale when rendering).
-      scale: COMPASS_NEEDLE_RESOLUTION_MULTIPLIER
+      scale: COMPASS_NEEDLE_RESOLUTION_SCALE
     } );
 
     let spriteImage!: SpriteImage;
@@ -198,7 +202,7 @@ class CompassNeedleSpriteInstance extends SpriteInstance {
    */
   public setRotation( rotation: number ): void {
     // Inlined translation/rotation/scale for efficiency
-    this.matrix.setToScaleTranslationRotationPoint( COMPASS_NEEDLE_INVERSE_MULTIPLIER, this.position, rotation );
+    this.matrix.setToScaleTranslationRotationPoint( COMPASS_NEEDLE_INVERSE_SCALE, this.position, rotation );
     assert && assert( this.matrix.isFinite(), 'expected matrix to be finite' );
   }
 }
