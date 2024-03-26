@@ -83,21 +83,18 @@ export class FixedSpacingSamplePointsStrategy extends PickupCoilSamplePointsStra
  */
 function createSamplePoints( numberOfSamplePointsOnRadius: number, ySpacing: number ): Vector2[] {
 
-  const samplePoints: Vector2[] = [];
-
   // All sample points share the same x coordinate, at the pickup coil's origin.
   const x = 0;
 
   // A point at the center of the coil
-  let index = 0;
-  samplePoints[ index++ ] = new Vector2( x, 0 );
+  const samplePoints: Vector2[] = [ new Vector2( x, 0 ) ];
 
   // Points below and above the center
   let y = 0;
   for ( let i = 0; i < numberOfSamplePointsOnRadius; i++ ) {
     y += ySpacing;
-    samplePoints[ index++ ] = new Vector2( x, y );
-    samplePoints[ index++ ] = new Vector2( x, -y );
+    samplePoints.push( new Vector2( x, y ) );
+    samplePoints.push( new Vector2( x, -y ) );
   }
 
   return samplePoints;
