@@ -34,7 +34,6 @@ export default class FieldNode extends Sprites {
 
   public constructor( magnet: Magnet, visibleBoundsProperty: TReadOnlyProperty<Bounds2>, tandem: Tandem ) {
 
-    // A vector in the field is visualized as a compass needle.
     const sprite = new Sprite( FieldNode.getSpriteImage(
       FELColors.compassNeedleNorthColorProperty.value,
       FELColors.compassNeedleSouthColorProperty.value
@@ -79,31 +78,6 @@ export default class FieldNode extends Sprites {
       } );
 
     this.addLinkedElement( magnet );
-  }
-
-  private static getSpriteImage( compassNeedleNorthColor: Color, compassNeedleSouthColor: Color ): SpriteImage {
-    // A vector in the field is visualized as a compass needle.
-    // Convert a CompassNeedleNode to a Sprite.
-    const compassNeedleNode = new CompassNeedleNode( {
-      northFill: compassNeedleNorthColor,
-      southFill: compassNeedleSouthColor,
-
-      // Apply a scale to increase resolution (we'll apply the inverse scale when rendering).
-      scale: COMPASS_NEEDLE_RESOLUTION_MULTIPLIER
-    } );
-
-    let spriteImage!: SpriteImage;
-
-    compassNeedleNode.toCanvas( ( canvas, x, y, width, height ) => {
-      spriteImage = new SpriteImage( canvas, new Vector2( ( x + compassNeedleNode.width / 2 ), ( y + compassNeedleNode.height / 2 ) ), {
-        // It looked too "sharp" without mipmapping at the normal view distance, so we'll have these generated.
-        mipmap: true,
-        mipmapBias: -0.7
-      } );
-    } );
-
-    assert && assert( spriteImage );
-    return spriteImage;
   }
 
   /**
@@ -162,6 +136,36 @@ export default class FieldNode extends Sprites {
 
     assert && assert( normalizedMagnitude >= 0 && normalizedMagnitude <= 1, `invalid normalizedStrength: ${normalizedMagnitude}` );
     return normalizedMagnitude;
+  }
+
+  /**
+   * Gets the SpriteImage used to visualize a point in the field -- a compass needle.
+   */
+  private static getSpriteImage( compassNeedleNorthColor: Color, compassNeedleSouthColor: Color ): SpriteImage {
+
+    // Convert a CompassNeedleNode to a Sprite.
+    const compassNeedleNode = new CompassNeedleNode( {
+      northFill: compassNeedleNorthColor,
+      southFill: compassNeedleSouthColor,
+
+      // Apply a scale to increase resolution (we'll apply the inverse scale when rendering).
+      scale: COMPASS_NEEDLE_RESOLUTION_MULTIPLIER
+    } );
+
+    let spriteImage!: SpriteImage;
+
+    compassNeedleNode.toCanvas( ( canvas, x, y, width, height ) => {
+      spriteImage = new SpriteImage( canvas, new Vector2( ( x + compassNeedleNode.width / 2 ), ( y + compassNeedleNode.height / 2 ) ), {
+
+        // Mipmapping was added to address pixelation reported in https://github.com/phetsims/faradays-electromagnetic-lab/issues/113.
+        // It looked too "sharp" without mipmapping at the normal view distance, so we'll have these generated.
+        mipmap: true,
+        mipmapBias: -0.7
+      } );
+    } );
+
+    assert && assert( spriteImage );
+    return spriteImage;
   }
 }
 
