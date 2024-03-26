@@ -12,8 +12,6 @@
  * @author Chris Malley (PixelZoom, Inc.)
  */
 
-// REVIEW - @samreid
-
 import Emitter from '../../../../axon/js/Emitter.js';
 import faradaysElectromagneticLab from '../../faradaysElectromagneticLab.js';
 import NumberIO from '../../../../tandem/js/types/NumberIO.js';
@@ -22,7 +20,10 @@ import EventTimer from '../../../../phet-core/js/EventTimer.js';
 export default class ConstantDtClock extends EventTimer {
 
   // Constant framerate and constant dt. CHANGE THESE VALUES AT YOUR PERIL!
+  // REVIEW: Please comment why 25 frames per second is appropriate for this context.
   public static readonly FRAMES_PER_SECOND = 25;
+
+  // REVIEW: Even though DT=1, it doesn't feel accurate to call it unitless. Can you please clarify or adjust?
   public static readonly DT = 1; // unitless
 
   // For notifying listeners when the clock ticks. The single parameter to emit is dt.
