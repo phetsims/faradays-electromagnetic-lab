@@ -236,9 +236,11 @@ export default class Coil extends PhetioObject {
    * and perform a close visual inspection of your changes.
    *
    * Note that there are several 'magic numbers' in this method that were empirically determined long ago in the Java
-   * version of this sim. That method ported directly from Java very nicely, and those constants are now almost
-   * 20 years old, which is downright elderly in code-years. So rather than disturb them by trying to factor out
-   * constants, it seemed preferable to leave them alone.
+   * version of this sim. This method ported directly from Java very nicely, and those constants (and the structure
+   * of this code) are now almost 20 years old, which is downright elderly in code-years. So rather than disturb things
+   * by trying to factor out constants or shared code, it seemed preferable to leave it alone. And note that while
+   * the creation of each CoilSegment involves similar patterns, each CoilSegment is significantly different, so the
+   * impression of 'shared code' is illusionary.
    */
   private static createCoilSegments( numberOfLoops: number, loopRadius: number, wireWidth: number, loopSpacing: number,
                                      frontColor: TColor, middleColor: TColor, backColor: TColor ): CoilSegment[] {
@@ -262,8 +264,6 @@ export default class Coil extends PhetioObject {
 
         // Left wire end in background
         {
-
-          // REVIEW - Can this be factored out into a utility function?
           const endPoint = new Vector2( -loopCenterSpacing / 2 + xOffset, -loopRadius ); // lower
           const startPoint = new Vector2( endPoint.x - 15, endPoint.y - 40 ); // upper
           const controlPoint = new Vector2( endPoint.x - 20, endPoint.y - 20 );
