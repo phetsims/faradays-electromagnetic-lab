@@ -2,7 +2,7 @@
 
 /**
  * Transformer is the model of a transformer, consisting of 2 coils. The primary coil (an electromagnet)
- * creates a magnetic flow that induces current in the secondary coil (a pickup coil).
+ * creates a magnetic flow that induces EMF in the secondary coil (a pickup coil).
  *
  * @author Chris Malley (PixelZoom, Inc.)
  */

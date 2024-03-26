@@ -2,7 +2,7 @@
 
 /**
  * Generator is the model of a simple generator. Motion-based power is provided by a turbine, which is rotated by
- * water flow. The rotation causes modulation of a magnetic field, which induces current in a pickup coil.
+ * water flow. The rotation causes modulation of a magnetic field, which induces EMF in a pickup coil.
  *
  * @author Chris Malley (PixelZoom, Inc.)
  */

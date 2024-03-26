@@ -1,7 +1,7 @@
 // Copyright 2023-2024, University of Colorado Boulder
 
 /**
- * CurrentIndicator is the base class for devices that indicate the presence of current in the pickup coil.
+ * CurrentIndicator is the base class for devices that indicate the presence of induced EMF in the pickup coil.
  * It exists only to set PhET-iO metadata and provide CurrentIndicatorIO for reference-type serialization.
  *
  * @author Chris Malley (PixelZoom, Inc.)
