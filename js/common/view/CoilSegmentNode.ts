@@ -18,6 +18,7 @@ export default class CoilSegmentNode extends Path {
       lineWidth: wireWidth,
       lineCap: 'round',
       lineJoin: 'bevel',
+      fillPickable: false,
       strokePickable: true
     } );
   }

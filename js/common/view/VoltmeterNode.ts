@@ -140,6 +140,7 @@ export default class VoltmeterNode extends Node {
       lineWidth: 8,
       lineCap: 'round',
       lineJoin: 'bevel',
+      fillPickable: false,
       strokePickable: true
     } );
     coilNodeBoundsProperty.link( coilNodeBounds => {
