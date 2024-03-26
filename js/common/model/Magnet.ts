@@ -163,14 +163,12 @@ export default abstract class Magnet extends FELMovable {
    * Converts a position from the global coordinate frame to the magnet's local coordinate frame. This is essential
    * because our B-field model is in the magnet's local coordinate frame.
    */
-  // REVIEW - Should this be called localToGlobalPosition?
-  // REVIEW - Should globalPosition be named returnVector?
-  private globalToLocalPosition( localPosition: Vector2, globalPosition?: Vector2 ): Vector2 {
-    globalPosition = globalPosition || new Vector2( 0, 0 );
-    globalPosition.set( localPosition );
-    globalPosition.rotateAboutPoint( this.positionProperty.value, -this.rotationProperty.value );
-    globalPosition.subtract( this.positionProperty.value );
-    return globalPosition;
+  private globalToLocalPosition( globalPosition: Vector2, returnVector?: Vector2 ): Vector2 {
+    returnVector = returnVector || new Vector2( 0, 0 );
+    returnVector.set( globalPosition );
+    returnVector.rotateAboutPoint( this.positionProperty.value, -this.rotationProperty.value );
+    returnVector.subtract( this.positionProperty.value );
+    return returnVector;
   }
 }
 
