@@ -10,7 +10,7 @@
  */
 
 import faradaysElectromagneticLab from '../../faradaysElectromagneticLab.js';
-import { Sprite, SpriteImage, SpriteInstance, SpriteInstanceTransformType, Sprites } from '../../../../scenery/js/imports.js';
+import { Color, Sprite, SpriteImage, SpriteInstance, SpriteInstanceTransformType, Sprites } from '../../../../scenery/js/imports.js';
 import Vector2 from '../../../../dot/js/Vector2.js';
 import TReadOnlyProperty from '../../../../axon/js/TReadOnlyProperty.js';
 import Bounds2 from '../../../../dot/js/Bounds2.js';
@@ -21,6 +21,8 @@ import FELColors from '../FELColors.js';
 import Tandem from '../../../../tandem/js/Tandem.js';
 
 const NEEDLE_SPACING = 40;
+const COMPASS_NEEDLE_RESOLUTION_MULTIPLIER = 8;
+const COMPASS_NEEDLE_INVERSE_MULTIPLIER = 1 / COMPASS_NEEDLE_RESOLUTION_MULTIPLIER;
 
 export default class FieldNode extends Sprites {
 
@@ -33,13 +35,10 @@ export default class FieldNode extends Sprites {
   public constructor( magnet: Magnet, visibleBoundsProperty: TReadOnlyProperty<Bounds2>, tandem: Tandem ) {
 
     // A vector in the field is visualized as a compass needle.
-    // Convert a CompassNeedleNode to a Sprite.
-    const compassNeedleNode = new CompassNeedleNode();
-    let spriteImage: SpriteImage;
-    compassNeedleNode.toCanvas( ( canvas, x, y, width, height ) => {
-      spriteImage = new SpriteImage( canvas, new Vector2( ( x + compassNeedleNode.width / 2 ), ( y + compassNeedleNode.height / 2 ) ) );
-    } );
-    const sprite = new Sprite( spriteImage! );
+    const sprite = new Sprite( FieldNode.getSpriteImage(
+      FELColors.compassNeedleNorthColorProperty.value,
+      FELColors.compassNeedleSouthColorProperty.value
+    ) );
 
     const spriteInstances: CompassNeedleSpriteInstance[] = [];
 
@@ -75,17 +74,36 @@ export default class FieldNode extends Sprites {
     // If the colors change, update the sprite and redraw.
     Multilink.multilink( [ FELColors.compassNeedleNorthColorProperty, FELColors.compassNeedleSouthColorProperty ],
       ( compassNeedleNorthColor, compassNeedleSouthColor ) => {
-        const compassNeedleNode = new CompassNeedleNode( {
-          northFill: compassNeedleNorthColor,
-          southFill: compassNeedleSouthColor
-        } );
-        compassNeedleNode.toCanvas( ( canvas, x, y, width, height ) => {
-          sprite.imageProperty.value = new SpriteImage( canvas, new Vector2( ( x + compassNeedleNode.width / 2 ), ( y + compassNeedleNode.height / 2 ) ) );
-          this.invalidatePaint();
-        } );
+        sprite.imageProperty.value = FieldNode.getSpriteImage( compassNeedleNorthColor, compassNeedleSouthColor );
+        this.invalidatePaint();
       } );
 
     this.addLinkedElement( magnet );
+  }
+
+  private static getSpriteImage( compassNeedleNorthColor: Color, compassNeedleSouthColor: Color ): SpriteImage {
+    // A vector in the field is visualized as a compass needle.
+    // Convert a CompassNeedleNode to a Sprite.
+    const compassNeedleNode = new CompassNeedleNode( {
+      northFill: compassNeedleNorthColor,
+      southFill: compassNeedleSouthColor
+    } );
+
+    // Apply a scale to increase resolution (we'll apply the inverse scale when rendering).
+    compassNeedleNode.scale( COMPASS_NEEDLE_RESOLUTION_MULTIPLIER );
+
+    let spriteImage!: SpriteImage;
+
+    compassNeedleNode.toCanvas( ( canvas, x, y, width, height ) => {
+      spriteImage = new SpriteImage( canvas, new Vector2( ( x + compassNeedleNode.width / 2 ), ( y + compassNeedleNode.height / 2 ) ), {
+        // It looked too "sharp" without mipmapping at the normal view distance, so we'll have these generated.
+        mipmap: true,
+        mipmapBias: -0.7
+      } );
+    } );
+
+    assert && assert( spriteImage );
+    return spriteImage;
   }
 
   /**
@@ -162,7 +180,7 @@ class CompassNeedleSpriteInstance extends SpriteInstance {
 
     // Fields in superclass SpriteInstance that must be set
     this.sprite = sprite;
-    this.transformType = SpriteInstanceTransformType.TRANSLATION_AND_ROTATION;
+    this.transformType = SpriteInstanceTransformType.AFFINE;
   }
 
   public dispose(): void {
@@ -173,7 +191,9 @@ class CompassNeedleSpriteInstance extends SpriteInstance {
    * Updates the matrix to match the needle's position and rotation.
    */
   public setRotation( rotation: number ): void {
-    this.matrix.setToTranslationRotationPoint( this.position, rotation );
+    // Inlined translation/rotation/scale for efficiency
+    this.matrix.setToScaleTranslationRotationPoint( COMPASS_NEEDLE_INVERSE_MULTIPLIER, this.position, rotation );
+    // this.matrix.setToScaleTranslationRotationPoint( 1, this.position, rotation );
     assert && assert( this.matrix.isFinite(), 'expected matrix to be finite' );
   }
 }
