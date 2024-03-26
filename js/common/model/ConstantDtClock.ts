@@ -20,10 +20,10 @@ import EventTimer from '../../../../phet-core/js/EventTimer.js';
 export default class ConstantDtClock extends EventTimer {
 
   // Constant framerate and constant dt. CHANGE THESE VALUES AT YOUR PERIL!
-  // REVIEW: Please comment why 25 frames per second is appropriate for this context.
+  // REVIEW: Please comment why 25 frames per second is appropriate for this context. CM: It's inherited from the Java version. If it's changed, the sim runs too fast/slow.
   public static readonly FRAMES_PER_SECOND = 25;
 
-  // REVIEW: Even though DT=1, it doesn't feel accurate to call it unitless. Can you please clarify or adjust?
+  // REVIEW: Even though DT=1, it doesn't feel accurate to call it unitless. Can you please clarify or adjust? CM: I don't know how to be clearer here.
   public static readonly DT = 1; // unitless
 
   // For notifying listeners when the clock ticks. The single parameter to emit is dt.
