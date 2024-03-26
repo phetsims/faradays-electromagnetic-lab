@@ -43,7 +43,7 @@ export default class FieldMeasurementTool extends FELMovable {
     // This needs to be a new Vector2 instance, so do not pass an output vector to magnet.getFieldVector.
     this.fieldVectorProperty = new DerivedProperty(
       [ this.positionProperty, magnet.positionProperty, magnet.rotationProperty, magnet.strengthProperty ],
-      ( position, rotation, strength ) => magnet.getFieldVector( position ), {
+      ( toolPosition, magnetPosition, rotation, strength ) => magnet.getFieldVector( toolPosition ), {
         units: 'G',
         tandem: options.tandem.createTandem( 'fieldVectorProperty' ),
         phetioValueType: Vector2.Vector2IO,
