@@ -18,7 +18,7 @@ import Tandem from '../../../../tandem/js/Tandem.js';
 import Utils from '../../../../dot/js/Utils.js';
 import BooleanProperty from '../../../../axon/js/BooleanProperty.js';
 
-const SOUND_STEP = 10; // %, play sound when flowRateProperty changes by this much.
+const SOUND_STEP = 10; // %, play sound when flowRatePercentProperty changes by this much.
 
 type SelfOptions = EmptySelfOptions;
 
@@ -43,20 +43,20 @@ export default class WaterFaucetNode extends FaucetNode {
     }, providedOptions );
 
     // TEMPORARY SOUND: like Slider.
-    const soundGenerator = new ValueChangeSoundPlayer( waterFaucet.flowRateProperty.range, {
-      numberOfMiddleThresholds: Utils.toFixedNumber( ( waterFaucet.flowRateProperty.range.getLength() / SOUND_STEP ) - 1, 0 )
+    const soundGenerator = new ValueChangeSoundPlayer( waterFaucet.flowRatePercentProperty.range, {
+      numberOfMiddleThresholds: Utils.toFixedNumber( ( waterFaucet.flowRatePercentProperty.range.getLength() / SOUND_STEP ) - 1, 0 )
     } );
 
     // TEMPORARY SOUND: drag function shared by mouse/touch drag and keyboard drag.
-    let previousValue = waterFaucet.flowRateProperty.value;
+    let previousValue = waterFaucet.flowRatePercentProperty.value;
     const dragSound = ( event: SceneryEvent ) => {
       if ( event.isFromPDOM() ) {
-        soundGenerator.playSoundForValueChange( waterFaucet.flowRateProperty.value, previousValue );
+        soundGenerator.playSoundForValueChange( waterFaucet.flowRatePercentProperty.value, previousValue );
       }
       else {
-        soundGenerator.playSoundIfThresholdReached( waterFaucet.flowRateProperty.value, previousValue );
+        soundGenerator.playSoundIfThresholdReached( waterFaucet.flowRatePercentProperty.value, previousValue );
       }
-      previousValue = waterFaucet.flowRateProperty.value;
+      previousValue = waterFaucet.flowRatePercentProperty.value;
     };
 
     // TEMPORARY SOUND: for keyboard drag. It is unclear why this does not also address mouse/touch drag.
@@ -68,7 +68,7 @@ export default class WaterFaucetNode extends FaucetNode {
       phetioFeatured: true
     } );
 
-    super( waterFaucet.flowRateProperty.range.max, waterFaucet.flowRateProperty, enabledProperty, options );
+    super( waterFaucet.flowRatePercentProperty.range.max, waterFaucet.flowRatePercentProperty, enabledProperty, options );
 
     // TEMPORARY SOUND: for mouse/touch drag.
     this.addInputListener( new DragListener( {

@@ -14,7 +14,7 @@ import Bounds2 from '../../../../dot/js/Bounds2.js';
 import Multilink from '../../../../axon/js/Multilink.js';
 import FELColors from '../../common/FELColors.js';
 
-const MAX_WIDTH = 60; // width of the water stream when flowRateProperty is at its maximum
+const MAX_WIDTH = 60; // width of the water stream when flowRatePercentProperty is at its maximum
 
 type SelfOptions = EmptySelfOptions;
 
@@ -23,13 +23,13 @@ type WaterNodeOptions = SelfOptions & NodeTranslationOptions;
 export default class WaterNode extends Rectangle {
 
   /**
-   * @param flowRateProperty
-   * @param maxFlowRate
+   * @param flowRatePercentProperty
+   * @param maxFlowRatePercent
    * @param visibleBoundsProperty - for making the water flow to the bottom of the browser window
    * @param providedOptions
    */
-  public constructor( flowRateProperty: TReadOnlyProperty<number>,
-                      maxFlowRate: number,
+  public constructor( flowRatePercentProperty: TReadOnlyProperty<number>,
+                      maxFlowRatePercent: number,
                       visibleBoundsProperty: TReadOnlyProperty<Bounds2>,
                       providedOptions?: WaterNodeOptions ) {
 
@@ -42,9 +42,9 @@ export default class WaterNode extends Rectangle {
 
     super( 0, 0, 1, 1, options );
 
-    Multilink.multilink( [ flowRateProperty, visibleBoundsProperty ],
-      ( flowRate, visibleBounds ) => {
-        const width = ( flowRate / maxFlowRate ) * MAX_WIDTH;
+    Multilink.multilink( [ flowRatePercentProperty, visibleBoundsProperty ],
+      ( flowRatePercent, visibleBounds ) => {
+        const width = ( flowRatePercent / maxFlowRatePercent ) * MAX_WIDTH;
         this.setRect( -width / 2, 0, width, visibleBounds.height );
       } );
   }

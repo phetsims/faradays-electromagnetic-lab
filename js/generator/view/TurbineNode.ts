@@ -49,7 +49,7 @@ export default class TurbineNode extends Node {
       tandem: tandem.createTandem( 'waterFaucetNode' )
     } );
 
-    const waterNode = new WaterNode( turbine.waterFaucet.flowRateProperty, turbine.waterFaucet.flowRateProperty.range.max,
+    const waterNode = new WaterNode( turbine.waterFaucet.flowRatePercentProperty, turbine.waterFaucet.flowRatePercentProperty.range.max,
       visibleBoundsProperty, {
         centerX: waterFaucetNode.x,
         top: waterFaucetNode.y - 2

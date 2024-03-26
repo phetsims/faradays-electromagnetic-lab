@@ -73,8 +73,8 @@ export default class Turbine extends PhetioObject {
       phetioDocumentation: 'Drag on the turbine caused by the pickup coil. For internal use only.'
     } );
 
-    this.rpmProperty = new DerivedProperty( [ this.waterFaucet.flowRateProperty, this.dragFactorProperty ],
-      ( flowRate, dragFactor ) => ( 1 - dragFactor ) * ( flowRate / 100 ) * RPM_RANGE.max, {
+    this.rpmProperty = new DerivedProperty( [ this.waterFaucet.flowRatePercentProperty, this.dragFactorProperty ],
+      ( flowRatePercent, dragFactor ) => ( 1 - dragFactor ) * ( flowRatePercent / 100 ) * RPM_RANGE.max, {
         isValidValue: rpm => RPM_RANGE.contains( rpm ),
         units: 'rpm',
         tandem: tandem.createTandem( 'rpmProperty' ),
@@ -93,13 +93,12 @@ export default class Turbine extends PhetioObject {
   public step( dt: number ): void {
     assert && assert( dt === ConstantDtClock.DT, `invalid dt=${dt}` );
 
-    const flowRate = this.waterFaucet.flowRateProperty.value;
+    const flowRatePercent = this.waterFaucet.flowRatePercentProperty.value;
 
-    if ( flowRate !== 0 ) {
+    if ( flowRatePercent !== 0 ) {
 
       // Determine the change in rotation angle.
-      // REVIEW - Is flowRate a percent, or normalized to [0,100]? Unclear why 100 is used here
-      const deltaAngle = dt * ( flowRate / 100 ) * MAX_DELTA_ANGLE;
+      const deltaAngle = dt * ( flowRatePercent / 100 ) * MAX_DELTA_ANGLE;
 
       // Subtract to rotate counterclockwise.
       let newAngle = this.barMagnet.rotationProperty.value - deltaAngle;
