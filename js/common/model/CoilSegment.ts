@@ -16,6 +16,7 @@ import optionize from '../../../../phet-core/js/optionize.js';
 import { CoilLayer } from './Coil.js';
 import Vector2 from '../../../../dot/js/Vector2.js';
 import { Shape } from '../../../../kite/js/imports.js';
+import Bounds2 from '../../../../dot/js/Bounds2.js';
 
 type SelfOptions = {
   stroke: TPaint;
@@ -75,6 +76,14 @@ export default class CoilSegment {
    */
   public evaluate( t: number, returnVector?: Vector2 ): Vector2 {
     return this.curve.evaluate( t, returnVector );
+  }
+
+  /**
+   * Mutates the given bounds to contain the control net of this spline (which will contain the entire curve, but
+   * may include some extra space).
+   */
+  public expandBoundsToFit( bounds: Bounds2 ): void {
+    this.curve.expandBoundsToFit( bounds );
   }
 
   public dispose(): void {

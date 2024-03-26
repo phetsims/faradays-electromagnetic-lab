@@ -17,6 +17,7 @@ import Vector2 from '../../../../dot/js/Vector2.js';
 import FELColors from '../FELColors.js';
 import Electron from '../model/Electron.js';
 import Coil, { CoilLayer } from '../model/Coil.js';
+import Bounds2 from '../../../../dot/js/Bounds2.js';
 
 const ELECTRON_DIAMETER = 9;
 const ELECTRON_RADIUS = ELECTRON_DIAMETER / 2;
@@ -60,6 +61,19 @@ export default class ElectronsNode extends Sprites {
 
     // When the set of electrons changes, create a sprite instance for each electron.
     coil.electronsProperty.link( electrons => this.createSpriteInstances( electrons ) );
+
+    coil.coilSegmentsProperty.link( coilSegments => {
+      const bounds = Bounds2.NOTHING.copy();
+
+      for ( const coilSegment of coilSegments ) {
+        coilSegment.expandBoundsToFit( bounds );
+      }
+
+      // make sure the bounds are large enough to contain the electrons
+      bounds.dilate( ELECTRON_RADIUS );
+
+      this.canvasBounds = bounds;
+    } );
 
     // When the electrons have moves, update the sprite instances.
     coil.electronsMovedEmitter.addListener( () => this.updateSpriteInstances() );
