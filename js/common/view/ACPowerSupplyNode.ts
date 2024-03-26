@@ -42,7 +42,7 @@ export default class ACPowerSupplyNode extends Node {
   public constructor( acPowerSupply: ACPowerSupply, currentSourceProperty: TReadOnlyProperty<CurrentSource>, tandem: Tandem ) {
 
     // Frequency control
-    const frequencyControl = new ACNumberControl( acPowerSupply.frequencyProperty, {
+    const frequencyControl = new ACNumberControl( acPowerSupply.frequencyPercentProperty, {
       orientation: 'horizontal',
       tandem: tandem.createTandem( 'frequencyControl' )
     } );

@@ -38,10 +38,8 @@ export default class ACPowerSupply extends CurrentSource {
   public readonly maxVoltagePercentProperty: NumberProperty;
   public readonly maxVoltageProperty: TReadOnlyProperty<number>;
 
-  // REVIEW - Are the units equivalent to Hz? If so, could this be changed to Hz or explained in a way that is easier to understand?
-  // REVIEW - Or rename this to frequencyPercentProperty.
   // How fast the voltage will vary.
-  public readonly frequencyProperty: NumberProperty;
+  public readonly frequencyPercentProperty: NumberProperty;
 
   // Number of cycles to display, [1,MAX_CYCLES].
   private readonly numberOfCyclesProperty: TReadOnlyProperty<number>;
@@ -89,19 +87,19 @@ export default class ACPowerSupply extends CurrentSource {
         phetioDocumentation: 'To change maximum voltage, use maxVoltagePercentProperty.'
       } );
 
-    this.frequencyProperty = new NumberProperty( 50, {
+    this.frequencyPercentProperty = new NumberProperty( 50, {
       units: '%',
 
       // Range was [5,100] in Java version, with 100% showing 20 cycles and 5% showing 1 cycle. Showing 20 cycles
       // resulted in a very jagged-looking waveform, and was unnecessary. So we changed the range such that 100% shows
       // 10 cycles, and 10% shows 1 cycle. See https://github.com/phetsims/faradays-electromagnetic-lab/issues/58
       range: new Range( 10, 100 ),
-      tandem: tandem.createTandem( 'frequencyProperty' ),
+      tandem: tandem.createTandem( 'frequencyPercentProperty' ),
       phetioFeatured: true,
       phetioDocumentation: 'Relative frequency of the change in voltage over time.'
     } );
 
-    this.numberOfCyclesProperty = new DerivedProperty( [ this.frequencyProperty ],
+    this.numberOfCyclesProperty = new DerivedProperty( [ this.frequencyPercentProperty ],
       frequency => ACPowerSupply.MAX_CYCLES * frequency / 100, {
         isValidValue: value => value >= 1 && value <= ACPowerSupply.MAX_CYCLES
       } );
@@ -139,7 +137,7 @@ export default class ACPowerSupply extends CurrentSource {
   public override reset(): void {
     super.reset();
     this.maxVoltagePercentProperty.reset();
-    this.frequencyProperty.reset();
+    this.frequencyPercentProperty.reset();
     this._angleProperty.reset();
   }
 
@@ -150,7 +148,7 @@ export default class ACPowerSupply extends CurrentSource {
     assert && assert( dt === ConstantDtClock.DT, `invalid dt=${dt}` );
 
     // Change in angle is a function of relative frequency.
-    const deltaAngle = dt * ( this.frequencyProperty.value / 100 ) * MAX_DELTA_ANGLE;
+    const deltaAngle = dt * ( this.frequencyPercentProperty.value / 100 ) * MAX_DELTA_ANGLE;
 
     // New angle, with wrap around.
     const angleRange = this.angleRangeProperty.value;
