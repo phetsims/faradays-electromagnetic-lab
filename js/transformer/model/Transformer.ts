@@ -7,8 +7,6 @@
  * @author Chris Malley (PixelZoom, Inc.)
  */
 
-// REVIEW - @samreid
-
 import faradaysElectromagneticLab from '../../faradaysElectromagneticLab.js';
 import PhetioObject, { PhetioObjectOptions } from '../../../../tandem/js/PhetioObject.js';
 import Electromagnet from '../../common/model/Electromagnet.js';
