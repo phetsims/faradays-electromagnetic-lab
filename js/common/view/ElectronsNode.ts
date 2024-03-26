@@ -78,7 +78,7 @@ export default class ElectronsNode extends Sprites {
       this.canvasBounds = bounds;
     } );
 
-    // When the electrons have moves, update the sprite instances.
+    // When the electrons have moved, update the sprite instances.
     coil.electronsMovedEmitter.addListener( () => this.updateSpriteInstances() );
 
     // If the electron color changes, update the sprite and redraw.
