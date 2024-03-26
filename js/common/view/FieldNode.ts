@@ -86,11 +86,11 @@ export default class FieldNode extends Sprites {
     // Convert a CompassNeedleNode to a Sprite.
     const compassNeedleNode = new CompassNeedleNode( {
       northFill: compassNeedleNorthColor,
-      southFill: compassNeedleSouthColor
-    } );
+      southFill: compassNeedleSouthColor,
 
-    // Apply a scale to increase resolution (we'll apply the inverse scale when rendering).
-    compassNeedleNode.scale( COMPASS_NEEDLE_RESOLUTION_MULTIPLIER );
+      // Apply a scale to increase resolution (we'll apply the inverse scale when rendering).
+      scale: COMPASS_NEEDLE_RESOLUTION_MULTIPLIER
+    } );
 
     let spriteImage!: SpriteImage;
 

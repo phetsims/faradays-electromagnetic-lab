@@ -11,8 +11,9 @@
 import faradaysElectromagneticLab from '../../faradaysElectromagneticLab.js';
 import { Shape } from '../../../../kite/js/imports.js';
 import FELColors from '../FELColors.js';
-import { Node, Path, TColor } from '../../../../scenery/js/imports.js';
+import { Node, NodeOptions, Path, TColor } from '../../../../scenery/js/imports.js';
 import optionize from '../../../../phet-core/js/optionize.js';
+import PickOptional from '../../../../phet-core/js/types/PickOptional.js';
 
 const NEEDLE_ASPECT_RATIO = 25 / 7; // length:waist
 
@@ -26,13 +27,13 @@ type SelfOptions = {
   southFill?: TColor;
 };
 
-type CompassNeedleNodeOptions = SelfOptions;
+type CompassNeedleNodeOptions = SelfOptions & PickOptional<NodeOptions, 'scale'>;
 
 export default class CompassNeedleNode extends Node {
 
   public constructor( providedOptions?: CompassNeedleNodeOptions ) {
 
-    const options = optionize<CompassNeedleNodeOptions, SelfOptions>()( {
+    const options = optionize<CompassNeedleNodeOptions, SelfOptions, NodeOptions>()( {
 
       // SelfOptions
       length: 25,
@@ -65,9 +66,9 @@ export default class CompassNeedleNode extends Node {
       lineWidth: 0.5
     } );
 
-    super( {
-      children: [ southPath, northPath, unionPath ]
-    } );
+    options.children = [ southPath, northPath, unionPath ];
+
+    super( options );
   }
 }
 
