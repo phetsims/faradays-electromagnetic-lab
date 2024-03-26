@@ -9,8 +9,6 @@
  * @author Chris Malley (PixelZoom, Inc.)
  */
 
-// REVIEW - @samreid
-
 import { Node, NodeOptions, NodeTranslationOptions } from '../../../../scenery/js/imports.js';
 import Range from '../../../../dot/js/Range.js';
 import ChartRectangle from '../../../../bamboo/js/ChartRectangle.js';
