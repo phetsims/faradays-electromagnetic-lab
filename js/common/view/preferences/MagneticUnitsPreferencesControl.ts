@@ -51,14 +51,12 @@ class MagneticUnitsRadioButtonGroup extends AquaRadioButtonGroup<MagneticUnits> 
       {
         value: 'G',
         createNode: radioButtonTandem => new MagneticUnitsRadioButtonText( FaradaysElectromagneticLabStrings.gaussPreferenceStringProperty, radioButtonTandem ),
-
-        // REVIEW: Should this be 'gRadioButton'?
-        tandemName: 'xRadioButton'
+        tandemName: 'gaussRadioButton'
       },
       {
         value: 'T',
         createNode: radioButtonTandem => new MagneticUnitsRadioButtonText( FaradaysElectromagneticLabStrings.teslaPreferenceStringProperty, radioButtonTandem ),
-        tandemName: 'tRadioButton'
+        tandemName: 'teslaRadioButton'
       }
     ];
 
