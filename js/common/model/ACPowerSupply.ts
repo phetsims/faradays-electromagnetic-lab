@@ -24,7 +24,7 @@ const MAX_VOLTAGE = 110; // V
 const MAX_VOLTAGE_PERCENT_RANGE = new Range( 0, 100 ); // %
 
 // REVIEW - Could 100 be replaced by MAX_VOLTAGE_PERCENT_RANGE.getLength()?
-// @samreid - Improvements to Range?
+// REVIEW - Consider a Range method for this, see https://github.com/phetsims/faradays-electromagnetic-lab/issues/123
 const MAX_VOLTAGE_RANGE = new Range( ( MAX_VOLTAGE_PERCENT_RANGE.min / 100 ) * MAX_VOLTAGE, ( MAX_VOLTAGE_PERCENT_RANGE.max / 100 ) * MAX_VOLTAGE );
 
 // Change in angle per step when frequency is 100%. Increase the denominator to slow the oscillation.
