@@ -40,16 +40,16 @@ export default abstract class Magnet extends FELMovable {
   // Bounds of the magnet in its local coordinate frame
   public readonly localBounds: Bounds2;
 
-  // REVIEW - Document
-  public readonly strengthRange: Range; // gauss
+  // The range of the magnet's strength, in gauss.
+  public readonly strengthRange: Range;
 
-  // REVIEW - Document
-  public readonly strengthProperty: TReadOnlyProperty<number>; // gauss
+  // The strength of the magnet, in gauss.
+  public readonly strengthProperty: TReadOnlyProperty<number>;
 
-  // REVIEW - Possibly document
-  public readonly rotationProperty: Property<number>; // radians
+  // Rotation of the magnet about its position, in radians.
+  public readonly rotationProperty: Property<number>;
 
-  // REVIEW - Document
+  // Whether the visual representation of the magnetic field is visible.
   public readonly fieldVisibleProperty: Property<boolean>;
 
   // DEBUG: Writeable via developer controls only, when running with &dev query parameter.
