@@ -116,6 +116,12 @@ class SomeClass {
 }
 ```
 
+### Stylistic Considerations
+
+**Avoid Constructor Parameter Properties** In this simulation, we have purposefully decided not to use constructor 
+parameter properties, since it can lead to a confusing mix of parameter properties and other properties, or properties 
+that are undocumented because they are parameter properties.
+
 ## Model
 
 This section highlights the more interesting parts of the model.
