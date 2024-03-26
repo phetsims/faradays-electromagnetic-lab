@@ -4,20 +4,22 @@
  * QuadraticBezierSpline is a quadratic Bezier spline, described by a start point, an end point, and a control point.
  * de Caselijau's algorithm is used to find points along the curve.
  *
+ * kite.Quadratic was not used here for the following reasons:
+ * 1. kite.Quadratic has much more than we need (which is also why QuadraticBezierSpline is sim-specific).
+ * 2. kite.Quadratic lacks toShape and expandBoundsToFit.
+ * 3. QuadraticBezierSpline was ported directly from Java with zero problems.
+ * 4. There are 15 lines of code (evaluate method) that would be saved by moving to kite.Quadratic.
+ *
  * This is based on QuadraticBezierSpline.java in the Java version of this sim.
  *
  * @author Chris Malley (PixelZoom, Inc.)
  */
-
-// REVIEW - Can Quadratic.ts be used instead? If not, please add documentation explaining why not, and consider adding
-//        - this implementation to common code.
 
 import faradaysElectromagneticLab from '../../faradaysElectromagneticLab.js';
 import Vector2 from '../../../../dot/js/Vector2.js';
 import { Shape } from '../../../../kite/js/imports.js';
 import Disposable from '../../../../axon/js/Disposable.js';
 import Bounds2 from '../../../../dot/js/Bounds2.js';
-
 
 export default class QuadraticBezierSpline {
 
