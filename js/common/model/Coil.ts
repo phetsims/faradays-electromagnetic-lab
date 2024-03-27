@@ -4,7 +4,9 @@
  * Coil is the model of a coil of wire, with a current flowing through it.
  *
  * The coil is described as an array of CoilSegment, which form a set of loops which are not connected at the ends.
- * The ends of the coil are where things can be connected to the coil (eg, lightbulb, voltmeter, power supply).
+ * The ends of the coil are short wire segments (also implemented by CoilSegment) where things can be connected to the
+ * coil (eg, lightbulb, voltmeter, power supply). You can easily visualize the ends by changing their stroke color in
+ * createCoilSegments.
  *
  * The CoilSegments describe the coil's shape, and the path that electrons follow as they flow through the coil,
  * move between layers (foreground or background), and adjust ("scale") their speed so that they appear to flow
@@ -42,7 +44,6 @@ import Emitter from '../../../../axon/js/Emitter.js';
 const ELECTRON_SPACING = 25;
 
 // Ends of the coil contain a fixed number of electrons.
-// REVIEW - What is considered an 'end'? CM: Is "Ends of the coil" immediately above not clear enough?
 const ELECTRONS_IN_LEFT_END = 2;
 const ELECTRONS_IN_RIGHT_END = 2;
 
