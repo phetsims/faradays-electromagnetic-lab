@@ -126,6 +126,7 @@ export default class ACPowerSupply extends CurrentSource {
     } );
     this.angleProperty = this._angleProperty;
 
+    // Reset the angle to the minimum whenever the governing characteristics change
     Multilink.multilink( [ this.maxVoltagePercentProperty, this.angleRangeProperty ],
       ( maxVoltagePercent, angleRange ) => {
         this._angleProperty.value = angleRange.min;
