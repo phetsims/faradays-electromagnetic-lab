@@ -223,7 +223,7 @@ export default class PickupCoil extends FELMovable {
     this.reusableSamplePoint = new Vector2( 0, 0 );
     this.reusableFieldVector = new Vector2( 0, 0 );
 
-    // Instantiate _fluxProperty last, so that it's initial value is correct for the configuration of the coil.
+    // Instantiate _fluxProperty last, so that its initial value is correct for the configuration of the coil.
     this._fluxProperty = new NumberProperty( this.getFlux(), {
       tandem: coilTandem.createTandem( 'fluxProperty' ),
       phetioReadOnly: true,
