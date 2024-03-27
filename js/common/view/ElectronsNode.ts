@@ -126,7 +126,7 @@ export default class ElectronsNode extends Sprites {
 
     const electronNode = new ElectronNode( electronColor, ELECTRON_RESOLUTION_SCALE );
 
-    let spriteImage!: SpriteImage;
+    let spriteImage: SpriteImage | null = null;
     electronNode.toCanvas( ( canvas, x, y, width, height ) => {
       spriteImage = new SpriteImage( canvas, new Vector2( ( x + electronNode.width / 2 ), ( y + electronNode.height / 2 ) ), {
 
@@ -137,7 +137,7 @@ export default class ElectronsNode extends Sprites {
     } );
 
     assert && assert( spriteImage );
-    return spriteImage;
+    return spriteImage!;
   }
 }
 
