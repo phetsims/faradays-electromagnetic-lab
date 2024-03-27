@@ -8,8 +8,6 @@
  * @author Chris Malley (PixelZoom, Inc.)
  */
 
-// REVIEW - @samreid
-
 import faradaysElectromagneticLab from '../../faradaysElectromagneticLab.js';
 import optionize, { combineOptions } from '../../../../phet-core/js/optionize.js';
 import Coil, { CoilOptions } from './Coil.js';
