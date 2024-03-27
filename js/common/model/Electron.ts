@@ -54,7 +54,8 @@ export default class Electron {
   private readonly currentAmplitudeProperty: TReadOnlyProperty<number>;
   private readonly currentAmplitudeRange: Range;
 
-  // Electron's position, relative to the coil's position
+  // Electron's position, relative to the coil's position. This value is changed internally and should not be changed by
+  // clients. Also be aware that the entire Vector2 may be changed (rather than just the x and y values changing).
   public position: Vector2;
 
   // Ordered collection of the segments that make up the coil
