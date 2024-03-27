@@ -173,7 +173,7 @@ export default class Electron {
    * Moves the electron to an appropriate point on the next/previous curve. Rescales any "overshoot" of position so
    * the distance moved looks approximately the same when moving between curves that have different lengths.
    *
-   * If curves have different lengths, it is possible that we may totally skip a curve.This is handled via
+   * If curves have different lengths, it is possible that we may totally skip a curve. This is handled via
    * recursive calls to switchCurves.
    */
   private switchCurves( coilSegmentPosition: number, recursionDepth = 0 ): void {
