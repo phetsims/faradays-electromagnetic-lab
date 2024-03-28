@@ -38,18 +38,6 @@ const FELScreenIconFactory = {
   },
 
   /**
-   * Creates the icon for the 'Electromagnet' screen.
-   */
-  createElectromagnetScreenIcon(): ScreenIcon {
-    const batteryIcon = DCPowerSupplyNode.createIcon();
-    return new ScreenIcon( batteryIcon, {
-      fill: FELColors.screenBackgroundColorProperty,
-      maxIconWidthProportion: 0.75,
-      maxIconHeightProportion: 1
-    } );
-  },
-
-  /**
    * Creates the icon for the 'Pickup Coil' screen.
    */
   createPickupCoilScreenIcon(): ScreenIcon {
@@ -64,6 +52,18 @@ const FELScreenIconFactory = {
       fill: FELColors.screenBackgroundColorProperty,
       maxIconWidthProportion: 0.85,
       maxIconHeightProportion: 0.85
+    } );
+  },
+
+  /**
+   * Creates the icon for the 'Electromagnet' screen.
+   */
+  createElectromagnetScreenIcon(): ScreenIcon {
+    const batteryIcon = DCPowerSupplyNode.createIcon();
+    return new ScreenIcon( batteryIcon, {
+      fill: FELColors.screenBackgroundColorProperty,
+      maxIconWidthProportion: 0.75,
+      maxIconHeightProportion: 1
     } );
   },
 
