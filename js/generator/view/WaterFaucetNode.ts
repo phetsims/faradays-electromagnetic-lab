@@ -16,7 +16,7 @@ import WaterFaucet from '../model/WaterFaucet.js';
 import ValueChangeSoundPlayer from '../../../../tambo/js/sound-generators/ValueChangeSoundPlayer.js';
 import Tandem from '../../../../tandem/js/Tandem.js';
 import Utils from '../../../../dot/js/Utils.js';
-import BooleanProperty from '../../../../axon/js/BooleanProperty.js';
+import EnabledProperty from '../../../../axon/js/EnabledProperty.js';
 
 const SOUND_STEP = 10; // %, play sound when flowRatePercentProperty changes by this much.
 
@@ -63,8 +63,9 @@ export default class WaterFaucetNode extends FaucetNode {
     options.drag = dragSound;
 
     // For PhET-iO. See https://github.com/phetsims/faradays-electromagnetic-lab/issues/105
-    const enabledProperty = new BooleanProperty( true, {
-      tandem: options.tandem.createTandem( 'enabledProperty' ),
+    const enabledProperty = new EnabledProperty( true, {
+      tandem: options.tandem.createTandem( EnabledProperty.TANDEM_NAME ),
+      phetioDocumentation: 'Determines whether the water faucet is enabled (true) or disabled (false).',
       phetioFeatured: true
     } );
 
