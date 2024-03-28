@@ -12,7 +12,7 @@ import ScreenIcon from '../../../../joist/js/ScreenIcon.js';
 import faradaysElectromagneticLab from '../../faradaysElectromagneticLab.js';
 import BarMagnetNode from './BarMagnetNode.js';
 import FELColors from '../FELColors.js';
-import { Image, Node } from '../../../../scenery/js/imports.js';
+import { HBox, Image, Node } from '../../../../scenery/js/imports.js';
 import waterWheel_png from '../../../images/waterWheel_png.js';
 import DCPowerSupplyNode from './DCPowerSupplyNode.js';
 import NumberProperty from '../../../../axon/js/NumberProperty.js';
@@ -41,14 +41,7 @@ const FELScreenIconFactory = {
    * Creates the icon for the 'Pickup Coil' screen.
    */
   createPickupCoilScreenIcon(): ScreenIcon {
-
-    // Pickup coil - 2 loops with loose spacing.
-    const pickupCoilNode = createCoilNode( 2, 16 );
-
-    // Clip the top part of the wire ends, y-offset was set empirically.
-    pickupCoilNode.clipArea = Shape.bounds( pickupCoilNode.bounds.withMinY( pickupCoilNode.bounds.minY + 35 ) );
-
-    return new ScreenIcon( pickupCoilNode, {
+    return new ScreenIcon( createCoilNode( 3, 16, 30000 ), {
       fill: FELColors.screenBackgroundColorProperty,
       maxIconWidthProportion: 0.85,
       maxIconHeightProportion: 0.85
@@ -59,8 +52,7 @@ const FELScreenIconFactory = {
    * Creates the icon for the 'Electromagnet' screen.
    */
   createElectromagnetScreenIcon(): ScreenIcon {
-    const batteryIcon = DCPowerSupplyNode.createIcon();
-    return new ScreenIcon( batteryIcon, {
+    return new ScreenIcon( DCPowerSupplyNode.createIcon(), {
       fill: FELColors.screenBackgroundColorProperty,
       maxIconWidthProportion: 0.75,
       maxIconHeightProportion: 1
@@ -73,20 +65,16 @@ const FELScreenIconFactory = {
   createTransformerScreenIcon(): ScreenIcon {
 
     // Electromagnet coil - 3 loops, tightly packed.
-    const electromagnetCoilNode = createCoilNode( 3, 0 );
+    const electromagnetCoilNode = createCoilNode( 3, 0, 10000 );
 
     // Pickup coil - 2 loops with loose spacing.
-    const pickupCoilNode = createCoilNode( 2, 16 );
+    const pickupCoilNode = createCoilNode( 3, 10, 30000 );
 
-    // Put the 2 coils side by side. HBox clipArea does not work, so use a Node and handle layout.
-    pickupCoilNode.top = electromagnetCoilNode.top;
-    pickupCoilNode.left = electromagnetCoilNode.right + 5;
-    const hBox = new Node( {
-      children: [ electromagnetCoilNode, pickupCoilNode ]
+    // Put the 2 coils side by side.
+    const hBox = new HBox( {
+      children: [ electromagnetCoilNode, pickupCoilNode ],
+      spacing: 45
     } );
-
-    // Clip the top part of the wire ends, y-offset was set empirically.
-    hBox.clipArea = Shape.bounds( hBox.bounds.withMinY( hBox.bounds.minY + 35 ) );
 
     return new ScreenIcon( hBox, {
       fill: FELColors.screenBackgroundColorProperty,
@@ -137,12 +125,12 @@ function createBarMagnetNode( size?: Dimension2 ): Node {
 /**
  * Creates a coil with a specific number of loops and loop spacing.
  */
-function createCoilNode( numberOfLoops: number, loopSpacing: number ): Node {
+function createCoilNode( numberOfLoops: number, loopSpacing: number, maxLoopArea: number ): Node {
 
   const coil = new Coil( new NumberProperty( 0 ), FELConstants.CURRENT_AMPLITUDE_RANGE, {
     numberOfLoopsRange: new RangeWithValue( numberOfLoops, numberOfLoops, numberOfLoops ),
     loopSpacing: loopSpacing,
-    maxLoopArea: 7000,
+    maxLoopArea: maxLoopArea,
     loopAreaPercentRange: new RangeWithValue( 100, 100, 100 ),
     electronsVisible: false,
     tandem: Tandem.OPT_OUT
@@ -156,9 +144,14 @@ function createCoilNode( numberOfLoops: number, loopSpacing: number ): Node {
     renderElectrons: false, // Don't create unnecessary WebGL contexts for electrons that we don't want to see.
     tandem: Tandem.OPT_OUT
   } );
-  return new Node( {
+  const node = new Node( {
     children: [ coilForegroundNode.backgroundNode, coilForegroundNode ]
   } );
+
+  // Clip the top part of the coil ends. y-offset was set empirically.
+  node.clipArea = Shape.bounds( node.bounds.withMinY( node.bounds.minY + 35 ) );
+
+  return node;
 }
 
 faradaysElectromagneticLab.register( 'FELScreenIconFactory', FELScreenIconFactory );
