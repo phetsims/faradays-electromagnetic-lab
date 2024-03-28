@@ -161,13 +161,8 @@ export default class PickupCoil extends FELMovable {
       // Do not instrument. This is a PhET developer Property.
     } );
 
-    // REVIEW - Current and EMF are being used interchangeably here, which is confusing. Please document the role of Ohm's law in this model.
-    // See https://github.com/phetsims/faradays-electromagnetic-lab/issues/118
-
     this.currentAmplitudeProperty = new DerivedProperty( [ this.emfProperty, this.maxEMFProperty ],
       ( emf, maxEMF ) => {
-
-        // REVIEW - This variable does not have the units of current. Should it be called emfPercent?
         const currentAmplitude = emf / maxEMF;
         return FELConstants.CURRENT_AMPLITUDE_RANGE.constrainValue( currentAmplitude );
       }, {

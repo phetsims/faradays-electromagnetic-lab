@@ -27,8 +27,7 @@ type SelfOptions = {
   // In some cases (e.g. flipping the bar magnet) this should be true.
   // In other cases (eg, the Generator or AC Electromagnet) this should be false.
 
-  // REVIEW - Can you explain more about the difference between these two cases?
-  // REVIEW - Why is this needed, and why does the designed behavior require this distinction?
+  // REVIEW - Can you explain more about the difference between these two cases? Why is this needed, and why does the designed behavior require this distinction?
   lightsWhenCurrentChangesDirection?: boolean;
 };
 
