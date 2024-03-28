@@ -148,8 +148,8 @@ export default class Electron {
       }
       assert && assert( COIL_SEGMENT_POSITION_RANGE.contains( this.coilSegmentPosition ) );
 
-      // Evaluate the quadratic to determine the electron's position relative to the segment.
-      // Use a different reusable Vector2 each time that curve.evaluate is called, so that
+      // Evaluate the quadratic to determine the electron's position relative to the segment. Use a different reusable
+      // Vector2 each time that curve.evaluate is called so that position is different for any by-reference comparisons.
       const coilSegment = this.coilSegments[ this.coilSegmentIndex ];
       const returnValue = ( this.position === this.reusablePosition1 ) ? this.reusablePosition2 : this.reusablePosition1;
       this.position = coilSegment.evaluate( this.coilSegmentPosition, returnValue );
