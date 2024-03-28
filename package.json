@@ -22,6 +22,9 @@
       "bamboo"
     ],
     "supportsOutputJS": true,
+    "phet-io": {
+      "compareDesignedAPIChanges": true
+    },
     "simFeatures": {
       "supportsSound": true,
       "supportsDynamicLocale": true,
