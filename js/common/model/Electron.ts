@@ -198,7 +198,7 @@ export default class Electron {
 
       // Did we overshoot the curve? If so, call this method recursively.
       if ( coilSegmentPosition < 0.0 ) {
-        this.switchCurves( coilSegmentPosition, ++recursionDepth );
+        this.switchCurves( coilSegmentPosition, recursionDepth + 1 );
       }
       else {
         this.coilSegmentPosition = coilSegmentPosition;
@@ -220,7 +220,7 @@ export default class Electron {
 
       // Did we overshoot the curve? If so, call this method recursively.
       if ( coilSegmentPosition > 1.0 ) {
-        this.switchCurves( coilSegmentPosition, ++recursionDepth );
+        this.switchCurves( coilSegmentPosition, recursionDepth + 1 );
       }
       else {
         this.coilSegmentPosition = coilSegmentPosition;
