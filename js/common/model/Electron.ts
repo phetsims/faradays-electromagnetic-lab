@@ -134,7 +134,7 @@ export default class Electron {
 
     if ( this.speedAndDirection !== 0 ) {
 
-      // Move the electron along the path.
+      // Move the electron along the path. coilSegmentPosition is 1=start and 0=end, so we subtract the delta here.
       const deltaPosition = dt * MAX_COIL_SEGMENT_POSITION_DELTA * this.speedAndDirection *
                             this.speedScaleProperty.value * this.getSpeedScale();
       const newPosition = this.coilSegmentPosition - deltaPosition;
