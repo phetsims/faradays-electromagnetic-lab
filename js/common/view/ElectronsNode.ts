@@ -213,10 +213,9 @@ class ElectronSpriteInstance extends SpriteInstance {
     if ( this.electron.getLayer() === this.coilLayer ) {
 
       // Move to the electron's position (at the electron's center) and apply inverse scale.
-      const position = this.electron.position;
       this.matrix.rowMajor(
-        ELECTRON_INVERSE_SCALE, 0, position.x + ELECTRON_RADIUS,
-        0, ELECTRON_INVERSE_SCALE, position.y + ELECTRON_RADIUS,
+        ELECTRON_INVERSE_SCALE, 0, this.electron.x + ELECTRON_RADIUS,
+        0, ELECTRON_INVERSE_SCALE, this.electron.y + ELECTRON_RADIUS,
         0, 0, 1
       );
       assert && assert( this.matrix.isFinite(), 'matrix should be finite' );

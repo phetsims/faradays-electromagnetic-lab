@@ -52,9 +52,8 @@ export default class Electron {
   private readonly currentAmplitudeProperty: TReadOnlyProperty<number>;
   private readonly currentAmplitudeRange: Range;
 
-  // Electron's position, relative to the coil's position. This value is changed internally and should not be changed by
-  // clients. Also be aware that the entire Vector2 instance may be changed (rather than just the x and y values changing).
-  public position: Vector2;
+  // Electron's position, relative to the coil's position. This Vector2 is mutated as position changes.
+  private readonly position: Vector2;
 
   // Ordered collection of the segments that make up the coil
   private readonly coilSegments: CoilSegment[];
@@ -72,10 +71,6 @@ export default class Electron {
   // Scale for adjusting speed.
   private readonly speedScaleProperty: TReadOnlyProperty<number>;
 
-  // Reusable Vector2 instances
-  private readonly reusablePosition1: Vector2;
-  private readonly reusablePosition2: Vector2;
-
   public constructor( currentAmplitudeProperty: TReadOnlyProperty<number>, currentAmplitudeRange: Range, providedOptions: ElectronOptions ) {
 
     const options = providedOptions;
@@ -84,12 +79,9 @@ export default class Electron {
     this.currentAmplitudeProperty = currentAmplitudeProperty;
     this.currentAmplitudeRange = currentAmplitudeRange;
 
-    this.reusablePosition1 = new Vector2( 0, 0 );
-    this.reusablePosition2 = new Vector2( 0, 0 );
-
     const coilSegment = options.coilSegments[ options.coilSegmentIndex ];
 
-    this.position = coilSegment.evaluate( options.coilSegmentPosition, this.reusablePosition1 );
+    this.position = coilSegment.evaluate( options.coilSegmentPosition );
     this.coilSegments = options.coilSegments;
     this.coilSegmentIndex = options.coilSegmentIndex;
     this.coilSegmentPosition = options.coilSegmentPosition;
@@ -100,6 +92,14 @@ export default class Electron {
 
   public dispose(): void {
     // Nothing to do currently. But this class is allocated dynamically, so keep this method as a bit of defensive programming.
+  }
+
+  public get x(): number {
+    return this.position.x;
+  }
+
+  public get y(): number {
+    return this.position.y;
   }
 
   /**
@@ -148,11 +148,12 @@ export default class Electron {
       }
       assert && assert( COIL_SEGMENT_POSITION_RANGE.contains( this.coilSegmentPosition ) );
 
-      // Evaluate the quadratic to determine the electron's position relative to the segment. Use a different reusable
-      // Vector2 each time that curve.evaluate is called so that position is different for any by-reference comparisons.
+      // Get the coil segment that this electron currently occupies.
       const coilSegment = this.coilSegments[ this.coilSegmentIndex ];
-      const returnValue = ( this.position === this.reusablePosition1 ) ? this.reusablePosition2 : this.reusablePosition1;
-      this.position = coilSegment.evaluate( this.coilSegmentPosition, returnValue );
+
+      // Evaluate the quadratic to determine the electron's position relative to the segment.
+      // Note that this mutates this.position.
+      coilSegment.evaluate( this.coilSegmentPosition, this.position );
     }
   }
 
