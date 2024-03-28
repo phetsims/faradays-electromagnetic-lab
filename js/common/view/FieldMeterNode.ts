@@ -129,7 +129,7 @@ export default class FieldMeterNode extends FELMovableNode {
       lineWidth: 5
     } );
 
-    // Dynamic labels. The Java version showed a line over 'B' for these labels, presumably indicating magnitude.
+    // Dynamic labels. The Java version showed a line over 'B' for these labels, presumably indicating 'vector'.
     // That notation was incorrect, since 'B' is (by definition) the *magnitude* of the magnetic field. See for
     // example https://en.wikipedia.org/wiki/Magnetic_flux.
     const stringBLabelProperty = new DerivedStringProperty( [ BStringProperty ], B => `${B}` );
