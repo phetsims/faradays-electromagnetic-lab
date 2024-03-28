@@ -9,16 +9,18 @@
  */
 
 import faradaysElectromagneticLab from '../../faradaysElectromagneticLab.js';
-import { Color, Node, Sprite, SpriteImage, SpriteInstance, SpriteInstanceTransformType, Sprites, TColor } from '../../../../scenery/js/imports.js';
-import ShadedSphereNode from '../../../../scenery-phet/js/ShadedSphereNode.js';
+import { Circle, Color, Node, Sprite, SpriteImage, SpriteInstance, SpriteInstanceTransformType, Sprites, TColor } from '../../../../scenery/js/imports.js';
 import Vector2 from '../../../../dot/js/Vector2.js';
 import FELColors from '../FELColors.js';
 import Electron from '../model/Electron.js';
 import Coil, { CoilLayer } from '../model/Coil.js';
 import Bounds2 from '../../../../dot/js/Bounds2.js';
+import MinusNode from '../../../../scenery-phet/js/MinusNode.js';
+import Dimension2 from '../../../../dot/js/Dimension2.js';
 
 const ELECTRON_DIAMETER = 9;
 const ELECTRON_RADIUS = ELECTRON_DIAMETER / 2;
+const MINUS_SIZE = new Dimension2( 0.65 * ELECTRON_DIAMETER, 0.15 * ELECTRON_DIAMETER );
 
 // Scale up by this much to improve resolution.
 const ELECTRON_RESOLUTION_SCALE = 8;
@@ -114,7 +116,7 @@ export default class ElectronsNode extends Sprites {
    * Creates an icon for the 'Electrons' checkbox.
    */
   public static createIcon(): Node {
-    return new ElectronNode( electronColorProperty );
+    return new NegativeElectronNode( electronColorProperty );
   }
 
   /**
@@ -122,7 +124,7 @@ export default class ElectronsNode extends Sprites {
    */
   private static getSpriteImage( electronColor: Color ): SpriteImage {
 
-    const electronNode = new ElectronNode( electronColor, ELECTRON_RESOLUTION_SCALE );
+    const electronNode = new NegativeElectronNode( electronColor, ELECTRON_RESOLUTION_SCALE );
 
     let spriteImage: SpriteImage | null = null;
     electronNode.toCanvas( ( canvas, x, y, width, height ) => {
@@ -139,13 +141,39 @@ export default class ElectronsNode extends Sprites {
   }
 }
 
+//TODO https://github.com/phetsims/faradays-electromagnetic-lab/issues/136 Delete ElectronNode or NegativeElectronNode
 /**
  * ElectronNode is the visual representation of an electron, a shaded sphere.
  */
-class ElectronNode extends ShadedSphereNode {
+// class ElectronNode extends ShadedSphereNode {
+//   public constructor( color: TColor, scale = 1 ) {
+//     super( ELECTRON_DIAMETER, {
+//       mainColor: color,
+//       scale: scale
+//     } );
+//   }
+// }
+
+/**
+ * NegativeElectronNode is the visual representation of an electron - a flat circle with a '-' sign in the center,
+ * to address misconceptions about direction of current.
+ */
+class NegativeElectronNode extends Node {
   public constructor( color: TColor, scale = 1 ) {
-    super( ELECTRON_DIAMETER, {
-      mainColor: color,
+
+    const circle = new Circle( {
+      radius: ELECTRON_RADIUS,
+      fill: color
+    } );
+
+    const minusNode = new MinusNode( {
+      size: MINUS_SIZE,
+      center: circle.center,
+      fill: 'white'
+    } );
+
+    super( {
+      children: [ circle, minusNode ],
       scale: scale
     } );
   }
