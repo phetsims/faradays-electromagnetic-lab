@@ -114,7 +114,7 @@ export default class Coil extends PhetioObject {
   public readonly electronsProperty: TReadOnlyProperty<Electron[]>;
 
   // Fires after electrons have moved.
-  // REVIEW - This fires every step, as long as the electrons are visible. Shouldn't it only fire when the electrons have moved?
+  // REVIEW - This fires every step, as long as the electrons are visible. Shouldn't it only fire when the electrons have moved? Or rename it.
   public readonly electronsMovedEmitter: Emitter;
 
   public constructor( currentAmplitudeProperty: TReadOnlyProperty<number>, currentAmplitudeRange: Range, providedOptions: CoilOptions ) {
@@ -222,7 +222,7 @@ export default class Coil extends PhetioObject {
       this.electronsProperty.value.forEach( electron => electron.step( dt ) );
 
       // REVIEW - Shouldn't this only be fired when the electrons have moved? Or renamed to electronsSteppedEmitter
-      // REVIEW - For example, when the Pickup Coil starts up, its electrons are not moving
+      // REVIEW - For example, when the Pickup Coil screen begins, its electrons are not moving
       this.electronsMovedEmitter.emit();
     }
   }
