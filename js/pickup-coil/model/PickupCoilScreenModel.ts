@@ -26,6 +26,9 @@ const BAR_MAGNET_POSITION = new Vector2( 200, Y_POSITION );
 const PICKUP_COIL_POSITION = new Vector2( 500, Y_POSITION );
 const COMPASS_POSITION = new Vector2( 635, Y_POSITION );
 
+assert && assert( BAR_MAGNET_POSITION.y === PICKUP_COIL_POSITION.y,
+  'Bar magnet and pickup coil must have the same initial y coordinate for the Lock to Axis feature.' );
+
 export default class PickupCoilScreenModel extends FELScreenModel {
 
   public readonly barMagnet: BarMagnet;

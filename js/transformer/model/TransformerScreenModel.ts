@@ -24,6 +24,9 @@ const ELECTROMAGNET_POSITION = new Vector2( 200, Y_POSITION );
 const PICKUP_COIL_POSITION = new Vector2( 500, Y_POSITION );
 const COMPASS_POSITION = new Vector2( 635, Y_POSITION );
 
+assert && assert( ELECTROMAGNET_POSITION.y === PICKUP_COIL_POSITION.y,
+  'Electromagnet and pickup coil must have the same initial y coordinate for the Lock to Axis feature.' );
+
 export default class TransformerScreenModel extends FELScreenModel {
 
   public readonly transformer: Transformer;
