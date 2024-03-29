@@ -58,6 +58,9 @@ export default class ElectromagnetScreenView extends FELScreenView {
         developerAccordionBox
       ]
     } );
+    if ( this.fieldPositionsNode ) {
+      screenViewRootNode.addChild( this.fieldPositionsNode );
+    }
     this.addChild( screenViewRootNode );
 
     // Play Area focus order, see https://github.com/phetsims/faradays-electromagnetic-lab/issues/81

@@ -20,8 +20,6 @@ import Magnet from '../model/Magnet.js';
 import FELColors from '../FELColors.js';
 import Tandem from '../../../../tandem/js/Tandem.js';
 
-const NEEDLE_SPACING = 40;
-
 // Scale up by this much to improve resolution.
 const COMPASS_NEEDLE_RESOLUTION_SCALE = 8;
 
@@ -35,6 +33,8 @@ export default class FieldNode extends Sprites {
   private readonly sprite: Sprite; // the single Sprite used to render all compass needles in the grid
   private readonly spriteInstances: CompassNeedleSpriteInstance[]; // the individual compass needles in the grid
   private readonly reusableFieldVector: Vector2; // a reusable instance for getting field vectors
+
+  public static readonly NEEDLE_SPACING = 40; // needle spacing in the x and y directions
 
   public constructor( magnet: Magnet, visibleBoundsProperty: TReadOnlyProperty<Bounds2>, tandem: Tandem ) {
 
@@ -96,9 +96,9 @@ export default class FieldNode extends Sprites {
 
     // Create new SpriteInstances to fill the visible bounds of the browser window.
     const visibleBounds = this.visibleBoundsProperty.value;
-    const margin = NEEDLE_SPACING / 4;
-    for ( let x = visibleBounds.left + margin; x <= visibleBounds.right; x = x + NEEDLE_SPACING ) {
-      for ( let y = visibleBounds.top + margin; y <= visibleBounds.bottom; y = y + NEEDLE_SPACING ) {
+    const margin = FieldNode.NEEDLE_SPACING / 4;
+    for ( let x = visibleBounds.left + margin; x <= visibleBounds.right; x = x + FieldNode.NEEDLE_SPACING ) {
+      for ( let y = visibleBounds.top + margin; y <= visibleBounds.bottom; y = y + FieldNode.NEEDLE_SPACING ) {
         this.spriteInstances.push( new CompassNeedleSpriteInstance( new Vector2( x, y ), this.sprite ) );
       }
     }

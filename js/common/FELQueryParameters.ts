@@ -58,6 +58,12 @@ const SCHEMA_MAP = {
   // Prints info to the console that is useful for calibrating the pickup coil. See PickupCoil.calibrateEMF.
   calibrateEMF: {
     type: 'flag'
+  },
+
+  // Debugging tool, puts a yellow dot (small circle) where the center of each needle should be in the B-field
+  // visualization. If the dots are not centered on the needles, then positioning in FieldNode is incorrect.
+  showFieldPositions: {
+    type: 'flag'
   }
 } as const;
 

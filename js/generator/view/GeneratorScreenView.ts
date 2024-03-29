@@ -62,6 +62,9 @@ export default class GeneratorScreenView extends FELScreenView {
         pickupCoilDebuggerPanel
       ]
     } );
+    if ( this.fieldPositionsNode ) {
+      screenViewRootNode.addChild( this.fieldPositionsNode );
+    }
     this.addChild( screenViewRootNode );
 
     // Play Area focus order, see https://github.com/phetsims/faradays-electromagnetic-lab/issues/81

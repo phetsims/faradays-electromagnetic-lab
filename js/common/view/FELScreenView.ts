@@ -28,6 +28,8 @@ import Property from '../../../../axon/js/Property.js';
 import PickupCoilNode from './PickupCoilNode.js';
 import DerivedProperty from '../../../../axon/js/DerivedProperty.js';
 import isResettingAllProperty from '../isResettingAllProperty.js';
+import FELQueryParameters from '../FELQueryParameters.js';
+import FieldPositionsNode from './FieldPositionsNode.js';
 
 type SelfOptions = {
 
@@ -51,6 +53,7 @@ export default class FELScreenView extends ScreenView {
 
   // It is the subclass' responsibility to add these to the scene graph and pdomOrder.
   protected readonly fieldNode: Node;
+  protected readonly fieldPositionsNode?: Node;
   protected readonly fieldMeterNode: Node;
   protected readonly compassNode: Node;
   protected readonly resetAllButton: Node;
@@ -69,6 +72,11 @@ export default class FELScreenView extends ScreenView {
     super( options );
 
     this.fieldNode = new FieldNode( options.magnet, this.visibleBoundsProperty, options.tandem.createTandem( 'fieldNode' ) );
+
+    // Debugging tool, to verify that FieldNode is rendering needles in the correct positions.
+    if ( FELQueryParameters.showFieldPositions ) {
+      this.fieldPositionsNode = new FieldPositionsNode( this.visibleBoundsProperty );
+    }
 
     this.compassNode = new CompassNode( options.compass, {
       // See https://github.com/phetsims/faradays-electromagnetic-lab/issues/10#issuecomment-1911160748
