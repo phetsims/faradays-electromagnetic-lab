@@ -62,8 +62,8 @@ const SCHEMA_MAP = {
 
   // Debugging tool, puts a yellow dot (small circle) where the center of each needle should be in the B-field
   // visualization. If the dots are not centered on the needles, then positioning in FieldNode is incorrect.
-  // This applies to the Bar Magnet screen only, which is sufficient since all screens share the same FELScreenView
-  // base class, which instantiates FieldNode.
+  // This applies to the Bar Magnet screen only, which is sufficient since FieldNode is instantiated in the
+  // FELScreenView base class that is shared by all screens.
   showFieldPositions: {
     type: 'flag'
   }
