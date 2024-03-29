@@ -213,7 +213,8 @@ export default class FieldMeterNode extends FELMovableNode {
  * If the value is exactly zero, display '0' with no decimal places.
  */
 function toGaussString( gauss: number, G: string, valueUnits: string, lessThanValueUnits: string ): string {
-  if ( gauss > 0 && gauss < GAUSS_MIN_DISPLAY_VALUE ) {
+  const gaussAbsolute = Math.abs( gauss );
+  if ( gaussAbsolute > 0 && gaussAbsolute < GAUSS_MIN_DISPLAY_VALUE ) {
 
     // Display '< 0.01' instead of '0.00' for small non-zero values, see https://github.com/phetsims/faradays-electromagnetic-lab/issues/84
     return StringUtils.fillIn( lessThanValueUnits, {
