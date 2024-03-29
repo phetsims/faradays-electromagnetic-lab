@@ -181,6 +181,7 @@ export default class Electron {
 
     const oldPathSpeedScale = this.getSpeedScale();
 
+    // Reminder: For coilSegmentPosition, 0=endPoint, 1=startPoint.
     if ( coilSegmentPosition <= 0 ) {
 
       // We've passed the end point, so move to the next curve. Wrap around if necessary.
