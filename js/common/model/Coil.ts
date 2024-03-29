@@ -114,7 +114,6 @@ export default class Coil extends PhetioObject {
   public readonly electronsProperty: TReadOnlyProperty<Electron[]>;
 
   // Fires after electrons have moved.
-  // REVIEW - This fires every step, as long as the electrons are visible. Shouldn't it only fire when the electrons have moved? Or rename it.
   public readonly electronsMovedEmitter: Emitter;
 
   public constructor( currentAmplitudeProperty: TReadOnlyProperty<number>, currentAmplitudeRange: Range, providedOptions: CoilOptions ) {
