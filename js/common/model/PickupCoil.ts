@@ -65,7 +65,7 @@ export default class PickupCoil extends FELMovable {
 
   // Used exclusively in calibrateMaxEMF, does not need to be stateful for PhET-iO
   //TODO https://github.com/phetsims/faradays-electromagnetic-lab/issues/66 This can likely be deleted when calibration method is changed.
-  private _biggestAbsEmf; // in volts
+  private largestAbsoluteEMF; // in volts
 
   // Amplitude and direction of current in the coil. See Coil currentAmplitudeProperty.
   private readonly currentAmplitudeProperty: TReadOnlyProperty<number>;
@@ -149,7 +149,7 @@ export default class PickupCoil extends FELMovable {
     } );
     this.emfProperty = this._emfProperty;
 
-    this._biggestAbsEmf = 0.0;
+    this.largestAbsoluteEMF = 0.0;
 
     // Check that maxEMFProperty is calibrated properly.
     if ( FELQueryParameters.calibrateEMF ) {
@@ -292,19 +292,19 @@ export default class PickupCoil extends FELMovable {
 
     const absEMF = Math.abs( this._emfProperty.value );
 
-    // Keeps track of the biggest EMF seen by the pickup coil. This is useful for determining the desired value of
+    // Keeps track of the largest EMF seen by the pickup coil. This is useful for determining the desired value of
     // maxEMFProperty. Run the sim with &log query parameter, set model controls to their max values, then observe
     // the logging output in the browser console. The largest value that you see is the value that should be used
     // for maxEMFProperty.
-    if ( absEMF > this._biggestAbsEmf ) {
-      this._biggestAbsEmf = absEMF;
-      console.log( `PickupCoil.calibrateMaxEMF, biggestEmf=${this._biggestAbsEmf} for currentAmplitude=${this.currentAmplitudeProperty.value}` );
+    if ( absEMF > this.largestAbsoluteEMF ) {
+      this.largestAbsoluteEMF = absEMF;
+      console.log( `PickupCoil.calibrateMaxEMF, largestAbsoluteEMF=${this.largestAbsoluteEMF} for currentAmplitude=${this.currentAmplitudeProperty.value}` );
 
       // If this prints, you have maxEMFProperty set too low. This will cause view components to exhibit responses
       // that are less than their maximums. For example, the voltmeter won't fully deflect, and the lightbulb won't
       // fully light.
-      if ( this._biggestAbsEmf > this.maxEMFProperty.value ) {
-        console.log( `PickupCoil.calibrateMaxEMF: Recalibrate ${this.maxEMFProperty.tandem.name} with ${this._biggestAbsEmf}` );
+      if ( this.largestAbsoluteEMF > this.maxEMFProperty.value ) {
+        console.log( `PickupCoil.calibrateMaxEMF: Recalibrate ${this.maxEMFProperty.tandem.name} with ${this.largestAbsoluteEMF}` );
 
         // From the Java version: The coil could theoretically be self-calibrating. If we notice that we've exceeded
         // maxEMFProperty, then adjust its value. This would be OK only if we started with a value that was in
