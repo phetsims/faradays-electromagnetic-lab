@@ -16,6 +16,8 @@ import EarthNode from '../../common/view/EarthNode.js';
 import BarMagnetDeveloperAccordionBox from './BarMagnetDeveloperAccordionBox.js';
 import BarMagnetPanels from './BarMagnetPanels.js';
 import FELScreenView from '../../common/view/FELScreenView.js';
+import FELQueryParameters from '../../common/FELQueryParameters.js';
+import FieldPositionsNode from '../../common/view/FieldPositionsNode.js';
 
 export default class BarMagnetScreenView extends FELScreenView {
 
@@ -76,10 +78,14 @@ export default class BarMagnetScreenView extends FELScreenView {
         developerAccordionBox
       ]
     } );
-    if ( this.fieldPositionsNode ) {
-      screenViewRootNode.addChild( this.fieldPositionsNode );
-    }
     this.addChild( screenViewRootNode );
+
+    // Debugging tool, to verify that FieldNode is rendering needles in the correct positions. This is sufficient
+    // to check in one screen, since FieldNode is instantiated in the FELScreenView base class that is shared by
+    // all screens.
+    if ( FELQueryParameters.showFieldPositions ) {
+      screenViewRootNode.addChild( new FieldPositionsNode( this.visibleBoundsProperty ) );
+    }
 
     // Play Area focus order, see https://github.com/phetsims/faradays-electromagnetic-lab/issues/81
     this.pdomPlayAreaNode.pdomOrder = [
