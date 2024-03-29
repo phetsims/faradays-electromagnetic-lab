@@ -80,9 +80,9 @@ export default class FELScreenView extends ScreenView {
     } );
 
     this.fieldMeterNode = new FieldMeterNode( options.fieldMeter, {
-        dragBoundsProperty: this.visibleBoundsProperty,
-        tandem: options.tandem.createTandem( 'fieldMeterNode' )
-      } );
+      dragBoundsProperty: this.visibleBoundsProperty,
+      tandem: options.tandem.createTandem( 'fieldMeterNode' )
+    } );
 
     this.resetAllButton = new ResetAllButton( {
       listener: () => {
@@ -156,11 +156,12 @@ export default class FELScreenView extends ScreenView {
       if ( isLockedToAxis ) {
         // Dragging is locked to 1D, horizontally along the pickup coil's axis.
 
-        // Move the pickup coil and magnet to a usable position, which we assume is their initial position.
-        pickupCoilPositionProperty.reset();
+        // Move the magnet and pickup coil a usable position, which we assume is their initial position.
         magnetPositionProperty.reset();
-        assert && assert( pickupCoilPositionProperty.value.y === magnetPositionProperty.value.y,
-          'magnet and pickup coil must have the same initial y coordinate' );
+        pickupCoilPositionProperty.reset();
+        assert && assert( magnetPositionProperty.value.y === pickupCoilPositionProperty.value.y,
+          'Lock to Axis feature requires the magnet and pickup coil to have the same y coordinate: ' +
+          `magnet.y=${magnetPositionProperty.value.y} !== pickupCoil.y=${pickupCoilPositionProperty.value.y}` );
         const y = pickupCoilPositionProperty.value.y;
 
         // Constrain to horizontal dragging.
