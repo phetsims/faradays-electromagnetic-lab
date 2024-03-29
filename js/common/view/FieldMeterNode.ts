@@ -12,7 +12,7 @@
 
 import faradaysElectromagneticLab from '../../faradaysElectromagneticLab.js';
 import FieldMeter from '../model/FieldMeter.js';
-import { GridBox, Path, RichText, RichTextOptions } from '../../../../scenery/js/imports.js';
+import { GridBox, Path, RichText, RichTextOptions, TextOptions } from '../../../../scenery/js/imports.js';
 import { Shape } from '../../../../kite/js/imports.js';
 import Utils from '../../../../dot/js/Utils.js';
 import MathSymbols from '../../../../scenery-phet/js/MathSymbols.js';
@@ -57,7 +57,7 @@ const BODY_X_MARGIN = 12;
 const BODY_Y_MARGIN = 8;
 
 // Options for the labels that appear to the left of each value displayed by the meter.
-const LABEL_TEXT_OPTIONS: RichTextOptions = {
+const LABEL_TEXT_OPTIONS: TextOptions | RichTextOptions = {
   font: new PhetFont( 14 ),
   fill: FELColors.fieldMeterLabelsColorProperty,
   layoutOptions: {
@@ -72,7 +72,8 @@ const STRING_DISPLAY_OPTIONS: StringDisplayOptions = {
   size: new Dimension2( 90, 22 ),
   xMargin: 5,
   yMargin: 2,
-  richTextOptions: {
+  useRichText: true,
+  textOptions: {
     font: new PhetFont( 14 ),
     fill: FELColors.fieldMeterLabelsColorProperty
   },
