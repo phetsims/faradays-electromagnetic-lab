@@ -128,7 +128,7 @@ export default class ElectronsNode extends Sprites {
 
     let spriteImage: SpriteImage | null = null;
     electronNode.toCanvas( ( canvas, x, y, width, height ) => {
-      spriteImage = new SpriteImage( canvas, new Vector2( ( x + electronNode.width / 2 ), ( y + electronNode.height / 2 ) ), {
+      spriteImage = new SpriteImage( canvas, new Vector2( ( x + electronNode.centerX ), ( y + electronNode.centerY ) ), {
 
         // Mipmapping was added to address pixelation reported in https://github.com/phetsims/faradays-electromagnetic-lab/issues/121
         mipmap: true,
@@ -214,8 +214,8 @@ class ElectronSpriteInstance extends SpriteInstance {
 
       // Move to the electron's position (at the electron's center) and apply inverse scale.
       this.matrix.rowMajor(
-        ELECTRON_INVERSE_SCALE, 0, this.electron.x + ELECTRON_RADIUS,
-        0, ELECTRON_INVERSE_SCALE, this.electron.y + ELECTRON_RADIUS,
+        ELECTRON_INVERSE_SCALE, 0, this.electron.x,
+        0, ELECTRON_INVERSE_SCALE, this.electron.y,
         0, 0, 1
       );
       assert && assert( this.matrix.isFinite(), 'matrix should be finite' );

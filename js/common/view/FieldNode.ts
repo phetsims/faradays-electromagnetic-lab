@@ -159,7 +159,7 @@ export default class FieldNode extends Sprites {
     let spriteImage!: SpriteImage;
 
     compassNeedleNode.toCanvas( ( canvas, x, y, width, height ) => {
-      spriteImage = new SpriteImage( canvas, new Vector2( ( x + compassNeedleNode.width / 2 ), ( y + compassNeedleNode.height / 2 ) ), {
+      spriteImage = new SpriteImage( canvas, new Vector2( ( x + compassNeedleNode.centerX ), ( y + compassNeedleNode.centerY ) ), {
 
         // Mipmapping was added to address pixelation reported in https://github.com/phetsims/faradays-electromagnetic-lab/issues/113.
         // It looked too "sharp" without mipmapping at the normal view distance, so we'll have these generated.
