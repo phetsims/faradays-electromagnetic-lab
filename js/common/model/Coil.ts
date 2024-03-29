@@ -217,10 +217,10 @@ export default class Coil extends PhetioObject {
   }
 
   public step( dt: number ): void {
-    if ( this.electronsVisibleProperty.value ) {
-      this.electronsProperty.value.forEach( electron => electron.step( dt ) );
 
-      // REVIEW - Shouldn't this only be fired when the electrons have moved? Or renamed to electronsSteppedEmitter
+    // Step the electrons if there's current flow in the coil, and the electrons are visible.
+    if ( this.currentAmplitudeProperty.value !== 0 && this.electronsVisibleProperty.value ) {
+      this.electronsProperty.value.forEach( electron => electron.step( dt ) );
       this.electronsMovedEmitter.emit();
     }
   }
