@@ -74,7 +74,7 @@ export default class Transformer extends PhetioObject {
     this.electromagnet.currentSourceProperty.lazyLink( () => {
       this.pickupCoil.step( ConstantDtClock.DT ); // EMF may be induced by changing from oldCurrentSource to newCurrentSource.
       this.pickupCoil.step( ConstantDtClock.DT ); // No EMF is induced because there is no flux change in newCurrentSource.
-      assert && assert( this.pickupCoil.emfProperty.value === 0, `unexpected emf: ${this.pickupCoil.emfProperty.value}` );
+      assert && assert( this.pickupCoil.emfProperty.value === 0, `unexpected emfProperty.value: ${this.pickupCoil.emfProperty.value}` );
     } );
   }
 
