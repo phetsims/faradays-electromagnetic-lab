@@ -221,7 +221,6 @@ export default class Coil extends PhetioObject {
       this.electronsProperty.value.forEach( electron => electron.step( dt ) );
 
       // REVIEW - Shouldn't this only be fired when the electrons have moved? Or renamed to electronsSteppedEmitter
-      // REVIEW - For example, when the Pickup Coil screen begins, its electrons are not moving
       this.electronsMovedEmitter.emit();
     }
   }
