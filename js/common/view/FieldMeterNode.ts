@@ -139,22 +139,22 @@ export default class FieldMeterNode extends FELMovableNode {
 
     // Dynamic values. We decided that Bx and By should be signed.
     const stringBValueProperty = new DerivedStringProperty(
-      [ FELPreferences.magneticUnitsProperty, fieldMeter.fieldVectorProperty, GStringProperty, TStringProperty, valueUnitsStringProperty, lessThanValueUnitsStringProperty ],
-      ( magneticUnits, fieldVector, G, T ) => {
+      [ fieldMeter.fieldVectorProperty, FELPreferences.magneticUnitsProperty, GStringProperty, TStringProperty, valueUnitsStringProperty, lessThanValueUnitsStringProperty ],
+      ( fieldVector, magneticUnits, G, T ) => {
         const B = fieldVector.magnitude;
         return ( magneticUnits === 'G' ) ? `${toGaussString( B, G )}` : `${toTeslaString( B, T )}`;
       }
     );
     const stringBxValueProperty = new DerivedStringProperty(
-      [ FELPreferences.magneticUnitsProperty, fieldMeter.fieldVectorProperty, GStringProperty, TStringProperty, valueUnitsStringProperty, lessThanValueUnitsStringProperty ],
-      ( magneticUnits, fieldVector, G, T ) => {
+      [ fieldMeter.fieldVectorProperty, FELPreferences.magneticUnitsProperty, GStringProperty, TStringProperty, valueUnitsStringProperty, lessThanValueUnitsStringProperty ],
+      ( fieldVector, magneticUnits, G, T ) => {
         const Bx = fieldVector.x;
         return ( magneticUnits === 'G' ) ? `${toGaussString( Bx, G )}` : `${toTeslaString( Bx, T )}`;
       }
     );
     const stringByValueProperty = new DerivedStringProperty(
-      [ FELPreferences.magneticUnitsProperty, fieldMeter.fieldVectorProperty, GStringProperty, TStringProperty, valueUnitsStringProperty, lessThanValueUnitsStringProperty ],
-      ( magneticUnits, fieldVector, G, T ) => {
+      [ fieldMeter.fieldVectorProperty, FELPreferences.magneticUnitsProperty, GStringProperty, TStringProperty, valueUnitsStringProperty, lessThanValueUnitsStringProperty ],
+      ( fieldVector, magneticUnits, G, T ) => {
         const By = -fieldVector.y;  // +y is down in the model, so flip the sign. See https://github.com/phetsims/faradays-electromagnetic-lab/issues/19
         return ( magneticUnits === 'G' ) ? `${toGaussString( By, G )}`
                                          : `${toTeslaString( By, T )}`;
