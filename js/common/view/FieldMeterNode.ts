@@ -140,29 +140,31 @@ export default class FieldMeterNode extends FELMovableNode {
     // Dynamic values. We decided that Bx and By should be signed.
     const stringBValueProperty = new DerivedStringProperty(
       [ fieldMeter.fieldVectorProperty, FELPreferences.magneticUnitsProperty, GStringProperty, TStringProperty, valueUnitsStringProperty, lessThanValueUnitsStringProperty ],
-      ( fieldVector, magneticUnits, G, T ) => {
+      ( fieldVector, magneticUnits, G, T, valueUnits, lessThanValueUnits ) => {
         const B = fieldVector.magnitude;
-        return ( magneticUnits === 'G' ) ? `${toGaussString( B, G )}` : `${toTeslaString( B, T )}`;
+        return ( magneticUnits === 'G' ) ? `${toGaussString( B, G, valueUnits, lessThanValueUnits )}`
+                                         : `${toTeslaString( B, T, valueUnits )}`;
       }
     );
     const stringBxValueProperty = new DerivedStringProperty(
       [ fieldMeter.fieldVectorProperty, FELPreferences.magneticUnitsProperty, GStringProperty, TStringProperty, valueUnitsStringProperty, lessThanValueUnitsStringProperty ],
-      ( fieldVector, magneticUnits, G, T ) => {
+      ( fieldVector, magneticUnits, G, T, valueUnits, lessThanValueUnits ) => {
         const Bx = fieldVector.x;
-        return ( magneticUnits === 'G' ) ? `${toGaussString( Bx, G )}` : `${toTeslaString( Bx, T )}`;
+        return ( magneticUnits === 'G' ) ? `${toGaussString( Bx, G, valueUnits, lessThanValueUnits )}`
+                                         : `${toTeslaString( Bx, T, valueUnits )}`;
       }
     );
     const stringByValueProperty = new DerivedStringProperty(
       [ fieldMeter.fieldVectorProperty, FELPreferences.magneticUnitsProperty, GStringProperty, TStringProperty, valueUnitsStringProperty, lessThanValueUnitsStringProperty ],
-      ( fieldVector, magneticUnits, G, T ) => {
+      ( fieldVector, magneticUnits, G, T, valueUnits, lessThanValueUnits ) => {
         const By = -fieldVector.y;  // +y is down in the model, so flip the sign. See https://github.com/phetsims/faradays-electromagnetic-lab/issues/19
-        return ( magneticUnits === 'G' ) ? `${toGaussString( By, G )}`
-                                         : `${toTeslaString( By, T )}`;
+        return ( magneticUnits === 'G' ) ? `${toGaussString( By, G, valueUnits, lessThanValueUnits )}`
+                                         : `${toTeslaString( By, T, valueUnits )}`;
       }
     );
     const stringThetaValueProperty = new DerivedStringProperty(
       [ fieldMeter.fieldVectorProperty, valueDegreesStringProperty ],
-      fieldVector => `${toDegreesString( fieldVector )}`
+      ( fieldVector, valueDegrees ) => `${toDegreesString( fieldVector, valueDegrees )}`
     );
 
     const gridBox = new GridBox( {
@@ -210,18 +212,18 @@ export default class FieldMeterNode extends FELMovableNode {
  * Converts a numeric gauss value to a RichText string in gauss, in decimal notation.
  * If the value is exactly zero, display '0' with no decimal places.
  */
-function toGaussString( gauss: number, G: string ): string {
+function toGaussString( gauss: number, G: string, valueUnits: string, lessThanValueUnits: string ): string {
   if ( gauss > 0 && gauss < GAUSS_MIN_DISPLAY_VALUE ) {
 
     // Display '< 0.01' instead of '0.00' for small non-zero values, see https://github.com/phetsims/faradays-electromagnetic-lab/issues/84
-    return StringUtils.fillIn( lessThanValueUnitsStringProperty, {
+    return StringUtils.fillIn( lessThanValueUnits, {
       value: `${GAUSS_MIN_DISPLAY_VALUE}`,
       units: G
     } );
   }
   else {
     const stringValue = ( gauss === 0 ) ? '0' : Utils.toFixed( gauss, GAUSS_DECIMAL_PLACES );
-    return StringUtils.fillIn( valueUnitsStringProperty, {
+    return StringUtils.fillIn( valueUnits, {
       value: stringValue,
       units: G
     } );
@@ -232,7 +234,7 @@ function toGaussString( gauss: number, G: string ): string {
  * Converts a numeric gauss value to a RichText string in tesla, in *normalized* scientific notation (0 <= |mantissa| < 10).
  * If the value is exactly zero, display '0' with no decimal places.
  */
-function toTeslaString( gauss: number, T: string ): string {
+function toTeslaString( gauss: number, T: string, valueUnits: string ): string {
   let stringValue: string;
   if ( gauss === 0 ) {
     stringValue = '0';
@@ -244,7 +246,7 @@ function toTeslaString( gauss: number, T: string ): string {
     stringValue = `${tokens[ 0 ]} ${MathSymbols.TIMES} 10<sup>${tokens[ 1 ]}</sup>`;
   }
 
-  return StringUtils.fillIn( valueUnitsStringProperty, {
+  return StringUtils.fillIn( valueUnits, {
     value: stringValue,
     units: T
   } );
@@ -254,7 +256,7 @@ function toTeslaString( gauss: number, T: string ): string {
  * Converts a fieldVector's angle in radians to a string in degrees.
  * If the angle is exactly zero, display '0' with no decimal places.
  */
-function toDegreesString( fieldVector: Vector2 ): string {
+function toDegreesString( fieldVector: Vector2, valueDegrees: string ): string {
   if ( fieldVector.magnitude === 0 ) {
     return ''; // A zero-magnitude vector should display no value for its angle, since it points in no direction.
   }
@@ -267,7 +269,7 @@ function toDegreesString( fieldVector: Vector2 ): string {
       // +angle is clockwise in the model, so flip the sign. See https://github.com/phetsims/faradays-electromagnetic-lab/issues/19
       stringValue = `${Utils.toFixed( Utils.toDegrees( -fieldVector.angle ), ANGLE_DECIMAL_PLACES )}`;
     }
-    return StringUtils.fillIn( valueDegreesStringProperty, {
+    return StringUtils.fillIn( valueDegrees, {
       value: stringValue
     } );
   }
