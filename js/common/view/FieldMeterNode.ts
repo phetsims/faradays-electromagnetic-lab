@@ -216,9 +216,9 @@ function toGaussString( gauss: number, G: string, valueUnits: string, almostValu
   const gaussAbsolute = Math.abs( gauss );
   if ( gaussAbsolute > 0 && gaussAbsolute < GAUSS_MIN_DISPLAY_VALUE ) {
 
-    // Display '~0.00' instead of '0.00' for small non-zero values, see https://github.com/phetsims/faradays-electromagnetic-lab/issues/84
+    // Display '~ 0' instead of '0.00' for small non-zero values, see https://github.com/phetsims/faradays-electromagnetic-lab/issues/84
     return StringUtils.fillIn( almostValueUnits, {
-      value: `${GAUSS_MIN_DISPLAY_VALUE}`,
+      value: 0,
       units: G
     } );
   }
