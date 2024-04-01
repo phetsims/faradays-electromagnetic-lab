@@ -1,6 +1,5 @@
 // Copyright 2024, University of Colorado Boulder
 
-//TODO https://github.com/phetsims/faradays-electromagnetic-lab/issues/136 Rename to CurrentInCoilNode?
 /**
  * ElectronsNode is the visual representation of a collection of electrons in a coil. It shows electrons for one layer
  * (foreground or background) of the coil, and hides electrons that are in the other layer. Two instances of this
@@ -18,11 +17,6 @@ import Coil, { CoilLayer } from '../model/Coil.js';
 import Bounds2 from '../../../../dot/js/Bounds2.js';
 import MinusNode from '../../../../scenery-phet/js/MinusNode.js';
 import Dimension2 from '../../../../dot/js/Dimension2.js';
-import ArrowNode from '../../../../scenery-phet/js/ArrowNode.js';
-import { CurrentType } from '../FELQueryParameters.js';
-import FELPreferences from '../model/FELPreferences.js';
-import Multilink from '../../../../axon/js/Multilink.js';
-import DerivedProperty from '../../../../axon/js/DerivedProperty.js';
 
 const ELECTRON_DIAMETER = 9;
 const ELECTRON_RADIUS = ELECTRON_DIAMETER / 2;
@@ -35,8 +29,6 @@ const ELECTRON_RESOLUTION_SCALE = 8;
 const ELECTRON_INVERSE_SCALE = 1 / ELECTRON_RESOLUTION_SCALE;
 
 const electronColorProperty = FELColors.electronColorProperty;
-const electronMinusColorProperty = FELColors.electronMinusColorProperty;
-const conventionalCurrentColorProperty = FELColors.conventionalCurrentColorProperty;
 
 export default class ElectronsNode extends Sprites {
 
@@ -51,21 +43,15 @@ export default class ElectronsNode extends Sprites {
 
   public constructor( coilLayer: CoilLayer, coil: Coil ) {
 
-    // Create the Sprite used to represent current.
-    const sprite = new Sprite( ElectronsNode.getSpriteImage( FELPreferences.currentTypeProperty.value,
-      electronColorProperty.value, electronMinusColorProperty.value, conventionalCurrentColorProperty.value ) );
+    // Convert an ElectronNode to a Sprite.
+    const sprite = new Sprite( ElectronsNode.getSpriteImage( electronColorProperty.value ) );
 
-    // To be populated by this.ElectronSpriteInstance.
+    // To be populated by this.ElectronSpriteInstance
     const spriteInstances: ElectronSpriteInstance[] = [];
 
     super( {
       isDisposable: false,
-      // visibleProperty: coil.electronsVisibleProperty,
-      visibleProperty: new DerivedProperty(
-        [ FELPreferences.currentTypeProperty, coil.electronsVisibleProperty, coil.currentAmplitudeProperty ],
-        ( currentType, electronsVisible, currentAmplitude ) =>
-          electronsVisible && ( ( currentType === 'electron' ) || ( currentType === 'conventional' ) && currentAmplitude !== 0 )
-      ),
+      visibleProperty: coil.electronsVisibleProperty,
       sprites: [ sprite ], // the set of Sprites used to render this Node, must be set at instantiation
       spriteInstances: spriteInstances, // the set of SpriteInstances, one per electron in the coil
       hitTestSprites: false,
@@ -86,7 +72,7 @@ export default class ElectronsNode extends Sprites {
         coilSegment.expandBoundsToFit( bounds );
       }
 
-      // Make sure the bounds are large enough to contain the SpriteInstances.
+      // make sure the bounds are large enough to contain the electrons
       bounds.dilate( ELECTRON_RADIUS );
 
       this.canvasBounds = bounds;
@@ -95,12 +81,11 @@ export default class ElectronsNode extends Sprites {
     // When the electrons have moved, update the sprite instances.
     coil.electronsMovedEmitter.addListener( () => this.updateSpriteInstances() );
 
-    // Update the sprite and redraw.
-    Multilink.multilink( [ FELPreferences.currentTypeProperty, electronColorProperty, electronMinusColorProperty, conventionalCurrentColorProperty ],
-      ( currentType, electronColor, electronMinusColor, conventionCurrentColor ) => {
-        sprite.imageProperty.value = ElectronsNode.getSpriteImage( currentType, electronColor, electronMinusColor, conventionCurrentColor );
-        this.invalidatePaint();
-      } );
+    // If the electron color changes, update the sprite and redraw.
+    electronColorProperty.lazyLink( electronColor => {
+      sprite.imageProperty.value = ElectronsNode.getSpriteImage( electronColor );
+      this.invalidatePaint();
+    } );
   }
 
   /**
@@ -128,34 +113,22 @@ export default class ElectronsNode extends Sprites {
   }
 
   /**
-   * Creates an icon for 'electron' current type.
+   * Creates an icon for the 'Electrons' checkbox.
    */
-  public static createElectronIcon( scale = 1.5 ): Node {
-    return new ElectronNode( electronColorProperty, electronMinusColorProperty, scale );
+  public static createIcon(): Node {
+    return new NegativeElectronNode( electronColorProperty );
   }
 
   /**
-   * Creates an icon for 'conventional' current type.
+   * Gets the SpriteImage used to visualize an electron.
    */
-  public static createConventionalIcon( scale = 1.5 ): Node {
-    return new ConventionalCurrentNode( conventionalCurrentColorProperty, scale );
-  }
+  private static getSpriteImage( electronColor: Color ): SpriteImage {
 
-  /**
-   * Gets the SpriteImage used to visualize current.
-   */
-  private static getSpriteImage( currentType: CurrentType,
-                                 electronColor: Color,
-                                 electronMinusColor: Color,
-                                 conventionCurrentColor: Color ): SpriteImage {
-
-    const node = ( currentType === 'electron' ) ?
-                 new ElectronNode( electronColor, electronMinusColor, ELECTRON_RESOLUTION_SCALE ) :
-                 new ConventionalCurrentNode( conventionCurrentColor, ELECTRON_RESOLUTION_SCALE );
+    const electronNode = new NegativeElectronNode( electronColor, ELECTRON_RESOLUTION_SCALE );
 
     let spriteImage: SpriteImage | null = null;
-    node.toCanvas( ( canvas, x, y, width, height ) => {
-      spriteImage = new SpriteImage( canvas, new Vector2( ( x + node.centerX ), ( y + node.centerY ) ), {
+    electronNode.toCanvas( ( canvas, x, y, width, height ) => {
+      spriteImage = new SpriteImage( canvas, new Vector2( ( x + electronNode.centerX ), ( y + electronNode.centerY ) ), {
 
         // Mipmapping was added to address pixelation reported in https://github.com/phetsims/faradays-electromagnetic-lab/issues/121
         mipmap: true,
@@ -168,11 +141,25 @@ export default class ElectronsNode extends Sprites {
   }
 }
 
+//TODO https://github.com/phetsims/faradays-electromagnetic-lab/issues/136 Delete ElectronNode or NegativeElectronNode
 /**
- * ElectronNode is the visual representation of 'electron' current - a flat blue circle with a '-' sign in the center.
+ * ElectronNode is the visual representation of an electron, a shaded sphere.
  */
-class ElectronNode extends Node {
-  public constructor( color: TColor, minusColor: TColor, scale = 1 ) {
+// class ElectronNode extends ShadedSphereNode {
+//   public constructor( color: TColor, scale = 1 ) {
+//     super( ELECTRON_DIAMETER, {
+//       mainColor: color,
+//       scale: scale
+//     } );
+//   }
+// }
+
+/**
+ * NegativeElectronNode is the visual representation of an electron - a flat circle with a '-' sign in the center,
+ * to address misconceptions about direction of current.
+ */
+class NegativeElectronNode extends Node {
+  public constructor( color: TColor, scale = 1 ) {
 
     const circle = new Circle( {
       radius: ELECTRON_RADIUS,
@@ -182,29 +169,12 @@ class ElectronNode extends Node {
     const minusNode = new MinusNode( {
       size: MINUS_SIZE,
       center: circle.center,
-      fill: minusColor
+      fill: 'white'
     } );
 
     super( {
       children: [ circle, minusNode ],
       scale: scale
-    } );
-  }
-}
-
-/**
- * ConventionalCurrentNode is the visual representation of conventional current: a red arrow.
- */
-class ConventionalCurrentNode extends ArrowNode {
-  public constructor( color: TColor, scale = 1 ) {
-    super( 0, 0, 0, ELECTRON_DIAMETER, {
-      scale: scale,
-      headHeight: 7,
-      headWidth: 7,
-      tailWidth: 2,
-      fill: color,
-      stroke: 'black',
-      lineWidth: 0.5
     } );
   }
 }
@@ -242,17 +212,10 @@ class ElectronSpriteInstance extends SpriteInstance {
 
     if ( this.electron.getLayer() === this.coilLayer ) {
 
-      // Reflect about the x-axis so that arrows for convention current are pointing in the direction of conventional
-      // current flow.  We do not bother checking current type, because electrons look the same when reflected about
-      // the x-axis.
-      const yScale = ( this.electron.getLayer() === 'foreground' && this.electron.currentAmplitudeProperty.value >= 0 ) ||
-                     ( this.electron.getLayer() === 'background' && this.electron.currentAmplitudeProperty.value < 0 )
-                     ? ELECTRON_INVERSE_SCALE : -ELECTRON_INVERSE_SCALE;
-
       // Move to the electron's position (at the electron's center) and apply inverse scale.
       this.matrix.rowMajor(
         ELECTRON_INVERSE_SCALE, 0, this.electron.x,
-        0, yScale, this.electron.y,
+        0, ELECTRON_INVERSE_SCALE, this.electron.y,
         0, 0, 1
       );
       assert && assert( this.matrix.isFinite(), 'matrix should be finite' );

@@ -16,9 +16,6 @@ export type MagneticUnits = ( typeof MagneticUnitsValues )[number];
 export const EarthHemisphereValues = [ 'western', 'eastern' ] as const;
 export type EarthHemisphere = ( typeof EarthHemisphereValues )[number];
 
-export const CurrentTypeValues = [ 'electron', 'conventional' ] as const;
-export type CurrentType = ( typeof CurrentTypeValues )[ number ];
-
 const SCHEMA_MAP = {
 
   //----------------------------------------------------------------------------------------------------------------
@@ -32,15 +29,6 @@ const SCHEMA_MAP = {
     type: 'string',
     defaultValue: 'G',
     validValues: MagneticUnitsValues,
-    public: true
-  },
-
-  // Sets the representation used for current in the coils.
-  // See https://github.com/phetsims/faradays-electromagnetic-lab/issues/136#issuecomment-2030075672
-  currentType: {
-    type: 'string',
-    defaultValue: 'electron',
-    validValues: CurrentTypeValues,
     public: true
   },
 

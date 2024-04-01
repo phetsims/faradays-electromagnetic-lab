@@ -30,7 +30,6 @@ type StringsType = {
   'fieldMeterStringProperty': LocalizedStringProperty;
   'lockToAxisStringProperty': LocalizedStringProperty;
   'electronsStringProperty': LocalizedStringProperty;
-  'conventionalCurrentStringProperty': LocalizedStringProperty;
   'pickupCoilStringProperty': LocalizedStringProperty;
   'indicatorStringProperty': LocalizedStringProperty;
   'voltageStringProperty': LocalizedStringProperty;
@@ -61,9 +60,6 @@ type StringsType = {
   'magneticUnitsStringProperty': LocalizedStringProperty;
   'gaussPreferenceStringProperty': LocalizedStringProperty;
   'teslaPreferenceStringProperty': LocalizedStringProperty;
-  'currentTypeStringProperty': LocalizedStringProperty;
-  'electronPreferenceStringProperty': LocalizedStringProperty;
-  'conventionalPreferenceStringProperty': LocalizedStringProperty;
   'addEarthCheckboxStringProperty': LocalizedStringProperty;
   'addEarthCheckboxDescriptionStringProperty': LocalizedStringProperty;
   'earthHemisphereStringProperty': LocalizedStringProperty;
