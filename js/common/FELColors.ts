@@ -127,6 +127,14 @@ const FELColors = {
     default: 'blue'
   } ),
 
+  electronMinusColorProperty: new ProfileColorProperty( faradaysElectromagneticLab, 'electronMinusColor', {
+    default: 'white'
+  } ),
+
+  conventionalCurrentColorProperty: new ProfileColorProperty( faradaysElectromagneticLab, 'conventionalCurrentColor', {
+    default: 'red'
+  } ),
+
   coilFrontColorProperty: new ProfileColorProperty( faradaysElectromagneticLab, 'coilFrontColor', {
     default: 'rgb( 191, 128, 64 )'
   } ),
