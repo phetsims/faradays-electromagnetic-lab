@@ -46,28 +46,12 @@ function createIcon(): Node {
 
   const lineWidth = 2;
   const dashLength = 5; // length of positive and negative segments in the dash pattern
-  const numberOfDashes = 2; // number of positive segments in the dash pattern that appear between the 2 arrows
+  const numberOfDashes = 5; // number of positive segments in the dash pattern that appear between the 2 arrows
 
-  const line = new Line( 0, 0, ( 2 * numberOfDashes - 1 ) * dashLength, 0, {
+  return new Line( 0, 0, ( 2 * numberOfDashes - 1 ) * dashLength, 0, {
     stroke: FELColors.pickupCoilAxisStrokeProperty,
     lineWidth: lineWidth,
     lineDash: [ dashLength, dashLength ]
-  } );
-
-  const arrowNodeOptions: WithRequired<ArrowNodeOptions, 'headHeight'> = {
-    headWidth: 10,
-    headHeight: 10,
-    tailWidth: lineWidth,
-    fill: FELColors.pickupCoilAxisStrokeProperty,
-    stroke: null
-  };
-  const arrowLength = arrowNodeOptions.headHeight + dashLength;
-  const leftArrow = new ArrowNode( arrowLength, 0, 0, 0, arrowNodeOptions );
-  const rightArrow = new ArrowNode( 0, 0, arrowLength, 0, arrowNodeOptions );
-
-  return new HBox( {
-    spacing: dashLength,
-    children: [ leftArrow, line, rightArrow ]
   } );
 }
 
