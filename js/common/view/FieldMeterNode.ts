@@ -39,7 +39,7 @@ const yStringProperty = FaradaysElectromagneticLabStrings.symbol.yStringProperty
 const GStringProperty = FaradaysElectromagneticLabStrings.units.GStringProperty;
 const TStringProperty = FaradaysElectromagneticLabStrings.units.TStringProperty;
 const valueUnitsStringProperty = FaradaysElectromagneticLabStrings.pattern.valueUnitsStringProperty;
-const lessThanValueUnitsStringProperty = FaradaysElectromagneticLabStrings.pattern.lessThanValueUnitsStringProperty;
+const almostValueUnitsStringProperty = FaradaysElectromagneticLabStrings.pattern.almostValueUnitsStringProperty;
 const valueDegreesStringProperty = FaradaysElectromagneticLabStrings.pattern.valueDegreesStringProperty;
 
 // Decimal places for each quantity displayed by the meter.
@@ -139,26 +139,26 @@ export default class FieldMeterNode extends FELMovableNode {
 
     // Dynamic values. We decided that Bx and By should be signed.
     const stringBValueProperty = new DerivedStringProperty(
-      [ fieldMeter.fieldVectorProperty, FELPreferences.magneticUnitsProperty, GStringProperty, TStringProperty, valueUnitsStringProperty, lessThanValueUnitsStringProperty ],
-      ( fieldVector, magneticUnits, G, T, valueUnits, lessThanValueUnits ) => {
+      [ fieldMeter.fieldVectorProperty, FELPreferences.magneticUnitsProperty, GStringProperty, TStringProperty, valueUnitsStringProperty, almostValueUnitsStringProperty ],
+      ( fieldVector, magneticUnits, G, T, valueUnits, almostValueUnits ) => {
         const B = fieldVector.magnitude;
-        return ( magneticUnits === 'G' ) ? `${toGaussString( B, G, valueUnits, lessThanValueUnits )}`
+        return ( magneticUnits === 'G' ) ? `${toGaussString( B, G, valueUnits, almostValueUnits )}`
                                          : `${toTeslaString( B, T, valueUnits )}`;
       }
     );
     const stringBxValueProperty = new DerivedStringProperty(
-      [ fieldMeter.fieldVectorProperty, FELPreferences.magneticUnitsProperty, GStringProperty, TStringProperty, valueUnitsStringProperty, lessThanValueUnitsStringProperty ],
-      ( fieldVector, magneticUnits, G, T, valueUnits, lessThanValueUnits ) => {
+      [ fieldMeter.fieldVectorProperty, FELPreferences.magneticUnitsProperty, GStringProperty, TStringProperty, valueUnitsStringProperty, almostValueUnitsStringProperty ],
+      ( fieldVector, magneticUnits, G, T, valueUnits, almostValueUnits ) => {
         const Bx = fieldVector.x;
-        return ( magneticUnits === 'G' ) ? `${toGaussString( Bx, G, valueUnits, lessThanValueUnits )}`
+        return ( magneticUnits === 'G' ) ? `${toGaussString( Bx, G, valueUnits, almostValueUnits )}`
                                          : `${toTeslaString( Bx, T, valueUnits )}`;
       }
     );
     const stringByValueProperty = new DerivedStringProperty(
-      [ fieldMeter.fieldVectorProperty, FELPreferences.magneticUnitsProperty, GStringProperty, TStringProperty, valueUnitsStringProperty, lessThanValueUnitsStringProperty ],
-      ( fieldVector, magneticUnits, G, T, valueUnits, lessThanValueUnits ) => {
+      [ fieldMeter.fieldVectorProperty, FELPreferences.magneticUnitsProperty, GStringProperty, TStringProperty, valueUnitsStringProperty, almostValueUnitsStringProperty ],
+      ( fieldVector, magneticUnits, G, T, valueUnits, almostValueUnits ) => {
         const By = -fieldVector.y;  // +y is down in the model, so flip the sign. See https://github.com/phetsims/faradays-electromagnetic-lab/issues/19
-        return ( magneticUnits === 'G' ) ? `${toGaussString( By, G, valueUnits, lessThanValueUnits )}`
+        return ( magneticUnits === 'G' ) ? `${toGaussString( By, G, valueUnits, almostValueUnits )}`
                                          : `${toTeslaString( By, T, valueUnits )}`;
       }
     );
@@ -212,12 +212,12 @@ export default class FieldMeterNode extends FELMovableNode {
  * Converts a numeric gauss value to a RichText string in gauss, in decimal notation.
  * If the value is exactly zero, display '0' with no decimal places.
  */
-function toGaussString( gauss: number, G: string, valueUnits: string, lessThanValueUnits: string ): string {
+function toGaussString( gauss: number, G: string, valueUnits: string, almostValueUnits: string ): string {
   const gaussAbsolute = Math.abs( gauss );
   if ( gaussAbsolute > 0 && gaussAbsolute < GAUSS_MIN_DISPLAY_VALUE ) {
 
-    // Display '< 0.01' instead of '0.00' for small non-zero values, see https://github.com/phetsims/faradays-electromagnetic-lab/issues/84
-    return StringUtils.fillIn( lessThanValueUnits, {
+    // Display '~0.00' instead of '0.00' for small non-zero values, see https://github.com/phetsims/faradays-electromagnetic-lab/issues/84
+    return StringUtils.fillIn( almostValueUnits, {
       value: `${GAUSS_MIN_DISPLAY_VALUE}`,
       units: G
     } );
