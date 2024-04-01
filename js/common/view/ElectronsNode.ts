@@ -17,6 +17,7 @@ import Coil, { CoilLayer } from '../model/Coil.js';
 import Bounds2 from '../../../../dot/js/Bounds2.js';
 import MinusNode from '../../../../scenery-phet/js/MinusNode.js';
 import Dimension2 from '../../../../dot/js/Dimension2.js';
+import Multilink from '../../../../axon/js/Multilink.js';
 
 const ELECTRON_DIAMETER = 9;
 const ELECTRON_RADIUS = ELECTRON_DIAMETER / 2;
@@ -29,6 +30,7 @@ const ELECTRON_RESOLUTION_SCALE = 8;
 const ELECTRON_INVERSE_SCALE = 1 / ELECTRON_RESOLUTION_SCALE;
 
 const electronColorProperty = FELColors.electronColorProperty;
+const electronMinusColorProperty = FELColors.electronMinusColorProperty;
 
 export default class ElectronsNode extends Sprites {
 
@@ -44,7 +46,7 @@ export default class ElectronsNode extends Sprites {
   public constructor( coilLayer: CoilLayer, coil: Coil ) {
 
     // Convert an ElectronNode to a Sprite.
-    const sprite = new Sprite( ElectronsNode.getSpriteImage( electronColorProperty.value ) );
+    const sprite = new Sprite( ElectronsNode.getSpriteImage( electronColorProperty.value, electronMinusColorProperty.value ) );
 
     // To be populated by this.ElectronSpriteInstance
     const spriteInstances: ElectronSpriteInstance[] = [];
@@ -81,11 +83,12 @@ export default class ElectronsNode extends Sprites {
     // When the electrons have moved, update the sprite instances.
     coil.electronsMovedEmitter.addListener( () => this.updateSpriteInstances() );
 
-    // If the electron color changes, update the sprite and redraw.
-    electronColorProperty.lazyLink( electronColor => {
-      sprite.imageProperty.value = ElectronsNode.getSpriteImage( electronColor );
-      this.invalidatePaint();
-    } );
+    // If the electron colors change, update the sprite and redraw.
+    Multilink.multilink( [ electronColorProperty, electronMinusColorProperty ],
+      ( electronColor, electronMinusColor ) => {
+        sprite.imageProperty.value = ElectronsNode.getSpriteImage( electronColor, electronMinusColor );
+        this.invalidatePaint();
+      } );
   }
 
   /**
@@ -116,15 +119,15 @@ export default class ElectronsNode extends Sprites {
    * Creates an icon for the 'Electrons' checkbox.
    */
   public static createIcon(): Node {
-    return new NegativeElectronNode( electronColorProperty );
+    return new NegativeElectronNode( electronColorProperty, electronMinusColorProperty );
   }
 
   /**
    * Gets the SpriteImage used to visualize an electron.
    */
-  private static getSpriteImage( electronColor: Color ): SpriteImage {
+  private static getSpriteImage( electronColor: Color, electronMinusColor: Color ): SpriteImage {
 
-    const electronNode = new NegativeElectronNode( electronColor, ELECTRON_RESOLUTION_SCALE );
+    const electronNode = new NegativeElectronNode( electronColor, electronMinusColor, ELECTRON_RESOLUTION_SCALE );
 
     let spriteImage: SpriteImage | null = null;
     electronNode.toCanvas( ( canvas, x, y, width, height ) => {
@@ -159,7 +162,7 @@ export default class ElectronsNode extends Sprites {
  * to address misconceptions about direction of current.
  */
 class NegativeElectronNode extends Node {
-  public constructor( color: TColor, scale = 1 ) {
+  public constructor( color: TColor, electronMinusColor: TColor, scale = 1 ) {
 
     const circle = new Circle( {
       radius: ELECTRON_RADIUS,
@@ -169,7 +172,7 @@ class NegativeElectronNode extends Node {
     const minusNode = new MinusNode( {
       size: MINUS_SIZE,
       center: circle.center,
-      fill: 'white'
+      fill: electronMinusColor
     } );
 
     super( {
