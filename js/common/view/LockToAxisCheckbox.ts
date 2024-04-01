@@ -16,8 +16,6 @@ import { combineOptions } from '../../../../phet-core/js/optionize.js';
 import Property from '../../../../axon/js/Property.js';
 import Tandem from '../../../../tandem/js/Tandem.js';
 import FELColors from '../FELColors.js';
-import ArrowNode, { ArrowNodeOptions } from '../../../../scenery-phet/js/ArrowNode.js';
-import WithRequired from '../../../../phet-core/js/types/WithRequired.js';
 
 export default class LockToAxisCheckbox extends Checkbox {
 
