@@ -74,7 +74,7 @@ export default class ElectronsNode extends Sprites {
         coilSegment.expandBoundsToFit( bounds );
       }
 
-      // make sure the bounds are large enough to contain the electrons
+      // Make sure the bounds are large enough to contain the electrons.
       bounds.dilate( ELECTRON_RADIUS );
 
       this.canvasBounds = bounds;
@@ -118,8 +118,8 @@ export default class ElectronsNode extends Sprites {
   /**
    * Creates an icon for the 'Electrons' checkbox.
    */
-  public static createIcon(): Node {
-    return new NegativeElectronNode( electronColorProperty, electronMinusColorProperty );
+  public static createIcon( scale = 1 ): Node {
+    return new ElectronNode( electronColorProperty, electronMinusColorProperty, scale );
   }
 
   /**
@@ -127,7 +127,7 @@ export default class ElectronsNode extends Sprites {
    */
   private static getSpriteImage( electronColor: Color, electronMinusColor: Color ): SpriteImage {
 
-    const electronNode = new NegativeElectronNode( electronColor, electronMinusColor, ELECTRON_RESOLUTION_SCALE );
+    const electronNode = new ElectronNode( electronColor, electronMinusColor, ELECTRON_RESOLUTION_SCALE );
 
     let spriteImage: SpriteImage | null = null;
     electronNode.toCanvas( ( canvas, x, y, width, height ) => {
@@ -145,10 +145,12 @@ export default class ElectronsNode extends Sprites {
 }
 
 /**
- * NegativeElectronNode is the visual representation of an electron - a flat circle with a '-' sign in the center,
- * to address misconceptions about direction of current.
+ * ElectronNode is the visual representation of an electron - a flat circle with a '-' sign in the center.
+ * In the Java version, this was a shaded sphere. It was changed to address confusion about the direction
+ * of current flow (electron current vs conventional current).
+ * See https://github.com/phetsims/faradays-electromagnetic-lab/issues/136
  */
-class NegativeElectronNode extends Node {
+class ElectronNode extends Node {
   public constructor( color: TColor, electronMinusColor: TColor, scale = 1 ) {
 
     const circle = new Circle( {

@@ -24,7 +24,7 @@ export default class ElectronsCheckbox extends Checkbox {
       spacing: 8,
       children: [
         new Text( FaradaysElectromagneticLabStrings.electronsStringProperty, FELConstants.CHECKBOX_TEXT_OPTIONS ),
-        ElectronsNode.createIcon()
+        ElectronsNode.createIcon( 1.5 )
       ]
     } );
 
