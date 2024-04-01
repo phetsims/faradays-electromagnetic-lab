@@ -22,6 +22,7 @@ import ArrowNode from '../../../../scenery-phet/js/ArrowNode.js';
 import { CurrentType } from '../FELQueryParameters.js';
 import FELPreferences from '../model/FELPreferences.js';
 import Multilink from '../../../../axon/js/Multilink.js';
+import DerivedProperty from '../../../../axon/js/DerivedProperty.js';
 
 const ELECTRON_DIAMETER = 9;
 const ELECTRON_RADIUS = ELECTRON_DIAMETER / 2;
@@ -59,12 +60,12 @@ export default class ElectronsNode extends Sprites {
 
     super( {
       isDisposable: false,
-      visibleProperty: coil.electronsVisibleProperty,
-      // visibleProperty: new DerivedProperty(
-      //   [ FELPreferences.currentTypeProperty, coil.electronsVisibleProperty, coil.currentAmplitudeProperty ],
-      //   ( currentType, electronsVisible, currentAmplitude ) =>
-      //     electronsVisible && ( ( currentType === 'electron' ) || ( currentType === 'conventional' ) && currentAmplitude !== 0 )
-      // ),
+      // visibleProperty: coil.electronsVisibleProperty,
+      visibleProperty: new DerivedProperty(
+        [ FELPreferences.currentTypeProperty, coil.electronsVisibleProperty, coil.currentAmplitudeProperty ],
+        ( currentType, electronsVisible, currentAmplitude ) =>
+          electronsVisible && ( ( currentType === 'electron' ) || ( currentType === 'conventional' ) && currentAmplitude !== 0 )
+      ),
       sprites: [ sprite ], // the set of Sprites used to render this Node, must be set at instantiation
       spriteInstances: spriteInstances, // the set of SpriteInstances, one per electron in the coil
       hitTestSprites: false,
