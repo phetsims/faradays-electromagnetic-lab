@@ -144,19 +144,6 @@ export default class ElectronsNode extends Sprites {
   }
 }
 
-//TODO https://github.com/phetsims/faradays-electromagnetic-lab/issues/136 Delete ElectronNode or NegativeElectronNode
-/**
- * ElectronNode is the visual representation of an electron, a shaded sphere.
- */
-// class ElectronNode extends ShadedSphereNode {
-//   public constructor( color: TColor, scale = 1 ) {
-//     super( ELECTRON_DIAMETER, {
-//       mainColor: color,
-//       scale: scale
-//     } );
-//   }
-// }
-
 /**
  * NegativeElectronNode is the visual representation of an electron - a flat circle with a '-' sign in the center,
  * to address misconceptions about direction of current.
