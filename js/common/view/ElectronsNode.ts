@@ -9,19 +9,14 @@
  */
 
 import faradaysElectromagneticLab from '../../faradaysElectromagneticLab.js';
-import { Circle, Color, Node, Sprite, SpriteImage, SpriteInstance, SpriteInstanceTransformType, Sprites, TColor } from '../../../../scenery/js/imports.js';
+import { Color, Sprite, SpriteImage, SpriteInstance, SpriteInstanceTransformType, Sprites } from '../../../../scenery/js/imports.js';
 import Vector2 from '../../../../dot/js/Vector2.js';
 import FELColors from '../FELColors.js';
 import Electron from '../model/Electron.js';
 import Coil, { CoilLayer } from '../model/Coil.js';
 import Bounds2 from '../../../../dot/js/Bounds2.js';
-import MinusNode from '../../../../scenery-phet/js/MinusNode.js';
-import Dimension2 from '../../../../dot/js/Dimension2.js';
 import Multilink from '../../../../axon/js/Multilink.js';
-
-const ELECTRON_DIAMETER = 9;
-const ELECTRON_RADIUS = ELECTRON_DIAMETER / 2;
-const MINUS_SIZE = new Dimension2( 0.65 * ELECTRON_DIAMETER, 0.15 * ELECTRON_DIAMETER );
+import ElectronNode from './ElectronNode.js';
 
 // Scale up by this much to improve resolution.
 const ELECTRON_RESOLUTION_SCALE = 8;
@@ -75,7 +70,7 @@ export default class ElectronsNode extends Sprites {
       }
 
       // Make sure the bounds are large enough to contain the electrons.
-      bounds.dilate( ELECTRON_RADIUS );
+      bounds.dilate( ElectronNode.DIAMETER / 2 );
 
       this.canvasBounds = bounds;
     } );
@@ -116,18 +111,15 @@ export default class ElectronsNode extends Sprites {
   }
 
   /**
-   * Creates an icon for the 'Electrons' checkbox.
-   */
-  public static createIcon( scale = 1 ): Node {
-    return new ElectronNode( electronColorProperty, electronMinusColorProperty, scale );
-  }
-
-  /**
    * Gets the SpriteImage used to visualize an electron.
    */
   private static getSpriteImage( electronColor: Color, electronMinusColor: Color ): SpriteImage {
 
-    const electronNode = new ElectronNode( electronColor, electronMinusColor, ELECTRON_RESOLUTION_SCALE );
+    const electronNode = new ElectronNode( {
+      color: electronColor,
+      minusColor: electronMinusColor,
+      scale: ELECTRON_RESOLUTION_SCALE
+    } );
 
     let spriteImage: SpriteImage | null = null;
     electronNode.toCanvas( ( canvas, x, y, width, height ) => {
@@ -141,33 +133,6 @@ export default class ElectronsNode extends Sprites {
 
     assert && assert( spriteImage );
     return spriteImage!;
-  }
-}
-
-/**
- * ElectronNode is the visual representation of an electron - a flat circle with a '-' sign in the center.
- * In the Java version, this was a shaded sphere. It was changed to address confusion about the direction
- * of current flow (electron current vs conventional current).
- * See https://github.com/phetsims/faradays-electromagnetic-lab/issues/136
- */
-class ElectronNode extends Node {
-  public constructor( color: TColor, electronMinusColor: TColor, scale = 1 ) {
-
-    const circle = new Circle( {
-      radius: ELECTRON_RADIUS,
-      fill: color
-    } );
-
-    const minusNode = new MinusNode( {
-      size: MINUS_SIZE,
-      center: circle.center,
-      fill: electronMinusColor
-    } );
-
-    super( {
-      children: [ circle, minusNode ],
-      scale: scale
-    } );
   }
 }
 

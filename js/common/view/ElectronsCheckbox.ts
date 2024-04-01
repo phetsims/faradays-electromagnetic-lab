@@ -14,7 +14,7 @@ import FELConstants from '../FELConstants.js';
 import { combineOptions } from '../../../../phet-core/js/optionize.js';
 import Property from '../../../../axon/js/Property.js';
 import Tandem from '../../../../tandem/js/Tandem.js';
-import ElectronsNode from './ElectronsNode.js';
+import ElectronNode from './ElectronNode.js';
 
 export default class ElectronsCheckbox extends Checkbox {
 
@@ -24,7 +24,7 @@ export default class ElectronsCheckbox extends Checkbox {
       spacing: 8,
       children: [
         new Text( FaradaysElectromagneticLabStrings.electronsStringProperty, FELConstants.CHECKBOX_TEXT_OPTIONS ),
-        ElectronsNode.createIcon( 1.5 )
+        ElectronNode.createIcon( 1.5 )
       ]
     } );
 
