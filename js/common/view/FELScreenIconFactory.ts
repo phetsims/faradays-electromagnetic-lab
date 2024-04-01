@@ -64,11 +64,11 @@ const FELScreenIconFactory = {
    */
   createTransformerScreenIcon(): ScreenIcon {
 
-    // Electromagnet coil - 3 loops, tightly packed.
+    // Electromagnet coil, tightly packed.
     const electromagnetCoilNode = createCoilNode( 3, 0, 10000 );
 
-    // Pickup coil - 2 loops with loose spacing.
-    const pickupCoilNode = createCoilNode( 3, 10, 30000 );
+    // Pickup coil, loosely packed.
+    const pickupCoilNode = createCoilNode( 4, 10, 30000 );
 
     // Put the 2 coils side by side.
     const hBox = new HBox( {
