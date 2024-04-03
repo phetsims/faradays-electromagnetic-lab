@@ -247,6 +247,19 @@ export default class PickupCoil extends FELMovable {
   }
 
   /**
+   * Clears any EMF that may be present in the pickup coil. By calling updateEMF twice without changing anything else,
+   * there will be no change in flux, and therefore no induced EMF. This was added as a workaround to ignore the EMF
+   * induced by switching power supplies. See https://github.com/phetsims/faradays-electromagnetic-lab/issues/92.
+   */
+  public clearEMF(): void {
+    if ( this.emfProperty.value !== 0 ) {
+      this.updateEMF( ConstantDtClock.DT ); // EMF may be induced by changing from oldCurrentSource to newCurrentSource.
+      this.updateEMF( ConstantDtClock.DT ); // No EMF is induced because there is no flux change in newCurrentSource.
+    }
+    assert && assert( this.emfProperty.value === 0, `unexpected emfProperty.value: ${this.emfProperty.value}` );
+  }
+
+  /**
    * Updates the induced EMF (and other related Properties) using Faraday's Law.
    */
   private updateEMF( dt: number ): void {
