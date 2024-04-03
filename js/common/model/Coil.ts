@@ -83,8 +83,8 @@ export default class Coil extends PhetioObject {
   // how bright to make a light bulb, and how fast to move electrons.
   // See https://github.com/phetsims/faradays-electromagnetic-lab/issues/63
   //
-  // In the Java version, this was named currentAmplitudeProperty. But there were objections to that name during code
-  // review because amplitude is not signed. See https://github.com/phetsims/faradays-electromagnetic-lab/issues/130
+  // In the Java version, this was named currentAmplitudeProperty. Code reviewers pointed out that an amplitude is
+  // not a signed quantity, so we renamed it. See https://github.com/phetsims/faradays-electromagnetic-lab/issues/130
   public readonly normalizedCurrentProperty: TReadOnlyProperty<number>;
   private readonly normalizedCurrentRange: Range;
 
