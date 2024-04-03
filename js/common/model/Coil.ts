@@ -77,10 +77,10 @@ export type CoilOptions = SelfOptions & PickRequired<PhetioObjectOptions, 'tande
 
 export default class Coil extends PhetioObject {
 
-  // This is a quantity that PhET made up. It is a value in the range [-1,1]. The magnitude describes the amount of
-  // current relative to some maximum current in the model. The sign indicates the direction of that current. View
-  // components can use this value to determine how they should behave -- eg, how far to move a voltmeter needle,
-  // how bright to make a light bulb, and how fast to move electrons.
+  // Normalized current is a value in the range [-1,1]. The magnitude describes the amount of current relative to the
+  // maximum current that may be induced in the model. The sign indicates the direction of the current. View components
+  // use this value to determine how they should respond to induced current. For example: deflection of the voltmeter
+  // needle, brightness of the light bulb, speed and direction of electrons.
   // See https://github.com/phetsims/faradays-electromagnetic-lab/issues/63
   //
   // In the Java version, this was named currentAmplitudeProperty. Code reviewers pointed out that an amplitude is
