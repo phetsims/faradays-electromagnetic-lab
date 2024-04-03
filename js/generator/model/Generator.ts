@@ -49,6 +49,7 @@ export default class Generator extends PhetioObject {
         phetioReadOnly: true
       },
       lightBulbOptions: {
+        //TODO https://github.com/phetsims/faradays-electromagnetic-lab/issues/152 document why
         lightsWhenCurrentChangesDirection: false
       },
       voltmeterOptions: {

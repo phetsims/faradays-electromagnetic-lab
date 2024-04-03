@@ -58,6 +58,7 @@ export default class Transformer extends PhetioObject {
         electronSpeedScale: 2
       },
       lightBulbOptions: {
+        //TODO https://github.com/phetsims/faradays-electromagnetic-lab/issues/152 document why
         //TODO https://github.com/phetsims/faradays-electromagnetic-lab/issues/152 Is this appropriate for the DC power supply?
         lightsWhenCurrentChangesDirection: false
       },
