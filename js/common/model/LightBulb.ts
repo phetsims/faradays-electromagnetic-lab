@@ -2,7 +2,7 @@
 
 /**
  * LightBulb is the model of the light bulb, as an indicator of current in the pickup coil. Brightness of the light
- * is proportional to the current amplitude in the pickup coil.
+ * is proportional to the current in the pickup coil.
  *
  * This is based on LightBulb.java in the Java version of this sim.
  *
@@ -38,7 +38,7 @@ export default class LightBulb extends CurrentIndicator {
   public readonly brightnessProperty: TReadOnlyProperty<number>;
   private readonly _brightnessProperty: NumberProperty;
 
-  public constructor( currentAmplitudeProperty: TReadOnlyProperty<number>, currentAmplitudeRange: Range, providedOptions: LightBulbOptions ) {
+  public constructor( normalizedCurrentProperty: TReadOnlyProperty<number>, normalizedCurrentRange: Range, providedOptions: LightBulbOptions ) {
 
     const options = optionize<LightBulbOptions, SelfOptions, CurrentIndicatorOptions>()( {
 
@@ -49,7 +49,7 @@ export default class LightBulb extends CurrentIndicator {
     super( options );
 
     // Unfortunately cannot be a DerivedProperty, because the derivation depends on both the new and old value
-    // of currentAmplitudeProperty.
+    // of normalizedCurrentProperty.
     this._brightnessProperty = new NumberProperty( 0, {
       range: BRIGHTNESS_RANGE,
       tandem: options.tandem.createTandem( 'brightnessProperty' ),
@@ -58,24 +58,24 @@ export default class LightBulb extends CurrentIndicator {
     } );
     this.brightnessProperty = this._brightnessProperty;
 
-    currentAmplitudeProperty.link( ( currentAmplitude, previousCurrentAmplitude ) => {
+    normalizedCurrentProperty.link( ( normalizedCurrent, previousNormalizedCurrent ) => {
       let brightness = 0;
-      if ( previousCurrentAmplitude !== null &&
-           Math.sign( currentAmplitude ) !== Math.sign( previousCurrentAmplitude ) &&
+      if ( previousNormalizedCurrent !== null &&
+           Math.sign( normalizedCurrent ) !== Math.sign( previousNormalizedCurrent ) &&
            !options.lightsWhenCurrentChangesDirection ) {
 
         // Current changed direction and should not light the bulb.
         brightness = 0;
       }
-      else if ( Math.abs( currentAmplitude ) < FELConstants.CURRENT_AMPLITUDE_THRESHOLD ) {
+      else if ( Math.abs( normalizedCurrent ) < FELConstants.NORMALIZED_CURRENT_THRESHOLD ) {
 
         // Current below the threshold does not light the bulb.
         brightness = 0;
       }
       else {
 
-        // Map current amplitude to brightness.
-        brightness = Utils.linear( 0, currentAmplitudeRange.max, BRIGHTNESS_RANGE.min, BRIGHTNESS_RANGE.max, Math.abs( currentAmplitude ) );
+        // Map current to brightness.
+        brightness = Utils.linear( 0, normalizedCurrentRange.max, BRIGHTNESS_RANGE.min, BRIGHTNESS_RANGE.max, Math.abs( normalizedCurrent ) );
       }
 
       this._brightnessProperty.value = brightness;

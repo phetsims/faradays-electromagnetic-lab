@@ -13,7 +13,7 @@ are provided, e.g. `BarMagnet`.  Code can be found [here](https://github.com/phe
 
 **B-field**: a synonym for magnetic field.
 
-**Current amplitude**: A value with range [-1,1]. The magnitude describes the amount of current relative to the 
+**Normalized Current**: A value with range [-1,1]. The magnitude describes the amount of current relative to the 
 maximum current that may be induced in the model. The sign indicates the direction 
 of the current. View components use this value to determine how they should respond to induced current. 
 For example, deflection of the voltmeter needle, brightness of the light bulb, and speed of
@@ -49,17 +49,17 @@ points in these grids, scaled to match the strength of the bar magnet.
 
 ### Electromagnet
 The electromagnet (see `Electromagnet`) is based on a coil magnet model. Its voltage source can be either a DC or AC power supply. 
-The strength of the B-field produced by the electromagnet is proportional to the amplitude of the voltage in the 
-voltage source and the number of loops in the coil. (The diameter of the loops is fixed.) The current amplitude in the coil 
-is proportional to the amplitude of the voltage source. **Note that there is no model of resistance for the coil or voltage source.**
+The strength of the B-field produced by the electromagnet is proportional to the voltage in the 
+power supply and the number of loops in the coil. (The diameter of the loops is fixed.) The normalized current in the coil 
+is proportional to the voltage of the power supply. **Note that there is no model of resistance for the coil or voltage source.**
 
 The DC power supply (aka battery) has a maximum voltage, and its voltage 
-amplitude and polarity is varied by the user via a slider control. See `DCPowerSuply`.
+and polarity is varied by the user via a slider control. See `DCPowerSuply`.
 
 The AC Power Supply has a configurable maximum voltage. The user varies the maximum voltage amplitude and 
 frequency using sliders. The voltage amplitude varies over time. See `ACPowerSupply`.
 
-Electrons in the electromagnet's coil move at a speed and direction that is proportional to the current amplitude in
+Electrons in the electromagnet's coil move at a speed and direction that is proportional to the normalized current in
 the coil. More current results in faster speed.  A change in polarity of the magnet results in change in direction
 of the electrons.
 
@@ -100,13 +100,14 @@ The pickup coil (see `PickupCoil`) is the most complicated part of the model, an
 The magnetic field is sampled
 and averaged along a vertical line through the center of the coil. The average is used to compute the flux in 
 one loop of the coil, then multiplied by the number of loops. The flux is measured over time. A change in 
-flux induces an EMF, and the current amplitude is a function of the induced EMF. 
+flux induces an EMF, and the normalized current proportional to the induced EMF. Resistance of the coil
+is constant; it does not vary with the loop area and number of loops.
 
 The pickup coil can have one of two indicators attached to it: a light bulb (`LightBulb`) or a voltmeter (`Voltmeter`). These indicators
-react to the current amplitude in the coil The light bulb’s intensity is proportional to the absolute value 
-of the current amplitude. The voltmeter’s needle deflection is proportional to the current amplitude, and 
-uses an ah hoc algorithm that makes the needle wobble around the zero point.
+react to the normalized current in the coil The light bulb’s intensity is proportional to the absolute value 
+of the normalized current. The voltmeter’s needle deflection is proportional to the normalized current, and 
+uses an ah hoc algorithm that makes adds kinematic behavior to the needle.
 
-Similar to the electromagnet coil, electrons in the pickup coil react to the current amplitude in the coil.
+Similar to the electromagnet coil, electrons in the pickup coil react to the normalized current in the coil.
 More current results in faster speed.  A change in polarity of the magnet field results in change in direction
 of the electrons.

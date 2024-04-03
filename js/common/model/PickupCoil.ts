@@ -67,8 +67,8 @@ export default class PickupCoil extends FELMovable {
   //TODO https://github.com/phetsims/faradays-electromagnetic-lab/issues/66 This can likely be deleted when calibration method is changed.
   private largestAbsoluteEMF; // in volts
 
-  // Amplitude and direction of current in the coil. See Coil currentAmplitudeProperty.
-  private readonly currentAmplitudeProperty: TReadOnlyProperty<number>;
+  // Relative magnitude and direction of current in the coil. See Coil normalizedCurrentProperty.
+  private readonly normalizedCurrentProperty: TReadOnlyProperty<number>;
 
   // Devices that respond to induced EMF, aka 'current indicators'
   public readonly lightBulb: LightBulb;
@@ -80,11 +80,10 @@ export default class PickupCoil extends FELMovable {
   // B-field sample points along the vertical axis of the coil
   public readonly samplePointsProperty: TReadOnlyProperty<Vector2[]>;
 
-  // DEBUG: Writeable via developer controls only, when running with &dev query parameter.
-  // Dividing the coil's EMF by this number will give us the coil's current amplitude, a number between 0 and 1 that
-  // determines the responsiveness of view components. This number should be set as close as possible to the maximum
-  // EMF that can be induced given the range of all model parameters. See calibrateMaxEMF for guidance on how
-  // to set this.
+  // DEBUG: Writeable via developer controls only, when running with &dev query parameter. Dividing the coil's EMF by
+  // this number will give us the coil's normalized current (see Coil.normalizedCurrentProperty), which determines the
+  // responsiveness of view components. This number should be set as close as possible to the maximum EMF that can be
+  // induced given the range of all model parameters. See calibrateMaxEMF for guidance on how to set this.
   public readonly maxEMFProperty: NumberProperty;
 
   // DEBUG: Writeable via developer controls only, when running with &dev query parameter.
@@ -161,18 +160,20 @@ export default class PickupCoil extends FELMovable {
       // Do not instrument. This is a PhET developer Property.
     } );
 
-    this.currentAmplitudeProperty = new DerivedProperty( [ this.emfProperty, this.maxEMFProperty ],
+    // Normalized current is proportional to the induced EMF. We are considering resistance to be constant,
+    // unaffected by the coil's loop area and number of loops.
+    this.normalizedCurrentProperty = new DerivedProperty( [ this.emfProperty, this.maxEMFProperty ],
       ( emf, maxEMF ) => {
-        const currentAmplitude = emf / maxEMF;
-        return FELConstants.CURRENT_AMPLITUDE_RANGE.constrainValue( currentAmplitude );
+        const normalizedCurrent = emf / maxEMF;
+        return FELConstants.NORMALIZED_CURRENT_RANGE.constrainValue( normalizedCurrent );
       }, {
-        isValidValue: currentAmplitude => FELConstants.CURRENT_AMPLITUDE_RANGE.contains( currentAmplitude ),
-        tandem: coilTandem.createTandem( 'currentAmplitudeProperty' ),
+        isValidValue: normalizedCurrent => FELConstants.NORMALIZED_CURRENT_RANGE.contains( normalizedCurrent ),
+        tandem: coilTandem.createTandem( 'normalizedCurrentProperty' ),
         phetioValueType: NumberIO,
-        phetioDocumentation: 'For internal use only.'
+        phetioDocumentation: FELConstants.NORMALIZED_CURRENT_PHET_IO_DOCUMENTATION
       } );
 
-    this.coil = new Coil( this.currentAmplitudeProperty, FELConstants.CURRENT_AMPLITUDE_RANGE,
+    this.coil = new Coil( this.normalizedCurrentProperty, FELConstants.NORMALIZED_CURRENT_RANGE,
       combineOptions<CoilOptions>( {
         maxLoopArea: 70685, // to match Java version
         loopAreaPercentRange: new RangeWithValue( 20, 100, 50 ),
@@ -180,12 +181,12 @@ export default class PickupCoil extends FELMovable {
         tandem: coilTandem
       }, options.coilOptions ) );
 
-    this.lightBulb = new LightBulb( this.currentAmplitudeProperty, FELConstants.CURRENT_AMPLITUDE_RANGE,
+    this.lightBulb = new LightBulb( this.normalizedCurrentProperty, FELConstants.NORMALIZED_CURRENT_RANGE,
       combineOptions<LightBulbOptions>( {
         tandem: options.tandem.createTandem( 'lightBulb' )
       }, options.lightBulbOptions ) );
 
-    this.voltmeter = new Voltmeter( this.currentAmplitudeProperty, FELConstants.CURRENT_AMPLITUDE_RANGE,
+    this.voltmeter = new Voltmeter( this.normalizedCurrentProperty, FELConstants.NORMALIZED_CURRENT_RANGE,
       combineOptions<VoltmeterOptions>( {
         tandem: options.tandem.createTandem( 'voltmeter' )
       }, options.voltmeterOptions ) );
@@ -298,7 +299,7 @@ export default class PickupCoil extends FELMovable {
     // for maxEMFProperty.
     if ( absEMF > this.largestAbsoluteEMF ) {
       this.largestAbsoluteEMF = absEMF;
-      console.log( `PickupCoil.calibrateMaxEMF, largestAbsoluteEMF=${this.largestAbsoluteEMF} for currentAmplitude=${this.currentAmplitudeProperty.value}` );
+      console.log( `PickupCoil.calibrateMaxEMF, largestAbsoluteEMF=${this.largestAbsoluteEMF} for normalizedCurrent=${this.normalizedCurrentProperty.value}` );
 
       // If this prints, you have maxEMFProperty set too low. This will cause view components to exhibit responses
       // that are less than their maximums. For example, the voltmeter won't fully deflect, and the lightbulb won't

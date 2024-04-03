@@ -45,8 +45,8 @@ export default class CurrentSource extends PhetioObject {
   // Voltage that will cause current flow
   public readonly voltageProperty: NumberProperty;
 
-  // Amplitude of the current, relative to the voltage. See Coil currentAmplitudeProperty.
-  public readonly currentAmplitudeProperty: TReadOnlyProperty<number>;
+  // Normalized current, relative to the voltage. See Coil normalizedCurrentProperty.
+  public readonly normalizedCurrentProperty: TReadOnlyProperty<number>;
 
   protected constructor( providedOptions: CurrentSourceOptions ) {
 
@@ -73,9 +73,10 @@ export default class CurrentSource extends PhetioObject {
         phetioFeatured: true
       }, options.voltagePropertyOptions ) );
 
-    this.currentAmplitudeProperty = new DerivedProperty( [ this.voltageProperty ],
-      voltage => Utils.linear( voltageRange.min, voltageRange.max, FELConstants.CURRENT_AMPLITUDE_RANGE.min, FELConstants.CURRENT_AMPLITUDE_RANGE.max, voltage ), {
-        isValidValue: currentAmplitude => FELConstants.CURRENT_AMPLITUDE_RANGE.contains( currentAmplitude )
+    // Normalized current is a linear mapping from voltage. We are considering resistance to be constant.
+    this.normalizedCurrentProperty = new DerivedProperty( [ this.voltageProperty ],
+      voltage => Utils.linear( voltageRange.min, voltageRange.max, FELConstants.NORMALIZED_CURRENT_RANGE.min, FELConstants.NORMALIZED_CURRENT_RANGE.max, voltage ), {
+        isValidValue: normalizedCurrent => FELConstants.NORMALIZED_CURRENT_RANGE.contains( normalizedCurrent )
       } );
   }
 

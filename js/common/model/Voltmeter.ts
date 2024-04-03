@@ -39,9 +39,9 @@ export type VoltmeterOptions = SelfOptions & PickRequired<CurrentIndicatorOption
 
 export default class Voltmeter extends CurrentIndicator {
 
-  // The amplitude of the current in the pickup coil.
-  private readonly currentAmplitudeProperty: TReadOnlyProperty<number>;
-  private readonly currentAmplitudeRange: Range;
+  // Normalized current in the pickup coil. See Coil.normalizedCurrentProperty.
+  private readonly normalizedCurrentProperty: TReadOnlyProperty<number>;
+  private readonly normalizedCurrentRange: Range;
 
   // The deflection angle of the voltmeter's needle, relative to zero volts.
   public readonly needleAngleProperty: TReadOnlyProperty<number>;
@@ -51,8 +51,8 @@ export default class Voltmeter extends CurrentIndicator {
   // Whether kinematics of the needle is enabled.
   private readonly kinematicsEnabledProperty: TReadOnlyProperty<boolean>;
 
-  public constructor( currentAmplitudeProperty: TReadOnlyProperty<number>,
-                      currentAmplitudeRange: Range,
+  public constructor( normalizedCurrentProperty: TReadOnlyProperty<number>,
+                      normalizedCurrentRange: Range,
                       providedOptions: VoltmeterOptions ) {
 
     const options = optionize<VoltmeterOptions, SelfOptions, CurrentIndicatorOptions>()( {
@@ -63,8 +63,8 @@ export default class Voltmeter extends CurrentIndicator {
 
     super( options );
 
-    this.currentAmplitudeProperty = currentAmplitudeProperty;
-    this.currentAmplitudeRange = currentAmplitudeRange;
+    this.normalizedCurrentProperty = normalizedCurrentProperty;
+    this.normalizedCurrentRange = normalizedCurrentRange;
 
     this.needAngleRange = new Range( -Math.PI / 2, Math.PI / 2 );
     this._needleAngleProperty = new NumberProperty( 0, {
@@ -111,24 +111,24 @@ export default class Voltmeter extends CurrentIndicator {
   }
 
   /**
-   * Gets the desired needle deflection angle, in radians.
-   * This is the angle that corresponds exactly to the voltage read by the meter.
+   * Gets the desired needle deflection angle, in radians. This is the angle that corresponds exactly to the "voltage"
+   * read by the meter. Note that the meter actually uses current as the signal, a 'Hollywood' model.
    */
   private getDesiredNeedleAngle(): number {
 
-    // Use amplitude of the voltage source as our signal.
-    let currentAmplitude = this.currentAmplitudeProperty.value;
+    // Use normalized current in the coil as our signal.
+    let normalizedCurrent = this.normalizedCurrentProperty.value;
 
-    // Absolute amplitude below the threshold is effectively zero.
-    if ( Math.abs( currentAmplitude ) < FELConstants.CURRENT_AMPLITUDE_THRESHOLD ) {
-      currentAmplitude = 0;
+    // Current below the threshold is effectively zero.
+    if ( Math.abs( normalizedCurrent ) < FELConstants.NORMALIZED_CURRENT_THRESHOLD ) {
+      normalizedCurrent = 0;
     }
 
-    // Map from currentAmplitude to needleAngle.
+    // Map from current to needleAngle.
     return Utils.linear(
-      this.currentAmplitudeRange.min, this.currentAmplitudeRange.max,
+      this.normalizedCurrentRange.min, this.normalizedCurrentRange.max,
       this.needAngleRange.min, this.needAngleRange.max,
-      currentAmplitude
+      normalizedCurrent
     );
   }
 }

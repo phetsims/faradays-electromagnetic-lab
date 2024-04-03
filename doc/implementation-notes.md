@@ -152,8 +152,8 @@ The electromagnet is also a "Hollywood" model, based on a coil magnet. See detai
 
 ### Coil
 
-The same coil implementation (`Coil`) is used for both the pickup coil and the electromagnet coil. The concept of "current amplitude"
-is fundamental to understand the sim model.  It is described in [model.md](https://github.com/phetsims/faradays-electromagnetic-lab/blob/main/doc/model.md#bar-magnet) and in `Coil`.
+The same coil implementation (`Coil`) is used for both the pickup coil and the electromagnet coil. The concept of "normalized current"
+is fundamental to understanding the sim model.  It is described in [model.md](https://github.com/phetsims/faradays-electromagnetic-lab/blob/main/doc/model.md#bar-magnet) and in `Coil`.
 
 The most complicated part of the sim may be `Coil.createCoilSegments`. It creates an ordered `CoilSegment[]` that describes the 
 shape of the coil, and the path that electrons follow as they flow through the coil. So that objects (bar magnet, compass,...) may

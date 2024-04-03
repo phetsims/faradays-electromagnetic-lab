@@ -127,7 +127,7 @@ function createBarMagnetNode( size?: Dimension2 ): Node {
  */
 function createCoilNode( numberOfLoops: number, loopSpacing: number, maxLoopArea: number ): Node {
 
-  const coil = new Coil( new NumberProperty( 0 ), FELConstants.CURRENT_AMPLITUDE_RANGE, {
+  const coil = new Coil( new NumberProperty( 0 ), FELConstants.NORMALIZED_CURRENT_RANGE, {
     numberOfLoopsRange: new RangeWithValue( numberOfLoops, numberOfLoops, numberOfLoops ),
     loopSpacing: loopSpacing,
     maxLoopArea: maxLoopArea,

@@ -48,9 +48,9 @@ type ElectronOptions = SelfOptions;
 
 export default class Electron {
 
-  // Amplitude of the current that this electron represents.
-  private readonly currentAmplitudeProperty: TReadOnlyProperty<number>;
-  private readonly currentAmplitudeRange: Range;
+  // Current that this electron represents.
+  private readonly normalizedCurrentProperty: TReadOnlyProperty<number>;
+  private readonly normalizedCurrentRange: Range;
 
   // Electron's position, relative to the coil's position. This Vector2 is mutated as position changes.
   private readonly position: Vector2;
@@ -71,13 +71,13 @@ export default class Electron {
   // Scale for adjusting speed.
   private readonly speedScaleProperty: TReadOnlyProperty<number>;
 
-  public constructor( currentAmplitudeProperty: TReadOnlyProperty<number>, currentAmplitudeRange: Range, providedOptions: ElectronOptions ) {
+  public constructor( normalizedCurrentProperty: TReadOnlyProperty<number>, normalizedCurrentRange: Range, providedOptions: ElectronOptions ) {
 
     const options = providedOptions;
     assert && assert( COIL_SEGMENT_POSITION_RANGE.contains( options.coilSegmentPosition ) );
 
-    this.currentAmplitudeProperty = currentAmplitudeProperty;
-    this.currentAmplitudeRange = currentAmplitudeRange;
+    this.normalizedCurrentProperty = normalizedCurrentProperty;
+    this.normalizedCurrentRange = normalizedCurrentRange;
 
     const coilSegment = options.coilSegments[ options.coilSegmentIndex ];
 
@@ -130,7 +130,7 @@ export default class Electron {
   public step( dt: number ): void {
     assert && assert( dt === ConstantDtClock.DT, `invalid dt=${dt}` );
 
-    this.speedAndDirection = this.currentAmplitudeToSpeedAndDirection( this.currentAmplitudeProperty.value );
+    this.speedAndDirection = this.normalizedCurrentToSpeedAndDirection( this.normalizedCurrentProperty.value );
 
     if ( this.speedAndDirection !== 0 ) {
 
@@ -158,13 +158,13 @@ export default class Electron {
   }
 
   /**
-   * Maps current amplitude in the coil to the electron's speed and direction.
+   * Maps normalized current in the coil to the electron's speed and direction.
    */
-  private currentAmplitudeToSpeedAndDirection( currentAmplitude: number ): number {
+  private normalizedCurrentToSpeedAndDirection( normalizedCurrent: number ): number {
     let speedAndDirection = 0;
-    if ( Math.abs( currentAmplitude ) > FELConstants.CURRENT_AMPLITUDE_THRESHOLD ) {
-      speedAndDirection = Utils.linear( this.currentAmplitudeRange.min, this.currentAmplitudeRange.max,
-        this.speedAndDirectionRange.min, this.speedAndDirectionRange.max, currentAmplitude );
+    if ( Math.abs( normalizedCurrent ) > FELConstants.NORMALIZED_CURRENT_THRESHOLD ) {
+      speedAndDirection = Utils.linear( this.normalizedCurrentRange.min, this.normalizedCurrentRange.max,
+        this.speedAndDirectionRange.min, this.speedAndDirectionRange.max, normalizedCurrent );
     }
     return speedAndDirection;
   }

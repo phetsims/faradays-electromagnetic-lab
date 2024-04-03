@@ -190,13 +190,18 @@ const FELConstants = {
   // Model
   MAGNET_STRENGTH_RANGE: new Range( 0, 300 ), // G
 
-  // Range of currentAmplitudeProperty. The magnitude determines the relative amount of current, while the sign
-  // determines the current direction. See Coil currentAmplitudeProperty and
-  // https://github.com/phetsims/faradays-electromagnetic-lab/issues/63
-  CURRENT_AMPLITUDE_RANGE: new Range( -1, 1 ),
+  // Range of normalizedCurrentProperty. The magnitude determines the relative amount of current, while the sign
+  // determines the current direction. See Coil.normalizedCurrentProperty.
+  NORMALIZED_CURRENT_RANGE: new Range( -1, 1 ),
 
-  // Absolute current amplitude below this value is treated as zero.
-  CURRENT_AMPLITUDE_THRESHOLD: 0.001
+  // Absolute normalized current below this value is treated as zero.
+  NORMALIZED_CURRENT_THRESHOLD: 0.001,
+
+  // phetioDocumentation for all instances of normalizedCurrentProperty.
+  NORMALIZED_CURRENT_PHET_IO_DOCUMENTATION:
+    'For internal use only. Current in the coil is normalized to the range [-1,1]. ' +
+    'The magnitude indicates the relative amount of current flowing in the coil, ' +
+    'while the sign indicates the direction of flow.'
 };
 
 faradaysElectromagneticLab.register( 'FELConstants', FELConstants );

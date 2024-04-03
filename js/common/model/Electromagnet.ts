@@ -59,18 +59,19 @@ export default class Electromagnet extends CoilMagnet {
       phetioFeatured: true
     } );
 
-    // Current amplitude in the coil is equivalent to the current amplitude of the selected power supply.
-    // See Coil currentAmplitudeProperty for additional documentation.
-    const currentAmplitudeProperty = new DerivedProperty(
-      [ currentSourceProperty, dcPowerSupply.currentAmplitudeProperty, acPowerSupply.currentAmplitudeProperty ],
-      ( currentSource, dcCurrentAmplitude, acCurrentAmplitude ) =>
-        ( currentSource === dcPowerSupply ) ? dcCurrentAmplitude : acCurrentAmplitude, {
-        isValidValue: currentAmplitude => FELConstants.CURRENT_AMPLITUDE_RANGE.contains( currentAmplitude ),
-        tandem: coilTandem.createTandem( 'currentAmplitudeProperty' ),
-        phetioValueType: NumberIO
+    // Normalized current in the coil is equivalent to the normalized current produced by the selected power supply,
+    // See Coil normalizedCurrentProperty for additional documentation.
+    const normalizedCurrentProperty = new DerivedProperty(
+      [ currentSourceProperty, dcPowerSupply.normalizedCurrentProperty, acPowerSupply.normalizedCurrentProperty ],
+      ( currentSource, dcNormalizedCurrent, acNormalizedCurrent ) =>
+        ( currentSource === dcPowerSupply ) ? dcNormalizedCurrent : acNormalizedCurrent, {
+        isValidValue: normalizedCurrent => FELConstants.NORMALIZED_CURRENT_RANGE.contains( normalizedCurrent ),
+        tandem: coilTandem.createTandem( 'normalizedCurrentProperty' ),
+        phetioValueType: NumberIO,
+        phetioDocumentation: FELConstants.NORMALIZED_CURRENT_PHET_IO_DOCUMENTATION
       } );
 
-    const coil = new Coil( currentAmplitudeProperty, FELConstants.CURRENT_AMPLITUDE_RANGE, {
+    const coil = new Coil( normalizedCurrentProperty, FELConstants.NORMALIZED_CURRENT_RANGE, {
       maxLoopArea: 7854, // to match Java version
       loopAreaPercentRange: new RangeWithValue( 100, 100, 100 ), // fixed loop area
       numberOfLoopsRange: new RangeWithValue( 1, 4, 4 ),
@@ -80,10 +81,10 @@ export default class Electromagnet extends CoilMagnet {
 
     // As we said in the Java version... This is a bit of a "fudge". Strength of the magnet is proportional to its EMF.
     const strengthProperty = new DerivedProperty(
-      [ coil.numberOfLoopsProperty, coil.numberOfLoopsProperty.rangeProperty, currentAmplitudeProperty ],
-      ( numberOfLoops, numberOfLoopsRange, currentAmplitude ) => {
-        const amplitude = ( numberOfLoops / numberOfLoopsRange.max ) * currentAmplitude;
-        return Math.abs( amplitude ) * FELConstants.MAGNET_STRENGTH_RANGE.max;
+      [ coil.numberOfLoopsProperty, coil.numberOfLoopsProperty.rangeProperty, normalizedCurrentProperty ],
+      ( numberOfLoops, numberOfLoopsRange, normalizedCurrent ) => {
+        const amplitude = Math.abs( ( numberOfLoops / numberOfLoopsRange.max ) * normalizedCurrent );
+        return amplitude * FELConstants.MAGNET_STRENGTH_RANGE.max;
       }, {
         units: 'G',
         isValidValue: strength => FELConstants.MAGNET_STRENGTH_RANGE.contains( strength ),
@@ -99,11 +100,11 @@ export default class Electromagnet extends CoilMagnet {
     this.acPowerSupply = acPowerSupply;
     this.currentSourceProperty = currentSourceProperty;
 
-    // Polarity is determined by the sign of the current amplitude.
-    assert && assert( FELConstants.CURRENT_AMPLITUDE_RANGE.min < 0 && FELConstants.CURRENT_AMPLITUDE_RANGE.max > 0,
-      'currentAmplitudeProperty listener assumes that range is signed' );
-    this.coil.currentAmplitudeProperty.link( currentAmplitude => {
-      this.rotationProperty.value = ( currentAmplitude >= 0 ) ? 0 : Math.PI;
+    // Polarity is determined by the sign of the normalized current.
+    assert && assert( FELConstants.NORMALIZED_CURRENT_RANGE.min < 0 && FELConstants.NORMALIZED_CURRENT_RANGE.max > 0,
+      'normalizedCurrentProperty listener assumes that range is signed' );
+    this.coil.normalizedCurrentProperty.link( normalizedCurrent => {
+      this.rotationProperty.value = ( normalizedCurrent >= 0 ) ? 0 : Math.PI;
     } );
 
     this.shapeVisibleProperty = new BooleanProperty( false

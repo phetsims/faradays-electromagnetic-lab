@@ -81,8 +81,12 @@ export default class Coil extends PhetioObject {
   // current relative to some maximum current in the model. The sign indicates the direction of that current. View
   // components can use this value to determine how they should behave -- eg, how far to move a voltmeter needle,
   // how bright to make a light bulb, and how fast to move electrons.
-  public readonly currentAmplitudeProperty: TReadOnlyProperty<number>;
-  private readonly currentAmplitudeRange: Range;
+  // See https://github.com/phetsims/faradays-electromagnetic-lab/issues/63
+  //
+  // In the Java version, this was named currentAmplitudeProperty. But there were objections to that name during code
+  // review because amplitude is not signed. See https://github.com/phetsims/faradays-electromagnetic-lab/issues/130
+  public readonly normalizedCurrentProperty: TReadOnlyProperty<number>;
+  private readonly normalizedCurrentRange: Range;
 
   // Width of the wire that makes up the coil.
   public readonly wireWidth: number;
@@ -116,8 +120,8 @@ export default class Coil extends PhetioObject {
   // Fires after electrons have moved.
   public readonly electronsMovedEmitter: Emitter;
 
-  public constructor( currentAmplitudeProperty: TReadOnlyProperty<number>, currentAmplitudeRange: Range, providedOptions: CoilOptions ) {
-    assert && assert( currentAmplitudeRange.equals( FELConstants.CURRENT_AMPLITUDE_RANGE ) );
+  public constructor( normalizedCurrentProperty: TReadOnlyProperty<number>, normalizedCurrentRange: Range, providedOptions: CoilOptions ) {
+    assert && assert( normalizedCurrentRange.equals( FELConstants.NORMALIZED_CURRENT_RANGE ) );
 
     const options = optionize<CoilOptions, SelfOptions, PhetioObjectOptions>()( {
 
@@ -136,8 +140,8 @@ export default class Coil extends PhetioObject {
 
     super( options );
 
-    this.currentAmplitudeProperty = currentAmplitudeProperty;
-    this.currentAmplitudeRange = currentAmplitudeRange;
+    this.normalizedCurrentProperty = normalizedCurrentProperty;
+    this.normalizedCurrentRange = normalizedCurrentRange;
 
     this.wireWidth = options.wireWidth;
     this.loopSpacing = options.loopSpacing;
@@ -219,7 +223,7 @@ export default class Coil extends PhetioObject {
   public step( dt: number ): void {
 
     // Step the electrons if there's current flow in the coil, and the electrons are visible.
-    if ( this.currentAmplitudeProperty.value !== 0 && this.electronsVisibleProperty.value ) {
+    if ( this.normalizedCurrentProperty.value !== 0 && this.electronsVisibleProperty.value ) {
       this.electronsProperty.value.forEach( electron => electron.step( dt ) );
       this.electronsMovedEmitter.emit();
     }
@@ -408,7 +412,7 @@ export default class Coil extends PhetioObject {
         const coilSegmentPosition = i / numberOfElectrons;
 
         // Model
-        const electron = new Electron( this.currentAmplitudeProperty, this.currentAmplitudeRange, {
+        const electron = new Electron( this.normalizedCurrentProperty, this.normalizedCurrentRange, {
           coilSegments: coilSegments,
           coilSegmentIndex: coilSegmentIndex,
           coilSegmentPosition: coilSegmentPosition,

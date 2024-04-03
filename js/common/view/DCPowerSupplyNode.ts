@@ -89,12 +89,12 @@ export default class DCPowerSupplyNode extends Node {
     this.visibleProperty.lazyLink( visible => !visible && this.interruptSubtreeInput() );
 
     // Reflect the battery about the y-axis to change its polarity.
-    dcPowerSupply.currentAmplitudeProperty.link( ( amplitude, previousAmplitude ) => {
-      if ( amplitude >= 0 && ( previousAmplitude === null || previousAmplitude < 0 ) ) {
+    dcPowerSupply.normalizedCurrentProperty.link( ( normalizedCurrent, previousNormalizedCurrent ) => {
+      if ( normalizedCurrent >= 0 && ( previousNormalizedCurrent === null || previousNormalizedCurrent < 0 ) ) {
         batteryNode.matrix = Matrix3.IDENTITY;
         batteryNode.center = Vector2.ZERO;
       }
-      else if ( amplitude < 0 && ( previousAmplitude === null || previousAmplitude >= 0 ) ) {
+      else if ( normalizedCurrent < 0 && ( previousNormalizedCurrent === null || previousNormalizedCurrent >= 0 ) ) {
         batteryNode.matrix = Matrix3.X_REFLECTION;
         batteryNode.center = Vector2.ZERO;
       }
@@ -102,10 +102,10 @@ export default class DCPowerSupplyNode extends Node {
 
     // Position the volts value at the positive pole of the battery.
     Multilink.multilink(
-      [ dcPowerSupply.currentAmplitudeProperty, voltsText.boundsProperty ],
-      ( amplitude, voltsTextBounds ) => {
+      [ dcPowerSupply.normalizedCurrentProperty, voltsText.boundsProperty ],
+      ( normalizedCurrent, voltsTextBounds ) => {
         const xMargin = 15;
-        if ( amplitude >= 0 ) {
+        if ( normalizedCurrent >= 0 ) {
           voltsText.right = batteryNode.right - xMargin;
         }
         else {
