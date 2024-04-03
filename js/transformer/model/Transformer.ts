@@ -18,7 +18,6 @@ import DCPowerSupply from '../../common/model/DCPowerSupply.js';
 import RangeWithValue from '../../../../dot/js/RangeWithValue.js';
 import PickRequired from '../../../../phet-core/js/types/PickRequired.js';
 import optionize from '../../../../phet-core/js/optionize.js';
-import isSettingPhetioStateProperty from '../../../../tandem/js/isSettingPhetioStateProperty.js';
 
 type SelfOptions = {
   electromagnetPosition: Vector2;
@@ -72,11 +71,7 @@ export default class Transformer extends PhetioObject {
     } );
 
     // Ignore the EMF induced by switching power supplies.
-    this.electromagnet.currentSourceProperty.lazyLink( () => {
-      if ( !isSettingPhetioStateProperty.value ) {
-        this.pickupCoil.clearEMF();
-      }
-    } );
+    this.electromagnet.currentSourceProperty.lazyLink( () => this.pickupCoil.clearEMF() );
   }
 
   public reset(): void {
