@@ -50,8 +50,11 @@ points in these grids, scaled to match the strength of the bar magnet.
 ### Electromagnet
 The electromagnet (see `Electromagnet`) is based on a coil magnet model. Its voltage source can be either a DC or AC power supply. 
 The strength of the B-field produced by the electromagnet is proportional to the voltage in the 
-power supply and the number of loops in the coil. (The diameter of the loops is fixed.) The normalized current in the coil 
-is proportional to the voltage of the power supply. **Note that there is no model of resistance for the coil or voltage source.**
+power supply and the number of loops in the coil. (The diameter of the loops is fixed.) 
+
+The normalized current of the electromagnet is proportional to the voltage of the power supply, and is not affected by the
+length of the wire in the coil. This current is unaffected by the number of loops or the loop area, behaving as if
+the wires in the electromagnet coil have zero resistance.
 
 The DC power supply (aka battery) has a maximum voltage, and its voltage 
 and polarity is varied by the user via a slider control. See `DCPowerSuply`.
