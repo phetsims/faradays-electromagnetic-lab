@@ -253,8 +253,8 @@ export default class PickupCoil extends FELMovable {
    */
   public clearEMF(): void {
     if ( this.emfProperty.value !== 0 ) {
-      this.updateEMF( ConstantDtClock.DT ); // EMF may be induced by changing from oldCurrentSource to newCurrentSource.
-      this.updateEMF( ConstantDtClock.DT ); // No EMF is induced because there is no flux change in newCurrentSource.
+      this.updateEMF( ConstantDtClock.DT );
+      this.updateEMF( ConstantDtClock.DT );
     }
     assert && assert( this.emfProperty.value === 0, `unexpected emfProperty.value: ${this.emfProperty.value}` );
   }
