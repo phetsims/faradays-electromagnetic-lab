@@ -31,6 +31,10 @@ export default class FELSim extends Sim {
 
     super( titleStringProperty, screens, {
       webgl: true, // Enabled for high-performance scenery.Sprites
+
+      // Remove ScreenViews that are not active, to minimize WebGL contexts, see https://github.com/phetsims/faradays-electromagnetic-lab/issues/153
+      detachInactiveScreenViews: true,
+
       credits: FELConstants.CREDITS,
       phetioDesigned: true,
       preferencesModel: new PreferencesModel( {
