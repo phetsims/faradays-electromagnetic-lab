@@ -2,7 +2,7 @@
 
 /**
  * FieldPositionsNode is a debugging tool, used to confirm that the needles are properly positioned in the B-field
- * visualization. Running with ?showFieldPositions add this Node to the scene graph, and renders a yellow dot
+ * visualization. Running with ?showFieldPositions adds this Node to the scene graph, and renders a yellow dot
  * (small circle) where the center of each needle should be. If the dots are not centered on the needles, then
  * positioning in FieldNode is incorrect.
  *
