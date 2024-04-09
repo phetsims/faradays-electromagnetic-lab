@@ -28,6 +28,7 @@ import Property from '../../../../axon/js/Property.js';
 import PickupCoilNode from './PickupCoilNode.js';
 import DerivedProperty from '../../../../axon/js/DerivedProperty.js';
 import isResettingAllProperty from '../isResettingAllProperty.js';
+import isSettingPhetioStateProperty from '../../../../tandem/js/isSettingPhetioStateProperty.js';
 
 type SelfOptions = {
 
@@ -156,12 +157,16 @@ export default class FELScreenView extends ScreenView {
       if ( isLockedToAxis ) {
         // Dragging is locked to 1D, horizontally along the pickup coil's axis.
 
-        // Move the magnet and pickup coil a usable position, which we assume is their initial position.
-        magnetPositionProperty.reset();
-        pickupCoilPositionProperty.reset();
-        assert && assert( magnetPositionProperty.value.y === pickupCoilPositionProperty.value.y,
-          'Lock to Axis feature requires the magnet and pickup coil to have the same y coordinate: ' +
-          `magnet.y=${magnetPositionProperty.value.y} !== pickupCoil.y=${pickupCoilPositionProperty.value.y}` );
+        // Move the magnet and pickup coil a usable position, which we assume is their initial position. Do this only
+        // when not setting state. When setting state, reset (and changing Property value in general) will be ignored,
+        // and the assertion will fail.
+        if ( !isSettingPhetioStateProperty.value ) {
+          magnetPositionProperty.reset();
+          pickupCoilPositionProperty.reset();
+          assert && assert( magnetPositionProperty.value.y === pickupCoilPositionProperty.value.y,
+            'Lock to Axis feature requires the magnet and pickup coil to have the same y coordinate: ' +
+            `magnet.y=${magnetPositionProperty.value.y} !== pickupCoil.y=${pickupCoilPositionProperty.value.y}` );
+        }
         const y = pickupCoilPositionProperty.value.y;
 
         // Constrain to horizontal dragging.
