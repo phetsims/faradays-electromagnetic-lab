@@ -45,7 +45,7 @@ export default class FELSim extends Sim {
           customPreferences: [ {
             createContent: tandem => new FELPreferencesNode( {
               hasEarthFeature: hasEarthFeature,
-              tandem: tandem.createTandem( 'simPreferences' )
+              tandem: tandem
             } )
           } ]
         }
