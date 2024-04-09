@@ -18,6 +18,7 @@ import DCPowerSupply from '../../common/model/DCPowerSupply.js';
 import RangeWithValue from '../../../../dot/js/RangeWithValue.js';
 import PickRequired from '../../../../phet-core/js/types/PickRequired.js';
 import optionize from '../../../../phet-core/js/optionize.js';
+import isSettingPhetioStateProperty from '../../../../tandem/js/isSettingPhetioStateProperty.js';
 
 type SelfOptions = {
   electromagnetPosition: Vector2;
@@ -70,8 +71,14 @@ export default class Transformer extends PhetioObject {
       tandem: options.tandem.createTandem( 'pickupCoil' )
     } );
 
-    // Ignore the EMF induced by switching power supplies.
-    this.electromagnet.currentSourceProperty.lazyLink( () => this.pickupCoil.clearEMF() );
+    // Ignore the EMF induced by switching power supplies. Do not do this when setting PhET-iO state because Property
+    // changes made by clearEMF will be ignored, resulting in failure of clearEMF.
+    // See https://github.com/phetsims/faradays-electromagnetic-lab/issues/149.
+    this.electromagnet.currentSourceProperty.lazyLink( () => {
+      if ( !isSettingPhetioStateProperty.value ) {
+        this.pickupCoil.clearEMF();
+      }
+    } );
   }
 
   public reset(): void {
