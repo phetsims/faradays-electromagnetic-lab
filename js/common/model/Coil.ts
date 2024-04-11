@@ -396,7 +396,7 @@ export default class Coil extends PhetioObject {
     const leftEndIndex = 0;
     const rightEndIndex = coilSegments.length - 1;
 
-    // Add Electron instances for each curve segment.
+    // Add electrons for each curve segment.
     for ( let coilSegmentIndex = 0; coilSegmentIndex < coilSegments.length; coilSegmentIndex++ ) {
 
       // Compute how many electrons to add for this curve segment. The number of electrons is fixed for the ends
