@@ -35,7 +35,7 @@ import CoilSegment from './CoilSegment.js';
 import Vector2 from '../../../../dot/js/Vector2.js';
 import { LinearGradient, TColor } from '../../../../scenery/js/imports.js';
 import FELColors from '../FELColors.js';
-import Electron from './Electron.js';
+import ChargedParticle from './ChargedParticle.js';
 import Emitter from '../../../../axon/js/Emitter.js';
 
 // Spacing between the centers of charges in the coil.
@@ -119,7 +119,7 @@ export default class Coil extends PhetioObject {
   public readonly coilSegmentsProperty: TReadOnlyProperty<CoilSegment[]>;
 
   // Electrons that represent current flow in the coil
-  public readonly chargedParticlesProperty: TReadOnlyProperty<Electron[]>;
+  public readonly chargedParticlesProperty: TReadOnlyProperty<ChargedParticle[]>;
 
   // Fires after charges have moved.
   public readonly chargedParticlesMovedEmitter: Emitter;
@@ -210,7 +210,7 @@ export default class Coil extends PhetioObject {
 
     this.chargedParticlesProperty = new DerivedProperty( [ this.coilSegmentsProperty ],
       coilSegments => this.createChargedParticles( coilSegments ), {
-        // Erroneously identifies options to new Electron in createCharges as dependencies.
+        // Erroneously identifies options to new ChargedParticle in createCharges as dependencies.
         strictAxonDependencies: false
       } );
 
@@ -388,9 +388,9 @@ export default class Coil extends PhetioObject {
   /**
    * Creates a set of charges to occupy coil segments.
    */
-  private createChargedParticles( coilSegments: CoilSegment[] ): Electron[] {
+  private createChargedParticles( coilSegments: CoilSegment[] ): ChargedParticle[] {
 
-    const chargedParticles: Electron[] = [];
+    const chargedParticles: ChargedParticle[] = [];
 
     // coilSegments is ordered from left to right. So these are the indices for the ends of the coil.
     const leftEndIndex = 0;
@@ -416,7 +416,7 @@ export default class Coil extends PhetioObject {
 
       // Add charges for this curve segment.
       for ( let i = 0; i < numberOfElectrons; i++ ) {
-        const chargedParticle = new Electron( this.normalizedCurrentProperty, this.normalizedCurrentRange, {
+        const chargedParticle = new ChargedParticle( this.normalizedCurrentProperty, this.normalizedCurrentRange, {
           coilSegments: coilSegments,
           coilSegmentIndex: coilSegmentIndex,
           coilSegmentPosition: i / numberOfElectrons,

@@ -1,15 +1,15 @@
 // Copyright 2023-2024, University of Colorado Boulder
 
 /**
- * Electron is the model of an electron that moves through a coil. The path through the coil is described by
+ * ChargedParticle is the model of an electron that moves through a coil. The path through the coil is described by
  * an ordered set of CoilSegment instances, each of which is a segment of the coil.
  *
- * Note that Electron is NOT instrumented for PhET-iO. The exact positions of electrons are not significant.
+ * Note that ChargedParticle is NOT instrumented for PhET-iO. The exact positions of electrons are not significant.
  * We do not care (for example) if electron positions are different in the Upstream and Downstream frames of
  * the State wrapper. What does matter is the number of electrons and their speed, both of which are derived
  * from other state.
  *
- * This is based on Electron.java in the Java version of this sim.
+ * This is based on ChargedParticle.java in the Java version of this sim.
  *
  * @author Chris Malley (PixelZoom, Inc.)
  */
@@ -47,13 +47,13 @@ type SelfOptions = {
 
 type ElectronOptions = SelfOptions;
 
-export default class Electron {
+export default class ChargedParticle {
 
   // Current that this electron represents.
   private readonly normalizedCurrentProperty: TReadOnlyProperty<number>;
   private readonly normalizedCurrentRange: Range;
 
-  // Electron's position, relative to the coil's position. This Vector2 is mutated as position changes.
+  // ChargedParticle's position, relative to the coil's position. This Vector2 is mutated as position changes.
   private readonly position: Vector2;
 
   // Ordered collection of the segments that make up the coil
@@ -62,10 +62,10 @@ export default class Electron {
   // Index of the coil segment that the electron currently occupies
   private coilSegmentIndex: number;
 
-  // Electron's position [0,1] along the coil segment that it occupies: 0=endPoint, 1=startPoint
+  // ChargedParticle's position [0,1] along the coil segment that it occupies: 0=endPoint, 1=startPoint
   private coilSegmentPosition: number;
 
-  // Electron's speed & direction [-1,1], where direction is indicated by sign
+  // ChargedParticle's speed & direction [-1,1], where direction is indicated by sign
   private speedAndDirection: number;
   private readonly speedAndDirectionRange: Range;
 
@@ -236,4 +236,4 @@ export default class Electron {
   }
 }
 
-faradaysElectromagneticLab.register( 'Electron', Electron );
+faradaysElectromagneticLab.register( 'ChargedParticle', ChargedParticle );

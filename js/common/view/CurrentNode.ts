@@ -13,7 +13,7 @@ import faradaysElectromagneticLab from '../../faradaysElectromagneticLab.js';
 import { Color, Sprite, SpriteImage, SpriteInstance, SpriteInstanceTransformType, Sprites } from '../../../../scenery/js/imports.js';
 import Vector2 from '../../../../dot/js/Vector2.js';
 import FELColors from '../FELColors.js';
-import Electron from '../model/Electron.js';
+import ChargedParticle from '../model/ChargedParticle.js';
 import Coil, { CoilLayer } from '../model/Coil.js';
 import Bounds2 from '../../../../dot/js/Bounds2.js';
 import Multilink from '../../../../axon/js/Multilink.js';
@@ -101,7 +101,7 @@ export default class CurrentNode extends Sprites {
    * Creates the SpriteInstances to match a set of charges. We're not bothering with SpriteInstance pooling because
    * this happens rarely, and the time to create new instances is not noticeable.
    */
-  private createSpriteInstances( chargedParticles: Electron[] ): void {
+  private createSpriteInstances( chargedParticles: ChargedParticle[] ): void {
 
     // Dispose of the SpriteInstances that we currently have.
     this.spriteInstances.forEach( spriteInstance => spriteInstance.dispose() );
@@ -161,10 +161,10 @@ export default class CurrentNode extends Sprites {
  */
 class ChargedParticleSpriteInstance extends SpriteInstance {
 
-  private readonly chargedParticle: Electron;
+  private readonly chargedParticle: ChargedParticle;
   private readonly coilLayer: CoilLayer;
 
-  public constructor( chargedParticle: Electron, coilLayer: CoilLayer, sprite: Sprite ) {
+  public constructor( chargedParticle: ChargedParticle, coilLayer: CoilLayer, sprite: Sprite ) {
 
     super();
 
