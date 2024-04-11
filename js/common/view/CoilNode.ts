@@ -26,13 +26,13 @@ import TReadOnlyProperty from '../../../../axon/js/TReadOnlyProperty.js';
 import Bounds2 from '../../../../dot/js/Bounds2.js';
 import CoilSegment from '../model/CoilSegment.js';
 import CoilSegmentNode from './CoilSegmentNode.js';
-import ElectronsNode from './ElectronsNode.js';
+import CurrentNode from './CurrentNode.js';
 
 type SelfOptions = {
   isMovable?: boolean; // Whether the coil is movable.
   dragBoundsProperty?: TReadOnlyProperty<Bounds2> | null;
 
-  // Whether to render current. This was added because ElectronsNode uses scenery Sprites, which uses WebGL.
+  // Whether to render current. This was added because CurrentNode uses scenery Sprites, which uses WebGL.
   // If we use WebGL for creating screen icons, we apparently created too many WebGL contexts, and the sim fails
   // at startup. So set this to false when creating screen icons.
   // See https://github.com/phetsims/faradays-electromagnetic-lab/issues/109.
@@ -106,10 +106,10 @@ export default class CoilNode extends Node {
 
     // Render the current that move through the coil.
     if ( options.renderCurrent ) {
-      const foregroundCurrentNode = new ElectronsNode( 'foreground', coil );
+      const foregroundCurrentNode = new CurrentNode( 'foreground', coil );
       this.foregroundNode.addChild( foregroundCurrentNode );
 
-      const backgroundCurrentNode = new ElectronsNode( 'background', coil );
+      const backgroundCurrentNode = new CurrentNode( 'background', coil );
       this.backgroundNode.addChild( backgroundCurrentNode );
     }
 

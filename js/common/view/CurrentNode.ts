@@ -1,7 +1,7 @@
 // Copyright 2024, University of Colorado Boulder
 
 /**
- * ElectronsNode is the visual representation of current in a coil. Depending on the current convention selected,
+ * CurrentNode is the visual representation of current in a coil. Depending on the current convention selected,
  * it shows either electrons or imaginary positive charges. It shows charges for one layer (foreground or background)
  * of the coil, and hides charges that are in the other layer. Two instances of this class are needed to render all
  * charges in a coil. It uses scenery's Sprites feature for performance optimization.
@@ -33,9 +33,9 @@ const electronMinusColorProperty = FELColors.electronMinusColorProperty;
 const positiveChargeColorProperty = FELColors.positiveChargeColorProperty;
 const positiveChargePlusColorProperty = FELColors.positiveChargePlusColorProperty;
 
-export default class ElectronsNode extends Sprites {
+export default class CurrentNode extends Sprites {
 
-  // ElectronsNode will show charges that are in this layer of the coil.
+  // CurrentNode will show charges that are in this layer of the coil.
   private readonly coilLayer: CoilLayer;
 
   // The single Sprite used to render all charges.
@@ -47,7 +47,7 @@ export default class ElectronsNode extends Sprites {
   public constructor( coilLayer: CoilLayer, coil: Coil ) {
 
     // Convert the Sprite used to represent current.
-    const sprite = new Sprite( ElectronsNode.getSpriteImage(
+    const sprite = new Sprite( CurrentNode.getSpriteImage(
       FELPreferences.currentTypeProperty.value,
       electronColorProperty.value, electronMinusColorProperty.value,
       positiveChargeColorProperty.value, positiveChargePlusColorProperty.value
@@ -92,7 +92,7 @@ export default class ElectronsNode extends Sprites {
     Multilink.multilink(
       [ FELPreferences.currentTypeProperty, electronColorProperty, electronMinusColorProperty, positiveChargeColorProperty, positiveChargePlusColorProperty ],
       ( currentType, electronColor, electronMinusColor, positiveChargeColor, positiveChargePlusColor ) => {
-        sprite.imageProperty.value = ElectronsNode.getSpriteImage( currentType, electronColor, electronMinusColor, positiveChargeColor, positiveChargePlusColor );
+        sprite.imageProperty.value = CurrentNode.getSpriteImage( currentType, electronColor, electronMinusColor, positiveChargeColor, positiveChargePlusColor );
         this.invalidatePaint();
       } );
   }
@@ -208,4 +208,4 @@ class ElectronSpriteInstance extends SpriteInstance {
   }
 }
 
-faradaysElectromagneticLab.register( 'ElectronsNode', ElectronsNode );
+faradaysElectromagneticLab.register( 'CurrentNode', CurrentNode );

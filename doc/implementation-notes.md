@@ -71,8 +71,8 @@ and sim-specific) to the browser console.
 The exceptions to this are as follows:
 
 Changing a `Coil` (`numberOfLoopsProperty` or `loopAreaProperty`) results in disposal and creation of the model 
-and view elements that make up the coil: `CoilSegment`, `CoilSegmentNode`, `QuadraticBezierSpline`, `Electron`,
-and `ElectronSpriteInstance`. None of these objects need to be stateful for PhET-iO.
+and view elements that make up the coil: `CoilSegment`, `CoilSegmentNode`, `QuadraticBezierSpline`, `ChargedParticle`,
+and `ChargedParticleSpriteInstance`. None of these objects need to be stateful for PhET-iO.
 
 Resizing the browser window (changing ScreenView `visibleBoundsProperty`) results in disposal and creation of
 `CompassNeedleSpriteInstance`, to make the magnetic field visualization fill the browser 
@@ -156,7 +156,7 @@ The same coil implementation (`Coil`) is used for both the pickup coil and the e
 is fundamental to understanding the sim model.  It is described in [model.md](https://github.com/phetsims/faradays-electromagnetic-lab/blob/main/doc/model.md#bar-magnet) and in `Coil`.
 
 The most complicated part of the sim may be `Coil.createCoilSegments`. It creates an ordered `CoilSegment[]` that describes the 
-shape of the coil, and the path that electrons follow as they flow through the coil. So that objects (bar magnet, compass,...) may
+shape of the coil, and the path that charged particles follow as they flow through the coil. So that objects (bar magnet, compass,...) may
 pass through the coil, CoilSegments are designated as belonging to either the foreground layer or background layer of the coil.
 
 ### Pickup Coil
@@ -205,7 +205,7 @@ PickupCoilScreenModel
   BarMagnet
   PickupCoil
     Coil
-      Electron[]
+      ChargedParticle[]
     LightBulb
     Voltmeter
   KinematicCompass
@@ -214,7 +214,7 @@ PickupCoilScreenModel
 ElectromagnetScreenModel
   Electromagnet
     Coil
-      Electron[]
+      ChargedParticle[]
     ACPowerSupply
     DCPowerSupply
   IncrementalCompass
@@ -224,12 +224,12 @@ TransformerScreenModel
   Transformer
     Electromagnet
       Coil
-        Electron[]
+        ChargedParticle[]
       ACPowerSupply
       DCPowerSupply
     PickupCoil
       Coil
-        Electron[]
+        ChargedParticle[]
       LightBulb
       Voltmeter
   IncrementalCompass
@@ -242,7 +242,7 @@ GeneratorScreenModel
       WaterFaucet
     PickupCoil
       Coil
-        Electron[]
+        ChargedParticle[]
       LightBulb
       Voltmeter
   ImmediateCompass
@@ -264,9 +264,11 @@ See `FieldNode.normalizeMagnitude`.
 To simulate objects passing "through" the coil,` CoilNode` consists of two layers, referred to as the
 foreground and background, which are added to the scene graph separately.
 
-`ElectronsNode` renders all Electrons efficiently using scenery `Sprites`. Two instances
-of `ElectronsNode` are required, for foreground and background layers of a coil.  As current
-flow in a coil, electrons move between the foreground and background layers of the coil.
+`CurrentNode` renders a representation of current efficiently using scenery `Sprites`. 
+Current is represented as either electrons or imaginary positive charges, depending on the 
+current convention that is selected in Preferences. Two instances
+of `CurrentNode` are required, for foreground and background layers of a coil.  As current
+flow in a coil, charges move between the foreground and background layers of the coil.
 
 Note that when dragging objects, they intentionally do not move to the front, as they do in many other
 PhET sims. There is pedagogical significance to the rendering order in this sim, and that rendering order 
