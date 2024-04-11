@@ -2,7 +2,7 @@
 
 /**
  * CurrentTypePreferencesControl is the control in the Preferences dialog for choosing the current type: either
- * 'Electron' or 'Conventional'.
+ * 'Electron' or 'Conventional'. See https://github.com/phetsims/faradays-electromagnetic-lab/issues/136.
  *
  * @author Chris Malley (PixelZoom, Inc.)
  */

@@ -1,15 +1,17 @@
 // Copyright 2023-2024, University of Colorado Boulder
 
 /**
- * ChargedParticle is the model of an electron that moves through a coil. The path through the coil is described by
- * an ordered set of CoilSegment instances, each of which is a segment of the coil.
+ * ChargedParticle is the model of a charged particle (aka 'charge') that moves through a coil. The path through the
+ * coil is described by an ordered set of CoilSegment instances, each of which is a segment of the coil. The selected
+ * current convention (see FELPreferences.currentTypeProperty) determines whether the charge behaves like an electron
+ * or an imaginary positive charge.
  *
- * Note that ChargedParticle is NOT instrumented for PhET-iO. The exact positions of electrons are not significant.
- * We do not care (for example) if electron positions are different in the Upstream and Downstream frames of
- * the State wrapper. What does matter is the number of electrons and their speed, both of which are derived
+ * Note that ChargedParticle is NOT instrumented for PhET-iO. The exact positions of charges are not significant.
+ * We do not care (for example) if charge positions are different in the Upstream and Downstream frames of
+ * the State wrapper. What does matter is the number of charges and their speed, both of which are derived
  * from other state.
  *
- * This is based on ChargedParticle.java in the Java version of this sim.
+ * This is based on Electron.java in the Java version of this sim.
  *
  * @author Chris Malley (PixelZoom, Inc.)
  */
@@ -41,15 +43,15 @@ type SelfOptions = {
   // Initial value of coilSegmentPosition
   coilSegmentPosition: number;
 
-  // Developer control used to scale the electron speed in the view.
+  // Developer control used to scale the charge's speed in the view.
   speedScaleProperty: TReadOnlyProperty<number>;
 };
 
-type ElectronOptions = SelfOptions;
+type ChargedParticleOptions = SelfOptions;
 
 export default class ChargedParticle {
 
-  // Current that this electron represents.
+  // Current that this charge represents.
   private readonly normalizedCurrentProperty: TReadOnlyProperty<number>;
   private readonly normalizedCurrentRange: Range;
 
@@ -59,7 +61,7 @@ export default class ChargedParticle {
   // Ordered collection of the segments that make up the coil
   private readonly coilSegments: CoilSegment[];
 
-  // Index of the coil segment that the electron currently occupies
+  // Index of the coil segment that the charge currently occupies
   private coilSegmentIndex: number;
 
   // ChargedParticle's position [0,1] along the coil segment that it occupies: 0=endPoint, 1=startPoint
@@ -72,7 +74,7 @@ export default class ChargedParticle {
   // Scale for adjusting speed.
   private readonly speedScaleProperty: TReadOnlyProperty<number>;
 
-  public constructor( normalizedCurrentProperty: TReadOnlyProperty<number>, normalizedCurrentRange: Range, providedOptions: ElectronOptions ) {
+  public constructor( normalizedCurrentProperty: TReadOnlyProperty<number>, normalizedCurrentRange: Range, providedOptions: ChargedParticleOptions ) {
 
     const options = providedOptions;
     assert && assert( COIL_SEGMENT_POSITION_RANGE.contains( options.coilSegmentPosition ) );
@@ -104,28 +106,28 @@ export default class ChargedParticle {
   }
 
   /**
-   * Gets the layer that this electron currently occupies.
+   * Gets the layer that this charge currently occupies.
    */
   public getLayer(): CoilLayer {
     return this.coilSegments[ this.coilSegmentIndex ].layer;
   }
 
   /**
-   * Gets the speed scale for the CoilSegment that the electron currently occupies.
+   * Gets the speed scale for the CoilSegment that this charge currently occupies.
    */
   private getCoilSegmentSpeedScale(): number {
     return this.coilSegments[ this.coilSegmentIndex ].speedScale;
   }
 
   /**
-   * Moves the electron along the path.
+   * Moves the charge along the path.
    *
-   * The electron's path is described by the CoilSegment array.
+   * The charge's path is described by the CoilSegment array.
    *
-   * The electron's speed & direction determine its position along a coil segment. Speed is scaled to account for
+   * The charge's speed & direction determine its position along a coil segment. Speed is scaled to account for
    * possible differences in the lengths of the segments. Shorter segments will have a larger scaling factor.
    *
-   * When an electron gets to the end of the current segment, it jumps to the next segment, to a point that represents
+   * When a charge gets to the end of the current segment, it jumps to the next segment, to a point that represents
    * the "overshoot". The order of segments is determined by the order of elements in the CoilSegment array.
    */
   public step( dt: number ): void {
@@ -135,9 +137,8 @@ export default class ChargedParticle {
 
     if ( this.speedAndDirection !== 0 ) {
 
-      // If modeling conventional current, then flow in the opposite direction. This is not physically correct for
-      // electrons, but we will be using a different representation in the UI for conventional current.
-      // Note that coilSegmentPosition is 1=start and 0=end, so -1 corresponds to electrons flow.
+      // Sign depends on the current convention being used.
+      // Note that coilSegmentPosition is 1=start and 0=end, so -1 corresponds to electron flow.
       // See https://github.com/phetsims/faradays-electromagnetic-lab/issues/136.
       const sign = ( FELPreferences.currentTypeProperty.value === 'electron' ) ? -1 : 1;
 
@@ -155,17 +156,17 @@ export default class ChargedParticle {
       }
       assert && assert( COIL_SEGMENT_POSITION_RANGE.contains( this.coilSegmentPosition ) );
 
-      // Get the coil segment that this electron currently occupies.
+      // Get the coil segment that this charge currently occupies.
       const coilSegment = this.coilSegments[ this.coilSegmentIndex ];
 
-      // Evaluate the quadratic to determine the electron's position relative to the segment.
+      // Evaluate the quadratic to determine the charge's position relative to the segment.
       // Note that this mutates this.position.
       coilSegment.evaluate( this.coilSegmentPosition, this.position );
     }
   }
 
   /**
-   * Maps normalized current in the coil to the electron's speed and direction.
+   * Maps normalized current in the coil to the charge's speed and direction.
    */
   private normalizedCurrentToSpeedAndDirection( normalizedCurrent: number ): number {
     let speedAndDirection = 0;
@@ -177,7 +178,7 @@ export default class ChargedParticle {
   }
 
   /**
-   * Moves the electron to an appropriate point on the next/previous coil segment. Rescales any "overshoot" of position
+   * Moves the charge to an appropriate point on the next/previous coil segment. Rescales any "overshoot" of position
    * so the distance moved looks approximately the same when moving between segments that have different lengths.
    * If segments have different lengths, it is possible that we may totally skip a segments. This is handled via
    * recursive calls to moveToCoilSegment.
