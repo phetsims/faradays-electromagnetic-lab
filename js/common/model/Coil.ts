@@ -249,7 +249,7 @@ export default class Coil extends PhetioObject {
    * of this code) are now almost 20 years old, which is downright elderly in code-years. So rather than disturb things
    * by trying to factor out constants or shared code, it seemed preferable to leave it alone. And note that while
    * the creation of each CoilSegment involves similar patterns, each CoilSegment is significantly different, so the
-   * impression of 'shared code' is illusionary.
+   * impression of 'duplicated code' is illusionary.
    */
   private static createCoilSegments( numberOfLoops: number, loopRadius: number, wireWidth: number, loopSpacing: number,
                                      frontColor: TColor, middleColor: TColor, backColor: TColor ): CoilSegment[] {
