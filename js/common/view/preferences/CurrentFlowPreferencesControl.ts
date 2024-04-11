@@ -1,7 +1,7 @@
 // Copyright 2024, University of Colorado Boulder
 
 /**
- * CurrentTypePreferencesControl is the control in the Preferences dialog for choosing the current type: either
+ * CurrentFlowPreferencesControl is the control in the Preferences dialog for choosing the current type: either
  * 'Electron' or 'Conventional'. See https://github.com/phetsims/faradays-electromagnetic-lab/issues/136.
  *
  * @author Chris Malley (PixelZoom, Inc.)
@@ -22,7 +22,7 @@ import { combineOptions } from '../../../../../phet-core/js/optionize.js';
 import ElectronNode from '../ElectronNode.js';
 import PositiveChargeNode from '../PositiveChargeNode.js';
 
-export default class CurrentTypePreferencesControl extends PreferencesControl {
+export default class CurrentFlowPreferencesControl extends PreferencesControl {
 
   public constructor( currentFlowProperty: StringUnionProperty<CurrentFlow>, tandem: Tandem ) {
 
@@ -96,4 +96,4 @@ class CurrentTypeRadioButtonText extends HBox {
   }
 }
 
-faradaysElectromagneticLab.register( 'CurrentTypePreferencesControl', CurrentTypePreferencesControl );
+faradaysElectromagneticLab.register( 'CurrentFlowPreferencesControl', CurrentFlowPreferencesControl );

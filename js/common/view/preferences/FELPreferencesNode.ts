@@ -15,7 +15,7 @@ import MagneticUnitsPreferencesControl from './MagneticUnitsPreferencesControl.j
 import EarthHemispherePreferencesControl from './EarthHemispherePreferencesControl.js';
 import PickRequired from '../../../../../phet-core/js/types/PickRequired.js';
 import optionize from '../../../../../phet-core/js/optionize.js';
-import CurrentTypePreferencesControl from './CurrentTypePreferencesControl.js';
+import CurrentFlowPreferencesControl from './CurrentFlowPreferencesControl.js';
 
 type SelfOptions = {
 
@@ -48,7 +48,7 @@ export default class FELPreferencesNode extends VBox {
       options.tandem.createTandem( 'magneticUnitsPreferencesControl' ) );
     children.push( magneticUnitsPreferencesControl );
 
-    const currentFlowPreferencesControl = new CurrentTypePreferencesControl( FELPreferences.currentFlowProperty,
+    const currentFlowPreferencesControl = new CurrentFlowPreferencesControl( FELPreferences.currentFlowProperty,
       options.tandem.createTandem( 'currentFlowPreferencesControl' ) );
     children.push( currentFlowPreferencesControl );
 
