@@ -22,11 +22,11 @@ import { CurrentType } from '../FELQueryParameters.js';
 import FELPreferences from '../model/FELPreferences.js';
 import PositiveChargeNode from './PositiveChargeNode.js';
 
-// Scale up by this much to improve resolution.
-const ELECTRON_RESOLUTION_SCALE = 8;
+// Scale up by this much when creating Nodes, to improve resolution.
+const RESOLUTION_SCALE = 8;
 
-// Inverse scale to apply when rendering.
-const ELECTRON_INVERSE_SCALE = 1 / ELECTRON_RESOLUTION_SCALE;
+// Inverse scale to apply when rendering SpriteInstances.
+const INVERSE_SCALE = 1 / RESOLUTION_SCALE;
 
 const electronColorProperty = FELColors.electronColorProperty;
 const electronMinusColorProperty = FELColors.electronMinusColorProperty;
@@ -41,8 +41,8 @@ export default class CurrentNode extends Sprites {
   // The single Sprite used to render all charges.
   private readonly sprite: Sprite;
 
-  // One ElectronSpriteInstance for each charge.
-  private readonly spriteInstances: ElectronSpriteInstance[];
+  // One SpriteInstance for each charge.
+  private readonly spriteInstances: ChargedParticleSpriteInstance[];
 
   public constructor( coilLayer: CoilLayer, coil: Coil ) {
 
@@ -53,8 +53,8 @@ export default class CurrentNode extends Sprites {
       positiveChargeColorProperty.value, positiveChargePlusColorProperty.value
     ) );
 
-    // To be populated by this.ElectronSpriteInstance.
-    const spriteInstances: ElectronSpriteInstance[] = [];
+    // To be populated by this.createSpriteInstances.
+    const spriteInstances: ChargedParticleSpriteInstance[] = [];
 
     super( {
       isDisposable: false,
@@ -70,7 +70,7 @@ export default class CurrentNode extends Sprites {
     this.coilLayer = coilLayer;
 
     // When the set of charges changes, create a sprite instance for each charge.
-    coil.chargedParticlesProperty.link( electrons => this.createSpriteInstances( electrons ) );
+    coil.chargedParticlesProperty.link( chargedParticle => this.createSpriteInstances( chargedParticle ) );
 
     coil.coilSegmentsProperty.link( coilSegments => {
       const bounds = Bounds2.NOTHING.copy();
@@ -80,7 +80,7 @@ export default class CurrentNode extends Sprites {
       }
 
       // Make sure the bounds are large enough to contain the SpriteInstances.
-      bounds.dilate( ElectronNode.DIAMETER / 2 );
+      bounds.dilate( ElectronNode.DIAMETER / 2 );//TODO https://github.com/phetsims/faradays-electromagnetic-lab/issues/136
 
       this.canvasBounds = bounds;
     } );
@@ -101,14 +101,15 @@ export default class CurrentNode extends Sprites {
    * Creates the SpriteInstances to match a set of charges. We're not bothering with SpriteInstance pooling because
    * this happens rarely, and the time to create new instances is not noticeable.
    */
-  private createSpriteInstances( electrons: Electron[] ): void {
+  private createSpriteInstances( chargedParticles: Electron[] ): void {
 
     // Dispose of the SpriteInstances that we currently have.
     this.spriteInstances.forEach( spriteInstance => spriteInstance.dispose() );
     this.spriteInstances.length = 0;
 
     // Create new SpriteInstances for the new set of charges.
-    electrons.forEach( electron => this.spriteInstances.push( new ElectronSpriteInstance( electron, this.coilLayer, this.sprite ) ) );
+    chargedParticles.forEach( chargedParticle =>
+      this.spriteInstances.push( new ChargedParticleSpriteInstance( chargedParticle, this.coilLayer, this.sprite ) ) );
 
     this.invalidatePaint();
   }
@@ -132,12 +133,12 @@ export default class CurrentNode extends Sprites {
                  new ElectronNode( {
                    color: electronColor,
                    minusColor: electronMinusColor,
-                   scale: ELECTRON_RESOLUTION_SCALE
+                   scale: RESOLUTION_SCALE
                  } ) :
                  new PositiveChargeNode( {
                    color: positiveChargeColor,
                    plusColor: positiveChargePlusColor,
-                   scale: ELECTRON_RESOLUTION_SCALE
+                   scale: RESOLUTION_SCALE
                  } );
 
     let spriteImage: SpriteImage | null = null;
@@ -156,18 +157,18 @@ export default class CurrentNode extends Sprites {
 }
 
 /**
- * ElectronSpriteInstance corresponds to one Electron instance.
+ * ChargedParticleSpriteInstance corresponds to one ChargedParticle instance.
  */
-class ElectronSpriteInstance extends SpriteInstance {
+class ChargedParticleSpriteInstance extends SpriteInstance {
 
-  private readonly electron: Electron;
+  private readonly chargedParticle: Electron;
   private readonly coilLayer: CoilLayer;
 
-  public constructor( electron: Electron, coilLayer: CoilLayer, sprite: Sprite ) {
+  public constructor( chargedParticle: Electron, coilLayer: CoilLayer, sprite: Sprite ) {
 
     super();
 
-    this.electron = electron;
+    this.chargedParticle = chargedParticle;
     this.coilLayer = coilLayer;
 
     // Fields in superclass SpriteInstance that must be set
@@ -186,12 +187,12 @@ class ElectronSpriteInstance extends SpriteInstance {
    */
   public update(): void {
 
-    if ( this.electron.getLayer() === this.coilLayer ) {
+    if ( this.chargedParticle.getLayer() === this.coilLayer ) {
 
       // Move to the charge's position (at the charge's center) and apply inverse scale.
       this.matrix.rowMajor(
-        ELECTRON_INVERSE_SCALE, 0, this.electron.x,
-        0, ELECTRON_INVERSE_SCALE, this.electron.y,
+        INVERSE_SCALE, 0, this.chargedParticle.x,
+        0, INVERSE_SCALE, this.chargedParticle.y,
         0, 0, 1
       );
       assert && assert( this.matrix.isFinite(), 'matrix should be finite' );
