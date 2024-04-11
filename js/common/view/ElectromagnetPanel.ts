@@ -39,7 +39,7 @@ export default class ElectromagnetPanel extends Panel {
       } ) );
 
     // 'Electrons' or 'Conventional Current' checkbox
-    const currentCheckbox = new CurrentCheckbox( electromagnet.coil.electronsVisibleProperty,
+    const currentCheckbox = new CurrentCheckbox( electromagnet.coil.currentVisibleProperty,
       tandem.createTandem( 'currentCheckbox' ) );
 
     const contentChildren: Node[] = [

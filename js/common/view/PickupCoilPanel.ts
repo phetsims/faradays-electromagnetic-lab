@@ -35,7 +35,7 @@ export default class PickupCoilPanel extends Panel {
       tandem.createTandem( 'loopAreaControl' ) );
 
     // 'Electrons' or 'Conventional Current' checkbox
-    const currentCheckbox = new CurrentCheckbox( pickupCoil.coil.electronsVisibleProperty,
+    const currentCheckbox = new CurrentCheckbox( pickupCoil.coil.currentVisibleProperty,
       tandem.createTandem( 'currentCheckbox' ) );
 
     const contentChildren: Node[] = [

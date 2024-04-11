@@ -1,8 +1,7 @@
 // Copyright 2024, University of Colorado Boulder
 
-//TODO https://github.com/phetsims/faradays-electromagnetic-lab/issues/136 Rename to CurrentCheckbox, label 'Current'?
 /**
- * CurrentCheckbox is the checkbox labeled 'Electrons', used to show/hide electrons in a coil.
+ * CurrentCheckbox is the checkbox labeled 'Electrons', used to show/hide current in a coil.
  *
  * @author Chris Malley (PixelZoom, Inc.)
  */
@@ -24,7 +23,7 @@ import PositiveChargeNode from './PositiveChargeNode.js';
 
 export default class CurrentCheckbox extends Checkbox {
 
-  public constructor( electronsVisibleProperty: Property<boolean>, tandem: Tandem ) {
+  public constructor( currentVisibleProperty: Property<boolean>, tandem: Tandem ) {
 
     const stringProperty = new DerivedProperty(
       [ FELPreferences.currentTypeProperty, FaradaysElectromagneticLabStrings.electronsStringProperty, FaradaysElectromagneticLabStrings.conventionalCurrentStringProperty ],
@@ -56,7 +55,7 @@ export default class CurrentCheckbox extends Checkbox {
       tandem: tandem
     } );
 
-    super( electronsVisibleProperty, content, options );
+    super( currentVisibleProperty, content, options );
   }
 }
 

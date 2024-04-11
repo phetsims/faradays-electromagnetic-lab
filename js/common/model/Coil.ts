@@ -8,7 +8,7 @@
  * coil (eg, lightbulb, voltmeter, power supply). You can easily visualize the ends by changing their stroke color in
  * createCoilSegments.
  *
- * The CoilSegments describe the coil's shape, and the path that electrons follow as they flow through the coil,
+ * The CoilSegments describe the coil's shape, and the path that charges follow as they flow through the coil,
  * move between layers (foreground or background), and adjust ("scale") their speed so that they appear to flow
  * at the same rate in all coil segments.
  *
@@ -38,10 +38,10 @@ import FELColors from '../FELColors.js';
 import Electron from './Electron.js';
 import Emitter from '../../../../axon/js/Emitter.js';
 
-// Spacing between the centers of electrons in the coil.
+// Spacing between the centers of charges in the coil.
 const ELECTRON_SPACING = 25;
 
-// Ends of the coil contain a fixed number of electrons.
+// Ends of the coil contain a fixed number of charges.
 const ELECTRONS_IN_LEFT_END = 2;
 const ELECTRONS_IN_RIGHT_END = 2;
 
@@ -66,8 +66,8 @@ type SelfOptions = {
   // Horizontal spacing between loops in the coil. Zero is tightly packed.
   loopSpacing?: number;
 
-  // Initial value of electronsVisibleProperty.
-  electronsVisible?: boolean;
+  // Initial value of currentVisibleProperty.
+  currentVisible?: boolean;
 
   // Initial value of electronSpeedScaleProperty, a developer control.
   electronSpeedScale?: number;
@@ -108,8 +108,8 @@ export default class Coil extends PhetioObject {
   public readonly loopRadiusProperty: TReadOnlyProperty<number>;
   public readonly loopRadiusRange: Range;
 
-  // Whether electrons are visible in the coil in the view
-  public readonly electronsVisibleProperty: Property<boolean>;
+  // Whether current is visible in the coil in the view
+  public readonly currentVisibleProperty: Property<boolean>;
 
   // DEBUG: Writeable via developer controls only, when running with &dev query parameter.
   // Scale used for electron speed in the view.
@@ -133,7 +133,7 @@ export default class Coil extends PhetioObject {
       wireWidth: 16,
       loopSpacing: 8,
       electronSpeedScale: 1,
-      electronsVisible: true,
+      currentVisible: true,
 
       // PhetioObjectOptions
       phetioState: false
@@ -188,8 +188,8 @@ export default class Coil extends PhetioObject {
     this.loopRadiusProperty = new DerivedProperty( [ this.loopAreaProperty ],
       loopArea => Math.sqrt( loopArea / Math.PI ) );
 
-    this.electronsVisibleProperty = new BooleanProperty( options.electronsVisible, {
-      tandem: options.tandem.createTandem( 'electronsVisibleProperty' ),
+    this.currentVisibleProperty = new BooleanProperty( options.currentVisible, {
+      tandem: options.tandem.createTandem( 'currentVisibleProperty' ),
       phetioFeatured: true
     } );
 
@@ -209,8 +209,8 @@ export default class Coil extends PhetioObject {
       oldCoilSegments.forEach( coilSegment => coilSegment.dispose() ) );
 
     this.electronsProperty = new DerivedProperty( [ this.coilSegmentsProperty ],
-      coilSegments => this.createElectrons( coilSegments ), {
-        // Erroneously identifies options to new Electron in createElectrons as dependencies.
+      coilSegments => this.createCharges( coilSegments ), {
+        // Erroneously identifies options to new Electron in createCharges as dependencies.
         strictAxonDependencies: false
       } );
 
@@ -224,14 +224,14 @@ export default class Coil extends PhetioObject {
   public reset(): void {
     this.numberOfLoopsProperty.reset();
     this.loopAreaPercentProperty.reset();
-    this.electronsVisibleProperty.reset();
+    this.currentVisibleProperty.reset();
     // Do not reset Properties documented as 'DEBUG' above.
   }
 
   public step( dt: number ): void {
 
     // Step the electrons if there's current flow in the coil, and the electrons are visible.
-    if ( this.normalizedCurrentProperty.value !== 0 && this.electronsVisibleProperty.value ) {
+    if ( this.normalizedCurrentProperty.value !== 0 && this.currentVisibleProperty.value ) {
       this.electronsProperty.value.forEach( electron => electron.step( dt ) );
       this.electronsMovedEmitter.emit();
     }
@@ -386,9 +386,9 @@ export default class Coil extends PhetioObject {
   }
 
   /**
-   * Creates a set of electrons to occupy coil segments.
+   * Creates a set of charges to occupy coil segments.
    */
-  private createElectrons( coilSegments: CoilSegment[] ): Electron[] {
+  private createCharges( coilSegments: CoilSegment[] ): Electron[] {
 
     const electrons: Electron[] = [];
 
@@ -396,10 +396,10 @@ export default class Coil extends PhetioObject {
     const leftEndIndex = 0;
     const rightEndIndex = coilSegments.length - 1;
 
-    // Add electrons for each curve segment.
+    // Add charges for each curve segment.
     for ( let coilSegmentIndex = 0; coilSegmentIndex < coilSegments.length; coilSegmentIndex++ ) {
 
-      // Compute how many electrons to add for this curve segment. The number of electrons is fixed for the ends
+      // Compute how many charges to add for this curve segment. The number of charges is fixed for the ends
       // of the coil, and a function of loop radius for the other segments.
       let numberOfElectrons;
       if ( coilSegmentIndex === leftEndIndex ) {
@@ -414,7 +414,7 @@ export default class Coil extends PhetioObject {
       assert && assert( Number.isInteger( numberOfElectrons ) && numberOfElectrons > 0,
         `invalid numberOfElectrons: ${numberOfElectrons}` );
 
-      // Add electrons for this curve segment.
+      // Add charges for this curve segment.
       for ( let i = 0; i < numberOfElectrons; i++ ) {
         const electron = new Electron( this.normalizedCurrentProperty, this.normalizedCurrentRange, {
           coilSegments: coilSegments,

@@ -2,7 +2,7 @@
 
 /**
  * CoilSegment is one segment of a coil, described by a quadratic bezier spline. An ordered array of CoilSegment
- * is used to describe and render the coil, and to guide the flow of electrons in the coil.
+ * is used to describe and render the coil, and to guide the flow of charges in the coil.
  *
  * This is based on ElectronPathDescriptor.java in the Java version of this sim.
  *
@@ -30,14 +30,14 @@ export default class CoilSegment {
   // The curve that describes this segment of the coil
   private readonly curve: QuadraticBezierSpline;
 
-  // The layer for this segment and any electrons that appear in this segment.
+  // The layer for this segment and any charges that appear in this segment.
   public readonly layer: CoilLayer;
 
   // Paint that will be used to stroke this coil segment
   public readonly stroke: TPaint;
 
-  // This value is used to adjust the speed of electrons along this segment. It's useful in cases where a set of
-  // CoilSegments contains segments of different lengths, and the speed needs to be scaled in order to make electrons
+  // This value is used to adjust the speed of charges along this segment. It's useful in cases where a set of
+  // CoilSegments contains segments of different lengths, and the speed needs to be scaled in order to make charges
   // appear to move at the same speed along all segments.
   public readonly speedScale;
 

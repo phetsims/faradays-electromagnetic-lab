@@ -1,9 +1,10 @@
 // Copyright 2024, University of Colorado Boulder
 
 /**
- * ElectronsNode is the visual representation of a collection of electrons in a coil. It shows electrons for one layer
- * (foreground or background) of the coil, and hides electrons that are in the other layer. Two instances of this
- * class are needed to render all electrons in a coil. It uses scenery's Sprites feature for performance optimization.
+ * ElectronsNode is the visual representation of current in a coil. Depending on the current convention selected,
+ * it shows either electrons or imaginary positive charges. It shows charges for one layer (foreground or background)
+ * of the coil, and hides charges that are in the other layer. Two instances of this class are needed to render all
+ * charges in a coil. It uses scenery's Sprites feature for performance optimization.
  *
  * @author Chris Malley (PixelZoom, Inc.)
  */
@@ -34,13 +35,13 @@ const positiveChargePlusColorProperty = FELColors.positiveChargePlusColorPropert
 
 export default class ElectronsNode extends Sprites {
 
-  // ElectronsNode will show electrons that are in this layer of the coil.
+  // ElectronsNode will show charges that are in this layer of the coil.
   private readonly coilLayer: CoilLayer;
 
-  // The single Sprite used to render all electrons.
+  // The single Sprite used to render all charges.
   private readonly sprite: Sprite;
 
-  // One ElectronSpriteInstance for each electron.
+  // One ElectronSpriteInstance for each charge.
   private readonly spriteInstances: ElectronSpriteInstance[];
 
   public constructor( coilLayer: CoilLayer, coil: Coil ) {
@@ -57,9 +58,9 @@ export default class ElectronsNode extends Sprites {
 
     super( {
       isDisposable: false,
-      visibleProperty: coil.electronsVisibleProperty,
+      visibleProperty: coil.currentVisibleProperty,
       sprites: [ sprite ], // the set of Sprites used to render this Node, must be set at instantiation
-      spriteInstances: spriteInstances, // the set of SpriteInstances, one per electron in the coil
+      spriteInstances: spriteInstances, // the set of SpriteInstances, one per charge in the coil
       hitTestSprites: false,
       pickable: false
     } );
@@ -68,7 +69,7 @@ export default class ElectronsNode extends Sprites {
     this.spriteInstances = spriteInstances;
     this.coilLayer = coilLayer;
 
-    // When the set of electrons changes, create a sprite instance for each electron.
+    // When the set of charges changes, create a sprite instance for each charge.
     coil.electronsProperty.link( electrons => this.createSpriteInstances( electrons ) );
 
     coil.coilSegmentsProperty.link( coilSegments => {
@@ -84,7 +85,7 @@ export default class ElectronsNode extends Sprites {
       this.canvasBounds = bounds;
     } );
 
-    // When the electrons have moved, update the sprite instances.
+    // When the charges have moved, update the sprite instances.
     coil.electronsMovedEmitter.addListener( () => this.updateSpriteInstances() );
 
     // Update the sprite and redraw.
@@ -97,7 +98,7 @@ export default class ElectronsNode extends Sprites {
   }
 
   /**
-   * Creates the SpriteInstances to match a set of electrons. We're not bothering with SpriteInstance pooling because
+   * Creates the SpriteInstances to match a set of charges. We're not bothering with SpriteInstance pooling because
    * this happens rarely, and the time to create new instances is not noticeable.
    */
   private createSpriteInstances( electrons: Electron[] ): void {
@@ -106,14 +107,14 @@ export default class ElectronsNode extends Sprites {
     this.spriteInstances.forEach( spriteInstance => spriteInstance.dispose() );
     this.spriteInstances.length = 0;
 
-    // Create new SpriteInstances for the new set of electrons.
+    // Create new SpriteInstances for the new set of charges.
     electrons.forEach( electron => this.spriteInstances.push( new ElectronSpriteInstance( electron, this.coilLayer, this.sprite ) ) );
 
     this.invalidatePaint();
   }
 
   /**
-   * Updates the spriteInstances to match the electrons.
+   * Updates the spriteInstances to match the charges.
    */
   private updateSpriteInstances(): void {
     this.spriteInstances.forEach( spriteInstance => spriteInstance.update() );
@@ -121,7 +122,7 @@ export default class ElectronsNode extends Sprites {
   }
 
   /**
-   * Gets the SpriteImage used to visualize an electron.
+   * Gets the SpriteImage used to visualize a charge.
    */
   private static getSpriteImage( currentType: CurrentType,
                                  electronColor: Color, electronMinusColor: Color,
@@ -181,13 +182,13 @@ class ElectronSpriteInstance extends SpriteInstance {
   }
 
   /**
-   * Updates the matrix to match the electron's position and layering.
+   * Updates the matrix to match the charge's position and layering.
    */
   public update(): void {
 
     if ( this.electron.getLayer() === this.coilLayer ) {
 
-      // Move to the electron's position (at the electron's center) and apply inverse scale.
+      // Move to the charge's position (at the charge's center) and apply inverse scale.
       this.matrix.rowMajor(
         ELECTRON_INVERSE_SCALE, 0, this.electron.x,
         0, ELECTRON_INVERSE_SCALE, this.electron.y,
@@ -200,7 +201,7 @@ class ElectronSpriteInstance extends SpriteInstance {
     }
     else {
 
-      // It the electron is not in this layer, hide it by setting its alpha to fully-transparent.
+      // It the charge is not in this layer, hide it by setting its alpha to fully-transparent.
       // And since it will not be visible, do not bother to move it.
       this.alpha = 0;
     }

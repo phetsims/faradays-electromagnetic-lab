@@ -1,7 +1,9 @@
 // Copyright 2023-2024, University of Colorado Boulder
 
 /**
- * CoilNode is the visualization of a coil of wire, with electrons flowing through the coil to represent current.
+ * CoilNode is the visualization of a coil of wire, with current flowing through the coil. The current is represented
+ * as either electrons or imaginary positive charges, depending on the current convention that is selected in
+ * Preferences.
  *
  * In order to simulate objects passing "through" the coil, CoilNode consists of two layers, referred to as the
  * foreground and background. Foreground elements are children of CoilNode. Background elements are children of
@@ -30,11 +32,11 @@ type SelfOptions = {
   isMovable?: boolean; // Whether the coil is movable.
   dragBoundsProperty?: TReadOnlyProperty<Bounds2> | null;
 
-  // Whether to render electrons. This was added because ElectronsNode uses scenery Sprites, which uses WebGL.
+  // Whether to render current. This was added because ElectronsNode uses scenery Sprites, which uses WebGL.
   // If we use WebGL for creating screen icons, we apparently created too many WebGL contexts, and the sim fails
   // at startup. So set this to false when creating screen icons.
   // See https://github.com/phetsims/faradays-electromagnetic-lab/issues/109.
-  renderElectrons?: boolean;
+  renderCurrent?: boolean;
 };
 
 type CoilNodeOptions = SelfOptions & PickRequired<NodeOptions, 'tandem'>;
@@ -48,7 +50,7 @@ export default class CoilNode extends Node {
   // the B-field, magnet, etc., so that it looks like those things are passing through the coil.
   private readonly foregroundNode: Node;
 
-  // Children of foregroundNode, to maintain rendering order of coil segments and electrons.
+  // Children of foregroundNode, to maintain rendering order of coil segments and charges.
   private readonly foregroundCoilSegmentsParent: Node;
 
   // The background layer, intended to be added to the scene graph behind the B-field, magnet, etc., so that it looks
@@ -56,7 +58,7 @@ export default class CoilNode extends Node {
   // to the scene graph.
   public readonly backgroundNode: Node;
 
-  // Children of backgroundNode, to maintain rendering order of coil segments and electrons.
+  // Children of backgroundNode, to maintain rendering order of coil segments and charges.
   private readonly backgroundCoilSegmentsParent: Node;
 
   // Segments of the coil
@@ -74,7 +76,7 @@ export default class CoilNode extends Node {
       // SelfOptions
       isMovable: true,
       dragBoundsProperty: null,
-      renderElectrons: true,
+      renderCurrent: true,
 
       // NodeOptions
       isDisposable: false,
@@ -102,13 +104,13 @@ export default class CoilNode extends Node {
       visibleProperty: this.visibleProperty
     } );
 
-    // Render the electrons that move through the coil.
-    if ( options.renderElectrons ) {
-      const foregroundElectronsNode = new ElectronsNode( 'foreground', coil );
-      this.foregroundNode.addChild( foregroundElectronsNode );
+    // Render the current that move through the coil.
+    if ( options.renderCurrent ) {
+      const foregroundCurrentNode = new ElectronsNode( 'foreground', coil );
+      this.foregroundNode.addChild( foregroundCurrentNode );
 
-      const backgroundElectronsNode = new ElectronsNode( 'background', coil );
-      this.backgroundNode.addChild( backgroundElectronsNode );
+      const backgroundCurrentNode = new ElectronsNode( 'background', coil );
+      this.backgroundNode.addChild( backgroundCurrentNode );
     }
 
     // Render the segments that make up the coil's wire.

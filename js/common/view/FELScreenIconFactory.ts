@@ -132,7 +132,7 @@ function createCoilNode( numberOfLoops: number, loopSpacing: number, maxLoopArea
     loopSpacing: loopSpacing,
     maxLoopArea: maxLoopArea,
     loopAreaPercentRange: new RangeWithValue( 100, 100, 100 ),
-    electronsVisible: false,
+    currentVisible: false,
     tandem: Tandem.OPT_OUT
   } );
 
@@ -141,7 +141,7 @@ function createCoilNode( numberOfLoops: number, loopSpacing: number, maxLoopArea
 
   // Combine the coil foreground and background.
   const coilForegroundNode = new CoilNode( coil, movable, {
-    renderElectrons: false, // Don't create unnecessary WebGL contexts for electrons that we don't want to see.
+    renderCurrent: false, // Don't create unnecessary WebGL contexts for current that we don't want to see.
     tandem: Tandem.OPT_OUT
   } );
   const node = new Node( {
