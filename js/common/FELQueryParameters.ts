@@ -35,7 +35,7 @@ const SCHEMA_MAP = {
     public: true
   },
 
-  // Sets the representation used for current flow in the coils.
+  // Sets the convention used for current flow in the coils.
   // See https://github.com/phetsims/faradays-electromagnetic-lab/issues/136#issuecomment-2030075672
   currentFlow: {
     type: 'string',

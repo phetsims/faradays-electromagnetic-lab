@@ -22,7 +22,7 @@ const FELPreferences = {
     phetioFeatured: true
   } ),
 
-  // The representation used for current flow in the coils.
+  // The convention used for current flow in the coils.
   currentFlowProperty: new StringUnionProperty<CurrentFlow>( FELQueryParameters.currentFlow as CurrentFlow, {
     validValues: CurrentFlowValues,
     tandem: Tandem.PREFERENCES.createTandem( 'currentFlowProperty' ),

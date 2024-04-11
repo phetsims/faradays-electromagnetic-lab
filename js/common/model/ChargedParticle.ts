@@ -137,7 +137,7 @@ export default class ChargedParticle {
 
     if ( this.speedAndDirection !== 0 ) {
 
-      // Sign depends on the current convention being used.
+      // Sign depends on the convention for current flow.
       // Note that coilSegmentPosition is 1=start and 0=end, so -1 corresponds to electron flow.
       // See https://github.com/phetsims/faradays-electromagnetic-lab/issues/136.
       const sign = ( FELPreferences.currentFlowProperty.value === 'electron' ) ? -1 : 1;
