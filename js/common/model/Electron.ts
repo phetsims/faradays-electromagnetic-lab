@@ -31,7 +31,7 @@ const MAX_SPEED_AND_DIRECTION = 1;
 
 type SelfOptions = {
 
-  // Ordered collection of the curves that make up the coil
+  // Ordered collection of the segments that make up the coil
   coilSegments: CoilSegment[];
 
   // Initial value of coilSegmentIndexProperty
@@ -112,7 +112,7 @@ export default class Electron {
   /**
    * Gets the speed scale for the CoilSegment that the electron currently occupies.
    */
-  private getSpeedScale(): number {
+  private getCoilSegmentSpeedScale(): number {
     return this.coilSegments[ this.coilSegmentIndex ].speedScale;
   }
 
@@ -121,11 +121,11 @@ export default class Electron {
    *
    * The electron's path is described by the CoilSegment array.
    *
-   * The electron's speed & direction determine its position along a curve. Speed is scaled to account for possible
-   * differences in the lengths of the curves. Shorter curves will have a larger scaling factor.
+   * The electron's speed & direction determine its position along a coil segment. Speed is scaled to account for
+   * possible differences in the lengths of the segments. Shorter segments will have a larger scaling factor.
    *
-   * When an electron gets to the end of the current curve, it jumps to the next curve, to a point that represents
-   * the "overshoot". The order of curves is determined by the order of elements in the CoilSegment array.
+   * When an electron gets to the end of the current segment, it jumps to the next segment, to a point that represents
+   * the "overshoot". The order of segments is determined by the order of elements in the CoilSegment array.
    */
   public step( dt: number ): void {
     assert && assert( dt === ConstantDtClock.DT, `invalid dt=${dt}` );
@@ -136,12 +136,12 @@ export default class Electron {
 
       // Move the electron along the path. coilSegmentPosition is 1=start and 0=end, so we subtract the delta here.
       const deltaPosition = dt * MAX_COIL_SEGMENT_POSITION_DELTA * this.speedAndDirection *
-                            this.speedScaleProperty.value * this.getSpeedScale();
+                            this.speedScaleProperty.value * this.getCoilSegmentSpeedScale();
       const newPosition = this.coilSegmentPosition - deltaPosition;
 
-      // Do we need to switch curves?
+      // Do we need to move to the next/previous coil segment?
       if ( newPosition <= 0 || newPosition >= 1 ) {
-        this.switchCurves( newPosition );
+        this.moveToCoilSegment( newPosition );
       }
       else {
         this.coilSegmentPosition = newPosition;
@@ -170,21 +170,20 @@ export default class Electron {
   }
 
   /**
-   * Moves the electron to an appropriate point on the next/previous curve. Rescales any "overshoot" of position so
-   * the distance moved looks approximately the same when moving between curves that have different lengths.
-   *
-   * If curves have different lengths, it is possible that we may totally skip a curve. This is handled via
-   * recursive calls to switchCurves.
+   * Moves the electron to an appropriate point on the next/previous coil segment. Rescales any "overshoot" of position
+   * so the distance moved looks approximately the same when moving between segments that have different lengths.
+   * If segments have different lengths, it is possible that we may totally skip a segments. This is handled via
+   * recursive calls to moveToCoilSegment.
    */
-  private switchCurves( coilSegmentPosition: number, recursionDepth = 0 ): void {
+  private moveToCoilSegment( coilSegmentPosition: number, recursionDepth = 0 ): void {
     assert && assert( recursionDepth < this.coilSegments.length, `infinite loop? recursionDepth=${recursionDepth}` );
 
-    const oldPathSpeedScale = this.getSpeedScale();
+    const oldCoilSegmentSpeedScale = this.getCoilSegmentSpeedScale();
 
     // Reminder: For coilSegmentPosition, 0=endPoint, 1=startPoint.
     if ( coilSegmentPosition <= 0 ) {
 
-      // We've passed the end point, so move to the next curve. Wrap around if necessary.
+      // We've passed the end point, so move to the next segment. Wrap around if necessary.
       const coilSegmentIndex = this.coilSegmentIndex + 1;
       if ( coilSegmentIndex > this.coilSegments.length - 1 ) {
         this.coilSegmentIndex = 0;
@@ -193,13 +192,13 @@ export default class Electron {
         this.coilSegmentIndex = coilSegmentIndex;
       }
 
-      // Set the position on the curve.
-      const overshoot = Math.abs( coilSegmentPosition * this.getSpeedScale() / oldPathSpeedScale );
+      // Set the position on the coil segment.
+      const overshoot = Math.abs( coilSegmentPosition * this.getCoilSegmentSpeedScale() / oldCoilSegmentSpeedScale );
       coilSegmentPosition = 1.0 - overshoot;
 
-      // Did we overshoot the curve? If so, call this method recursively.
+      // Did we overshoot? If so, call this method recursively.
       if ( coilSegmentPosition < 0.0 ) {
-        this.switchCurves( coilSegmentPosition, recursionDepth + 1 );
+        this.moveToCoilSegment( coilSegmentPosition, recursionDepth + 1 );
       }
       else {
         this.coilSegmentPosition = coilSegmentPosition;
@@ -207,7 +206,7 @@ export default class Electron {
     }
     else if ( coilSegmentPosition >= 1.0 ) {
 
-      // We've passed the start point, so move to the previous curve. Wrap around if necessary.
+      // We've passed the start point, so move to the previous coil segment. Wrap around if necessary.
       const coilSegmentIndex = this.coilSegmentIndex - 1;
       if ( coilSegmentIndex < 0 ) {
         this.coilSegmentIndex = this.coilSegments.length - 1;
@@ -216,12 +215,12 @@ export default class Electron {
         this.coilSegmentIndex = coilSegmentIndex;
       }
 
-      // Set the position on the curve.
-      coilSegmentPosition = Math.abs( ( 1 - coilSegmentPosition ) * this.getSpeedScale() / oldPathSpeedScale );
+      // Set the position on the coil segment.
+      coilSegmentPosition = Math.abs( ( 1 - coilSegmentPosition ) * this.getCoilSegmentSpeedScale() / oldCoilSegmentSpeedScale );
 
-      // Did we overshoot the curve? If so, call this method recursively.
+      // Did we overshoot? If so, call this method recursively.
       if ( coilSegmentPosition > 1.0 ) {
-        this.switchCurves( coilSegmentPosition, recursionDepth + 1 );
+        this.moveToCoilSegment( coilSegmentPosition, recursionDepth + 1 );
       }
       else {
         this.coilSegmentPosition = coilSegmentPosition;
