@@ -69,8 +69,8 @@ type SelfOptions = {
   // Initial value of currentVisibleProperty.
   currentVisible?: boolean;
 
-  // Initial value of electronSpeedScaleProperty, a developer control.
-  electronSpeedScale?: number;
+  // Initial value of currentSpeedScaleProperty, a developer control.
+  currentSpeedScale?: number;
 };
 
 export type CoilOptions = SelfOptions & PickRequired<PhetioObjectOptions, 'tandem'>;
@@ -80,7 +80,7 @@ export default class Coil extends PhetioObject {
   // Normalized current is a value in the range [-1,1]. The magnitude describes the amount of current relative to the
   // maximum current that may be induced in the model. The sign indicates the direction of the current. View components
   // use this value to determine how they should respond to induced current. For example: deflection of the voltmeter
-  // needle, brightness of the light bulb, speed and direction of electrons.
+  // needle, brightness of the light bulb, speed and direction of current.
   // See https://github.com/phetsims/faradays-electromagnetic-lab/issues/63
   //
   // In the Java version, this was named currentAmplitudeProperty. Code reviewers pointed out that an amplitude is
@@ -112,17 +112,17 @@ export default class Coil extends PhetioObject {
   public readonly currentVisibleProperty: Property<boolean>;
 
   // DEBUG: Writeable via developer controls only, when running with &dev query parameter.
-  // Scale used for electron speed in the view.
-  public readonly electronSpeedScaleProperty: NumberProperty;
+  // For scaling the speed of current in the coil.
+  public readonly currentSpeedScaleProperty: NumberProperty;
 
   // Segments that describe the shape of the coil, from left to right.
   public readonly coilSegmentsProperty: TReadOnlyProperty<CoilSegment[]>;
 
   // Electrons that represent current flow in the coil
-  public readonly electronsProperty: TReadOnlyProperty<Electron[]>;
+  public readonly chargedParticlesProperty: TReadOnlyProperty<Electron[]>;
 
-  // Fires after electrons have moved.
-  public readonly electronsMovedEmitter: Emitter;
+  // Fires after charges have moved.
+  public readonly chargedParticlesMovedEmitter: Emitter;
 
   public constructor( normalizedCurrentProperty: TReadOnlyProperty<number>, normalizedCurrentRange: Range, providedOptions: CoilOptions ) {
     assert && assert( normalizedCurrentRange.equals( FELConstants.NORMALIZED_CURRENT_RANGE ) );
@@ -132,7 +132,7 @@ export default class Coil extends PhetioObject {
       // SelfOptions
       wireWidth: 16,
       loopSpacing: 8,
-      electronSpeedScale: 1,
+      currentSpeedScale: 1,
       currentVisible: true,
 
       // PhetioObjectOptions
@@ -193,7 +193,7 @@ export default class Coil extends PhetioObject {
       phetioFeatured: true
     } );
 
-    this.electronSpeedScaleProperty = new NumberProperty( options.electronSpeedScale, {
+    this.currentSpeedScaleProperty = new NumberProperty( options.currentSpeedScale, {
       range: new Range( 1, 100 )
       // Do not instrument. This is a PhET developer Property.
     } );
@@ -208,17 +208,17 @@ export default class Coil extends PhetioObject {
     this.coilSegmentsProperty.lazyLink( ( newCoilSegments, oldCoilSegments ) =>
       oldCoilSegments.forEach( coilSegment => coilSegment.dispose() ) );
 
-    this.electronsProperty = new DerivedProperty( [ this.coilSegmentsProperty ],
-      coilSegments => this.createCharges( coilSegments ), {
+    this.chargedParticlesProperty = new DerivedProperty( [ this.coilSegmentsProperty ],
+      coilSegments => this.createChargedParticles( coilSegments ), {
         // Erroneously identifies options to new Electron in createCharges as dependencies.
         strictAxonDependencies: false
       } );
 
-    // When a new set of Electrons is created, dispose of the old set.
-    this.electronsProperty.lazyLink( ( newElectrons, oldElectrons ) =>
-      oldElectrons.forEach( electron => electron.dispose() ) );
+    // When a new set of charges is created, dispose of the old set.
+    this.chargedParticlesProperty.lazyLink( ( newChargedParticles, oldChargedParticles ) =>
+      oldChargedParticles.forEach( chargedParticle => chargedParticle.dispose() ) );
 
-    this.electronsMovedEmitter = new Emitter();
+    this.chargedParticlesMovedEmitter = new Emitter();
   }
 
   public reset(): void {
@@ -230,10 +230,10 @@ export default class Coil extends PhetioObject {
 
   public step( dt: number ): void {
 
-    // Step the electrons if there's current flow in the coil, and the electrons are visible.
+    // Step the charges if there's current flow in the coil, and the current is visible.
     if ( this.normalizedCurrentProperty.value !== 0 && this.currentVisibleProperty.value ) {
-      this.electronsProperty.value.forEach( electron => electron.step( dt ) );
-      this.electronsMovedEmitter.emit();
+      this.chargedParticlesProperty.value.forEach( charge => charge.step( dt ) );
+      this.chargedParticlesMovedEmitter.emit();
     }
   }
 
@@ -263,7 +263,7 @@ export default class Coil extends PhetioObject {
     const xStart = -( loopCenterSpacing * ( numberOfLoops - 1 ) / 2 );
 
     // Create the wire ends & loops from left to right.
-    // Segments are created in the order that they would be visited by electron flow.
+    // Segments are created in the order that they would be visited by charges as current flows.
     for ( let i = 0; i < numberOfLoops; i++ ) {
 
       const xOffset = xStart + ( i * loopCenterSpacing );
@@ -388,9 +388,9 @@ export default class Coil extends PhetioObject {
   /**
    * Creates a set of charges to occupy coil segments.
    */
-  private createCharges( coilSegments: CoilSegment[] ): Electron[] {
+  private createChargedParticles( coilSegments: CoilSegment[] ): Electron[] {
 
-    const electrons: Electron[] = [];
+    const chargedParticles: Electron[] = [];
 
     // coilSegments is ordered from left to right. So these are the indices for the ends of the coil.
     const leftEndIndex = 0;
@@ -416,17 +416,17 @@ export default class Coil extends PhetioObject {
 
       // Add charges for this curve segment.
       for ( let i = 0; i < numberOfElectrons; i++ ) {
-        const electron = new Electron( this.normalizedCurrentProperty, this.normalizedCurrentRange, {
+        const chargedParticle = new Electron( this.normalizedCurrentProperty, this.normalizedCurrentRange, {
           coilSegments: coilSegments,
           coilSegmentIndex: coilSegmentIndex,
           coilSegmentPosition: i / numberOfElectrons,
-          speedScaleProperty: this.electronSpeedScaleProperty
+          speedScaleProperty: this.currentSpeedScaleProperty
         } );
-        electrons.push( electron );
+        chargedParticles.push( chargedParticle );
       }
     }
 
-    return electrons;
+    return chargedParticles;
   }
 }
 

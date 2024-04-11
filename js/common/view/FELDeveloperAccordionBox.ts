@@ -95,7 +95,7 @@ export default class FELDeveloperAccordionBox extends AccordionBox {
         new Text( 'Pickup Coil', SUBTITLE_OPTIONS ),
         new FELDeveloperNumberControl( 'Max EMF:', pickupCoil.maxEMFProperty, 0 /* decimalPlaces */ ),
         new FELDeveloperNumberControl( 'Transition Smoothing Scale:', pickupCoil.transitionSmoothingScaleProperty, 2 /* decimalPlaces */ ),
-        new FELDeveloperNumberControl( 'Electron Speed Scale:', pickupCoil.coil.electronSpeedScaleProperty, 1 /* decimalPlaces */ ),
+        new FELDeveloperNumberControl( 'Current Speed Scale:', pickupCoil.coil.currentSpeedScaleProperty, 1 /* decimalPlaces */ ),
         new FELDeveloperCheckbox( 'Sample Points', pickupCoil.samplePointsVisibleProperty ),
         new FELDeveloperCheckbox( 'Debugger Panel', pickupCoil.debuggerPanelVisibleProperty )
       ]

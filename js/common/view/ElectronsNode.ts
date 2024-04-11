@@ -70,7 +70,7 @@ export default class ElectronsNode extends Sprites {
     this.coilLayer = coilLayer;
 
     // When the set of charges changes, create a sprite instance for each charge.
-    coil.electronsProperty.link( electrons => this.createSpriteInstances( electrons ) );
+    coil.chargedParticlesProperty.link( electrons => this.createSpriteInstances( electrons ) );
 
     coil.coilSegmentsProperty.link( coilSegments => {
       const bounds = Bounds2.NOTHING.copy();
@@ -86,7 +86,7 @@ export default class ElectronsNode extends Sprites {
     } );
 
     // When the charges have moved, update the sprite instances.
-    coil.electronsMovedEmitter.addListener( () => this.updateSpriteInstances() );
+    coil.chargedParticlesMovedEmitter.addListener( () => this.updateSpriteInstances() );
 
     // Update the sprite and redraw.
     Multilink.multilink(

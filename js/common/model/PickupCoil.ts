@@ -36,7 +36,7 @@ type SelfOptions = {
   maxEMF: number; // the initial value of maxEMFProperty
   transitionSmoothingScale?: number; // the initial value of transitionSmoothingScaleProperty
   samplePointsStrategy: PickupCoilSamplePointsStrategy; // strategy used to populate B-field samplePoints
-  coilOptions?: PickOptional<CoilOptions, 'maxLoopArea' | 'loopAreaPercentRange' | 'electronSpeedScale'>; // passed to Coil
+  coilOptions?: PickOptional<CoilOptions, 'maxLoopArea' | 'loopAreaPercentRange' | 'currentSpeedScale'>; // passed to Coil
   lightBulbOptions?: PickOptional<LightBulbOptions, 'lightsWhenCurrentChangesDirection'>; // passed to LightBulb
   voltmeterOptions?: PickOptional<VoltmeterOptions, 'kinematicsEnabledProperty'>; // passed to Voltmeter
 };

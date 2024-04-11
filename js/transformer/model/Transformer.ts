@@ -54,7 +54,7 @@ export default class Transformer extends PhetioObject {
       samplePointsStrategy: new FixedSpacingSamplePointsStrategy( 5.4 ), // same as Java version
       coilOptions: {
         loopAreaPercentRange: new RangeWithValue( 20, 100, 75 ),
-        electronSpeedScale: 2
+        currentSpeedScale: 2
       },
       lightBulbOptions: {
         //TODO https://github.com/phetsims/faradays-electromagnetic-lab/issues/152 document why

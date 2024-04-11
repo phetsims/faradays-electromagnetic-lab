@@ -61,7 +61,7 @@ export default class PickupCoilScreenModel extends FELScreenModel {
       transitionSmoothingScale: 0.77, // see PickupCoil.transitionSmoothingScaleProperty
       samplePointsStrategy: new FixedSpacingSamplePointsStrategy( barMagnet.size.height / 10 ),
       coilOptions: {
-        electronSpeedScale: 3
+        currentSpeedScale: 3
       },
       tandem: tandem.createTandem( 'pickupCoil' )
     } );
