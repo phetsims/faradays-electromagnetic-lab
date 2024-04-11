@@ -17,7 +17,7 @@ import Checkbox, { CheckboxOptions } from '../../../../sun/js/Checkbox.js';
 import NumberOfLoopsControl from './NumberOfLoopsControl.js';
 import Electromagnet from '../model/Electromagnet.js';
 import CurrentSourceControl from './CurrentSourceControl.js';
-import ElectronsCheckbox from './ElectronsCheckbox.js';
+import CurrentCheckbox from './CurrentCheckbox.js';
 
 export default class ElectromagnetPanel extends Panel {
 
@@ -39,7 +39,7 @@ export default class ElectromagnetPanel extends Panel {
       } ) );
 
     // 'Electrons' checkbox
-    const electronsCheckbox = new ElectronsCheckbox( electromagnet.coil.electronsVisibleProperty,
+    const electronsCheckbox = new CurrentCheckbox( electromagnet.coil.electronsVisibleProperty,
       tandem.createTandem( 'electronsCheckbox' ) );
 
     const contentChildren: Node[] = [

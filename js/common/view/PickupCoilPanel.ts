@@ -17,7 +17,7 @@ import PickupCoil from '../model/PickupCoil.js';
 import LoopAreaControl from './LoopAreaControl.js';
 import NumberOfLoopsControl from './NumberOfLoopsControl.js';
 import CurrentIndicatorControl from './CurrentIndicatorControl.js';
-import ElectronsCheckbox from './ElectronsCheckbox.js';
+import CurrentCheckbox from './CurrentCheckbox.js';
 
 export default class PickupCoilPanel extends Panel {
 
@@ -35,7 +35,7 @@ export default class PickupCoilPanel extends Panel {
       tandem.createTandem( 'loopAreaControl' ) );
 
     // 'Electrons' checkbox
-    const electronsCheckbox = new ElectronsCheckbox( pickupCoil.coil.electronsVisibleProperty,
+    const electronsCheckbox = new CurrentCheckbox( pickupCoil.coil.electronsVisibleProperty,
       tandem.createTandem( 'electronsCheckbox' ) );
 
     const contentChildren: Node[] = [
