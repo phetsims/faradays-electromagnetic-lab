@@ -38,16 +38,16 @@ export default class ElectromagnetPanel extends Panel {
         tandem: tandem.createTandem( 'magneticFieldCheckbox' )
       } ) );
 
-    // 'Electrons' checkbox
-    const electronsCheckbox = new CurrentCheckbox( electromagnet.coil.electronsVisibleProperty,
-      tandem.createTandem( 'electronsCheckbox' ) );
+    // 'Electrons' or 'Conventional Current' checkbox
+    const currentCheckbox = new CurrentCheckbox( electromagnet.coil.electronsVisibleProperty,
+      tandem.createTandem( 'currentCheckbox' ) );
 
     const contentChildren: Node[] = [
       titleText,
       currentSourceControl,
       numberOfLoopsControl,
       magneticFieldCheckbox,
-      electronsCheckbox
+      currentCheckbox
     ];
 
     const content = new VBox( combineOptions<VBoxOptions>( {}, FELConstants.VBOX_OPTIONS, {

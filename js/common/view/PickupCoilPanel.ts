@@ -34,16 +34,16 @@ export default class PickupCoilPanel extends Panel {
     const loopAreaControl = new LoopAreaControl( pickupCoil.coil.loopAreaPercentProperty,
       tandem.createTandem( 'loopAreaControl' ) );
 
-    // 'Electrons' checkbox
-    const electronsCheckbox = new CurrentCheckbox( pickupCoil.coil.electronsVisibleProperty,
-      tandem.createTandem( 'electronsCheckbox' ) );
+    // 'Electrons' or 'Conventional Current' checkbox
+    const currentCheckbox = new CurrentCheckbox( pickupCoil.coil.electronsVisibleProperty,
+      tandem.createTandem( 'currentCheckbox' ) );
 
     const contentChildren: Node[] = [
       titleText,
       currentIndicatorControl,
       numberOfLoopsControl,
       loopAreaControl,
-      electronsCheckbox
+      currentCheckbox
     ];
 
     const content = new VBox( combineOptions<VBoxOptions>( {}, FELConstants.VBOX_OPTIONS, {
