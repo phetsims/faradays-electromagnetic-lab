@@ -11,23 +11,22 @@ import Sim from '../../../joist/js/Sim.js';
 import TReadOnlyProperty from '../../../axon/js/TReadOnlyProperty.js';
 import FELConstants from './FELConstants.js';
 import PreferencesModel from '../../../joist/js/preferences/PreferencesModel.js';
-import FELPreferencesNode from './view/preferences/FELPreferencesNode.js';
+import FELPreferencesNode, { FELPreferencesNodeOptions } from './view/preferences/FELPreferencesNode.js';
 import BarMagnetScreen from '../bar-magnet/BarMagnetScreen.js';
 import PickupCoilScreen from '../pickup-coil/PickupCoilScreen.js';
 import ElectromagnetScreen from '../electromagnet/ElectromagnetScreen.js';
 import TransformerScreen from '../transformer/TransformerScreen.js';
 import GeneratorScreen from '../generator/GeneratorScreen.js';
+import { combineOptions } from '../../../phet-core/js/optionize.js';
+import StrictOmit from '../../../phet-core/js/types/StrictOmit.js';
 
 type FELScreen = BarMagnetScreen | PickupCoilScreen | ElectromagnetScreen | TransformerScreen | GeneratorScreen;
 
 export default class FELSim extends Sim {
 
-  /**
-   * @param titleStringProperty
-   * @param screens
-   * @param hasEarthFeature - Whether the sim has the feature that shows the alignment of a bar magnet with planet Earth.
-   */
-  public constructor( titleStringProperty: TReadOnlyProperty<string>, screens: FELScreen[], hasEarthFeature = true ) {
+  public constructor( titleStringProperty: TReadOnlyProperty<string>,
+                      screens: FELScreen[],
+                      preferencesOptions?: StrictOmit<FELPreferencesNodeOptions, 'tandem'> ) {
 
     super( titleStringProperty, screens, {
       webgl: true, // Enabled for high-performance scenery.Sprites
@@ -43,10 +42,9 @@ export default class FELSim extends Sim {
         },
         simulationOptions: {
           customPreferences: [ {
-            createContent: tandem => new FELPreferencesNode( {
-              hasEarthFeature: hasEarthFeature,
+            createContent: tandem => new FELPreferencesNode( combineOptions<FELPreferencesNodeOptions>( {
               tandem: tandem
-            } )
+            }, preferencesOptions ) )
           } ]
         }
       } )

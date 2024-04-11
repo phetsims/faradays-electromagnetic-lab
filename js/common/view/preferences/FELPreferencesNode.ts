@@ -19,11 +19,14 @@ import CurrentFlowPreferencesControl from './CurrentFlowPreferencesControl.js';
 
 type SelfOptions = {
 
+  // Whether the sim has the feature for changing the convention for current flow.
+  hasCurrentFlowFeature?: boolean;
+
   // Whether the sim has the feature that shows the alignment of a bar magnet with planet Earth.
   hasEarthFeature?: boolean;
 };
 
-type FELPreferencesNodeOptions = SelfOptions & PickRequired<VBoxOptions, 'tandem'>;
+export type FELPreferencesNodeOptions = SelfOptions & PickRequired<VBoxOptions, 'tandem'>;
 
 export default class FELPreferencesNode extends VBox {
 
@@ -32,6 +35,7 @@ export default class FELPreferencesNode extends VBox {
     const options = optionize<FELPreferencesNodeOptions, SelfOptions, VBoxOptions>()( {
 
       // SelfOptions
+      hasCurrentFlowFeature: true,
       hasEarthFeature: true,
 
       // VBoxOptions
@@ -48,9 +52,11 @@ export default class FELPreferencesNode extends VBox {
       options.tandem.createTandem( 'magneticUnitsPreferencesControl' ) );
     children.push( magneticUnitsPreferencesControl );
 
-    const currentFlowPreferencesControl = new CurrentFlowPreferencesControl( FELPreferences.currentFlowProperty,
-      options.tandem.createTandem( 'currentFlowPreferencesControl' ) );
-    children.push( currentFlowPreferencesControl );
+    if ( options.hasCurrentFlowFeature ) {
+      const currentFlowPreferencesControl = new CurrentFlowPreferencesControl( FELPreferences.currentFlowProperty,
+        options.tandem.createTandem( 'currentFlowPreferencesControl' ) );
+      children.push( currentFlowPreferencesControl );
+    }
 
     if ( options.hasEarthFeature ) {
 
