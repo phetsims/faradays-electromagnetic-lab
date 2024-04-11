@@ -17,6 +17,9 @@ import Coil, { CoilLayer } from '../model/Coil.js';
 import Bounds2 from '../../../../dot/js/Bounds2.js';
 import Multilink from '../../../../axon/js/Multilink.js';
 import ElectronNode from './ElectronNode.js';
+import { CurrentType } from '../FELQueryParameters.js';
+import FELPreferences from '../model/FELPreferences.js';
+import PositiveChargeNode from './PositiveChargeNode.js';
 
 // Scale up by this much to improve resolution.
 const ELECTRON_RESOLUTION_SCALE = 8;
@@ -26,6 +29,8 @@ const ELECTRON_INVERSE_SCALE = 1 / ELECTRON_RESOLUTION_SCALE;
 
 const electronColorProperty = FELColors.electronColorProperty;
 const electronMinusColorProperty = FELColors.electronMinusColorProperty;
+const positiveChargeColorProperty = FELColors.positiveChargeColorProperty;
+const positiveChargePlusColorProperty = FELColors.positiveChargePlusColorProperty;
 
 export default class ElectronsNode extends Sprites {
 
@@ -40,10 +45,14 @@ export default class ElectronsNode extends Sprites {
 
   public constructor( coilLayer: CoilLayer, coil: Coil ) {
 
-    // Convert an ElectronNode to a Sprite.
-    const sprite = new Sprite( ElectronsNode.getSpriteImage( electronColorProperty.value, electronMinusColorProperty.value ) );
+    // Convert the Sprite used to represent current.
+    const sprite = new Sprite( ElectronsNode.getSpriteImage(
+      FELPreferences.currentTypeProperty.value,
+      electronColorProperty.value, electronMinusColorProperty.value,
+      positiveChargeColorProperty.value, positiveChargePlusColorProperty.value
+    ) );
 
-    // To be populated by this.ElectronSpriteInstance
+    // To be populated by this.ElectronSpriteInstance.
     const spriteInstances: ElectronSpriteInstance[] = [];
 
     super( {
@@ -69,7 +78,7 @@ export default class ElectronsNode extends Sprites {
         coilSegment.expandBoundsToFit( bounds );
       }
 
-      // Make sure the bounds are large enough to contain the electrons.
+      // Make sure the bounds are large enough to contain the SpriteInstances.
       bounds.dilate( ElectronNode.DIAMETER / 2 );
 
       this.canvasBounds = bounds;
@@ -78,10 +87,11 @@ export default class ElectronsNode extends Sprites {
     // When the electrons have moved, update the sprite instances.
     coil.electronsMovedEmitter.addListener( () => this.updateSpriteInstances() );
 
-    // If the electron colors change, update the sprite and redraw.
-    Multilink.multilink( [ electronColorProperty, electronMinusColorProperty ],
-      ( electronColor, electronMinusColor ) => {
-        sprite.imageProperty.value = ElectronsNode.getSpriteImage( electronColor, electronMinusColor );
+    // Update the sprite and redraw.
+    Multilink.multilink(
+      [ FELPreferences.currentTypeProperty, electronColorProperty, electronMinusColorProperty, positiveChargeColorProperty, positiveChargePlusColorProperty ],
+      ( currentType, electronColor, electronMinusColor, positiveChargeColor, positiveChargePlusColor ) => {
+        sprite.imageProperty.value = ElectronsNode.getSpriteImage( currentType, electronColor, electronMinusColor, positiveChargeColor, positiveChargePlusColor );
         this.invalidatePaint();
       } );
   }
@@ -113,17 +123,25 @@ export default class ElectronsNode extends Sprites {
   /**
    * Gets the SpriteImage used to visualize an electron.
    */
-  private static getSpriteImage( electronColor: Color, electronMinusColor: Color ): SpriteImage {
+  private static getSpriteImage( currentType: CurrentType,
+                                 electronColor: Color, electronMinusColor: Color,
+                                 positiveChargeColor: Color, positiveChargePlusColor: Color ): SpriteImage {
 
-    const electronNode = new ElectronNode( {
-      color: electronColor,
-      minusColor: electronMinusColor,
-      scale: ELECTRON_RESOLUTION_SCALE
-    } );
+    const node = ( currentType === 'electron' ) ?
+                 new ElectronNode( {
+                   color: electronColor,
+                   minusColor: electronMinusColor,
+                   scale: ELECTRON_RESOLUTION_SCALE
+                 } ) :
+                 new PositiveChargeNode( {
+                   color: positiveChargeColor,
+                   plusColor: positiveChargePlusColor,
+                   scale: ELECTRON_RESOLUTION_SCALE
+                 } );
 
     let spriteImage: SpriteImage | null = null;
-    electronNode.toCanvas( ( canvas, x, y, width, height ) => {
-      spriteImage = new SpriteImage( canvas, new Vector2( ( x + electronNode.centerX ), ( y + electronNode.centerY ) ), {
+    node.toCanvas( ( canvas, x, y, width, height ) => {
+      spriteImage = new SpriteImage( canvas, new Vector2( ( x + node.centerX ), ( y + node.centerY ) ), {
 
         // Mipmapping was added to address pixelation reported in https://github.com/phetsims/faradays-electromagnetic-lab/issues/121
         mipmap: true,
@@ -177,8 +195,8 @@ class ElectronSpriteInstance extends SpriteInstance {
       );
       assert && assert( this.matrix.isFinite(), 'matrix should be finite' );
 
-      // Show the electron.
-      this.alpha = 1;
+      // Show foreground more prominently than background.
+      this.alpha = ( this.coilLayer === 'foreground' ) ? 1 : 0.5;
     }
     else {
 

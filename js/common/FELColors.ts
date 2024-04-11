@@ -131,6 +131,14 @@ const FELColors = {
     default: 'white'
   } ),
 
+  positiveChargeColorProperty: new ProfileColorProperty( faradaysElectromagneticLab, 'positiveChargeColor', {
+    default: 'red'
+  } ),
+
+  positiveChargePlusColorProperty: new ProfileColorProperty( faradaysElectromagneticLab, 'positiveChargePlusColor', {
+    default: 'white'
+  } ),
+
   coilFrontColorProperty: new ProfileColorProperty( faradaysElectromagneticLab, 'coilFrontColor', {
     default: 'rgb( 191, 128, 64 )'
   } ),

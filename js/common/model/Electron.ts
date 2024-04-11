@@ -23,6 +23,7 @@ import FELConstants from '../FELConstants.js';
 import Utils from '../../../../dot/js/Utils.js';
 import ConstantDtClock from './ConstantDtClock.js';
 import { CoilLayer } from './Coil.js';
+import FELPreferences from './FELPreferences.js';
 
 // Maximum distance along a coil segment that can be traveled in one clock tick.
 const MAX_COIL_SEGMENT_POSITION_DELTA = 0.15;
@@ -134,10 +135,16 @@ export default class Electron {
 
     if ( this.speedAndDirection !== 0 ) {
 
-      // Move the electron along the path. coilSegmentPosition is 1=start and 0=end, so we subtract the delta here.
-      const deltaPosition = dt * MAX_COIL_SEGMENT_POSITION_DELTA * this.speedAndDirection *
+      // If modeling conventional current, then flow in the opposite direction. This is not physically correct for
+      // electrons, but we will be using a different representation in the UI for conventional current.
+      // Note that coilSegmentPosition is 1=start and 0=end, so -1 corresponds to electrons flow.
+      // See https://github.com/phetsims/faradays-electromagnetic-lab/issues/136.
+      const sign = ( FELPreferences.currentTypeProperty.value === 'electron' ) ? -1 : 1;
+
+      const deltaPosition = sign * dt * MAX_COIL_SEGMENT_POSITION_DELTA * this.speedAndDirection *
                             this.speedScaleProperty.value * this.getCoilSegmentSpeedScale();
-      const newPosition = this.coilSegmentPosition - deltaPosition;
+
+      const newPosition = this.coilSegmentPosition + deltaPosition;
 
       // Do we need to move to the next/previous coil segment?
       if ( newPosition <= 0 || newPosition >= 1 ) {
