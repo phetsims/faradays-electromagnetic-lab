@@ -68,18 +68,17 @@ export default class Generator extends PhetioObject {
     // instantiation requires Turbine, so we have circular dependencies. Responsibility for setting dragFactorProperty
     // therefore lives here in Generator. See https://github.com/phetsims/faradays-electromagnetic-lab/issues/11
     const numberOfLoopsRange = this.pickupCoil.coil.numberOfLoopsProperty.range;
-    const loopRadiusRange = this.pickupCoil.coil.loopRadiusRange;
-    const maxArea = numberOfLoopsRange.max * Math.PI * loopRadiusRange.max * loopRadiusRange.max;
-    const minArea = numberOfLoopsRange.min * Math.PI * loopRadiusRange.min * loopRadiusRange.min;
+    const loopAreaRange = this.pickupCoil.coil.loopAreaRange;
+    const minArea = numberOfLoopsRange.min * loopAreaRange.min;
+    const maxArea = numberOfLoopsRange.max * loopAreaRange.max;
     const maxDragFactor = this.turbine.dragFactorProperty.range.max;
     const minDragFactor = ( minArea / maxArea ) * maxDragFactor; // non-zero loop area must have non-zero drag factor
-    //TODO https://github.com/phetsims/faradays-electromagnetic-lab/issues/156 Make Coil.loopAreaProperty public and use it here?
     Multilink.multilink(
-      [ this.pickupCoil.coil.numberOfLoopsProperty, this.pickupCoil.coil.loopRadiusProperty, this.turbine.barMagnet.strengthPercentProperty ],
-      ( numberOfLoops, loopRadius, magnetStrengthPercent ) => {
-        const area = numberOfLoops * Math.PI * loopRadius * loopRadius;
+      [ this.pickupCoil.coil.numberOfLoopsProperty, this.pickupCoil.coil.loopAreaProperty, this.turbine.barMagnet.strengthPercentProperty ],
+      ( numberOfLoops, loopArea, magnetStrengthPercent ) => {
+        const A = numberOfLoops * loopArea;
         this.turbine.dragFactorProperty.value =
-          ( magnetStrengthPercent / 100 ) * Utils.linear( minArea, maxArea, minDragFactor, maxDragFactor, area );
+          ( magnetStrengthPercent / 100 ) * Utils.linear( minArea, maxArea, minDragFactor, maxDragFactor, A );
       } );
   }
 

@@ -100,6 +100,10 @@ export default class Coil extends PhetioObject {
   // Percent of maximum area for one loop
   public readonly loopAreaPercentProperty: NumberProperty;
 
+  // Area of one loop
+  public readonly loopAreaProperty: TReadOnlyProperty<number>;
+  public readonly loopAreaRange: Range;
+
   // Radius of one loop
   public readonly loopRadiusProperty: TReadOnlyProperty<number>;
   public readonly loopRadiusRange: Range;
@@ -163,8 +167,12 @@ export default class Coil extends PhetioObject {
       phetioFeatured: true
     } );
 
-    // Provided for PhET-iO
-    const loopAreaProperty = new DerivedProperty( [ this.loopAreaPercentProperty ],
+    this.loopAreaRange = new Range(
+      ( this.loopAreaPercentProperty.range.min / 100 ) * options.maxLoopArea,
+      ( this.loopAreaPercentProperty.range.max / 100 ) * options.maxLoopArea
+    );
+
+    this.loopAreaProperty = new DerivedProperty( [ this.loopAreaPercentProperty ],
       loopAreaPercent => ( loopAreaPercent / 100 ) * options.maxLoopArea, {
         tandem: options.tandem.createTandem( 'loopAreaProperty' ),
         phetioValueType: NumberIO,
@@ -173,11 +181,11 @@ export default class Coil extends PhetioObject {
 
     // Convert range from area to radius: r = sqrt( A / PI )
     this.loopRadiusRange = new Range(
-      Math.sqrt( ( this.loopAreaPercentProperty.range.min / 100 ) * options.maxLoopArea / Math.PI ),
-      Math.sqrt( ( this.loopAreaPercentProperty.range.max / 100 ) * options.maxLoopArea / Math.PI )
+      Math.sqrt( this.loopAreaRange.min / Math.PI ),
+      Math.sqrt( this.loopAreaRange.max / Math.PI )
     );
 
-    this.loopRadiusProperty = new DerivedProperty( [ loopAreaProperty ],
+    this.loopRadiusProperty = new DerivedProperty( [ this.loopAreaProperty ],
       loopArea => Math.sqrt( loopArea / Math.PI ) );
 
     this.electronsVisibleProperty = new BooleanProperty( options.electronsVisible, {
