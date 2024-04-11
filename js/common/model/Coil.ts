@@ -416,14 +416,10 @@ export default class Coil extends PhetioObject {
 
       // Add electrons for this curve segment.
       for ( let i = 0; i < numberOfElectrons; i++ ) {
-
-        const coilSegmentPosition = i / numberOfElectrons;
-
-        // Model
         const electron = new Electron( this.normalizedCurrentProperty, this.normalizedCurrentRange, {
           coilSegments: coilSegments,
           coilSegmentIndex: coilSegmentIndex,
-          coilSegmentPosition: coilSegmentPosition,
+          coilSegmentPosition: i / numberOfElectrons,
           speedScaleProperty: this.electronSpeedScaleProperty
         } );
         electrons.push( electron );
