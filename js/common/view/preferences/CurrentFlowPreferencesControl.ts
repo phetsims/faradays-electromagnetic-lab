@@ -1,8 +1,8 @@
 // Copyright 2024, University of Colorado Boulder
 
 /**
- * CurrentFlowPreferencesControl is the control in the Preferences dialog for choosing the current type: either
- * 'Electron' or 'Conventional'. See https://github.com/phetsims/faradays-electromagnetic-lab/issues/136.
+ * CurrentFlowPreferencesControl is the control in the Preferences dialog for choosing the convention used for
+ * current flow. See https://github.com/phetsims/faradays-electromagnetic-lab/issues/136.
  *
  * @author Chris Malley (PixelZoom, Inc.)
  */
@@ -31,7 +31,7 @@ export default class CurrentFlowPreferencesControl extends PreferencesControl {
       maxWidth: FELConstants.PREFERENCES_LABEL_MAX_WIDTH
     } );
 
-    const radioButtonGroup = new CurrentTypeRadioButtonGroup( currentFlowProperty,
+    const radioButtonGroup = new CurrentFlowRadioButtonGroup( currentFlowProperty,
       tandem.createTandem( 'radioButtonGroup' ) );
 
     super( combineOptions<PreferencesControlOptions>( {}, FELConstants.PREFERENCES_CONTROL_OPTIONS, {
@@ -45,20 +45,20 @@ export default class CurrentFlowPreferencesControl extends PreferencesControl {
 /**
  * The radio button group for this control.
  */
-class CurrentTypeRadioButtonGroup extends AquaRadioButtonGroup<CurrentFlow> {
+class CurrentFlowRadioButtonGroup extends AquaRadioButtonGroup<CurrentFlow> {
 
   public constructor( currentFlowProperty: StringUnionProperty<CurrentFlow>, tandem: Tandem ) {
 
     const items: AquaRadioButtonGroupItem<CurrentFlow>[] = [
       {
         value: 'electron',
-        createNode: radioButtonTandem => new CurrentTypeRadioButtonText( FaradaysElectromagneticLabStrings.electronPreferenceStringProperty,
+        createNode: radioButtonTandem => new CurrentFlowRadioButtonText( FaradaysElectromagneticLabStrings.electronPreferenceStringProperty,
           ElectronNode.createIcon( 1.5 ), radioButtonTandem ),
         tandemName: 'electronRadioButton'
       },
       {
         value: 'conventional',
-        createNode: radioButtonTandem => new CurrentTypeRadioButtonText( FaradaysElectromagneticLabStrings.conventionalPreferenceStringProperty,
+        createNode: radioButtonTandem => new CurrentFlowRadioButtonText( FaradaysElectromagneticLabStrings.conventionalPreferenceStringProperty,
           PositiveChargeNode.createIcon( 1.5 ), radioButtonTandem ),
         tandemName: 'conventionalRadioButton'
       }
@@ -79,7 +79,7 @@ class CurrentTypeRadioButtonGroup extends AquaRadioButtonGroup<CurrentFlow> {
 /**
  * Label for a radio button.
  */
-class CurrentTypeRadioButtonText extends HBox {
+class CurrentFlowRadioButtonText extends HBox {
 
   public constructor( stringProperty: TReadOnlyProperty<string>, icon: Node, radioButtonTandem: Tandem ) {
 
