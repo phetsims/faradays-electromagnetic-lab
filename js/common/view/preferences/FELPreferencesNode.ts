@@ -48,9 +48,9 @@ export default class FELPreferencesNode extends VBox {
       options.tandem.createTandem( 'magneticUnitsPreferencesControl' ) );
     children.push( magneticUnitsPreferencesControl );
 
-    const currentTypePreferencesControl = new CurrentTypePreferencesControl( FELPreferences.currentTypeProperty,
-      options.tandem.createTandem( 'currentTypePreferencesControl' ) );
-    children.push( currentTypePreferencesControl );
+    const currentFlowPreferencesControl = new CurrentTypePreferencesControl( FELPreferences.currentFlowProperty,
+      options.tandem.createTandem( 'currentFlowPreferencesControl' ) );
+    children.push( currentFlowPreferencesControl );
 
     if ( options.hasEarthFeature ) {
 

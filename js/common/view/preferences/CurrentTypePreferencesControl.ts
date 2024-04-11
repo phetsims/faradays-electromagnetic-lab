@@ -16,7 +16,7 @@ import PreferencesControl, { PreferencesControlOptions } from '../../../../../jo
 import FaradaysElectromagneticLabStrings from '../../../FaradaysElectromagneticLabStrings.js';
 import faradaysElectromagneticLab from '../../../faradaysElectromagneticLab.js';
 import AquaRadioButtonGroup, { AquaRadioButtonGroupItem } from '../../../../../sun/js/AquaRadioButtonGroup.js';
-import { CurrentType } from '../../FELQueryParameters.js';
+import { CurrentFlow } from '../../FELQueryParameters.js';
 import FELConstants from '../../FELConstants.js';
 import { combineOptions } from '../../../../../phet-core/js/optionize.js';
 import ElectronNode from '../ElectronNode.js';
@@ -24,14 +24,14 @@ import PositiveChargeNode from '../PositiveChargeNode.js';
 
 export default class CurrentTypePreferencesControl extends PreferencesControl {
 
-  public constructor( currentTypeProperty: StringUnionProperty<CurrentType>, tandem: Tandem ) {
+  public constructor( currentFlowProperty: StringUnionProperty<CurrentFlow>, tandem: Tandem ) {
 
-    const labelText = new Text( FaradaysElectromagneticLabStrings.currentTypeStringProperty, {
+    const labelText = new Text( FaradaysElectromagneticLabStrings.currentFlowStringProperty, {
       font: FELConstants.PREFERENCES_LABEL_FONT,
       maxWidth: FELConstants.PREFERENCES_LABEL_MAX_WIDTH
     } );
 
-    const radioButtonGroup = new CurrentTypeRadioButtonGroup( currentTypeProperty,
+    const radioButtonGroup = new CurrentTypeRadioButtonGroup( currentFlowProperty,
       tandem.createTandem( 'radioButtonGroup' ) );
 
     super( combineOptions<PreferencesControlOptions>( {}, FELConstants.PREFERENCES_CONTROL_OPTIONS, {
@@ -45,11 +45,11 @@ export default class CurrentTypePreferencesControl extends PreferencesControl {
 /**
  * The radio button group for this control.
  */
-class CurrentTypeRadioButtonGroup extends AquaRadioButtonGroup<CurrentType> {
+class CurrentTypeRadioButtonGroup extends AquaRadioButtonGroup<CurrentFlow> {
 
-  public constructor( currentTypeProperty: StringUnionProperty<CurrentType>, tandem: Tandem ) {
+  public constructor( currentFlowProperty: StringUnionProperty<CurrentFlow>, tandem: Tandem ) {
 
-    const items: AquaRadioButtonGroupItem<CurrentType>[] = [
+    const items: AquaRadioButtonGroupItem<CurrentFlow>[] = [
       {
         value: 'electron',
         createNode: radioButtonTandem => new CurrentTypeRadioButtonText( FaradaysElectromagneticLabStrings.electronPreferenceStringProperty,
@@ -64,7 +64,7 @@ class CurrentTypeRadioButtonGroup extends AquaRadioButtonGroup<CurrentType> {
       }
     ];
 
-    super( currentTypeProperty, items, {
+    super( currentFlowProperty, items, {
       orientation: 'horizontal',
       spacing: 25,
       radioButtonOptions: {

@@ -17,7 +17,7 @@ import Tandem from '../../../../tandem/js/Tandem.js';
 import DerivedProperty from '../../../../axon/js/DerivedProperty.js';
 import FELPreferences from '../model/FELPreferences.js';
 import ToggleNode from '../../../../sun/js/ToggleNode.js';
-import { CurrentType } from '../FELQueryParameters.js';
+import { CurrentFlow } from '../FELQueryParameters.js';
 import ElectronNode from './ElectronNode.js';
 import PositiveChargeNode from './PositiveChargeNode.js';
 
@@ -26,13 +26,13 @@ export default class CurrentCheckbox extends Checkbox {
   public constructor( currentVisibleProperty: Property<boolean>, tandem: Tandem ) {
 
     const stringProperty = new DerivedProperty(
-      [ FELPreferences.currentTypeProperty, FaradaysElectromagneticLabStrings.electronsStringProperty, FaradaysElectromagneticLabStrings.conventionalCurrentStringProperty ],
-      ( currentType, electronsString, conventionalCurrentString ) =>
-        ( currentType === 'electron' ) ? electronsString : conventionalCurrentString );
+      [ FELPreferences.currentFlowProperty, FaradaysElectromagneticLabStrings.electronsStringProperty, FaradaysElectromagneticLabStrings.conventionalCurrentStringProperty ],
+      ( currentFlow, electronsString, conventionalCurrentString ) =>
+        ( currentFlow === 'electron' ) ? electronsString : conventionalCurrentString );
 
     const textNode = new Text( stringProperty, FELConstants.CHECKBOX_TEXT_OPTIONS );
 
-    const iconToggleNode = new ToggleNode<CurrentType>( FELPreferences.currentTypeProperty, [
+    const iconToggleNode = new ToggleNode<CurrentFlow>( FELPreferences.currentFlowProperty, [
       {
         value: 'electron',
         createNode: tandemName => ElectronNode.createIcon( 1.5 )

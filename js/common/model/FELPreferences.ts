@@ -11,7 +11,7 @@ import faradaysElectromagneticLab from '../../faradaysElectromagneticLab.js';
 import BooleanProperty from '../../../../axon/js/BooleanProperty.js';
 import Tandem from '../../../../tandem/js/Tandem.js';
 import StringUnionProperty from '../../../../axon/js/StringUnionProperty.js';
-import FELQueryParameters, { CurrentType, CurrentTypeValues, EarthHemisphere, EarthHemisphereValues, MagneticUnits, MagneticUnitsValues } from '../FELQueryParameters.js';
+import FELQueryParameters, { CurrentFlow, CurrentFlowValues, EarthHemisphere, EarthHemisphereValues, MagneticUnits, MagneticUnitsValues } from '../FELQueryParameters.js';
 
 const FELPreferences = {
 
@@ -22,10 +22,10 @@ const FELPreferences = {
     phetioFeatured: true
   } ),
 
-  // Current type to be displayed for the coils.
-  currentTypeProperty: new StringUnionProperty<CurrentType>( FELQueryParameters.currentType as CurrentType, {
-    validValues: CurrentTypeValues,
-    tandem: Tandem.PREFERENCES.createTandem( 'currentTypeProperty' ),
+  // The representation used for current flow in the coils.
+  currentFlowProperty: new StringUnionProperty<CurrentFlow>( FELQueryParameters.currentFlow as CurrentFlow, {
+    validValues: CurrentFlowValues,
+    tandem: Tandem.PREFERENCES.createTandem( 'currentFlowProperty' ),
     phetioFeatured: true
   } ),
 

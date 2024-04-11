@@ -3,7 +3,7 @@
 /**
  * ChargedParticle is the model of a charged particle (aka 'charge') that moves through a coil. The path through the
  * coil is described by an ordered set of CoilSegment instances, each of which is a segment of the coil. The selected
- * current convention (see FELPreferences.currentTypeProperty) determines whether the charge behaves like an electron
+ * current convention (see FELPreferences.currentFlowProperty) determines whether the charge behaves like an electron
  * or an imaginary positive charge.
  *
  * Note that ChargedParticle is NOT instrumented for PhET-iO. The exact positions of charges are not significant.
@@ -140,7 +140,7 @@ export default class ChargedParticle {
       // Sign depends on the current convention being used.
       // Note that coilSegmentPosition is 1=start and 0=end, so -1 corresponds to electron flow.
       // See https://github.com/phetsims/faradays-electromagnetic-lab/issues/136.
-      const sign = ( FELPreferences.currentTypeProperty.value === 'electron' ) ? -1 : 1;
+      const sign = ( FELPreferences.currentFlowProperty.value === 'electron' ) ? -1 : 1;
 
       const deltaPosition = sign * dt * MAX_COIL_SEGMENT_POSITION_DELTA * this.speedAndDirection *
                             this.speedScaleProperty.value * this.getCoilSegmentSpeedScale();

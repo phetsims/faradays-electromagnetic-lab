@@ -61,7 +61,7 @@ type StringsType = {
   'magneticUnitsStringProperty': LocalizedStringProperty;
   'gaussPreferenceStringProperty': LocalizedStringProperty;
   'teslaPreferenceStringProperty': LocalizedStringProperty;
-  'currentTypeStringProperty': LocalizedStringProperty;
+  'currentFlowStringProperty': LocalizedStringProperty;
   'electronPreferenceStringProperty': LocalizedStringProperty;
   'conventionalPreferenceStringProperty': LocalizedStringProperty;
   'addEarthCheckboxStringProperty': LocalizedStringProperty;

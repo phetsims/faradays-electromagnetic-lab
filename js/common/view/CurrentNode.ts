@@ -18,7 +18,7 @@ import Coil, { CoilLayer } from '../model/Coil.js';
 import Bounds2 from '../../../../dot/js/Bounds2.js';
 import Multilink from '../../../../axon/js/Multilink.js';
 import ElectronNode from './ElectronNode.js';
-import { CurrentType } from '../FELQueryParameters.js';
+import { CurrentFlow } from '../FELQueryParameters.js';
 import FELPreferences from '../model/FELPreferences.js';
 import PositiveChargeNode from './PositiveChargeNode.js';
 
@@ -48,7 +48,7 @@ export default class CurrentNode extends Sprites {
 
     // Convert the Sprite used to represent current.
     const sprite = new Sprite( CurrentNode.getSpriteImage(
-      FELPreferences.currentTypeProperty.value,
+      FELPreferences.currentFlowProperty.value,
       electronColorProperty.value, electronMinusColorProperty.value,
       positiveChargeColorProperty.value, positiveChargePlusColorProperty.value
     ) );
@@ -90,9 +90,9 @@ export default class CurrentNode extends Sprites {
 
     // Update the sprite and redraw.
     Multilink.multilink(
-      [ FELPreferences.currentTypeProperty, electronColorProperty, electronMinusColorProperty, positiveChargeColorProperty, positiveChargePlusColorProperty ],
-      ( currentType, electronColor, electronMinusColor, positiveChargeColor, positiveChargePlusColor ) => {
-        sprite.imageProperty.value = CurrentNode.getSpriteImage( currentType, electronColor, electronMinusColor, positiveChargeColor, positiveChargePlusColor );
+      [ FELPreferences.currentFlowProperty, electronColorProperty, electronMinusColorProperty, positiveChargeColorProperty, positiveChargePlusColorProperty ],
+      ( currentFlow, electronColor, electronMinusColor, positiveChargeColor, positiveChargePlusColor ) => {
+        sprite.imageProperty.value = CurrentNode.getSpriteImage( currentFlow, electronColor, electronMinusColor, positiveChargeColor, positiveChargePlusColor );
         this.invalidatePaint();
       } );
   }
@@ -125,11 +125,11 @@ export default class CurrentNode extends Sprites {
   /**
    * Gets the SpriteImage used to visualize a charge.
    */
-  private static getSpriteImage( currentType: CurrentType,
+  private static getSpriteImage( currentFlow: CurrentFlow,
                                  electronColor: Color, electronMinusColor: Color,
                                  positiveChargeColor: Color, positiveChargePlusColor: Color ): SpriteImage {
 
-    const node = ( currentType === 'electron' ) ?
+    const node = ( currentFlow === 'electron' ) ?
                  new ElectronNode( {
                    color: electronColor,
                    minusColor: electronMinusColor,
