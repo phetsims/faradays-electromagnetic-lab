@@ -364,6 +364,7 @@ export default class PickupCoil extends FELMovable {
   /**
    * Ported directly from the Java versions, this is a workaround for Unfuddle ticket
    * https://phet.unfuddle.com/a#/projects/9404/tickets/by_number/721.
+   *
    * When the magnet is in the center of the coil, increasing the loop size should decrease the EMF.  But since we are
    * averaging sample points on a vertical line, multiplying by the actual area would (incorrectly) result in an EMF
    * increase. The best solution would be to take sample points across the entire coil, but that requires many changes,
