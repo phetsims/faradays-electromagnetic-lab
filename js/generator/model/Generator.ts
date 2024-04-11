@@ -64,7 +64,7 @@ export default class Generator extends PhetioObject {
     } );
 
     // Apply drag to the turbine based on the characteristics of the pickup coil. It would be preferred to have
-    // dragFactorProperty derived in Turbine. But its derivation requires by PickupCoil and Turbine, and PickupCoil
+    // dragFactorProperty derived in Turbine. But its derivation requires both PickupCoil and Turbine, and PickupCoil
     // instantiation requires Turbine, so we have circular dependencies. Responsibility for setting dragFactorProperty
     // therefore lives here in Generator. See https://github.com/phetsims/faradays-electromagnetic-lab/issues/11
     const numberOfLoopsRange = this.pickupCoil.coil.numberOfLoopsProperty.range;
