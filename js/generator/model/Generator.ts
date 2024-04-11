@@ -73,6 +73,7 @@ export default class Generator extends PhetioObject {
     const minArea = numberOfLoopsRange.min * Math.PI * loopRadiusRange.min * loopRadiusRange.min;
     const maxDragFactor = this.turbine.dragFactorProperty.range.max;
     const minDragFactor = ( minArea / maxArea ) * maxDragFactor; // non-zero loop area must have non-zero drag factor
+    //TODO https://github.com/phetsims/faradays-electromagnetic-lab/issues/156 Make Coil.loopAreaProperty public and use it here?
     Multilink.multilink(
       [ this.pickupCoil.coil.numberOfLoopsProperty, this.pickupCoil.coil.loopRadiusProperty, this.turbine.barMagnet.strengthPercentProperty ],
       ( numberOfLoops, loopRadius, magnetStrengthPercent ) => {

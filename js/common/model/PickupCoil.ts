@@ -360,6 +360,7 @@ export default class PickupCoil extends FELMovable {
     return sumBx / samplePoints.length;
   }
 
+  //TODO https://github.com/phetsims/faradays-electromagnetic-lab/issues/156 EMF does not behave as expected.
   /**
    * Ported directly from the Java versions, this is a workaround for Unfuddle ticket
    * https://phet.unfuddle.com/a#/projects/9404/tickets/by_number/721.
