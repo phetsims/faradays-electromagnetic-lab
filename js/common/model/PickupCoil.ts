@@ -28,7 +28,7 @@ import FELConstants from '../FELConstants.js';
 import StrictOmit from '../../../../phet-core/js/types/StrictOmit.js';
 import PickOptional from '../../../../phet-core/js/types/PickOptional.js';
 import DerivedProperty from '../../../../axon/js/DerivedProperty.js';
-import FELQueryParameters from '../FELQueryParameters.js';
+import FELQueryParameters, { CurrentFlow } from '../FELQueryParameters.js';
 import NumberIO from '../../../../tandem/js/types/NumberIO.js';
 import ConstantDtClock from './ConstantDtClock.js';
 
@@ -117,7 +117,7 @@ export default class PickupCoil extends FELMovable {
   // Reusable B-field vector
   private readonly reusableFieldVector: Vector2;
 
-  public constructor( magnet: Magnet, providedOptions: PickupCoilOptions ) {
+  public constructor( magnet: Magnet, currentFlowProperty: TReadOnlyProperty<CurrentFlow>, providedOptions: PickupCoilOptions ) {
 
     const options = optionize<PickupCoilOptions, StrictOmit<SelfOptions, 'coilOptions' | 'lightBulbOptions' | 'voltmeterOptions'>, FELMovableOptions>()( {
 
@@ -173,7 +173,7 @@ export default class PickupCoil extends FELMovable {
         phetioDocumentation: FELConstants.NORMALIZED_CURRENT_PHET_IO_DOCUMENTATION
       } );
 
-    this.coil = new Coil( this.normalizedCurrentProperty, FELConstants.NORMALIZED_CURRENT_RANGE,
+    this.coil = new Coil( this.normalizedCurrentProperty, FELConstants.NORMALIZED_CURRENT_RANGE, currentFlowProperty,
       combineOptions<CoilOptions>( {
         maxLoopArea: 70685, // to match Java version
         loopAreaPercentRange: new RangeWithValue( 20, 100, 50 ),

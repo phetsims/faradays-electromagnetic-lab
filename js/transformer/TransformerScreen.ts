@@ -16,12 +16,13 @@ import { combineOptions } from '../../../phet-core/js/optionize.js';
 import FELConstants from '../common/FELConstants.js';
 import FELKeyboardHelpContent from '../common/view/FELKeyboardHelpContent.js';
 import FELScreenIconFactory from '../common/view/FELScreenIconFactory.js';
+import FELPreferences from '../common/model/FELPreferences.js';
 
 export default class TransformerScreen extends Screen<TransformerScreenModel, TransformerScreenView> {
 
-  public constructor( tandem: Tandem ) {
+  public constructor( preferences: FELPreferences, tandem: Tandem ) {
     super(
-      () => new TransformerScreenModel( tandem.createTandem( 'model' ) ),
+      () => new TransformerScreenModel( preferences, tandem.createTandem( 'model' ) ),
       model => new TransformerScreenView( model, tandem.createTandem( 'view' ) ),
       combineOptions<ScreenOptions>( {}, FELConstants.SCREEN_OPTIONS, {
           name: FaradaysElectromagneticLabStrings.screen.transformerStringProperty,

@@ -16,12 +16,13 @@ import { combineOptions } from '../../../phet-core/js/optionize.js';
 import FELConstants from '../common/FELConstants.js';
 import GeneratorKeyboardHelpContent from './view/GeneratorKeyboardHelpContent.js';
 import FELScreenIconFactory from '../common/view/FELScreenIconFactory.js';
+import FELPreferences from '../common/model/FELPreferences.js';
 
 export default class GeneratorScreen extends Screen<GeneratorScreenModel, GeneratorScreenView> {
 
-  public constructor( tandem: Tandem ) {
+  public constructor( preferences: FELPreferences, tandem: Tandem ) {
     super(
-      () => new GeneratorScreenModel( tandem.createTandem( 'model' ) ),
+      () => new GeneratorScreenModel( preferences, tandem.createTandem( 'model' ) ),
       model => new GeneratorScreenView( model, tandem.createTandem( 'view' ) ),
       combineOptions<ScreenOptions>( {}, FELConstants.SCREEN_OPTIONS, {
           name: FaradaysElectromagneticLabStrings.screen.generatorStringProperty,

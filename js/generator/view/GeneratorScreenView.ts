@@ -22,8 +22,7 @@ export default class GeneratorScreenView extends FELScreenView {
 
   public constructor( model: GeneratorScreenModel, tandem: Tandem ) {
 
-    const panels = new GeneratorPanels( model.generator, model.compass, model.fieldMeter,
-      tandem.createTandem( 'panels' ) );
+    const panels = new GeneratorPanels( model, tandem.createTandem( 'panels' ) );
 
     const timeControlNode = new FELTimeControlNode( model, tandem.createTandem( 'timeControlNode' ) );
 

@@ -18,6 +18,8 @@ import Multilink from '../../../../axon/js/Multilink.js';
 import PickRequired from '../../../../phet-core/js/types/PickRequired.js';
 import optionize from '../../../../phet-core/js/optionize.js';
 import BooleanProperty from '../../../../axon/js/BooleanProperty.js';
+import TReadOnlyProperty from '../../../../axon/js/TReadOnlyProperty.js';
+import { CurrentFlow } from '../../common/FELQueryParameters.js';
 
 type SelfOptions = {
   turbinePosition: Vector2;
@@ -31,7 +33,7 @@ export default class Generator extends PhetioObject {
   public readonly turbine: Turbine;
   public readonly pickupCoil: PickupCoil;
 
-  public constructor( providedOptions: GeneratorOptions ) {
+  public constructor( currentFlowProperty: TReadOnlyProperty<CurrentFlow>, providedOptions: GeneratorOptions ) {
 
     const options = optionize<GeneratorOptions, SelfOptions, PhetioObjectOptions>()( {
       isDisposable: false,
@@ -43,7 +45,7 @@ export default class Generator extends PhetioObject {
 
     this.turbine = new Turbine( options.turbinePosition, options.tandem.createTandem( 'turbine' ) );
 
-    this.pickupCoil = new PickupCoil( this.turbine.barMagnet, {
+    this.pickupCoil = new PickupCoil( this.turbine.barMagnet, currentFlowProperty, {
       position: options.pickupCoilPosition,
       positionPropertyOptions: {
         phetioReadOnly: true

@@ -15,6 +15,7 @@ import Vector2 from '../../../../dot/js/Vector2.js';
 import Generator from './Generator.js';
 import ImmediateCompass from '../../common/model/ImmediateCompass.js';
 import FELScreenModel from '../../common/model/FELScreenModel.js';
+import FELPreferences from '../../common/model/FELPreferences.js';
 
 // y position shared by all components, so that they are on the same horizontal axis.
 const Y_POSITION = 375;
@@ -28,15 +29,15 @@ export default class GeneratorScreenModel extends FELScreenModel {
 
   public readonly generator: Generator;
 
-  public constructor( tandem: Tandem ) {
+  public constructor( preferences: FELPreferences, tandem: Tandem ) {
 
-    const generator = new Generator( {
+    const generator = new Generator( preferences.currentFlowProperty, {
       turbinePosition: TURBINE_POSITION,
       pickupCoilPosition: PICKUP_COIL_POSITION,
       tandem: tandem.createTandem( 'generator' )
     } );
 
-    super( generator.turbine.barMagnet, {
+    super( generator.turbine.barMagnet, preferences.magneticUnitsProperty, {
       createCompass: ( magnet, isPlayingProperty, tandem ) => new ImmediateCompass( magnet, isPlayingProperty, {
         position: COMPASS_POSITION,
         tandem: tandem

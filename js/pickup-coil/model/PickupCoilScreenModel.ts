@@ -17,6 +17,7 @@ import BarMagnet from '../../common/model/BarMagnet.js';
 import KinematicCompass from '../../common/model/KinematicCompass.js';
 import FELScreenModel from '../../common/model/FELScreenModel.js';
 import { FixedSpacingSamplePointsStrategy } from '../../common/model/PickupCoilSamplePointsStrategy.js';
+import FELPreferences from '../../common/model/FELPreferences.js';
 
 // y position shared by all components, so that they are on the same horizontal axis.
 const Y_POSITION = 375;
@@ -34,14 +35,14 @@ export default class PickupCoilScreenModel extends FELScreenModel {
   public readonly barMagnet: BarMagnet;
   public readonly pickupCoil: PickupCoil;
 
-  public constructor( tandem: Tandem ) {
+  public constructor( preferences: FELPreferences, tandem: Tandem ) {
 
     const barMagnet = new BarMagnet( {
       position: BAR_MAGNET_POSITION,
       tandem: tandem.createTandem( 'barMagnet' )
     } );
 
-    super( barMagnet, {
+    super( barMagnet, preferences.magneticUnitsProperty, {
       createCompass: ( magnet, isPlayingProperty, tandem ) => new KinematicCompass( magnet, isPlayingProperty, {
         position: COMPASS_POSITION,
         visible: false,
@@ -55,7 +56,7 @@ export default class PickupCoilScreenModel extends FELScreenModel {
 
     this.barMagnet = barMagnet;
 
-    this.pickupCoil = new PickupCoil( barMagnet, {
+    this.pickupCoil = new PickupCoil( barMagnet, preferences.currentFlowProperty, {
       position: PICKUP_COIL_POSITION,
       maxEMF: 2700000, // see PickupCoil.calibrateMaxEMF
       transitionSmoothingScale: 0.77, // see PickupCoil.transitionSmoothingScaleProperty

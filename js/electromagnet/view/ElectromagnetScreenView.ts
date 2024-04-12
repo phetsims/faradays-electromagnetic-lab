@@ -20,7 +20,7 @@ export default class ElectromagnetScreenView extends FELScreenView {
 
   public constructor( model: ElectromagnetScreenModel, tandem: Tandem ) {
 
-    const panels = new ElectromagnetPanels( model.electromagnet, model.compass, model.fieldMeter, tandem.createTandem( 'panels' ) );
+    const panels = new ElectromagnetPanels( model, tandem.createTandem( 'panels' ) );
 
     const timeControlNode = new FELTimeControlNode( model, tandem.createTandem( 'timeControlNode' ) );
 

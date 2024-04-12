@@ -20,7 +20,6 @@ import Compass from '../model/Compass.js';
 import PickRequired from '../../../../phet-core/js/types/PickRequired.js';
 import StrictOmit from '../../../../phet-core/js/types/StrictOmit.js';
 import Property from '../../../../axon/js/Property.js';
-import FELPreferences from '../model/FELPreferences.js';
 import DerivedStringProperty from '../../../../axon/js/DerivedStringProperty.js';
 import TReadOnlyProperty from '../../../../axon/js/TReadOnlyProperty.js';
 
@@ -32,6 +31,9 @@ type SelfOptions = {
   // Providing this Property adds a 'See Inside' checkbox, to see the magnetic field inside the bar magnet.
   seeInsideProperty?: Property<boolean>;
 
+  // Whether to add the 'Earth' checkbox to the panel.
+  addEarthCheckboxProperty?: TReadOnlyProperty<boolean>;
+
   // Providing this Property adds an 'Earth' checkbox, to see the alignment of the bar magnet with planet Earth.
   earthVisibleProperty?: Property<boolean>;
 };
@@ -42,7 +44,7 @@ export default class BarMagnetPanel extends Panel {
 
   public constructor( barMagnet: BarMagnet, compass: Compass, providedOptions: BarMagnetPanelOptions ) {
 
-    const options = optionize4<BarMagnetPanelOptions, StrictOmit<SelfOptions, 'seeInsideProperty' | 'earthVisibleProperty'>, PanelOptions>()(
+    const options = optionize4<BarMagnetPanelOptions, StrictOmit<SelfOptions, 'seeInsideProperty' | 'addEarthCheckboxProperty' | 'earthVisibleProperty'>, PanelOptions>()(
       {}, FELConstants.PANEL_OPTIONS, {
 
         // SelfOptions
@@ -81,11 +83,11 @@ export default class BarMagnetPanel extends Panel {
     }
 
     // Optional 'Earth' checkbox
-    if ( options.earthVisibleProperty ) {
+    if ( options.addEarthCheckboxProperty && options.earthVisibleProperty ) {
       const earthText = new Text( FaradaysElectromagneticLabStrings.earthStringProperty, FELConstants.CHECKBOX_TEXT_OPTIONS );
       const earthCheckbox = new Checkbox( options.earthVisibleProperty, earthText,
         combineOptions<CheckboxOptions>( {}, FELConstants.CHECKBOX_OPTIONS, {
-          visibleProperty: FELPreferences.addEarthCheckboxProperty,
+          visibleProperty: options.addEarthCheckboxProperty,
           tandem: options.tandem.createTandem( 'earthCheckbox' )
         } ) );
       contentChildren.push( earthCheckbox );

@@ -15,6 +15,7 @@ import Electromagnet from '../../common/model/Electromagnet.js';
 import Vector2 from '../../../../dot/js/Vector2.js';
 import IncrementalCompass from '../../common/model/IncrementalCompass.js';
 import FELScreenModel from '../../common/model/FELScreenModel.js';
+import FELPreferences from '../../common/model/FELPreferences.js';
 
 // y position shared by all components, so that they are on the same horizontal axis.
 const Y_POSITION = 400;
@@ -27,14 +28,14 @@ export default class ElectromagnetScreenModel extends FELScreenModel {
 
   public readonly electromagnet: Electromagnet;
 
-  public constructor( tandem: Tandem ) {
+  public constructor( preferences: FELPreferences, tandem: Tandem ) {
 
-    const electromagnet = new Electromagnet( {
+    const electromagnet = new Electromagnet( preferences.currentFlowProperty, {
       position: ELECTROMAGNET_POSITION,
       tandem: tandem.createTandem( 'electromagnet' )
     } );
 
-    super( electromagnet, {
+    super( electromagnet, preferences.magneticUnitsProperty, {
       createCompass: ( magnet, isPlayingProperty, tandem ) => new IncrementalCompass( magnet, isPlayingProperty, {
         position: COMPASS_POSITION,
         tandem: tandem

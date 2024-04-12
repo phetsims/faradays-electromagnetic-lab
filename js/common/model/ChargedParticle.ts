@@ -25,7 +25,7 @@ import FELConstants from '../FELConstants.js';
 import Utils from '../../../../dot/js/Utils.js';
 import ConstantDtClock from './ConstantDtClock.js';
 import { CoilLayer } from './Coil.js';
-import FELPreferences from './FELPreferences.js';
+import { CurrentFlow } from '../FELQueryParameters.js';
 
 // Maximum distance along a coil segment that can be traveled in one clock tick.
 const MAX_COIL_SEGMENT_POSITION_DELTA = 0.15;
@@ -55,6 +55,9 @@ export default class ChargedParticle {
   private readonly normalizedCurrentProperty: TReadOnlyProperty<number>;
   private readonly normalizedCurrentRange: Range;
 
+  // Convention for current flow direction.
+  private readonly currentFlowProperty: TReadOnlyProperty<CurrentFlow>;
+
   // ChargedParticle's position, relative to the coil's position. This Vector2 is mutated as position changes.
   private readonly position: Vector2;
 
@@ -74,13 +77,15 @@ export default class ChargedParticle {
   // Scale for adjusting speed.
   private readonly speedScaleProperty: TReadOnlyProperty<number>;
 
-  public constructor( normalizedCurrentProperty: TReadOnlyProperty<number>, normalizedCurrentRange: Range, providedOptions: ChargedParticleOptions ) {
+  public constructor( normalizedCurrentProperty: TReadOnlyProperty<number>, normalizedCurrentRange: Range,
+                      currentFlowProperty: TReadOnlyProperty<CurrentFlow>, providedOptions: ChargedParticleOptions ) {
 
     const options = providedOptions;
     assert && assert( COIL_SEGMENT_POSITION_RANGE.contains( options.coilSegmentPosition ) );
 
     this.normalizedCurrentProperty = normalizedCurrentProperty;
     this.normalizedCurrentRange = normalizedCurrentRange;
+    this.currentFlowProperty = currentFlowProperty;
 
     const coilSegment = options.coilSegments[ options.coilSegmentIndex ];
 
@@ -140,7 +145,7 @@ export default class ChargedParticle {
       // Sign depends on the convention for current flow.
       // Note that coilSegmentPosition is 1=start and 0=end, so -1 corresponds to electron flow.
       // See https://github.com/phetsims/faradays-electromagnetic-lab/issues/136.
-      const sign = ( FELPreferences.currentFlowProperty.value === 'electron' ) ? -1 : 1;
+      const sign = ( this.currentFlowProperty.value === 'electron' ) ? -1 : 1;
 
       const deltaPosition = sign * dt * MAX_COIL_SEGMENT_POSITION_DELTA * this.speedAndDirection *
                             this.speedScaleProperty.value * this.getCoilSegmentSpeedScale();

@@ -9,13 +9,11 @@
 import faradaysElectromagneticLab from '../../faradaysElectromagneticLab.js';
 import Tandem from '../../../../tandem/js/Tandem.js';
 import ToolsPanel from '../../common/view/ToolsPanel.js';
-import FieldMeter from '../../common/model/FieldMeter.js';
-import Compass from '../../common/model/Compass.js';
 import PickupCoilPanel from '../../common/view/PickupCoilPanel.js';
 import BarMagnetPanel from '../../common/view/BarMagnetPanel.js';
 import FELPanels from '../../common/view/FELPanels.js';
-import Generator from '../model/Generator.js';
 import { Node } from '../../../../scenery/js/imports.js';
+import GeneratorScreenModel from '../model/GeneratorScreenModel.js';
 
 export default class GeneratorPanels extends FELPanels {
 
@@ -24,16 +22,17 @@ export default class GeneratorPanels extends FELPanels {
   public readonly pickupCoilPanel: Node;
   public readonly toolsPanel: Node;
 
-  public constructor( generator: Generator, compass: Compass, fieldMeter: FieldMeter, tandem: Tandem ) {
+  public constructor( model: GeneratorScreenModel, tandem: Tandem ) {
 
-    const barMagnetPanel = new BarMagnetPanel( generator.turbine.barMagnet, compass, {
+    const barMagnetPanel = new BarMagnetPanel( model.generator.turbine.barMagnet, model.compass, {
       hasFlipPolarityButton: false,
       tandem: tandem.createTandem( 'barMagnetPanel' )
     } );
 
-    const pickupCoilPanel = new PickupCoilPanel( generator.pickupCoil, tandem.createTandem( 'pickupCoilPanel' ) );
+    const pickupCoilPanel = new PickupCoilPanel( model.generator.pickupCoil,
+      tandem.createTandem( 'pickupCoilPanel' ) );
 
-    const toolsPanel = new ToolsPanel( compass, fieldMeter, {
+    const toolsPanel = new ToolsPanel( model.compass, model.fieldMeter, {
       tandem: tandem.createTandem( 'toolsPanel' )
     } );
 

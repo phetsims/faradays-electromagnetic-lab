@@ -20,18 +20,18 @@ import FELScreenView from '../../common/view/FELScreenView.js';
 import BooleanProperty from '../../../../axon/js/BooleanProperty.js';
 import PickupCoilAxisNode from '../../common/view/PickupCoilAxisNode.js';
 import Property from '../../../../axon/js/Property.js';
+import FELPreferences from '../../common/model/FELPreferences.js';
 
 export default class PickupCoilScreenView extends FELScreenView {
 
-  public constructor( model: PickupCoilScreenModel, tandem: Tandem ) {
+  public constructor( model: PickupCoilScreenModel, preferences: FELPreferences, tandem: Tandem ) {
 
     const isLockedToAxisProperty = new BooleanProperty( false, {
       tandem: tandem.createTandem( 'isLockedToAxisProperty' ),
       phetioDocumentation: 'When true, dragging the magnet or pickup coil is locked to the pickup coil\'s horizontal axis.'
     } );
 
-    const panels = new PickupCoilPanels( model.barMagnet, model.pickupCoil, model.compass, model.fieldMeter,
-      isLockedToAxisProperty, tandem.createTandem( 'panels' ) );
+    const panels = new PickupCoilPanels( model, isLockedToAxisProperty, tandem.createTandem( 'panels' ) );
 
     const developerAccordionBox = new PickupCoilDeveloperAccordionBox( model.barMagnet, model.pickupCoil );
 

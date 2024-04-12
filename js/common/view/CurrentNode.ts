@@ -19,7 +19,6 @@ import Bounds2 from '../../../../dot/js/Bounds2.js';
 import Multilink from '../../../../axon/js/Multilink.js';
 import ElectronNode from './ElectronNode.js';
 import { CurrentFlow } from '../FELQueryParameters.js';
-import FELPreferences from '../model/FELPreferences.js';
 import PositiveChargeNode from './PositiveChargeNode.js';
 
 // Scale up by this much when creating Nodes, to improve resolution.
@@ -48,7 +47,7 @@ export default class CurrentNode extends Sprites {
 
     // Convert the Sprite used to represent current.
     const sprite = new Sprite( CurrentNode.getSpriteImage(
-      FELPreferences.currentFlowProperty.value,
+      coil.currentFlowProperty.value,
       electronColorProperty.value, electronMinusColorProperty.value,
       positiveChargeColorProperty.value, positiveChargePlusColorProperty.value
     ) );
@@ -90,7 +89,7 @@ export default class CurrentNode extends Sprites {
 
     // Update the sprite and redraw.
     Multilink.multilink(
-      [ FELPreferences.currentFlowProperty, electronColorProperty, electronMinusColorProperty, positiveChargeColorProperty, positiveChargePlusColorProperty ],
+      [ coil.currentFlowProperty, electronColorProperty, electronMinusColorProperty, positiveChargeColorProperty, positiveChargePlusColorProperty ],
       ( currentFlow, electronColor, electronMinusColor, positiveChargeColor, positiveChargePlusColor ) => {
         sprite.imageProperty.value = CurrentNode.getSpriteImage( currentFlow, electronColor, electronMinusColor, positiveChargeColor, positiveChargePlusColor );
         this.invalidatePaint();

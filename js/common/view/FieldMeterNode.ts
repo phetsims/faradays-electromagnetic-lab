@@ -21,7 +21,6 @@ import PhetFont from '../../../../scenery-phet/js/PhetFont.js';
 import ShadedRectangle from '../../../../scenery-phet/js/ShadedRectangle.js';
 import Bounds2 from '../../../../dot/js/Bounds2.js';
 import FELColors from '../FELColors.js';
-import FELPreferences from '../model/FELPreferences.js';
 import FELMovableNode, { FELMovableNodeOptions } from './FELMovableNode.js';
 import Vector2 from '../../../../dot/js/Vector2.js';
 import Dimension2 from '../../../../dot/js/Dimension2.js';
@@ -139,7 +138,7 @@ export default class FieldMeterNode extends FELMovableNode {
 
     // Dynamic values. We decided that Bx and By should be signed.
     const stringBValueProperty = new DerivedStringProperty(
-      [ fieldMeter.fieldVectorProperty, FELPreferences.magneticUnitsProperty, GStringProperty, TStringProperty, valueUnitsStringProperty, almostValueUnitsStringProperty ],
+      [ fieldMeter.fieldVectorProperty, fieldMeter.magneticUnitsProperty, GStringProperty, TStringProperty, valueUnitsStringProperty, almostValueUnitsStringProperty ],
       ( fieldVector, magneticUnits, G, T, valueUnits, almostValueUnits ) => {
         const B = fieldVector.magnitude;
         return ( magneticUnits === 'G' ) ? `${toGaussString( B, G, valueUnits, almostValueUnits )}`
@@ -147,7 +146,7 @@ export default class FieldMeterNode extends FELMovableNode {
       }
     );
     const stringBxValueProperty = new DerivedStringProperty(
-      [ fieldMeter.fieldVectorProperty, FELPreferences.magneticUnitsProperty, GStringProperty, TStringProperty, valueUnitsStringProperty, almostValueUnitsStringProperty ],
+      [ fieldMeter.fieldVectorProperty, fieldMeter.magneticUnitsProperty, GStringProperty, TStringProperty, valueUnitsStringProperty, almostValueUnitsStringProperty ],
       ( fieldVector, magneticUnits, G, T, valueUnits, almostValueUnits ) => {
         const Bx = fieldVector.x;
         return ( magneticUnits === 'G' ) ? `${toGaussString( Bx, G, valueUnits, almostValueUnits )}`
@@ -155,7 +154,7 @@ export default class FieldMeterNode extends FELMovableNode {
       }
     );
     const stringByValueProperty = new DerivedStringProperty(
-      [ fieldMeter.fieldVectorProperty, FELPreferences.magneticUnitsProperty, GStringProperty, TStringProperty, valueUnitsStringProperty, almostValueUnitsStringProperty ],
+      [ fieldMeter.fieldVectorProperty, fieldMeter.magneticUnitsProperty, GStringProperty, TStringProperty, valueUnitsStringProperty, almostValueUnitsStringProperty ],
       ( fieldVector, magneticUnits, G, T, valueUnits, almostValueUnits ) => {
         const By = -fieldVector.y;  // +y is down in the model, so flip the sign. See https://github.com/phetsims/faradays-electromagnetic-lab/issues/19
         return ( magneticUnits === 'G' ) ? `${toGaussString( By, G, valueUnits, almostValueUnits )}`

@@ -37,6 +37,7 @@ import { LinearGradient, TColor } from '../../../../scenery/js/imports.js';
 import FELColors from '../FELColors.js';
 import ChargedParticle from './ChargedParticle.js';
 import Emitter from '../../../../axon/js/Emitter.js';
+import { CurrentFlow } from '../FELQueryParameters.js';
 
 // Spacing between the centers of charges in the coil.
 const ELECTRON_SPACING = 25;
@@ -88,6 +89,9 @@ export default class Coil extends PhetioObject {
   public readonly normalizedCurrentProperty: TReadOnlyProperty<number>;
   private readonly normalizedCurrentRange: Range;
 
+  // Convention for current flow direction.
+  public readonly currentFlowProperty: TReadOnlyProperty<CurrentFlow>;
+
   // Width of the wire that makes up the coil.
   public readonly wireWidth: number;
 
@@ -124,7 +128,8 @@ export default class Coil extends PhetioObject {
   // Fires after charges have moved.
   public readonly chargedParticlesMovedEmitter: Emitter;
 
-  public constructor( normalizedCurrentProperty: TReadOnlyProperty<number>, normalizedCurrentRange: Range, providedOptions: CoilOptions ) {
+  public constructor( normalizedCurrentProperty: TReadOnlyProperty<number>, normalizedCurrentRange: Range,
+                      currentFlowProperty: TReadOnlyProperty<CurrentFlow>, providedOptions: CoilOptions ) {
     assert && assert( normalizedCurrentRange.equals( FELConstants.NORMALIZED_CURRENT_RANGE ) );
 
     const options = optionize<CoilOptions, SelfOptions, PhetioObjectOptions>()( {
@@ -146,6 +151,7 @@ export default class Coil extends PhetioObject {
 
     this.normalizedCurrentProperty = normalizedCurrentProperty;
     this.normalizedCurrentRange = normalizedCurrentRange;
+    this.currentFlowProperty = currentFlowProperty;
 
     this.wireWidth = options.wireWidth;
     this.loopSpacing = options.loopSpacing;
@@ -416,12 +422,13 @@ export default class Coil extends PhetioObject {
 
       // Add charges for this curve segment.
       for ( let i = 0; i < numberOfElectrons; i++ ) {
-        const chargedParticle = new ChargedParticle( this.normalizedCurrentProperty, this.normalizedCurrentRange, {
-          coilSegments: coilSegments,
-          coilSegmentIndex: coilSegmentIndex,
-          coilSegmentPosition: i / numberOfElectrons,
-          speedScaleProperty: this.currentSpeedScaleProperty
-        } );
+        const chargedParticle = new ChargedParticle( this.normalizedCurrentProperty, this.normalizedCurrentRange,
+          this.currentFlowProperty, {
+            coilSegments: coilSegments,
+            coilSegmentIndex: coilSegmentIndex,
+            coilSegmentPosition: i / numberOfElectrons,
+            speedScaleProperty: this.currentSpeedScaleProperty
+          } );
         chargedParticles.push( chargedParticle );
       }
     }

@@ -18,10 +18,11 @@ import BarMagnetPanels from './BarMagnetPanels.js';
 import FELScreenView from '../../common/view/FELScreenView.js';
 import FELQueryParameters from '../../common/FELQueryParameters.js';
 import FieldPositionsNode from '../../common/view/FieldPositionsNode.js';
+import FELPreferences from '../../common/model/FELPreferences.js';
 
 export default class BarMagnetScreenView extends FELScreenView {
 
-  public constructor( model: BarMagnetScreenModel, tandem: Tandem ) {
+  public constructor( model: BarMagnetScreenModel, preferences: FELPreferences, tandem: Tandem ) {
 
     const viewProperties = new BarMagnetViewProperties( tandem.createTandem( 'viewProperties' ) );
 
@@ -34,7 +35,8 @@ export default class BarMagnetScreenView extends FELScreenView {
       }
     } );
 
-    const panels = new BarMagnetPanels( model.barMagnet, model.compass, model.fieldMeter, viewProperties, tandem.createTandem( 'panels' ) );
+    const panels = new BarMagnetPanels( model, viewProperties.seeInsideBarMagnetProperty,
+      viewProperties.earthVisibleProperty, preferences.addEarthCheckboxProperty, tandem.createTandem( 'panels' ) );
 
     const developerAccordionBox = new BarMagnetDeveloperAccordionBox( model.barMagnet );
 
@@ -59,7 +61,7 @@ export default class BarMagnetScreenView extends FELScreenView {
       tandem: tandem.createTandem( 'barMagnetNode' )
     } );
 
-    const earthNode = new EarthNode( model.barMagnet, {
+    const earthNode = new EarthNode( model.barMagnet, preferences.earthHemisphereProperty, {
       dragBoundsProperty: dragBoundsProperty,
       visibleProperty: viewProperties.earthVisibleProperty,
       tandem: tandem.createTandem( 'earthNode' )

@@ -10,12 +10,11 @@ import faradaysElectromagneticLab from '../../faradaysElectromagneticLab.js';
 import Tandem from '../../../../tandem/js/Tandem.js';
 import BarMagnetPanel from '../../common/view/BarMagnetPanel.js';
 import ToolsPanel from '../../common/view/ToolsPanel.js';
-import BarMagnetViewProperties from './BarMagnetViewProperties.js';
-import BarMagnet from '../../common/model/BarMagnet.js';
-import FieldMeter from '../../common/model/FieldMeter.js';
-import Compass from '../../common/model/Compass.js';
 import FELPanels from '../../common/view/FELPanels.js';
 import { Node } from '../../../../scenery/js/imports.js';
+import BarMagnetScreenModel from '../model/BarMagnetScreenModel.js';
+import TReadOnlyProperty from '../../../../axon/js/TReadOnlyProperty.js';
+import Property from '../../../../axon/js/Property.js';
 
 export default class BarMagnetPanels extends FELPanels {
 
@@ -23,16 +22,20 @@ export default class BarMagnetPanels extends FELPanels {
   public readonly barMagnetPanel: Node;
   public readonly toolsPanel: Node;
 
-  public constructor( barMagnet: BarMagnet, compass: Compass, fieldMeter: FieldMeter,
-                      viewProperties: BarMagnetViewProperties, tandem: Tandem ) {
+  public constructor( model: BarMagnetScreenModel,
+                      seeInsideBarMagnetProperty: Property<boolean>,
+                      earthVisibleProperty: Property<boolean>,
+                      addEarthCheckboxProperty: TReadOnlyProperty<boolean>,
+                      tandem: Tandem ) {
 
-    const barMagnetPanel = new BarMagnetPanel( barMagnet, compass, {
-      seeInsideProperty: viewProperties.seeInsideBarMagnetProperty,
-      earthVisibleProperty: viewProperties.earthVisibleProperty,
+    const barMagnetPanel = new BarMagnetPanel( model.barMagnet, model.compass, {
+      seeInsideProperty: seeInsideBarMagnetProperty,
+      addEarthCheckboxProperty: addEarthCheckboxProperty,
+      earthVisibleProperty: earthVisibleProperty,
       tandem: tandem.createTandem( 'barMagnetPanel' )
     } );
 
-    const toolsPanel = new ToolsPanel( compass, fieldMeter, {
+    const toolsPanel = new ToolsPanel( model.compass, model.fieldMeter, {
       tandem: tandem.createTandem( 'toolsPanel' )
     } );
 

@@ -16,13 +16,14 @@ import { combineOptions } from '../../../phet-core/js/optionize.js';
 import FELConstants from '../common/FELConstants.js';
 import FELKeyboardHelpContent from '../common/view/FELKeyboardHelpContent.js';
 import FELScreenIconFactory from '../common/view/FELScreenIconFactory.js';
+import FELPreferences from '../common/model/FELPreferences.js';
 
 export default class PickupCoilScreen extends Screen<PickupCoilScreenModel, PickupCoilScreenView> {
 
-  public constructor( tandem: Tandem ) {
+  public constructor( preferences: FELPreferences, tandem: Tandem ) {
     super(
-      () => new PickupCoilScreenModel( tandem.createTandem( 'model' ) ),
-      model => new PickupCoilScreenView( model, tandem.createTandem( 'view' ) ),
+      () => new PickupCoilScreenModel( preferences, tandem.createTandem( 'model' ) ),
+      model => new PickupCoilScreenView( model, preferences, tandem.createTandem( 'view' ) ),
       combineOptions<ScreenOptions>( {}, FELConstants.SCREEN_OPTIONS, {
           name: FaradaysElectromagneticLabStrings.screen.pickupCoilStringProperty,
           homeScreenIcon: FELScreenIconFactory.createPickupCoilScreenIcon(),

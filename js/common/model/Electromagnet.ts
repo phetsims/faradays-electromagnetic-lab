@@ -21,6 +21,8 @@ import { EmptySelfOptions } from '../../../../phet-core/js/optionize.js';
 import RangeWithValue from '../../../../dot/js/RangeWithValue.js';
 import Coil from './Coil.js';
 import FELConstants from '../FELConstants.js';
+import TReadOnlyProperty from '../../../../axon/js/TReadOnlyProperty.js';
+import { CurrentFlow } from '../FELQueryParameters.js';
 
 type SelfOptions = EmptySelfOptions;
 
@@ -40,7 +42,7 @@ export default class Electromagnet extends CoilMagnet {
   // Makes the magnet model shape visible in the view.
   public readonly shapeVisibleProperty: Property<boolean>;
 
-  public constructor( providedOptions: ElectromagnetOptions ) {
+  public constructor( currentFlowProperty: TReadOnlyProperty<CurrentFlow>, providedOptions: ElectromagnetOptions ) {
 
     const options = providedOptions;
 
@@ -71,7 +73,7 @@ export default class Electromagnet extends CoilMagnet {
         phetioDocumentation: FELConstants.NORMALIZED_CURRENT_PHET_IO_DOCUMENTATION
       } );
 
-    const coil = new Coil( normalizedCurrentProperty, FELConstants.NORMALIZED_CURRENT_RANGE, {
+    const coil = new Coil( normalizedCurrentProperty, FELConstants.NORMALIZED_CURRENT_RANGE, currentFlowProperty, {
       maxLoopArea: 7854, // to match Java version
       loopAreaPercentRange: new RangeWithValue( 100, 100, 100 ), // fixed loop area
       numberOfLoopsRange: new RangeWithValue( 1, 4, 4 ),

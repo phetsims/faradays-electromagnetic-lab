@@ -17,10 +17,11 @@ import PickRequired from '../../../../phet-core/js/types/PickRequired.js';
 import optionize, { EmptySelfOptions } from '../../../../phet-core/js/optionize.js';
 import FELMovableNode, { FELMovableNodeOptions } from './FELMovableNode.js';
 import Vector2 from '../../../../dot/js/Vector2.js';
-import FELPreferences from '../model/FELPreferences.js';
 import earthWesternHemisphere_svg from '../../../images/earthWesternHemisphere_svg.js';
 import earthEasternHemisphere_svg from '../../../images/earthEasternHemisphere_svg.js';
 import DerivedProperty from '../../../../axon/js/DerivedProperty.js';
+import TReadOnlyProperty from '../../../../axon/js/TReadOnlyProperty.js';
+import { EarthHemisphere } from '../FELQueryParameters.js';
 
 type SelfOptions = EmptySelfOptions;
 
@@ -28,9 +29,9 @@ type EarthNodeOptions = SelfOptions & PickRequired<FELMovableNodeOptions, 'tande
 
 export default class EarthNode extends FELMovableNode {
 
-  public constructor( barMagnet: BarMagnet, providedOptions: EarthNodeOptions ) {
+  public constructor( barMagnet: BarMagnet, earthHemisphereProperty: TReadOnlyProperty<EarthHemisphere>, providedOptions: EarthNodeOptions ) {
 
-    const earthImageSourceProperty = new DerivedProperty( [ FELPreferences.earthHemisphereProperty ], earthHemisphere => {
+    const earthImageSourceProperty = new DerivedProperty( [ earthHemisphereProperty ], earthHemisphere => {
       return earthHemisphere === 'western' ? earthWesternHemisphere_svg : earthEasternHemisphere_svg;
     } );
 

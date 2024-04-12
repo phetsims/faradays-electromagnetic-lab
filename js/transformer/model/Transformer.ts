@@ -19,6 +19,8 @@ import RangeWithValue from '../../../../dot/js/RangeWithValue.js';
 import PickRequired from '../../../../phet-core/js/types/PickRequired.js';
 import optionize from '../../../../phet-core/js/optionize.js';
 import isSettingPhetioStateProperty from '../../../../tandem/js/isSettingPhetioStateProperty.js';
+import TReadOnlyProperty from '../../../../axon/js/TReadOnlyProperty.js';
+import { CurrentFlow } from '../../common/FELQueryParameters.js';
 
 type SelfOptions = {
   electromagnetPosition: Vector2;
@@ -32,7 +34,7 @@ export default class Transformer extends PhetioObject {
   public readonly electromagnet: Electromagnet;
   public readonly pickupCoil: PickupCoil;
 
-  public constructor( providedOptions: TransformerOptions ) {
+  public constructor( currentFlowProperty: TReadOnlyProperty<CurrentFlow>, providedOptions: TransformerOptions ) {
 
     const options = optionize<TransformerOptions, SelfOptions, PhetioObjectOptions>()( {
       isDisposable: false,
@@ -42,12 +44,12 @@ export default class Transformer extends PhetioObject {
 
     super( options );
 
-    this.electromagnet = new Electromagnet( {
+    this.electromagnet = new Electromagnet( currentFlowProperty, {
       position: options.electromagnetPosition,
       tandem: options.tandem.createTandem( 'electromagnet' )
     } );
 
-    this.pickupCoil = new PickupCoil( this.electromagnet, {
+    this.pickupCoil = new PickupCoil( this.electromagnet, currentFlowProperty, {
       position: options.pickupCoilPosition,
       maxEMF: 3500000, // see PickupCoil.calibrateMaxEMF
       transitionSmoothingScale: 0.56, // see PickupCoil.transitionSmoothingScaleProperty

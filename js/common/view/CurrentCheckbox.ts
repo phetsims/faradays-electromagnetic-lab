@@ -15,24 +15,24 @@ import { combineOptions } from '../../../../phet-core/js/optionize.js';
 import Property from '../../../../axon/js/Property.js';
 import Tandem from '../../../../tandem/js/Tandem.js';
 import DerivedProperty from '../../../../axon/js/DerivedProperty.js';
-import FELPreferences from '../model/FELPreferences.js';
 import ToggleNode from '../../../../sun/js/ToggleNode.js';
 import { CurrentFlow } from '../FELQueryParameters.js';
 import ElectronNode from './ElectronNode.js';
 import PositiveChargeNode from './PositiveChargeNode.js';
+import TReadOnlyProperty from '../../../../axon/js/TReadOnlyProperty.js';
 
 export default class CurrentCheckbox extends Checkbox {
 
-  public constructor( currentVisibleProperty: Property<boolean>, tandem: Tandem ) {
+  public constructor( currentVisibleProperty: Property<boolean>, currentFlowProperty: TReadOnlyProperty<CurrentFlow>, tandem: Tandem ) {
 
     const stringProperty = new DerivedProperty(
-      [ FELPreferences.currentFlowProperty, FaradaysElectromagneticLabStrings.electronsStringProperty, FaradaysElectromagneticLabStrings.conventionalCurrentStringProperty ],
+      [ currentFlowProperty, FaradaysElectromagneticLabStrings.electronsStringProperty, FaradaysElectromagneticLabStrings.conventionalCurrentStringProperty ],
       ( currentFlow, electronsString, conventionalCurrentString ) =>
         ( currentFlow === 'electron' ) ? electronsString : conventionalCurrentString );
 
     const textNode = new Text( stringProperty, FELConstants.CHECKBOX_TEXT_OPTIONS );
 
-    const iconToggleNode = new ToggleNode<CurrentFlow>( FELPreferences.currentFlowProperty, [
+    const iconToggleNode = new ToggleNode<CurrentFlow>( currentFlowProperty, [
       {
         value: 'electron',
         createNode: tandemName => ElectronNode.createIcon( 1.5 )

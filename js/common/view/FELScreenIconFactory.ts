@@ -23,6 +23,8 @@ import Tandem from '../../../../tandem/js/Tandem.js';
 import BarMagnet from '../model/BarMagnet.js';
 import CoilNode from './CoilNode.js';
 import { Shape } from '../../../../kite/js/imports.js';
+import { CurrentFlow } from '../FELQueryParameters.js';
+import Property from '../../../../axon/js/Property.js';
 
 const FELScreenIconFactory = {
 
@@ -127,7 +129,7 @@ function createBarMagnetNode( size?: Dimension2 ): Node {
  */
 function createCoilNode( numberOfLoops: number, loopSpacing: number, maxLoopArea: number ): Node {
 
-  const coil = new Coil( new NumberProperty( 0 ), FELConstants.NORMALIZED_CURRENT_RANGE, {
+  const coil = new Coil( new NumberProperty( 0 ), FELConstants.NORMALIZED_CURRENT_RANGE, new Property<CurrentFlow>( 'electron' ), {
     numberOfLoopsRange: new RangeWithValue( numberOfLoops, numberOfLoops, numberOfLoops ),
     loopSpacing: loopSpacing,
     maxLoopArea: maxLoopArea,

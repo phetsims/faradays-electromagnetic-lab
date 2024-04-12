@@ -9,12 +9,10 @@
 import faradaysElectromagneticLab from '../../faradaysElectromagneticLab.js';
 import Tandem from '../../../../tandem/js/Tandem.js';
 import ToolsPanel from '../../common/view/ToolsPanel.js';
-import FieldMeter from '../../common/model/FieldMeter.js';
-import Compass from '../../common/model/Compass.js';
 import ElectromagnetPanel from '../../common/view/ElectromagnetPanel.js';
-import Electromagnet from '../../common/model/Electromagnet.js';
 import FELPanels from '../../common/view/FELPanels.js';
 import { Node } from '../../../../scenery/js/imports.js';
+import ElectromagnetScreenModel from '../model/ElectromagnetScreenModel.js';
 
 export default class ElectromagnetPanels extends FELPanels {
 
@@ -22,11 +20,11 @@ export default class ElectromagnetPanels extends FELPanels {
   public readonly electromagnetPanel: Node;
   public readonly toolsPanel: Node;
 
-  public constructor( electromagnet: Electromagnet, compass: Compass, fieldMeter: FieldMeter, tandem: Tandem ) {
+  public constructor( model: ElectromagnetScreenModel, tandem: Tandem ) {
 
-    const electromagnetPanel = new ElectromagnetPanel( electromagnet, tandem.createTandem( 'electromagnetPanel' ) );
+    const electromagnetPanel = new ElectromagnetPanel( model.electromagnet, tandem.createTandem( 'electromagnetPanel' ) );
 
-    const toolsPanel = new ToolsPanel( compass, fieldMeter, {
+    const toolsPanel = new ToolsPanel( model.compass, model.fieldMeter, {
       tandem: tandem.createTandem( 'toolsPanel' )
     } );
 

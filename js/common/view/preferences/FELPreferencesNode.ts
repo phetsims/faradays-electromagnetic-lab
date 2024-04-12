@@ -14,8 +14,8 @@ import faradaysElectromagneticLab from '../../../faradaysElectromagneticLab.js';
 import MagneticUnitsPreferencesControl from './MagneticUnitsPreferencesControl.js';
 import EarthHemispherePreferencesControl from './EarthHemispherePreferencesControl.js';
 import PickRequired from '../../../../../phet-core/js/types/PickRequired.js';
-import optionize from '../../../../../phet-core/js/optionize.js';
 import CurrentFlowPreferencesControl from './CurrentFlowPreferencesControl.js';
+import Tandem from '../../../../../tandem/js/Tandem.js';
 
 type SelfOptions = {
 
@@ -30,48 +30,39 @@ export type FELPreferencesNodeOptions = SelfOptions & PickRequired<VBoxOptions, 
 
 export default class FELPreferencesNode extends VBox {
 
-  public constructor( providedOptions: FELPreferencesNodeOptions ) {
+  public constructor( preferences: FELPreferences, tandem: Tandem ) {
 
-    const options = optionize<FELPreferencesNodeOptions, SelfOptions, VBoxOptions>()( {
+    // Controls in the order that they appear in the Simulation tab, from top-to-bottom.
+    const controls = [];
 
-      // SelfOptions
-      hasCurrentFlowFeature: true,
-      hasEarthFeature: true,
+    const magneticUnitsPreferencesControl = new MagneticUnitsPreferencesControl( preferences.magneticUnitsProperty,
+      tandem.createTandem( 'magneticUnitsPreferencesControl' ) );
+    controls.push( magneticUnitsPreferencesControl );
 
-      // VBoxOptions
+    if ( preferences.hasCurrentFlowFeature ) {
+      const currentFlowPreferencesControl = new CurrentFlowPreferencesControl( preferences.currentFlowProperty,
+        tandem.createTandem( 'currentFlowPreferencesControl' ) );
+      controls.push( currentFlowPreferencesControl );
+    }
+
+    if ( preferences.hasEarthFeature ) {
+
+      const addEarthCheckboxPreferencesControl = new AddEarthCheckboxPreferencesControl( preferences.addEarthCheckboxProperty,
+        tandem.createTandem( 'addEarthCheckboxPreferencesControl' ) );
+      controls.push( addEarthCheckboxPreferencesControl );
+
+      const earthHemispherePreferencesControl = new EarthHemispherePreferencesControl( preferences.earthHemisphereProperty,
+        tandem.createTandem( 'earthImagePreferencesControl' ) );
+      controls.push( earthHemispherePreferencesControl );
+    }
+
+    super( {
+      children: controls,
       isDisposable: false,
       align: 'left',
       spacing: 30,
       phetioVisiblePropertyInstrumented: false
-    }, providedOptions );
-
-    // Controls in the order that they appear in the Simulation tab, from top-to-bottom.
-    const children = [];
-
-    const magneticUnitsPreferencesControl = new MagneticUnitsPreferencesControl( FELPreferences.magneticUnitsProperty,
-      options.tandem.createTandem( 'magneticUnitsPreferencesControl' ) );
-    children.push( magneticUnitsPreferencesControl );
-
-    if ( options.hasCurrentFlowFeature ) {
-      const currentFlowPreferencesControl = new CurrentFlowPreferencesControl( FELPreferences.currentFlowProperty,
-        options.tandem.createTandem( 'currentFlowPreferencesControl' ) );
-      children.push( currentFlowPreferencesControl );
-    }
-
-    if ( options.hasEarthFeature ) {
-
-      const addEarthCheckboxPreferencesControl = new AddEarthCheckboxPreferencesControl( FELPreferences.addEarthCheckboxProperty,
-        options.tandem.createTandem( 'addEarthCheckboxPreferencesControl' ) );
-      children.push( addEarthCheckboxPreferencesControl );
-
-      const earthHemispherePreferencesControl = new EarthHemispherePreferencesControl( FELPreferences.earthHemisphereProperty,
-        options.tandem.createTandem( 'earthImagePreferencesControl' ) );
-      children.push( earthHemispherePreferencesControl );
-    }
-
-    options.children = children;
-
-    super( options );
+    } );
   }
 }
 

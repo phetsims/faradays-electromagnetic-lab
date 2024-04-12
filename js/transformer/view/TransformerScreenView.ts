@@ -34,8 +34,7 @@ export default class TransformerScreenView extends FELScreenView {
       phetioDocumentation: 'When true, dragging the magnet or pickup coil is locked to the pickup coil\'s horizontal axis.'
     } );
 
-    const panels = new TransformerPanels( model.transformer, model.compass, model.fieldMeter,
-      isLockedToAxisProperty, tandem.createTandem( 'panels' ) );
+    const panels = new TransformerPanels( model, isLockedToAxisProperty, tandem.createTandem( 'panels' ) );
 
     const timeControlNode = new FELTimeControlNode( model, tandem.createTandem( 'timeControlNode' ) );
 

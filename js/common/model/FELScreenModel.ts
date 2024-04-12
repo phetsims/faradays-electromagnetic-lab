@@ -26,6 +26,7 @@ import Compass from './Compass.js';
 import Tandem from '../../../../tandem/js/Tandem.js';
 import ConstantDtClock from './ConstantDtClock.js';
 import Disposable from '../../../../axon/js/Disposable.js';
+import { MagneticUnits } from '../FELQueryParameters.js';
 
 const DEFAULT_FIELD_METER_POSITION = new Vector2( 125, 400 );
 
@@ -56,7 +57,7 @@ export default class FELScreenModel implements TModel {
   public readonly fieldMeter: FieldMeter;
   public readonly compass: Compass;
 
-  protected constructor( magnet: Magnet, providedOptions: FELModelOptions ) {
+  protected constructor( magnet: Magnet, magneticUnitsProperty: TReadOnlyProperty<MagneticUnits>, providedOptions: FELModelOptions ) {
 
     const options = optionize<FELModelOptions, StrictOmit<SelfOptions, 'fieldMeterOptions' | 'isPlayingPropertyOptions'>>()( {}, providedOptions );
 
@@ -67,7 +68,7 @@ export default class FELScreenModel implements TModel {
 
     this.clock = new ConstantDtClock();
 
-    this.fieldMeter = new FieldMeter( magnet, combineOptions<FieldMeterOptions>( {
+    this.fieldMeter = new FieldMeter( magnet, magneticUnitsProperty, combineOptions<FieldMeterOptions>( {
       position: DEFAULT_FIELD_METER_POSITION,
       visible: false,
       tandem: options.tandem.createTandem( 'fieldMeter' )

@@ -16,13 +16,14 @@ import { combineOptions } from '../../../phet-core/js/optionize.js';
 import FELConstants from '../common/FELConstants.js';
 import FELKeyboardHelpContent from '../common/view/FELKeyboardHelpContent.js';
 import FELScreenIconFactory from '../common/view/FELScreenIconFactory.js';
+import FELPreferences from '../common/model/FELPreferences.js';
 
 export default class BarMagnetScreen extends Screen<BarMagnetScreenModel, BarMagnetScreenView> {
 
-  public constructor( tandem: Tandem ) {
+  public constructor( preferences: FELPreferences, tandem: Tandem ) {
     super(
-      () => new BarMagnetScreenModel( tandem.createTandem( 'model' ) ),
-      model => new BarMagnetScreenView( model, tandem.createTandem( 'view' ) ),
+      () => new BarMagnetScreenModel( preferences, tandem.createTandem( 'model' ) ),
+      model => new BarMagnetScreenView( model, preferences, tandem.createTandem( 'view' ) ),
       combineOptions<ScreenOptions>( {}, FELConstants.SCREEN_OPTIONS, {
           name: FaradaysElectromagneticLabStrings.screen.barMagnetStringProperty,
           homeScreenIcon: FELScreenIconFactory.createBarMagnetScreenIcon(),

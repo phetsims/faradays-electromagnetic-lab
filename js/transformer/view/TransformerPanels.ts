@@ -9,14 +9,12 @@
 import faradaysElectromagneticLab from '../../faradaysElectromagneticLab.js';
 import Tandem from '../../../../tandem/js/Tandem.js';
 import ToolsPanel from '../../common/view/ToolsPanel.js';
-import FieldMeter from '../../common/model/FieldMeter.js';
-import Compass from '../../common/model/Compass.js';
 import PickupCoilPanel from '../../common/view/PickupCoilPanel.js';
 import ElectromagnetPanel from '../../common/view/ElectromagnetPanel.js';
 import Property from '../../../../axon/js/Property.js';
 import FELPanels from '../../common/view/FELPanels.js';
-import Transformer from '../model/Transformer.js';
 import { Node } from '../../../../scenery/js/imports.js';
+import TransformerScreenModel from '../model/TransformerScreenModel.js';
 
 export default class TransformerPanels extends FELPanels {
 
@@ -25,14 +23,13 @@ export default class TransformerPanels extends FELPanels {
   public readonly pickupCoilPanel: Node;
   public readonly toolsPanel: Node;
 
-  public constructor( transformer: Transformer, compass: Compass, fieldMeter: FieldMeter,
-                      isLockedToAxisProperty: Property<boolean>, tandem: Tandem ) {
+  public constructor( model: TransformerScreenModel, isLockedToAxisProperty: Property<boolean>, tandem: Tandem ) {
 
-    const electromagnetPanel = new ElectromagnetPanel( transformer.electromagnet, tandem.createTandem( 'electromagnetPanel' ) );
+    const electromagnetPanel = new ElectromagnetPanel( model.transformer.electromagnet, tandem.createTandem( 'electromagnetPanel' ) );
 
-    const pickupCoilPanel = new PickupCoilPanel( transformer.pickupCoil, tandem.createTandem( 'pickupCoilPanel' ) );
+    const pickupCoilPanel = new PickupCoilPanel( model.transformer.pickupCoil, tandem.createTandem( 'pickupCoilPanel' ) );
 
-    const toolsPanel = new ToolsPanel( compass, fieldMeter, {
+    const toolsPanel = new ToolsPanel( model.compass, model.fieldMeter, {
       isLockedToAxisProperty: isLockedToAxisProperty,
       tandem: tandem.createTandem( 'toolsPanel' )
     } );
