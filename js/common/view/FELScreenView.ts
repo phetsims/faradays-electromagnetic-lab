@@ -27,7 +27,6 @@ import TReadOnlyProperty from '../../../../axon/js/TReadOnlyProperty.js';
 import Property from '../../../../axon/js/Property.js';
 import PickupCoilNode from './PickupCoilNode.js';
 import DerivedProperty from '../../../../axon/js/DerivedProperty.js';
-import isResettingAllProperty from '../isResettingAllProperty.js';
 import isSettingPhetioStateProperty from '../../../../tandem/js/isSettingPhetioStateProperty.js';
 
 type SelfOptions = {
@@ -87,10 +86,8 @@ export default class FELScreenView extends ScreenView {
 
     this.resetAllButton = new ResetAllButton( {
       listener: () => {
-        isResettingAllProperty.value = true;
         this.interruptSubtreeInput(); // cancel interactions that may be in progress
         options.resetAll();
-        isResettingAllProperty.value = false;
       },
       tandem: options.tandem.createTandem( 'resetAllButton' )
     } );
