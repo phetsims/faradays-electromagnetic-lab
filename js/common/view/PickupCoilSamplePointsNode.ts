@@ -25,12 +25,10 @@ export default class PickupCoilSamplePointsNode extends Node {
 
     pickupCoil.samplePointsProperty.link( () => {
       const shape = new Shape();
-      const samplePoints = pickupCoil.samplePointsProperty.value;
-      for ( let i = 0; i < samplePoints.length; i++ ) {
-        const samplePoint = samplePoints[ i ];
+      pickupCoil.samplePointsProperty.value.forEach( samplePoint => {
         shape.moveToPoint( samplePoint );
         shape.circle( samplePoint, 2 );
-      }
+      } );
       path.shape = shape;
     } );
 
