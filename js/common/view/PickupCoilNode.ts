@@ -20,6 +20,7 @@ import VoltmeterNode from './VoltmeterNode.js';
 import optionize, { EmptySelfOptions } from '../../../../phet-core/js/optionize.js';
 import PickRequired from '../../../../phet-core/js/types/PickRequired.js';
 import PickOptional from '../../../../phet-core/js/types/PickOptional.js';
+import PickupCoilAreaNode from './PickupCoilAreaNode.js';
 
 type SelfOptions = EmptySelfOptions;
 
@@ -41,6 +42,7 @@ export default class PickupCoilNode extends FELMovableNode {
       tandem: options.tandem.createTandem( 'coilNode' )
     } );
 
+    const areaNode = new PickupCoilAreaNode( pickupCoil );
     const samplePointsNode = new PickupCoilSamplePointsNode( pickupCoil );
 
     const lightBulbNode = new FELLightBulbNode( pickupCoil.lightBulb, pickupCoil.currentIndicatorProperty,
@@ -66,7 +68,7 @@ export default class PickupCoilNode extends FELMovableNode {
     } );
 
     // This Node's children are the foreground elements only.
-    options.children = [ coilNode, samplePointsNode, lightBulbNode, voltmeterNode ];
+    options.children = [ coilNode, areaNode, samplePointsNode, lightBulbNode, voltmeterNode ];
 
     super( pickupCoil, options );
 
