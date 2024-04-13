@@ -30,8 +30,8 @@ export default class PickupCoilSamplePointsNode extends Node {
         const samplePoint = samplePoints[ i ];
         shape.moveToPoint( samplePoint );
         shape.circle( samplePoint, 2 );
-        path.shape = shape;
       }
+      path.shape = shape;
     } );
 
     super( {
