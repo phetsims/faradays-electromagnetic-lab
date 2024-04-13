@@ -4,7 +4,7 @@
  * PickupCoilAreaNode is a debugging Node for displaying a visualization of how the area of the pickup coil is modeled.
  * The coil is divided into a set of rectangles. There is one rectangle for each sample point, and the rectangle is
  * the sample point's contribution to the area of one loop. The sum of the area for the rectangles approximates the
- * area of the loop. This visualization is as if you were looking down the x-axis, into the coil.
+ * area of the loop. This visualization is as if you are looking down the x-axis, into the coil.
  * See https://github.com/phetsims/faradays-electromagnetic-lab/issues/156
  *
  * This Node can be made visible via the developer controls that are available when running with &dev query parameter.
