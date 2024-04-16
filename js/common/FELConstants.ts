@@ -29,7 +29,7 @@ const CREDITS: CreditsData = {
   softwareDevelopment: 'Chris Malley (PixelZoom, Inc.)',
   team: 'Wendy Adams, Mike Dubson, Danielle Harlow, Ariel Paul, Archie Paulson, Kathy Perkins, Carl Wieman',
   contributors: '',
-  qualityAssurance: '',
+  qualityAssurance: 'Nancy Salpepi, Kathryn Woessner',
   graphicArts: '',
   soundDesign: '',
   thanks: ''
