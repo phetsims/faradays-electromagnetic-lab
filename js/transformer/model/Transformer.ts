@@ -59,9 +59,12 @@ export default class Transformer extends PhetioObject {
         currentSpeedScale: 2
       },
       lightBulbOptions: {
-        //TODO https://github.com/phetsims/faradays-electromagnetic-lab/issues/152 document why
-        //TODO https://github.com/phetsims/faradays-electromagnetic-lab/issues/152 Is this appropriate for the DC power supply?
-        lightsWhenCurrentChangesDirection: false
+
+        // AC Power Supply is cyclic, and current changes direction. We might 'step over' the zero points in the model,
+        // so ensure that the light bulb will go through an 'off' state as the current direction changes.
+        // See https://github.com/phetsims/faradays-electromagnetic-lab/issues/152.
+        lightsWhenCurrentChangesDirectionProperty: new DerivedProperty( [ this.electromagnet.currentSourceProperty ],
+          currentSource => currentSource instanceof DCPowerSupply )
       },
       voltmeterOptions: {
 

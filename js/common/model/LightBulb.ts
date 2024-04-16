@@ -18,16 +18,17 @@ import FELConstants from '../FELConstants.js';
 import CurrentIndicator, { CurrentIndicatorOptions } from './CurrentIndicator.js';
 import Utils from '../../../../dot/js/Utils.js';
 import optionize from '../../../../phet-core/js/optionize.js';
+import BooleanProperty from '../../../../axon/js/BooleanProperty.js';
 
 const BRIGHTNESS_RANGE = new Range( 0, 1 );
 
 type SelfOptions = {
 
-  // Determines whether the bulb lights when the current in the coil changes direction.
-  // In some cases (e.g. flipping the bar magnet) this should be true.
-  // In other cases (eg, the Generator or AC Electromagnet) this should be false.
-  //TODO https://github.com/phetsims/faradays-electromagnetic-lab/issues/152 Improve documentation of this feature, its use for sinusoidal sources, why that's necessary.
-  lightsWhenCurrentChangesDirection?: boolean;
+  // For current that is cyclic and changes direction (AC Electromagnet, Generator) the model may step over the
+  // zero points. This Property should be set to false for those cases, so that the light bulb is guaranteed to
+  // go through an 'off' state. This is most noticeable when stepping the sim manually using the time controls.
+  // See https://github.com/phetsims/faradays-electromagnetic-lab/issues/152.
+  lightsWhenCurrentChangesDirectionProperty?: TReadOnlyProperty<boolean>;
 };
 
 export type LightBulbOptions = SelfOptions & PickRequired<CurrentIndicatorOptions, 'tandem'>;
@@ -43,7 +44,7 @@ export default class LightBulb extends CurrentIndicator {
     const options = optionize<LightBulbOptions, SelfOptions, CurrentIndicatorOptions>()( {
 
       // SelfOptions
-      lightsWhenCurrentChangesDirection: true
+      lightsWhenCurrentChangesDirectionProperty: providedOptions.lightsWhenCurrentChangesDirectionProperty || new BooleanProperty( true )
     }, providedOptions );
 
     super( options );
@@ -62,7 +63,7 @@ export default class LightBulb extends CurrentIndicator {
       let brightness = 0;
       if ( previousNormalizedCurrent !== null &&
            Math.sign( normalizedCurrent ) !== Math.sign( previousNormalizedCurrent ) &&
-           !options.lightsWhenCurrentChangesDirection ) {
+           !options.lightsWhenCurrentChangesDirectionProperty.value ) {
 
         // Current changed direction and should not light the bulb.
         brightness = 0;

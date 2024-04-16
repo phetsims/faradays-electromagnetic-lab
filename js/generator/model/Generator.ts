@@ -51,8 +51,11 @@ export default class Generator extends PhetioObject {
         phetioReadOnly: true
       },
       lightBulbOptions: {
-        //TODO https://github.com/phetsims/faradays-electromagnetic-lab/issues/152 document why
-        lightsWhenCurrentChangesDirection: false
+
+        // The turbine is cyclic, and current changes direction. We might 'step over' the zero points in the model,
+        // so ensure that the light bulb will go through an 'off' state as the current direction changes.
+        // See https://github.com/phetsims/faradays-electromagnetic-lab/issues/152.
+        lightsWhenCurrentChangesDirectionProperty: new BooleanProperty( false )
       },
       voltmeterOptions: {
 
