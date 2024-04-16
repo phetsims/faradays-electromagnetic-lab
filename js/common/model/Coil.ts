@@ -40,11 +40,11 @@ import Emitter from '../../../../axon/js/Emitter.js';
 import { CurrentFlow } from '../FELQueryParameters.js';
 
 // Spacing between the centers of charges in the coil.
-const ELECTRON_SPACING = 25;
+const CHARGE_SPACING = 25;
 
 // Ends of the coil contain a fixed number of charges.
-const ELECTRONS_IN_LEFT_END = 2;
-const ELECTRONS_IN_RIGHT_END = 2;
+const CHARGES_IN_LEFT_END = 2;
+const CHARGES_IN_RIGHT_END = 2;
 
 // To provide a pseudo-3D view, so that objects may appear to pass 'through' the coil, the coil is divided into
 // foreground and background layers that are rendered separately.
@@ -122,7 +122,7 @@ export default class Coil extends PhetioObject {
   // Segments that describe the shape of the coil, from left to right.
   public readonly coilSegmentsProperty: TReadOnlyProperty<CoilSegment[]>;
 
-  // Electrons that represent current flow in the coil
+  // Charges that represent current flow in the coil
   public readonly chargedParticlesProperty: TReadOnlyProperty<ChargedParticle[]>;
 
   // Fires after charges have moved.
@@ -292,7 +292,7 @@ export default class Coil extends PhetioObject {
             stroke: gradient,
 
             // Scale the speed, since this segment is different from the others in the coil.
-            speedScale: ( loopRadius / ELECTRON_SPACING ) / ELECTRONS_IN_LEFT_END
+            speedScale: ( loopRadius / CHARGE_SPACING ) / CHARGES_IN_LEFT_END
           } );
           coilSegments.push( coilSegment );
         }
@@ -383,7 +383,7 @@ export default class Coil extends PhetioObject {
           stroke: middleColor,
 
           // Scale the speed, since this segment is different from the others in the coil.
-          speedScale: ( loopRadius / ELECTRON_SPACING ) / ELECTRONS_IN_RIGHT_END
+          speedScale: ( loopRadius / CHARGE_SPACING ) / CHARGES_IN_RIGHT_END
         } );
         coilSegments.push( coilSegment );
       }
@@ -407,28 +407,30 @@ export default class Coil extends PhetioObject {
 
       // Compute how many charges to add for this curve segment. The number of charges is fixed for the ends
       // of the coil, and a function of loop radius for the other segments.
-      let numberOfElectrons;
+      let numberOfCharges;
       if ( coilSegmentIndex === leftEndIndex ) {
-        numberOfElectrons = ELECTRONS_IN_LEFT_END;
+        numberOfCharges = CHARGES_IN_LEFT_END;
       }
       else if ( coilSegmentIndex === rightEndIndex ) {
-        numberOfElectrons = ELECTRONS_IN_RIGHT_END;
+        numberOfCharges = CHARGES_IN_RIGHT_END;
       }
       else {
-        numberOfElectrons = Math.floor( this.loopRadiusProperty.value / ELECTRON_SPACING );
+        numberOfCharges = Math.floor( this.loopRadiusProperty.value / CHARGE_SPACING );
       }
-      assert && assert( Number.isInteger( numberOfElectrons ) && numberOfElectrons > 0,
-        `invalid numberOfElectrons: ${numberOfElectrons}` );
+      assert && assert( Number.isInteger( numberOfCharges ) && numberOfCharges > 0,
+        `invalid numberOfCharges: ${numberOfCharges}` );
 
       // Add charges for this curve segment.
-      for ( let i = 0; i < numberOfElectrons; i++ ) {
-        const chargedParticle = new ChargedParticle( this.normalizedCurrentProperty, this.normalizedCurrentRange,
-          this.currentFlowProperty, {
-            coilSegments: coilSegments,
-            coilSegmentIndex: coilSegmentIndex,
-            coilSegmentPosition: i / numberOfElectrons,
-            speedScaleProperty: this.currentSpeedScaleProperty
-          } );
+      for ( let i = 0; i < numberOfCharges; i++ ) {
+        const chargedParticle = new ChargedParticle( {
+          normalizedCurrentProperty: this.normalizedCurrentProperty,
+          normalizedCurrentRange: this.normalizedCurrentRange,
+          currentFlowProperty: this.currentFlowProperty,
+          currentSpeedScaleProperty: this.currentSpeedScaleProperty,
+          coilSegments: coilSegments,
+          coilSegmentIndex: coilSegmentIndex,
+          coilSegmentPosition: i / numberOfCharges
+        } );
         chargedParticles.push( chargedParticle );
       }
     }

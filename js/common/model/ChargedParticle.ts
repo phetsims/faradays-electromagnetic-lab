@@ -34,17 +34,14 @@ const MAX_SPEED_AND_DIRECTION = 1;
 
 type SelfOptions = {
 
-  // Ordered collection of the segments that make up the coil
+  // See documentation of corresponding fields.
+  normalizedCurrentProperty: TReadOnlyProperty<number>;
+  normalizedCurrentRange: Range;
+  currentFlowProperty: TReadOnlyProperty<CurrentFlow>;
+  currentSpeedScaleProperty: TReadOnlyProperty<number>;
   coilSegments: CoilSegment[];
-
-  // Initial value of coilSegmentIndexProperty
   coilSegmentIndex: number;
-
-  // Initial value of coilSegmentPosition
   coilSegmentPosition: number;
-
-  // Developer control used to scale the charge's speed in the view.
-  speedScaleProperty: TReadOnlyProperty<number>;
 };
 
 type ChargedParticleOptions = SelfOptions;
@@ -57,6 +54,9 @@ export default class ChargedParticle {
 
   // Convention for current flow direction.
   private readonly currentFlowProperty: TReadOnlyProperty<CurrentFlow>;
+
+  // For scaling the speed of current in the coil.
+  private readonly currentSpeedScaleProperty: TReadOnlyProperty<number>;
 
   // ChargedParticle's position, relative to the coil's position. This Vector2 is mutated as position changes.
   private readonly position: Vector2;
@@ -74,28 +74,24 @@ export default class ChargedParticle {
   private speedAndDirection: number;
   private readonly speedAndDirectionRange: Range;
 
-  // Scale for adjusting speed.
-  private readonly speedScaleProperty: TReadOnlyProperty<number>;
-
-  public constructor( normalizedCurrentProperty: TReadOnlyProperty<number>, normalizedCurrentRange: Range,
-                      currentFlowProperty: TReadOnlyProperty<CurrentFlow>, providedOptions: ChargedParticleOptions ) {
+  public constructor( providedOptions: ChargedParticleOptions ) {
 
     const options = providedOptions;
     assert && assert( COIL_SEGMENT_POSITION_RANGE.contains( options.coilSegmentPosition ) );
 
-    this.normalizedCurrentProperty = normalizedCurrentProperty;
-    this.normalizedCurrentRange = normalizedCurrentRange;
-    this.currentFlowProperty = currentFlowProperty;
-
-    const coilSegment = options.coilSegments[ options.coilSegmentIndex ];
-
-    this.position = coilSegment.evaluate( options.coilSegmentPosition );
+    this.normalizedCurrentProperty = options.normalizedCurrentProperty;
+    this.normalizedCurrentRange = options.normalizedCurrentRange;
+    this.currentFlowProperty = options.currentFlowProperty;
+    this.currentSpeedScaleProperty = options.currentSpeedScaleProperty;
     this.coilSegments = options.coilSegments;
     this.coilSegmentIndex = options.coilSegmentIndex;
     this.coilSegmentPosition = options.coilSegmentPosition;
+
+    const coilSegment = options.coilSegments[ options.coilSegmentIndex ];
+    this.position = coilSegment.evaluate( options.coilSegmentPosition );
+
     this.speedAndDirectionRange = new Range( -MAX_SPEED_AND_DIRECTION, MAX_SPEED_AND_DIRECTION );
     this.speedAndDirection = 0;
-    this.speedScaleProperty = options.speedScaleProperty;
   }
 
   public dispose(): void {
@@ -148,7 +144,7 @@ export default class ChargedParticle {
       const sign = ( this.currentFlowProperty.value === 'electron' ) ? -1 : 1;
 
       const deltaPosition = sign * dt * MAX_COIL_SEGMENT_POSITION_DELTA * this.speedAndDirection *
-                            this.speedScaleProperty.value * this.getCoilSegmentSpeedScale();
+                            this.currentSpeedScaleProperty.value * this.getCoilSegmentSpeedScale();
 
       const newPosition = this.coilSegmentPosition + deltaPosition;
 
