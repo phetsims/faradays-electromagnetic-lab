@@ -19,10 +19,13 @@ import FaradaysElectromagneticLabStrings from '../../../FaradaysElectromagneticL
 import earthEasternHemisphere_svg from '../../../../images/earthEasternHemisphere_svg.js';
 import earthWesternHemisphere_svg from '../../../../images/earthWesternHemisphere_svg.js';
 import { combineOptions } from '../../../../../phet-core/js/optionize.js';
+import TReadOnlyProperty from '../../../../../axon/js/TReadOnlyProperty.js';
 
 export default class EarthHemispherePreferencesControl extends PreferencesControl {
 
-  public constructor( earthImageProperty: StringUnionProperty<EarthHemisphere>, tandem: Tandem ) {
+  public constructor( earthImageProperty: StringUnionProperty<EarthHemisphere>,
+                      addEarthCheckboxProperty: TReadOnlyProperty<boolean>,
+                      tandem: Tandem ) {
 
     const labelText = new Text( FaradaysElectromagneticLabStrings.earthHemisphereStringProperty, {
       font: FELConstants.PREFERENCES_LABEL_FONT,
@@ -33,6 +36,7 @@ export default class EarthHemispherePreferencesControl extends PreferencesContro
       tandem.createTandem( 'radioButtonGroup' ) );
 
     super( combineOptions<PreferencesControlOptions>( {}, FELConstants.PREFERENCES_CONTROL_OPTIONS, {
+      enabledProperty: addEarthCheckboxProperty,
       labelNode: labelText,
       controlNode: radioButtonGroup,
       tandem: tandem

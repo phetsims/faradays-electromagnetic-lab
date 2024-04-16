@@ -52,7 +52,7 @@ export default class FELPreferencesNode extends VBox {
       controls.push( addEarthCheckboxPreferencesControl );
 
       const earthHemispherePreferencesControl = new EarthHemispherePreferencesControl( preferences.earthHemisphereProperty,
-        tandem.createTandem( 'earthImagePreferencesControl' ) );
+        preferences.addEarthCheckboxProperty, tandem.createTandem( 'earthImagePreferencesControl' ) );
       controls.push( earthHemispherePreferencesControl );
     }
 
