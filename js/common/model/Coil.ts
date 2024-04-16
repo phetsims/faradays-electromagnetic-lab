@@ -200,7 +200,7 @@ export default class Coil extends PhetioObject {
     } );
 
     this.currentSpeedScaleProperty = new NumberProperty( options.currentSpeedScale, {
-      range: new Range( 1, 100 )
+      range: new Range( 0.1, 3 )
       // Do not instrument. This is a PhET developer Property.
     } );
 
