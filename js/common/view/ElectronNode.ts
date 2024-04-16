@@ -17,6 +17,9 @@ import Dimension2 from '../../../../dot/js/Dimension2.js';
 import FELColors from '../FELColors.js';
 import PickOptional from '../../../../phet-core/js/types/PickOptional.js';
 import optionize from '../../../../phet-core/js/optionize.js';
+import FELConstants from '../FELConstants.js';
+
+const DIAMETER = FELConstants.CHARGED_PARTICLE_DIAMETER;
 
 type SelfOptions = {
   color?: TColor;
@@ -26,8 +29,6 @@ type SelfOptions = {
 type ElectronNodeOptions = SelfOptions & PickOptional<NodeOptions, 'scale'>;
 
 export default class ElectronNode extends Node {
-
-  public static readonly DIAMETER = 9;
 
   public constructor( providedOptions?: ElectronNodeOptions ) {
 
@@ -39,12 +40,12 @@ export default class ElectronNode extends Node {
     }, providedOptions );
 
     const circle = new Circle( {
-      radius: ElectronNode.DIAMETER / 2,
+      radius: DIAMETER / 2,
       fill: options.color
     } );
 
     const minusNode = new MinusNode( {
-      size: new Dimension2( 0.65 * ElectronNode.DIAMETER, 0.15 * ElectronNode.DIAMETER ),
+      size: new Dimension2( 0.65 * DIAMETER, 0.15 * DIAMETER ),
       center: circle.center,
       fill: options.minusColor
     } );

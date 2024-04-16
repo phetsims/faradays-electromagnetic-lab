@@ -14,6 +14,9 @@ import FELColors from '../FELColors.js';
 import PickOptional from '../../../../phet-core/js/types/PickOptional.js';
 import optionize from '../../../../phet-core/js/optionize.js';
 import PlusNode from '../../../../scenery-phet/js/PlusNode.js';
+import FELConstants from '../FELConstants.js';
+
+const DIAMETER = FELConstants.CHARGED_PARTICLE_DIAMETER;
 
 type SelfOptions = {
   color?: TColor;
@@ -23,8 +26,6 @@ type SelfOptions = {
 type PositiveChargeNodeOptions = SelfOptions & PickOptional<NodeOptions, 'scale'>;
 
 export default class PositiveChargeNode extends Node {
-
-  public static readonly DIAMETER = 9;
 
   public constructor( providedOptions?: PositiveChargeNodeOptions ) {
 
@@ -36,12 +37,12 @@ export default class PositiveChargeNode extends Node {
     }, providedOptions );
 
     const circle = new Circle( {
-      radius: PositiveChargeNode.DIAMETER / 2,
+      radius: DIAMETER / 2,
       fill: options.color
     } );
 
     const minusNode = new PlusNode( {
-      size: new Dimension2( 0.65 * PositiveChargeNode.DIAMETER, 0.15 * PositiveChargeNode.DIAMETER ),
+      size: new Dimension2( 0.65 * DIAMETER, 0.15 * DIAMETER ),
       center: circle.center,
       fill: options.plusColor
     } );

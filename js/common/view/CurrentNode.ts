@@ -20,6 +20,7 @@ import Multilink from '../../../../axon/js/Multilink.js';
 import ElectronNode from './ElectronNode.js';
 import { CurrentFlow } from '../FELQueryParameters.js';
 import PositiveChargeNode from './PositiveChargeNode.js';
+import FELConstants from '../FELConstants.js';
 
 // Scale up by this much when creating Nodes, to improve resolution.
 const RESOLUTION_SCALE = 8;
@@ -79,7 +80,7 @@ export default class CurrentNode extends Sprites {
       }
 
       // Make sure the bounds are large enough to contain the SpriteInstances.
-      bounds.dilate( ElectronNode.DIAMETER / 2 );//TODO https://github.com/phetsims/faradays-electromagnetic-lab/issues/136
+      bounds.dilate( FELConstants.CHARGED_PARTICLE_DIAMETER / 2 );
 
       this.canvasBounds = bounds;
     } );

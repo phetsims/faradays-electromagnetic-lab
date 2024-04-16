@@ -201,7 +201,10 @@ const FELConstants = {
   NORMALIZED_CURRENT_PHET_IO_DOCUMENTATION:
     'For internal use only. Current in the coil is normalized to the range [-1,1]. ' +
     'The magnitude indicates the relative amount of current flowing in the coil, ' +
-    'while the sign indicates the direction of flow.'
+    'while the sign indicates the direction of flow.',
+
+  // Diameter for charged particles (electrons and imaginary positive charges)
+  CHARGED_PARTICLE_DIAMETER: 9
 };
 
 faradaysElectromagneticLab.register( 'FELConstants', FELConstants );
