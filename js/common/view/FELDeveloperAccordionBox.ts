@@ -27,6 +27,7 @@ import Utils from '../../../../dot/js/Utils.js';
 import Dimension2 from '../../../../dot/js/Dimension2.js';
 import ResetButton from '../../../../scenery-phet/js/buttons/ResetButton.js';
 import PickupCoil from '../model/PickupCoil.js';
+import Electromagnet from '../model/Electromagnet.js';
 
 // Developer controls are styled independently of controls in the UI, so that we can cram more of them in.
 const CONTROL_FONT_SIZE = 12;
@@ -80,10 +81,6 @@ export default class FELDeveloperAccordionBox extends AccordionBox {
     return new FELDeveloperNumberControl( 'Field Scale:', property, 2 /* decimalPlaces */ );
   }
 
-  protected static createElectromagnetShapeCheckbox( property: Property<boolean> ): Checkbox {
-    return new FELDeveloperCheckbox( 'Electromagnet Shape', property );
-  }
-
   /**
    * Creates the set of controls related to the pickup coil.
    */
@@ -98,6 +95,21 @@ export default class FELDeveloperAccordionBox extends AccordionBox {
         new FELDeveloperNumberControl( 'Current Speed Scale:', pickupCoil.coil.currentSpeedScaleProperty, 1 /* decimalPlaces */ ),
         new FELDeveloperCheckbox( 'Sample Points', pickupCoil.samplePointsVisibleProperty ),
         new FELDeveloperCheckbox( 'Debugger Panel', pickupCoil.debuggerPanelVisibleProperty )
+      ]
+    } );
+  }
+
+  /**
+   * Creates the set of controls related to the electromagnet.
+   */
+  protected static createElectromagnetControls( electromagnet: Electromagnet ): VBox {
+    return new VBox( {
+      align: 'left',
+      spacing: VBOX_SPACING,
+      children: [
+        new Text( 'Electromagnet', SUBTITLE_OPTIONS ),
+        new FELDeveloperNumberControl( 'Current Speed Scale:', electromagnet.coil.currentSpeedScaleProperty, 1 /* decimalPlaces */ ),
+        new FELDeveloperCheckbox( 'Electromagnet Shape', electromagnet.shapeVisibleProperty )
       ]
     } );
   }

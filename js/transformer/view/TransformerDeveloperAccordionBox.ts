@@ -21,7 +21,8 @@ export default class TransformerDeveloperAccordionBox extends FELDeveloperAccord
       spacing: 10,
       children: [
         FELDeveloperAccordionBox.createFieldScaleControl( transformer.electromagnet.fieldScaleProperty ),
-        FELDeveloperAccordionBox.createElectromagnetShapeCheckbox( transformer.electromagnet.shapeVisibleProperty ),
+        new HSeparator(),
+        FELDeveloperAccordionBox.createElectromagnetControls( transformer.electromagnet ),
         new HSeparator(),
         FELDeveloperAccordionBox.createPickupCoilControls( transformer.pickupCoil )
       ]
