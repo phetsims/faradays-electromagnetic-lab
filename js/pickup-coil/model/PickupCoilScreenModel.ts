@@ -60,6 +60,10 @@ export default class PickupCoilScreenModel extends FELScreenModel {
       position: PICKUP_COIL_POSITION,
       maxEMF: 2700000, // see PickupCoil.calibrateMaxEMF
       transitionSmoothingScale: 0.77, // see PickupCoil.transitionSmoothingScaleProperty
+
+      // To avoid inducing significant (incorrect) EMF when the magnet is moved vertically when inside the coil,
+      // use sample-point spacing that results (approximately) in the same number of sample points always being
+      // "inside" the magnet. See https://phet.unfuddle.com/a#/projects/9404/tickets/by_number/248.
       samplePointsStrategy: new FixedSpacingSamplePointsStrategy( barMagnet.size.height / 10 ),
       coilOptions: {
         currentSpeedScale: 3
