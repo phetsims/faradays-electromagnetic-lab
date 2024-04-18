@@ -53,7 +53,11 @@ export default class Transformer extends PhetioObject {
       position: options.pickupCoilPosition,
       maxEMF: 3500000, // see PickupCoil.calibrateMaxEMF
       transitionSmoothingScale: 0.56, // see PickupCoil.transitionSmoothingScaleProperty
-      samplePointsStrategy: new FixedSpacingSamplePointsStrategy( 5.4 ), // same as Java version
+
+      // To avoid inducing significant (incorrect) EMF when the magnet is moved vertically when inside the coil,
+      // use sample-point spacing that results (approximately) in the same number of sample points always being
+      // "inside" the magnet. See https://phet.unfuddle.com/a#/projects/9404/tickets/by_number/248.
+      samplePointsStrategy: new FixedSpacingSamplePointsStrategy( this.electromagnet.size.height / 20 ),
       coilOptions: {
         loopAreaPercentRange: new RangeWithValue( 20, 100, 75 ),
         currentSpeedScale: 2
