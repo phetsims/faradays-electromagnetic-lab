@@ -12,7 +12,6 @@ import PhetioObject, { PhetioObjectOptions } from '../../../../tandem/js/PhetioO
 import Electromagnet from '../../common/model/Electromagnet.js';
 import PickupCoil from '../../common/model/PickupCoil.js';
 import Vector2 from '../../../../dot/js/Vector2.js';
-import { FixedSpacingSamplePointsStrategy } from '../../common/model/PickupCoilSamplePointsStrategy.js';
 import DerivedProperty from '../../../../axon/js/DerivedProperty.js';
 import DCPowerSupply from '../../common/model/DCPowerSupply.js';
 import RangeWithValue from '../../../../dot/js/RangeWithValue.js';
@@ -57,7 +56,7 @@ export default class Transformer extends PhetioObject {
       // To avoid inducing significant (incorrect) EMF when the magnet is moved vertically when inside the coil,
       // use sample-point spacing that results (approximately) in the same number of sample points always being
       // "inside" the magnet. See https://phet.unfuddle.com/a#/projects/9404/tickets/by_number/248.
-      samplePointsStrategy: new FixedSpacingSamplePointsStrategy( this.electromagnet.size.height / 20 ),
+      samplePointsSpacing: this.electromagnet.size.height / 20,
       coilOptions: {
         loopAreaPercentRange: new RangeWithValue( 20, 100, 75 ),
         currentSpeedScale: 2

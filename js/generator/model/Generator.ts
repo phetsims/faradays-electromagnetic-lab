@@ -12,7 +12,6 @@ import PhetioObject, { PhetioObjectOptions } from '../../../../tandem/js/PhetioO
 import Turbine from './Turbine.js';
 import PickupCoil from '../../common/model/PickupCoil.js';
 import Vector2 from '../../../../dot/js/Vector2.js';
-import { FixedNumberOfSamplePointsStrategy } from '../../common/model/PickupCoilSamplePointsStrategy.js';
 import Utils from '../../../../dot/js/Utils.js';
 import Multilink from '../../../../axon/js/Multilink.js';
 import PickRequired from '../../../../phet-core/js/types/PickRequired.js';
@@ -64,7 +63,7 @@ export default class Generator extends PhetioObject {
       },
       maxEMF: 26000, // see PickupCoil.calibrateMaxEMF
       transitionSmoothingScale: 1, // see PickupCoil.transitionSmoothingScaleProperty
-      samplePointsStrategy: new FixedNumberOfSamplePointsStrategy( 9 /* numberOfSamplePoints */ ),
+      samplePointsSpacing: this.turbine.barMagnet.size.height / 10, // similar to PickupCoilScreenModel
       tandem: options.tandem.createTandem( 'pickupCoil' )
     } );
 

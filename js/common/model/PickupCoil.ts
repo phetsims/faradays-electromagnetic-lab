@@ -22,7 +22,6 @@ import TReadOnlyProperty from '../../../../axon/js/TReadOnlyProperty.js';
 import LightBulb, { LightBulbOptions } from './LightBulb.js';
 import Voltmeter, { VoltmeterOptions } from './Voltmeter.js';
 import CurrentIndicator from './CurrentIndicator.js';
-import PickupCoilSamplePointsStrategy from './PickupCoilSamplePointsStrategy.js';
 import FELMovable, { FELMovableOptions } from './FELMovable.js';
 import FELConstants from '../FELConstants.js';
 import StrictOmit from '../../../../phet-core/js/types/StrictOmit.js';
@@ -34,8 +33,8 @@ import ConstantDtClock from './ConstantDtClock.js';
 
 type SelfOptions = {
   maxEMF: number; // the initial value of maxEMFProperty
-  transitionSmoothingScale?: number; // the initial value of transitionSmoothingScaleProperty
-  samplePointsStrategy: PickupCoilSamplePointsStrategy; // strategy used to populate B-field samplePoints
+  transitionSmoothingScale: number; // the initial value of transitionSmoothingScaleProperty
+  samplePointsSpacing: number; // spacing between B-field sample points
   coilOptions?: PickOptional<CoilOptions, 'maxLoopArea' | 'loopAreaPercentRange' | 'currentSpeedScale'>; // passed to Coil
   lightBulbOptions?: PickOptional<LightBulbOptions, 'lightsWhenCurrentChangesDirectionProperty'>; // passed to LightBulb
   voltmeterOptions?: PickOptional<VoltmeterOptions, 'kinematicsEnabledProperty'>; // passed to Voltmeter
@@ -119,11 +118,8 @@ export default class PickupCoil extends FELMovable {
 
   public constructor( magnet: Magnet, currentFlowProperty: TReadOnlyProperty<CurrentFlow>, providedOptions: PickupCoilOptions ) {
 
-    const options = optionize<PickupCoilOptions, StrictOmit<SelfOptions, 'coilOptions' | 'lightBulbOptions' | 'voltmeterOptions'>, FELMovableOptions>()( {
-
-      // SelfOptions
-      transitionSmoothingScale: 1 // no smoothing
-    }, providedOptions );
+    const options = optionize<PickupCoilOptions, StrictOmit<SelfOptions, 'coilOptions' | 'lightBulbOptions' | 'voltmeterOptions'>, FELMovableOptions>()(
+      {}, providedOptions );
 
     super( options );
 
@@ -198,8 +194,8 @@ export default class PickupCoil extends FELMovable {
       phetioFeatured: true
     } );
 
-    this.samplePointsProperty = new DerivedProperty( [ this.coil.loopRadiusProperty ], loopRadius =>
-      options.samplePointsStrategy.createSamplePoints( loopRadius ) );
+    this.samplePointsProperty = new DerivedProperty( [ this.coil.loopRadiusProperty ],
+      loopRadius => createSamplePoints( loopRadius, options.samplePointsSpacing ) );
 
     this.transitionSmoothingScaleProperty = new NumberProperty( options.transitionSmoothingScale, {
       range: new Range( 0.1, 1 )
@@ -379,6 +375,37 @@ export default class PickupCoil extends FELMovable {
     const height = 2 * this.coil.loopRadiusProperty.value;
     return width * height;
   }
+}
+
+/**
+ * Creates points for sampling the B-field. Points are distributed along a vertical line that goes through the center
+ * of the pickup coil. One point is at the center of the coil. Points will be on the edge of the coil only if the coil's
+ * radius is an integer multiple of the spacing.
+ *
+ * Note that the Java version had 2 sample-point strategies: see ConstantNumberOfSamplePointsStrategy and
+ * VariableNumberOfSamplePointsStrategy in PickupCoil.java, both of which were ported to PickupCoilSamplePointsStrategy.ts.
+ * ConstantNumberOfSamplePointsStrategy was used only for the Generator screen, and was determined to be unnecessary.
+ * So this function is the simplified implementation of VariableNumberOfSamplePointsStrategy.
+ */
+function createSamplePoints( loopRadius: number, spacing: number ): Vector2[] {
+
+  const numberOfSamplePointsOnRadius = Math.floor( loopRadius / spacing );
+
+  // All sample points share the same x coordinate, at the pickup coil's origin.
+  const x = 0;
+
+  // A point at the center of the coil
+  const samplePoints: Vector2[] = [ new Vector2( x, 0 ) ];
+
+  // Points below and above the center
+  let y = 0;
+  for ( let i = 0; i < numberOfSamplePointsOnRadius; i++ ) {
+    y += spacing;
+    samplePoints.push( new Vector2( x, y ) );
+    samplePoints.push( new Vector2( x, -y ) );
+  }
+
+  return samplePoints;
 }
 
 faradaysElectromagneticLab.register( 'PickupCoil', PickupCoil );

@@ -16,7 +16,6 @@ import Vector2 from '../../../../dot/js/Vector2.js';
 import BarMagnet from '../../common/model/BarMagnet.js';
 import KinematicCompass from '../../common/model/KinematicCompass.js';
 import FELScreenModel from '../../common/model/FELScreenModel.js';
-import { FixedSpacingSamplePointsStrategy } from '../../common/model/PickupCoilSamplePointsStrategy.js';
 import FELPreferences from '../../common/model/FELPreferences.js';
 
 // y position shared by all components, so that they are on the same horizontal axis.
@@ -64,7 +63,7 @@ export default class PickupCoilScreenModel extends FELScreenModel {
       // To avoid inducing significant (incorrect) EMF when the magnet is moved vertically when inside the coil,
       // use sample-point spacing that results (approximately) in the same number of sample points always being
       // "inside" the magnet. See https://phet.unfuddle.com/a#/projects/9404/tickets/by_number/248.
-      samplePointsStrategy: new FixedSpacingSamplePointsStrategy( barMagnet.size.height / 10 ),
+      samplePointsSpacing: barMagnet.size.height / 10,
       coilOptions: {
         currentSpeedScale: 3
       },
