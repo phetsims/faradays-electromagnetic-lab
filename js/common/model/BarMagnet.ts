@@ -11,7 +11,6 @@
 
 import faradaysElectromagneticLab from '../../faradaysElectromagneticLab.js';
 import Magnet, { MagnetOptions } from './Magnet.js';
-import Dimension2 from '../../../../dot/js/Dimension2.js';
 import BarMagnetFieldData from './BarMagnetFieldData.js';
 import Vector2 from '../../../../dot/js/Vector2.js';
 import BarMagnetFieldGrid from './BarMagnetFieldGrid.js';
@@ -22,14 +21,15 @@ import DerivedProperty from '../../../../axon/js/DerivedProperty.js';
 import NumberIO from '../../../../tandem/js/types/NumberIO.js';
 import WithOptional from '../../../../phet-core/js/types/WithOptional.js';
 import FELConstants from '../FELConstants.js';
+import Dimension3 from '../../../../dot/js/Dimension3.js';
 
-const DEFAULT_SIZE = new Dimension2( 250, 50 );
+const DEFAULT_SIZE = new Dimension3( 250, 50, 20 );
 const STRENGTH_RANGE = FELConstants.MAGNET_STRENGTH_RANGE; // G
 const STRENGTH_PERCENT_RANGE = new Range( 0, 100 ); // %
 
 type SelfOptions = EmptySelfOptions;
 
-export type BarMagnetOptions = SelfOptions & WithOptional<MagnetOptions, 'size' | 'thickness'>;
+export type BarMagnetOptions = SelfOptions & WithOptional<MagnetOptions, 'size'>;
 
 export default class BarMagnet extends Magnet {
 
@@ -41,8 +41,7 @@ export default class BarMagnet extends Magnet {
     const options = optionize<BarMagnetOptions, SelfOptions, MagnetOptions>()( {
 
       // MagnetOptions
-      size: DEFAULT_SIZE,
-      thickness: 20
+      size: DEFAULT_SIZE
     }, providedOptions );
 
     const strengthPercentProperty = new NumberProperty( 75, {

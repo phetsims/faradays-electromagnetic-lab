@@ -45,10 +45,10 @@ export default class PickupCoilAreaNode extends Node {
             let chordLength;
             if ( pickupCoil.magnet.isInside( pickupCoilPosition.plus( samplePoint ) ) ) {
 
-              // When a sample point is inside the magnet, use the magnet's thickness so that we do not exaggerate the
-              // EMF contribution by using the entire cross-section of the coil. The field outside the magnet is relatively
-              // weak, so ignore its contribution.
-              chordLength = pickupCoil.magnet.thickness;
+              // When a sample point is inside the magnet, use the magnet's thickness (depth) so that we do not
+              // exaggerate the EMF contribution by using the entire cross-section of the coil. The field outside
+              // the magnet is relatively weak, so ignore its contribution.
+              chordLength = pickupCoil.magnet.size.depth;
             }
             else {
 

@@ -7,7 +7,6 @@
  * @author Chris Malley (PixelZoom, Inc.)
  */
 
-import Dimension2 from '../../../../dot/js/Dimension2.js';
 import ScreenIcon from '../../../../joist/js/ScreenIcon.js';
 import faradaysElectromagneticLab from '../../faradaysElectromagneticLab.js';
 import BarMagnetNode from './BarMagnetNode.js';
@@ -25,6 +24,7 @@ import CoilNode from './CoilNode.js';
 import { Shape } from '../../../../kite/js/imports.js';
 import { CurrentFlow } from '../FELQueryParameters.js';
 import Property from '../../../../axon/js/Property.js';
+import Dimension3 from '../../../../dot/js/Dimension3.js';
 
 const FELScreenIconFactory = {
 
@@ -32,7 +32,7 @@ const FELScreenIconFactory = {
    * Creates the icon for the 'Bar Magnet' screen.
    */
   createBarMagnetScreenIcon(): ScreenIcon {
-    return new ScreenIcon( createBarMagnetNode( new Dimension2( 150, 50 ) ), {
+    return new ScreenIcon( createBarMagnetNode( new Dimension3( 150, 50, 20 ) ), {
       fill: FELColors.screenBackgroundColorProperty,
       maxIconWidthProportion: 0.85,
       maxIconHeightProportion: 1
@@ -111,7 +111,7 @@ const FELScreenIconFactory = {
 /**
  * Creates an icon for the bar magnet.
  */
-function createBarMagnetNode( size?: Dimension2 ): Node {
+function createBarMagnetNode( size?: Dimension3 ): Node {
 
   const barMagnet = new BarMagnet( {
     size: size,

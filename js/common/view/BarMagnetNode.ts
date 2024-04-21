@@ -22,7 +22,6 @@ import { Shape } from '../../../../kite/js/imports.js';
 import ShadedRectangle from '../../../../scenery-phet/js/ShadedRectangle.js';
 import Bounds2 from '../../../../dot/js/Bounds2.js';
 import FaradaysElectromagneticLabStrings from '../../FaradaysElectromagneticLabStrings.js';
-import Dimension2 from '../../../../dot/js/Dimension2.js';
 import PickOptional from '../../../../phet-core/js/types/PickOptional.js';
 import PickRequired from '../../../../phet-core/js/types/PickRequired.js';
 
@@ -42,7 +41,7 @@ export default class BarMagnetNode extends FELMovableNode {
   public constructor( barMagnet: BarMagnet, providedOptions: BarMagnetNodeOptions ) {
 
     // The bar, with north and south sections
-    const barNode = new BarNode( barMagnet.size );
+    const barNode = new BarNode( barMagnet.size.width, barMagnet.size.height );
 
     // 'N' and 'S' labels for the poles of the magnet
     const textOptions = {
@@ -102,19 +101,19 @@ export default class BarMagnetNode extends FELMovableNode {
  */
 class BarNode extends Node {
 
-  public constructor( size: Dimension2 ) {
+  public constructor( width: number, height: number ) {
 
     // The entire bar
-    const northNode = new ShadedRectangle( new Bounds2( 0, 0, size.width, size.height ), {
+    const northNode = new ShadedRectangle( new Bounds2( 0, 0, width, height ), {
       baseColor: FELColors.barMagnetNorthColorProperty,
       cornerRadius: CORNER_RADIUS
     } );
 
     // The entire bar clipped to the south section
-    const southNode = new ShadedRectangle( new Bounds2( 0, 0, size.width, size.height ), {
+    const southNode = new ShadedRectangle( new Bounds2( 0, 0, width, height ), {
       baseColor: FELColors.barMagnetSouthColorProperty,
       cornerRadius: CORNER_RADIUS,
-      clipArea: Shape.roundedRectangleWithRadii( 0, 0, size.width / 2, size.height, {
+      clipArea: Shape.roundedRectangleWithRadii( 0, 0, width / 2, height, {
         topLeft: CORNER_RADIUS,
         topRight: 0,
         bottomRight: 0,
