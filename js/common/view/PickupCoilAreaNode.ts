@@ -17,8 +17,12 @@ import faradaysElectromagneticLab from '../../faradaysElectromagneticLab.js';
 import PickupCoil from '../model/PickupCoil.js';
 import { Shape } from '../../../../kite/js/imports.js';
 import Multilink from '../../../../axon/js/Multilink.js';
+import Vector2 from '../../../../dot/js/Vector2.js';
 
 export default class PickupCoilAreaNode extends Node {
+
+  // Reusable vector for transforming a sample point to global coordinates.
+  private readonly reusablePosition: Vector2;
 
   public constructor( pickupCoil: PickupCoil ) {
 
@@ -33,6 +37,8 @@ export default class PickupCoilAreaNode extends Node {
       visibleProperty: pickupCoil.samplePointsVisibleProperty
     } );
 
+    this.reusablePosition = new Vector2( 0, 0 );
+
     Multilink.multilink(
       [ this.visibleProperty, pickupCoil.samplePointsProperty, pickupCoil.positionProperty, pickupCoil.magnet.positionProperty ],
       ( ( visible, samplePoints, pickupCoilPosition, magnetPosition ) => {
@@ -42,8 +48,11 @@ export default class PickupCoilAreaNode extends Node {
           const shape = new Shape();
           samplePoints.forEach( samplePoint => {
 
+            // Position of samplePoint in global coordinates (without allocating anything).
+            const samplePointPosition = this.reusablePosition.set( pickupCoilPosition ).add( samplePoint );
+
             let chordLength;
-            if ( pickupCoil.magnet.isInside( pickupCoilPosition.plus( samplePoint ) ) ) {
+            if ( pickupCoil.magnet.isInside( samplePointPosition ) ) {
 
               // The sample point is inside the magnet. Use the magnet's thickness (depth) so that we do not
               // exaggerate the EMF contribution by using the entire cross-section of the coil. The field outside
