@@ -45,18 +45,19 @@ export default class PickupCoilAreaNode extends Node {
             let chordLength;
             if ( pickupCoil.magnet.isInside( pickupCoilPosition.plus( samplePoint ) ) ) {
 
-              // When a sample point is inside the magnet, use the magnet's thickness (depth) so that we do not
+              // The sample point is inside the magnet. Use the magnet's thickness (depth) so that we do not
               // exaggerate the EMF contribution by using the entire cross-section of the coil. The field outside
               // the magnet is relatively weak, so ignore its contribution.
               chordLength = pickupCoil.magnet.size.depth;
             }
             else {
 
-              // Use the algorithm for distance from center of circle to a chord to compute the length of the chord that
-              // is perpendicular to the vertical line that goes through the sample points. If you're unfamiliar with this,
-              // then see for example https://youtu.be/81jh931BkL0?si=2JR-xWRUwjeuagmf.
-              const d = samplePoint.y; // distance from center of the circle to the chord
+              // The sample point is outside the magnet. Use the algorithm for distance from center of circle to a
+              // chord to compute the length of the chord that is perpendicular to the vertical line that goes through
+              // the sample points. If you're unfamiliar with this algorithm, then see for example
+              // https://youtu.be/81jh931BkL0?si=2JR-xWRUwjeuagmf.
               const R = pickupCoil.coil.loopRadiusProperty.value;
+              const d = samplePoint.y; // distance from center of the circle to the chord
               chordLength = 2 * Math.sqrt( Math.abs( R * R - d * d ) );
             }
 
