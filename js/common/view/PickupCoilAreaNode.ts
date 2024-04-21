@@ -16,6 +16,7 @@ import { Node, Path } from '../../../../scenery/js/imports.js';
 import faradaysElectromagneticLab from '../../faradaysElectromagneticLab.js';
 import PickupCoil from '../model/PickupCoil.js';
 import { Shape } from '../../../../kite/js/imports.js';
+import Multilink from '../../../../axon/js/Multilink.js';
 
 export default class PickupCoilAreaNode extends Node {
 
@@ -26,27 +27,45 @@ export default class PickupCoilAreaNode extends Node {
       lineWidth: 1
     } );
 
-    pickupCoil.samplePointsProperty.link( () => {
-      const shape = new Shape();
-      pickupCoil.samplePointsProperty.value.forEach( samplePoint => {
-
-        // Use the algorithm for distance from center of circle to a chord to compute the length of the chord that
-        // is perpendicular to the vertical line that goes through the sample points. If you're unfamiliar with this,
-        // then see for example https://youtu.be/81jh931BkL0?si=2JR-xWRUwjeuagmf.
-        const d = samplePoint.y; // distance from center of the circle to the chord
-        const R = pickupCoil.coil.loopRadiusProperty.value;
-        const chordLength = 2 * Math.sqrt( Math.abs( R * R - d * d ) );
-
-        shape.moveTo( -chordLength / 2, samplePoint.y );
-        shape.lineTo( chordLength / 2, samplePoint.y );
-      } );
-      path.shape = shape;
-    } );
-
     super( {
+      isDisposable: false,
       children: [ path ],
       visibleProperty: pickupCoil.samplePointsVisibleProperty
     } );
+
+    Multilink.multilink(
+      [ this.visibleProperty, pickupCoil.samplePointsProperty, pickupCoil.positionProperty, pickupCoil.magnet.positionProperty ],
+      ( ( visible, samplePoints, pickupCoilPosition, magnetPosition ) => {
+
+        // This is relatively expensive, so update only when visible.
+        if ( visible ) {
+          const shape = new Shape();
+          samplePoints.forEach( samplePoint => {
+
+            let chordLength;
+            if ( pickupCoil.magnet.isInside( pickupCoilPosition.plus( samplePoint ) ) ) {
+
+              // When a sample point is inside the magnet, use the magnet's thickness so that we do not exaggerate the
+              // EMF contribution by using the entire cross-section of the coil. The field outside the magnet is relatively
+              // weak, so ignore its contribution.
+              chordLength = pickupCoil.magnet.thickness;
+            }
+            else {
+
+              // Use the algorithm for distance from center of circle to a chord to compute the length of the chord that
+              // is perpendicular to the vertical line that goes through the sample points. If you're unfamiliar with this,
+              // then see for example https://youtu.be/81jh931BkL0?si=2JR-xWRUwjeuagmf.
+              const d = samplePoint.y; // distance from center of the circle to the chord
+              const R = pickupCoil.coil.loopRadiusProperty.value;
+              chordLength = 2 * Math.sqrt( Math.abs( R * R - d * d ) );
+            }
+
+            shape.moveTo( -chordLength / 2, samplePoint.y );
+            shape.lineTo( chordLength / 2, samplePoint.y );
+          } );
+          path.shape = shape;
+        }
+      } ) );
   }
 }
 

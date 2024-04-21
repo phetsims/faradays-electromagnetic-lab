@@ -28,16 +28,24 @@ type SelfOptions = {
   // All of our magnets are rectangular shaped. size describes the bounds of that rectangle in local coordinates,
   // with the origin at the center.
   size: Dimension2;
+
+  // Thickness of the magnet, used by PickupCoil to compute area.
+  // See https://github.com/phetsims/faradays-electromagnetic-lab/issues/156
+  //TODO https://github.com/phetsims/faradays-electromagnetic-lab/issues/156 size: Dimension3
+  thickness: number;
 };
 
 export type MagnetOptions = SelfOptions & FELMovableOptions;
 
 export default abstract class Magnet extends FELMovable {
 
-  // Dimensions of the magnet, with origin at its center.
+  // Width and height of the magnet, with origin at its center.
   public readonly size: Dimension2;
 
-  // Bounds of the magnet in its local coordinate frame
+  // Thickness of the magnet.
+  public readonly thickness: number;
+
+  // Bounds of the magnet in its local coordinate frame.
   public readonly localBounds: Bounds2;
 
   // The range of the magnet's strength, in gauss.
@@ -74,6 +82,7 @@ export default abstract class Magnet extends FELMovable {
     super( options );
 
     this.size = options.size;
+    this.thickness = options.thickness;
 
     // Rectangular, with origin at the center
     this.localBounds = new Bounds2( -this.size.width / 2, -this.size.height / 2, this.size.width / 2, this.size.height / 2 );

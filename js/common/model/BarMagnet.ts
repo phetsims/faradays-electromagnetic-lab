@@ -29,7 +29,7 @@ const STRENGTH_PERCENT_RANGE = new Range( 0, 100 ); // %
 
 type SelfOptions = EmptySelfOptions;
 
-export type BarMagnetOptions = SelfOptions & WithOptional<MagnetOptions, 'size'>;
+export type BarMagnetOptions = SelfOptions & WithOptional<MagnetOptions, 'size' | 'thickness'>;
 
 export default class BarMagnet extends Magnet {
 
@@ -41,7 +41,8 @@ export default class BarMagnet extends Magnet {
     const options = optionize<BarMagnetOptions, SelfOptions, MagnetOptions>()( {
 
       // MagnetOptions
-      size: DEFAULT_SIZE
+      size: DEFAULT_SIZE,
+      thickness: 20
     }, providedOptions );
 
     const strengthPercentProperty = new NumberProperty( 75, {

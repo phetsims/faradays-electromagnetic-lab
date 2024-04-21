@@ -25,7 +25,7 @@ import Dimension2 from '../../../../dot/js/Dimension2.js';
 
 type SelfOptions = EmptySelfOptions;
 
-export type CoilMagnetOptions = SelfOptions & StrictOmit<MagnetOptions, 'size'>;
+export type CoilMagnetOptions = SelfOptions & StrictOmit<MagnetOptions, 'size' | 'thickness'>;
 
 export default class CoilMagnet extends Magnet {
 
@@ -41,7 +41,8 @@ export default class CoilMagnet extends Magnet {
     const options = optionize<CoilMagnetOptions, SelfOptions, MagnetOptions>()( {
 
       // MagnetOptions
-      size: new Dimension2( 2 * loopRadius, 2 * loopRadius )
+      size: new Dimension2( 2 * loopRadius, 2 * loopRadius ),
+      thickness: 2 * loopRadius
     }, providedOptions );
 
     super( strengthProperty, strengthRange, options );
