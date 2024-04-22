@@ -60,7 +60,7 @@ export default abstract class Magnet extends FELMovable {
   // you make the value too large for the bar magnet, the field will end abruptly at the ends of the MathCAD data sets.
   public readonly fieldScaleProperty: NumberProperty;
 
-  // reusable vector for transforming a position to the magnet's local coordinate frame
+  // Reusable vector for transforming a position to the magnet's local coordinate frame.
   private readonly reusablePosition: Vector2;
 
   protected constructor( strengthProperty: TReadOnlyProperty<number>, strengthRange: Range, providedOptions: MagnetOptions ) {
