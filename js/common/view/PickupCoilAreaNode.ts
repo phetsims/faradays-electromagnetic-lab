@@ -62,7 +62,7 @@ export default class PickupCoilAreaNode extends Node {
               const samplePointPosition = this.reusablePosition.set( pickupCoilPosition ).add( samplePoint );
 
               // If the sample point is inside the magnet, using the chord length computed above would exaggerate the
-              // sample point's EMF contribution. So use the magnet's thickness (depth). The field outside the magnet
+              // sample point's contribution to flux. So use the magnet's thickness (depth). The field outside the magnet
               // is relatively weak, so ignore its contribution.
               if ( pickupCoil.magnet.isInside( samplePointPosition ) ) {
                 chordLength = magnetThickness;
