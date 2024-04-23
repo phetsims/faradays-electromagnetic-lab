@@ -55,15 +55,18 @@ export default class PickupCoilAreaNode extends Node {
             const d = samplePoint.y; // distance from center of the circle to the chord
             let chordLength = 2 * Math.sqrt( Math.abs( R * R - d * d ) );
 
-            // Position of samplePoint in global coordinates (without allocating anything).
-            const samplePointPosition = this.reusablePosition.set( pickupCoilPosition ).add( samplePoint );
-
-            // If the sample point is inside the magnet, using the chord length computed above would exaggeration the
-            // sample point's EMF contribution. So use the magnet's thickness (depth) if it is smaller than the chord
-            // length computed above. The field outside the magnet is relatively weak, so ignore its contribution.
             const magnetThickness = pickupCoil.magnet.size.depth;
-            if ( magnetThickness < chordLength && pickupCoil.magnet.isInside( samplePointPosition ) ) {
-              chordLength = magnetThickness;
+            if ( magnetThickness < chordLength ) {
+
+              // Position of samplePoint in global coordinates (without allocating anything).
+              const samplePointPosition = this.reusablePosition.set( pickupCoilPosition ).add( samplePoint );
+
+              // If the sample point is inside the magnet, using the chord length computed above would exaggerate the
+              // sample point's EMF contribution. So use the magnet's thickness (depth). The field outside the magnet
+              // is relatively weak, so ignore its contribution.
+              if ( pickupCoil.magnet.isInside( samplePointPosition ) ) {
+                chordLength = magnetThickness;
+              }
             }
 
             shape.moveTo( -chordLength / 2, samplePoint.y );
