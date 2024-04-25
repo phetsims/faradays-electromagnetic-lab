@@ -152,7 +152,8 @@ export default class PickupCoil extends FELMovable {
     }
 
     this.maxEMFProperty = new NumberProperty( options.maxEMF, {
-      range: new Range( 10000, 5000000 )
+      //TODO https://github.com/phetsims/faradays-electromagnetic-lab/issues/156 This range makes Developer control unusable.
+      range: new Range( 1E4, 1E8 )
       // Do not instrument. This is a PhET developer Property.
     } );
 
@@ -387,7 +388,7 @@ export default class PickupCoil extends FELMovable {
     const absEMF = Math.abs( this._emfProperty.value );
     if ( absEMF > this.largestAbsoluteEMF ) {
       this.largestAbsoluteEMF = absEMF;
-      console.log( `PickupCoil.calibrateMaxEMF, largestAbsoluteEMF=${this.largestAbsoluteEMF} for normalizedCurrent=${this.normalizedCurrentProperty.value}` );
+      // console.log( `PickupCoil.calibrateMaxEMF, largestAbsoluteEMF=${this.largestAbsoluteEMF} for normalizedCurrent=${this.normalizedCurrentProperty.value}` );
 
       // If this prints, you have maxEMFProperty set too low. This will cause view components to exhibit responses
       // that are less than their maximums. For example, the voltmeter won't fully deflect, and the lightbulb won't
