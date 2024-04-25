@@ -64,7 +64,6 @@ export default class PickupCoil extends FELMovable {
   public readonly emfProperty: TReadOnlyProperty<number>;
 
   // Used exclusively in calibrateMaxEMF, does not need to be stateful for PhET-iO
-  //TODO https://github.com/phetsims/faradays-electromagnetic-lab/issues/66 This can likely be deleted when calibration method is changed.
   private largestAbsoluteEMF; // in volts
 
   // Relative magnitude and direction of current in the coil. See Coil normalizedCurrentProperty.
@@ -145,7 +144,7 @@ export default class PickupCoil extends FELMovable {
     } );
     this.emfProperty = this._emfProperty;
 
-    this.largestAbsoluteEMF = 0.0;
+    this.largestAbsoluteEMF = 0;
 
     // Check that maxEMFProperty is calibrated properly.
     if ( FELQueryParameters.calibrateEMF ) {
@@ -375,23 +374,17 @@ export default class PickupCoil extends FELMovable {
   }
 
   /**
-   * Provides assistance for calibrating this coil. The easiest way to calibrate is to run the sim with the
-   * &log query parameter, then follow these steps for each screen that has a PickupCoil model element.
+   * Provides assistance for calibrating the pickup coil. Run the sim with the &calibrateEMF query parameter,
+   * then follow these steps for each screen that has a PickupCoil model element.
    *
    * 1. Set the "Max EMF" developer control to its smallest value.
-   * 2. Set the model parameters to their maximums, so that maximum EMF will be generated.
+   * 2. Set magnet strength, number of loops, and loop area to their maximums, so that maximum EMF will be generated.
    * 3. Do whatever is required to generate EMF (move magnet through coil, run generator, etc.)
    * 4. Watch the console for a message that tells you what value to use.
-   * 5. Change the value of maxEMF that is used to instantiate the PickupCoil.
+   * 5. Change the value of PickupCoilOptions.maxEMF that is used to instantiate the PickupCoil.
    */
   private calibrateMaxEMF(): void {
-
     const absEMF = Math.abs( this._emfProperty.value );
-
-    // Keeps track of the largest EMF seen by the pickup coil. This is useful for determining the desired value of
-    // maxEMFProperty. Run the sim with &log query parameter, set model controls to their max values, then observe
-    // the logging output in the browser console. The largest value that you see is the value that should be used
-    // for maxEMFProperty.
     if ( absEMF > this.largestAbsoluteEMF ) {
       this.largestAbsoluteEMF = absEMF;
       console.log( `PickupCoil.calibrateMaxEMF, largestAbsoluteEMF=${this.largestAbsoluteEMF} for normalizedCurrent=${this.normalizedCurrentProperty.value}` );
