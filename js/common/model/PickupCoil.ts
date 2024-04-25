@@ -304,7 +304,7 @@ export default class PickupCoil extends FELMovable {
   }
 
   /**
-   * Gets Bx for a specified samplePoint.
+   * Gets Bx (the x component of the B-field vector) at a specified sample point.
    * @param samplePoint - in the coil's coordinate frame
    */
   private getBx( samplePoint: Vector2 ): number {
@@ -329,7 +329,7 @@ export default class PickupCoil extends FELMovable {
   }
 
   /**
-   * Gets portion of the coil's area associated with a specific sample point.
+   * Gets the portion of the coil's area associated with a specific sample point.
    * @param samplePoint - in the coil's coordinate frame
    */
   private getSamplePointArea( samplePoint: Vector2 ): number {
