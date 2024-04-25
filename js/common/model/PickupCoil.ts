@@ -78,6 +78,7 @@ export default class PickupCoil extends FELMovable {
 
   // B-field sample points along the vertical axis of the coil
   public readonly samplePointsProperty: TReadOnlyProperty<Vector2[]>;
+  public readonly samplePointSpacing: number;
 
   // DEBUG: Writeable via developer controls only, when running with &dev query parameter. Dividing the coil's EMF by
   // this number will give us the coil's normalized current (see Coil.normalizedCurrentProperty), which determines the
@@ -196,6 +197,7 @@ export default class PickupCoil extends FELMovable {
 
     this.samplePointsProperty = new DerivedProperty( [ this.coil.loopRadiusProperty ],
       loopRadius => createSamplePoints( loopRadius, options.samplePointsSpacing ) );
+    this.samplePointSpacing = options.samplePointsSpacing;
 
     this.transitionSmoothingScaleProperty = new NumberProperty( options.transitionSmoothingScale, {
       range: new Range( 0.1, 1 )

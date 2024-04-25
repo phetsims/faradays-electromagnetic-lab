@@ -69,8 +69,9 @@ export default class PickupCoilAreaNode extends Node {
               }
             }
 
-            shape.moveTo( -chordLength / 2, samplePoint.y );
-            shape.lineTo( chordLength / 2, samplePoint.y );
+            // Draw the rectangle for the portion of the coil's area that is associated with this sample point.
+            shape.rect( -chordLength / 2, samplePoint.y - pickupCoil.samplePointSpacing / 2,
+              chordLength, pickupCoil.samplePointSpacing );
           } );
           path.shape = shape;
         }
