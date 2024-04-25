@@ -56,7 +56,7 @@ export default class PickupCoilAreaNode extends Node {
             if ( Math.abs( d ) !== R ) {
 
               // Use the algorithm for distance from the center of a circle to a chord to compute the length of the chord
-              // that is perpendicular to the vertical line that goes through the sample points. If you're unfamiliar with
+              // that is perpendicular to the vertical line and goes through the sample point. If you're unfamiliar with
               // this algorithm, then see for example https://youtu.be/81jh931BkL0?si=2JR-xWRUwjeuagmf.
               let chordLength = 2 * Math.sqrt( Math.abs( R * R - d * d ) );
 
