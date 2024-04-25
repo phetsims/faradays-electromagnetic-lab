@@ -30,6 +30,7 @@ import DerivedProperty from '../../../../axon/js/DerivedProperty.js';
 import FELQueryParameters, { CurrentFlow } from '../FELQueryParameters.js';
 import NumberIO from '../../../../tandem/js/types/NumberIO.js';
 import ConstantDtClock from './ConstantDtClock.js';
+import Dimension2 from '../../../../dot/js/Dimension2.js';
 
 type SelfOptions = {
   maxEMF: number; // the initial value of maxEMFProperty
@@ -111,11 +112,10 @@ export default class PickupCoil extends FELMovable {
   // Makes a debugging panel visible in the view, which shows important values related to the pickup coil.
   public readonly debuggerPanelVisibleProperty: Property<boolean>;
 
-  // Reusable sample point
-  private readonly reusableSamplePoint: Vector2;
-
-  // Reusable B-field vector
+  // Reusable instances, to optimize memory allocation.
+  private readonly reusablePosition: Vector2;
   private readonly reusableFieldVector: Vector2;
+  private readonly reusableDimension: Dimension2;
 
   public constructor( magnet: Magnet, currentFlowProperty: TReadOnlyProperty<CurrentFlow>, providedOptions: PickupCoilOptions ) {
 
@@ -212,8 +212,9 @@ export default class PickupCoil extends FELMovable {
       // Do not instrument. This is a PhET developer Property.
     );
 
-    this.reusableSamplePoint = new Vector2( 0, 0 );
+    this.reusablePosition = new Vector2( 0, 0 );
     this.reusableFieldVector = new Vector2( 0, 0 );
+    this.reusableDimension = new Dimension2( 0, 0 );
 
     // Instantiate _fluxProperty last, so that its initial value is correct for the configuration of the coil.
     this._fluxProperty = new NumberProperty( this.getFlux(), {
@@ -263,7 +264,7 @@ export default class PickupCoil extends FELMovable {
   private updateEMF( dt: number ): void {
     assert && assert( dt === ConstantDtClock.DT, `invalid dt=${dt}` );
 
-    // Flux in the coil.
+    // Flux through the coil.
     const flux = this.getFlux();
 
     // Change in flux.
@@ -275,48 +276,47 @@ export default class PickupCoil extends FELMovable {
   }
 
   /**
-   * Gets the flux in the pickup coil.
+   * Gets the total flux for the coil.
    */
   private getFlux(): number {
-
-    // Get an average for Bx over the sample points.
-    const averageBx = this.getAverageBx();
-
-    // Flux in one loop.
-    const A = this.getEffectiveLoopArea();
-    const loopFlux = A * averageBx;
-
-    // Flux in the coil.
-    return this.coil.numberOfLoopsProperty.value * loopFlux;
+    return this.coil.numberOfLoopsProperty.value * this.getLoopFlux();
   }
 
   /**
-   * Gets the average of Bx over the coil's sample points.
+   * Gets the flux for one loop of the coil.
    */
-  private getAverageBx(): number {
+  private getLoopFlux(): number {
 
-    const samplePoints = this.samplePointsProperty.value;
+    let loopFlux = 0;
 
-    let sumBx = 0;
-    for ( let i = 0; i < samplePoints.length; i++ ) {
-      sumBx += this.getBx( samplePoints[ i ] );
-    }
+    this.samplePointsProperty.value.forEach( samplePoint => {
 
-    return sumBx / samplePoints.length;
+      // Get Bx at the sample point.
+      const Bx = this.getBx( samplePoint );
+
+      // Get the portion of the loop's area that is associated with the sample point.
+      const A = this.getSamplePointArea( samplePoint );
+
+      // Add the contribution of this sample point to the loop's flux.
+      loopFlux += Bx * A;
+    } );
+
+    return loopFlux;
   }
 
   /**
-   * Gets Bx for a specified sample point.
+   * Gets Bx for a specified samplePoint.
+   * @param samplePoint - in the coil's coordinate frame
    */
   private getBx( samplePoint: Vector2 ): number {
 
-    // Convert the sample point to global coordinates.
+    // Position of samplePoint in global coordinates.
     const x = this.positionProperty.value.x + samplePoint.x;
     const y = this.positionProperty.value.y + samplePoint.y;
-    this.reusableSamplePoint.setXY( x, y );
+    this.reusablePosition.setXY( x, y );
 
     // Find the B-field vector at that point.
-    const fieldVector = this.magnet.getFieldVector( this.reusableSamplePoint, this.reusableFieldVector );
+    const fieldVector = this.magnet.getFieldVector( this.reusablePosition, this.reusableFieldVector );
 
     // If Bx is equal to the magnet strength, then our B-field sample was inside the magnet.
     // Use a fudge factor to scale the sample so that the transitions between inside and outside the magnet are
@@ -329,24 +329,49 @@ export default class PickupCoil extends FELMovable {
     return Bx;
   }
 
-  //TODO https://github.com/phetsims/faradays-electromagnetic-lab/issues/156 EMF does not behave as expected.
   /**
-   * Ported directly from the Java versions, this is a workaround for Unfuddle ticket
-   * https://phet.unfuddle.com/a#/projects/9404/tickets/by_number/721.
-   *
-   * When the magnet is in the center of the coil, increasing the loop size should decrease the EMF.  But since we are
-   * averaging sample points on a vertical line, multiplying by the actual area would (incorrectly) result in an EMF
-   * increase. The best solution would be to take sample points across the entire coil, but that requires many changes,
-   * so Mike Dubson came up with this workaround. By fudging the area using a thin vertical rectangle, the results are
-   * qualitatively (but not quantitatively) correct.
-   *
-   * NOTE from the Java version:
-   * This fix required recalibration of all the scaling factors accessible via developer controls.
+   * Gets portion of the coil's area associated with a specific sample point.
+   * @param samplePoint - in the coil's coordinate frame
    */
-  private getEffectiveLoopArea(): number {
-    const width = this.coil.loopRadiusRange.min;
-    const height = 2 * this.coil.loopRadiusProperty.value;
-    return width * height;
+  private getSamplePointArea( samplePoint: Vector2 ): number {
+    const size = this.getSamplePointAreaDimensions( samplePoint, this.reusableDimension );
+    return size.width * size.height;
+  }
+
+  /**
+   * Gets the dimensions of the portion of the coil's area associated with a specific sample point.
+   * This is public because it is used by PickupCoilAreaNode to visualize the area for debugging purposes.
+   *
+   * @param samplePoint - in the coil's coordinate frame
+   * @param reusableDimension
+   */
+  public getSamplePointAreaDimensions( samplePoint: Vector2, reusableDimension: Dimension2 ): Dimension2 {
+
+    // Position of samplePoint in global coordinates.
+    const x = this.positionProperty.value.x + samplePoint.x;
+    const y = this.positionProperty.value.y + samplePoint.y;
+    this.reusablePosition.setXY( x, y );
+
+    // Use the algorithm for distance from the center of a circle to a chord to compute the length of the chord
+    // that is perpendicular to the vertical line and goes through the sample point. If you're unfamiliar with
+    // this algorithm, then see for example https://youtu.be/81jh931BkL0?si=2JR-xWRUwjeuagmf.
+    const R = this.coil.loopRadiusProperty.value;
+    const d = samplePoint.y; // distance from center of the circle (loop) to the chord
+    let chordLength = 2 * Math.sqrt( Math.abs( R * R - d * d ) );
+
+    // If the sample point is inside the magnet, using the chord length computed above would exaggerate the
+    // sample point's contribution to flux. So use the magnet's thickness (depth). The field outside the magnet
+    // is relatively weak, so ignore its contribution.
+    const magnetThickness = this.magnet.size.depth;
+    if ( magnetThickness < chordLength && this.magnet.isInside( this.reusablePosition ) ) {
+      chordLength = magnetThickness;
+    }
+    assert && assert( chordLength !== 0 );
+
+    // Area associated with the sample point.
+    reusableDimension.width = chordLength;
+    reusableDimension.height = this.samplePointSpacing;
+    return reusableDimension;
   }
 
   /**

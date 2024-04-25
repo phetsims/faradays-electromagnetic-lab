@@ -17,12 +17,9 @@ import faradaysElectromagneticLab from '../../faradaysElectromagneticLab.js';
 import PickupCoil from '../model/PickupCoil.js';
 import { Shape } from '../../../../kite/js/imports.js';
 import Multilink from '../../../../axon/js/Multilink.js';
-import Vector2 from '../../../../dot/js/Vector2.js';
+import Dimension2 from '../../../../dot/js/Dimension2.js';
 
 export default class PickupCoilAreaNode extends Node {
-
-  // Reusable vector for transforming a sample point to global coordinates.
-  private readonly reusablePosition: Vector2;
 
   public constructor( pickupCoil: PickupCoil ) {
 
@@ -37,47 +34,19 @@ export default class PickupCoilAreaNode extends Node {
       visibleProperty: pickupCoil.samplePointsVisibleProperty
     } );
 
-    this.reusablePosition = new Vector2( 0, 0 );
+    // Reusable instance, to optimize memory allocation.
+    const reusableDimension = new Dimension2( 0, 0 );
 
+    // Draw a rectangle for the portion of the area associated with each sample point.
     Multilink.multilink(
       [ this.visibleProperty, pickupCoil.samplePointsProperty, pickupCoil.positionProperty, pickupCoil.magnet.positionProperty ],
       ( ( visible, samplePoints, pickupCoilPosition, magnetPosition ) => {
-
-        // This is relatively expensive, so update only when visible.
         if ( visible ) {
           const shape = new Shape();
           samplePoints.forEach( samplePoint => {
-
-            const R = pickupCoil.coil.loopRadiusProperty.value;
-            const d = samplePoint.y; // distance from center of the circle to the chord
-
-            // If the sample point is on the coil, ignore it. Its chord length will be zero, the area associated with
-            // the sample point will be zero, and it will have no contribution to flux.
-            if ( Math.abs( d ) !== R ) {
-
-              // Use the algorithm for distance from the center of a circle to a chord to compute the length of the chord
-              // that is perpendicular to the vertical line and goes through the sample point. If you're unfamiliar with
-              // this algorithm, then see for example https://youtu.be/81jh931BkL0?si=2JR-xWRUwjeuagmf.
-              let chordLength = 2 * Math.sqrt( Math.abs( R * R - d * d ) );
-
-              const magnetThickness = pickupCoil.magnet.size.depth;
-              if ( magnetThickness < chordLength ) {
-
-                // Position of samplePoint in global coordinates (without allocating anything).
-                const samplePointPosition = this.reusablePosition.set( pickupCoilPosition ).add( samplePoint );
-
-                // If the sample point is inside the magnet, using the chord length computed above would exaggerate the
-                // sample point's contribution to flux. So use the magnet's thickness (depth). The field outside the magnet
-                // is relatively weak, so ignore its contribution.
-                if ( pickupCoil.magnet.isInside( samplePointPosition ) ) {
-                  chordLength = magnetThickness;
-                }
-              }
-
-              // Draw the rectangle for the portion of the coil's area that is associated with this sample point.
-              assert && assert( chordLength !== 0 );
-              shape.rect( -chordLength / 2, samplePoint.y - pickupCoil.samplePointSpacing / 2,
-                chordLength, pickupCoil.samplePointSpacing );
+            const size = pickupCoil.getSamplePointAreaDimensions( samplePoint, reusableDimension );
+            if ( size.width > 0 && size.height > 0 ) {
+              shape.rect( -size.width / 2, samplePoint.y - size.height / 2, size.width, size.height );
             }
           } );
           path.shape = shape;
