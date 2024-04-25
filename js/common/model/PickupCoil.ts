@@ -291,41 +291,6 @@ export default class PickupCoil extends FELMovable {
   }
 
   /**
-   * Provides assistance for calibrating this coil. The easiest way to calibrate is to run the sim with the
-   * &log query parameter, then follow these steps for each screen that has a PickupCoil model element.
-   *
-   * 1. Set the "Max EMF" developer control to its smallest value.
-   * 2. Set the model parameters to their maximums, so that maximum EMF will be generated.
-   * 3. Do whatever is required to generate EMF (move magnet through coil, run generator, etc.)
-   * 4. Watch the console for a message that tells you what value to use.
-   * 5. Change the value of maxEMF that is used to instantiate the PickupCoil.
-   */
-  private calibrateMaxEMF(): void {
-
-    const absEMF = Math.abs( this._emfProperty.value );
-
-    // Keeps track of the largest EMF seen by the pickup coil. This is useful for determining the desired value of
-    // maxEMFProperty. Run the sim with &log query parameter, set model controls to their max values, then observe
-    // the logging output in the browser console. The largest value that you see is the value that should be used
-    // for maxEMFProperty.
-    if ( absEMF > this.largestAbsoluteEMF ) {
-      this.largestAbsoluteEMF = absEMF;
-      console.log( `PickupCoil.calibrateMaxEMF, largestAbsoluteEMF=${this.largestAbsoluteEMF} for normalizedCurrent=${this.normalizedCurrentProperty.value}` );
-
-      // If this prints, you have maxEMFProperty set too low. This will cause view components to exhibit responses
-      // that are less than their maximums. For example, the voltmeter won't fully deflect, and the lightbulb won't
-      // fully light.
-      if ( this.largestAbsoluteEMF > this.maxEMFProperty.value ) {
-        console.log( `PickupCoil.calibrateMaxEMF: Recalibrate ${this.maxEMFProperty.tandem.name} with ${this.largestAbsoluteEMF}` );
-
-        // From the Java version: The coil could theoretically be self-calibrating. If we notice that we've exceeded
-        // maxEMFProperty, then adjust its value. This would be OK only if we started with a value that was in
-        // the ballpark, because we don't want the user to perceive a noticeable change in the sim's behavior.
-      }
-    }
-  }
-
-  /**
    * Gets the average of Bx over the coil's sample points.
    */
   private getAverageBx(): number {
@@ -382,6 +347,41 @@ export default class PickupCoil extends FELMovable {
     const width = this.coil.loopRadiusRange.min;
     const height = 2 * this.coil.loopRadiusProperty.value;
     return width * height;
+  }
+
+  /**
+   * Provides assistance for calibrating this coil. The easiest way to calibrate is to run the sim with the
+   * &log query parameter, then follow these steps for each screen that has a PickupCoil model element.
+   *
+   * 1. Set the "Max EMF" developer control to its smallest value.
+   * 2. Set the model parameters to their maximums, so that maximum EMF will be generated.
+   * 3. Do whatever is required to generate EMF (move magnet through coil, run generator, etc.)
+   * 4. Watch the console for a message that tells you what value to use.
+   * 5. Change the value of maxEMF that is used to instantiate the PickupCoil.
+   */
+  private calibrateMaxEMF(): void {
+
+    const absEMF = Math.abs( this._emfProperty.value );
+
+    // Keeps track of the largest EMF seen by the pickup coil. This is useful for determining the desired value of
+    // maxEMFProperty. Run the sim with &log query parameter, set model controls to their max values, then observe
+    // the logging output in the browser console. The largest value that you see is the value that should be used
+    // for maxEMFProperty.
+    if ( absEMF > this.largestAbsoluteEMF ) {
+      this.largestAbsoluteEMF = absEMF;
+      console.log( `PickupCoil.calibrateMaxEMF, largestAbsoluteEMF=${this.largestAbsoluteEMF} for normalizedCurrent=${this.normalizedCurrentProperty.value}` );
+
+      // If this prints, you have maxEMFProperty set too low. This will cause view components to exhibit responses
+      // that are less than their maximums. For example, the voltmeter won't fully deflect, and the lightbulb won't
+      // fully light.
+      if ( this.largestAbsoluteEMF > this.maxEMFProperty.value ) {
+        console.log( `PickupCoil.calibrateMaxEMF: Recalibrate ${this.maxEMFProperty.tandem.name} with ${this.largestAbsoluteEMF}` );
+
+        // From the Java version: The coil could theoretically be self-calibrating. If we notice that we've exceeded
+        // maxEMFProperty, then adjust its value. This would be OK only if we started with a value that was in
+        // the ballpark, because we don't want the user to perceive a noticeable change in the sim's behavior.
+      }
+    }
   }
 }
 
