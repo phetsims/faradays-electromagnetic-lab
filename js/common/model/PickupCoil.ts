@@ -76,7 +76,7 @@ export default class PickupCoil extends FELMovable {
   // Which current indicator is visible in the view
   public readonly currentIndicatorProperty: Property<CurrentIndicator>;
 
-  // B-field sample points along the vertical axis of the coil
+  // B-field sample points along the vertical axis of the coil, in the coil's coordinate frame.
   public readonly samplePointsProperty: TReadOnlyProperty<Vector2[]>;
   public readonly samplePointSpacing: number;
 
@@ -331,31 +331,37 @@ export default class PickupCoil extends FELMovable {
   private getAverageBx(): number {
 
     const samplePoints = this.samplePointsProperty.value;
-    const magnetStrength = this.magnet.strengthProperty.value;
 
     let sumBx = 0;
     for ( let i = 0; i < samplePoints.length; i++ ) {
-
-      const x = this.positionProperty.value.x + samplePoints[ i ].x;
-      const y = this.positionProperty.value.y + samplePoints[ i ].y;
-      this.reusableSamplePoint.setXY( x, y );
-
-      // Find the B-field vector at that point.
-      const fieldVector = this.magnet.getFieldVector( this.reusableSamplePoint, this.reusableFieldVector );
-
-      // If Bx is equal to the magnet strength, then our B-field sample was inside the magnet.
-      // Use a fudge factor to scale the sample so that the transitions between inside and outside the magnet are
-      // not abrupt. See Unfuddle ticket https://phet.unfuddle.com/a#/projects/9404/tickets/by_number/248.
-      let Bx = fieldVector.x;
-      if ( Math.abs( Bx ) === magnetStrength ) {
-        Bx *= this.transitionSmoothingScaleProperty.value;
-      }
-
-      // Accumulate a sum of Bx values.
-      sumBx += Bx;
+      sumBx += this.getBx( samplePoints[ i ] );
     }
 
     return sumBx / samplePoints.length;
+  }
+
+  /**
+   * Gets Bx for a specified sample point.
+   */
+  private getBx( samplePoint: Vector2 ): number {
+
+    // Convert the sample point to global coordinates.
+    const x = this.positionProperty.value.x + samplePoint.x;
+    const y = this.positionProperty.value.y + samplePoint.y;
+    this.reusableSamplePoint.setXY( x, y );
+
+    // Find the B-field vector at that point.
+    const fieldVector = this.magnet.getFieldVector( this.reusableSamplePoint, this.reusableFieldVector );
+
+    // If Bx is equal to the magnet strength, then our B-field sample was inside the magnet.
+    // Use a fudge factor to scale the sample so that the transitions between inside and outside the magnet are
+    // not abrupt. See Unfuddle ticket https://phet.unfuddle.com/a#/projects/9404/tickets/by_number/248.
+    let Bx = fieldVector.x;
+    if ( Math.abs( Bx ) === this.magnet.strengthProperty.value ) {
+      Bx *= this.transitionSmoothingScaleProperty.value;
+    }
+
+    return Bx;
   }
 
   //TODO https://github.com/phetsims/faradays-electromagnetic-lab/issues/156 EMF does not behave as expected.
@@ -380,9 +386,9 @@ export default class PickupCoil extends FELMovable {
 }
 
 /**
- * Creates points for sampling the B-field. Points are distributed along a vertical line that goes through the center
- * of the pickup coil. One point is at the center of the coil. Points will be on the edge of the coil only if the coil's
- * radius is an integer multiple of the spacing.
+ * Creates points for sampling the B-field, in the coil's coordinate frame. Points are distributed along a vertical
+ * line that goes through the center of the pickup coil. One point is at the center of the coil. Points will be on
+ * the edge of the coil only if the coil's radius is an integer multiple of the spacing.
  *
  * Note that the Java version had 2 sample-point strategies: see ConstantNumberOfSamplePointsStrategy and
  * VariableNumberOfSamplePointsStrategy in PickupCoil.java, both of which were ported to PickupCoilSamplePointsStrategy.ts.
