@@ -48,30 +48,37 @@ export default class PickupCoilAreaNode extends Node {
           const shape = new Shape();
           samplePoints.forEach( samplePoint => {
 
-            // Use the algorithm for distance from the center of a circle to a chord to compute the length of the chord
-            // that is perpendicular to the vertical line that goes through the sample points. If you're unfamiliar with
-            // this algorithm, then see for example https://youtu.be/81jh931BkL0?si=2JR-xWRUwjeuagmf.
             const R = pickupCoil.coil.loopRadiusProperty.value;
             const d = samplePoint.y; // distance from center of the circle to the chord
-            let chordLength = 2 * Math.sqrt( Math.abs( R * R - d * d ) );
 
-            const magnetThickness = pickupCoil.magnet.size.depth;
-            if ( magnetThickness < chordLength ) {
+            // If the sample point is on the coil, ignore it. Its chord length will be zero, the area associated with
+            // the sample point will be zero, and it will have no contribution to flux.
+            if ( Math.abs( d ) !== R ) {
 
-              // Position of samplePoint in global coordinates (without allocating anything).
-              const samplePointPosition = this.reusablePosition.set( pickupCoilPosition ).add( samplePoint );
+              // Use the algorithm for distance from the center of a circle to a chord to compute the length of the chord
+              // that is perpendicular to the vertical line that goes through the sample points. If you're unfamiliar with
+              // this algorithm, then see for example https://youtu.be/81jh931BkL0?si=2JR-xWRUwjeuagmf.
+              let chordLength = 2 * Math.sqrt( Math.abs( R * R - d * d ) );
 
-              // If the sample point is inside the magnet, using the chord length computed above would exaggerate the
-              // sample point's contribution to flux. So use the magnet's thickness (depth). The field outside the magnet
-              // is relatively weak, so ignore its contribution.
-              if ( pickupCoil.magnet.isInside( samplePointPosition ) ) {
-                chordLength = magnetThickness;
+              const magnetThickness = pickupCoil.magnet.size.depth;
+              if ( magnetThickness < chordLength ) {
+
+                // Position of samplePoint in global coordinates (without allocating anything).
+                const samplePointPosition = this.reusablePosition.set( pickupCoilPosition ).add( samplePoint );
+
+                // If the sample point is inside the magnet, using the chord length computed above would exaggerate the
+                // sample point's contribution to flux. So use the magnet's thickness (depth). The field outside the magnet
+                // is relatively weak, so ignore its contribution.
+                if ( pickupCoil.magnet.isInside( samplePointPosition ) ) {
+                  chordLength = magnetThickness;
+                }
               }
-            }
 
-            // Draw the rectangle for the portion of the coil's area that is associated with this sample point.
-            shape.rect( -chordLength / 2, samplePoint.y - pickupCoil.samplePointSpacing / 2,
-              chordLength, pickupCoil.samplePointSpacing );
+              // Draw the rectangle for the portion of the coil's area that is associated with this sample point.
+              assert && assert( chordLength !== 0 );
+              shape.rect( -chordLength / 2, samplePoint.y - pickupCoil.samplePointSpacing / 2,
+                chordLength, pickupCoil.samplePointSpacing );
+            }
           } );
           path.shape = shape;
         }
