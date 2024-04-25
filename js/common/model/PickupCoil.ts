@@ -79,7 +79,7 @@ export default class PickupCoil extends FELMovable {
 
   // B-field sample points along the vertical axis of the coil, in the coil's coordinate frame.
   public readonly samplePointsProperty: TReadOnlyProperty<Vector2[]>;
-  public readonly samplePointSpacing: number;
+  private readonly samplePointSpacing: number;
 
   // DEBUG: Writeable via developer controls only, when running with &dev query parameter. Dividing the coil's EMF by
   // this number will give us the coil's normalized current (see Coil.normalizedCurrentProperty), which determines the
