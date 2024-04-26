@@ -296,7 +296,7 @@ To identify sim-specific support for keyboard input, search for `tagName`. These
 (typically `KeyboardDragListener`) that handle keyboard events.
 
 This sim currently does not make use of hotkeys (aka, shortcuts). But if it does in the future... 
-To identify hotkeys, search for `addHotkey`.
+To identify hotkeys, search for `new KeyboardListener`.
 
 When a draggable object has focus, it is immediately draggable. This sim does not use `GrabDragInteraction`, which
 requires a Node that has focus to be "grabbed" before it can be dragged. PhET typically does not use `GrabDragInteraction`
