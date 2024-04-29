@@ -21,7 +21,7 @@ import Tandem from '../../../../tandem/js/Tandem.js';
 import ConstantDtClock from '../../common/model/ConstantDtClock.js';
 import NumberProperty from '../../../../axon/js/NumberProperty.js';
 
-const RPM_RANGE = new Range( 0, 100 ); // RPMs
+const RPM_RANGE = new Range( 0, 60 ); // RPMs
 
 // Maximum change in angle per clock tick.
 const MAX_DELTA_ANGLE = ( 2 * Math.PI ) * ( RPM_RANGE.max / ( ConstantDtClock.FRAMES_PER_SECOND * 60 ) );
