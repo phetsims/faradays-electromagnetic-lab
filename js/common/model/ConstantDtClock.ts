@@ -15,7 +15,7 @@
 import Emitter from '../../../../axon/js/Emitter.js';
 import faradaysElectromagneticLab from '../../faradaysElectromagneticLab.js';
 import NumberIO from '../../../../tandem/js/types/NumberIO.js';
-import EventTimer from '../../../../phet-core/js/EventTimer.js';
+import EventTimer, { ConstantEventModel } from '../../../../phet-core/js/EventTimer.js';
 
 export default class ConstantDtClock extends EventTimer {
 
@@ -39,7 +39,7 @@ export default class ConstantDtClock extends EventTimer {
     const eventCallback = ( timeElapsed: number ) => this.emitter.emit( ConstantDtClock.DT );
 
     // eventCallback will be called every 1 / FRAMES_PER_SECOND seconds.
-    const eventModel = new EventTimer.ConstantEventModel( ConstantDtClock.FRAMES_PER_SECOND );
+    const eventModel = new ConstantEventModel( ConstantDtClock.FRAMES_PER_SECOND );
 
     super( eventModel, eventCallback );
 
