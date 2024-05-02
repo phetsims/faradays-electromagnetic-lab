@@ -74,6 +74,8 @@ export default class ACNumberControl extends NumberControl {
     }, providedOptions );
 
     super( '', numberProperty, numberProperty.range, options );
+
+    this.addLinkedElement( numberProperty );
   }
 }
 
