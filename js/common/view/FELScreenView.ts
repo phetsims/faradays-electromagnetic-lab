@@ -110,10 +110,10 @@ export default class FELScreenView extends ScreenView {
         this.resetAllButton.bottom = visibleBounds.maxY - FELConstants.SCREEN_VIEW_Y_MARGIN;
       } );
 
-    // Developer accordion box in the left top corner of the visible bounds.
+    // Developer accordion box at center-top of the visible bounds.
     Multilink.multilink( [ this.visibleBoundsProperty, options.developerAccordionBox.boundsProperty ],
       ( visibleBounds, developerAccordionBoxBounds ) => {
-        options.developerAccordionBox.left = visibleBounds.left + FELConstants.SCREEN_VIEW_X_MARGIN;
+        options.developerAccordionBox.centerX = visibleBounds.centerX + FELConstants.SCREEN_VIEW_X_MARGIN;
         options.developerAccordionBox.top = visibleBounds.top + FELConstants.SCREEN_VIEW_Y_MARGIN;
       } );
 
