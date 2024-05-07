@@ -7,7 +7,7 @@
  *
  * @author Chris Malley (PixelZoom, Inc.)
  *
- * From BarMagnet.java:
+ * Adapted from BarMagnet.java:
  *
  * It was not feasible to implement a numerical model of a magnet's B-field directly in Java, as it relies on double
  * integrals. So the model was implemented in MathCAD as a horizontal cylinder, and MathCAD was used to create 3 grids
@@ -19,19 +19,12 @@
  * - external-near: field near the magnet
  * - external-far: field far from the magnet
  *
- * In order to model the discontinuity that appears at the top and bottom magnet edges,
- * internal and external-near have points that lie exactly on those edges, and have different
- * values for those points.
+ * In order to model the discontinuity that appears at the top and bottom magnet edges, internal and external-near have
+ * points that lie exactly on those edges, and have different values for those points.
  *
  * The external-far grid is a sparse grid, and provides an approximate B-field for use by the compass.
  *
  * The 3 grids overlap such that external-near contains internal, and external-far contains external-near.
- * Each grid assumes that the magnet's center is at the origin, starts are xy=(0,0), and includes
- * only the quadrant where x and y are both positive (lower-right quadrant in our coordinate system).
- *
- * Each grid is stored in 2 files - one for Bx, one for By.
- * This simulation reads those files, and computes the B-field at a specified point
- * using a linear interpolation algorithm.
  *
  * Our coordinate system has +x to the left, and +y down, with quadrants numbered like this:
  *
@@ -39,11 +32,15 @@
  * -------
  * Q4 | Q1
  *
- * The grid files contain the B-field components for Q1, with values in column-major order.
- * (This means that the x coordinate changes more slowly than the y coordinate.)
- * x and y coordinates both start at 0.
+ * Each grid assumes that the magnet's center is at the origin (0,0), and includes values only for Q1, the quadrant
+ * where x and y are both positive.
  *
- * After locating a B-field vector in Q1, here's how to map it to one of the other quadrants:
+ * BarMagnetFieldData.ts stores each grid as 2 arrays: one for Bx, one for By. Values are in column-major order
+ * (the x coordinate changes more slowly than the y coordinate.) x and y coordinates both start at 0.
+ *
+ * The simulation reads the arrays, and computes the B-field at a specified point using a bilinear linear interpolation
+ * algorithm - see method BarMagnetFieldGrid.interpolate. After locating a B-field vector in Q1, here's how to map it
+ * to one of the other quadrants:
  *
  * Q2: reflect about the x-axis, so multiply by -1
  * Q3: reflect through the origin, so no change
