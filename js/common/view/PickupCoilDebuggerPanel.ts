@@ -11,11 +11,11 @@
  */
 
 import faradaysElectromagneticLab from '../../faradaysElectromagneticLab.js';
-import { DragListener, GridBox, RichText, RichTextOptions, Text, VBox } from '../../../../scenery/js/imports.js';
+import { DragListener, GridBox, NodeTranslationOptions, RichText, RichTextOptions, Text, VBox } from '../../../../scenery/js/imports.js';
 import PickupCoil from '../model/PickupCoil.js';
 import PhetFont from '../../../../scenery-phet/js/PhetFont.js';
 import Panel, { PanelOptions } from '../../../../sun/js/Panel.js';
-import { combineOptions } from '../../../../phet-core/js/optionize.js';
+import { EmptySelfOptions, optionize4 } from '../../../../phet-core/js/optionize.js';
 import FELConstants from '../FELConstants.js';
 import Utils from '../../../../dot/js/Utils.js';
 import Tandem from '../../../../tandem/js/Tandem.js';
@@ -38,9 +38,22 @@ const VALUE_TEXT_OPTIONS: RichTextOptions = {
   }
 };
 
+type SelfOptions = EmptySelfOptions;
+
+type PickupCoilDebuggerPanelOptions = SelfOptions & NodeTranslationOptions;
+
 export default class PickupCoilDebuggerPanel extends Panel {
 
-  public constructor( pickupCoil: PickupCoil ) {
+  public constructor( pickupCoil: PickupCoil, providedOptions?: PickupCoilDebuggerPanelOptions ) {
+
+    const options = optionize4<PickupCoilDebuggerPanelOptions, SelfOptions, PanelOptions>()( {}, FELConstants.PANEL_OPTIONS, {
+      visibleProperty: pickupCoil.debuggerPanelVisibleProperty,
+      cursor: 'pointer',
+      preferredWidth: 175, // set empirically so that the panel does not resize
+      layoutOptions: {
+        stretch: false
+      }
+    }, providedOptions );
 
     const fluxStringProperty = new DerivedStringProperty( [ pickupCoil.fluxProperty ],
       flux => `${Utils.toFixed( flux, 0 )}` );
@@ -83,14 +96,7 @@ export default class PickupCoilDebuggerPanel extends Panel {
       ]
     } );
 
-    super( content, combineOptions<PanelOptions>( {}, FELConstants.PANEL_OPTIONS, {
-      visibleProperty: pickupCoil.debuggerPanelVisibleProperty,
-      cursor: 'pointer',
-      preferredWidth: 175, // set empirically so that the panel does not resize
-      layoutOptions: {
-        stretch: false
-      }
-    } ) );
+    super( content, options );
 
     // This panel can be relocated by dragging it.
     this.addInputListener( new DragListener( {

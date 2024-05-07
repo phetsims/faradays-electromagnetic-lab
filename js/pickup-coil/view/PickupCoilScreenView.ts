@@ -67,9 +67,10 @@ export default class PickupCoilScreenView extends FELScreenView {
     const pickupCoilAxisNode = new PickupCoilAxisNode( isLockedToAxisProperty, model.pickupCoil.positionProperty,
       this.visibleBoundsProperty );
 
-    const pickupCoilDebuggerPanel = new PickupCoilDebuggerPanel( model.pickupCoil );
-    pickupCoilDebuggerPanel.centerX = this.layoutBounds.centerX;
-    pickupCoilDebuggerPanel.top = this.layoutBounds.top + FELConstants.SCREEN_VIEW_Y_MARGIN;
+    const pickupCoilDebuggerPanel = new PickupCoilDebuggerPanel( model.pickupCoil, {
+      left: this.layoutBounds.left + FELConstants.SCREEN_VIEW_X_MARGIN,
+      bottom: this.layoutBounds.bottom - FELConstants.SCREEN_VIEW_Y_MARGIN
+    } );
 
     // Rendering order, from back to front
     const screenViewRootNode = new Node( {
