@@ -23,7 +23,7 @@ import WithOptional from '../../../../phet-core/js/types/WithOptional.js';
 import FELConstants from '../FELConstants.js';
 import Dimension3 from '../../../../dot/js/Dimension3.js';
 
-const DEFAULT_SIZE = new Dimension3( 250, 50, 20 );
+const DEFAULT_SIZE = new Dimension3( 250, 50, 50 );
 const STRENGTH_RANGE = FELConstants.MAGNET_STRENGTH_RANGE; // G
 const STRENGTH_PERCENT_RANGE = new Range( 0, 100 ); // %
 
