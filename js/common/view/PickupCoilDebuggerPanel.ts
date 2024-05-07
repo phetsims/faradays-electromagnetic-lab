@@ -56,13 +56,13 @@ export default class PickupCoilDebuggerPanel extends Panel {
     }, providedOptions );
 
     const fluxStringProperty = new DerivedStringProperty( [ pickupCoil.fluxProperty ],
-      flux => `${Utils.toFixed( flux, 0 )}` );
+      flux => `${Utils.toFixedNumber( flux, 0 ).toLocaleString()}` );
 
     const deltaFluxStringProperty = new DerivedStringProperty( [ pickupCoil.deltaFluxProperty ],
-      deltaFlux => `${Utils.toFixed( deltaFlux, 0 )}` );
+      deltaFlux => `${Utils.toFixedNumber( deltaFlux, 0 ).toLocaleString()}` );
 
     const emfStringProperty = new DerivedStringProperty( [ pickupCoil.emfProperty ],
-      emf => `${Utils.toFixed( emf, 0 )}` );
+      emf => `${Utils.toFixedNumber( emf, 0 ).toLocaleString()}` );
 
     const titleText = new Text( 'Pickup Coil debugger', {
       font: FELConstants.TITLE_FONT
