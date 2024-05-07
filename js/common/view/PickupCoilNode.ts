@@ -17,12 +17,14 @@ import { Node, NodeOptions } from '../../../../scenery/js/imports.js';
 import PickupCoilSamplePointsNode from './PickupCoilSamplePointsNode.js';
 import FELLightBulbNode from './FELLightBulbNode.js';
 import VoltmeterNode from './VoltmeterNode.js';
-import optionize, { EmptySelfOptions } from '../../../../phet-core/js/optionize.js';
+import optionize from '../../../../phet-core/js/optionize.js';
 import PickRequired from '../../../../phet-core/js/types/PickRequired.js';
 import PickOptional from '../../../../phet-core/js/types/PickOptional.js';
 import PickupCoilAreaNode from './PickupCoilAreaNode.js';
 
-type SelfOptions = EmptySelfOptions;
+type SelfOptions = {
+  maxRayLength?: number; // passed to LightBulbNode
+};
 
 type PickupCoilNodeOptions = SelfOptions &
   PickOptional<FELMovableNodeOptions, 'isMovable' | 'dragBoundsProperty'> &
@@ -34,7 +36,9 @@ export default class PickupCoilNode extends FELMovableNode {
 
   public constructor( pickupCoil: PickupCoil, providedOptions: PickupCoilNodeOptions ) {
 
-    const options = optionize<PickupCoilNodeOptions, SelfOptions, NodeOptions>()( {}, providedOptions );
+    const options = optionize<PickupCoilNodeOptions, SelfOptions, NodeOptions>()( {
+      maxRayLength: 350
+    }, providedOptions );
 
     const coilNode = new CoilNode( pickupCoil.coil, pickupCoil, {
       dragBoundsProperty: options.dragBoundsProperty,
@@ -45,8 +49,10 @@ export default class PickupCoilNode extends FELMovableNode {
     const areaNode = new PickupCoilAreaNode( pickupCoil );
     const samplePointsNode = new PickupCoilSamplePointsNode( pickupCoil );
 
-    const lightBulbNode = new FELLightBulbNode( pickupCoil.lightBulb, pickupCoil.currentIndicatorProperty,
-      options.tandem.createTandem( 'lightBulbNode' ) );
+    const lightBulbNode = new FELLightBulbNode( pickupCoil.lightBulb, pickupCoil.currentIndicatorProperty, {
+      maxRayLength: options.maxRayLength,
+      tandem: options.tandem.createTandem( 'lightBulbNode' )
+    } );
 
     const voltmeterNode = new VoltmeterNode( pickupCoil.voltmeter, pickupCoil.currentIndicatorProperty,
       coilNode.boundsProperty, options.tandem.createTandem( 'voltmeterNode' ) );

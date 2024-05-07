@@ -8,7 +8,7 @@
  */
 
 import faradaysElectromagneticLab from '../../faradaysElectromagneticLab.js';
-import { Image, Node } from '../../../../scenery/js/imports.js';
+import { Image, Node, NodeOptions } from '../../../../scenery/js/imports.js';
 import LightBulb from '../model/LightBulb.js';
 import LightBulbNode from '../../../../scenery-phet/js/LightBulbNode.js';
 import TReadOnlyProperty from '../../../../axon/js/TReadOnlyProperty.js';
@@ -18,13 +18,35 @@ import ShadedRectangle from '../../../../scenery-phet/js/ShadedRectangle.js';
 import Bounds2 from '../../../../dot/js/Bounds2.js';
 import FELColors from '../FELColors.js';
 import BooleanIO from '../../../../tandem/js/types/BooleanIO.js';
-import Tandem from '../../../../tandem/js/Tandem.js';
 import Vector2 from '../../../../dot/js/Vector2.js';
 import CurrentIndicator from '../model/CurrentIndicator.js';
+import PickRequired from '../../../../phet-core/js/types/PickRequired.js';
+import optionize from '../../../../phet-core/js/optionize.js';
+
+type SelfOptions = {
+  maxRayLength?: number; // passed to LightBulbNode
+};
+
+type FELLightBulbNodeOptions = SelfOptions & PickRequired<NodeOptions, 'tandem'>;
 
 export default class FELLightBulbNode extends Node {
 
-  public constructor( lightBulb: LightBulb, currentIndicatorProperty: TReadOnlyProperty<CurrentIndicator>, tandem: Tandem ) {
+  public constructor( lightBulb: LightBulb,
+                      currentIndicatorProperty: TReadOnlyProperty<CurrentIndicator>,
+                      providedOptions: FELLightBulbNodeOptions ) {
+
+    const options = optionize<FELLightBulbNodeOptions, SelfOptions, NodeOptions>()( {
+
+      // SelfOptions
+      maxRayLength: 350,
+
+      // NodeOptions
+      visibleProperty: new DerivedProperty( [ currentIndicatorProperty ], indicator => ( indicator === lightBulb ), {
+        tandem: providedOptions.tandem.createTandem( 'visibleProperty' ),
+        phetioValueType: BooleanIO
+      } ),
+      phetioFeatured: true
+    }, providedOptions );
 
     const baseNode = new ShadedRectangle( new Bounds2( 0, 0, 150, 20 ), {
       baseColor: FELColors.lightBulbBaseColorProperty,
@@ -47,7 +69,7 @@ export default class FELLightBulbNode extends Node {
         minRays: 20,
         maxRays: 20,
         minRayLength: 0,
-        maxRayLength: 350,
+        maxRayLength: options.maxRayLength,
         longRayLineWidth: 2,
         mediumRayLineWidth: 2,
         shortRayLineWidth: 1,
@@ -60,15 +82,9 @@ export default class FELLightBulbNode extends Node {
       bottom: socketNode.top + 18
     } );
 
-    super( {
-      children: [ bulbNode, socketNode, baseNode ],
-      visibleProperty: new DerivedProperty( [ currentIndicatorProperty ], indicator => ( indicator === lightBulb ), {
-        tandem: tandem.createTandem( 'visibleProperty' ),
-        phetioValueType: BooleanIO
-      } ),
-      tandem: tandem,
-      phetioFeatured: true
-    } );
+    options.children = [ bulbNode, socketNode, baseNode ];
+
+    super( options );
 
     this.addLinkedElement( lightBulb );
   }

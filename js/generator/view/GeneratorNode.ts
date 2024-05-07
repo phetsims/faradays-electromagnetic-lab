@@ -27,6 +27,7 @@ export default class GeneratorNode extends Node {
 
     const pickupCoilNode = new PickupCoilNode( generator.pickupCoil, {
       isMovable: false, // pickupCoilNode is not movable in this screen.
+      maxRayLength: 500, // see https://github.com/phetsims/faradays-electromagnetic-lab/issues/66#issuecomment-2088698150
       tandem: tandem.createTandem( 'pickupCoilNode' )
     } );
 
