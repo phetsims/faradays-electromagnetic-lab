@@ -147,7 +147,7 @@ export default class PickupCoil extends FELMovable {
     this.largestAbsoluteEMF = 0;
 
     // Check that maxEMFProperty is calibrated properly.
-    if ( FELQueryParameters.calibrateEMF ) {
+    if ( FELQueryParameters.calibrateMaxEMF ) {
       this._emfProperty.lazyLink( () => this.calibrateMaxEMF() );
     }
 
@@ -375,7 +375,7 @@ export default class PickupCoil extends FELMovable {
   }
 
   /**
-   * Provides assistance for calibrating the pickup coil. Run the sim with the &calibrateEMF query parameter,
+   * Provides assistance for calibrating the pickup coil. Run the sim with the &calibrateMaxEMF query parameter,
    * then follow these steps for each screen that has a PickupCoil model element.
    *
    * 1. Set the "Max EMF" developer control to its smallest value.

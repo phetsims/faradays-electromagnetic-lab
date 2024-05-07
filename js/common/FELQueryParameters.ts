@@ -67,8 +67,8 @@ const SCHEMA_MAP = {
   // Internal query parameters
   //----------------------------------------------------------------------------------------------------------------
 
-  // Prints info to the console that is useful for calibrating the pickup coil. See PickupCoil.calibrateEMF.
-  calibrateEMF: {
+  // Prints info to the console that is useful for calibrating the pickup coil. See PickupCoil.calibrateMaxEMF.
+  calibrateMaxEMF: {
     type: 'flag'
   },
 
