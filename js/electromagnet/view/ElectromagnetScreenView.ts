@@ -54,7 +54,7 @@ export default class ElectromagnetScreenView extends FELScreenView {
     const acPowerSupplyPanel = new ACPowerSupplyPanel( model.electromagnet.acPowerSupply, model.electromagnet.currentSourceProperty,
       tandem.createTandem( 'acPowerSupplyPanel' ) );
 
-    //TODO https://github.com/phetsims/gas-properties/issues/231 Dynamically position dcPowerSupplyPanel and acPowerSupplyPanel
+    //TODO https://github.com/phetsims/faradays-electromagnetic-lab/issues/163 Dynamically position dcPowerSupplyPanel and acPowerSupplyPanel
     dcPowerSupplyPanel.left = this.layoutBounds.left + FELConstants.SCREEN_VIEW_X_MARGIN;
     dcPowerSupplyPanel.top = this.layoutBounds.top + FELConstants.SCREEN_VIEW_Y_MARGIN;
     acPowerSupplyPanel.left = this.layoutBounds.left + FELConstants.SCREEN_VIEW_X_MARGIN;
