@@ -55,6 +55,7 @@ export default class PickupCoilDebuggerPanel extends Panel {
       }
     }, providedOptions );
 
+    // Use Number.toLocaleString to format these values with comma separators.
     const fluxStringProperty = new DerivedStringProperty( [ pickupCoil.fluxProperty ],
       flux => `${Utils.toFixedNumber( flux, 0 ).toLocaleString()}` );
 
