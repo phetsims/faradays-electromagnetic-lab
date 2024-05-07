@@ -1,11 +1,11 @@
 {
-  "comment": "# faradays-electromagnetic-lab 1.0.0-dev.26 Mon May 06 2024 11:05:27 GMT-0600 (Mountain Daylight Time)",
+  "comment": "# faradays-electromagnetic-lab 1.0.0-dev.27 Mon May 06 2024 19:52:01 GMT-0600 (Mountain Daylight Time)",
   "assert": {
     "sha": "9c7053e4ea4c05d1267b93aedf5f2ca1039a8853",
     "branch": "main"
   },
   "axon": {
-    "sha": "a6b7d31a8038d1f74e493aefa648a545511fd12b",
+    "sha": "b83f49b448162f9cdca745c428869c5ee94501bf",
     "branch": "main"
   },
   "bamboo": {
@@ -25,7 +25,7 @@
     "branch": "main"
   },
   "faradays-electromagnetic-lab": {
-    "sha": "24bcfc5f288878916abc7ca359829b98f384fd12",
+    "sha": "b61c3be2afc41b2fa996320488cc287c4a72c856",
     "branch": "main"
   },
   "joist": {
@@ -41,15 +41,15 @@
     "branch": "main"
   },
   "phet-core": {
-    "sha": "e156ec71138a3533a18092ef3c5826767a44d5a9",
+    "sha": "722094d4fd74d9fdcbfd822f4a277c23be26aee2",
     "branch": "main"
   },
   "phet-io": {
-    "sha": "4ae61e908c220a34fb991be4d68b92848f442f2f",
+    "sha": "6232ca84a617d4f686c4270890a9757a2f816d14",
     "branch": "main"
   },
   "phet-io-sim-specific": {
-    "sha": "34e860b2369a857782d135df05caad19313e8674",
+    "sha": "b357aaa44c14c1ff44d5fec0b69aefdb3ecd6194",
     "branch": "main"
   },
   "phet-io-wrappers": {
@@ -93,7 +93,7 @@
     "branch": "main"
   },
   "tandem": {
-    "sha": "3e0e2ebf7b7f6b7f785e641deba5022884342dda",
+    "sha": "a444e3f516f4c52eea41f71d87e4051450fa1c1c",
     "branch": "main"
   },
   "twixt": {
