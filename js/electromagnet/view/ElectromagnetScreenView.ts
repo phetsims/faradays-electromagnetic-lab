@@ -60,6 +60,8 @@ export default class ElectromagnetScreenView extends FELScreenView {
     acPowerSupplyPanel.left = this.layoutBounds.left + FELConstants.SCREEN_VIEW_X_MARGIN;
     acPowerSupplyPanel.top = this.layoutBounds.top + FELConstants.SCREEN_VIEW_Y_MARGIN;
 
+    //TODO https://github.com/phetsims/faradays-electromagnetic-lab/issues/163 How to prevent things from getting lost behind dcPowerSupplyPanel and acPowerSupplyPanel
+
     // Rendering order, from back to front
     const screenViewRootNode = new Node( {
       children: [
