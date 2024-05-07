@@ -1,7 +1,7 @@
 // Copyright 2024, University of Colorado Boulder
 
 /**
- * BatteryNode is the view of a D-cell battery.
+ * BatteryNode is the view of a battery.
  *
  * @author Chris Malley (PixelZoom, Inc.)
  */

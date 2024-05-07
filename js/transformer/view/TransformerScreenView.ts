@@ -20,6 +20,8 @@ import BooleanProperty from '../../../../axon/js/BooleanProperty.js';
 import PickupCoilAxisNode from '../../common/view/PickupCoilAxisNode.js';
 import Property from '../../../../axon/js/Property.js';
 import TransformerNode from './TransformerNode.js';
+import DCPowerSupplyPanel from '../../common/view/DCPowerSupplyPanel.js';
+import ACPowerSupplyPanel from '../../common/view/ACPowerSupplyPanel.js';
 
 export default class TransformerScreenView extends FELScreenView {
 
@@ -60,6 +62,19 @@ export default class TransformerScreenView extends FELScreenView {
     const transformerNode = new TransformerNode( model.transformer, dragBoundsProperty,
       tandem.createTandem( 'transformerNode' ) );
 
+    //TODO https://github.com/phetsims/faradays-electromagnetic-lab/issues/163 Studio tree structure for dcPowerSupplyPanel and acPowerSupplyPanel
+    const dcPowerSupplyPanel = new DCPowerSupplyPanel( electromagnet.dcPowerSupply, electromagnet.currentSourceProperty,
+      tandem.createTandem( 'dcPowerSupplyPanel' ) );
+
+    const acPowerSupplyPanel = new ACPowerSupplyPanel( electromagnet.acPowerSupply, electromagnet.currentSourceProperty,
+      tandem.createTandem( 'acPowerSupplyPanel' ) );
+
+    //TODO https://github.com/phetsims/gas-properties/issues/231 Dynamically position dcPowerSupplyPanel and acPowerSupplyPanel
+    dcPowerSupplyPanel.left = this.layoutBounds.left + FELConstants.SCREEN_VIEW_X_MARGIN;
+    dcPowerSupplyPanel.top = this.layoutBounds.top + FELConstants.SCREEN_VIEW_Y_MARGIN;
+    acPowerSupplyPanel.left = this.layoutBounds.left + FELConstants.SCREEN_VIEW_X_MARGIN;
+    acPowerSupplyPanel.top = this.layoutBounds.top + FELConstants.SCREEN_VIEW_Y_MARGIN;
+
     this.configureDragBoundsProperty( dragBoundsProperty, isLockedToAxisProperty, panels.boundsProperty,
       electromagnet.positionProperty, pickupCoil.positionProperty, transformerNode.electromagnetNode,
       transformerNode.pickupCoilNode );
@@ -81,6 +96,8 @@ export default class TransformerScreenView extends FELScreenView {
         this.compassNode, // behind transformerNode, see https://github.com/phetsims/faradays-electromagnetic-lab/issues/10#issuecomment-1911160748
         transformerNode,
         panels,
+        dcPowerSupplyPanel,
+        acPowerSupplyPanel,
         this.fieldMeterNode,
         timeControlNode,
         this.resetAllButton,
@@ -93,6 +110,8 @@ export default class TransformerScreenView extends FELScreenView {
     // Play Area focus order, see https://github.com/phetsims/faradays-electromagnetic-lab/issues/81
     this.pdomPlayAreaNode.pdomOrder = [
       transformerNode.electromagnetNode,
+      dcPowerSupplyPanel,
+      acPowerSupplyPanel,
       transformerNode.pickupCoilNode,
       this.compassNode,
       this.fieldMeterNode,

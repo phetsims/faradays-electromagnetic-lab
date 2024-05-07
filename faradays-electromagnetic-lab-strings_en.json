@@ -77,6 +77,12 @@
   "acPowerSupply": {
     "value": "AC Power Supply"
   },
+  "dcPowerSupply": {
+    "value": "DC Power Supply"
+  },
+  "batteryVoltage": {
+    "value": "Battery Voltage"
+  },
   "pattern.valuePercent": {
     "value": "{{value}}%"
   },

@@ -1,27 +1,17 @@
 // Copyright 2023-2024, University of Colorado Boulder
 
 /**
- * DCPowerSupplyNode is the view of a DC power supply, used to power the electromagnet. A D-cell battery is held in
- * a bracket that can be connected to a coil. A slider changes the battery's voltage and polarity, and the voltage
- * is displayed on the positive end of the battery.
- *
- * This is based on BatteryGraphic.java in the Java version of this sim.
+ * DCPowerSupplyNode is the view of the DC power supply attached to the electromagnet. A battery is held in
+ * a bracket that is connected to the electromagnet's coil.
  *
  * @author Chris Malley (PixelZoom, Inc.)
  */
 
 import faradaysElectromagneticLab from '../../faradaysElectromagneticLab.js';
-import { Node, Path, Rectangle, Text } from '../../../../scenery/js/imports.js';
+import { Node, NodeOptions, NodeTranslationOptions, Path, Rectangle, Text } from '../../../../scenery/js/imports.js';
 import DCPowerSupply from '../model/DCPowerSupply.js';
-import Tandem from '../../../../tandem/js/Tandem.js';
-import DerivedProperty from '../../../../axon/js/DerivedProperty.js';
-import BooleanIO from '../../../../tandem/js/types/BooleanIO.js';
-import TReadOnlyProperty from '../../../../axon/js/TReadOnlyProperty.js';
-import CurrentSource from '../model/CurrentSource.js';
-import HSlider from '../../../../sun/js/HSlider.js';
 import Vector2 from '../../../../dot/js/Vector2.js';
 import FaradaysElectromagneticLabStrings from '../../FaradaysElectromagneticLabStrings.js';
-import Utils from '../../../../dot/js/Utils.js';
 import PatternStringProperty from '../../../../axon/js/PatternStringProperty.js';
 import Multilink from '../../../../axon/js/Multilink.js';
 import PhetFont from '../../../../scenery-phet/js/PhetFont.js';
@@ -30,14 +20,19 @@ import FELColors from '../FELColors.js';
 import { Shape } from '../../../../kite/js/imports.js';
 import BatteryNode from './BatteryNode.js';
 import DerivedStringProperty from '../../../../axon/js/DerivedStringProperty.js';
+import Dimension2 from '../../../../dot/js/Dimension2.js';
+import optionize, { EmptySelfOptions } from '../../../../phet-core/js/optionize.js';
 
-const SLIDER_STEP = 1; // V
+type SelfOptions = EmptySelfOptions;
+
+type DCPowerSupplyNodeOptions = SelfOptions & NodeTranslationOptions;
 
 export default class DCPowerSupplyNode extends Node {
 
-  public constructor( dcPowerSupply: DCPowerSupply, currentSourceProperty: TReadOnlyProperty<CurrentSource>, tandem: Tandem ) {
+  public constructor( dcPowerSupply: DCPowerSupply, providedOptions?: DCPowerSupplyNodeOptions ) {
 
     const batteryNode = new BatteryNode( {
+      size: new Dimension2( 100, 45 ),
       center: Vector2.ZERO
     } );
 
@@ -46,42 +41,24 @@ export default class DCPowerSupplyNode extends Node {
     bracketNode.centerX = batteryNode.centerX;
     bracketNode.top = batteryNode.top + 10;
 
-    const voltageSlider = new HSlider( dcPowerSupply.voltageProperty, dcPowerSupply.voltageProperty.range, {
-      constrainValue: ( value: number ) => Utils.roundToInterval( value, SLIDER_STEP ),
-      majorTickLength: 18,
-      keyboardStep: 2,
-      shiftKeyboardStep: 1,
-      pageKeyboardStep: 5,
-      centerX: batteryNode.centerX,
-      bottom: batteryNode.bottom - 6,
-      tandem: tandem.createTandem( 'voltageSlider' )
-    } );
-    voltageSlider.addMajorTick( dcPowerSupply.voltageProperty.range.min );
-    voltageSlider.addMajorTick( 0 );
-    voltageSlider.addMajorTick( dcPowerSupply.voltageProperty.range.max );
-
     // Volts display, absolute value
     const voltsStringProperty = new PatternStringProperty( FaradaysElectromagneticLabStrings.pattern.valueUnitsStringProperty, {
       value: new DerivedStringProperty( [ dcPowerSupply.voltageProperty ], voltage => `${Math.abs( voltage )}` ),
       units: FaradaysElectromagneticLabStrings.units.VStringProperty
     } );
     const voltsText = new Text( voltsStringProperty, {
-      font: new PhetFont( 16 ),
+      font: new PhetFont( 12 ),
       fill: FELColors.batteryVoltsColorProperty,
-      maxWidth: 35,
-      tandem: tandem.createTandem( 'voltsText' ),
-      phetioVisiblePropertyInstrumented: true
+      maxWidth: 40
     } );
 
-    super( {
-      children: [ bracketNode, batteryNode, voltageSlider, voltsText ],
-      visibleProperty: new DerivedProperty( [ currentSourceProperty ], currentSource => ( currentSource === dcPowerSupply ), {
-        tandem: tandem.createTandem( 'visibleProperty' ),
-        phetioValueType: BooleanIO
-      } ),
-      tandem: tandem,
-      phetioFeatured: true
-    } );
+    const options = optionize<DCPowerSupplyNodeOptions, SelfOptions, NodeOptions>()( {
+
+      // NodeOptions
+      children: [ bracketNode, batteryNode, voltsText ]
+    }, providedOptions );
+
+    super( options );
 
     this.addLinkedElement( dcPowerSupply );
 
@@ -100,28 +77,18 @@ export default class DCPowerSupplyNode extends Node {
       }
     } );
 
-    // Position the volts value at the positive pole of the battery.
+    // Position the volts value at the positive pole of the battery. Offsets set empirically.
     Multilink.multilink(
       [ dcPowerSupply.normalizedCurrentProperty, voltsText.boundsProperty ],
       ( normalizedCurrent, voltsTextBounds ) => {
-        const xMargin = 15;
         if ( normalizedCurrent >= 0 ) {
-          voltsText.right = batteryNode.right - xMargin;
+          voltsText.right = batteryNode.right - 10;
         }
         else {
-          voltsText.left = batteryNode.left + xMargin;
+          voltsText.right = batteryNode.left + 35;
         }
-        voltsText.centerY = batteryNode.top + ( voltageSlider.top - batteryNode.top ) / 2;
+        voltsText.centerY = batteryNode.centerY;
       } );
-  }
-
-  /**
-   * Creates an icon for the DC power supply.
-   */
-  public static createIcon( scale = 1 ): Node {
-    return new BatteryNode( {
-      scale: scale
-    } );
   }
 }
 
@@ -132,10 +99,10 @@ class BracketNode extends Node {
 
   public constructor( batteryWidth: number, batteryHeight: number ) {
 
-    const bracketThickness = 8;
+    const bracketThickness = 6;
     const gapWidth = 4; // gap between the 2 sections of the bracket
-    const contactWidth = 12;
-    const contactHeight = 40;
+    const contactWidth = 8;
+    const contactHeight = 20;
 
     const width = batteryWidth + bracketThickness + contactWidth;
     const bracketShape = new Shape()
@@ -157,7 +124,7 @@ class BracketNode extends Node {
       cornerRadius: contactCornerRadius,
       fill: FELColors.batteryContactColorProperty,
       centerX: bracketPath.left + bracketThickness,
-      top: bracketPath.top + 11 // empirically lined up with the battery's positive terminal
+      top: bracketPath.top + 3 // empirically lined up with the battery's positive terminal
     } );
 
     const rightContact = new Rectangle( 0, 0, contactWidth, contactHeight, {

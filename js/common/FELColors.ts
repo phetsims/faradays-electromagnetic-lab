@@ -255,12 +255,8 @@ const FELColors = {
     default: Color.grayColor( 200 )
   } ),
 
-  acPowerSupplyDisplayColorProperty: new ProfileColorProperty( faradaysElectromagneticLab, 'acPowerSupplyDisplayColor', {
+  acPowerSupplyChartProperty: new ProfileColorProperty( faradaysElectromagneticLab, 'acPowerSupplyDisplayColor', {
     default: 'black'
-  } ),
-
-  acPowerSupplyTextColorProperty: new ProfileColorProperty( faradaysElectromagneticLab, 'acPowerSupplyTextColor', {
-    default: 'rgb( 0, 255, 0 )'
   } ),
 
   acPowerSupplyWaveColorProperty: new ProfileColorProperty( faradaysElectromagneticLab, 'acPowerSupplyWaveColor', {

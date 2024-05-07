@@ -12,9 +12,12 @@ import Tandem from '../../../../tandem/js/Tandem.js';
 import { Node } from '../../../../scenery/js/imports.js';
 import ElectromagnetDeveloperAccordionBox from './ElectromagnetDeveloperAccordionBox.js';
 import FELTimeControlNode from '../../common/view/FELTimeControlNode.js';
-import ElectromagnetNode from '../../common/view/ElectromagnetNode.js';
 import ElectromagnetPanels from './ElectromagnetPanels.js';
 import FELScreenView from '../../common/view/FELScreenView.js';
+import DCPowerSupplyPanel from '../../common/view/DCPowerSupplyPanel.js';
+import FELConstants from '../../common/FELConstants.js';
+import ACPowerSupplyPanel from '../../common/view/ACPowerSupplyPanel.js';
+import ElectromagnetNode from '../../common/view/ElectromagnetNode.js';
 
 export default class ElectromagnetScreenView extends FELScreenView {
 
@@ -44,6 +47,19 @@ export default class ElectromagnetScreenView extends FELScreenView {
       tandem: tandem.createTandem( 'electromagnetNode' )
     } );
 
+    //TODO https://github.com/phetsims/faradays-electromagnetic-lab/issues/163 Studio tree structure for dcPowerSupplyPanel and acPowerSupplyPanel
+    const dcPowerSupplyPanel = new DCPowerSupplyPanel( model.electromagnet.dcPowerSupply, model.electromagnet.currentSourceProperty,
+      tandem.createTandem( 'dcPowerSupplyPanel' ) );
+
+    const acPowerSupplyPanel = new ACPowerSupplyPanel( model.electromagnet.acPowerSupply, model.electromagnet.currentSourceProperty,
+      tandem.createTandem( 'acPowerSupplyPanel' ) );
+
+    //TODO https://github.com/phetsims/gas-properties/issues/231 Dynamically position dcPowerSupplyPanel and acPowerSupplyPanel
+    dcPowerSupplyPanel.left = this.layoutBounds.left + FELConstants.SCREEN_VIEW_X_MARGIN;
+    dcPowerSupplyPanel.top = this.layoutBounds.top + FELConstants.SCREEN_VIEW_Y_MARGIN;
+    acPowerSupplyPanel.left = this.layoutBounds.left + FELConstants.SCREEN_VIEW_X_MARGIN;
+    acPowerSupplyPanel.top = this.layoutBounds.top + FELConstants.SCREEN_VIEW_Y_MARGIN;
+
     // Rendering order, from back to front
     const screenViewRootNode = new Node( {
       children: [
@@ -52,6 +68,8 @@ export default class ElectromagnetScreenView extends FELScreenView {
         this.compassNode, // behind electromagnetNode, see https://github.com/phetsims/faradays-electromagnetic-lab/issues/10#issuecomment-1911160748
         electromagnetNode,
         panels,
+        dcPowerSupplyPanel,
+        acPowerSupplyPanel,
         this.fieldMeterNode,
         timeControlNode,
         this.resetAllButton,
@@ -63,6 +81,8 @@ export default class ElectromagnetScreenView extends FELScreenView {
     // Play Area focus order, see https://github.com/phetsims/faradays-electromagnetic-lab/issues/81
     this.pdomPlayAreaNode.pdomOrder = [
       electromagnetNode,
+      dcPowerSupplyPanel,
+      acPowerSupplyPanel,
       this.compassNode,
       this.fieldMeterNode,
       panels.electromagnetPanel

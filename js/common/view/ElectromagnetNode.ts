@@ -12,15 +12,14 @@
 import faradaysElectromagneticLab from '../../faradaysElectromagneticLab.js';
 import Electromagnet from '../model/Electromagnet.js';
 import FELMovableNode, { FELMovableNodeOptions } from './FELMovableNode.js';
-import DCPowerSupplyNode from './DCPowerSupplyNode.js';
 import CoilNode from './CoilNode.js';
 import { Node, Path } from '../../../../scenery/js/imports.js';
-import ACPowerSupplyNode from './ACPowerSupplyNode.js';
 import { Shape } from '../../../../kite/js/imports.js';
 import optionize, { EmptySelfOptions } from '../../../../phet-core/js/optionize.js';
 import PickRequired from '../../../../phet-core/js/types/PickRequired.js';
-import BooleanProperty from '../../../../axon/js/BooleanProperty.js';
 import Multilink from '../../../../axon/js/Multilink.js';
+import DCPowerSupplyNode from './DCPowerSupplyNode.js';
+import ACPowerSupplyNode from './ACPowerSupplyNode.js';
 
 type SelfOptions = EmptySelfOptions;
 
@@ -32,36 +31,26 @@ export default class ElectromagnetNode extends FELMovableNode {
 
   public constructor( electromagnet: Electromagnet, providedOptions: ElectromagnetNodeOptions ) {
 
-    // For most Nodes, PhET-iO clients would typically use inputEnabledProperty to control whether the Node is draggable.
-    // ElectromagnetNode is more complicated, because its subcomponents have sliders that should be disabled
-    // independently of dragging, and because coilNode.backgroundNode is also draggable. So the cleanest way to
-    // address this is to introduce this new Property.
-    const dragEnabledProperty = new BooleanProperty( true, {
-      tandem: providedOptions.tandem.createTandem( 'dragEnabledProperty' ),
-      phetioFeatured: true,
-      phetioDocumentation: 'Set this to false to disable dragging, while still being able to change sliders.'
-    } );
-
-    const options = optionize<ElectromagnetNodeOptions, SelfOptions, FELMovableNodeOptions>()( {
-
-      // FELMovableNodeOptions
-      dragListenerOptions: {
-        enabledProperty: dragEnabledProperty
-      },
-      keyboardDragListenerOptions: {
-        enabledProperty: dragEnabledProperty
-      }
-    }, providedOptions );
+    const options = optionize<ElectromagnetNodeOptions, SelfOptions, FELMovableNodeOptions>()( {}, providedOptions );
 
     const coilNode = new CoilNode( electromagnet.coil, electromagnet, {
       tandem: options.tandem.createTandem( 'coilNode' )
     } );
 
-    const dcPowerSupplyNode = new DCPowerSupplyNode( electromagnet.dcPowerSupply, electromagnet.currentSourceProperty,
-      options.tandem.createTandem( 'dcPowerSupplyNode' ) );
+    const dcPowerSupplyNode = new DCPowerSupplyNode( electromagnet.dcPowerSupply, {
+      centerX: coilNode.centerX,
+      bottom: coilNode.top + 5 // overlap end of coil
+    } );
 
-    const acPowerSupplyNode = new ACPowerSupplyNode( electromagnet.acPowerSupply, electromagnet.currentSourceProperty,
-      options.tandem.createTandem( 'acPowerSupplyNode' ) );
+    const acPowerSupplyNode = new ACPowerSupplyNode( {
+      centerX: coilNode.centerX,
+      bottom: dcPowerSupplyNode.bottom
+    } );
+
+    electromagnet.currentSourceProperty.link( currentSource => {
+      dcPowerSupplyNode.visible = ( currentSource === electromagnet.dcPowerSupply );
+      acPowerSupplyNode.visible = !dcPowerSupplyNode.visible;
+    } );
 
     // Debug: Show the shape used to determine whether a B-field position is inside or outside the electromagnet.
     const magnetShapeNode = new Path( Shape.bounds( electromagnet.localBounds ), {
@@ -75,34 +64,16 @@ export default class ElectromagnetNode extends FELMovableNode {
 
     this.backgroundNode = coilNode.backgroundNode;
 
-    // Dynamically position the battery and power supply when the size of the coil changes.
-    Multilink.multilink( [ coilNode.localBoundsProperty, coilNode.backgroundNode.localBoundsProperty, acPowerSupplyNode.localBoundsProperty ],
-      () => {
-
-        // Include the background layer of the coil, which is added to the scene graph in a different coordinate frame.
-        const globalBounds = coilNode.backgroundNode.localToGlobalBounds( coilNode.backgroundNode.localBounds );
-        const localBounds = coilNode.globalToParentBounds( globalBounds );
-        const coilBounds = coilNode.bounds.union( localBounds );
-
-        // Position the DC power supply.
-        dcPowerSupplyNode.centerX = coilBounds.centerX;
-        dcPowerSupplyNode.bottom = coilBounds.top + electromagnet.coil.wireWidth / 2; // overlap end of coil
-
-        // Position the AC power supply.
-        acPowerSupplyNode.centerX = coilBounds.centerX;
-        acPowerSupplyNode.bottom = coilBounds.top + electromagnet.coil.wireWidth / 2; // overlap end of coil
-      } );
-
     // Because backgroundNode is added to the scene graph elsewhere, ensure that its visibility remains synchronized with this Node.
     this.visibleProperty.link( visible => {
       this.backgroundNode.visible = visible;
     } );
 
     // Because backgroundNode is added to the scene graph elsewhere, ensure that it is draggable only if this Node is draggable.
-    Multilink.multilink( [ dragEnabledProperty, this.inputEnabledProperty ],
-      ( dragEnabled, inputEnabled ) => {
-        this.backgroundNode.inputEnabled = ( dragEnabled && inputEnabled );
-        this.cursor = ( dragEnabled && inputEnabled ) ? 'pointer' : null;
+    Multilink.multilink( [ this.inputEnabledProperty ],
+      inputEnabled => {
+        this.backgroundNode.inputEnabled = inputEnabled;
+        this.cursor = inputEnabled ? 'pointer' : null;
       } );
 
     // Because backgroundNode is added to the scene graph elsewhere, ensure that it is draggable only if this Node is draggable.

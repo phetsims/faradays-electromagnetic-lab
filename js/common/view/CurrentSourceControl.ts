@@ -11,12 +11,12 @@ import RectangularRadioButtonGroup, { RectangularRadioButtonGroupItem } from '..
 import faradaysElectromagneticLab from '../../faradaysElectromagneticLab.js';
 import Tandem from '../../../../tandem/js/Tandem.js';
 import FELConstants from '../FELConstants.js';
-import DCPowerSupplyNode from './DCPowerSupplyNode.js';
-import ACPowerSupplyNode from './ACPowerSupplyNode.js';
 import { HBox, RichText } from '../../../../scenery/js/imports.js';
 import FaradaysElectromagneticLabStrings from '../../FaradaysElectromagneticLabStrings.js';
 import Electromagnet from '../model/Electromagnet.js';
 import CurrentSource from '../model/CurrentSource.js';
+import ACPowerSupplyPanel from './ACPowerSupplyPanel.js';
+import DCPowerSupplyPanel from './DCPowerSupplyPanel.js';
 
 export default class CurrentSourceControl extends HBox {
 
@@ -50,12 +50,12 @@ class CurrentSourceRadioButtonGroup extends RectangularRadioButtonGroup<CurrentS
     const items: RectangularRadioButtonGroupItem<CurrentSource>[] = [
       {
         value: electromagnet.dcPowerSupply,
-        createNode: ( tandem: Tandem ) => DCPowerSupplyNode.createIcon( 0.3 ),
+        createNode: ( tandem: Tandem ) => DCPowerSupplyPanel.createIcon( 0.3 ),
         tandemName: 'batteryRadioButton'
       },
       {
         value: electromagnet.acPowerSupply,
-        createNode: ( tandem: Tandem ) => ACPowerSupplyNode.createIcon(),
+        createNode: ( tandem: Tandem ) => ACPowerSupplyPanel.createIcon(),
         tandemName: 'acPowerSupplyRadioButton'
       }
     ];

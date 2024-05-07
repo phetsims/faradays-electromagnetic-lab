@@ -21,12 +21,12 @@ import ArrowButton from '../../../../sun/js/buttons/ArrowButton.js';
 import faradaysElectromagneticLab from '../../faradaysElectromagneticLab.js';
 import PickRequired from '../../../../phet-core/js/types/PickRequired.js';
 import PhetFont from '../../../../scenery-phet/js/PhetFont.js';
-import FELColors from '../FELColors.js';
 import Dimension2 from '../../../../dot/js/Dimension2.js';
 import Tandem from '../../../../tandem/js/Tandem.js';
 import FELConstants from '../FELConstants.js';
 
 const NUMBER_DISPLAY_FONT = new PhetFont( 12 );
+const HORIZONTAL_THUMB_SIZE = new Dimension2( 15, 30 );
 const HORIZONTAL_TRACK_SIZE = new Dimension2( 100, 3 );
 const SLIDER_STEP = 1; // %
 
@@ -51,18 +51,15 @@ export default class ACNumberControl extends NumberControl {
       sliderOptions: combineOptions<NumberControlSliderOptions>( {}, FELConstants.PERCENT_SLIDER_OPTIONS, {
         constrainValue: ( value: number ) => Utils.roundToInterval( value, SLIDER_STEP ),
         orientation: ( providedOptions.orientation === 'horizontal' ) ? Orientation.HORIZONTAL : Orientation.VERTICAL,
+        thumbSize: ( providedOptions.orientation === 'horizontal' ) ? HORIZONTAL_THUMB_SIZE : HORIZONTAL_THUMB_SIZE.swapped(),
         trackSize: ( providedOptions.orientation === 'horizontal' ) ? HORIZONTAL_TRACK_SIZE : HORIZONTAL_TRACK_SIZE.swapped(),
         tandem: Tandem.OPT_OUT
       } ),
       numberDisplayOptions: {
-        backgroundFill: FELColors.acPowerSupplyDisplayColorProperty,
-        backgroundStroke: null,
-        cornerRadius: 3,
-        xMargin: 8,
-        yMargin: 5,
+        xMargin: 6,
+        yMargin: 3,
         textOptions: {
           font: NUMBER_DISPLAY_FONT,
-          fill: FELColors.acPowerSupplyTextColorProperty,
           maxWidth: 30
         },
         numberFormatter: value => StringUtils.fillIn( FaradaysElectromagneticLabStrings.pattern.valuePercentStringProperty, {
@@ -82,7 +79,7 @@ export default class ACNumberControl extends NumberControl {
 function createVerticalLayout( titleNode: Node, numberDisplay: NumberDisplay, slider: Slider, decrementButton: ArrowButton | null, incrementButton: ArrowButton | null ): Node {
   return new VBox( {
     children: [ numberDisplay, slider ],
-    spacing: 5,
+    spacing: 3,
     align: 'center',
     excludeInvisibleChildrenFromBounds: false
   } );
@@ -91,7 +88,7 @@ function createVerticalLayout( titleNode: Node, numberDisplay: NumberDisplay, sl
 function createHorizontalLayout( titleNode: Node, numberDisplay: NumberDisplay, slider: Slider, decrementButton: ArrowButton | null, incrementButton: ArrowButton | null ): Node {
   return new HBox( {
     children: [ slider, numberDisplay ],
-    spacing: 5,
+    spacing: 3,
     align: 'center',
     excludeInvisibleChildrenFromBounds: false
   } );

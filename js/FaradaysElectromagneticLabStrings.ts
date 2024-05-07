@@ -39,6 +39,8 @@ type StringsType = {
   'electromagnetStringProperty': LocalizedStringProperty;
   'currentSourceStringProperty': LocalizedStringProperty;
   'acPowerSupplyStringProperty': LocalizedStringProperty;
+  'dcPowerSupplyStringProperty': LocalizedStringProperty;
+  'batteryVoltageStringProperty': LocalizedStringProperty;
   'pattern': {
     'valuePercentStringProperty': LocalizedStringProperty;
     'valueUnitsStringProperty': LocalizedStringProperty;

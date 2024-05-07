@@ -13,7 +13,6 @@ import BarMagnetNode from './BarMagnetNode.js';
 import FELColors from '../FELColors.js';
 import { HBox, Image, Node } from '../../../../scenery/js/imports.js';
 import waterWheel_png from '../../../images/waterWheel_png.js';
-import DCPowerSupplyNode from './DCPowerSupplyNode.js';
 import NumberProperty from '../../../../axon/js/NumberProperty.js';
 import FELConstants from '../FELConstants.js';
 import Coil from '../model/Coil.js';
@@ -25,6 +24,7 @@ import { Shape } from '../../../../kite/js/imports.js';
 import { CurrentFlow } from '../FELQueryParameters.js';
 import Property from '../../../../axon/js/Property.js';
 import Dimension3 from '../../../../dot/js/Dimension3.js';
+import DCPowerSupplyPanel from './DCPowerSupplyPanel.js';
 
 const FELScreenIconFactory = {
 
@@ -54,7 +54,7 @@ const FELScreenIconFactory = {
    * Creates the icon for the 'Electromagnet' screen.
    */
   createElectromagnetScreenIcon(): ScreenIcon {
-    return new ScreenIcon( DCPowerSupplyNode.createIcon(), {
+    return new ScreenIcon( DCPowerSupplyPanel.createIcon(), {
       fill: FELColors.screenBackgroundColorProperty,
       maxIconWidthProportion: 0.75,
       maxIconHeightProportion: 1
