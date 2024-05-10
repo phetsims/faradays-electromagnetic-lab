@@ -89,8 +89,8 @@ const SCHEMA_MAP = {
   // all screens, even though it is only useful in the Pickup Coil and Transformer screens.
   //
   // Examples:
-  // calibrationField=300,300 sets up a B-field that has Bx=300 everywhere.
-  // calibrationField=0,300 sets up a B-field that linearly increases from Bx=0 to Bx=300 from left to right.
+  // gradientField=300,300 creates a constant B-field with (Bx,By) = (300,0) everywhere.
+  // gradientField=0,300 create a gradient B-field, where Bx changes linearly from 0 to 300, and By is 0 everywhere.
   //
   gradientField: {
     type: 'array',
