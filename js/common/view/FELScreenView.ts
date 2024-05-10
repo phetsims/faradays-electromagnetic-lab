@@ -11,7 +11,7 @@ import ScreenView, { ScreenViewOptions } from '../../../../joist/js/ScreenView.j
 import ResetAllButton from '../../../../scenery-phet/js/buttons/ResetAllButton.js';
 import FELConstants from '../../common/FELConstants.js';
 import faradaysElectromagneticLab from '../../faradaysElectromagneticLab.js';
-import { Node } from '../../../../scenery/js/imports.js';
+import { Line, Node } from '../../../../scenery/js/imports.js';
 import Multilink from '../../../../axon/js/Multilink.js';
 import FieldNode from '../../common/view/FieldNode.js';
 import FieldMeterNode from '../../common/view/FieldMeterNode.js';
@@ -28,6 +28,7 @@ import Property from '../../../../axon/js/Property.js';
 import PickupCoilNode from './PickupCoilNode.js';
 import DerivedProperty from '../../../../axon/js/DerivedProperty.js';
 import isSettingPhetioStateProperty from '../../../../tandem/js/isSettingPhetioStateProperty.js';
+import FELQueryParameters from '../FELQueryParameters.js';
 
 type SelfOptions = {
 
@@ -125,6 +126,14 @@ export default class FELScreenView extends ScreenView {
           timeControlNode.centerX = visibleBounds.centerX;
           timeControlNode.bottom = visibleBounds.bottom - FELConstants.SCREEN_VIEW_Y_MARGIN;
         } );
+    }
+
+    // Add vertical lines to show the range of x over which the gradient B-field extends.
+    if ( FELQueryParameters.gradientField ) {
+      const minX = FELConstants.GRADIENT_FIELD_X_RANGE.min;
+      const maxX = FELConstants.GRADIENT_FIELD_X_RANGE.max;
+      this.addChild( new Line( minX, this.layoutBounds.minY, minX, this.layoutBounds.maxY, { stroke: 'yellow' } ) );
+      this.addChild( new Line( maxX, this.layoutBounds.minY, maxX, this.layoutBounds.maxY, { stroke: 'yellow' } ) );
     }
   }
 

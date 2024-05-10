@@ -19,6 +19,9 @@ import BooleanProperty from '../../../../axon/js/BooleanProperty.js';
 import TReadOnlyProperty from '../../../../axon/js/TReadOnlyProperty.js';
 import Bounds2 from '../../../../dot/js/Bounds2.js';
 import Dimension3 from '../../../../dot/js/Dimension3.js';
+import Utils from '../../../../dot/js/Utils.js';
+import FELQueryParameters from '../FELQueryParameters.js';
+import FELConstants from '../FELConstants.js';
 
 type SelfOptions = {
 
@@ -131,19 +134,32 @@ export default abstract class Magnet extends FELMovable {
 
     returnVector = returnVector || new Vector2( 0, 0 );
 
-    // Convert to the magnet's local coordinate frame, writes to this.reusablePosition.
-    this.globalToLocalPosition( position, this.reusablePosition );
+    if ( FELQueryParameters.gradientField ) {
 
-    // Get strength in the magnet's local coordinate frame, writes to returnVector.
-    this.getLocalFieldVector( this.reusablePosition, returnVector );
+      // Create a B-field whose Bx changes linearly from left to right, and whose By is always 0.
+      const minX = FELConstants.GRADIENT_FIELD_X_RANGE.min;
+      const maxX = FELConstants.GRADIENT_FIELD_X_RANGE.max;
+      const minBx = FELQueryParameters.gradientField[ 0 ];
+      const maxBx = FELQueryParameters.gradientField[ 1 ];
+      const Bx = Utils.clamp( Utils.linear( minX, maxX, minBx, maxBx, position.x ), minBx, maxBx );
+      const By = 0;
+      returnVector.setXY( Bx, By );
+    }
+    else {
+      // Convert to the magnet's local coordinate frame, writes to this.reusablePosition.
+      this.globalToLocalPosition( position, this.reusablePosition );
 
-    // Adjust the field vector to match the magnet's direction.
-    returnVector.rotate( this.rotationProperty.value );
+      // Get strength in the magnet's local coordinate frame, writes to returnVector.
+      this.getLocalFieldVector( this.reusablePosition, returnVector );
 
-    // Do not allow field vector magnitude to exceed magnet strength, due to small floating-point error.
-    // This was a problem in both the Java and HTML5 versions of the sim.
-    if ( returnVector.magnitude > this.strengthProperty.value ) {
-      returnVector.setMagnitude( this.strengthProperty.value );
+      // Adjust the field vector to match the magnet's direction.
+      returnVector.rotate( this.rotationProperty.value );
+
+      // Do not allow field vector magnitude to exceed magnet strength, due to small floating-point error.
+      // This was a problem in both the Java and HTML5 versions of the sim.
+      if ( returnVector.magnitude > this.strengthProperty.value ) {
+        returnVector.setMagnitude( this.strengthProperty.value );
+      }
     }
     return returnVector;
   }

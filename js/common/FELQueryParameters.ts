@@ -9,6 +9,7 @@
 
 import logGlobal from '../../../phet-core/js/logGlobal.js';
 import faradaysElectromagneticLab from '../faradaysElectromagneticLab.js';
+import FELConstants from './FELConstants.js';
 
 export const MagneticUnitsValues = [ 'G', 'T' ] as const;
 export type MagneticUnits = ( typeof MagneticUnitsValues )[number];
@@ -78,6 +79,27 @@ const SCHEMA_MAP = {
   // FELScreenView base class that is shared by all screens.
   showFieldPositions: {
     type: 'flag'
+  },
+
+  // Ignores the magnet model and sets up a static gradient B-field, where all field vectors are (Bx,0), and Bx varies
+  // linearly over a range. The value for this query parameter is the range of Bx from positions x=100 to x=650.
+  // These positions will be noted by yellow vertical lines. By is always 0.
+  //
+  // This is useful for calibrating the sim, and verifying behavior of the pickup coil. This query parameter affects
+  // all screens, even though it is only useful in the Pickup Coil and Transformer screens.
+  //
+  // Examples:
+  // calibrationField=300,300 sets up a B-field that has Bx=300 everywhere.
+  // calibrationField=0,300 sets up a B-field that linearly increases from Bx=0 to Bx=300 from left to right.
+  //
+  gradientField: {
+    type: 'array',
+    elementSchema: {
+      type: 'number',
+      isValidValue: ( value: number ) => ( Number.isInteger( value ) && FELConstants.MAGNET_STRENGTH_RANGE.contains( value ) )
+    },
+    defaultValue: null,
+    isValidValue: ( array: null | number[] ) => ( array === null ) || ( array.length === 2 )
   }
 } as const;
 

@@ -204,7 +204,10 @@ const FELConstants = {
     'while the sign indicates the direction of flow.',
 
   // Diameter for charged particles (electrons and imaginary positive charges)
-  CHARGED_PARTICLE_DIAMETER: 9
+  CHARGED_PARTICLE_DIAMETER: 9,
+
+  // See FELQueryParameters.calibrationField
+  GRADIENT_FIELD_X_RANGE: new Range( 100, 650 )
 };
 
 faradaysElectromagneticLab.register( 'FELConstants', FELConstants );
