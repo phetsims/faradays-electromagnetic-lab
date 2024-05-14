@@ -153,7 +153,7 @@ export default class PickupCoil extends FELMovable {
 
     this.maxEMFProperty = new NumberProperty( options.maxEMF, {
       //TODO https://github.com/phetsims/faradays-electromagnetic-lab/issues/156 This range makes Developer control unusable.
-      range: new Range( 1E4, 1E7 )
+      range: new Range( 1E5, 1E7 )
       // Do not instrument. This is a PhET developer Property.
     } );
 
