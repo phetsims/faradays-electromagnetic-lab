@@ -90,7 +90,7 @@ export default class FELDeveloperAccordionBox extends AccordionBox {
       spacing: VBOX_SPACING,
       children: [
         new Text( 'Pickup Coil', SUBTITLE_OPTIONS ),
-        new FELDeveloperNumberControl( 'Max EMF:', pickupCoil.maxEMFProperty, 0 /* decimalPlaces */ ),
+        new FELDeveloperNumberControl( 'Max EMF:', pickupCoil.maxEMFProperty, 0 /* decimalPlaces */, true /* useCommaSeparator */ ),
         new FELDeveloperNumberControl( 'Transition Smoothing Scale:', pickupCoil.transitionSmoothingScaleProperty, 2 /* decimalPlaces */ ),
         new FELDeveloperNumberControl( 'Current Speed Scale:', pickupCoil.coil.currentSpeedScaleProperty, 1 /* decimalPlaces */ ),
         new FELDeveloperCheckbox( 'Sample Points', pickupCoil.samplePointsVisibleProperty ),
@@ -123,19 +123,26 @@ class FELDeveloperCheckbox extends Checkbox {
 
 class FELDeveloperNumberControl extends NumberControl {
 
-  public constructor( labelString: string, numberProperty: NumberProperty, decimalPlaces: number ) {
+  public constructor( labelString: string, numberProperty: NumberProperty, decimalPlaces: number, useCommaSeparator = false ) {
 
     const range = numberProperty.range;
+
+    const min = useCommaSeparator ?
+                Utils.toFixedNumber( range.min, decimalPlaces ).toLocaleString() :
+                Utils.toFixed( range.min, decimalPlaces );
+    const max = useCommaSeparator ?
+                Utils.toFixedNumber( range.max, decimalPlaces ).toLocaleString() :
+                Utils.toFixed( range.max, decimalPlaces );
 
     // Tick marks at the extremes of the range
     const majorTicks = [
       {
         value: range.min,
-        label: new RichText( Utils.toFixed( range.min, decimalPlaces ), TICK_LABEL_OPTIONS )
+        label: new RichText( min, TICK_LABEL_OPTIONS )
       },
       {
         value: range.max,
-        label: new RichText( Utils.toFixed( range.max, decimalPlaces ), TICK_LABEL_OPTIONS )
+        label: new RichText( max, TICK_LABEL_OPTIONS )
       }
     ];
 
@@ -170,7 +177,9 @@ class FELDeveloperNumberControl extends NumberControl {
         }
       },
       numberDisplayOptions: {
-        decimalPlaces: decimalPlaces,
+        numberFormatter: value => useCommaSeparator ?
+                                  Utils.toFixedNumber( value, decimalPlaces ).toLocaleString() :
+                                  Utils.toFixed( value, decimalPlaces ),
         maxWidth: 100,
         textOptions: {
           font: CONTROL_FONT
