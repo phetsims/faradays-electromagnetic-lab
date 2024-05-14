@@ -129,6 +129,7 @@ export default class FELScreenView extends ScreenView {
     }
 
     // Add vertical lines to show the range of x over which the gradient B-field extends.
+    // See FELQueryParameters.gradientField and https://github.com/phetsims/faradays-electromagnetic-lab/issues/167.
     if ( FELQueryParameters.gradientField ) {
       const minX = FELConstants.GRADIENT_FIELD_X_RANGE.min;
       const maxX = FELConstants.GRADIENT_FIELD_X_RANGE.max;

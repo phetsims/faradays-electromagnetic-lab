@@ -137,6 +137,8 @@ export default abstract class Magnet extends FELMovable {
     if ( FELQueryParameters.gradientField ) {
 
       // Create a B-field whose Bx changes linearly from left to right, and whose By is always 0.
+      // This is useful for verifying the flux behavior of the pickup coil.
+      // See FELQueryParameters.gradientField and https://github.com/phetsims/faradays-electromagnetic-lab/issues/167.
       const minX = FELConstants.GRADIENT_FIELD_X_RANGE.min;
       const maxX = FELConstants.GRADIENT_FIELD_X_RANGE.max;
       const minBx = FELQueryParameters.gradientField[ 0 ];

@@ -81,15 +81,15 @@ const SCHEMA_MAP = {
     type: 'flag'
   },
 
-  // Ignores the magnet model and sets up a static gradient B-field, where all field vectors are (Bx,0), and Bx varies
-  // linearly over a range. The value for this query parameter is the range of Bx from positions x=100 to x=650.
-  // These positions will be noted by yellow vertical lines. By is always 0.
-  //
-  // This is useful for calibrating the sim, and verifying behavior of the pickup coil. This query parameter affects
-  // all screens, even though it is only useful in the Pickup Coil and Transformer screens.
+  // See https://github.com/phetsims/faradays-electromagnetic-lab/issues/167
+  // This query parameter is useful for verifying the flux behavior of the pickup coil. It ignores the magnet model and
+  // sets up a static gradient B-field, where all field vectors are (Bx,0),  Bx varies linearly over a range, and By is 0.
+  // The value for this query parameter is the range of Bx from positions x=100 to x=650. These x positions will be indicated
+  // by yellow vertical lines. This query parameter affects all screens, but is only useful in the Pickup Coil and
+  // Transformer screens.
   //
   // Examples:
-  // gradientField=300,300 creates a constant B-field with (Bx,By) = (300,0) everywhere.
+  // gradientField=300,300 creates a constant B-field with (Bx,By). The field is (300,0) everywhere.
   // gradientField=0,300 create a gradient B-field, where Bx changes linearly from 0 to 300, and By is 0 everywhere.
   //
   gradientField: {
