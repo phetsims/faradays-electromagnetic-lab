@@ -83,6 +83,8 @@ export default class ACPowerSupplyPanel extends Panel {
     } );
 
     super( contentNode, combineOptions<PanelOptions>( {}, FELConstants.PANEL_OPTIONS, {
+
+      //TODO https://github.com/phetsims/faradays-electromagnetic-lab/issues/163 Do clients need a way to hide this panel?
       visibleProperty: new DerivedProperty( [ currentSourceProperty ], currentSource => ( currentSource === acPowerSupply ), {
         tandem: tandem.createTandem( 'visibleProperty' ),
         phetioValueType: BooleanIO
