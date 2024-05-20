@@ -22,6 +22,7 @@ import Property from '../../../../axon/js/Property.js';
 import TransformerNode from './TransformerNode.js';
 import DCPowerSupplyPanel from '../../common/view/DCPowerSupplyPanel.js';
 import ACPowerSupplyPanel from '../../common/view/ACPowerSupplyPanel.js';
+import Multilink from '../../../../axon/js/Multilink.js';
 
 export default class TransformerScreenView extends FELScreenView {
 
@@ -69,11 +70,17 @@ export default class TransformerScreenView extends FELScreenView {
     const acPowerSupplyPanel = new ACPowerSupplyPanel( electromagnet.acPowerSupply, electromagnet.currentSourceProperty,
       tandem.createTandem( 'acPowerSupplyPanel' ) );
 
-    //TODO https://github.com/phetsims/faradays-electromagnetic-lab/issues/163 Dynamically position dcPowerSupplyPanel and acPowerSupplyPanel
-    dcPowerSupplyPanel.left = this.layoutBounds.left + FELConstants.SCREEN_VIEW_X_MARGIN;
-    dcPowerSupplyPanel.top = this.layoutBounds.top + FELConstants.SCREEN_VIEW_Y_MARGIN;
-    acPowerSupplyPanel.left = this.layoutBounds.left + FELConstants.SCREEN_VIEW_X_MARGIN;
-    acPowerSupplyPanel.top = this.layoutBounds.top + FELConstants.SCREEN_VIEW_Y_MARGIN;
+    // Panels top-aligned with layoutBounds, left-aligned with visible bounds.
+    Multilink.multilink( [ this.visibleBoundsProperty, dcPowerSupplyPanel.boundsProperty ],
+      ( visibleBounds, panelsBounds ) => {
+        dcPowerSupplyPanel.left = visibleBounds.left + FELConstants.SCREEN_VIEW_X_MARGIN;
+        dcPowerSupplyPanel.top = this.layoutBounds.top + FELConstants.SCREEN_VIEW_Y_MARGIN;
+      } );
+    Multilink.multilink( [ this.visibleBoundsProperty, acPowerSupplyPanel.boundsProperty ],
+      ( visibleBounds, panelsBounds ) => {
+        acPowerSupplyPanel.left = visibleBounds.left + FELConstants.SCREEN_VIEW_X_MARGIN;
+        acPowerSupplyPanel.top = this.layoutBounds.top + FELConstants.SCREEN_VIEW_Y_MARGIN;
+      } );
 
     this.configureDragBoundsProperty( dragBoundsProperty, isLockedToAxisProperty, panels.boundsProperty,
       electromagnet.positionProperty, pickupCoil.positionProperty, transformerNode.electromagnetNode,

@@ -10,7 +10,7 @@
  */
 
 import faradaysElectromagneticLab from '../../faradaysElectromagneticLab.js';
-import { Circle, DragListener, HBox, Node, Path, Text, VBox } from '../../../../scenery/js/imports.js';
+import { Circle, HBox, Node, Path, Text, VBox } from '../../../../scenery/js/imports.js';
 import Vector2 from '../../../../dot/js/Vector2.js';
 import { Shape } from '../../../../kite/js/imports.js';
 import TReadOnlyProperty from '../../../../axon/js/TReadOnlyProperty.js';
@@ -97,13 +97,6 @@ export default class ACPowerSupplyPanel extends Panel {
     this.visibleProperty.lazyLink( visible => !visible && this.interruptSubtreeInput() );
 
     this.addLinkedElement( acPowerSupply );
-
-    // TODO https://github.com/phetsims/faradays-electromagnetic-lab/issues/163 Temporarily allow this panel to be dragged.
-    this.cursor = 'pointer';
-    this.addInputListener( new DragListener( {
-      translateNode: true,
-      tandem: Tandem.OPT_OUT
-    } ) );
   }
 
   /**

@@ -18,6 +18,7 @@ import DCPowerSupplyPanel from '../../common/view/DCPowerSupplyPanel.js';
 import FELConstants from '../../common/FELConstants.js';
 import ACPowerSupplyPanel from '../../common/view/ACPowerSupplyPanel.js';
 import ElectromagnetNode from '../../common/view/ElectromagnetNode.js';
+import Multilink from '../../../../axon/js/Multilink.js';
 
 export default class ElectromagnetScreenView extends FELScreenView {
 
@@ -54,11 +55,17 @@ export default class ElectromagnetScreenView extends FELScreenView {
     const acPowerSupplyPanel = new ACPowerSupplyPanel( model.electromagnet.acPowerSupply, model.electromagnet.currentSourceProperty,
       tandem.createTandem( 'acPowerSupplyPanel' ) );
 
-    //TODO https://github.com/phetsims/faradays-electromagnetic-lab/issues/163 Dynamically position dcPowerSupplyPanel and acPowerSupplyPanel
-    dcPowerSupplyPanel.left = this.layoutBounds.left + FELConstants.SCREEN_VIEW_X_MARGIN;
-    dcPowerSupplyPanel.top = this.layoutBounds.top + FELConstants.SCREEN_VIEW_Y_MARGIN;
-    acPowerSupplyPanel.left = this.layoutBounds.left + FELConstants.SCREEN_VIEW_X_MARGIN;
-    acPowerSupplyPanel.top = this.layoutBounds.top + FELConstants.SCREEN_VIEW_Y_MARGIN;
+    // Panels top-aligned with layoutBounds, left-aligned with visible bounds.
+    Multilink.multilink( [ this.visibleBoundsProperty, dcPowerSupplyPanel.boundsProperty ],
+      ( visibleBounds, panelsBounds ) => {
+        dcPowerSupplyPanel.left = visibleBounds.left + FELConstants.SCREEN_VIEW_X_MARGIN;
+        dcPowerSupplyPanel.top = this.layoutBounds.top + FELConstants.SCREEN_VIEW_Y_MARGIN;
+      } );
+    Multilink.multilink( [ this.visibleBoundsProperty, acPowerSupplyPanel.boundsProperty ],
+      ( visibleBounds, panelsBounds ) => {
+        acPowerSupplyPanel.left = visibleBounds.left + FELConstants.SCREEN_VIEW_X_MARGIN;
+        acPowerSupplyPanel.top = this.layoutBounds.top + FELConstants.SCREEN_VIEW_Y_MARGIN;
+      } );
 
     //TODO https://github.com/phetsims/faradays-electromagnetic-lab/issues/163 How to prevent things from getting lost behind dcPowerSupplyPanel and acPowerSupplyPanel
 

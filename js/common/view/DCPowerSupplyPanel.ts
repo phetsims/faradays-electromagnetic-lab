@@ -12,7 +12,7 @@ import FELConstants from '../FELConstants.js';
 import DCPowerSupply from '../model/DCPowerSupply.js';
 import Tandem from '../../../../tandem/js/Tandem.js';
 import NumberControl, { NumberControlOptions } from '../../../../scenery-phet/js/NumberControl.js';
-import { DragListener, HBox, Node, Text, VBox } from '../../../../scenery/js/imports.js';
+import { HBox, Node, Text, VBox } from '../../../../scenery/js/imports.js';
 import Utils from '../../../../dot/js/Utils.js';
 import TReadOnlyProperty from '../../../../axon/js/TReadOnlyProperty.js';
 import CurrentSource from '../model/CurrentSource.js';
@@ -113,13 +113,6 @@ export default class DCPowerSupplyPanel extends Panel {
     this.visibleProperty.lazyLink( visible => !visible && this.interruptSubtreeInput() );
 
     this.addLinkedElement( dcPowerSupply );
-
-    // TODO https://github.com/phetsims/faradays-electromagnetic-lab/issues/163 Temporarily allow this panel to be dragged.
-    this.cursor = 'pointer';
-    this.addInputListener( new DragListener( {
-      translateNode: true,
-      tandem: Tandem.OPT_OUT
-    } ) );
   }
 
   /**

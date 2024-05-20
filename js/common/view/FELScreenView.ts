@@ -97,7 +97,7 @@ export default class FELScreenView extends ScreenView {
     // This is a last-ditch defense, in case we are running on a platform where fonts are significantly taller.
     options.panels.maxHeight = this.layoutBounds.height - this.resetAllButton.height - ( 2 * FELConstants.SCREEN_VIEW_Y_MARGIN ) - 5;
 
-    // Panels top aligned with layoutBounds, right aligned with visible bounds.
+    // Panels top-aligned with layoutBounds, right-aligned with visible bounds.
     Multilink.multilink( [ this.visibleBoundsProperty, options.panels.boundsProperty ],
       ( visibleBounds, panelsBounds ) => {
         options.panels.right = visibleBounds.right - FELConstants.SCREEN_VIEW_X_MARGIN;
