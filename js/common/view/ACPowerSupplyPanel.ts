@@ -1,5 +1,6 @@
 // Copyright 2023-2024, University of Colorado Boulder
 
+//TODO https://github.com/phetsims/faradays-electromagnetic-lab/issues/163 ariel-phet suggested that this needs pixel polishing.
 /**
  * ACPowerSupplyPanel is the view of the AC power supply. It provides sliders for changing the maximum voltage
  * and frequency (as percentages), and depicts the fluctuation of voltage over time as a sine wave.

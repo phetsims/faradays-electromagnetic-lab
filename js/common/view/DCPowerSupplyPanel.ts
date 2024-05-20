@@ -1,5 +1,6 @@
 // Copyright 2024, University of Colorado Boulder
 
+//TODO https://github.com/phetsims/faradays-electromagnetic-lab/issues/163 ariel-phet suggested that this needs pixel polishing.
 /**
  * DCPowerSupplyPanel is a panel with controls for the DC power supply.
  *
