@@ -1,7 +1,7 @@
 // Copyright 2024, University of Colorado Boulder
 
 /**
- * PickupCoilPanels is the set of control panels for the 'Pickup Coil' screen.
+ * PickupCoilPanels is the set of control panels on the ride side of the 'Pickup Coil' screen.
  *
  * @author Chris Malley (PixelZoom, Inc.)
  */

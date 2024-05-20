@@ -14,17 +14,17 @@ import ElectromagnetDeveloperAccordionBox from './ElectromagnetDeveloperAccordio
 import FELTimeControlNode from '../../common/view/FELTimeControlNode.js';
 import ElectromagnetPanels from './ElectromagnetPanels.js';
 import FELScreenView from '../../common/view/FELScreenView.js';
-import DCPowerSupplyPanel from '../../common/view/DCPowerSupplyPanel.js';
-import FELConstants from '../../common/FELConstants.js';
-import ACPowerSupplyPanel from '../../common/view/ACPowerSupplyPanel.js';
 import ElectromagnetNode from '../../common/view/ElectromagnetNode.js';
-import Multilink from '../../../../axon/js/Multilink.js';
+import PowerSupplyPanels from '../../common/view/PowerSupplyPanels.js';
 
 export default class ElectromagnetScreenView extends FELScreenView {
 
   public constructor( model: ElectromagnetScreenModel, tandem: Tandem ) {
 
-    const panels = new ElectromagnetPanels( model, tandem.createTandem( 'panels' ) );
+    const powerSupplyPanels = new PowerSupplyPanels( model.electromagnet.currentSourceProperty, model.electromagnet.dcPowerSupply,
+      model.electromagnet.acPowerSupply, tandem.createTandem( 'powerSupplyPanels' ) );
+
+    const rightPanels = new ElectromagnetPanels( model, tandem.createTandem( 'rightPanels' ) );
 
     const timeControlNode = new FELTimeControlNode( model, tandem.createTandem( 'timeControlNode' ) );
 
@@ -34,38 +34,20 @@ export default class ElectromagnetScreenView extends FELScreenView {
       magnet: model.electromagnet,
       compass: model.compass,
       fieldMeter: model.fieldMeter,
-      panels: panels,
+      leftPanels: powerSupplyPanels,
+      rightPanels: rightPanels,
       timeControlNode: timeControlNode,
       developerAccordionBox: developerAccordionBox,
       resetAll: () => model.reset(),
       tandem: tandem
     } );
 
-    const dragBoundsProperty = this.createDragBoundsProperty( panels.boundsProperty );
+    const dragBoundsProperty = this.createDragBoundsProperty( rightPanels.boundsProperty );
 
     const electromagnetNode = new ElectromagnetNode( model.electromagnet, {
       dragBoundsProperty: dragBoundsProperty,
       tandem: tandem.createTandem( 'electromagnetNode' )
     } );
-
-    //TODO https://github.com/phetsims/faradays-electromagnetic-lab/issues/163 Studio tree structure for dcPowerSupplyPanel and acPowerSupplyPanel
-    const dcPowerSupplyPanel = new DCPowerSupplyPanel( model.electromagnet.dcPowerSupply, model.electromagnet.currentSourceProperty,
-      tandem.createTandem( 'dcPowerSupplyPanel' ) );
-
-    const acPowerSupplyPanel = new ACPowerSupplyPanel( model.electromagnet.acPowerSupply, model.electromagnet.currentSourceProperty,
-      tandem.createTandem( 'acPowerSupplyPanel' ) );
-
-    // Panels top-aligned with layoutBounds, left-aligned with visible bounds.
-    Multilink.multilink( [ this.visibleBoundsProperty, dcPowerSupplyPanel.boundsProperty ],
-      ( visibleBounds, panelsBounds ) => {
-        dcPowerSupplyPanel.left = visibleBounds.left + FELConstants.SCREEN_VIEW_X_MARGIN;
-        dcPowerSupplyPanel.top = this.layoutBounds.top + FELConstants.SCREEN_VIEW_Y_MARGIN;
-      } );
-    Multilink.multilink( [ this.visibleBoundsProperty, acPowerSupplyPanel.boundsProperty ],
-      ( visibleBounds, panelsBounds ) => {
-        acPowerSupplyPanel.left = visibleBounds.left + FELConstants.SCREEN_VIEW_X_MARGIN;
-        acPowerSupplyPanel.top = this.layoutBounds.top + FELConstants.SCREEN_VIEW_Y_MARGIN;
-      } );
 
     //TODO https://github.com/phetsims/faradays-electromagnetic-lab/issues/163 How to prevent things from getting lost behind dcPowerSupplyPanel and acPowerSupplyPanel
 
@@ -76,9 +58,8 @@ export default class ElectromagnetScreenView extends FELScreenView {
         this.fieldNode,
         this.compassNode, // behind electromagnetNode, see https://github.com/phetsims/faradays-electromagnetic-lab/issues/10#issuecomment-1911160748
         electromagnetNode,
-        panels,
-        dcPowerSupplyPanel,
-        acPowerSupplyPanel,
+        powerSupplyPanels,
+        rightPanels,
         this.fieldMeterNode,
         timeControlNode,
         this.resetAllButton,
@@ -90,16 +71,15 @@ export default class ElectromagnetScreenView extends FELScreenView {
     // Play Area focus order, see https://github.com/phetsims/faradays-electromagnetic-lab/issues/81
     this.pdomPlayAreaNode.pdomOrder = [
       electromagnetNode,
-      dcPowerSupplyPanel,
-      acPowerSupplyPanel,
+      powerSupplyPanels,
       this.compassNode,
       this.fieldMeterNode,
-      panels.electromagnetPanel
+      rightPanels.electromagnetPanel
     ];
 
     // Control Area focus order, see https://github.com/phetsims/faradays-electromagnetic-lab/issues/81
     this.pdomControlAreaNode.pdomOrder = [
-      panels.toolsPanel,
+      rightPanels.toolsPanel,
       timeControlNode,
       this.resetAllButton
     ];

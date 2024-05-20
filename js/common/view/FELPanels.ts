@@ -23,10 +23,7 @@ export default class FELPanels extends VBox {
       // VBoxOptions
       stretch: true,
       spacing: 5,
-      phetioVisiblePropertyInstrumented: true,
-      visiblePropertyOptions: {
-        phetioFeatured: true
-      }
+      phetioVisiblePropertyInstrumented: false
     }, providedOptions ) );
   }
 }

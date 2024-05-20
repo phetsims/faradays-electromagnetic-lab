@@ -1,7 +1,7 @@
 // Copyright 2024, University of Colorado Boulder
 
 /**
- * TransformerPanels is the set of control panels for the 'Transformer' screen.
+ * TransformerPanels is the set of control panels on the ride side of the 'Transformer' screen.
  *
  * @author Chris Malley (PixelZoom, Inc.)
  */

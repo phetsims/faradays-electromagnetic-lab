@@ -35,8 +35,8 @@ export default class BarMagnetScreenView extends FELScreenView {
       }
     } );
 
-    const panels = new BarMagnetPanels( model, viewProperties.seeInsideBarMagnetProperty,
-      viewProperties.earthVisibleProperty, preferences.addEarthCheckboxProperty, tandem.createTandem( 'panels' ) );
+    const rightPanels = new BarMagnetPanels( model, viewProperties.seeInsideBarMagnetProperty,
+      viewProperties.earthVisibleProperty, preferences.addEarthCheckboxProperty, tandem.createTandem( 'rightPanels' ) );
 
     const developerAccordionBox = new BarMagnetDeveloperAccordionBox( model.barMagnet );
 
@@ -44,7 +44,7 @@ export default class BarMagnetScreenView extends FELScreenView {
       magnet: model.barMagnet,
       compass: model.compass,
       fieldMeter: model.fieldMeter,
-      panels: panels,
+      rightPanels: rightPanels,
       developerAccordionBox: developerAccordionBox,
       resetAll: () => {
         model.reset();
@@ -53,7 +53,7 @@ export default class BarMagnetScreenView extends FELScreenView {
       tandem: tandem
     } );
 
-    const dragBoundsProperty = this.createDragBoundsProperty( panels.boundsProperty );
+    const dragBoundsProperty = this.createDragBoundsProperty( rightPanels.boundsProperty );
 
     const barMagnetNode = new BarMagnetNode( model.barMagnet, {
       seeInsideProperty: viewProperties.seeInsideBarMagnetProperty,
@@ -74,7 +74,7 @@ export default class BarMagnetScreenView extends FELScreenView {
         this.compassNode, // behind barMagnetNode, see https://github.com/phetsims/faradays-electromagnetic-lab/issues/10#issuecomment-1911160748
         barMagnetNode,
         earthNode,
-        panels,
+        rightPanels,
         this.fieldMeterNode,
         this.resetAllButton,
         developerAccordionBox
@@ -95,12 +95,12 @@ export default class BarMagnetScreenView extends FELScreenView {
       // Exclude earthNode from alt input because barMagnetNode is draggable with the keyboard, and earthNode follows it.
       this.compassNode,
       this.fieldMeterNode,
-      panels.barMagnetPanel
+      rightPanels.barMagnetPanel
     ];
 
     // Control Area focus order, see https://github.com/phetsims/faradays-electromagnetic-lab/issues/81
     this.pdomControlAreaNode.pdomOrder = [
-      panels.toolsPanel,
+      rightPanels.toolsPanel,
       this.resetAllButton
     ];
   }

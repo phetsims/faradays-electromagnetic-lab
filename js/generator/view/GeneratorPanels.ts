@@ -1,7 +1,7 @@
 // Copyright 2024, University of Colorado Boulder
 
 /**
- * GeneratorPanels is the set of control panels for the 'Generator' screen.
+ * GeneratorPanels is the set of control panels on the ride side of the 'Generator' screen.
  *
  * @author Chris Malley (PixelZoom, Inc.)
  */

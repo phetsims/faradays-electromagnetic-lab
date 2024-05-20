@@ -1,7 +1,7 @@
 // Copyright 2024, University of Colorado Boulder
 
 /**
- * ElectromagnetPanels is the set of control panels for the 'Electromagnet' screen.
+ * ElectromagnetPanels is the set of control panels on the ride side of the 'Electromagnet' screen.
  *
  * @author Chris Malley (PixelZoom, Inc.)
  */

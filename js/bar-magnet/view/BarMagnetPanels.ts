@@ -1,7 +1,7 @@
 // Copyright 2024, University of Colorado Boulder
 
 /**
- * BarMagnetPanels is the set of control panels for the 'Bar Magnet' screen.
+ * BarMagnetPanels is the set of control panels on the ride side of the 'Bar Magnet' screen.
  *
  * @author Chris Malley (PixelZoom, Inc.)
  */

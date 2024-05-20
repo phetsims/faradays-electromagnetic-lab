@@ -31,7 +31,7 @@ export default class PickupCoilScreenView extends FELScreenView {
       phetioDocumentation: 'When true, dragging the magnet or pickup coil is locked to the pickup coil\'s horizontal axis.'
     } );
 
-    const panels = new PickupCoilPanels( model, isLockedToAxisProperty, tandem.createTandem( 'panels' ) );
+    const rightPanels = new PickupCoilPanels( model, isLockedToAxisProperty, tandem.createTandem( 'rightPanels' ) );
 
     const developerAccordionBox = new PickupCoilDeveloperAccordionBox( model.barMagnet, model.pickupCoil );
 
@@ -39,7 +39,7 @@ export default class PickupCoilScreenView extends FELScreenView {
       magnet: model.barMagnet,
       compass: model.compass,
       fieldMeter: model.fieldMeter,
-      panels: panels,
+      rightPanels: rightPanels,
       developerAccordionBox: developerAccordionBox,
       resetAll: () => {
         model.reset();
@@ -61,7 +61,7 @@ export default class PickupCoilScreenView extends FELScreenView {
       tandem: tandem.createTandem( 'pickupCoilNode' )
     } );
 
-    this.configureDragBoundsProperty( dragBoundsProperty, isLockedToAxisProperty, panels.boundsProperty,
+    this.configureDragBoundsProperty( dragBoundsProperty, isLockedToAxisProperty, rightPanels.boundsProperty,
       model.barMagnet.positionProperty, model.pickupCoil.positionProperty, barMagnetNode, pickupCoilNode );
 
     const pickupCoilAxisNode = new PickupCoilAxisNode( isLockedToAxisProperty, model.pickupCoil.positionProperty,
@@ -81,7 +81,7 @@ export default class PickupCoilScreenView extends FELScreenView {
         this.compassNode, // behind barMagnetNode, see https://github.com/phetsims/faradays-electromagnetic-lab/issues/10#issuecomment-1911160748
         barMagnetNode,
         pickupCoilNode,
-        panels,
+        rightPanels,
         this.fieldMeterNode,
         this.resetAllButton,
         developerAccordionBox,
@@ -96,13 +96,13 @@ export default class PickupCoilScreenView extends FELScreenView {
       pickupCoilNode,
       this.compassNode,
       this.fieldMeterNode,
-      panels.barMagnetPanel,
-      panels.pickupCoilPanel
+      rightPanels.barMagnetPanel,
+      rightPanels.pickupCoilPanel
     ];
 
     // Control Area focus order, see https://github.com/phetsims/faradays-electromagnetic-lab/issues/81
     this.pdomControlAreaNode.pdomOrder = [
-      panels.toolsPanel,
+      rightPanels.toolsPanel,
       this.resetAllButton
     ];
   }

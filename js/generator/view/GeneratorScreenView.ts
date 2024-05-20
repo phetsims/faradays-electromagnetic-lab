@@ -22,7 +22,7 @@ export default class GeneratorScreenView extends FELScreenView {
 
   public constructor( model: GeneratorScreenModel, tandem: Tandem ) {
 
-    const panels = new GeneratorPanels( model, tandem.createTandem( 'panels' ) );
+    const rightPanels = new GeneratorPanels( model, tandem.createTandem( 'rightPanels' ) );
 
     const timeControlNode = new FELTimeControlNode( model, tandem.createTandem( 'timeControlNode' ) );
 
@@ -32,7 +32,7 @@ export default class GeneratorScreenView extends FELScreenView {
       magnet: model.generator.turbine.barMagnet,
       compass: model.compass,
       fieldMeter: model.fieldMeter,
-      panels: panels,
+      rightPanels: rightPanels,
       timeControlNode: timeControlNode,
       developerAccordionBox: developerAccordionBox,
       resetAll: () => model.reset(),
@@ -54,7 +54,7 @@ export default class GeneratorScreenView extends FELScreenView {
         this.fieldNode,
         this.compassNode, // behind generatorNode, see https://github.com/phetsims/faradays-electromagnetic-lab/issues/10#issuecomment-1911160748
         generatorNode,
-        panels,
+        rightPanels,
         this.fieldMeterNode,
         timeControlNode,
         this.resetAllButton,
@@ -69,13 +69,13 @@ export default class GeneratorScreenView extends FELScreenView {
       generatorNode,
       this.compassNode,
       this.fieldMeterNode,
-      panels.barMagnetPanel,
-      panels.pickupCoilPanel
+      rightPanels.barMagnetPanel,
+      rightPanels.pickupCoilPanel
     ];
 
     // Control Area focus order, see https://github.com/phetsims/faradays-electromagnetic-lab/issues/81
     this.pdomControlAreaNode.pdomOrder = [
-      panels.toolsPanel,
+      rightPanels.toolsPanel,
       timeControlNode,
       this.resetAllButton
     ];

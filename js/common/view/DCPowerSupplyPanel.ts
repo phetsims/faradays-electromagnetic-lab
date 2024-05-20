@@ -17,7 +17,6 @@ import Utils from '../../../../dot/js/Utils.js';
 import TReadOnlyProperty from '../../../../axon/js/TReadOnlyProperty.js';
 import CurrentSource from '../model/CurrentSource.js';
 import DerivedProperty from '../../../../axon/js/DerivedProperty.js';
-import BooleanIO from '../../../../tandem/js/types/BooleanIO.js';
 import { combineOptions } from '../../../../phet-core/js/optionize.js';
 import StringUtils from '../../../../phetcommon/js/util/StringUtils.js';
 import FaradaysElectromagneticLabStrings from '../../FaradaysElectromagneticLabStrings.js';
@@ -99,12 +98,7 @@ export default class DCPowerSupplyPanel extends Panel {
     } );
 
     super( contentNode, combineOptions<PanelOptions>( {}, FELConstants.PANEL_OPTIONS, {
-
-      //TODO https://github.com/phetsims/faradays-electromagnetic-lab/issues/163 Do clients need a way to hide this panel?
-      visibleProperty: new DerivedProperty( [ currentSourceProperty ], currentSource => ( currentSource === dcPowerSupply ), {
-        tandem: tandem.createTandem( 'visibleProperty' ),
-        phetioValueType: BooleanIO
-      } ),
+      visibleProperty: new DerivedProperty( [ currentSourceProperty ], currentSource => ( currentSource === dcPowerSupply ) ),
       xMargin: 15,
       yMargin: 5,
       tandem: tandem,

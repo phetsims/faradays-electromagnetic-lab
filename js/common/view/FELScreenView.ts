@@ -29,6 +29,7 @@ import PickupCoilNode from './PickupCoilNode.js';
 import DerivedProperty from '../../../../axon/js/DerivedProperty.js';
 import isSettingPhetioStateProperty from '../../../../tandem/js/isSettingPhetioStateProperty.js';
 import FELQueryParameters from '../FELQueryParameters.js';
+import StrictOmit from '../../../../phet-core/js/types/StrictOmit.js';
 
 type SelfOptions = {
 
@@ -36,8 +37,12 @@ type SelfOptions = {
   magnet: Magnet;
   compass: Compass;
   fieldMeter: FieldMeter;
-  panels: Node;
   developerAccordionBox: Node;
+
+  // Panels on left and right sides of the screen.
+  // It is the subclass' responsibility to add these to the scene graph and pdomOrder.
+  leftPanels?: Node;
+  rightPanels: Node;
 
   // Optional UI components.
   timeControlNode?: Node | null;
@@ -58,7 +63,7 @@ export default class FELScreenView extends ScreenView {
 
   protected constructor( providedOptions: FELScreenViewOptions ) {
 
-    const options = optionize<FELScreenViewOptions, SelfOptions, ScreenViewOptions>()( {
+    const options = optionize<FELScreenViewOptions, StrictOmit<SelfOptions, 'leftPanels'>, ScreenViewOptions>()( {
 
       // SelfOptions
       timeControlNode: null,
@@ -73,7 +78,7 @@ export default class FELScreenView extends ScreenView {
 
     this.compassNode = new CompassNode( options.compass, {
       // See https://github.com/phetsims/faradays-electromagnetic-lab/issues/10#issuecomment-1911160748
-      dragBoundsProperty: new DerivedProperty( [ this.visibleBoundsProperty, options.panels.boundsProperty ],
+      dragBoundsProperty: new DerivedProperty( [ this.visibleBoundsProperty, options.rightPanels.boundsProperty ],
         ( visibleBounds, panelsBounds ) => visibleBounds.withMaxX( panelsBounds.left ), {
           strictAxonDependencies: false // See https://github.com/phetsims/faradays-electromagnetic-lab/issues/65
         } ),
@@ -95,13 +100,27 @@ export default class FELScreenView extends ScreenView {
 
     // Prevent the panels from growing taller than the available space, and overlapping resetAllButton.
     // This is a last-ditch defense, in case we are running on a platform where fonts are significantly taller.
-    options.panels.maxHeight = this.layoutBounds.height - this.resetAllButton.height - ( 2 * FELConstants.SCREEN_VIEW_Y_MARGIN ) - 5;
+    const maxHeightPanels = this.layoutBounds.height - this.resetAllButton.height - ( 2 * FELConstants.SCREEN_VIEW_Y_MARGIN ) - 5;
+    if ( options.leftPanels ) {
+      options.leftPanels.maxHeight = maxHeightPanels;
+    }
+    options.rightPanels.maxHeight = maxHeightPanels;
 
-    // Panels top-aligned with layoutBounds, right-aligned with visible bounds.
-    Multilink.multilink( [ this.visibleBoundsProperty, options.panels.boundsProperty ],
+    // Left panels top-aligned with layoutBounds, left-aligned with visible bounds.
+    if ( options.leftPanels ) {
+      const leftPanels = options.leftPanels;
+      Multilink.multilink( [ this.visibleBoundsProperty, leftPanels.boundsProperty ],
+        ( visibleBounds, panelsBounds ) => {
+          leftPanels.left = visibleBounds.left + FELConstants.SCREEN_VIEW_X_MARGIN;
+          leftPanels.top = this.layoutBounds.top + FELConstants.SCREEN_VIEW_Y_MARGIN;
+        } );
+    }
+
+    // Right panels top-aligned with layoutBounds, right-aligned with visible bounds.
+    Multilink.multilink( [ this.visibleBoundsProperty, options.rightPanels.boundsProperty ],
       ( visibleBounds, panelsBounds ) => {
-        options.panels.right = visibleBounds.right - FELConstants.SCREEN_VIEW_X_MARGIN;
-        options.panels.top = this.layoutBounds.top + FELConstants.SCREEN_VIEW_Y_MARGIN;
+        options.rightPanels.right = visibleBounds.right - FELConstants.SCREEN_VIEW_X_MARGIN;
+        options.rightPanels.top = this.layoutBounds.top + FELConstants.SCREEN_VIEW_Y_MARGIN;
       } );
 
     // ResetAllButton in the right bottom corner of the visible bounds.
