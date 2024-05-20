@@ -1,5 +1,5 @@
 {
-  "comment": "# faradays-electromagnetic-lab 1.0.0-dev.28 Mon May 20 2024 13:47:31 GMT-0600 (Mountain Daylight Time)",
+  "comment": "# faradays-electromagnetic-lab 1.0.0-dev.29 Mon May 20 2024 14:30:19 GMT-0600 (Mountain Daylight Time)",
   "assert": {
     "sha": "2abb8a3116463c20d4e32551bc6da2de33601bf2",
     "branch": "main"
@@ -25,7 +25,7 @@
     "branch": "main"
   },
   "faradays-electromagnetic-lab": {
-    "sha": "35f2cdd99d29de4a3d49f4212a3ccb0e1478d5a8",
+    "sha": "03a20739313bd3e107753370a72fa6a2fd260b60",
     "branch": "main"
   },
   "joist": {
@@ -49,7 +49,7 @@
     "branch": "main"
   },
   "phet-io-sim-specific": {
-    "sha": "85a00f2b63c847b0a4e2af5a5aa433e818543368",
+    "sha": "40e54eae30143df7e3b941d6117c84f88e0353c0",
     "branch": "main"
   },
   "phet-io-wrappers": {
