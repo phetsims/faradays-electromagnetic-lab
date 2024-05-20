@@ -152,8 +152,7 @@ export default class PickupCoil extends FELMovable {
     }
 
     this.maxEMFProperty = new NumberProperty( options.maxEMF, {
-      //TODO https://github.com/phetsims/faradays-electromagnetic-lab/issues/156 This range makes Developer control unusable.
-      range: new Range( 1E5, 1E7 )
+      range: new Range( 1E5, 3E6 )
       // Do not instrument. This is a PhET developer Property.
     } );
 
@@ -347,10 +346,8 @@ export default class PickupCoil extends FELMovable {
    */
   public getSamplePointAreaDimensions( samplePoint: Vector2, reusableDimension: Dimension2 ): Dimension2 {
 
-    // Position of samplePoint in global coordinates.
-    const x = this.positionProperty.value.x + samplePoint.x;
+    // Position of samplePoint.y in global coordinates.
     const y = this.positionProperty.value.y + samplePoint.y;
-    this.reusablePosition.setXY( x, y );
 
     // Use the algorithm for distance from the center of a circle to a chord to compute the length of the chord
     // that is perpendicular to the vertical line and goes through the sample point. If you're unfamiliar with
@@ -359,11 +356,10 @@ export default class PickupCoil extends FELMovable {
     const d = samplePoint.y; // distance from center of the circle (loop) to the chord
     let chordLength = 2 * Math.sqrt( Math.abs( R * R - d * d ) );
 
-    // If the sample point is inside the magnet, using the chord length computed above would exaggerate the
-    // sample point's contribution to flux. So use the magnet's thickness (depth). The field outside the magnet
-    // is relatively weak, so ignore its contribution.
+    // If the sample point is in the same horizontal plane as the magnet, using the chord length computed above would
+    // exaggerate the sample point's contribution to flux. So use the magnet's thickness (depth).
     const magnetThickness = this.magnet.size.depth;
-    if ( magnetThickness < chordLength && this.magnet.isInside( this.reusablePosition ) ) {
+    if ( magnetThickness < chordLength && this.magnet.intersectsHorizontalPlane( y ) ) {
       chordLength = magnetThickness;
     }
     assert && assert( chordLength !== 0 );

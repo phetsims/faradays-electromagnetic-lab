@@ -125,6 +125,13 @@ export default abstract class Magnet extends FELMovable {
   }
 
   /**
+   * Does the magnet intersect a horizontal plane at the specific y-coordinate?
+   */
+  public intersectsHorizontalPlane( y: number ): boolean {
+    return this.localBounds.containsPoint( this.globalToLocalXY( this.positionProperty.value.x, y, this.reusablePosition ) );
+  }
+
+  /**
    * Gets the B-field vector at the specified point in the global coordinate frame.
    *
    * @param position - in the global coordinate frame
@@ -182,8 +189,12 @@ export default abstract class Magnet extends FELMovable {
    * because our B-field model is in the magnet's local coordinate frame.
    */
   private globalToLocalPosition( globalPosition: Vector2, returnVector?: Vector2 ): Vector2 {
+    return this.globalToLocalXY( globalPosition.x, globalPosition.y, returnVector );
+  }
+
+  private globalToLocalXY( globalX: number, globalY: number, returnVector?: Vector2 ): Vector2 {
     returnVector = returnVector || new Vector2( 0, 0 );
-    returnVector.set( globalPosition );
+    returnVector.setXY( globalX, globalY );
     returnVector.rotateAboutPoint( this.positionProperty.value, -this.rotationProperty.value );
     returnVector.subtract( this.positionProperty.value );
     return returnVector;
