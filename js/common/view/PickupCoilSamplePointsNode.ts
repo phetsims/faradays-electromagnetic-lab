@@ -34,7 +34,8 @@ export default class PickupCoilSamplePointsNode extends Node {
 
     super( {
       children: [ path ],
-      visibleProperty: pickupCoil.samplePointsVisibleProperty
+      visibleProperty: pickupCoil.samplePointsVisibleProperty,
+      pickable: false
     } );
   }
 }

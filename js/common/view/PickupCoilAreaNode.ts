@@ -31,7 +31,8 @@ export default class PickupCoilAreaNode extends Node {
     super( {
       isDisposable: false,
       children: [ path ],
-      visibleProperty: pickupCoil.samplePointsVisibleProperty
+      visibleProperty: pickupCoil.samplePointsVisibleProperty,
+      pickable: false
     } );
 
     // Reusable instance, to optimize memory allocation.

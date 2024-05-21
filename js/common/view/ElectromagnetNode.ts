@@ -55,7 +55,8 @@ export default class ElectromagnetNode extends FELMovableNode {
     // Debug: Show the shape used to determine whether a B-field position is inside or outside the electromagnet.
     const magnetShapeNode = new Path( Shape.bounds( electromagnet.localBounds ), {
       visibleProperty: electromagnet.shapeVisibleProperty,
-      stroke: 'yellow'
+      stroke: 'yellow',
+      pickable: false
     } );
 
     options.children = [ coilNode, dcPowerSupplyNode, acPowerSupplyNode, magnetShapeNode ];
