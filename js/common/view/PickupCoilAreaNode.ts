@@ -25,6 +25,7 @@ export default class PickupCoilAreaNode extends Node {
 
     const path = new Path( null, {
       stroke: 'yellow',
+      opacity: 0.35,
       lineWidth: 1
     } );
 
