@@ -160,6 +160,12 @@ export default class FELScreenView extends ScreenView {
   /**
    * Creates a dragBoundsProperty for scenarios that do not involve the 'Lock to Axis' feature.
    * This is relevant in the 'Bar Magnet' and 'Electromagnet' screens.
+   *
+   * Note that we are not concerned with optional leftPanels, which are the panels related to the Electromagnet.
+   * It's possible to "lost" the compass behind these panels. But it's also possible to lose the compass behind
+   * the faucet in the Generator screen, and the voltmeter in any screen that has one.  If the user loses the
+   * compass, they can 'Reset All'.  For more discussion about this, see
+   * https://github.com/phetsims/faradays-electromagnetic-lab/issues/163#issuecomment-2121174433
    */
   protected createDragBoundsProperty( panelsBoundsProperty: TReadOnlyProperty<Bounds2> ): TReadOnlyProperty<Bounds2> {
     return new DerivedProperty( [ panelsBoundsProperty ],
@@ -169,6 +175,9 @@ export default class FELScreenView extends ScreenView {
   /**
    * Configures a dragBoundsProperty for scenarios that involve a magnet and a pickup coil, and require the
    * 'Lock to Axis' feature. This is relevant in the 'Pickup Coil' and 'Transformer' screens.
+   *
+   * See notes above for createDragBoundsProperty, about why we're ignoring optional leftPanels. Those notes
+   * apply here as well.
    */
   protected configureDragBoundsProperty(
     dragBoundsProperty: Property<Bounds2>,
