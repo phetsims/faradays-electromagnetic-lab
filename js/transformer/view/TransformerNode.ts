@@ -20,15 +20,20 @@ export default class TransformerNode extends Node {
   public readonly electromagnetNode: ElectromagnetNode;
   public readonly pickupCoilNode: PickupCoilNode;
 
-  public constructor( transformer: Transformer, dragBoundsProperty: TReadOnlyProperty<Bounds2>, tandem: Tandem ) {
+  public constructor( transformer: Transformer,
+                      dragBoundsProperty: TReadOnlyProperty<Bounds2>,
+                      lockToAxisProperty: TReadOnlyProperty<boolean>,
+                      tandem: Tandem ) {
 
     const electromagnetNode = new ElectromagnetNode( transformer.electromagnet, {
       dragBoundsProperty: dragBoundsProperty,
+      lockToAxisProperty: lockToAxisProperty,
       tandem: tandem.createTandem( 'electromagnetNode' )
     } );
 
     const pickupCoilNode = new PickupCoilNode( transformer.pickupCoil, {
       dragBoundsProperty: dragBoundsProperty,
+      lockToAxisProperty: lockToAxisProperty,
       tandem: tandem.createTandem( 'pickupCoilNode' )
     } );
 

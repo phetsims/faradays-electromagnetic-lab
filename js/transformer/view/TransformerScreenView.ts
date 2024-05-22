@@ -62,13 +62,11 @@ export default class TransformerScreenView extends FELScreenView {
     // Set to correct bounds by calling this.configureDragBoundsProperty below.
     const dragBoundsProperty = new Property( this.layoutBounds );
 
-    const transformerNode = new TransformerNode( model.transformer, dragBoundsProperty,
+    const transformerNode = new TransformerNode( model.transformer, dragBoundsProperty, lockToAxisProperty,
       tandem.createTandem( 'transformerNode' ) );
 
-    //TODO https://github.com/phetsims/faradays-electromagnetic-lab/issues/163 How to prevent things from getting lost behind dcPowerSupplyPanel and acPowerSupplyPanel
     this.configureDragBoundsProperty( dragBoundsProperty, lockToAxisProperty, rightPanels.boundsProperty,
-      electromagnet.positionProperty, pickupCoil.positionProperty, transformerNode.electromagnetNode,
-      transformerNode.pickupCoilNode );
+      electromagnet.positionProperty, pickupCoil.positionProperty );
 
     const pickupCoilAxisNode = new PickupCoilAxisNode( lockToAxisProperty, pickupCoil.positionProperty,
       this.visibleBoundsProperty );

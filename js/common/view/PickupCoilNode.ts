@@ -21,9 +21,11 @@ import optionize from '../../../../phet-core/js/optionize.js';
 import PickRequired from '../../../../phet-core/js/types/PickRequired.js';
 import PickOptional from '../../../../phet-core/js/types/PickOptional.js';
 import PickupCoilAreaNode from './PickupCoilAreaNode.js';
+import TReadOnlyProperty from '../../../../axon/js/TReadOnlyProperty.js';
 
 type SelfOptions = {
   maxRayLength?: number; // passed to LightBulbNode
+  lockToAxisProperty?: TReadOnlyProperty<boolean> | null;
 };
 
 type PickupCoilNodeOptions = SelfOptions &
@@ -37,7 +39,10 @@ export default class PickupCoilNode extends FELMovableNode {
   public constructor( pickupCoil: PickupCoil, providedOptions: PickupCoilNodeOptions ) {
 
     const options = optionize<PickupCoilNodeOptions, SelfOptions, NodeOptions>()( {
-      maxRayLength: 350
+
+      // SelfOptions
+      maxRayLength: 350,
+      lockToAxisProperty: null
     }, providedOptions );
 
     const coilNode = new CoilNode( pickupCoil.coil, pickupCoil, {
@@ -94,6 +99,13 @@ export default class PickupCoilNode extends FELMovableNode {
     // elsewhere, we also need to handle positioning of backgroundNode.
     pickupCoil.positionProperty.link( position => {
       this.backgroundNode.translation = position;
+    } );
+
+    // Change the cursor to indicate whether dragging is constrained to the x-axis.
+    options.lockToAxisProperty && options.lockToAxisProperty.link( lockToAxis => {
+      const cursor = lockToAxis ? 'ew-resize' : 'pointer';
+      this.cursor = cursor;
+      this.backgroundNode.cursor = cursor;
     } );
   }
 }

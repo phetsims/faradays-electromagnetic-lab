@@ -15,13 +15,16 @@ import FELMovableNode, { FELMovableNodeOptions } from './FELMovableNode.js';
 import CoilNode from './CoilNode.js';
 import { Node, Path } from '../../../../scenery/js/imports.js';
 import { Shape } from '../../../../kite/js/imports.js';
-import optionize, { EmptySelfOptions } from '../../../../phet-core/js/optionize.js';
+import optionize from '../../../../phet-core/js/optionize.js';
 import PickRequired from '../../../../phet-core/js/types/PickRequired.js';
 import Multilink from '../../../../axon/js/Multilink.js';
 import DCPowerSupplyNode from './DCPowerSupplyNode.js';
 import ACPowerSupplyNode from './ACPowerSupplyNode.js';
+import TReadOnlyProperty from '../../../../axon/js/TReadOnlyProperty.js';
 
-type SelfOptions = EmptySelfOptions;
+type SelfOptions = {
+  lockToAxisProperty?: TReadOnlyProperty<boolean> | null;
+};
 
 type ElectromagnetNodeOptions = SelfOptions & PickRequired<FELMovableNodeOptions, 'tandem' | 'dragBoundsProperty'>;
 
@@ -31,7 +34,11 @@ export default class ElectromagnetNode extends FELMovableNode {
 
   public constructor( electromagnet: Electromagnet, providedOptions: ElectromagnetNodeOptions ) {
 
-    const options = optionize<ElectromagnetNodeOptions, SelfOptions, FELMovableNodeOptions>()( {}, providedOptions );
+    const options = optionize<ElectromagnetNodeOptions, SelfOptions, FELMovableNodeOptions>()( {
+
+      // SelfOptions
+      lockToAxisProperty: null
+    }, providedOptions );
 
     const coilNode = new CoilNode( electromagnet.coil, electromagnet, {
       dragBoundsProperty: options.dragBoundsProperty,
@@ -87,6 +94,13 @@ export default class ElectromagnetNode extends FELMovableNode {
     // elsewhere, we also need to handle positioning of backgroundNode.
     electromagnet.positionProperty.link( position => {
       this.backgroundNode.translation = position;
+    } );
+
+    // Change the cursor to indicate whether dragging is constrained to the x-axis.
+    options.lockToAxisProperty && options.lockToAxisProperty.link( lockToAxis => {
+      const cursor = lockToAxis ? 'ew-resize' : 'pointer';
+      this.cursor = cursor;
+      this.backgroundNode.cursor = cursor;
     } );
   }
 }

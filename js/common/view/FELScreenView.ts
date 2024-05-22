@@ -25,13 +25,10 @@ import Vector2 from '../../../../dot/js/Vector2.js';
 import Bounds2 from '../../../../dot/js/Bounds2.js';
 import TReadOnlyProperty from '../../../../axon/js/TReadOnlyProperty.js';
 import Property from '../../../../axon/js/Property.js';
-import PickupCoilNode from './PickupCoilNode.js';
 import DerivedProperty from '../../../../axon/js/DerivedProperty.js';
 import isSettingPhetioStateProperty from '../../../../tandem/js/isSettingPhetioStateProperty.js';
 import FELQueryParameters from '../FELQueryParameters.js';
 import StrictOmit from '../../../../phet-core/js/types/StrictOmit.js';
-import BarMagnetNode from './BarMagnetNode.js';
-import ElectromagnetNode from './ElectromagnetNode.js';
 
 type SelfOptions = {
 
@@ -186,9 +183,7 @@ export default class FELScreenView extends ScreenView {
     lockedToAxisProperty: TReadOnlyProperty<boolean>,
     panelsBoundsProperty: TReadOnlyProperty<Bounds2>,
     magnetPositionProperty: Property<Vector2>,
-    pickupCoilPositionProperty: Property<Vector2>,
-    magnetNode: BarMagnetNode | ElectromagnetNode,
-    pickupCoilNode: PickupCoilNode
+    pickupCoilPositionProperty: Property<Vector2>
   ): void {
     Multilink.multilink( [ lockedToAxisProperty, panelsBoundsProperty ], ( lockToAxis, panelsBounds ) => {
       if ( lockToAxis ) {
@@ -208,28 +203,12 @@ export default class FELScreenView extends ScreenView {
 
         // Constrain to horizontal dragging.
         dragBoundsProperty.value = new Bounds2( this.layoutBounds.left, y, panelsBounds.left, y );
-
-        // Change the cursors to indicate that drag direction is constrained to horizontal.
-        magnetNode.cursor = 'ew-resize';
-        if ( magnetNode instanceof ElectromagnetNode ) {
-          magnetNode.backgroundNode.cursor = 'ew-resize';
-        }
-        pickupCoilNode.cursor = 'ew-resize';
-        pickupCoilNode.backgroundNode.cursor = 'ew-resize';
       }
       else {
         // Dragging is 2D, horizontal and vertical.
 
         // Restore drag bounds.
         dragBoundsProperty.value = this.layoutBounds.withMaxX( panelsBounds.left );
-
-        // Restore cursors.
-        magnetNode.cursor = 'pointer';
-        if ( magnetNode instanceof ElectromagnetNode ) {
-          magnetNode.backgroundNode.cursor = 'pointer';
-        }
-        pickupCoilNode.cursor = 'pointer';
-        pickupCoilNode.backgroundNode.cursor = 'pointer';
       }
     } );
   }
