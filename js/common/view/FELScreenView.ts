@@ -30,6 +30,8 @@ import DerivedProperty from '../../../../axon/js/DerivedProperty.js';
 import isSettingPhetioStateProperty from '../../../../tandem/js/isSettingPhetioStateProperty.js';
 import FELQueryParameters from '../FELQueryParameters.js';
 import StrictOmit from '../../../../phet-core/js/types/StrictOmit.js';
+import BarMagnetNode from './BarMagnetNode.js';
+import ElectromagnetNode from './ElectromagnetNode.js';
 
 type SelfOptions = {
 
@@ -185,7 +187,7 @@ export default class FELScreenView extends ScreenView {
     panelsBoundsProperty: TReadOnlyProperty<Bounds2>,
     magnetPositionProperty: Property<Vector2>,
     pickupCoilPositionProperty: Property<Vector2>,
-    magnetNode: Node,
+    magnetNode: BarMagnetNode | ElectromagnetNode,
     pickupCoilNode: PickupCoilNode
   ): void {
     Multilink.multilink( [ lockedToAxisProperty, panelsBoundsProperty ], ( lockToAxis, panelsBounds ) => {
@@ -209,6 +211,9 @@ export default class FELScreenView extends ScreenView {
 
         // Change the cursors to indicate that drag direction is constrained to horizontal.
         magnetNode.cursor = 'ew-resize';
+        if ( magnetNode instanceof ElectromagnetNode ) {
+          magnetNode.backgroundNode.cursor = 'ew-resize';
+        }
         pickupCoilNode.cursor = 'ew-resize';
         pickupCoilNode.backgroundNode.cursor = 'ew-resize';
       }
@@ -220,6 +225,9 @@ export default class FELScreenView extends ScreenView {
 
         // Restore cursors.
         magnetNode.cursor = 'pointer';
+        if ( magnetNode instanceof ElectromagnetNode ) {
+          magnetNode.backgroundNode.cursor = 'pointer';
+        }
         pickupCoilNode.cursor = 'pointer';
         pickupCoilNode.backgroundNode.cursor = 'pointer';
       }
