@@ -30,15 +30,15 @@ export default class TransformerScreenView extends FELScreenView {
     const electromagnet = model.transformer.electromagnet;
     const pickupCoil = model.transformer.pickupCoil;
 
-    const isLockedToAxisProperty = new BooleanProperty( false, {
-      tandem: tandem.createTandem( 'isLockedToAxisProperty' ),
+    const lockToAxisProperty = new BooleanProperty( false, {
+      tandem: tandem.createTandem( 'lockToAxisProperty' ),
       phetioDocumentation: 'When true, dragging the magnet or pickup coil is locked to the pickup coil\'s horizontal axis.'
     } );
 
     const powerSupplyPanels = new PowerSupplyPanels( electromagnet.currentSourceProperty, electromagnet.dcPowerSupply,
       electromagnet.acPowerSupply, tandem.createTandem( 'powerSupplyPanels' ) );
 
-    const rightPanels = new TransformerPanels( model, isLockedToAxisProperty, tandem.createTandem( 'rightPanels' ) );
+    const rightPanels = new TransformerPanels( model, lockToAxisProperty, tandem.createTandem( 'rightPanels' ) );
 
     const timeControlNode = new FELTimeControlNode( model, tandem.createTandem( 'timeControlNode' ) );
 
@@ -54,7 +54,7 @@ export default class TransformerScreenView extends FELScreenView {
       developerAccordionBox: developerAccordionBox,
       resetAll: () => {
         model.reset();
-        isLockedToAxisProperty.reset();
+        lockToAxisProperty.reset();
       },
       tandem: tandem
     } );
@@ -66,11 +66,11 @@ export default class TransformerScreenView extends FELScreenView {
       tandem.createTandem( 'transformerNode' ) );
 
     //TODO https://github.com/phetsims/faradays-electromagnetic-lab/issues/163 How to prevent things from getting lost behind dcPowerSupplyPanel and acPowerSupplyPanel
-    this.configureDragBoundsProperty( dragBoundsProperty, isLockedToAxisProperty, rightPanels.boundsProperty,
+    this.configureDragBoundsProperty( dragBoundsProperty, lockToAxisProperty, rightPanels.boundsProperty,
       electromagnet.positionProperty, pickupCoil.positionProperty, transformerNode.electromagnetNode,
       transformerNode.pickupCoilNode );
 
-    const pickupCoilAxisNode = new PickupCoilAxisNode( isLockedToAxisProperty, pickupCoil.positionProperty,
+    const pickupCoilAxisNode = new PickupCoilAxisNode( lockToAxisProperty, pickupCoil.positionProperty,
       this.visibleBoundsProperty );
 
     const pickupCoilDebuggerPanel = new PickupCoilDebuggerPanel( pickupCoil, {

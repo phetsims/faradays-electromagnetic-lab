@@ -17,14 +17,14 @@ import FELColors from '../FELColors.js';
 
 export default class PickupCoilAxisNode extends Line {
 
-  public constructor( isLockedToAxisProperty: TReadOnlyProperty<boolean>,
+  public constructor( lockToAxisProperty: TReadOnlyProperty<boolean>,
                       pickupCoilPositionProperty: TReadOnlyProperty<Vector2>,
                       visibleBoundsProperty: TReadOnlyProperty<Bounds2> ) {
 
     // Correct length will be set by Multilink below.
     super( 0, 0, 1, 0, {
       isDisposable: false,
-      visibleProperty: isLockedToAxisProperty,
+      visibleProperty: lockToAxisProperty,
       stroke: FELColors.pickupCoilAxisStrokeProperty,
       lineWidth: 1,
       lineDash: [ 5, 5 ]

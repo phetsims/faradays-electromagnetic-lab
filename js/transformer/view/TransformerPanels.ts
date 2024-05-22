@@ -23,14 +23,14 @@ export default class TransformerPanels extends FELPanels {
   public readonly pickupCoilPanel: Node;
   public readonly toolsPanel: Node;
 
-  public constructor( model: TransformerScreenModel, isLockedToAxisProperty: Property<boolean>, tandem: Tandem ) {
+  public constructor( model: TransformerScreenModel, lockToAxisProperty: Property<boolean>, tandem: Tandem ) {
 
     const electromagnetPanel = new ElectromagnetPanel( model.transformer.electromagnet, tandem.createTandem( 'electromagnetPanel' ) );
 
     const pickupCoilPanel = new PickupCoilPanel( model.transformer.pickupCoil, tandem.createTandem( 'pickupCoilPanel' ) );
 
     const toolsPanel = new ToolsPanel( model.compass, model.fieldMeter, {
-      isLockedToAxisProperty: isLockedToAxisProperty,
+      lockToAxisProperty: lockToAxisProperty,
       tandem: tandem.createTandem( 'toolsPanel' )
     } );
 

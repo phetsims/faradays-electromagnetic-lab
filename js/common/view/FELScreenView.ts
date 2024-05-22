@@ -181,15 +181,15 @@ export default class FELScreenView extends ScreenView {
    */
   protected configureDragBoundsProperty(
     dragBoundsProperty: Property<Bounds2>,
-    isLockedToAxisProperty: TReadOnlyProperty<boolean>,
+    lockedToAxisProperty: TReadOnlyProperty<boolean>,
     panelsBoundsProperty: TReadOnlyProperty<Bounds2>,
     magnetPositionProperty: Property<Vector2>,
     pickupCoilPositionProperty: Property<Vector2>,
     magnetNode: Node,
     pickupCoilNode: PickupCoilNode
   ): void {
-    Multilink.multilink( [ isLockedToAxisProperty, panelsBoundsProperty ], ( isLockedToAxis, panelsBounds ) => {
-      if ( isLockedToAxis ) {
+    Multilink.multilink( [ lockedToAxisProperty, panelsBoundsProperty ], ( lockToAxis, panelsBounds ) => {
+      if ( lockToAxis ) {
         // Dragging is locked to 1D, horizontally along the pickup coil's axis.
 
         // Move the magnet and pickup coil a usable position, which we assume is their initial position. Do this only

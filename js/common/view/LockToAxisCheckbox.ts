@@ -19,7 +19,7 @@ import FELColors from '../FELColors.js';
 
 export default class LockToAxisCheckbox extends Checkbox {
 
-  public constructor( isLockedToAxisProperty: Property<boolean>, tandem: Tandem ) {
+  public constructor( lockToAxisProperty: Property<boolean>, tandem: Tandem ) {
 
     const content = new HBox( {
       spacing: 8,
@@ -33,7 +33,7 @@ export default class LockToAxisCheckbox extends Checkbox {
       tandem: tandem
     } );
 
-    super( isLockedToAxisProperty, content, options );
+    super( lockToAxisProperty, content, options );
   }
 }
 

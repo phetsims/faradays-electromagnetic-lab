@@ -23,7 +23,7 @@ export default class PickupCoilPanels extends FELPanels {
   public readonly pickupCoilPanel: Node;
   public readonly toolsPanel: Node;
 
-  public constructor( model: PickupCoilScreenModel, isLockedToAxisProperty: Property<boolean>, tandem: Tandem ) {
+  public constructor( model: PickupCoilScreenModel, lockToAxisProperty: Property<boolean>, tandem: Tandem ) {
 
     const barMagnetPanel = new BarMagnetPanel( model.barMagnet, model.compass, {
       tandem: tandem.createTandem( 'barMagnetPanel' )
@@ -32,7 +32,7 @@ export default class PickupCoilPanels extends FELPanels {
     const pickupCoilPanel = new PickupCoilPanel( model.pickupCoil, tandem.createTandem( 'pickupCoilPanel' ) );
 
     const toolsPanel = new ToolsPanel( model.compass, model.fieldMeter, {
-      isLockedToAxisProperty: isLockedToAxisProperty,
+      lockToAxisProperty: lockToAxisProperty,
       tandem: tandem.createTandem( 'toolsPanel' )
     } );
 

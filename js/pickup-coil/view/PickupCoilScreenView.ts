@@ -26,12 +26,12 @@ export default class PickupCoilScreenView extends FELScreenView {
 
   public constructor( model: PickupCoilScreenModel, preferences: FELPreferences, tandem: Tandem ) {
 
-    const isLockedToAxisProperty = new BooleanProperty( false, {
-      tandem: tandem.createTandem( 'isLockedToAxisProperty' ),
+    const lockToAxisProperty = new BooleanProperty( false, {
+      tandem: tandem.createTandem( 'lockToAxisProperty' ),
       phetioDocumentation: 'When true, dragging the magnet or pickup coil is locked to the pickup coil\'s horizontal axis.'
     } );
 
-    const rightPanels = new PickupCoilPanels( model, isLockedToAxisProperty, tandem.createTandem( 'rightPanels' ) );
+    const rightPanels = new PickupCoilPanels( model, lockToAxisProperty, tandem.createTandem( 'rightPanels' ) );
 
     const developerAccordionBox = new PickupCoilDeveloperAccordionBox( model.barMagnet, model.pickupCoil );
 
@@ -43,7 +43,7 @@ export default class PickupCoilScreenView extends FELScreenView {
       developerAccordionBox: developerAccordionBox,
       resetAll: () => {
         model.reset();
-        isLockedToAxisProperty.reset();
+        lockToAxisProperty.reset();
       },
       tandem: tandem
     } );
@@ -61,10 +61,10 @@ export default class PickupCoilScreenView extends FELScreenView {
       tandem: tandem.createTandem( 'pickupCoilNode' )
     } );
 
-    this.configureDragBoundsProperty( dragBoundsProperty, isLockedToAxisProperty, rightPanels.boundsProperty,
+    this.configureDragBoundsProperty( dragBoundsProperty, lockToAxisProperty, rightPanels.boundsProperty,
       model.barMagnet.positionProperty, model.pickupCoil.positionProperty, barMagnetNode, pickupCoilNode );
 
-    const pickupCoilAxisNode = new PickupCoilAxisNode( isLockedToAxisProperty, model.pickupCoil.positionProperty,
+    const pickupCoilAxisNode = new PickupCoilAxisNode( lockToAxisProperty, model.pickupCoil.positionProperty,
       this.visibleBoundsProperty );
 
     const pickupCoilDebuggerPanel = new PickupCoilDebuggerPanel( model.pickupCoil, {

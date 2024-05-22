@@ -22,7 +22,7 @@ import FieldMeterCheckbox from './FieldMeterCheckbox.js';
 type SelfOptions = {
 
   // Locks dragging to the pickup coil's horizontal axis.
-  isLockedToAxisProperty?: Property<boolean> | null;
+  lockToAxisProperty?: Property<boolean> | null;
 };
 
 type ToolsPanelOptions = SelfOptions & PickRequired<PanelOptions, 'tandem'>;
@@ -34,7 +34,7 @@ export default class ToolsPanel extends Panel {
     const options = optionize4<ToolsPanelOptions, SelfOptions, PanelOptions>()( {}, FELConstants.PANEL_OPTIONS, {
 
       // SelfOptions
-      isLockedToAxisProperty: null
+      lockToAxisProperty: null
     }, providedOptions );
 
     const checkboxes = [
@@ -47,8 +47,8 @@ export default class ToolsPanel extends Panel {
     ];
 
     // 'Lock to Axis' checkbox
-    if ( options.isLockedToAxisProperty ) {
-      const lockToAxisCheckbox = new LockToAxisCheckbox( options.isLockedToAxisProperty, options.tandem.createTandem( 'lockToAxisCheckbox' ) );
+    if ( options.lockToAxisProperty ) {
+      const lockToAxisCheckbox = new LockToAxisCheckbox( options.lockToAxisProperty, options.tandem.createTandem( 'lockToAxisCheckbox' ) );
       checkboxes.push( lockToAxisCheckbox );
     }
 
