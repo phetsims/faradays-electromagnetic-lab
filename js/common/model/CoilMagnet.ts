@@ -87,8 +87,10 @@ export default class CoilMagnet extends Magnet {
    * axes oriented with +x right, +y up
    * origin is the center of the coil, at (0,0)
    * (x,y) is the point of interest where we are measuring the magnetic field
-   * C = a fudge factor, set so that the lightbulb will light
-   * m = magnetic moment = C * #loops * current in the coil
+   * C1 = a constant fudge factor, set so that the lightbulb will light
+   * C2 = a constant fudge factor, to prevent the pickup coil flux from being negative due to large Bx just outside
+   *      the electromagnet coil. See https://github.com/phetsims/faradays-electromagnetic-lab/issues/166
+   * m = magnetic moment = C1 * #loops * current in the coil
    * R = radius of the coil
    * r = distance from the origin to (x,y)
    * theta = angle between the x-axis and (x,y)
@@ -123,12 +125,13 @@ export default class CoilMagnet extends Magnet {
 
     // Recurring terms
     const C1 = m / Math.pow( r, distanceExponent );
+    const C2 = 0.8; // See https://github.com/phetsims/faradays-electromagnetic-lab/issues/166
     const cosTheta = x / r;
     const sinTheta = y / r;
 
     // B-field component vectors
-    const Bx = C1 * ( ( 3 * cosTheta * cosTheta ) - 1 );
-    const By = C1 * ( 3 * cosTheta * sinTheta );
+    const Bx = C1 * C2 * ( ( 3 * cosTheta * cosTheta ) - 1 );
+    const By = C1 * C2 * ( 3 * cosTheta * sinTheta );
 
     // B-field vector
     returnVector.setXY( Bx, By );
