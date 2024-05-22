@@ -63,6 +63,7 @@ export default class CoilMagnet extends Magnet {
 
   /**
    * Gets the B-field vector for points inside the coil.
+   * See faradays-electromagnetic-lab/doc/java-version/faraday-notes-2005.pdf
    *
    * Terminology:
    * R = radius of the coil
@@ -87,16 +88,14 @@ export default class CoilMagnet extends Magnet {
    * axes oriented with +x right, +y up
    * origin is the center of the coil, at (0,0)
    * (x,y) is the point of interest where we are measuring the magnetic field
-   * C1 = a constant fudge factor, set so that the lightbulb will light
-   * C2 = a constant fudge factor, to prevent the pickup coil flux from being negative due to large Bx just outside
-   *      the electromagnet coil. See https://github.com/phetsims/faradays-electromagnetic-lab/issues/166
-   * m = magnetic moment = C1 * #loops * current in the coil
-   * R = radius of the coil
-   * r = distance from the origin to (x,y)
+   * S = magnet strength, in G
+   * m = magnetic moment
+   * R = radius of the electromagnet coil
+   * r = distance from the electromagnet origin to (x,y)
    * theta = angle between the x-axis and (x,y)
    * Bx = x component of the B field
    * By = y component of the B field
-   * e is the exponent that specifies how the field decreases with distance (3 in reality)
+   * e is the exponent that specifies how the field decreases with distance (e=3 in reality)
    *
    * Outside the coil, where r > R:
    * Bx = ( m / r^e ) * ( ( 3 * cos(theta) * cos(theta) ) - 1 )
@@ -117,21 +116,22 @@ export default class CoilMagnet extends Magnet {
     const y = position.y;
     const r = Math.sqrt( ( x * x ) + ( y * y ) );
     const R = this.loopRadius;
-    const distanceExponent = 3;
 
-    // Inside the magnet, Bx = magnet strength = (2 * m) / (R^3).
-    // Rewriting this gives us m = (magnet strength) * (R^3) / 2.
-    const m = this.strengthProperty.value * Math.pow( R, distanceExponent ) / 2;
+    // Inside the magnet: Bx = S = (2 * m) / (R^3). Rewriting this gives us: m = S * (R^3) / 2.
+    const m = this.strengthProperty.value * Math.pow( R, 3 ) / 2;
 
     // Recurring terms
-    const C1 = m / Math.pow( r, distanceExponent );
-    const C2 = 0.8; // See https://github.com/phetsims/faradays-electromagnetic-lab/issues/166
+    const C = m / Math.pow( r, 3 );
     const cosTheta = x / r;
     const sinTheta = y / r;
 
+    // A constant fudge factor, to prevent the pickup coil flux from being negative due to large Bx just outside
+    // the electromagnet coil. See https://github.com/phetsims/faradays-electromagnetic-lab/issues/166
+    const F = 0.8;
+
     // B-field component vectors
-    const Bx = C1 * C2 * ( ( 3 * cosTheta * cosTheta ) - 1 );
-    const By = C1 * C2 * ( 3 * cosTheta * sinTheta );
+    const Bx = F * C * ( ( 3 * cosTheta * cosTheta ) - 1 );
+    const By = F * C * ( 3 * cosTheta * sinTheta );
 
     // B-field vector
     returnVector.setXY( Bx, By );
