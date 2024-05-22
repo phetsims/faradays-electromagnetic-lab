@@ -75,7 +75,7 @@ export default class CoilMagnet extends Magnet {
    * @param returnVector - result is written to this vector
    */
   private getLocalFieldVectorInside( returnVector: Vector2 ): Vector2 {
-    return returnVector.setPolar( this.strengthProperty.value, 0 );
+    return returnVector.setXY( this.strengthProperty.value, 0 );
   }
 
   /**
