@@ -10,13 +10,14 @@
 import faradaysElectromagneticLab from '../../faradaysElectromagneticLab.js';
 import { InteractiveHighlighting, InteractiveHighlightingOptions, Node, NodeOptions } from '../../../../scenery/js/imports.js';
 import optionize, { combineOptions } from '../../../../phet-core/js/optionize.js';
-import FELMovable from '../model/FELMovable.js';
 import PickOptional from '../../../../phet-core/js/types/PickOptional.js';
 import PickRequired from '../../../../phet-core/js/types/PickRequired.js';
 import TReadOnlyProperty from '../../../../axon/js/TReadOnlyProperty.js';
 import Bounds2 from '../../../../dot/js/Bounds2.js';
 import RichDragListener, { RichDragListenerOptions } from '../../../../scenery-phet/js/RichDragListener.js';
 import RichKeyboardDragListener, { RichKeyboardDragListenerOptions } from '../../../../scenery-phet/js/RichKeyboardDragListener.js';
+import Property from '../../../../axon/js/Property.js';
+import Vector2 from '../../../../dot/js/Vector2.js';
 
 type SelfOptions = {
 
@@ -46,7 +47,7 @@ export type FELMovableNodeOptions = SelfOptions &
 
 export default class FELMovableNode extends InteractiveHighlighting( Node ) {
 
-  protected constructor( movable: FELMovable, providedOptions: FELMovableNodeOptions ) {
+  protected constructor( positionProperty: Property<Vector2>, providedOptions: FELMovableNodeOptions ) {
 
     const options = optionize<FELMovableNodeOptions, SelfOptions, ParentOptions>()( {
 
@@ -82,15 +83,13 @@ export default class FELMovableNode extends InteractiveHighlighting( Node ) {
 
     super( options );
 
-    this.addLinkedElement( movable );
-
-    movable.positionProperty.link( position => {
+    positionProperty.link( position => {
       this.translation = position;
     } );
 
     if ( options.isMovable ) {
       const dragListener = new RichDragListener( combineOptions<RichDragListenerOptions>( {
-        positionProperty: movable.positionProperty,
+        positionProperty: positionProperty,
         dragBoundsProperty: options.dragBoundsProperty,
         useParentOffset: true,
         tandem: options.tandem.createTandem( 'dragListener' )
@@ -100,7 +99,7 @@ export default class FELMovableNode extends InteractiveHighlighting( Node ) {
       if ( options.hasKeyboardDragListener ) {
         const keyboardDragListener = new RichKeyboardDragListener(
           combineOptions<RichKeyboardDragListenerOptions>( {
-            positionProperty: movable.positionProperty,
+            positionProperty: positionProperty,
             dragBoundsProperty: options.dragBoundsProperty,
             tandem: options.tandem.createTandem( 'keyboardDragListener' )
           }, options.keyboardDragListenerOptions ) );

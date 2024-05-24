@@ -203,7 +203,9 @@ export default class FieldMeterNode extends FELMovableNode {
 
     options.children = [ probeNode, crosshairsNode, bodyNode, gridBox ];
 
-    super( fieldMeter, options );
+    super( fieldMeter.positionProperty, options );
+
+    this.addLinkedElement( fieldMeter );
   }
 }
 

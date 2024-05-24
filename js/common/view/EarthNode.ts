@@ -54,7 +54,7 @@ export default class EarthNode extends FELMovableNode {
       children: [ earthPath, earthImage ]
     }, providedOptions );
 
-    super( barMagnet, options );
+    super( barMagnet.positionProperty, options );
 
     barMagnet.rotationProperty.link( rotation => {
       this.rotateAround( this.center, rotation - this.rotation );

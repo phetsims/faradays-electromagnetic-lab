@@ -92,7 +92,9 @@ export default class CompassNode extends FELMovableNode {
 
     options.children = [ notPickableNodes, dragPath ];
 
-    super( compass, options );
+    super( compass.positionProperty, options );
+
+    this.addLinkedElement( compass );
 
     compass.needleAngleProperty.link( needleAngle => {
       needleNode.rotation = needleAngle;

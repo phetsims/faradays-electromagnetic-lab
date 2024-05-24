@@ -21,12 +21,13 @@ import PickRequired from '../../../../phet-core/js/types/PickRequired.js';
 import optionize, { combineOptions } from '../../../../phet-core/js/optionize.js';
 import Tandem from '../../../../tandem/js/Tandem.js';
 import FELMovableNode, { FELMovableNodeOptions } from './FELMovableNode.js';
-import FELMovable from '../model/FELMovable.js';
 import TReadOnlyProperty from '../../../../axon/js/TReadOnlyProperty.js';
 import Bounds2 from '../../../../dot/js/Bounds2.js';
 import CoilSegment from '../model/CoilSegment.js';
 import CoilSegmentNode from './CoilSegmentNode.js';
 import CurrentNode from './CurrentNode.js';
+import Property from '../../../../axon/js/Property.js';
+import Vector2 from '../../../../dot/js/Vector2.js';
 
 type SelfOptions = {
   isMovable?: boolean; // Whether the coil is movable.
@@ -66,10 +67,10 @@ export default class CoilNode extends Node {
 
   /**
    * @param coil - the coil associated with this Node
-   * @param movable - the model element to move when this.backgroundNode is dragged
+   * @param positionProperty - position to adjust when this.backgroundNode is dragged
    * @param providedOptions
    */
-  public constructor( coil: Coil, movable: FELMovable, providedOptions: CoilNodeOptions ) {
+  public constructor( coil: Coil, positionProperty: Property<Vector2>, providedOptions: CoilNodeOptions ) {
 
     const options = optionize<CoilNodeOptions, SelfOptions, NodeOptions>()( {
 
@@ -97,7 +98,7 @@ export default class CoilNode extends Node {
 
     // Background layer
     this.backgroundCoilSegmentsParent = new Node();
-    this.backgroundNode = new CoilBackgroundNode( movable, {
+    this.backgroundNode = new CoilBackgroundNode( positionProperty, {
       children: [ this.backgroundCoilSegmentsParent ],
       isMovable: options.isMovable,
       dragBoundsProperty: options.dragBoundsProperty,
@@ -148,11 +149,11 @@ type CoilBackgroundNodeOptions = PickRequired<FELMovableNodeOptions, 'children' 
 class CoilBackgroundNode extends FELMovableNode {
 
   /**
-   * @param movable - the model element to move when the background layer is dragged
+   * @param positionProperty - position to adjust when the background layer is dragged
    * @param providedOptions
    */
-  public constructor( movable: FELMovable, providedOptions: CoilBackgroundNodeOptions ) {
-    super( movable, combineOptions<FELMovableNodeOptions>( {
+  public constructor( positionProperty: Property<Vector2>, providedOptions: CoilBackgroundNodeOptions ) {
+    super( positionProperty, combineOptions<FELMovableNodeOptions>( {
       hasKeyboardDragListener: false, // It is sufficient to have alt input for the foreground layer of CoilNode.
       tandem: Tandem.OPT_OUT // There is no need to instrument the background layer of CoilNode.
     }, providedOptions ) );

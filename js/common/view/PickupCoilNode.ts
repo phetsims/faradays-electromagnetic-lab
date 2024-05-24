@@ -45,7 +45,7 @@ export default class PickupCoilNode extends FELMovableNode {
       lockToAxisProperty: null
     }, providedOptions );
 
-    const coilNode = new CoilNode( pickupCoil.coil, pickupCoil, {
+    const coilNode = new CoilNode( pickupCoil.coil, pickupCoil.positionProperty, {
       dragBoundsProperty: options.dragBoundsProperty,
       isMovable: options.isMovable,
       tandem: options.tandem.createTandem( 'coilNode' )
@@ -81,7 +81,9 @@ export default class PickupCoilNode extends FELMovableNode {
     // This Node's children are the foreground elements only.
     options.children = [ coilNode, areaNode, samplePointsNode, lightBulbNode, voltmeterNode ];
 
-    super( pickupCoil, options );
+    super( pickupCoil.positionProperty, options );
+
+    this.addLinkedElement( pickupCoil );
 
     this.backgroundNode = coilNode.backgroundNode;
 

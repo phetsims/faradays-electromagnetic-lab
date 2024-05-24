@@ -25,6 +25,7 @@ import { CurrentFlow } from '../FELQueryParameters.js';
 import Property from '../../../../axon/js/Property.js';
 import Dimension3 from '../../../../dot/js/Dimension3.js';
 import DCPowerSupplyPanel from './DCPowerSupplyPanel.js';
+import Vector2 from '../../../../dot/js/Vector2.js';
 
 const FELScreenIconFactory = {
 
@@ -138,11 +139,8 @@ function createCoilNode( numberOfLoops: number, loopSpacing: number, maxLoopArea
     tandem: Tandem.OPT_OUT
   } );
 
-  // We must have a subclass of FELMovable associated with a coil's background layer. This one will do.
-  const movable = new BarMagnet( { tandem: Tandem.OPT_OUT } );
-
   // Combine the coil foreground and background.
-  const coilForegroundNode = new CoilNode( coil, movable, {
+  const coilForegroundNode = new CoilNode( coil, new Property( Vector2.ZERO ), {
     renderCurrent: false, // Don't create unnecessary WebGL contexts for current that we don't want to see.
     tandem: Tandem.OPT_OUT
   } );

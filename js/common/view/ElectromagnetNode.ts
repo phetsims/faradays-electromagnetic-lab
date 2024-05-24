@@ -40,7 +40,7 @@ export default class ElectromagnetNode extends FELMovableNode {
       lockToAxisProperty: null
     }, providedOptions );
 
-    const coilNode = new CoilNode( electromagnet.coil, electromagnet, {
+    const coilNode = new CoilNode( electromagnet.coil, electromagnet.positionProperty, {
       dragBoundsProperty: options.dragBoundsProperty,
       tandem: options.tandem.createTandem( 'coilNode' )
     } );
@@ -69,7 +69,9 @@ export default class ElectromagnetNode extends FELMovableNode {
 
     options.children = [ coilNode, dcPowerSupplyNode, acPowerSupplyNode, magnetShapeNode ];
 
-    super( electromagnet, options );
+    super( electromagnet.positionProperty, options );
+
+    this.addLinkedElement( electromagnet );
 
     this.backgroundNode = coilNode.backgroundNode;
 
