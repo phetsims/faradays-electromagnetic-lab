@@ -22,7 +22,6 @@ import TReadOnlyProperty from '../../../../axon/js/TReadOnlyProperty.js';
 import LightBulb, { LightBulbOptions } from './LightBulb.js';
 import Voltmeter, { VoltmeterOptions } from './Voltmeter.js';
 import CurrentIndicator from './CurrentIndicator.js';
-import FELMovable, { FELMovableOptions } from './FELMovable.js';
 import FELConstants from '../FELConstants.js';
 import StrictOmit from '../../../../phet-core/js/types/StrictOmit.js';
 import PickOptional from '../../../../phet-core/js/types/PickOptional.js';
@@ -31,8 +30,13 @@ import FELQueryParameters, { CurrentFlow } from '../FELQueryParameters.js';
 import NumberIO from '../../../../tandem/js/types/NumberIO.js';
 import ConstantDtClock from './ConstantDtClock.js';
 import Dimension2 from '../../../../dot/js/Dimension2.js';
+import PhetioObject, { PhetioObjectOptions } from '../../../../tandem/js/PhetioObject.js';
+import PickRequired from '../../../../phet-core/js/types/PickRequired.js';
+import Vector2Property, { Vector2PropertyOptions } from '../../../../dot/js/Vector2Property.js';
 
 type SelfOptions = {
+  position?: Vector2; // Initial value of positionProperty, unitless
+  positionPropertyOptions?: Vector2PropertyOptions; // Options passed to positionProperty
   maxEMF: number; // the initial value of maxEMFProperty
   transitionSmoothingScale: number; // the initial value of transitionSmoothingScaleProperty
   samplePointsSpacing: number; // spacing between B-field sample points
@@ -42,15 +46,20 @@ type SelfOptions = {
   voltmeterOptions?: PickOptional<VoltmeterOptions, 'kinematicsEnabledProperty'>; // passed to Voltmeter
 };
 
-export type PickupCoilOptions = SelfOptions & FELMovableOptions;
+export type PickupCoilOptions = SelfOptions &
+  PickOptional<PhetioObjectOptions, 'phetioDocumentation'> &
+  PickRequired<PhetioObjectOptions, 'tandem'>;
 
-export default class PickupCoil extends FELMovable {
+export default class PickupCoil extends PhetioObject {
 
   // The magnet whose field this coil is in
   public readonly magnet: Magnet;
 
   // The coil that induces the EMF
   public readonly coil: Coil;
+
+  // Position of the poickup coil, unitless.
+  public readonly positionProperty: Property<Vector2>;
 
   // Flux in the coil
   private readonly _fluxProperty: Property<number>;
@@ -124,10 +133,18 @@ export default class PickupCoil extends FELMovable {
 
   public constructor( magnet: Magnet, currentFlowProperty: TReadOnlyProperty<CurrentFlow>, providedOptions: PickupCoilOptions ) {
 
-    const options = optionize<PickupCoilOptions, StrictOmit<SelfOptions, 'coilOptions' | 'lightBulbOptions' | 'voltmeterOptions'>, FELMovableOptions>()( {
+    const options = optionize<PickupCoilOptions,
+      StrictOmit<SelfOptions, 'positionPropertyOptions' | 'coilOptions' | 'lightBulbOptions' | 'voltmeterOptions'>,
+      PhetioObjectOptions>()( {
 
       // SelfOptions
-      fluxAreaCompensationEnabled: true
+      position: Vector2.ZERO,
+      fluxAreaCompensationEnabled: true,
+
+      // PhetioObjectOptions
+      isDisposable: false,
+      phetioState: false,
+      phetioFeatured: true
     }, providedOptions );
 
     super( options );
@@ -135,6 +152,11 @@ export default class PickupCoil extends FELMovable {
     this.fluxAreaCompensationEnabled = options.fluxAreaCompensationEnabled;
 
     this.magnet = magnet;
+
+    this.positionProperty = new Vector2Property( options.position, combineOptions<Vector2PropertyOptions>( {
+      tandem: options.tandem.createTandem( 'positionProperty' ),
+      phetioFeatured: true
+    }, options.positionPropertyOptions ) );
 
     // We want some Properties to appear to be children of the coil element. We could also have done this by
     // subclassing Coil, but having something like PickupCoilCoil seemed confusing, and unnecessary.
@@ -235,8 +257,8 @@ export default class PickupCoil extends FELMovable {
     this.fluxProperty = this._fluxProperty;
   }
 
-  public override reset(): void {
-    super.reset();
+  public reset(): void {
+    this.positionProperty.reset();
     this.coil.reset();
     this._fluxProperty.reset();
     this._deltaFluxProperty.reset();

@@ -13,8 +13,7 @@ import Range from '../../../../dot/js/Range.js';
 import Vector2 from '../../../../dot/js/Vector2.js';
 import Property from '../../../../axon/js/Property.js';
 import NumberProperty from '../../../../axon/js/NumberProperty.js';
-import optionize from '../../../../phet-core/js/optionize.js';
-import FELMovable, { FELMovableOptions } from './FELMovable.js';
+import optionize, { combineOptions } from '../../../../phet-core/js/optionize.js';
 import BooleanProperty from '../../../../axon/js/BooleanProperty.js';
 import TReadOnlyProperty from '../../../../axon/js/TReadOnlyProperty.js';
 import Bounds2 from '../../../../dot/js/Bounds2.js';
@@ -22,8 +21,19 @@ import Dimension3 from '../../../../dot/js/Dimension3.js';
 import Utils from '../../../../dot/js/Utils.js';
 import FELQueryParameters from '../FELQueryParameters.js';
 import FELConstants from '../FELConstants.js';
+import Vector2Property, { Vector2PropertyOptions } from '../../../../dot/js/Vector2Property.js';
+import PhetioObject, { PhetioObjectOptions } from '../../../../tandem/js/PhetioObject.js';
+import StrictOmit from '../../../../phet-core/js/types/StrictOmit.js';
+import PickOptional from '../../../../phet-core/js/types/PickOptional.js';
+import PickRequired from '../../../../phet-core/js/types/PickRequired.js';
 
 type SelfOptions = {
+
+  // Initial value of positionProperty, unitless
+  position?: Vector2;
+
+  // Options passed to positionProperty
+  positionPropertyOptions?: Vector2PropertyOptions;
 
   // initial value of rotationProperty, radians
   rotation?: number;
@@ -33,15 +43,20 @@ type SelfOptions = {
   size: Dimension3;
 };
 
-export type MagnetOptions = SelfOptions & FELMovableOptions;
+export type MagnetOptions = SelfOptions &
+  PickOptional<PhetioObjectOptions, 'phetioDocumentation'> &
+  PickRequired<PhetioObjectOptions, 'tandem'>;
 
-export default abstract class Magnet extends FELMovable {
+export default abstract class Magnet extends PhetioObject {
 
   // Dimensions of a 3D magnet, with origin at its center.
   public readonly size: Dimension3;
 
   // Bounds of the magnet in its local coordinate frame.
   public readonly localBounds: Bounds2;
+
+  // Position of the magnet, unitless.
+  public readonly positionProperty: Property<Vector2>;
 
   // The range of the magnet's strength, in gauss.
   public readonly strengthRange: Range;
@@ -68,10 +83,16 @@ export default abstract class Magnet extends FELMovable {
 
   protected constructor( strengthProperty: TReadOnlyProperty<number>, strengthRange: Range, providedOptions: MagnetOptions ) {
 
-    const options = optionize<MagnetOptions, SelfOptions, FELMovableOptions>()( {
+    const options = optionize<MagnetOptions, StrictOmit<SelfOptions, 'positionPropertyOptions'>, PhetioObjectOptions>()( {
 
       // SelfOptions
-      rotation: 0
+      position: Vector2.ZERO,
+      rotation: 0,
+
+      // PhetioObjectOptions
+      isDisposable: false,
+      phetioState: false,
+      phetioFeatured: true
     }, providedOptions );
 
     super( options );
@@ -80,6 +101,11 @@ export default abstract class Magnet extends FELMovable {
 
     // Rectangular, with origin at the center
     this.localBounds = new Bounds2( -this.size.width / 2, -this.size.height / 2, this.size.width / 2, this.size.height / 2 );
+
+    this.positionProperty = new Vector2Property( options.position, combineOptions<Vector2PropertyOptions>( {
+      tandem: options.tandem.createTandem( 'positionProperty' ),
+      phetioFeatured: true
+    }, options.positionPropertyOptions ) );
 
     this.strengthRange = strengthRange;
     this.strengthProperty = strengthProperty;
@@ -103,8 +129,8 @@ export default abstract class Magnet extends FELMovable {
     this.reusablePosition = new Vector2( 0, 0 );
   }
 
-  protected override reset(): void {
-    super.reset();
+  protected reset(): void {
+    this.positionProperty.reset();
     this.rotationProperty.reset();
     this.fieldVisibleProperty.reset();
     // Do not reset Properties documented as 'DEBUG' above.

@@ -12,19 +12,28 @@ import Vector2 from '../../../../dot/js/Vector2.js';
 import optionize from '../../../../phet-core/js/optionize.js';
 import TReadOnlyProperty from '../../../../axon/js/TReadOnlyProperty.js';
 import DerivedProperty from '../../../../axon/js/DerivedProperty.js';
-import FELMovable, { FELMovableOptions } from './FELMovable.js';
 import Property from '../../../../axon/js/Property.js';
 import BooleanProperty from '../../../../axon/js/BooleanProperty.js';
+import Vector2Property from '../../../../dot/js/Vector2Property.js';
+import PhetioObject, { PhetioObjectOptions } from '../../../../tandem/js/PhetioObject.js';
+import PickOptional from '../../../../phet-core/js/types/PickOptional.js';
+import PickRequired from '../../../../phet-core/js/types/PickRequired.js';
 
 type SelfOptions = {
+  position?: Vector2; // Initial value of positionProperty, unitless
   visible?: boolean;
 };
 
-export type FieldMeasurementToolOptions = SelfOptions & FELMovableOptions;
+export type FieldMeasurementToolOptions = SelfOptions &
+  PickOptional<PhetioObjectOptions, 'phetioDocumentation'> &
+  PickRequired<PhetioObjectOptions, 'tandem'>;
 
-export default class FieldMeasurementTool extends FELMovable {
+export default class FieldMeasurementTool extends PhetioObject {
 
-  // The field vector at the meter's position, in gauss
+  // The tool's position, unitless.
+  public readonly positionProperty: Property<Vector2>;
+
+  // The field vector at the tool's position, in gauss.
   public readonly fieldVectorProperty: TReadOnlyProperty<Vector2>;
 
   // Whether the tool is visible.
@@ -32,13 +41,24 @@ export default class FieldMeasurementTool extends FELMovable {
 
   protected constructor( magnet: Magnet, providedOptions: FieldMeasurementToolOptions ) {
 
-    const options = optionize<FieldMeasurementToolOptions, SelfOptions, FELMovableOptions>()( {
+    const options = optionize<FieldMeasurementToolOptions, SelfOptions, PhetioObjectOptions>()( {
 
-      //SelfOptions
-      visible: true
+      // SelfOptions
+      position: Vector2.ZERO,
+      visible: true,
+
+      // PhetioObjectOptions
+      isDisposable: false,
+      phetioState: false,
+      phetioFeatured: true
     }, providedOptions );
 
     super( options );
+
+    this.positionProperty = new Vector2Property( options.position, {
+      tandem: options.tandem.createTandem( 'positionProperty' ),
+      phetioFeatured: true
+    } );
 
     // This needs to be a new Vector2 instance, so do not pass an output vector to magnet.getFieldVector.
     this.fieldVectorProperty = new DerivedProperty(
@@ -56,8 +76,8 @@ export default class FieldMeasurementTool extends FELMovable {
     } );
   }
 
-  public override reset(): void {
-    super.reset();
+  public reset(): void {
+    this.positionProperty.reset();
     this.visibleProperty.reset();
   }
 }
