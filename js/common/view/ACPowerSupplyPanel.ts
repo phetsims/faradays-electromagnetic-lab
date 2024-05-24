@@ -83,6 +83,8 @@ export default class ACPowerSupplyPanel extends Panel {
     } );
 
     super( contentNode, combineOptions<PanelOptions>( {}, FELConstants.PANEL_OPTIONS, {
+      fill: FELColors.acPowerSupplyPanelFillProperty,
+      stroke: FELColors.acPowerSupplyPanelStrokeProperty,
       visibleProperty: new DerivedProperty( [ currentSourceProperty ], currentSource => ( currentSource === acPowerSupply ) ),
       xMargin: 10,
       yMargin: 5,

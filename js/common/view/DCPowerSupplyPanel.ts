@@ -27,6 +27,7 @@ import ArrowButton from '../../../../sun/js/buttons/ArrowButton.js';
 import PatternStringProperty from '../../../../axon/js/PatternStringProperty.js';
 import PhetFont from '../../../../scenery-phet/js/PhetFont.js';
 import BatteryNode from './BatteryNode.js';
+import FELColors from '../FELColors.js';
 
 const SLIDER_STEP = 1;
 
@@ -99,6 +100,8 @@ export default class DCPowerSupplyPanel extends Panel {
     } );
 
     super( contentNode, combineOptions<PanelOptions>( {}, FELConstants.PANEL_OPTIONS, {
+      fill: FELColors.dcPowerSupplyPanelFillProperty,
+      stroke: FELColors.dcPowerSupplyPanelStrokeProperty,
       visibleProperty: new DerivedProperty( [ currentSourceProperty ], currentSource => ( currentSource === dcPowerSupply ) ),
       xMargin: 15,
       yMargin: 5,

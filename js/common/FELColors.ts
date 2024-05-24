@@ -38,6 +38,26 @@ const FELColors = {
     projector: PANEL_FILL_PROJECTOR.darkerColor( 0.85 )
   } ),
 
+  acPowerSupplyPanelFillProperty: new ProfileColorProperty( faradaysElectromagneticLab, 'acPowerSupplyPanelFill', {
+    default: PANEL_FILL_PROJECTOR,
+    projector: PANEL_FILL_PROJECTOR
+  } ),
+
+  acPowerSupplyPanelStrokeProperty: new ProfileColorProperty( faradaysElectromagneticLab, 'acPowerSupplyPanelStroke', {
+    default: PANEL_FILL_PROJECTOR.darkerColor( 0.85 ),
+    projector: PANEL_FILL_PROJECTOR.darkerColor( 0.85 )
+  } ),
+
+  dcPowerSupplyPanelFillProperty: new ProfileColorProperty( faradaysElectromagneticLab, 'dcPowerSupplyPanelFill', {
+    default: PANEL_FILL_PROJECTOR,
+    projector: PANEL_FILL_PROJECTOR
+  } ),
+
+  dcPowerSupplyPanelStrokeProperty: new ProfileColorProperty( faradaysElectromagneticLab, 'dcPowerSupplyPanelStroke', {
+    default: PANEL_FILL_PROJECTOR.darkerColor( 0.85 ),
+    projector: PANEL_FILL_PROJECTOR.darkerColor( 0.85 )
+  } ),
+
   barMagnetNorthColorProperty: new ProfileColorProperty( faradaysElectromagneticLab, 'barMagnetNorthColor', {
     default: BAR_MAGNET_NORTH_COLOR
   } ),
