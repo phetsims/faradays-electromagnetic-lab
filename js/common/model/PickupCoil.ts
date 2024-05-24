@@ -36,6 +36,7 @@ type SelfOptions = {
   maxEMF: number; // the initial value of maxEMFProperty
   transitionSmoothingScale: number; // the initial value of transitionSmoothingScaleProperty
   samplePointsSpacing: number; // spacing between B-field sample points
+  fluxAreaCompensationEnabled?: boolean; // use the thickness of the magnet for area cross-sections used to compute flux
   coilOptions?: PickOptional<CoilOptions, 'maxLoopArea' | 'loopAreaPercentRange' | 'currentSpeedScale'>; // passed to Coil
   lightBulbOptions?: PickOptional<LightBulbOptions, 'lightsWhenCurrentChangesDirectionProperty'>; // passed to LightBulb
   voltmeterOptions?: PickOptional<VoltmeterOptions, 'kinematicsEnabledProperty'>; // passed to Voltmeter
@@ -80,6 +81,11 @@ export default class PickupCoil extends FELMovable {
   public readonly samplePointsProperty: TReadOnlyProperty<Vector2[]>;
   private readonly samplePointSpacing: number;
 
+  // When true, use the thickness of the magnet for area cross-sections used to compute flux.
+  // See https://github.com/phetsims/faradays-electromagnetic-lab/issues/156 and
+  // https://github.com/phetsims/faradays-electromagnetic-lab/issues/170
+  private readonly fluxAreaCompensationEnabled: boolean;
+
   // DEBUG: Writeable via developer controls only, when running with &dev query parameter. Dividing the coil's EMF by
   // this number will give us the coil's normalized current (see Coil.normalizedCurrentProperty), which determines the
   // responsiveness of view components. This number should be set as close as possible to the maximum EMF that can be
@@ -118,10 +124,15 @@ export default class PickupCoil extends FELMovable {
 
   public constructor( magnet: Magnet, currentFlowProperty: TReadOnlyProperty<CurrentFlow>, providedOptions: PickupCoilOptions ) {
 
-    const options = optionize<PickupCoilOptions, StrictOmit<SelfOptions, 'coilOptions' | 'lightBulbOptions' | 'voltmeterOptions'>, FELMovableOptions>()(
-      {}, providedOptions );
+    const options = optionize<PickupCoilOptions, StrictOmit<SelfOptions, 'coilOptions' | 'lightBulbOptions' | 'voltmeterOptions'>, FELMovableOptions>()( {
+
+      // SelfOptions
+      fluxAreaCompensationEnabled: true
+    }, providedOptions );
 
     super( options );
+
+    this.fluxAreaCompensationEnabled = options.fluxAreaCompensationEnabled;
 
     this.magnet = magnet;
 
@@ -358,13 +369,15 @@ export default class PickupCoil extends FELMovable {
 
     // If the sample point is in the same horizontal plane as the magnet, using the chord length computed above would
     // exaggerate the sample point's contribution to flux. So use the magnet's thickness (depth).
-    const magnetThickness = this.magnet.size.depth;
-    if ( magnetThickness < chordLength && this.magnet.intersectsHorizontalPlane( y ) ) {
-      chordLength = magnetThickness;
+    if ( this.fluxAreaCompensationEnabled ) {
+      const magnetThickness = this.magnet.size.depth;
+      if ( magnetThickness < chordLength && this.magnet.intersectsHorizontalPlane( y ) ) {
+        chordLength = magnetThickness;
+      }
     }
-    assert && assert( chordLength !== 0 );
 
     // Area associated with the sample point.
+    assert && assert( chordLength !== 0 );
     reusableDimension.width = chordLength;
     reusableDimension.height = this.samplePointSpacing;
     return reusableDimension;

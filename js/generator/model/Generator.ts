@@ -64,6 +64,7 @@ export default class Generator extends PhetioObject {
       maxEMF: 110000, // see PickupCoil.calibrateMaxEMF
       transitionSmoothingScale: 1, // see PickupCoil.transitionSmoothingScaleProperty
       samplePointsSpacing: this.turbine.barMagnet.size.height / 10, // similar to PickupCoilScreenModel
+      fluxAreaCompensationEnabled: false, // see https://github.com/phetsims/faradays-electromagnetic-lab/issues/170
       tandem: options.tandem.createTandem( 'pickupCoil' )
     } );
 
