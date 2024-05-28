@@ -19,10 +19,10 @@ import { Node } from '../../../../scenery/js/imports.js';
 import Vector2 from '../../../../dot/js/Vector2.js';
 import Vector2Property from '../../../../dot/js/Vector2Property.js';
 import Property from '../../../../axon/js/Property.js';
-import RichDragListener from '../../../../scenery-phet/js/RichDragListener.js';
 import RichKeyboardDragListener from '../../../../scenery-phet/js/RichKeyboardDragListener.js';
 import Bounds2 from '../../../../dot/js/Bounds2.js';
 import isSettingPhetioStateProperty from '../../../../tandem/js/isSettingPhetioStateProperty.js';
+import RichPointerDragListener from '../../../../scenery-phet/js/RichPointerDragListener.js';
 
 type SelfOptions = {
   position: Vector2; // initial position of the panel's top-left corner
@@ -68,7 +68,7 @@ export default class PowerSupplyPanel extends Panel {
 
     this.addLinkedElement( powerSupply );
 
-    const dragListener = new RichDragListener( {
+    const dragListener = new RichPointerDragListener( {
       positionProperty: this.positionProperty,
       dragBoundsProperty: options.dragBoundsProperty,
       useParentOffset: true,
