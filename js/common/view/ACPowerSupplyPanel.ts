@@ -26,6 +26,7 @@ import PhetFont from '../../../../scenery-phet/js/PhetFont.js';
 import PowerSupplyPanel, { PowerSupplyPanelOptions } from './PowerSupplyPanel.js';
 import optionize, { EmptySelfOptions } from '../../../../phet-core/js/optionize.js';
 import PickRequired from '../../../../phet-core/js/types/PickRequired.js';
+import Orientation from '../../../../phet-core/js/Orientation.js';
 
 type SelfOptions = EmptySelfOptions;
 
@@ -46,13 +47,13 @@ export default class ACPowerSupplyPanel extends PowerSupplyPanel {
 
     // Frequency control
     const frequencyControl = new ACNumberControl( acPowerSupply.frequencyPercentProperty, {
-      orientation: 'horizontal',
+      orientation: Orientation.HORIZONTAL,
       tandem: options.tandem.createTandem( 'frequencyControl' )
     } );
 
     // Max voltage control
     const maxVoltageControl = new ACNumberControl( acPowerSupply.maxVoltagePercentProperty, {
-      orientation: 'vertical',
+      orientation: Orientation.VERTICAL,
       tandem: options.tandem.createTandem( 'maxVoltageControl' )
     } );
 
@@ -76,11 +77,11 @@ export default class ACPowerSupplyPanel extends PowerSupplyPanel {
 
     const titleText = new Text( FaradaysElectromagneticLabStrings.acPowerSupplyStringProperty, {
       font: new PhetFont( { size: 14, weight: 'bold' } ),
-      maxWidth: 0.75 * chartNode.width
+      maxWidth: 1.1 * chartNode.width
     } );
     const titleIcon = ACPowerSupplyPanel.createIcon( 0.5 );
     const titleNode = new HBox( {
-      children: [ titleIcon, titleText ],
+      children: [ titleText, titleIcon ],
       spacing: 10
     } );
 

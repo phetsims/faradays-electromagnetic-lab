@@ -98,7 +98,7 @@ export default class DCPowerSupplyPanel extends PowerSupplyPanel {
     } );
 
     const titleNode = new HBox( {
-      children: [ titleIcon, titleText ],
+      children: [ titleText, titleIcon ],
       spacing: 10
     } );
 

@@ -26,12 +26,14 @@ import Tandem from '../../../../tandem/js/Tandem.js';
 import FELConstants from '../FELConstants.js';
 
 const NUMBER_DISPLAY_FONT = new PhetFont( 12 );
-const HORIZONTAL_THUMB_SIZE = new Dimension2( 15, 30 );
-const HORIZONTAL_TRACK_SIZE = new Dimension2( 100, 3 );
+const HORIZONTAL_THUMB_SIZE = new Dimension2( 12, 24 );
+const VERTICAL_THUMB_SIZE = new Dimension2( 12, 24 ).swapped();
+const HORIZONTAL_TRACK_SIZE = new Dimension2( 110, 3 );
+const VERTICAL_TRACK_SIZE = new Dimension2( 3, 70 );
 const SLIDER_STEP = 1; // %
 
 type SelfOptions = {
-  orientation: 'horizontal' | 'vertical';
+  orientation: Orientation;
 };
 
 type PercentNumberControlOptions = SelfOptions & PickRequired<NumberControlOptions, 'tandem'>;
@@ -44,15 +46,15 @@ export default class ACNumberControl extends NumberControl {
 
       // NumberControlOptions
       includeArrowButtons: false,
-      layoutFunction: ( providedOptions.orientation === 'horizontal' ) ? createHorizontalLayout : createVerticalLayout,
+      layoutFunction: ( providedOptions.orientation === Orientation.HORIZONTAL ) ? createHorizontalLayout : createVerticalLayout,
       titleNodeOptions: {
         tandem: Tandem.OPT_OUT
       },
       sliderOptions: combineOptions<NumberControlSliderOptions>( {}, FELConstants.PERCENT_SLIDER_OPTIONS, {
         constrainValue: ( value: number ) => Utils.roundToInterval( value, SLIDER_STEP ),
-        orientation: ( providedOptions.orientation === 'horizontal' ) ? Orientation.HORIZONTAL : Orientation.VERTICAL,
-        thumbSize: ( providedOptions.orientation === 'horizontal' ) ? HORIZONTAL_THUMB_SIZE : HORIZONTAL_THUMB_SIZE.swapped(),
-        trackSize: ( providedOptions.orientation === 'horizontal' ) ? HORIZONTAL_TRACK_SIZE : HORIZONTAL_TRACK_SIZE.swapped(),
+        orientation: providedOptions.orientation,
+        thumbSize: ( providedOptions.orientation === Orientation.HORIZONTAL ) ? HORIZONTAL_THUMB_SIZE : VERTICAL_THUMB_SIZE,
+        trackSize: ( providedOptions.orientation === Orientation.HORIZONTAL ) ? HORIZONTAL_TRACK_SIZE : VERTICAL_TRACK_SIZE,
         tandem: Tandem.OPT_OUT
       } ),
       numberDisplayOptions: {
