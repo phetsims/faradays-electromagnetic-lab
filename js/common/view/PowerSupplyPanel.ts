@@ -38,6 +38,8 @@ export default class PowerSupplyPanel extends Panel {
                       providedOptions: PowerSupplyPanelOptions ) {
 
     const options = optionize4<PowerSupplyPanelOptions, SelfOptions, PanelOptions>()( {}, FELConstants.PANEL_OPTIONS, {
+
+      //TODO https://github.com/phetsims/faradays-electromagnetic-lab/issues/163 Does PhET-iO client need a mutable visibleProperty?
       visibleProperty: new DerivedProperty( [ currentSourceProperty ], currentSource => ( currentSource === powerSupply ) ),
       xMargin: 10,
       yMargin: 5,
