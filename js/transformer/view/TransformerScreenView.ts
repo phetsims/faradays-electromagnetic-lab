@@ -18,7 +18,6 @@ import TransformerPanels from './TransformerPanels.js';
 import FELScreenView from '../../common/view/FELScreenView.js';
 import BooleanProperty from '../../../../axon/js/BooleanProperty.js';
 import PickupCoilAxisNode from '../../common/view/PickupCoilAxisNode.js';
-import Property from '../../../../axon/js/Property.js';
 import TransformerNode from './TransformerNode.js';
 import PowerSupplyPanels from '../../common/view/PowerSupplyPanels.js';
 
@@ -59,14 +58,11 @@ export default class TransformerScreenView extends FELScreenView {
       tandem: tandem
     } );
 
-    // Set to correct bounds by calling this.configureDragBoundsProperty below.
-    const dragBoundsProperty = new Property( this.layoutBounds );
+    const dragBoundsProperty = this.createDragBoundsPropertyForLockToAxis( lockToAxisProperty,
+      rightPanels.boundsProperty, electromagnet.positionProperty, pickupCoil.positionProperty );
 
     const transformerNode = new TransformerNode( model.transformer, dragBoundsProperty, lockToAxisProperty,
       tandem.createTandem( 'transformerNode' ) );
-
-    this.configureDragBoundsProperty( dragBoundsProperty, lockToAxisProperty, rightPanels.boundsProperty,
-      electromagnet.positionProperty, pickupCoil.positionProperty );
 
     const pickupCoilAxisNode = new PickupCoilAxisNode( lockToAxisProperty, pickupCoil.positionProperty,
       this.visibleBoundsProperty );

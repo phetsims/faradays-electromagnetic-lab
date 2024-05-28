@@ -19,7 +19,6 @@ import PickupCoilPanels from './PickupCoilPanels.js';
 import FELScreenView from '../../common/view/FELScreenView.js';
 import BooleanProperty from '../../../../axon/js/BooleanProperty.js';
 import PickupCoilAxisNode from '../../common/view/PickupCoilAxisNode.js';
-import Property from '../../../../axon/js/Property.js';
 import FELPreferences from '../../common/model/FELPreferences.js';
 
 export default class PickupCoilScreenView extends FELScreenView {
@@ -48,8 +47,8 @@ export default class PickupCoilScreenView extends FELScreenView {
       tandem: tandem
     } );
 
-    // Set to correct bounds by calling this.configureDragBoundsProperty below.
-    const dragBoundsProperty = new Property( this.layoutBounds );
+    const dragBoundsProperty = this.createDragBoundsPropertyForLockToAxis( lockToAxisProperty,
+      rightPanels.boundsProperty, model.barMagnet.positionProperty, model.pickupCoil.positionProperty );
 
     const barMagnetNode = new BarMagnetNode( model.barMagnet, {
       dragBoundsProperty: dragBoundsProperty,
@@ -61,9 +60,6 @@ export default class PickupCoilScreenView extends FELScreenView {
       lockToAxisProperty: lockToAxisProperty,
       tandem: tandem.createTandem( 'pickupCoilNode' )
     } );
-
-    this.configureDragBoundsProperty( dragBoundsProperty, lockToAxisProperty, rightPanels.boundsProperty,
-      model.barMagnet.positionProperty, model.pickupCoil.positionProperty );
 
     const pickupCoilAxisNode = new PickupCoilAxisNode( lockToAxisProperty, model.pickupCoil.positionProperty,
       this.visibleBoundsProperty );

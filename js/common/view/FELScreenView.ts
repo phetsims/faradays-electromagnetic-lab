@@ -169,25 +169,27 @@ export default class FELScreenView extends ScreenView {
    * compass, they can 'Reset All'.  For more discussion about this, see
    * https://github.com/phetsims/faradays-electromagnetic-lab/issues/163#issuecomment-2121174433
    */
-  protected createDragBoundsProperty( panelsBoundsProperty: TReadOnlyProperty<Bounds2> ): TReadOnlyProperty<Bounds2> {
-    return new DerivedProperty( [ panelsBoundsProperty ],
-      panelsBounds => this.layoutBounds.withMaxX( panelsBounds.left ) );
+  protected createDragBoundsProperty( rightPanelsBoundsProperty: TReadOnlyProperty<Bounds2> ): TReadOnlyProperty<Bounds2> {
+    return new DerivedProperty( [ rightPanelsBoundsProperty ],
+      rightPanelsBounds => this.layoutBounds.withMaxX( rightPanelsBounds.left ) );
   }
 
   /**
-   * Configures a dragBoundsProperty for scenarios that involve a magnet and a pickup coil, and require the
-   * 'Lock to Axis' feature. This is relevant in the 'Pickup Coil' and 'Transformer' screens.
+   * Creates a dragBoundsProperty for scenarios that involve the 'Lock to Axis' feature.
+   * This is relevant in the 'Pickup Coil' and 'Transformer' screens.
    *
    * See notes above for createDragBoundsProperty, about why we're ignoring optional leftPanels. Those notes
    * apply here as well.
    */
-  protected configureDragBoundsProperty(
-    dragBoundsProperty: Property<Bounds2>,
+  protected createDragBoundsPropertyForLockToAxis(
     lockToAxisProperty: TReadOnlyProperty<boolean>,
     panelsBoundsProperty: TReadOnlyProperty<Bounds2>,
     magnetPositionProperty: Property<Vector2>,
     pickupCoilPositionProperty: Property<Vector2>
-  ): void {
+  ): TReadOnlyProperty<Bounds2> {
+
+    const dragBoundsProperty = new Property( this.layoutBounds );
+
     Multilink.multilink( [ lockToAxisProperty, panelsBoundsProperty ], ( lockToAxis, panelsBounds ) => {
       if ( lockToAxis ) {
         // Dragging is locked to 1D, horizontally along the pickup coil's axis.
@@ -214,6 +216,8 @@ export default class FELScreenView extends ScreenView {
         dragBoundsProperty.value = this.layoutBounds.withMaxX( panelsBounds.left );
       }
     } );
+
+    return dragBoundsProperty;
   }
 }
 
