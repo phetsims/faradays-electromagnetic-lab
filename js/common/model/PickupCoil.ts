@@ -185,7 +185,7 @@ export default class PickupCoil extends PhetioObject {
     }
 
     this.maxEMFProperty = new NumberProperty( options.maxEMF, {
-      range: new Range( 1E5, 3E6 )
+      range: new Range( 1E5, 6E6 )
       // Do not instrument. This is a PhET developer Property.
     } );
 

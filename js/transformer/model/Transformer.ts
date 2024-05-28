@@ -50,7 +50,7 @@ export default class Transformer extends PhetioObject {
 
     this.pickupCoil = new PickupCoil( this.electromagnet, currentFlowProperty, {
       position: options.pickupCoilPosition,
-      maxEMF: 1000000, // see PickupCoil.calibrateMaxEMF
+      maxEMF: 5000000, // see PickupCoil.calibrateMaxEMF
       transitionSmoothingScale: 0.56, // see PickupCoil.transitionSmoothingScaleProperty
 
       // To avoid inducing significant (incorrect) EMF when the magnet is moved vertically when inside the coil,
