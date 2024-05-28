@@ -23,6 +23,7 @@ import RichKeyboardDragListener from '../../../../scenery-phet/js/RichKeyboardDr
 import Bounds2 from '../../../../dot/js/Bounds2.js';
 import isSettingPhetioStateProperty from '../../../../tandem/js/isSettingPhetioStateProperty.js';
 import RichPointerDragListener from '../../../../scenery-phet/js/RichPointerDragListener.js';
+import BooleanProperty from '../../../../axon/js/BooleanProperty.js';
 
 type SelfOptions = {
   position: Vector2; // initial position of the panel's top-left corner
@@ -43,10 +44,15 @@ export default class PowerSupplyPanel extends Panel {
                       rightPanelsBoundsProperty: TReadOnlyProperty<Bounds2>,
                       providedOptions: PowerSupplyPanelOptions ) {
 
-    const options = optionize4<PowerSupplyPanelOptions, SelfOptions, PanelOptions>()( {}, FELConstants.PANEL_OPTIONS, {
+    const visibleProperty = new BooleanProperty( true, {
+      tandem: providedOptions.tandem.createTandem( 'visibleProperty' ),
+      phetioDocumentation: 'Set this to false to permanently hide this panel. ' +
+                           'Otherwise, visibility depends on which Current Source is selected.'
+    } );
 
-      //TODO https://github.com/phetsims/faradays-electromagnetic-lab/issues/163 PhET-iO client needs a mutable visibleProperty
-      visibleProperty: new DerivedProperty( [ currentSourceProperty ], currentSource => ( currentSource === powerSupply ) ),
+    const options = optionize4<PowerSupplyPanelOptions, SelfOptions, PanelOptions>()( {}, FELConstants.PANEL_OPTIONS, {
+      visibleProperty: new DerivedProperty( [ currentSourceProperty, visibleProperty ],
+        ( currentSource, visible ) => ( currentSource === powerSupply ) && visible ),
       xMargin: 10,
       yMargin: 5,
       cursor: 'pointer',
