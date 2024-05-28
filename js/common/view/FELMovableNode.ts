@@ -18,6 +18,7 @@ import RichDragListener, { RichDragListenerOptions } from '../../../../scenery-p
 import RichKeyboardDragListener, { RichKeyboardDragListenerOptions } from '../../../../scenery-phet/js/RichKeyboardDragListener.js';
 import Property from '../../../../axon/js/Property.js';
 import Vector2 from '../../../../dot/js/Vector2.js';
+import isSettingPhetioStateProperty from '../../../../tandem/js/isSettingPhetioStateProperty.js';
 
 type SelfOptions = {
 
@@ -35,7 +36,7 @@ type SelfOptions = {
   // See https://github.com/phetsims/faradays-electromagnetic-lab/issues/79.
   keyboardDragListenerOptions?: RichKeyboardDragListenerOptions;
 
-  // dragBoundsProperty for DragListener and KeyboardDragListener. Ignored if Ignored if isMovable: false.
+  // dragBoundsProperty for DragListener and KeyboardDragListener. Ignored if isMovable: false.
   dragBoundsProperty?: TReadOnlyProperty<Bounds2> | null;
 };
 
@@ -88,6 +89,7 @@ export default class FELMovableNode extends InteractiveHighlighting( Node ) {
     } );
 
     if ( options.isMovable ) {
+
       const dragListener = new RichDragListener( combineOptions<RichDragListenerOptions>( {
         positionProperty: positionProperty,
         dragBoundsProperty: options.dragBoundsProperty,
@@ -108,6 +110,15 @@ export default class FELMovableNode extends InteractiveHighlighting( Node ) {
 
       // Interrupt interaction when this Node becomes invisible.
       this.visibleProperty.lazyLink( visible => !visible && this.interruptSubtreeInput() );
+
+      // Keep the position inside of drag bounds.
+      options.dragBoundsProperty && options.dragBoundsProperty.lazyLink( dragBounds => {
+        if ( !isSettingPhetioStateProperty.value ) {
+          if ( !dragBounds.containsPoint( positionProperty.value ) ) {
+            positionProperty.value = dragBounds.closestBoundaryPointTo( positionProperty.value );
+          }
+        }
+      } );
     }
   }
 }

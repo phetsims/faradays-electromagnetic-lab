@@ -76,7 +76,8 @@ export default class FELScreenView extends ScreenView {
     this.fieldNode = new FieldNode( options.magnet, this.visibleBoundsProperty, options.tandem.createTandem( 'fieldNode' ) );
 
     this.compassNode = new CompassNode( options.compass, {
-      // See https://github.com/phetsims/faradays-electromagnetic-lab/issues/10#issuecomment-1911160748
+
+      // To prevent compass from being occluded by right panels.
       dragBoundsProperty: new DerivedProperty( [ this.visibleBoundsProperty, options.rightPanels.boundsProperty ],
         ( visibleBounds, panelsBounds ) => visibleBounds.withMaxX( panelsBounds.left ), {
 
@@ -88,6 +89,8 @@ export default class FELScreenView extends ScreenView {
     } );
 
     this.fieldMeterNode = new FieldMeterNode( options.fieldMeter, {
+
+      // Anywhere in the visible bounds. OK if it overlaps panels because it's intended to be in the foreground.
       dragBoundsProperty: this.visibleBoundsProperty,
       tandem: options.tandem.createTandem( 'fieldMeterNode' )
     } );
