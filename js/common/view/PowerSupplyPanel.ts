@@ -73,6 +73,7 @@ export default class PowerSupplyPanel extends Panel {
 
     const keyboardDragListener = new RichKeyboardDragListener( {
       positionProperty: this.positionProperty,
+      //TODO https://github.com/phetsims/faradays-electromagnetic-lab/issues/163 dragBoundsProperty
       tandem: options.tandem.createTandem( 'keyboardDragListener' )
     } );
     this.addInputListener( keyboardDragListener );
