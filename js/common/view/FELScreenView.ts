@@ -28,7 +28,6 @@ import Property from '../../../../axon/js/Property.js';
 import DerivedProperty from '../../../../axon/js/DerivedProperty.js';
 import isSettingPhetioStateProperty from '../../../../tandem/js/isSettingPhetioStateProperty.js';
 import FELQueryParameters from '../FELQueryParameters.js';
-import StrictOmit from '../../../../phet-core/js/types/StrictOmit.js';
 
 type SelfOptions = {
 
@@ -38,9 +37,8 @@ type SelfOptions = {
   fieldMeter: FieldMeter;
   developerAccordionBox: Node;
 
-  // Panels on left and right sides of the screen.
+  // Panels on the right side of the screen.
   // It is the subclass' responsibility to add these to the scene graph and pdomOrder.
-  leftPanels?: Node;
   rightPanels: Node;
 
   // Optional UI components.
@@ -62,7 +60,7 @@ export default class FELScreenView extends ScreenView {
 
   protected constructor( providedOptions: FELScreenViewOptions ) {
 
-    const options = optionize<FELScreenViewOptions, StrictOmit<SelfOptions, 'leftPanels'>, ScreenViewOptions>()( {
+    const options = optionize<FELScreenViewOptions, SelfOptions, ScreenViewOptions>()( {
 
       // SelfOptions
       timeControlNode: null,
@@ -105,21 +103,7 @@ export default class FELScreenView extends ScreenView {
 
     // Prevent the panels from growing taller than the available space, and overlapping resetAllButton.
     // This is a last-ditch defense, in case we are running on a platform where fonts are significantly taller.
-    const maxHeightPanels = this.layoutBounds.height - this.resetAllButton.height - ( 2 * FELConstants.SCREEN_VIEW_Y_MARGIN ) - 5;
-    if ( options.leftPanels ) {
-      options.leftPanels.maxHeight = maxHeightPanels;
-    }
-    options.rightPanels.maxHeight = maxHeightPanels;
-
-    // Left panels top-aligned with layoutBounds, left-aligned with visible bounds.
-    if ( options.leftPanels ) {
-      const leftPanels = options.leftPanels;
-      Multilink.multilink( [ this.visibleBoundsProperty, leftPanels.boundsProperty ],
-        ( visibleBounds, panelsBounds ) => {
-          leftPanels.left = visibleBounds.left + FELConstants.SCREEN_VIEW_X_MARGIN;
-          leftPanels.top = this.layoutBounds.top + FELConstants.SCREEN_VIEW_Y_MARGIN;
-        } );
-    }
+    options.rightPanels.maxHeight = this.layoutBounds.height - this.resetAllButton.height - ( 2 * FELConstants.SCREEN_VIEW_Y_MARGIN ) - 5;
 
     // Right panels top-aligned with layoutBounds, right-aligned with visible bounds.
     Multilink.multilink( [ this.visibleBoundsProperty, options.rightPanels.boundsProperty ],
@@ -165,12 +149,6 @@ export default class FELScreenView extends ScreenView {
   /**
    * Creates a dragBoundsProperty for scenarios that do not involve the 'Lock to Axis' feature.
    * This is relevant in the 'Bar Magnet' and 'Electromagnet' screens.
-   *
-   * Note that we are not concerned with optional leftPanels, which are the panels related to the Electromagnet.
-   * It's possible to "lost" the compass behind these panels. But it's also possible to lose the compass behind
-   * the faucet in the Generator screen, and the voltmeter in any screen that has one.  If the user loses the
-   * compass, they can 'Reset All'.  For more discussion about this, see
-   * https://github.com/phetsims/faradays-electromagnetic-lab/issues/163#issuecomment-2121174433
    */
   protected static createDragBoundsProperty( rightPanelsBoundsProperty: TReadOnlyProperty<Bounds2>, layoutBounds: Bounds2 ): TReadOnlyProperty<Bounds2> {
     return new DerivedProperty( [ rightPanelsBoundsProperty ],
@@ -180,9 +158,6 @@ export default class FELScreenView extends ScreenView {
   /**
    * Creates a dragBoundsProperty for scenarios that involve the 'Lock to Axis' feature.
    * This is relevant in the 'Pickup Coil' and 'Transformer' screens.
-   *
-   * See notes above for createDragBoundsProperty, about why we're ignoring optional leftPanels. Those notes
-   * apply here as well.
    */
   protected static createDragBoundsPropertyForLockToAxis(
     lockToAxisProperty: TReadOnlyProperty<boolean>,

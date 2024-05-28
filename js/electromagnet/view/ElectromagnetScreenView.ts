@@ -16,13 +16,11 @@ import ElectromagnetPanels from './ElectromagnetPanels.js';
 import FELScreenView from '../../common/view/FELScreenView.js';
 import ElectromagnetNode from '../../common/view/ElectromagnetNode.js';
 import PowerSupplyPanels from '../../common/view/PowerSupplyPanels.js';
+import FELConstants from '../../common/FELConstants.js';
 
 export default class ElectromagnetScreenView extends FELScreenView {
 
   public constructor( model: ElectromagnetScreenModel, tandem: Tandem ) {
-
-    const powerSupplyPanels = new PowerSupplyPanels( model.electromagnet.currentSourceProperty, model.electromagnet.dcPowerSupply,
-      model.electromagnet.acPowerSupply, tandem.createTandem( 'powerSupplyPanels' ) );
 
     const rightPanels = new ElectromagnetPanels( model, tandem.createTandem( 'rightPanels' ) );
 
@@ -34,13 +32,17 @@ export default class ElectromagnetScreenView extends FELScreenView {
       magnet: model.electromagnet,
       compass: model.compass,
       fieldMeter: model.fieldMeter,
-      leftPanels: powerSupplyPanels,
       rightPanels: rightPanels,
       timeControlNode: timeControlNode,
       developerAccordionBox: developerAccordionBox,
       resetAll: () => model.reset(),
       tandem: tandem
     } );
+
+    const powerSupplyPanels = new PowerSupplyPanels( model.electromagnet.currentSourceProperty, model.electromagnet.dcPowerSupply,
+      model.electromagnet.acPowerSupply, tandem.createTandem( 'powerSupplyPanels' ) );
+    powerSupplyPanels.left = this.layoutBounds.left + FELConstants.SCREEN_VIEW_X_MARGIN;
+    powerSupplyPanels.top = this.layoutBounds.top + FELConstants.SCREEN_VIEW_Y_MARGIN;
 
     const dragBoundsProperty = FELScreenView.createDragBoundsProperty( rightPanels.boundsProperty, this.layoutBounds );
 
