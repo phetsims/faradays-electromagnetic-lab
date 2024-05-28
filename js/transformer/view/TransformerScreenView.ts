@@ -21,6 +21,7 @@ import PickupCoilAxisNode from '../../common/view/PickupCoilAxisNode.js';
 import TransformerNode from './TransformerNode.js';
 import DCPowerSupplyPanel from '../../common/view/DCPowerSupplyPanel.js';
 import ACPowerSupplyPanel from '../../common/view/ACPowerSupplyPanel.js';
+import Vector2 from '../../../../dot/js/Vector2.js';
 
 export default class TransformerScreenView extends FELScreenView {
 
@@ -55,17 +56,15 @@ export default class TransformerScreenView extends FELScreenView {
       tandem: tandem
     } );
 
-    const dcPowerSupplyPanel = new DCPowerSupplyPanel( electromagnet.dcPowerSupply, electromagnet.currentSourceProperty,
-      tandem.createTandem( 'dcPowerSupplyPanel' ) );
+    const dcPowerSupplyPanel = new DCPowerSupplyPanel( electromagnet.dcPowerSupply, electromagnet.currentSourceProperty, {
+      position: new Vector2( this.layoutBounds.left + FELConstants.SCREEN_VIEW_X_MARGIN, this.layoutBounds.left + FELConstants.SCREEN_VIEW_X_MARGIN ),
+      tandem: tandem.createTandem( 'dcPowerSupplyPanel' )
+    } );
 
-    const acPowerSupplyPanel = new ACPowerSupplyPanel( electromagnet.acPowerSupply, electromagnet.currentSourceProperty,
-      tandem.createTandem( 'acPowerSupplyPanel' ) );
-
-    //TODO https://github.com/phetsims/faradays-electromagnetic-lab/issues/163 delete this
-    dcPowerSupplyPanel.left = this.layoutBounds.left + FELConstants.SCREEN_VIEW_X_MARGIN;
-    dcPowerSupplyPanel.top = this.layoutBounds.top + FELConstants.SCREEN_VIEW_Y_MARGIN;
-    acPowerSupplyPanel.left = this.layoutBounds.left + FELConstants.SCREEN_VIEW_X_MARGIN;
-    acPowerSupplyPanel.top = this.layoutBounds.top + FELConstants.SCREEN_VIEW_Y_MARGIN;
+    const acPowerSupplyPanel = new ACPowerSupplyPanel( electromagnet.acPowerSupply, electromagnet.currentSourceProperty, {
+      position: new Vector2( this.layoutBounds.left + FELConstants.SCREEN_VIEW_X_MARGIN, this.layoutBounds.left + FELConstants.SCREEN_VIEW_X_MARGIN ),
+      tandem: tandem.createTandem( 'acPowerSupplyPanel' )
+    } );
 
     const dragBoundsProperty = FELScreenView.createDragBoundsPropertyForLockToAxis( lockToAxisProperty,
       this.layoutBounds, rightPanels.boundsProperty, electromagnet.positionProperty, pickupCoil.positionProperty );

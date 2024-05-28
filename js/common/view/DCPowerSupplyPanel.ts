@@ -7,18 +7,15 @@
  * @author Chris Malley (PixelZoom, Inc.)
  */
 
-import Panel, { PanelOptions } from '../../../../sun/js/Panel.js';
 import faradaysElectromagneticLab from '../../faradaysElectromagneticLab.js';
 import FELConstants from '../FELConstants.js';
 import DCPowerSupply from '../model/DCPowerSupply.js';
-import Tandem from '../../../../tandem/js/Tandem.js';
 import NumberControl, { NumberControlOptions } from '../../../../scenery-phet/js/NumberControl.js';
 import { HBox, Node, Text, VBox } from '../../../../scenery/js/imports.js';
 import Utils from '../../../../dot/js/Utils.js';
 import TReadOnlyProperty from '../../../../axon/js/TReadOnlyProperty.js';
 import CurrentSource from '../model/CurrentSource.js';
-import DerivedProperty from '../../../../axon/js/DerivedProperty.js';
-import { combineOptions } from '../../../../phet-core/js/optionize.js';
+import optionize, { combineOptions, EmptySelfOptions } from '../../../../phet-core/js/optionize.js';
 import StringUtils from '../../../../phetcommon/js/util/StringUtils.js';
 import FaradaysElectromagneticLabStrings from '../../FaradaysElectromagneticLabStrings.js';
 import NumberDisplay from '../../../../scenery-phet/js/NumberDisplay.js';
@@ -28,12 +25,27 @@ import PatternStringProperty from '../../../../axon/js/PatternStringProperty.js'
 import PhetFont from '../../../../scenery-phet/js/PhetFont.js';
 import BatteryNode from './BatteryNode.js';
 import FELColors from '../FELColors.js';
+import PowerSupplyPanel, { PowerSupplyPanelOptions } from './PowerSupplyPanel.js';
+import PickRequired from '../../../../phet-core/js/types/PickRequired.js';
 
 const SLIDER_STEP = 1;
 
-export default class DCPowerSupplyPanel extends Panel {
+type SelfOptions = EmptySelfOptions;
 
-  public constructor( dcPowerSupply: DCPowerSupply, currentSourceProperty: TReadOnlyProperty<CurrentSource>, tandem: Tandem ) {
+type DCPowerSupplyPanelOptions = SelfOptions & PickRequired<PowerSupplyPanelOptions, 'position' | 'tandem'>;
+
+export default class DCPowerSupplyPanel extends PowerSupplyPanel {
+
+  public constructor( dcPowerSupply: DCPowerSupply,
+                      currentSourceProperty: TReadOnlyProperty<CurrentSource>,
+                      providedOptions: DCPowerSupplyPanelOptions ) {
+
+    const options = optionize<DCPowerSupplyPanelOptions, SelfOptions, PowerSupplyPanelOptions>()( {
+
+      // PowerSupplyPanelOptions
+      fill: FELColors.dcPowerSupplyPanelFillProperty,
+      stroke: FELColors.dcPowerSupplyPanelStrokeProperty
+    }, providedOptions );
 
     const voltageRange = dcPowerSupply.voltageProperty.range;
 
@@ -74,7 +86,7 @@ export default class DCPowerSupplyPanel extends Panel {
             FaradaysElectromagneticLabStrings.units.VStringProperty
           ]
         },
-        tandem: tandem.createTandem( 'batteryVoltageControl' ),
+        tandem: options.tandem.createTandem( 'batteryVoltageControl' ),
         phetioVisiblePropertyInstrumented: false
       } ) );
 
@@ -99,20 +111,7 @@ export default class DCPowerSupplyPanel extends Panel {
       align: 'center'
     } );
 
-    super( contentNode, combineOptions<PanelOptions>( {}, FELConstants.PANEL_OPTIONS, {
-      fill: FELColors.dcPowerSupplyPanelFillProperty,
-      stroke: FELColors.dcPowerSupplyPanelStrokeProperty,
-      visibleProperty: new DerivedProperty( [ currentSourceProperty ], currentSource => ( currentSource === dcPowerSupply ) ),
-      xMargin: 15,
-      yMargin: 5,
-      tandem: tandem,
-      phetioFeatured: true
-    } ) );
-
-    // Interrupt interaction when this Node becomes invisible.
-    this.visibleProperty.lazyLink( visible => !visible && this.interruptSubtreeInput() );
-
-    this.addLinkedElement( dcPowerSupply );
+    super( contentNode, dcPowerSupply, currentSourceProperty, options );
   }
 
   /**

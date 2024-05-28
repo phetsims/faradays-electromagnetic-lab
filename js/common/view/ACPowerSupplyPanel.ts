@@ -16,33 +16,44 @@ import Vector2 from '../../../../dot/js/Vector2.js';
 import { Shape } from '../../../../kite/js/imports.js';
 import TReadOnlyProperty from '../../../../axon/js/TReadOnlyProperty.js';
 import CurrentSource from '../model/CurrentSource.js';
-import Tandem from '../../../../tandem/js/Tandem.js';
 import ACPowerSupply from '../model/ACPowerSupply.js';
-import DerivedProperty from '../../../../axon/js/DerivedProperty.js';
 import FELColors from '../FELColors.js';
 import FaradaysElectromagneticLabStrings from '../../FaradaysElectromagneticLabStrings.js';
 import Dimension2 from '../../../../dot/js/Dimension2.js';
-import FELConstants from '../FELConstants.js';
 import VoltageChartNode from './VoltageChartNode.js';
 import ACNumberControl from './ACNumberControl.js';
-import Panel, { PanelOptions } from '../../../../sun/js/Panel.js';
-import { combineOptions } from '../../../../phet-core/js/optionize.js';
 import PhetFont from '../../../../scenery-phet/js/PhetFont.js';
+import PowerSupplyPanel, { PowerSupplyPanelOptions } from './PowerSupplyPanel.js';
+import optionize, { EmptySelfOptions } from '../../../../phet-core/js/optionize.js';
+import PickRequired from '../../../../phet-core/js/types/PickRequired.js';
 
-export default class ACPowerSupplyPanel extends Panel {
+type SelfOptions = EmptySelfOptions;
 
-  public constructor( acPowerSupply: ACPowerSupply, currentSourceProperty: TReadOnlyProperty<CurrentSource>, tandem: Tandem ) {
+type ACPowerSupplyPanelOptions = SelfOptions & PickRequired<PowerSupplyPanelOptions, 'position' | 'tandem'>;
+
+export default class ACPowerSupplyPanel extends PowerSupplyPanel {
+
+  public constructor( acPowerSupply: ACPowerSupply,
+                      currentSourceProperty: TReadOnlyProperty<CurrentSource>,
+                      providedOptions: ACPowerSupplyPanelOptions ) {
+
+    const options = optionize<ACPowerSupplyPanelOptions, SelfOptions, PowerSupplyPanelOptions>()( {
+
+      // PowerSupplyPanelOptions
+      fill: FELColors.acPowerSupplyPanelFillProperty,
+      stroke: FELColors.acPowerSupplyPanelStrokeProperty
+    }, providedOptions );
 
     // Frequency control
     const frequencyControl = new ACNumberControl( acPowerSupply.frequencyPercentProperty, {
       orientation: 'horizontal',
-      tandem: tandem.createTandem( 'frequencyControl' )
+      tandem: options.tandem.createTandem( 'frequencyControl' )
     } );
 
     // Max voltage control
     const maxVoltageControl = new ACNumberControl( acPowerSupply.maxVoltagePercentProperty, {
       orientation: 'vertical',
-      tandem: tandem.createTandem( 'maxVoltageControl' )
+      tandem: options.tandem.createTandem( 'maxVoltageControl' )
     } );
 
     // Chart of voltage over time
@@ -82,20 +93,7 @@ export default class ACPowerSupplyPanel extends Panel {
       align: 'center'
     } );
 
-    super( contentNode, combineOptions<PanelOptions>( {}, FELConstants.PANEL_OPTIONS, {
-      fill: FELColors.acPowerSupplyPanelFillProperty,
-      stroke: FELColors.acPowerSupplyPanelStrokeProperty,
-      visibleProperty: new DerivedProperty( [ currentSourceProperty ], currentSource => ( currentSource === acPowerSupply ) ),
-      xMargin: 10,
-      yMargin: 5,
-      tandem: tandem,
-      phetioFeatured: true
-    } ) );
-
-    // Interrupt interaction when this Node becomes invisible.
-    this.visibleProperty.lazyLink( visible => !visible && this.interruptSubtreeInput() );
-
-    this.addLinkedElement( acPowerSupply );
+    super( contentNode, acPowerSupply, currentSourceProperty, options );
   }
 
   /**
