@@ -192,7 +192,7 @@ export default class FELScreenView extends ScreenView {
       if ( lockToAxis ) {
         // Dragging is locked to 1D, horizontally along the pickup coil's axis.
 
-        // Move the magnet and pickup coil a usable position, which we assume is their initial position. Do this only
+        // Move the magnet and pickup coil to a usable position, which we assume is their initial position. Do this only
         // when not setting state. When setting state, reset (and changing Property value in general) will be ignored,
         // and the assertion will fail.
         if ( !isSettingPhetioStateProperty.value ) {
