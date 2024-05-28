@@ -77,6 +77,8 @@ export default class PowerSupplyPanel extends Panel {
       tandem: options.tandem.createTandem( 'keyboardDragListener' )
     } );
     this.addInputListener( keyboardDragListener );
+
+    //TODO https://github.com/phetsims/faradays-electromagnetic-lab/issues/163 move panel if outside drag bounds
   }
 
   public reset(): void {
