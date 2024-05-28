@@ -21,9 +21,12 @@ import Vector2Property from '../../../../dot/js/Vector2Property.js';
 import Property from '../../../../axon/js/Property.js';
 import RichDragListener from '../../../../scenery-phet/js/RichDragListener.js';
 import RichKeyboardDragListener from '../../../../scenery-phet/js/RichKeyboardDragListener.js';
+import Bounds2 from '../../../../dot/js/Bounds2.js';
+import isSettingPhetioStateProperty from '../../../../tandem/js/isSettingPhetioStateProperty.js';
 
 type SelfOptions = {
   position: Vector2; // initial position of the panel's top-left corner
+  dragBoundsProperty: TReadOnlyProperty<Bounds2>;
 };
 
 export type PowerSupplyPanelOptions = SelfOptions &
@@ -67,7 +70,7 @@ export default class PowerSupplyPanel extends Panel {
 
     const dragListener = new RichDragListener( {
       positionProperty: this.positionProperty,
-      //TODO https://github.com/phetsims/faradays-electromagnetic-lab/issues/163 dragBoundsProperty
+      dragBoundsProperty: options.dragBoundsProperty,
       useParentOffset: true,
       tandem: options.tandem.createTandem( 'dragListener' )
     } );
@@ -75,12 +78,19 @@ export default class PowerSupplyPanel extends Panel {
 
     const keyboardDragListener = new RichKeyboardDragListener( {
       positionProperty: this.positionProperty,
-      //TODO https://github.com/phetsims/faradays-electromagnetic-lab/issues/163 dragBoundsProperty
+      dragBoundsProperty: options.dragBoundsProperty,
       tandem: options.tandem.createTandem( 'keyboardDragListener' )
     } );
     this.addInputListener( keyboardDragListener );
 
-    //TODO https://github.com/phetsims/faradays-electromagnetic-lab/issues/163 move panel if outside drag bounds
+    // Keep the position inside of drag bounds.
+    options.dragBoundsProperty.lazyLink( dragBounds => {
+      if ( !isSettingPhetioStateProperty.value ) {
+        if ( !dragBounds.containsPoint( this.positionProperty.value ) ) {
+          this.positionProperty.value = dragBounds.closestBoundaryPointTo( this.positionProperty.value );
+        }
+      }
+    } );
   }
 
   public reset(): void {

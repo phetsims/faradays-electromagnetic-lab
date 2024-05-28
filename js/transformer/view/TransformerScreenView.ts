@@ -22,6 +22,7 @@ import TransformerNode from './TransformerNode.js';
 import DCPowerSupplyPanel from '../../common/view/DCPowerSupplyPanel.js';
 import ACPowerSupplyPanel from '../../common/view/ACPowerSupplyPanel.js';
 import Vector2 from '../../../../dot/js/Vector2.js';
+import DerivedProperty from '../../../../axon/js/DerivedProperty.js';
 
 export default class TransformerScreenView extends FELScreenView {
 
@@ -60,13 +61,19 @@ export default class TransformerScreenView extends FELScreenView {
 
     const powerSupplyPanelPosition = new Vector2( this.layoutBounds.left + FELConstants.SCREEN_VIEW_X_MARGIN, this.layoutBounds.top + FELConstants.SCREEN_VIEW_Y_MARGIN );
 
+    const powerSupplyPanelDragBoundsProperty = new DerivedProperty(
+      [ this.visibleBoundsProperty, rightPanels.boundsProperty ],
+      ( visibleBounds, rightPanelsBounds ) => visibleBounds.withMaxX( rightPanelsBounds.left ).erodedXY( 10, 10 ) );
+
     const dcPowerSupplyPanel = new DCPowerSupplyPanel( electromagnet.dcPowerSupply, electromagnet.currentSourceProperty, {
       position: powerSupplyPanelPosition,
+      dragBoundsProperty: powerSupplyPanelDragBoundsProperty,
       tandem: tandem.createTandem( 'dcPowerSupplyPanel' )
     } );
 
     const acPowerSupplyPanel = new ACPowerSupplyPanel( electromagnet.acPowerSupply, electromagnet.currentSourceProperty, {
       position: powerSupplyPanelPosition,
+      dragBoundsProperty: powerSupplyPanelDragBoundsProperty,
       tandem: tandem.createTandem( 'acPowerSupplyPanel' )
     } );
 

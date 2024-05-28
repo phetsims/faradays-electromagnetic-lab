@@ -29,7 +29,7 @@ import PickRequired from '../../../../phet-core/js/types/PickRequired.js';
 
 type SelfOptions = EmptySelfOptions;
 
-type ACPowerSupplyPanelOptions = SelfOptions & PickRequired<PowerSupplyPanelOptions, 'position' | 'tandem'>;
+type ACPowerSupplyPanelOptions = SelfOptions & PickRequired<PowerSupplyPanelOptions, 'position' | 'dragBoundsProperty' | 'tandem'>;
 
 export default class ACPowerSupplyPanel extends PowerSupplyPanel {
 

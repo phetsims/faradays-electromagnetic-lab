@@ -32,7 +32,7 @@ const SLIDER_STEP = 1;
 
 type SelfOptions = EmptySelfOptions;
 
-type DCPowerSupplyPanelOptions = SelfOptions & PickRequired<PowerSupplyPanelOptions, 'position' | 'tandem'>;
+type DCPowerSupplyPanelOptions = SelfOptions & PickRequired<PowerSupplyPanelOptions, 'position' | 'dragBoundsProperty' | 'tandem'>;
 
 export default class DCPowerSupplyPanel extends PowerSupplyPanel {
 
