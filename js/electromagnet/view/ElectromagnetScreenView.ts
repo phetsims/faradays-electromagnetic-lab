@@ -19,7 +19,6 @@ import FELConstants from '../../common/FELConstants.js';
 import DCPowerSupplyPanel from '../../common/view/DCPowerSupplyPanel.js';
 import ACPowerSupplyPanel from '../../common/view/ACPowerSupplyPanel.js';
 import Vector2 from '../../../../dot/js/Vector2.js';
-import DerivedProperty from '../../../../axon/js/DerivedProperty.js';
 
 export default class ElectromagnetScreenView extends FELScreenView {
 
@@ -49,29 +48,23 @@ export default class ElectromagnetScreenView extends FELScreenView {
       tandem: tandem
     } );
 
+    // Initial position for both power supply panels.
     const powerSupplyPanelPosition = new Vector2( this.layoutBounds.left + FELConstants.SCREEN_VIEW_X_MARGIN, this.layoutBounds.top + FELConstants.SCREEN_VIEW_Y_MARGIN );
 
-    //TODO https://github.com/phetsims/faradays-electromagnetic-lab/issues/163 dupicated, move into PowerSupplyPanel?
-    const powerSupplyPanelDragBoundsProperty = new DerivedProperty(
-      [ this.visibleBoundsProperty, rightPanels.boundsProperty ],
-      ( visibleBounds, rightPanelsBounds ) => visibleBounds.withMaxX( rightPanelsBounds.left ).erodedXY( 10, 10 ) );
-
-    const dcPowerSupplyPanel = new DCPowerSupplyPanel( electromagnet.dcPowerSupply, electromagnet.currentSourceProperty, {
+    const dcPowerSupplyPanel = new DCPowerSupplyPanel( electromagnet.dcPowerSupply, electromagnet.currentSourceProperty,
+      this.visibleBoundsProperty, rightPanels.boundsProperty, {
       position: powerSupplyPanelPosition,
-      dragBoundsProperty: powerSupplyPanelDragBoundsProperty,
       tandem: tandem.createTandem( 'dcPowerSupplyPanel' )
     } );
 
-    const acPowerSupplyPanel = new ACPowerSupplyPanel( electromagnet.acPowerSupply, electromagnet.currentSourceProperty, {
+    const acPowerSupplyPanel = new ACPowerSupplyPanel( electromagnet.acPowerSupply, electromagnet.currentSourceProperty,
+      this.visibleBoundsProperty, rightPanels.boundsProperty, {
       position: powerSupplyPanelPosition,
-      dragBoundsProperty: powerSupplyPanelDragBoundsProperty,
       tandem: tandem.createTandem( 'acPowerSupplyPanel' )
     } );
 
-    const dragBoundsProperty = FELScreenView.createDragBoundsProperty( rightPanels.boundsProperty, this.layoutBounds );
-
     const electromagnetNode = new ElectromagnetNode( electromagnet, {
-      dragBoundsProperty: dragBoundsProperty,
+      dragBoundsProperty: FELScreenView.createDragBoundsProperty( rightPanels.boundsProperty, this.layoutBounds ),
       tandem: tandem.createTandem( 'electromagnetNode' )
     } );
 

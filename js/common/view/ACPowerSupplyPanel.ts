@@ -1,6 +1,5 @@
 // Copyright 2023-2024, University of Colorado Boulder
 
-//TODO https://github.com/phetsims/faradays-electromagnetic-lab/issues/163 ariel-phet suggested that this needs pixel polishing.
 /**
  * ACPowerSupplyPanel is the view of the AC power supply. It provides sliders for changing the maximum voltage
  * and frequency (as percentages), and depicts the fluctuation of voltage over time as a sine wave.
@@ -27,15 +26,18 @@ import PowerSupplyPanel, { PowerSupplyPanelOptions } from './PowerSupplyPanel.js
 import optionize, { EmptySelfOptions } from '../../../../phet-core/js/optionize.js';
 import PickRequired from '../../../../phet-core/js/types/PickRequired.js';
 import Orientation from '../../../../phet-core/js/Orientation.js';
+import Bounds2 from '../../../../dot/js/Bounds2.js';
 
 type SelfOptions = EmptySelfOptions;
 
-type ACPowerSupplyPanelOptions = SelfOptions & PickRequired<PowerSupplyPanelOptions, 'position' | 'dragBoundsProperty' | 'tandem'>;
+type ACPowerSupplyPanelOptions = SelfOptions & PickRequired<PowerSupplyPanelOptions, 'position' | 'tandem'>;
 
 export default class ACPowerSupplyPanel extends PowerSupplyPanel {
 
   public constructor( acPowerSupply: ACPowerSupply,
                       currentSourceProperty: TReadOnlyProperty<CurrentSource>,
+                      visibleBoundsProperty: TReadOnlyProperty<Bounds2>,
+                      rightPanelsBoundsProperty: TReadOnlyProperty<Bounds2>,
                       providedOptions: ACPowerSupplyPanelOptions ) {
 
     const options = optionize<ACPowerSupplyPanelOptions, SelfOptions, PowerSupplyPanelOptions>()( {
@@ -94,7 +96,7 @@ export default class ACPowerSupplyPanel extends PowerSupplyPanel {
       align: 'center'
     } );
 
-    super( contentNode, acPowerSupply, currentSourceProperty, options );
+    super( contentNode, acPowerSupply, currentSourceProperty, visibleBoundsProperty, rightPanelsBoundsProperty, options );
   }
 
   /**

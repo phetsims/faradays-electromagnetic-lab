@@ -26,7 +26,6 @@ import RichPointerDragListener from '../../../../scenery-phet/js/RichPointerDrag
 
 type SelfOptions = {
   position: Vector2; // initial position of the panel's top-left corner
-  dragBoundsProperty: TReadOnlyProperty<Bounds2>;
 };
 
 export type PowerSupplyPanelOptions = SelfOptions &
@@ -37,19 +36,23 @@ export default class PowerSupplyPanel extends Panel {
   // Position of the panel's top-left corner.
   private readonly positionProperty: Property<Vector2>;
 
-  public constructor( content: Node, powerSupply: CurrentSource, currentSourceProperty: TReadOnlyProperty<CurrentSource>,
+  public constructor( content: Node,
+                      powerSupply: CurrentSource,
+                      currentSourceProperty: TReadOnlyProperty<CurrentSource>,
+                      visibleBoundsProperty: TReadOnlyProperty<Bounds2>,
+                      rightPanelsBoundsProperty: TReadOnlyProperty<Bounds2>,
                       providedOptions: PowerSupplyPanelOptions ) {
 
     const options = optionize4<PowerSupplyPanelOptions, SelfOptions, PanelOptions>()( {}, FELConstants.PANEL_OPTIONS, {
 
-      //TODO https://github.com/phetsims/faradays-electromagnetic-lab/issues/163 Does PhET-iO client need a mutable visibleProperty?
+      //TODO https://github.com/phetsims/faradays-electromagnetic-lab/issues/163 PhET-iO client needs a mutable visibleProperty
       visibleProperty: new DerivedProperty( [ currentSourceProperty ], currentSource => ( currentSource === powerSupply ) ),
       xMargin: 10,
       yMargin: 5,
       cursor: 'pointer',
       tagName: 'div', // for KeyboardDragListener
       focusable: true, // for KeyboardDragListener
-      groupFocusHighlight: true, //TODO https://github.com/phetsims/faradays-electromagnetic-lab/issues/163 slider and drag are both affected
+      groupFocusHighlight: true,
       phetioFeatured: true
     }, providedOptions );
 
@@ -68,9 +71,31 @@ export default class PowerSupplyPanel extends Panel {
 
     this.addLinkedElement( powerSupply );
 
+    // Keep the entire panel inside drag bounds.
+    const dragBoundsProperty = new DerivedProperty(
+      [ visibleBoundsProperty, rightPanelsBoundsProperty, content.boundsProperty ],
+      ( visibleBounds, rightPanelsBounds, contentBounds ) => {
+        const panelWidth = contentBounds.width + 2 * options.xMargin;
+        const panelHeight = contentBounds.height + 2 * options.yMargin;
+        return new Bounds2(
+          visibleBounds.minX + FELConstants.SCREEN_VIEW_X_MARGIN,
+          visibleBounds.minY + FELConstants.SCREEN_VIEW_Y_MARGIN,
+          rightPanelsBounds.minX - panelWidth - FELConstants.SCREEN_VIEW_X_MARGIN,
+          visibleBounds.maxY - panelHeight - FELConstants.SCREEN_VIEW_Y_MARGIN );
+      } );
+
+    // Keep the position inside of drag bounds.
+    dragBoundsProperty.lazyLink( dragBounds => {
+      if ( !isSettingPhetioStateProperty.value ) {
+        if ( !dragBounds.containsPoint( this.positionProperty.value ) ) {
+          this.positionProperty.value = dragBounds.closestBoundaryPointTo( this.positionProperty.value );
+        }
+      }
+    } );
+
     const dragListener = new RichPointerDragListener( {
       positionProperty: this.positionProperty,
-      dragBoundsProperty: options.dragBoundsProperty,
+      dragBoundsProperty: dragBoundsProperty,
       useParentOffset: true,
       tandem: options.tandem.createTandem( 'dragListener' )
     } );
@@ -78,19 +103,10 @@ export default class PowerSupplyPanel extends Panel {
 
     const keyboardDragListener = new RichKeyboardDragListener( {
       positionProperty: this.positionProperty,
-      dragBoundsProperty: options.dragBoundsProperty,
+      dragBoundsProperty: dragBoundsProperty,
       tandem: options.tandem.createTandem( 'keyboardDragListener' )
     } );
     this.addInputListener( keyboardDragListener );
-
-    // Keep the position inside of drag bounds.
-    options.dragBoundsProperty.lazyLink( dragBounds => {
-      if ( !isSettingPhetioStateProperty.value ) {
-        if ( !dragBounds.containsPoint( this.positionProperty.value ) ) {
-          this.positionProperty.value = dragBounds.closestBoundaryPointTo( this.positionProperty.value );
-        }
-      }
-    } );
   }
 
   public reset(): void {

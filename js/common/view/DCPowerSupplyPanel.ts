@@ -1,6 +1,5 @@
 // Copyright 2024, University of Colorado Boulder
 
-//TODO https://github.com/phetsims/faradays-electromagnetic-lab/issues/163 ariel-phet suggested that this needs pixel polishing.
 /**
  * DCPowerSupplyPanel is a panel with controls for the DC power supply.
  *
@@ -27,17 +26,20 @@ import BatteryNode from './BatteryNode.js';
 import FELColors from '../FELColors.js';
 import PowerSupplyPanel, { PowerSupplyPanelOptions } from './PowerSupplyPanel.js';
 import PickRequired from '../../../../phet-core/js/types/PickRequired.js';
+import Bounds2 from '../../../../dot/js/Bounds2.js';
 
 const SLIDER_STEP = 1;
 
 type SelfOptions = EmptySelfOptions;
 
-type DCPowerSupplyPanelOptions = SelfOptions & PickRequired<PowerSupplyPanelOptions, 'position' | 'dragBoundsProperty' | 'tandem'>;
+type DCPowerSupplyPanelOptions = SelfOptions & PickRequired<PowerSupplyPanelOptions, 'position' | 'tandem'>;
 
 export default class DCPowerSupplyPanel extends PowerSupplyPanel {
 
   public constructor( dcPowerSupply: DCPowerSupply,
                       currentSourceProperty: TReadOnlyProperty<CurrentSource>,
+                      visibleBoundsProperty: TReadOnlyProperty<Bounds2>,
+                      rightPanelsBoundsProperty: TReadOnlyProperty<Bounds2>,
                       providedOptions: DCPowerSupplyPanelOptions ) {
 
     const options = optionize<DCPowerSupplyPanelOptions, SelfOptions, PowerSupplyPanelOptions>()( {
@@ -111,7 +113,7 @@ export default class DCPowerSupplyPanel extends PowerSupplyPanel {
       align: 'center'
     } );
 
-    super( contentNode, dcPowerSupply, currentSourceProperty, options );
+    super( contentNode, dcPowerSupply, currentSourceProperty, visibleBoundsProperty, rightPanelsBoundsProperty, options );
   }
 
   /**
