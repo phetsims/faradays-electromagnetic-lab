@@ -47,8 +47,8 @@ export default class PickupCoilScreenView extends FELScreenView {
       tandem: tandem
     } );
 
-    const dragBoundsProperty = this.createDragBoundsPropertyForLockToAxis( lockToAxisProperty,
-      rightPanels.boundsProperty, model.barMagnet.positionProperty, model.pickupCoil.positionProperty );
+    const dragBoundsProperty = FELScreenView.createDragBoundsPropertyForLockToAxis( lockToAxisProperty,
+      this.layoutBounds, rightPanels.boundsProperty, model.barMagnet.positionProperty, model.pickupCoil.positionProperty );
 
     const barMagnetNode = new BarMagnetNode( model.barMagnet, {
       dragBoundsProperty: dragBoundsProperty,

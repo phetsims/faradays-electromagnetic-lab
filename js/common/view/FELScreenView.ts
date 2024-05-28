@@ -172,9 +172,9 @@ export default class FELScreenView extends ScreenView {
    * compass, they can 'Reset All'.  For more discussion about this, see
    * https://github.com/phetsims/faradays-electromagnetic-lab/issues/163#issuecomment-2121174433
    */
-  protected createDragBoundsProperty( rightPanelsBoundsProperty: TReadOnlyProperty<Bounds2> ): TReadOnlyProperty<Bounds2> {
+  protected static createDragBoundsProperty( rightPanelsBoundsProperty: TReadOnlyProperty<Bounds2>, layoutBounds: Bounds2 ): TReadOnlyProperty<Bounds2> {
     return new DerivedProperty( [ rightPanelsBoundsProperty ],
-      rightPanelsBounds => this.layoutBounds.withMaxX( rightPanelsBounds.left ) );
+      rightPanelsBounds => layoutBounds.withMaxX( rightPanelsBounds.left ) );
   }
 
   /**
@@ -184,14 +184,15 @@ export default class FELScreenView extends ScreenView {
    * See notes above for createDragBoundsProperty, about why we're ignoring optional leftPanels. Those notes
    * apply here as well.
    */
-  protected createDragBoundsPropertyForLockToAxis(
+  protected static createDragBoundsPropertyForLockToAxis(
     lockToAxisProperty: TReadOnlyProperty<boolean>,
+    layoutBounds: Bounds2,
     panelsBoundsProperty: TReadOnlyProperty<Bounds2>,
     magnetPositionProperty: Property<Vector2>,
     pickupCoilPositionProperty: Property<Vector2>
   ): TReadOnlyProperty<Bounds2> {
 
-    const dragBoundsProperty = new Property( this.layoutBounds );
+    const dragBoundsProperty = new Property( layoutBounds );
 
     Multilink.multilink( [ lockToAxisProperty, panelsBoundsProperty ], ( lockToAxis, panelsBounds ) => {
       if ( lockToAxis ) {
@@ -210,13 +211,13 @@ export default class FELScreenView extends ScreenView {
         const y = pickupCoilPositionProperty.value.y;
 
         // Constrain to horizontal dragging.
-        dragBoundsProperty.value = new Bounds2( this.layoutBounds.left, y, panelsBounds.left, y );
+        dragBoundsProperty.value = new Bounds2( layoutBounds.left, y, panelsBounds.left, y );
       }
       else {
         // Dragging is 2D, horizontal and vertical.
 
         // Restore drag bounds.
-        dragBoundsProperty.value = this.layoutBounds.withMaxX( panelsBounds.left );
+        dragBoundsProperty.value = layoutBounds.withMaxX( panelsBounds.left );
       }
     } );
 

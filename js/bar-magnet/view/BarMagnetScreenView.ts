@@ -53,7 +53,7 @@ export default class BarMagnetScreenView extends FELScreenView {
       tandem: tandem
     } );
 
-    const dragBoundsProperty = this.createDragBoundsProperty( rightPanels.boundsProperty );
+    const dragBoundsProperty = FELScreenView.createDragBoundsProperty( rightPanels.boundsProperty, this.layoutBounds );
 
     const barMagnetNode = new BarMagnetNode( model.barMagnet, {
       seeInsideProperty: viewProperties.seeInsideBarMagnetProperty,

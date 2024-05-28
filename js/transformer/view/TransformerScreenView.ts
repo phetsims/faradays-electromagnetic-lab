@@ -58,8 +58,8 @@ export default class TransformerScreenView extends FELScreenView {
       tandem: tandem
     } );
 
-    const dragBoundsProperty = this.createDragBoundsPropertyForLockToAxis( lockToAxisProperty,
-      rightPanels.boundsProperty, electromagnet.positionProperty, pickupCoil.positionProperty );
+    const dragBoundsProperty = FELScreenView.createDragBoundsPropertyForLockToAxis( lockToAxisProperty,
+      this.layoutBounds, rightPanels.boundsProperty, electromagnet.positionProperty, pickupCoil.positionProperty );
 
     const transformerNode = new TransformerNode( model.transformer, dragBoundsProperty, lockToAxisProperty,
       tandem.createTandem( 'transformerNode' ) );

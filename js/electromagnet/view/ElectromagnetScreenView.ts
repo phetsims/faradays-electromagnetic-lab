@@ -42,7 +42,7 @@ export default class ElectromagnetScreenView extends FELScreenView {
       tandem: tandem
     } );
 
-    const dragBoundsProperty = this.createDragBoundsProperty( rightPanels.boundsProperty );
+    const dragBoundsProperty = FELScreenView.createDragBoundsProperty( rightPanels.boundsProperty, this.layoutBounds );
 
     const electromagnetNode = new ElectromagnetNode( model.electromagnet, {
       dragBoundsProperty: dragBoundsProperty,
