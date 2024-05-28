@@ -42,7 +42,6 @@ export default class ElectromagnetScreenView extends FELScreenView {
       tandem: tandem
     } );
 
-    //TODO https://github.com/phetsims/faradays-electromagnetic-lab/issues/163 How to prevent things from getting lost behind dcPowerSupplyPanel and acPowerSupplyPanel
     const dragBoundsProperty = this.createDragBoundsProperty( rightPanels.boundsProperty );
 
     const electromagnetNode = new ElectromagnetNode( model.electromagnet, {
