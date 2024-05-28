@@ -37,17 +37,23 @@ export default class ElectromagnetScreenView extends FELScreenView {
       rightPanels: rightPanels,
       timeControlNode: timeControlNode,
       developerAccordionBox: developerAccordionBox,
-      resetAll: () => model.reset(),
+      resetAll: () => {
+        model.reset();
+        dcPowerSupplyPanel.reset();
+        acPowerSupplyPanel.reset();
+      },
       tandem: tandem
     } );
 
+    const powerSupplyPanelPosition = new Vector2( this.layoutBounds.left + FELConstants.SCREEN_VIEW_X_MARGIN, this.layoutBounds.top + FELConstants.SCREEN_VIEW_Y_MARGIN );
+
     const dcPowerSupplyPanel = new DCPowerSupplyPanel( model.electromagnet.dcPowerSupply, model.electromagnet.currentSourceProperty, {
-      position: new Vector2( this.layoutBounds.left + FELConstants.SCREEN_VIEW_X_MARGIN, this.layoutBounds.left + FELConstants.SCREEN_VIEW_X_MARGIN ),
+      position: powerSupplyPanelPosition,
       tandem: tandem.createTandem( 'dcPowerSupplyPanel' )
     } );
 
     const acPowerSupplyPanel = new ACPowerSupplyPanel( model.electromagnet.acPowerSupply, model.electromagnet.currentSourceProperty, {
-      position: new Vector2( this.layoutBounds.left + FELConstants.SCREEN_VIEW_X_MARGIN, this.layoutBounds.left + FELConstants.SCREEN_VIEW_X_MARGIN ),
+      position: powerSupplyPanelPosition,
       tandem: tandem.createTandem( 'acPowerSupplyPanel' )
     } );
 

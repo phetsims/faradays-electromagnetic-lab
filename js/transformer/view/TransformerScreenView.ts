@@ -52,17 +52,21 @@ export default class TransformerScreenView extends FELScreenView {
       resetAll: () => {
         model.reset();
         lockToAxisProperty.reset();
+        dcPowerSupplyPanel.reset();
+        acPowerSupplyPanel.reset();
       },
       tandem: tandem
     } );
 
+    const powerSupplyPanelPosition = new Vector2( this.layoutBounds.left + FELConstants.SCREEN_VIEW_X_MARGIN, this.layoutBounds.top + FELConstants.SCREEN_VIEW_Y_MARGIN );
+
     const dcPowerSupplyPanel = new DCPowerSupplyPanel( electromagnet.dcPowerSupply, electromagnet.currentSourceProperty, {
-      position: new Vector2( this.layoutBounds.left + FELConstants.SCREEN_VIEW_X_MARGIN, this.layoutBounds.left + FELConstants.SCREEN_VIEW_X_MARGIN ),
+      position: powerSupplyPanelPosition,
       tandem: tandem.createTandem( 'dcPowerSupplyPanel' )
     } );
 
     const acPowerSupplyPanel = new ACPowerSupplyPanel( electromagnet.acPowerSupply, electromagnet.currentSourceProperty, {
-      position: new Vector2( this.layoutBounds.left + FELConstants.SCREEN_VIEW_X_MARGIN, this.layoutBounds.left + FELConstants.SCREEN_VIEW_X_MARGIN ),
+      position: powerSupplyPanelPosition,
       tandem: tandem.createTandem( 'acPowerSupplyPanel' )
     } );
 
