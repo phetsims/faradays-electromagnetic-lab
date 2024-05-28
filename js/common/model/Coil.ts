@@ -216,7 +216,8 @@ export default class Coil extends PhetioObject {
 
     this.chargedParticlesProperty = new DerivedProperty( [ this.coilSegmentsProperty ],
       coilSegments => this.createChargedParticles( coilSegments ), {
-        // Erroneously identifies options to new ChargedParticle in createCharges as dependencies.
+
+        // Erroneously identifies options to new ChargedParticle in createChargedParticles as dependencies.
         strictAxonDependencies: false
       } );
 
