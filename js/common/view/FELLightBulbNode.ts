@@ -66,6 +66,7 @@ export default class FELLightBulbNode extends Node {
 
       // From the Java version, see LightRaysGraphic.java
       lightRaysNodeOptions: {
+        pickable: false,
         minRays: 20,
         maxRays: 20,
         minRayLength: 0,
