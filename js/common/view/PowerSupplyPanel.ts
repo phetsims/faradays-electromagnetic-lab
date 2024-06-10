@@ -15,7 +15,7 @@ import { optionize4 } from '../../../../phet-core/js/optionize.js';
 import FELConstants from '../FELConstants.js';
 import DerivedProperty from '../../../../axon/js/DerivedProperty.js';
 import PickRequired from '../../../../phet-core/js/types/PickRequired.js';
-import { Node } from '../../../../scenery/js/imports.js';
+import { InteractiveHighlighting, Node } from '../../../../scenery/js/imports.js';
 import Vector2 from '../../../../dot/js/Vector2.js';
 import Vector2Property from '../../../../dot/js/Vector2Property.js';
 import Property from '../../../../axon/js/Property.js';
@@ -32,7 +32,7 @@ type SelfOptions = {
 export type PowerSupplyPanelOptions = SelfOptions &
   PickRequired<PanelOptions, 'fill' | 'stroke' | 'tandem'>;
 
-export default class PowerSupplyPanel extends Panel {
+export default class PowerSupplyPanel extends InteractiveHighlighting( Panel ) {
 
   // Position of the panel's top-left corner.
   private readonly positionProperty: Property<Vector2>;
