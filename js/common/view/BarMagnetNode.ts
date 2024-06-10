@@ -30,6 +30,7 @@ const FONT = new PhetFont( { size: 30, weight: 'bold' } );
 
 type SelfOptions = {
   seeInsideProperty?: TReadOnlyProperty<boolean>;
+  lockToAxisProperty?: TReadOnlyProperty<boolean>;
 };
 
 type BarMagnetNodeOptions = SelfOptions &
@@ -73,7 +74,7 @@ export default class BarMagnetNode extends FELMovableNode {
       southText.centerY = barNode.centerY;
     } );
 
-    const options = optionize<BarMagnetNodeOptions, StrictOmit<SelfOptions, 'seeInsideProperty'>, FELMovableNodeOptions>()( {
+    const options = optionize<BarMagnetNodeOptions, StrictOmit<SelfOptions, 'seeInsideProperty' | 'lockToAxisProperty'>, FELMovableNodeOptions>()( {
 
       // FELMovableNodeOptions
       children: [ barNode, northText, southText ]
@@ -95,6 +96,11 @@ export default class BarMagnetNode extends FELMovableNode {
         tandem: options.tandem.createTandem( 'fieldInsideNode' )
       } ) );
     }
+
+    // Change the cursor to indicate whether dragging is constrained to the x-axis.
+    options.lockToAxisProperty && options.lockToAxisProperty.link( lockToAxis => {
+      this.cursor = lockToAxis ? 'ew-resize' : 'pointer';
+    } );
   }
 }
 

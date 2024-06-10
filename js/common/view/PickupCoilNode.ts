@@ -22,10 +22,11 @@ import PickRequired from '../../../../phet-core/js/types/PickRequired.js';
 import PickOptional from '../../../../phet-core/js/types/PickOptional.js';
 import PickupCoilAreaNode from './PickupCoilAreaNode.js';
 import TReadOnlyProperty from '../../../../axon/js/TReadOnlyProperty.js';
+import StrictOmit from '../../../../phet-core/js/types/StrictOmit.js';
 
 type SelfOptions = {
   maxRayLength?: number; // passed to LightBulbNode
-  lockToAxisProperty?: TReadOnlyProperty<boolean> | null;
+  lockToAxisProperty?: TReadOnlyProperty<boolean>;
 };
 
 type PickupCoilNodeOptions = SelfOptions &
@@ -38,11 +39,10 @@ export default class PickupCoilNode extends FELMovableNode {
 
   public constructor( pickupCoil: PickupCoil, providedOptions: PickupCoilNodeOptions ) {
 
-    const options = optionize<PickupCoilNodeOptions, SelfOptions, NodeOptions>()( {
+    const options = optionize<PickupCoilNodeOptions, StrictOmit<SelfOptions, 'lockToAxisProperty'>, NodeOptions>()( {
 
       // SelfOptions
-      maxRayLength: 350,
-      lockToAxisProperty: null
+      maxRayLength: 350
     }, providedOptions );
 
     const coilNode = new CoilNode( pickupCoil.coil, pickupCoil.positionProperty, {

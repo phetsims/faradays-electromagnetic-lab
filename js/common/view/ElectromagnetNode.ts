@@ -21,9 +21,10 @@ import Multilink from '../../../../axon/js/Multilink.js';
 import DCPowerSupplyNode from './DCPowerSupplyNode.js';
 import ACPowerSupplyNode from './ACPowerSupplyNode.js';
 import TReadOnlyProperty from '../../../../axon/js/TReadOnlyProperty.js';
+import StrictOmit from '../../../../phet-core/js/types/StrictOmit.js';
 
 type SelfOptions = {
-  lockToAxisProperty?: TReadOnlyProperty<boolean> | null;
+  lockToAxisProperty?: TReadOnlyProperty<boolean>;
 };
 
 type ElectromagnetNodeOptions = SelfOptions & PickRequired<FELMovableNodeOptions, 'tandem' | 'dragBoundsProperty'>;
@@ -34,11 +35,8 @@ export default class ElectromagnetNode extends FELMovableNode {
 
   public constructor( electromagnet: Electromagnet, providedOptions: ElectromagnetNodeOptions ) {
 
-    const options = optionize<ElectromagnetNodeOptions, SelfOptions, FELMovableNodeOptions>()( {
-
-      // SelfOptions
-      lockToAxisProperty: null
-    }, providedOptions );
+    const options = optionize<ElectromagnetNodeOptions, StrictOmit<SelfOptions, 'lockToAxisProperty'>, FELMovableNodeOptions>()(
+      {}, providedOptions );
 
     const coilNode = new CoilNode( electromagnet.coil, electromagnet.positionProperty, {
       dragBoundsProperty: options.dragBoundsProperty,
