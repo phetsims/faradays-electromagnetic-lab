@@ -184,7 +184,8 @@ const FELColors = {
   } ),
 
   lightRaysColorProperty: new ProfileColorProperty( faradaysElectromagneticLab, 'lightRaysColor', {
-    default: 'yellow'
+    default: 'yellow',
+    projector: 'rgb( 255, 210, 0 )'
   } ),
 
   voltageLabelColorProperty: new ProfileColorProperty( faradaysElectromagneticLab, 'voltageLabelColor', {
