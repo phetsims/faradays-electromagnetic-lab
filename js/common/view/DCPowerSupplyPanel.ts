@@ -131,7 +131,7 @@ export default class DCPowerSupplyPanel extends PowerSupplyPanel {
  */
 function layoutFunction( titleNode: Node, numberDisplay: NumberDisplay, slider: Slider, decrementButton: ArrowButton | null, incrementButton: ArrowButton | null ): Node {
   return new VBox( {
-    align: 'left',
+    align: 'center',
     spacing: 5,
     children: [
       new HBox( {
