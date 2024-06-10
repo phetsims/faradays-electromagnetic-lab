@@ -107,7 +107,7 @@ export default class FELScreenView extends ScreenView {
 
     // Right panels top-aligned with layoutBounds, right-aligned with visible bounds.
     Multilink.multilink( [ this.visibleBoundsProperty, options.rightPanels.boundsProperty ],
-      ( visibleBounds, panelsBounds ) => {
+      ( visibleBounds, rightPanelsBounds ) => {
         options.rightPanels.right = visibleBounds.right - FELConstants.SCREEN_VIEW_X_MARGIN;
         options.rightPanels.top = this.layoutBounds.top + FELConstants.SCREEN_VIEW_Y_MARGIN;
       } );
