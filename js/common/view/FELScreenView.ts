@@ -71,6 +71,15 @@ export default class FELScreenView extends ScreenView {
 
     super( options );
 
+    // Right panels top-aligned with layoutBounds, right-aligned with visible bounds.
+    // Do this before creating compassNode so that compassNode will have valid dragBoundsProperty.
+    // See https://github.com/phetsims/faradays-electromagnetic-lab/issues/183.
+    Multilink.multilink( [ this.visibleBoundsProperty, options.rightPanels.boundsProperty ],
+      ( visibleBounds, rightPanelsBounds ) => {
+        options.rightPanels.right = visibleBounds.right - FELConstants.SCREEN_VIEW_X_MARGIN;
+        options.rightPanels.top = this.layoutBounds.top + FELConstants.SCREEN_VIEW_Y_MARGIN;
+      } );
+
     this.fieldNode = new FieldNode( options.magnet, this.visibleBoundsProperty, options.tandem.createTandem( 'fieldNode' ) );
 
     this.compassNode = new CompassNode( options.compass, {
@@ -104,13 +113,6 @@ export default class FELScreenView extends ScreenView {
     // Prevent the panels from growing taller than the available space, and overlapping resetAllButton.
     // This is a last-ditch defense, in case we are running on a platform where fonts are significantly taller.
     options.rightPanels.maxHeight = this.layoutBounds.height - this.resetAllButton.height - ( 2 * FELConstants.SCREEN_VIEW_Y_MARGIN ) - 5;
-
-    // Right panels top-aligned with layoutBounds, right-aligned with visible bounds.
-    Multilink.multilink( [ this.visibleBoundsProperty, options.rightPanels.boundsProperty ],
-      ( visibleBounds, rightPanelsBounds ) => {
-        options.rightPanels.right = visibleBounds.right - FELConstants.SCREEN_VIEW_X_MARGIN;
-        options.rightPanels.top = this.layoutBounds.top + FELConstants.SCREEN_VIEW_Y_MARGIN;
-      } );
 
     // ResetAllButton in the right bottom corner of the visible bounds.
     Multilink.multilink( [ this.visibleBoundsProperty, this.resetAllButton.boundsProperty ],
