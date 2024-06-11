@@ -187,15 +187,15 @@ class ChargedParticleSpriteInstance extends SpriteInstance {
    */
   public update(): void {
 
-    if ( this.chargedParticle.getLayer() === this.coilLayer ) {
+    // Move to the charge's position (at the charge's center) and apply inverse scale.
+    this.matrix.rowMajor(
+      INVERSE_SCALE, 0, this.chargedParticle.x,
+      0, INVERSE_SCALE, this.chargedParticle.y,
+      0, 0, 1
+    );
+    assert && assert( this.matrix.isFinite(), 'matrix should be finite' );
 
-      // Move to the charge's position (at the charge's center) and apply inverse scale.
-      this.matrix.rowMajor(
-        INVERSE_SCALE, 0, this.chargedParticle.x,
-        0, INVERSE_SCALE, this.chargedParticle.y,
-        0, 0, 1
-      );
-      assert && assert( this.matrix.isFinite(), 'matrix should be finite' );
+    if ( this.chargedParticle.getLayer() === this.coilLayer ) {
 
       // Show foreground more prominently than background.
       this.alpha = ( this.coilLayer === 'foreground' ) ? 1 : 0.5;
@@ -203,7 +203,6 @@ class ChargedParticleSpriteInstance extends SpriteInstance {
     else {
 
       // It the charge is not in this layer, hide it by setting its alpha to fully-transparent.
-      // And since it will not be visible, do not bother to move it.
       this.alpha = 0;
     }
   }
