@@ -105,7 +105,7 @@ export default class CoilNode extends Node {
       visibleProperty: this.visibleProperty
     } );
 
-    // Render the current that move through the coil.
+    // Render the current that moves through the coil.
     if ( options.renderCurrent ) {
       const foregroundCurrentNode = new CurrentNode( 'foreground', coil );
       this.foregroundNode.addChild( foregroundCurrentNode );
