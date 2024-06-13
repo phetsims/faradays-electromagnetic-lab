@@ -215,11 +215,7 @@ export default class Coil extends PhetioObject {
       oldCoilSegments.forEach( coilSegment => coilSegment.dispose() ) );
 
     this.chargedParticlesProperty = new DerivedProperty( [ this.coilSegmentsProperty ],
-      coilSegments => this.createChargedParticles( coilSegments ), {
-
-        // Erroneously identifies options to new ChargedParticle in createChargedParticles as dependencies.
-        strictAxonDependencies: false
-      } );
+      coilSegments => this.createChargedParticles( coilSegments ) );
 
     // When a new set of charges is created, dispose of the old set.
     this.chargedParticlesProperty.lazyLink( ( newChargedParticles, oldChargedParticles ) =>

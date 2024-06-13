@@ -86,12 +86,7 @@ export default class FELScreenView extends ScreenView {
 
       // To prevent compass from being occluded by right panels.
       dragBoundsProperty: new DerivedProperty( [ this.visibleBoundsProperty, options.rightPanels.boundsProperty ],
-        ( visibleBounds, rightPanelsBounds ) => visibleBounds.withMaxX( rightPanelsBounds.left ), {
-
-          // Because ScreenView visibleBoundProperty has problems with dependencies.
-          // See https://github.com/phetsims/faradays-electromagnetic-lab/issues/65
-          strictAxonDependencies: false
-        } ),
+        ( visibleBounds, rightPanelsBounds ) => visibleBounds.withMaxX( rightPanelsBounds.left ) ),
       tandem: options.tandem.createTandem( 'compassNode' )
     } );
 
