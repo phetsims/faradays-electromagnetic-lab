@@ -25,7 +25,7 @@ const BRIGHTNESS_RANGE = new Range( 0, 1 );
 type SelfOptions = {
 
   // For current that is cyclic and changes direction (AC Electromagnet, Generator) the model may step over the
-  // zero points, which is where the current changes dirction. This Property should be set to false for those cases,
+  // zero points, which is where the current changes direction. This Property should be set to false for those cases,
   // so that the light bulb is guaranteed to go through an 'off' state. This is most noticeable when stepping the sim
   // manually using the time controls. See https://github.com/phetsims/faradays-electromagnetic-lab/issues/152.
   lightsWhenCurrentChangesDirectionProperty?: TReadOnlyProperty<boolean>;
