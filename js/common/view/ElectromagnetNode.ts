@@ -96,6 +96,15 @@ export default class ElectromagnetNode extends FELMovableNode {
       this.backgroundNode.translation = position;
     } );
 
+    // Use the same highlights for the foreground and background.
+    // See https://github.com/phetsims/faradays-electromagnetic-lab/issues/176.
+    Multilink.multilink( [ this.localBoundsProperty ],
+      bounds => {
+        const highlightRectangle = Shape.bounds( bounds );
+        this.focusHighlight = highlightRectangle;
+        coilNode.backgroundNode.focusHighlight = highlightRectangle;
+      } );
+
     // Change the cursor to indicate whether dragging is constrained to the x-axis.
     options.lockToAxisProperty && options.lockToAxisProperty.link( lockToAxis => {
       const cursor = lockToAxis ? 'ew-resize' : 'pointer';

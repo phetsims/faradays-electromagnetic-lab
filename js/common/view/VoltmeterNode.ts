@@ -167,6 +167,9 @@ export default class VoltmeterNode extends Node {
         tandem: tandem.createTandem( 'visibleProperty' ),
         phetioValueType: BooleanIO
       } ),
+      // We do not want the user to drag the pickup coil by its voltmeter.
+      // See https://github.com/phetsims/faradays-electromagnetic-lab/issues/189
+      pickable: false,
       tandem: tandem,
       phetioFeatured: true
     } );

@@ -23,6 +23,8 @@ import PickOptional from '../../../../phet-core/js/types/PickOptional.js';
 import PickupCoilAreaNode from './PickupCoilAreaNode.js';
 import TReadOnlyProperty from '../../../../axon/js/TReadOnlyProperty.js';
 import StrictOmit from '../../../../phet-core/js/types/StrictOmit.js';
+import { Shape } from '../../../../kite/js/imports.js';
+import Multilink from '../../../../axon/js/Multilink.js';
 
 type SelfOptions = {
   maxRayLength?: number; // passed to LightBulbNode
@@ -102,6 +104,15 @@ export default class PickupCoilNode extends FELMovableNode {
     pickupCoil.positionProperty.link( position => {
       this.backgroundNode.translation = position;
     } );
+
+    // Use the same highlights for the foreground and background.
+    // See https://github.com/phetsims/faradays-electromagnetic-lab/issues/176.
+    Multilink.multilink( [ coilNode.localBoundsProperty, coilNode.backgroundNode.localBoundsProperty ],
+      ( foregroundBounds, backgroundBounds ) => {
+        const highlightRectangle = Shape.bounds( foregroundBounds.union( backgroundBounds ) );
+        this.focusHighlight = highlightRectangle;
+        coilNode.backgroundNode.focusHighlight = highlightRectangle;
+      } );
 
     // Change the cursor to indicate whether dragging is constrained to the x-axis.
     options.lockToAxisProperty && options.lockToAxisProperty.link( lockToAxis => {

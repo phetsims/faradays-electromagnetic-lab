@@ -45,6 +45,9 @@ export default class FELLightBulbNode extends Node {
         tandem: providedOptions.tandem.createTandem( 'visibleProperty' ),
         phetioValueType: BooleanIO
       } ),
+      // We do not want the user to drag the pickup coil by its light bulb.
+      // See https://github.com/phetsims/faradays-electromagnetic-lab/issues/189
+      pickable: false,
       phetioFeatured: true
     }, providedOptions );
 
