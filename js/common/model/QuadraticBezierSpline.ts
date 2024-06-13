@@ -19,7 +19,6 @@ import faradaysElectromagneticLab from '../../faradaysElectromagneticLab.js';
 import Vector2 from '../../../../dot/js/Vector2.js';
 import { Shape } from '../../../../kite/js/imports.js';
 import Disposable from '../../../../axon/js/Disposable.js';
-import Bounds2 from '../../../../dot/js/Bounds2.js';
 
 export default class QuadraticBezierSpline {
 
@@ -65,16 +64,6 @@ export default class QuadraticBezierSpline {
     return new Shape()
       .moveToPoint( this.startPoint )
       .quadraticCurveToPoint( this.controlPoint, this.endPoint );
-  }
-
-  /**
-   * Mutates the given bounds to contain the control net of this spline (which will contain the entire curve, but
-   * may include some extra space).
-   */
-  public expandBoundsToFit( bounds: Bounds2 ): void {
-    bounds.addPoint( this.startPoint );
-    bounds.addPoint( this.controlPoint );
-    bounds.addPoint( this.endPoint );
   }
 
   public dispose(): void {

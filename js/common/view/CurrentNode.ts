@@ -20,7 +20,7 @@ import Multilink from '../../../../axon/js/Multilink.js';
 import ElectronNode from './ElectronNode.js';
 import { CurrentFlow } from '../FELQueryParameters.js';
 import PositiveChargeNode from './PositiveChargeNode.js';
-import FELConstants from '../FELConstants.js';
+import TReadOnlyProperty from '../../../../axon/js/TReadOnlyProperty.js';
 
 // Scale up by this much when creating Nodes, to improve resolution.
 const RESOLUTION_SCALE = 8;
@@ -44,7 +44,7 @@ export default class CurrentNode extends Sprites {
   // One SpriteInstance for each charge.
   private readonly spriteInstances: ChargedParticleSpriteInstance[];
 
-  public constructor( coilLayer: CoilLayer, coil: Coil ) {
+  public constructor( coilLayer: CoilLayer, coil: Coil, canvasBoundsProperty: TReadOnlyProperty<Bounds2> ) {
 
     // Convert the Sprite used to represent current.
     const sprite = new Sprite( CurrentNode.getSpriteImage(
@@ -72,16 +72,7 @@ export default class CurrentNode extends Sprites {
     // When the set of charges changes, create a sprite instance for each charge.
     coil.chargedParticlesProperty.link( chargedParticle => this.createSpriteInstances( chargedParticle ) );
 
-    coil.coilSegmentsProperty.link( coilSegments => {
-      const bounds = Bounds2.NOTHING.copy();
-
-      for ( const coilSegment of coilSegments ) {
-        coilSegment.expandBoundsToFit( bounds );
-      }
-
-      // Make sure the bounds are large enough to contain the SpriteInstances.
-      bounds.dilate( FELConstants.CHARGED_PARTICLE_DIAMETER / 2 );
-
+    canvasBoundsProperty.link( bounds => {
       this.canvasBounds = bounds;
     } );
 

@@ -107,10 +107,10 @@ export default class CoilNode extends Node {
 
     // Render the current that moves through the coil.
     if ( options.renderCurrent ) {
-      const foregroundCurrentNode = new CurrentNode( 'foreground', coil );
+      const foregroundCurrentNode = new CurrentNode( 'foreground', coil, this.foregroundCoilSegmentsParent.boundsProperty );
       this.foregroundNode.addChild( foregroundCurrentNode );
 
-      const backgroundCurrentNode = new CurrentNode( 'background', coil );
+      const backgroundCurrentNode = new CurrentNode( 'background', coil, this.backgroundCoilSegmentsParent.boundsProperty );
       this.backgroundNode.addChild( backgroundCurrentNode );
     }
 
