@@ -16,7 +16,7 @@
 
 import faradaysElectromagneticLab from '../../faradaysElectromagneticLab.js';
 import Coil from '../model/Coil.js';
-import { Node, NodeOptions } from '../../../../scenery/js/imports.js';
+import { Node, NodeOptions, Rectangle } from '../../../../scenery/js/imports.js';
 import PickRequired from '../../../../phet-core/js/types/PickRequired.js';
 import optionize, { combineOptions } from '../../../../phet-core/js/optionize.js';
 import Tandem from '../../../../tandem/js/Tandem.js';
@@ -28,6 +28,7 @@ import CoilSegmentNode from './CoilSegmentNode.js';
 import CurrentNode from './CurrentNode.js';
 import Property from '../../../../axon/js/Property.js';
 import Vector2 from '../../../../dot/js/Vector2.js';
+import platform from '../../../../phet-core/js/platform.js';
 
 type SelfOptions = {
   isMovable?: boolean; // Whether the coil is movable.
@@ -104,6 +105,21 @@ export default class CoilNode extends Node {
       dragBoundsProperty: options.dragBoundsProperty,
       visibleProperty: this.visibleProperty
     } );
+
+    // Workaround for ugly artifacts caused by backgroundCoilSegmentsParent with Safari on macOS, iOS, and iPadOS.
+    // transparentRectangleNode must be in the same layer as backgroundNode.
+    // See https://github.com/phetsims/faradays-electromagnetic-lab/issues/172
+    if ( platform.safari ) {
+      const transparentRectangleNode = new Rectangle( 0, 0, 1, 1, {
+        fill: 'transparent',
+        pickable: false,
+        localBounds: new Bounds2( 0, 0, 1, 1 ) // so that this does not affect the bounds of focusHighlight
+      } );
+      this.backgroundNode.addChild( transparentRectangleNode );
+      this.backgroundCoilSegmentsParent.localBoundsProperty.lazyLink( localBounds => {
+        transparentRectangleNode.rectBounds = localBounds.dilatedY( 5 );
+      } );
+    }
 
     // Render the current that moves through the coil.
     if ( options.renderCurrent ) {
