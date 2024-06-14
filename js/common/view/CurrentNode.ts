@@ -164,7 +164,7 @@ class ChargedParticleSpriteInstance extends SpriteInstance {
 
     // Fields in superclass SpriteInstance that must be set
     this.sprite = sprite;
-    this.transformType = SpriteInstanceTransformType.TRANSLATION;
+    this.transformType = SpriteInstanceTransformType.TRANSLATION_AND_SCALE;
 
     this.update();
   }

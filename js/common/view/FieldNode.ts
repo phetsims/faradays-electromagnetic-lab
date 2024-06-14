@@ -188,7 +188,7 @@ class CompassNeedleSpriteInstance extends SpriteInstance {
 
     // Fields in superclass SpriteInstance that must be set
     this.sprite = sprite;
-    this.transformType = SpriteInstanceTransformType.AFFINE;
+    this.transformType = SpriteInstanceTransformType.TRANSLATION_AND_ROTATION;
   }
 
   public dispose(): void {
@@ -199,7 +199,6 @@ class CompassNeedleSpriteInstance extends SpriteInstance {
    * Updates the matrix to match the needle's position and rotation.
    */
   public setRotation( rotation: number ): void {
-    // Inlined translation/rotation/scale for efficiency
     this.matrix.setToScaleTranslationRotationPoint( COMPASS_NEEDLE_INVERSE_SCALE, this.position, rotation );
     assert && assert( this.matrix.isFinite(), 'expected matrix to be finite' );
   }
