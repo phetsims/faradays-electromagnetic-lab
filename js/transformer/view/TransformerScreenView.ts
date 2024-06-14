@@ -35,6 +35,8 @@ export default class TransformerScreenView extends FELScreenView {
       tandem: tandem.createTandem( 'lockToAxisProperty' ),
       phetioDocumentation: 'When true, dragging the magnet or pickup coil is locked to the pickup coil\'s horizontal axis.'
     } );
+    lockToAxisProperty.link( lockToAxis =>
+      FELScreenView.lockToAxisListener( lockToAxis, electromagnet.positionProperty, pickupCoil.positionProperty ) );
 
     const rightPanels = new TransformerPanels( model, lockToAxisProperty, tandem.createTandem( 'rightPanels' ) );
 
@@ -63,18 +65,18 @@ export default class TransformerScreenView extends FELScreenView {
 
     const dcPowerSupplyPanel = new DCPowerSupplyPanel( electromagnet.dcPowerSupply, electromagnet.currentSourceProperty,
       this.visibleBoundsProperty, rightPanels.boundsProperty, {
-      position: powerSupplyPanelPosition,
-      tandem: tandem.createTandem( 'dcPowerSupplyPanel' )
-    } );
+        position: powerSupplyPanelPosition,
+        tandem: tandem.createTandem( 'dcPowerSupplyPanel' )
+      } );
 
     const acPowerSupplyPanel = new ACPowerSupplyPanel( electromagnet.acPowerSupply, electromagnet.currentSourceProperty,
       this.visibleBoundsProperty, rightPanels.boundsProperty, {
-      position: powerSupplyPanelPosition,
-      tandem: tandem.createTandem( 'acPowerSupplyPanel' )
-    } );
+        position: powerSupplyPanelPosition,
+        tandem: tandem.createTandem( 'acPowerSupplyPanel' )
+      } );
 
     const transformerDragBoundsProperty = FELScreenView.createDragBoundsPropertyForLockToAxis( lockToAxisProperty,
-      this.layoutBounds, rightPanels.boundsProperty, electromagnet.positionProperty, pickupCoil.positionProperty );
+      this.layoutBounds, rightPanels.boundsProperty, pickupCoil.positionProperty );
 
     const transformerNode = new TransformerNode( model.transformer, transformerDragBoundsProperty, lockToAxisProperty,
       tandem.createTandem( 'transformerNode' ) );

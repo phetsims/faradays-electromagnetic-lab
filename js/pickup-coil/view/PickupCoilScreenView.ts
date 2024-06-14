@@ -25,17 +25,23 @@ export default class PickupCoilScreenView extends FELScreenView {
 
   public constructor( model: PickupCoilScreenModel, preferences: FELPreferences, tandem: Tandem ) {
 
+    // To improve readability
+    const barMagnet = model.barMagnet;
+    const pickupCoil = model.pickupCoil;
+
     const lockToAxisProperty = new BooleanProperty( false, {
       tandem: tandem.createTandem( 'lockToAxisProperty' ),
       phetioDocumentation: 'When true, dragging the magnet or pickup coil is locked to the pickup coil\'s horizontal axis.'
     } );
+    lockToAxisProperty.link( lockToAxis =>
+      FELScreenView.lockToAxisListener( lockToAxis, barMagnet.positionProperty, pickupCoil.positionProperty ) );
 
     const rightPanels = new PickupCoilPanels( model, lockToAxisProperty, tandem.createTandem( 'rightPanels' ) );
 
-    const developerAccordionBox = new PickupCoilDeveloperAccordionBox( model.barMagnet, model.pickupCoil );
+    const developerAccordionBox = new PickupCoilDeveloperAccordionBox( barMagnet, pickupCoil );
 
     super( {
-      magnet: model.barMagnet,
+      magnet: barMagnet,
       compass: model.compass,
       fieldMeter: model.fieldMeter,
       rightPanels: rightPanels,
@@ -48,24 +54,24 @@ export default class PickupCoilScreenView extends FELScreenView {
     } );
 
     const dragBoundsProperty = FELScreenView.createDragBoundsPropertyForLockToAxis( lockToAxisProperty,
-      this.layoutBounds, rightPanels.boundsProperty, model.barMagnet.positionProperty, model.pickupCoil.positionProperty );
+      this.layoutBounds, rightPanels.boundsProperty, pickupCoil.positionProperty );
 
-    const barMagnetNode = new BarMagnetNode( model.barMagnet, {
+    const barMagnetNode = new BarMagnetNode( barMagnet, {
       dragBoundsProperty: dragBoundsProperty,
       lockToAxisProperty: lockToAxisProperty,
       tandem: tandem.createTandem( 'barMagnetNode' )
     } );
 
-    const pickupCoilNode = new PickupCoilNode( model.pickupCoil, {
+    const pickupCoilNode = new PickupCoilNode( pickupCoil, {
       dragBoundsProperty: dragBoundsProperty,
       lockToAxisProperty: lockToAxisProperty,
       tandem: tandem.createTandem( 'pickupCoilNode' )
     } );
 
-    const pickupCoilAxisNode = new PickupCoilAxisNode( lockToAxisProperty, model.pickupCoil.positionProperty,
+    const pickupCoilAxisNode = new PickupCoilAxisNode( lockToAxisProperty, pickupCoil.positionProperty,
       this.visibleBoundsProperty );
 
-    const pickupCoilDebuggerPanel = new PickupCoilDebuggerPanel( model.pickupCoil, {
+    const pickupCoilDebuggerPanel = new PickupCoilDebuggerPanel( pickupCoil, {
       left: this.layoutBounds.left + FELConstants.SCREEN_VIEW_X_MARGIN,
       bottom: this.layoutBounds.bottom - FELConstants.SCREEN_VIEW_Y_MARGIN
     } );

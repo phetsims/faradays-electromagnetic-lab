@@ -88,6 +88,8 @@ export default class PowerSupplyPanel extends InteractiveHighlighting( Panel ) {
           visibleBounds.minY + FELConstants.SCREEN_VIEW_Y_MARGIN,
           rightPanelsBounds.minX - panelWidth - FELConstants.SCREEN_VIEW_X_MARGIN,
           visibleBounds.maxY - panelHeight - FELConstants.SCREEN_VIEW_Y_MARGIN );
+      }, {
+        valueComparisonStrategy: 'equalsFunction'
       } );
 
     // Keep the position inside of drag bounds.

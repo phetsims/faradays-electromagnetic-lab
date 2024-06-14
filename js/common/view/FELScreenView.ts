@@ -148,8 +148,9 @@ export default class FELScreenView extends ScreenView {
    * This is relevant in the 'Bar Magnet' and 'Electromagnet' screens.
    */
   protected static createDragBoundsProperty( rightPanelsBoundsProperty: TReadOnlyProperty<Bounds2>, layoutBounds: Bounds2 ): TReadOnlyProperty<Bounds2> {
-    return new DerivedProperty( [ rightPanelsBoundsProperty ],
-      rightPanelsBounds => layoutBounds.withMaxX( rightPanelsBounds.left ) );
+    return new DerivedProperty( [ rightPanelsBoundsProperty ], rightPanelsBounds => layoutBounds.withMaxX( rightPanelsBounds.left ), {
+      valueComparisonStrategy: 'equalsFunction'
+    } );
   }
 
   /**
@@ -160,40 +161,50 @@ export default class FELScreenView extends ScreenView {
     lockToAxisProperty: TReadOnlyProperty<boolean>,
     layoutBounds: Bounds2,
     panelsBoundsProperty: TReadOnlyProperty<Bounds2>,
-    magnetPositionProperty: Property<Vector2>,
     pickupCoilPositionProperty: Property<Vector2>
   ): TReadOnlyProperty<Bounds2> {
 
-    const dragBoundsProperty = new Property( layoutBounds );
-
-    Multilink.multilink( [ lockToAxisProperty, panelsBoundsProperty ], ( lockToAxis, panelsBounds ) => {
-      if ( lockToAxis ) {
-        // Dragging is locked to 1D, horizontally along the pickup coil's axis.
-
-        // Move the magnet and pickup coil to a usable position, which we assume is their initial position. Do this only
-        // when not setting state. When setting state, reset (and changing Property value in general) will be ignored,
-        // and the assertion will fail.
-        if ( !isSettingPhetioStateProperty.value ) {
-          magnetPositionProperty.reset();
-          pickupCoilPositionProperty.reset();
-          assert && assert( magnetPositionProperty.value.y === pickupCoilPositionProperty.value.y,
-            'Lock to Axis feature requires the magnet and pickup coil to have the same y coordinate: ' +
-            `magnet.y=${magnetPositionProperty.value.y} !== pickupCoil.y=${pickupCoilPositionProperty.value.y}` );
-        }
-        const y = pickupCoilPositionProperty.value.y;
-
-        // Constrain to horizontal dragging.
-        dragBoundsProperty.value = new Bounds2( layoutBounds.left, y, panelsBounds.left, y );
-      }
-      else {
-        // Dragging is 2D, horizontal and vertical.
-
-        // Restore drag bounds.
-        dragBoundsProperty.value = layoutBounds.withMaxX( panelsBounds.left );
-      }
+    const dragBoundsProperty = new Property( layoutBounds, {
+      valueComparisonStrategy: 'equalsFunction'
     } );
 
+    Multilink.multilink( [ lockToAxisProperty, panelsBoundsProperty, pickupCoilPositionProperty ],
+      ( lockToAxis, panelsBounds, pickupCoilPosition ) => {
+        if ( lockToAxis ) {
+
+          // Dragging is 1D, constrained to horizontal dragging along the pickup coil's axis.
+          dragBoundsProperty.value = new Bounds2( layoutBounds.left, pickupCoilPosition.y, panelsBounds.left, pickupCoilPosition.y );
+        }
+        else {
+
+          // Dragging is 2D, horizontal and vertical. Restore drag bounds.
+          dragBoundsProperty.value = layoutBounds.withMaxX( panelsBounds.left );
+        }
+      } );
+
     return dragBoundsProperty;
+  }
+
+  /**
+   * A listener for lockToAxisProperty that moves magnet and pickup coil to their locked positions.
+   */
+  public static lockToAxisListener( lockToAxis: boolean,
+                                    magnetPositionProperty: Property<Vector2>,
+                                    pickupCoilPositionProperty: Property<Vector2> ): void {
+    if ( lockToAxis ) {
+
+      // Dragging is locked to 1D, horizontally along the pickup coil's axis.
+      // Move the magnet and pickup coil to a usable position, which we assume is their initial position. Do this only
+      // when not setting state. When setting state, reset (and changing Property value in general) will be ignored,
+      // and the assertion will fail.
+      if ( !isSettingPhetioStateProperty.value ) {
+        magnetPositionProperty.reset();
+        pickupCoilPositionProperty.reset();
+        assert && assert( magnetPositionProperty.value.y === pickupCoilPositionProperty.value.y,
+          'Lock to Axis feature requires the magnet and pickup coil to have the same y coordinate: ' +
+          `magnet.y=${magnetPositionProperty.value.y} !== pickupCoil.y=${pickupCoilPositionProperty.value.y}` );
+      }
+    }
   }
 }
 
