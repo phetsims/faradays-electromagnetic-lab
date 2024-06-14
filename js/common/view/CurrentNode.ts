@@ -170,7 +170,7 @@ class ChargedParticleSpriteInstance extends SpriteInstance {
   }
 
   public dispose(): void {
-    // Nothing to do currently. But this class is allocated dynamically, so keep this method as a bit of defensive programming.
+    // Nothing to do currently. But instances of this class are allocated dynamically, so keep this method as a bit of defensive programming.
   }
 
   /**
