@@ -18,6 +18,7 @@ import ElectromagnetScreen from '../electromagnet/ElectromagnetScreen.js';
 import TransformerScreen from '../transformer/TransformerScreen.js';
 import GeneratorScreen from '../generator/GeneratorScreen.js';
 import FELPreferences from './model/FELPreferences.js';
+import platform from '../../../phet-core/js/platform.js';
 
 type FELScreen = BarMagnetScreen | PickupCoilScreen | ElectromagnetScreen | TransformerScreen | GeneratorScreen;
 
@@ -28,7 +29,13 @@ export default class FELSim extends Sim {
                       preferences: FELPreferences ) {
 
     super( titleStringProperty, screens, {
-      webgl: true, // Enabled for high-performance scenery.Sprites
+
+      // WebGL is typically enabled for high-performance scenery.Sprites, which are used heavily by this sim.
+      // On iPadOS, the sim consistently crashed when WebGL was enabled, and we were unable to determine why.
+      // Disabling WebGL uses Canvas as the fallback for Sprites. The problem was not present on iOS, but we
+      // have no way to differentiate between Safari on iPadOS vs iOS, so WebGL is disabled on both platforms.
+      // See https://github.com/phetsims/faradays-electromagnetic-lab/issues/182.
+      webgl: !platform.mobileSafari,
 
       // Remove ScreenViews that are not active, to minimize WebGL contexts, see https://github.com/phetsims/faradays-electromagnetic-lab/issues/153
       detachInactiveScreenViews: true,
