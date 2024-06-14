@@ -137,8 +137,8 @@ export default class CurrentNode extends Sprites {
       spriteImage = new SpriteImage( canvas, new Vector2( ( x + node.centerX ), ( y + node.centerY ) ), {
 
         // Mipmapping was added to address pixelation reported in https://github.com/phetsims/faradays-electromagnetic-lab/issues/121
-        mipmap: true,
-        mipmapBias: -0.7 // Use a negative value to increase the displayed resolution. See Imageable.setMipmapBias.
+        // mipmap: true,
+        // mipmapBias: -0.7 // Use a negative value to increase the displayed resolution. See Imageable.setMipmapBias.
       } );
     } );
 
