@@ -1,5 +1,5 @@
 {
-  "comment": "# faradays-electromagnetic-lab 1.0.0-dev.33 Fri Jun 14 2024 12:17:15 GMT-0600 (Mountain Daylight Time)",
+  "comment": "# faradays-electromagnetic-lab 1.0.0-dev.34 Fri Jun 14 2024 13:00:38 GMT-0600 (Mountain Daylight Time)",
   "assert": {
     "sha": "4eaabfefb0b88b213e98b9c7f32d6c570c3fc122",
     "branch": "main"
@@ -25,11 +25,11 @@
     "branch": "main"
   },
   "faradays-electromagnetic-lab": {
-    "sha": "eb1bdba38d1b91c1e651cf4b9868fbfe27a01358",
+    "sha": "e09e56fef1d7323d39e7be8f6674f3cb8e9be800",
     "branch": "main"
   },
   "joist": {
-    "sha": "5bc13b48be9b2217d1238f0b0f155c4851f683fe",
+    "sha": "e3665a1d45cdd82c892a84ca59ac1c458e5b7d2e",
     "branch": "main"
   },
   "kite": {
@@ -37,7 +37,7 @@
     "branch": "main"
   },
   "perennial-alias": {
-    "sha": "dfeba5706c287c3d98eab95987497e088deb8c22",
+    "sha": "6ca5547b3e71df6ed78f553d43da557f4684f84a",
     "branch": "main"
   },
   "phet-core": {
@@ -49,7 +49,7 @@
     "branch": "main"
   },
   "phet-io-sim-specific": {
-    "sha": "9d7bf4bfab0f53940aea6da8888b7e14a86793aa",
+    "sha": "3db4be9d8d0ae92af41c8d928face58873b5b488",
     "branch": "main"
   },
   "phet-io-wrappers": {
@@ -69,7 +69,7 @@
     "branch": "main"
   },
   "scenery": {
-    "sha": "2516fb322d1619dde3e8ab5347812f61d9ef62b3",
+    "sha": "269dd87d8d86d668934def65c65763ddb7b94c3a",
     "branch": "main"
   },
   "scenery-phet": {
