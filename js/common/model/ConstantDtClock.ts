@@ -48,15 +48,6 @@ export default class ConstantDtClock extends EventTimer {
     } );
   }
 
-  public override step( dt: number ): void {
-    const periodBeforeNextEvent = 1 / ConstantDtClock.FRAMES_PER_SECOND;
-    const steps = dt / periodBeforeNextEvent;
-    if ( steps >= 2 ) {
-      console.log( `dt=${dt} steps=${steps}` );
-    }
-    super.step( dt );
-  }
-
   /**
    * Adds a listener that will be notified when the clock ticks.
    * @param listener
