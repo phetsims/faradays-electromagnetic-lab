@@ -35,7 +35,8 @@ export default class ConstantDtClock extends EventTimer {
   public constructor() {
 
     // Notify listeners that the clock has ticked, with a constant dt.
-    // Calling ConstantDtClock step with a large dt will result in multiple clock ticks.
+    // EventTimer's timeElapsed is how long ago the event *should* have occurred, and we don't need that for this sim.
+    // Calling EventTimer step with a large dt will result in multiple calls to eventCallback (multiple clock ticks).
     const eventCallback = ( timeElapsed: number ) => this.emitter.emit( ConstantDtClock.DT );
 
     // eventCallback will be called every 1 / FRAMES_PER_SECOND seconds.
