@@ -17,7 +17,7 @@ import Dimension2 from '../../../../dot/js/Dimension2.js';
 import faradaysElectromagneticLab from '../../faradaysElectromagneticLab.js';
 
 const CONTROL_FONT = new PhetFont( 12 );
-const TICK_LABEL_OPTIONS = {
+const TICK_TEXT_OPTIONS = {
   font: new PhetFont( 10 )
 };
 const TRACK_SIZE = new Dimension2( 140, 1 );
@@ -40,11 +40,11 @@ export class FELDeveloperNumberControl extends NumberControl {
     const majorTicks = [
       {
         value: range.min,
-        label: new RichText( min, TICK_LABEL_OPTIONS )
+        label: new RichText( min, TICK_TEXT_OPTIONS )
       },
       {
         value: range.max,
-        label: new RichText( max, TICK_LABEL_OPTIONS )
+        label: new RichText( max, TICK_TEXT_OPTIONS )
       }
     ];
 
