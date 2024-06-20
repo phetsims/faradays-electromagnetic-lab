@@ -98,10 +98,10 @@ export default class PickupCoil extends PhetioObject {
   //
   // To set this value, follow these steps:
   // * Run with &dev query parameter to see the 'Developer' accordion boxes. For screens that have a pickup coil:
-  // * Check the "Debugger Panel" checkbox to see the 'Pickup Coil Debugger' panel, which displays 'Max EMF'.
+  // * Check the 'Debugger Panel' checkbox to see the 'Pickup Coil Debugger' panel, which displays 'Max EMF'.
   // * Set the sim to settings that will generate the most EMF. Note the value of 'Max EMF' in the 'Pickup Coil Debugger' panel.
-  // * Set the 'Max EMF' value in the 'Developer' accordion box based on the value that you observe in the 'Pick Coil Debugger' panel.
-  //   Depending on the screen, you may decide to set the control to a smaller value for 'typical' use versus 'extreme' use.
+  // * Set the 'Max EMF' control in the 'Developer' accordion box based on the value that you observe in the 'Pick Coil Debugger' panel.
+  //   Depending on the screen, you may decide to use a smaller value for 'typical' use versus 'extreme' use.
   public readonly maxEMFProperty: NumberProperty;
 
   // DEBUG: Writeable via developer controls only, when running with &dev query parameter.
