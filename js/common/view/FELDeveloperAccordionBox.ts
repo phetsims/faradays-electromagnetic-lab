@@ -14,7 +14,7 @@
 
 import AccordionBox from '../../../../sun/js/AccordionBox.js';
 import faradaysElectromagneticLab from '../../faradaysElectromagneticLab.js';
-import { Node, Text, VBox } from '../../../../scenery/js/imports.js';
+import { HBox, Node, Text, VBox } from '../../../../scenery/js/imports.js';
 import FELConstants from '../../common/FELConstants.js';
 import BooleanProperty from '../../../../axon/js/BooleanProperty.js';
 import Tandem from '../../../../tandem/js/Tandem.js';
@@ -26,27 +26,19 @@ import NumberControl from '../../../../scenery-phet/js/NumberControl.js';
 import PickupCoil from '../model/PickupCoil.js';
 import Electromagnet from '../model/Electromagnet.js';
 import { FELDeveloperNumberControl } from './FELDeveloperNumberControl.js';
-
-// Developer controls are styled independently of controls in the UI, so that we can cram more of them in.
-const CONTROL_FONT_SIZE = 12;
-const CONTROL_FONT = new PhetFont( CONTROL_FONT_SIZE );
-const TEXT_OPTIONS = {
-  font: CONTROL_FONT
-};
-const SUBTITLE_OPTIONS = {
-  font: new PhetFont( {
-    size: CONTROL_FONT_SIZE + 2,
-    weight: 'bold'
-  } )
-};
-const CHECKBOX_OPTIONS = {
-  boxWidth: new Text( 'X', { font: CONTROL_FONT } ).height,
-  tandem: Tandem.OPT_OUT
-};
+import NumberDisplay from '../../../../scenery-phet/js/NumberDisplay.js';
+import TReadOnlyProperty from '../../../../axon/js/TReadOnlyProperty.js';
+import Range from '../../../../dot/js/Range.js';
 
 const VBOX_SPACING = 15;
 
 export default class FELDeveloperAccordionBox extends AccordionBox {
+
+  public static readonly CONTROL_FONT = new PhetFont( 12 );
+  public static readonly SUBTITLE_FONT = new PhetFont( {
+    size: 12,
+    weight: 'bold'
+  } );
 
   protected constructor( content: Node ) {
 
@@ -81,11 +73,15 @@ export default class FELDeveloperAccordionBox extends AccordionBox {
    * Creates the set of controls related to the pickup coil.
    */
   protected static createPickupCoilControls( pickupCoil: PickupCoil ): VBox {
+
     return new VBox( {
       align: 'left',
       spacing: VBOX_SPACING,
       children: [
-        new Text( 'Pickup Coil', SUBTITLE_OPTIONS ),
+        new Text( 'Pickup Coil', {
+          font: FELDeveloperAccordionBox.SUBTITLE_FONT
+        } ),
+        new MaxEMFDisplay( pickupCoil.emfProperty, pickupCoil.maxEMFProperty.range ),
         new FELDeveloperNumberControl( 'Max EMF:', pickupCoil.maxEMFProperty, {
           useCommaSeparator: true
         } ),
@@ -109,7 +105,9 @@ export default class FELDeveloperAccordionBox extends AccordionBox {
       align: 'left',
       spacing: VBOX_SPACING,
       children: [
-        new Text( 'Electromagnet', SUBTITLE_OPTIONS ),
+        new Text( 'Electromagnet', {
+          font: FELDeveloperAccordionBox.SUBTITLE_FONT
+        } ),
         new FELDeveloperNumberControl( 'Current Speed Scale:', electromagnet.coil.currentSpeedScaleProperty, {
           decimalPlaces: 1
         } ),
@@ -121,7 +119,40 @@ export default class FELDeveloperAccordionBox extends AccordionBox {
 
 class FELDeveloperCheckbox extends Checkbox {
   public constructor( labelString: string, property: Property<boolean> ) {
-    super( property, new Text( labelString, TEXT_OPTIONS ), CHECKBOX_OPTIONS );
+    const text = new Text( labelString, {
+      font: FELDeveloperAccordionBox.CONTROL_FONT
+    } );
+    super( property, text, {
+      boxWidth: new Text( 'X', { font: FELDeveloperAccordionBox.CONTROL_FONT } ).height,
+      tandem: Tandem.OPT_OUT
+    } );
+  }
+}
+
+class MaxEMFDisplay extends HBox {
+  public constructor( emfProperty: TReadOnlyProperty<number>, emfRange: Range, decimalPlaces = 0 ) {
+
+    const maxEMFProperty = new NumberProperty( emfProperty.value );
+    emfProperty.link( emf => {
+      if ( emf > maxEMFProperty.value ) {
+        maxEMFProperty.value = emf;
+      }
+    } );
+
+    const maxEMFText = new Text( 'Max EMF:', {
+      font: FELDeveloperAccordionBox.CONTROL_FONT
+    } );
+    const maxEMFNumberDisplay = new NumberDisplay( maxEMFProperty, emfRange, {
+      numberFormatter: value => FELDeveloperNumberControl.formatValue( value, decimalPlaces, true ),
+      textOptions: {
+        font: FELDeveloperAccordionBox.CONTROL_FONT
+      }
+    } );
+
+    super( {
+      children: [ maxEMFText, maxEMFNumberDisplay ],
+      spacing: 5
+    } );
   }
 }
 

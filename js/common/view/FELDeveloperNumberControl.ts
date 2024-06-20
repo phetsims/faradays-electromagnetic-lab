@@ -1,7 +1,7 @@
 // Copyright 2024, University of Colorado Boulder
 
 /**
- * FELDeveloperNumberControl is the number control used in FELDeveloperAccordionBox.
+ * FELDeveloperNumberControl is a NumberControl that is specialized for use in FELDeveloperAccordionBox.
  *
  * @author Chris Malley (PixelZoom, Inc.)
  */
@@ -17,8 +17,8 @@ import Dimension2 from '../../../../dot/js/Dimension2.js';
 import faradaysElectromagneticLab from '../../faradaysElectromagneticLab.js';
 import StrictOmit from '../../../../phet-core/js/types/StrictOmit.js';
 import optionize from '../../../../phet-core/js/optionize.js';
+import FELDeveloperAccordionBox from './FELDeveloperAccordionBox.js';
 
-const CONTROL_FONT = new PhetFont( 12 );
 const TICK_TEXT_OPTIONS = {
   font: new PhetFont( 10 )
 };
@@ -45,8 +45,8 @@ export class FELDeveloperNumberControl extends NumberControl {
 
     const range = numberProperty.range;
 
-    const min = formatValue( range.min, options.decimalPlaces, options.useCommaSeparator );
-    const max = formatValue( range.max, options.decimalPlaces, options.useCommaSeparator );
+    const min = FELDeveloperNumberControl.formatValue( range.min, options.decimalPlaces, options.useCommaSeparator );
+    const max = FELDeveloperNumberControl.formatValue( range.max, options.decimalPlaces, options.useCommaSeparator );
 
     // Tick marks at the extremes of the range
     const majorTicks = [
@@ -73,7 +73,7 @@ export class FELDeveloperNumberControl extends NumberControl {
       delta: sliderStep,
       layoutFunction: createLayoutFunction( resetButton ),
       titleNodeOptions: {
-        font: CONTROL_FONT
+        font: FELDeveloperAccordionBox.CONTROL_FONT
       },
       sliderOptions: {
         soundGenerator: null,
@@ -91,14 +91,24 @@ export class FELDeveloperNumberControl extends NumberControl {
         }
       },
       numberDisplayOptions: {
-        numberFormatter: value => formatValue( value, options.decimalPlaces, options.useCommaSeparator ),
+        numberFormatter: value => FELDeveloperNumberControl.formatValue( value, options.decimalPlaces, options.useCommaSeparator ),
         maxWidth: 100,
         textOptions: {
-          font: CONTROL_FONT
+          font: FELDeveloperAccordionBox.CONTROL_FONT
         }
       },
       tandem: Tandem.OPT_OUT
     } );
+  }
+
+  /**
+   * Formats a numeric value, with the option to use a comma separator to make large values more readable.
+   * For example, '6023145' vs '6,023,145'.
+   */
+  public static formatValue( value: number, decimalPlaces: number, useCommaSeparator: boolean ): string {
+    return useCommaSeparator ?
+           Utils.toFixedNumber( value, decimalPlaces ).toLocaleString() :
+           Utils.toFixed( value, decimalPlaces );
   }
 }
 
@@ -129,16 +139,6 @@ function createLayoutFunction( resetButton: Node ): LayoutFunction {
       ]
     } );
   };
-}
-
-/**
- * Formats a numeric value, with the option to use a comma separator to make large values more readable.
- * For example, '6023145' vs '6,023,145'.
- */
-function formatValue( value: number, decimalPlaces: number, useCommaSeparator: boolean ): string {
-  return useCommaSeparator ?
-         Utils.toFixedNumber( value, decimalPlaces ).toLocaleString() :
-         Utils.toFixed( value, decimalPlaces );
 }
 
 faradaysElectromagneticLab.register( 'FELDeveloperNumberControl', FELDeveloperNumberControl );
