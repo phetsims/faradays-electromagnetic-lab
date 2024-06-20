@@ -45,12 +45,8 @@ export class FELDeveloperNumberControl extends NumberControl {
 
     const range = numberProperty.range;
 
-    const min = options.useCommaSeparator ?
-                Utils.toFixedNumber( range.min, options.decimalPlaces ).toLocaleString() :
-                Utils.toFixed( range.min, options.decimalPlaces );
-    const max = options.useCommaSeparator ?
-                Utils.toFixedNumber( range.max, options.decimalPlaces ).toLocaleString() :
-                Utils.toFixed( range.max, options.decimalPlaces );
+    const min = formatValue( range.min, options.decimalPlaces, options.useCommaSeparator );
+    const max = formatValue( range.max, options.decimalPlaces, options.useCommaSeparator );
 
     // Tick marks at the extremes of the range
     const majorTicks = [
@@ -95,9 +91,7 @@ export class FELDeveloperNumberControl extends NumberControl {
         }
       },
       numberDisplayOptions: {
-        numberFormatter: value => options.useCommaSeparator ?
-                                  Utils.toFixedNumber( value, options.decimalPlaces ).toLocaleString() :
-                                  Utils.toFixed( value, options.decimalPlaces ),
+        numberFormatter: value => formatValue( value, options.decimalPlaces, options.useCommaSeparator ),
         maxWidth: 100,
         textOptions: {
           font: CONTROL_FONT
@@ -135,6 +129,16 @@ function createLayoutFunction( resetButton: Node ): LayoutFunction {
       ]
     } );
   };
+}
+
+/**
+ * Formats a numeric value, with the option to use a comma separator to make large values more readable.
+ * For example, '6023145' vs '6,023,145'.
+ */
+function formatValue( value: number, decimalPlaces: number, useCommaSeparator: boolean ): string {
+  return useCommaSeparator ?
+         Utils.toFixedNumber( value, decimalPlaces ).toLocaleString() :
+         Utils.toFixed( value, decimalPlaces );
 }
 
 faradaysElectromagneticLab.register( 'FELDeveloperNumberControl', FELDeveloperNumberControl );
