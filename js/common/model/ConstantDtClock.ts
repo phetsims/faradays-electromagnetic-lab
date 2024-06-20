@@ -5,7 +5,7 @@
  *
  * In the Java version of this sim, we used a clock that steps 25 times per second, with constant dt = 1.
  * See FaradayModule.java: new SwingClock( 1000 / 25, 1 )
- * Because so much of the code ported from Java relies on this, we implement something similar here.
+ * Because so much of the code ported from Java relies on this, we have implemented something similar here.
  *
  * Note that we are not using EventTimer here, because EventTimer will result in multiple 'events' if dt is large.
  * That is undesirable for this sim, because it will cause single-step events (such as lighting the light bulb when
