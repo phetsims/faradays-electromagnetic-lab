@@ -20,6 +20,7 @@ import FELConstants from '../FELConstants.js';
 import Utils from '../../../../dot/js/Utils.js';
 import Tandem from '../../../../tandem/js/Tandem.js';
 import DerivedStringProperty from '../../../../axon/js/DerivedStringProperty.js';
+import NumberProperty from '../../../../axon/js/NumberProperty.js';
 
 const PHI = '\u03A6'; // flux
 const DELTA_PHI = `\u2206${PHI}`; // delta flux
@@ -65,6 +66,16 @@ export default class PickupCoilDebuggerPanel extends Panel {
     const emfStringProperty = new DerivedStringProperty( [ pickupCoil.emfProperty ],
       emf => `${Utils.toFixedNumber( emf, 0 ).toLocaleString()}` );
 
+    const maxEMFProperty = new NumberProperty( pickupCoil.emfProperty.value );
+    pickupCoil.emfProperty.link( emf => {
+      if ( emf > maxEMFProperty.value ) {
+        maxEMFProperty.value = emf;
+      }
+    } );
+
+    const maxEMFStringProperty = new DerivedStringProperty( [ maxEMFProperty ],
+      maxEMF => `${Utils.toFixedNumber( maxEMF, 0 ).toLocaleString()}` );
+
     const titleText = new Text( 'Pickup Coil debugger', {
       font: FELConstants.TITLE_FONT
     } );
@@ -76,14 +87,16 @@ export default class PickupCoilDebuggerPanel extends Panel {
         [
           new RichText( `${PHI} =`, LABEL_TEXT_OPTIONS ),
           new RichText( `${DELTA_PHI} =`, LABEL_TEXT_OPTIONS ),
-          new RichText( 'EMF =', LABEL_TEXT_OPTIONS )
+          new RichText( 'EMF =', LABEL_TEXT_OPTIONS ),
+          new RichText( 'Max EMF =', LABEL_TEXT_OPTIONS )
         ],
 
         // Values
         [
           new RichText( fluxStringProperty, VALUE_TEXT_OPTIONS ),
           new RichText( deltaFluxStringProperty, VALUE_TEXT_OPTIONS ),
-          new RichText( emfStringProperty, VALUE_TEXT_OPTIONS )
+          new RichText( emfStringProperty, VALUE_TEXT_OPTIONS ),
+          new RichText( maxEMFStringProperty, VALUE_TEXT_OPTIONS )
         ]
       ]
     } );

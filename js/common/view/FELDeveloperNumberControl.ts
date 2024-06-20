@@ -17,7 +17,7 @@ import Dimension2 from '../../../../dot/js/Dimension2.js';
 import faradaysElectromagneticLab from '../../faradaysElectromagneticLab.js';
 import StrictOmit from '../../../../phet-core/js/types/StrictOmit.js';
 import optionize from '../../../../phet-core/js/optionize.js';
-import FELDeveloperAccordionBox from './FELDeveloperAccordionBox.js';
+import FELConstants from '../FELConstants.js';
 
 const TICK_TEXT_OPTIONS = {
   font: new PhetFont( 10 )
@@ -73,7 +73,7 @@ export class FELDeveloperNumberControl extends NumberControl {
       delta: sliderStep,
       layoutFunction: createLayoutFunction( resetButton ),
       titleNodeOptions: {
-        font: FELDeveloperAccordionBox.CONTROL_FONT
+        font: FELConstants.DEVELOPER_CONTROL_FONT
       },
       sliderOptions: {
         soundGenerator: null,
@@ -94,7 +94,7 @@ export class FELDeveloperNumberControl extends NumberControl {
         numberFormatter: value => FELDeveloperNumberControl.formatValue( value, options.decimalPlaces, options.useCommaSeparator ),
         maxWidth: 100,
         textOptions: {
-          font: FELDeveloperAccordionBox.CONTROL_FONT
+          font: FELConstants.DEVELOPER_CONTROL_FONT
         }
       },
       tandem: Tandem.OPT_OUT

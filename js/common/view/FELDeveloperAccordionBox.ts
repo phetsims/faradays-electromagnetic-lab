@@ -14,7 +14,7 @@
 
 import AccordionBox from '../../../../sun/js/AccordionBox.js';
 import faradaysElectromagneticLab from '../../faradaysElectromagneticLab.js';
-import { HBox, Node, Text, VBox } from '../../../../scenery/js/imports.js';
+import { Node, Text, VBox } from '../../../../scenery/js/imports.js';
 import FELConstants from '../../common/FELConstants.js';
 import BooleanProperty from '../../../../axon/js/BooleanProperty.js';
 import Tandem from '../../../../tandem/js/Tandem.js';
@@ -26,24 +26,20 @@ import NumberControl from '../../../../scenery-phet/js/NumberControl.js';
 import PickupCoil from '../model/PickupCoil.js';
 import Electromagnet from '../model/Electromagnet.js';
 import { FELDeveloperNumberControl } from './FELDeveloperNumberControl.js';
-import NumberDisplay from '../../../../scenery-phet/js/NumberDisplay.js';
-import TReadOnlyProperty from '../../../../axon/js/TReadOnlyProperty.js';
-import Range from '../../../../dot/js/Range.js';
 
 const VBOX_SPACING = 15;
 
 export default class FELDeveloperAccordionBox extends AccordionBox {
 
-  public static readonly CONTROL_FONT = new PhetFont( 12 );
   public static readonly SUBTITLE_FONT = new PhetFont( {
-    size: 12,
+    size: FELConstants.DEVELOPER_CONTROL_FONT.size,
     weight: 'bold'
   } );
 
   protected constructor( content: Node ) {
 
     const titleText = new Text( 'Developer', {
-      font: FELConstants.CONTROL_FONT
+      font: FELConstants.DEVELOPER_CONTROL_FONT
     } );
 
     super( content, {
@@ -81,7 +77,6 @@ export default class FELDeveloperAccordionBox extends AccordionBox {
         new Text( 'Pickup Coil', {
           font: FELDeveloperAccordionBox.SUBTITLE_FONT
         } ),
-        new MaxEMFDisplay( pickupCoil.emfProperty, pickupCoil.maxEMFProperty.range ),
         new FELDeveloperNumberControl( 'Max EMF:', pickupCoil.maxEMFProperty, {
           useCommaSeparator: true
         } ),
@@ -120,38 +115,11 @@ export default class FELDeveloperAccordionBox extends AccordionBox {
 class FELDeveloperCheckbox extends Checkbox {
   public constructor( labelString: string, property: Property<boolean> ) {
     const text = new Text( labelString, {
-      font: FELDeveloperAccordionBox.CONTROL_FONT
+      font: FELConstants.DEVELOPER_CONTROL_FONT
     } );
     super( property, text, {
-      boxWidth: new Text( 'X', { font: FELDeveloperAccordionBox.CONTROL_FONT } ).height,
+      boxWidth: new Text( 'X', { font: FELConstants.DEVELOPER_CONTROL_FONT } ).height,
       tandem: Tandem.OPT_OUT
-    } );
-  }
-}
-
-class MaxEMFDisplay extends HBox {
-  public constructor( emfProperty: TReadOnlyProperty<number>, emfRange: Range, decimalPlaces = 0 ) {
-
-    const maxEMFProperty = new NumberProperty( emfProperty.value );
-    emfProperty.link( emf => {
-      if ( emf > maxEMFProperty.value ) {
-        maxEMFProperty.value = emf;
-      }
-    } );
-
-    const maxEMFText = new Text( 'Max EMF:', {
-      font: FELDeveloperAccordionBox.CONTROL_FONT
-    } );
-    const maxEMFNumberDisplay = new NumberDisplay( maxEMFProperty, emfRange, {
-      numberFormatter: value => FELDeveloperNumberControl.formatValue( value, decimalPlaces, true ),
-      textOptions: {
-        font: FELDeveloperAccordionBox.CONTROL_FONT
-      }
-    } );
-
-    super( {
-      children: [ maxEMFText, maxEMFNumberDisplay ],
-      spacing: 5
     } );
   }
 }
