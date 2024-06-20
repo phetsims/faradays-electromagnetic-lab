@@ -14,7 +14,7 @@
 
 import AccordionBox from '../../../../sun/js/AccordionBox.js';
 import faradaysElectromagneticLab from '../../faradaysElectromagneticLab.js';
-import { HBox, Node, RichText, Text, VBox } from '../../../../scenery/js/imports.js';
+import { Node, Text, VBox } from '../../../../scenery/js/imports.js';
 import FELConstants from '../../common/FELConstants.js';
 import BooleanProperty from '../../../../axon/js/BooleanProperty.js';
 import Tandem from '../../../../tandem/js/Tandem.js';
@@ -22,12 +22,10 @@ import Checkbox from '../../../../sun/js/Checkbox.js';
 import Property from '../../../../axon/js/Property.js';
 import PhetFont from '../../../../scenery-phet/js/PhetFont.js';
 import NumberProperty from '../../../../axon/js/NumberProperty.js';
-import NumberControl, { LayoutFunction } from '../../../../scenery-phet/js/NumberControl.js';
-import Utils from '../../../../dot/js/Utils.js';
-import Dimension2 from '../../../../dot/js/Dimension2.js';
-import ResetButton from '../../../../scenery-phet/js/buttons/ResetButton.js';
+import NumberControl from '../../../../scenery-phet/js/NumberControl.js';
 import PickupCoil from '../model/PickupCoil.js';
 import Electromagnet from '../model/Electromagnet.js';
+import { FELDeveloperNumberControl } from './FELDeveloperNumberControl.js';
 
 // Developer controls are styled independently of controls in the UI, so that we can cram more of them in.
 const CONTROL_FONT_SIZE = 12;
@@ -45,11 +43,7 @@ const CHECKBOX_OPTIONS = {
   boxWidth: new Text( 'X', { font: CONTROL_FONT } ).height,
   tandem: Tandem.OPT_OUT
 };
-const TICK_LABEL_OPTIONS = {
-  font: new PhetFont( CONTROL_FONT_SIZE - 2 )
-};
-const TRACK_SIZE = new Dimension2( 140, 1 );
-const THUMB_SIZE = new Dimension2( 10, 20 );
+
 const VBOX_SPACING = 15;
 
 export default class FELDeveloperAccordionBox extends AccordionBox {
@@ -120,104 +114,5 @@ class FELDeveloperCheckbox extends Checkbox {
     super( property, new Text( labelString, TEXT_OPTIONS ), CHECKBOX_OPTIONS );
   }
 }
-
-class FELDeveloperNumberControl extends NumberControl {
-
-  public constructor( labelString: string, numberProperty: NumberProperty, decimalPlaces: number, useCommaSeparator = false ) {
-
-    const range = numberProperty.range;
-
-    const min = useCommaSeparator ?
-                Utils.toFixedNumber( range.min, decimalPlaces ).toLocaleString() :
-                Utils.toFixed( range.min, decimalPlaces );
-    const max = useCommaSeparator ?
-                Utils.toFixedNumber( range.max, decimalPlaces ).toLocaleString() :
-                Utils.toFixed( range.max, decimalPlaces );
-
-    // Tick marks at the extremes of the range
-    const majorTicks = [
-      {
-        value: range.min,
-        label: new RichText( min, TICK_LABEL_OPTIONS )
-      },
-      {
-        value: range.max,
-        label: new RichText( max, TICK_LABEL_OPTIONS )
-      }
-    ];
-
-    // Since Properties related to developer controls are not affected by Reset All, add a reset button.
-    const resetButton = new ResetButton( {
-      listener: () => numberProperty.reset(),
-      scale: 0.4,
-      tandem: Tandem.OPT_OUT
-    } );
-
-    const sliderStep = Utils.toFixedNumber( Math.pow( 10, -decimalPlaces ), decimalPlaces );
-
-    super( labelString, numberProperty, range, {
-      delta: sliderStep,
-      layoutFunction: createLayoutFunction( resetButton ),
-      titleNodeOptions: {
-        font: CONTROL_FONT
-      },
-      sliderOptions: {
-        soundGenerator: null,
-        constrainValue: value => Utils.roundToInterval( value, sliderStep ),
-        majorTicks: majorTicks,
-        trackSize: TRACK_SIZE,
-        trackFillEnabled: 'black',
-        trackStroke: null,
-        thumbSize: THUMB_SIZE,
-        thumbTouchAreaXDilation: 5,
-        thumbTouchAreaYDilation: 5,
-        majorTickLength: 10,
-        layoutOptions: {
-          grow: 1
-        }
-      },
-      numberDisplayOptions: {
-        numberFormatter: value => useCommaSeparator ?
-                                  Utils.toFixedNumber( value, decimalPlaces ).toLocaleString() :
-                                  Utils.toFixed( value, decimalPlaces ),
-        maxWidth: 100,
-        textOptions: {
-          font: CONTROL_FONT
-        }
-      },
-      tandem: Tandem.OPT_OUT
-    } );
-  }
-}
-
-/**
- * Creates a NumberControl layout function that includes a reset button.
- */
-function createLayoutFunction( resetButton: Node ): LayoutFunction {
-
-  return ( titleNode, numberDisplay, slider, decrementButton, incrementButton ) => {
-    assert && assert( decrementButton, 'decrementButton is required' );
-    assert && assert( incrementButton, 'incrementButton is required' );
-
-    return new VBox( {
-      align: 'left',
-      spacing: 4,
-      children: [
-        new HBox( {
-          spacing: 5,
-          children: [ titleNode, numberDisplay, resetButton ]
-        } ),
-        new HBox( {
-          layoutOptions: {
-            stretch: true
-          },
-          spacing: 4,
-          children: [ decrementButton!, slider, incrementButton! ]
-        } )
-      ]
-    } );
-  };
-}
-
 
 faradaysElectromagneticLab.register( 'FELDeveloperAccordionBox', FELDeveloperAccordionBox );
