@@ -78,7 +78,8 @@ export default class FELDeveloperAccordionBox extends AccordionBox {
           font: FELDeveloperAccordionBox.SUBTITLE_FONT
         } ),
         new FELDeveloperNumberControl( 'Max EMF:', pickupCoil.maxEMFProperty, {
-          useCommaSeparator: true
+          useCommaSeparator: true,
+          delta: 100 // for arrow buttons
         } ),
         new FELDeveloperNumberControl( 'Transition Smoothing Scale:', pickupCoil.transitionSmoothingScaleProperty, {
           decimalPlaces: 2

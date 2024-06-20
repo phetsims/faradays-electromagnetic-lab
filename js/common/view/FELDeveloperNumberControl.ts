@@ -16,7 +16,7 @@ import PhetFont from '../../../../scenery-phet/js/PhetFont.js';
 import Dimension2 from '../../../../dot/js/Dimension2.js';
 import faradaysElectromagneticLab from '../../faradaysElectromagneticLab.js';
 import StrictOmit from '../../../../phet-core/js/types/StrictOmit.js';
-import optionize from '../../../../phet-core/js/optionize.js';
+import { combineOptions } from '../../../../phet-core/js/optionize.js';
 import FELConstants from '../FELConstants.js';
 
 const TICK_TEXT_OPTIONS = {
@@ -36,17 +36,13 @@ export class FELDeveloperNumberControl extends NumberControl {
 
   public constructor( labelString: string, numberProperty: NumberProperty, providedOptions?: FELDeveloperNumberControlOptions ) {
 
-    const options = optionize<FELDeveloperNumberControlOptions, SelfOptions, NumberControlOptions>()( {
-
-      // SelfOptions
-      decimalPlaces: 0,
-      useCommaSeparator: false
-    }, providedOptions );
+    const decimalPlaces = ( providedOptions?.decimalPlaces === undefined ) ? 0 : providedOptions?.decimalPlaces;
+    const useCommaSeparator = ( providedOptions?.useCommaSeparator === undefined ) ? false : providedOptions.useCommaSeparator;
 
     const range = numberProperty.range;
 
-    const min = FELDeveloperNumberControl.formatValue( range.min, options.decimalPlaces, options.useCommaSeparator );
-    const max = FELDeveloperNumberControl.formatValue( range.max, options.decimalPlaces, options.useCommaSeparator );
+    const min = FELDeveloperNumberControl.formatValue( range.min, decimalPlaces, useCommaSeparator );
+    const max = FELDeveloperNumberControl.formatValue( range.max, decimalPlaces, useCommaSeparator );
 
     // Tick marks at the extremes of the range
     const majorTicks = [
@@ -67,9 +63,9 @@ export class FELDeveloperNumberControl extends NumberControl {
       tandem: Tandem.OPT_OUT
     } );
 
-    const sliderStep = Utils.toFixedNumber( Math.pow( 10, -options.decimalPlaces ), options.decimalPlaces );
+    const sliderStep = Utils.toFixedNumber( Math.pow( 10, -decimalPlaces ), decimalPlaces );
 
-    super( labelString, numberProperty, range, {
+    const options = combineOptions<NumberControlOptions>( {
       delta: sliderStep,
       layoutFunction: createLayoutFunction( resetButton ),
       titleNodeOptions: {
@@ -91,14 +87,16 @@ export class FELDeveloperNumberControl extends NumberControl {
         }
       },
       numberDisplayOptions: {
-        numberFormatter: value => FELDeveloperNumberControl.formatValue( value, options.decimalPlaces, options.useCommaSeparator ),
+        numberFormatter: value => FELDeveloperNumberControl.formatValue( value, decimalPlaces, useCommaSeparator ),
         maxWidth: 100,
         textOptions: {
           font: FELConstants.DEVELOPER_CONTROL_FONT
         }
       },
       tandem: Tandem.OPT_OUT
-    } );
+    }, providedOptions );
+
+    super( labelString, numberProperty, range, options );
   }
 
   /**
