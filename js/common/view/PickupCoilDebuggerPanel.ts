@@ -76,7 +76,7 @@ export default class PickupCoilDebuggerPanel extends Panel {
     const maxEMFStringProperty = new DerivedStringProperty( [ maxEMFProperty ],
       maxEMF => `${Utils.toFixedNumber( maxEMF, 0 ).toLocaleString()}` );
 
-    const titleText = new Text( 'Pickup Coil debugger', {
+    const titleText = new Text( 'Pickup Coil Debugger', {
       font: FELConstants.TITLE_FONT
     } );
 
