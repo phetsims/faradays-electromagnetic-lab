@@ -61,7 +61,7 @@ export default class Generator extends PhetioObject {
         // Disable voltmeter kinematics for the generator. Immediate response is needed, due to the cyclic nature.
         kinematicsEnabledProperty: new BooleanProperty( false )
       },
-      maxEMF: 110000, // see PickupCoil.calibrateMaxEMF
+      maxEMF: 110000, // see PickupCoil.maxEMFProperty
       transitionSmoothingScale: 1, // see PickupCoil.transitionSmoothingScaleProperty
       samplePointsSpacing: this.turbine.barMagnet.size.height / 10, // similar to PickupCoilScreenModel
       fluxAreaCompensationEnabled: false, // see https://github.com/phetsims/faradays-electromagnetic-lab/issues/170

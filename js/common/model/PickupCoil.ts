@@ -26,7 +26,7 @@ import FELConstants from '../FELConstants.js';
 import StrictOmit from '../../../../phet-core/js/types/StrictOmit.js';
 import PickOptional from '../../../../phet-core/js/types/PickOptional.js';
 import DerivedProperty from '../../../../axon/js/DerivedProperty.js';
-import FELQueryParameters, { CurrentFlow } from '../FELQueryParameters.js';
+import { CurrentFlow } from '../FELQueryParameters.js';
 import NumberIO from '../../../../tandem/js/types/NumberIO.js';
 import ConstantDtClock from './ConstantDtClock.js';
 import Dimension2 from '../../../../dot/js/Dimension2.js';
@@ -73,9 +73,6 @@ export default class PickupCoil extends PhetioObject {
   private readonly _emfProperty: Property<number>;
   public readonly emfProperty: TReadOnlyProperty<number>;
 
-  // Used exclusively in calibrateMaxEMF, does not need to be stateful for PhET-iO
-  private largestAbsoluteEMF; // in volts
-
   // Relative magnitude and direction of current in the coil. See Coil normalizedCurrentProperty.
   private readonly normalizedCurrentProperty: TReadOnlyProperty<number>;
 
@@ -97,8 +94,14 @@ export default class PickupCoil extends PhetioObject {
 
   // DEBUG: Writeable via developer controls only, when running with &dev query parameter. Dividing the coil's EMF by
   // this number will give us the coil's normalized current (see Coil.normalizedCurrentProperty), which determines the
-  // responsiveness of view components. This number should be set as close as possible to the maximum EMF that can be
-  // induced given the range of all model parameters. See calibrateMaxEMF for guidance on how to set this.
+  // responsiveness of view components.
+  //
+  // To set this value, follow these steps:
+  // * Run with &dev query parameter to see the 'Developer' accordion boxes. For screens that have a pickup coil:
+  // * Check the "Debugger Panel" checkbox to see the 'Pickup Coil Debugger' panel, which displays 'Max EMF'.
+  // * Set the sim to settings that will generate the most EMF. Note the value of 'Max EMF' in the 'Pickup Coil Debugger' panel.
+  // * Set the 'Max EMF' value in the 'Developer' accordion box based on the value that you observe in the 'Pick Coil Debugger' panel.
+  //   Depending on the screen, you may decide to set the control to a smaller value for 'typical' use versus 'extreme' use.
   public readonly maxEMFProperty: NumberProperty;
 
   // DEBUG: Writeable via developer controls only, when running with &dev query parameter.
@@ -108,13 +111,13 @@ export default class PickupCoil extends PhetioObject {
   // sample is multiplied by this value.
   //
   // To set this value, follow these steps:
-  // * Run with &dev query parameter to see developer accordion boxes. For screens that have a pickup coil:
-  // * Check the "Debugger Panel" checkbox to see the "Pickup Coil debugger" panel, which displays flux and other values.
+  // * Run with &dev query parameter to see the 'Developer' accordion boxes. For screens that have a pickup coil:
+  // * Check the 'Debugger Panel' checkbox to see the 'Pickup Coil Debugger' panel.
   // * Move the magnet horizontally through the coil until, by moving it one pixel, you see an abrupt change in the
   //   displayed flux value.
   // * Note the 2 flux values when the abrupt change occurs.
   // * Move the magnet so that the largest of the 2 flux values is displayed.
-  // * Adjust the "Transition Smoothing Scale" developer control until the larger value is reduced to approximately
+  // * Adjust the 'Transition Smoothing Scale' control until the larger value is reduced to approximately
   //   the same value as the smaller value.
   public readonly transitionSmoothingScaleProperty: NumberProperty;
 
@@ -176,13 +179,6 @@ export default class PickupCoil extends PhetioObject {
       phetioDocumentation: 'Relative EMF induced by the change in flux.'
     } );
     this.emfProperty = this._emfProperty;
-
-    this.largestAbsoluteEMF = 0;
-
-    // Check that maxEMFProperty is calibrated properly.
-    if ( FELQueryParameters.calibrateMaxEMF ) {
-      this._emfProperty.lazyLink( () => this.calibrateMaxEMF() );
-    }
 
     this.maxEMFProperty = new NumberProperty( options.maxEMF, {
       range: new Range( 1E5, 6E6 )
@@ -403,35 +399,6 @@ export default class PickupCoil extends PhetioObject {
     reusableDimension.width = chordLength;
     reusableDimension.height = this.samplePointSpacing;
     return reusableDimension;
-  }
-
-  /**
-   * Provides assistance for calibrating the pickup coil. Run the sim with the &calibrateMaxEMF query parameter,
-   * then follow these steps for each screen that has a PickupCoil model element.
-   *
-   * 1. Set the "Max EMF" developer control to its smallest value.
-   * 2. Set magnet strength, number of loops, and loop area to their maximums, so that maximum EMF will be generated.
-   * 3. Do whatever is required to generate EMF (move magnet through coil, run generator, etc.)
-   * 4. Watch the console for a message that tells you what value to use.
-   * 5. Change the value of PickupCoilOptions.maxEMF that is used to instantiate the PickupCoil.
-   */
-  private calibrateMaxEMF(): void {
-    const absEMF = Math.abs( this._emfProperty.value );
-    if ( absEMF > this.largestAbsoluteEMF ) {
-      this.largestAbsoluteEMF = absEMF;
-      // console.log( `PickupCoil.calibrateMaxEMF, largestAbsoluteEMF=${this.largestAbsoluteEMF} for normalizedCurrent=${this.normalizedCurrentProperty.value}` );
-
-      // If this prints, you have maxEMFProperty set too low. This will cause view components to exhibit responses
-      // that are less than their maximums. For example, the voltmeter won't fully deflect, and the lightbulb won't
-      // fully light.
-      if ( this.largestAbsoluteEMF > this.maxEMFProperty.value ) {
-        console.log( `PickupCoil.calibrateMaxEMF: Recalibrate ${this.maxEMFProperty.tandem.name} with ${this.largestAbsoluteEMF}` );
-
-        // From the Java version: The coil could theoretically be self-calibrating. If we notice that we've exceeded
-        // maxEMFProperty, then adjust its value. This would be OK only if we started with a value that was in
-        // the ballpark, because we don't want the user to perceive a noticeable change in the sim's behavior.
-      }
-    }
   }
 }
 

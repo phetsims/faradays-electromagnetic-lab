@@ -57,7 +57,7 @@ export default class PickupCoilScreenModel extends FELScreenModel {
 
     this.pickupCoil = new PickupCoil( barMagnet, preferences.currentFlowProperty, {
       position: PICKUP_COIL_POSITION,
-      maxEMF: 1000000, // see PickupCoil.calibrateMaxEMF
+      maxEMF: 1000000, // see PickupCoil.maxEMFProperty
       transitionSmoothingScale: 0.77, // see PickupCoil.transitionSmoothingScaleProperty
 
       // To avoid inducing significant (incorrect) EMF when the magnet is moved vertically when inside the coil,

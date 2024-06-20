@@ -68,11 +68,6 @@ const SCHEMA_MAP = {
   // Internal query parameters
   //----------------------------------------------------------------------------------------------------------------
 
-  // Prints info to the console that is useful for calibrating the pickup coil. See PickupCoil.calibrateMaxEMF.
-  calibrateMaxEMF: {
-    type: 'flag'
-  },
-
   // Debugging tool, puts a yellow dot (small circle) where the center of each needle should be in the B-field
   // visualization. If the dots are not centered on the needles, then positioning in FieldNode is incorrect.
   // This applies to the Bar Magnet screen only, which is sufficient since FieldNode is instantiated in the
