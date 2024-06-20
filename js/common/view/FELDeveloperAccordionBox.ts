@@ -72,7 +72,9 @@ export default class FELDeveloperAccordionBox extends AccordionBox {
   }
 
   protected static createFieldScaleControl( property: NumberProperty ): NumberControl {
-    return new FELDeveloperNumberControl( 'Field Scale:', property, 2 /* decimalPlaces */ );
+    return new FELDeveloperNumberControl( 'Field Scale:', property, {
+      decimalPlaces: 2
+    } );
   }
 
   /**
@@ -84,9 +86,15 @@ export default class FELDeveloperAccordionBox extends AccordionBox {
       spacing: VBOX_SPACING,
       children: [
         new Text( 'Pickup Coil', SUBTITLE_OPTIONS ),
-        new FELDeveloperNumberControl( 'Max EMF:', pickupCoil.maxEMFProperty, 0 /* decimalPlaces */, true /* useCommaSeparator */ ),
-        new FELDeveloperNumberControl( 'Transition Smoothing Scale:', pickupCoil.transitionSmoothingScaleProperty, 2 /* decimalPlaces */ ),
-        new FELDeveloperNumberControl( 'Current Speed Scale:', pickupCoil.coil.currentSpeedScaleProperty, 1 /* decimalPlaces */ ),
+        new FELDeveloperNumberControl( 'Max EMF:', pickupCoil.maxEMFProperty, {
+          useCommaSeparator: true
+        } ),
+        new FELDeveloperNumberControl( 'Transition Smoothing Scale:', pickupCoil.transitionSmoothingScaleProperty, {
+          decimalPlaces: 2
+        } ),
+        new FELDeveloperNumberControl( 'Current Speed Scale:', pickupCoil.coil.currentSpeedScaleProperty, {
+          decimalPlaces: 1
+        } ),
         new FELDeveloperCheckbox( 'Sample Points', pickupCoil.samplePointsVisibleProperty ),
         new FELDeveloperCheckbox( 'Debugger Panel', pickupCoil.debuggerPanelVisibleProperty )
       ]
@@ -102,7 +110,9 @@ export default class FELDeveloperAccordionBox extends AccordionBox {
       spacing: VBOX_SPACING,
       children: [
         new Text( 'Electromagnet', SUBTITLE_OPTIONS ),
-        new FELDeveloperNumberControl( 'Current Speed Scale:', electromagnet.coil.currentSpeedScaleProperty, 1 /* decimalPlaces */ ),
+        new FELDeveloperNumberControl( 'Current Speed Scale:', electromagnet.coil.currentSpeedScaleProperty, {
+          decimalPlaces: 1
+        } ),
         new FELDeveloperCheckbox( 'Electromagnet Shape', electromagnet.shapeVisibleProperty )
       ]
     } );

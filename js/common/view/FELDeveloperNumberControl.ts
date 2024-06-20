@@ -6,7 +6,7 @@
  * @author Chris Malley (PixelZoom, Inc.)
  */
 
-import NumberControl, { LayoutFunction } from '../../../../scenery-phet/js/NumberControl.js';
+import NumberControl, { LayoutFunction, NumberControlOptions } from '../../../../scenery-phet/js/NumberControl.js';
 import NumberProperty from '../../../../axon/js/NumberProperty.js';
 import Utils from '../../../../dot/js/Utils.js';
 import { HBox, Node, RichText, VBox } from '../../../../scenery/js/imports.js';
@@ -15,6 +15,8 @@ import Tandem from '../../../../tandem/js/Tandem.js';
 import PhetFont from '../../../../scenery-phet/js/PhetFont.js';
 import Dimension2 from '../../../../dot/js/Dimension2.js';
 import faradaysElectromagneticLab from '../../faradaysElectromagneticLab.js';
+import StrictOmit from '../../../../phet-core/js/types/StrictOmit.js';
+import optionize from '../../../../phet-core/js/optionize.js';
 
 const CONTROL_FONT = new PhetFont( 12 );
 const TICK_TEXT_OPTIONS = {
@@ -23,18 +25,32 @@ const TICK_TEXT_OPTIONS = {
 const TRACK_SIZE = new Dimension2( 140, 1 );
 const THUMB_SIZE = new Dimension2( 10, 20 );
 
+type SelfOptions = {
+  decimalPlaces?: number;
+  useCommaSeparator?: boolean;
+};
+
+type FELDeveloperNumberControlOptions = SelfOptions & StrictOmit<NumberControlOptions, 'tandem'>;
+
 export class FELDeveloperNumberControl extends NumberControl {
 
-  public constructor( labelString: string, numberProperty: NumberProperty, decimalPlaces: number, useCommaSeparator = false ) {
+  public constructor( labelString: string, numberProperty: NumberProperty, providedOptions?: FELDeveloperNumberControlOptions ) {
+
+    const options = optionize<FELDeveloperNumberControlOptions, SelfOptions, NumberControlOptions>()( {
+
+      // SelfOptions
+      decimalPlaces: 0,
+      useCommaSeparator: false
+    }, providedOptions );
 
     const range = numberProperty.range;
 
-    const min = useCommaSeparator ?
-                Utils.toFixedNumber( range.min, decimalPlaces ).toLocaleString() :
-                Utils.toFixed( range.min, decimalPlaces );
-    const max = useCommaSeparator ?
-                Utils.toFixedNumber( range.max, decimalPlaces ).toLocaleString() :
-                Utils.toFixed( range.max, decimalPlaces );
+    const min = options.useCommaSeparator ?
+                Utils.toFixedNumber( range.min, options.decimalPlaces ).toLocaleString() :
+                Utils.toFixed( range.min, options.decimalPlaces );
+    const max = options.useCommaSeparator ?
+                Utils.toFixedNumber( range.max, options.decimalPlaces ).toLocaleString() :
+                Utils.toFixed( range.max, options.decimalPlaces );
 
     // Tick marks at the extremes of the range
     const majorTicks = [
@@ -55,7 +71,7 @@ export class FELDeveloperNumberControl extends NumberControl {
       tandem: Tandem.OPT_OUT
     } );
 
-    const sliderStep = Utils.toFixedNumber( Math.pow( 10, -decimalPlaces ), decimalPlaces );
+    const sliderStep = Utils.toFixedNumber( Math.pow( 10, -options.decimalPlaces ), options.decimalPlaces );
 
     super( labelString, numberProperty, range, {
       delta: sliderStep,
@@ -79,9 +95,9 @@ export class FELDeveloperNumberControl extends NumberControl {
         }
       },
       numberDisplayOptions: {
-        numberFormatter: value => useCommaSeparator ?
-                                  Utils.toFixedNumber( value, decimalPlaces ).toLocaleString() :
-                                  Utils.toFixed( value, decimalPlaces ),
+        numberFormatter: value => options.useCommaSeparator ?
+                                  Utils.toFixedNumber( value, options.decimalPlaces ).toLocaleString() :
+                                  Utils.toFixed( value, options.decimalPlaces ),
         maxWidth: 100,
         textOptions: {
           font: CONTROL_FONT
