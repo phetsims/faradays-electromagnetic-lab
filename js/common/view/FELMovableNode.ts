@@ -14,7 +14,7 @@ import PickOptional from '../../../../phet-core/js/types/PickOptional.js';
 import PickRequired from '../../../../phet-core/js/types/PickRequired.js';
 import TReadOnlyProperty from '../../../../axon/js/TReadOnlyProperty.js';
 import Bounds2 from '../../../../dot/js/Bounds2.js';
-import RichPointerDragListener, { RichPointerDragListenerOptions } from '../../../../scenery-phet/js/RichPointerDragListener.js';
+import SoundDragListener, { SoundDragListenerOptions } from '../../../../scenery-phet/js/SoundDragListener.js';
 import RichKeyboardDragListener, { RichKeyboardDragListenerOptions } from '../../../../scenery-phet/js/RichKeyboardDragListener.js';
 import Property from '../../../../axon/js/Property.js';
 import Vector2 from '../../../../dot/js/Vector2.js';
@@ -25,8 +25,8 @@ type SelfOptions = {
   // Use this option to enable or disable interaction.
   isMovable?: boolean;
 
-  // Options passed to RichPointerDragListener.
-  dragListenerOptions?: RichPointerDragListenerOptions;
+  // Options passed to SoundDragListener.
+  dragListenerOptions?: SoundDragListenerOptions;
 
   // Whether this Node has a KeyboardDragListener. Ignored if isMovable: false.
   hasKeyboardDragListener?: boolean;
@@ -90,7 +90,7 @@ export default class FELMovableNode extends InteractiveHighlighting( Node ) {
 
     if ( options.isMovable ) {
 
-      const dragListener = new RichPointerDragListener( combineOptions<RichPointerDragListenerOptions>( {
+      const dragListener = new SoundDragListener( combineOptions<SoundDragListenerOptions>( {
         positionProperty: positionProperty,
         dragBoundsProperty: options.dragBoundsProperty,
         useParentOffset: true,

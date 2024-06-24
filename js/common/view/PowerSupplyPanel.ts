@@ -22,7 +22,7 @@ import Property from '../../../../axon/js/Property.js';
 import RichKeyboardDragListener from '../../../../scenery-phet/js/RichKeyboardDragListener.js';
 import Bounds2 from '../../../../dot/js/Bounds2.js';
 import isSettingPhetioStateProperty from '../../../../tandem/js/isSettingPhetioStateProperty.js';
-import RichPointerDragListener from '../../../../scenery-phet/js/RichPointerDragListener.js';
+import SoundDragListener from '../../../../scenery-phet/js/SoundDragListener.js';
 import BooleanProperty from '../../../../axon/js/BooleanProperty.js';
 
 type SelfOptions = {
@@ -101,7 +101,7 @@ export default class PowerSupplyPanel extends InteractiveHighlighting( Panel ) {
       }
     } );
 
-    const dragListener = new RichPointerDragListener( {
+    const dragListener = new SoundDragListener( {
       positionProperty: this.positionProperty,
       dragBoundsProperty: dragBoundsProperty,
       useParentOffset: true,
