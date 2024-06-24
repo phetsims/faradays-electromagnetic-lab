@@ -15,7 +15,7 @@ import PickRequired from '../../../../phet-core/js/types/PickRequired.js';
 import TReadOnlyProperty from '../../../../axon/js/TReadOnlyProperty.js';
 import Bounds2 from '../../../../dot/js/Bounds2.js';
 import SoundDragListener, { SoundDragListenerOptions } from '../../../../scenery-phet/js/SoundDragListener.js';
-import RichKeyboardDragListener, { RichKeyboardDragListenerOptions } from '../../../../scenery-phet/js/RichKeyboardDragListener.js';
+import SoundKeyboardDragListener, { SoundKeyboardDragListenerOptions } from '../../../../scenery-phet/js/SoundKeyboardDragListener.js';
 import Property from '../../../../axon/js/Property.js';
 import Vector2 from '../../../../dot/js/Vector2.js';
 import isSettingPhetioStateProperty from '../../../../tandem/js/isSettingPhetioStateProperty.js';
@@ -34,7 +34,7 @@ type SelfOptions = {
   // Options passed to KeyboardDragListener. Ignored if isMovable: false.
   // This allows us to set different drag speeds for different subclasses and instances of FELMovableNode.
   // See https://github.com/phetsims/faradays-electromagnetic-lab/issues/79.
-  keyboardDragListenerOptions?: RichKeyboardDragListenerOptions;
+  keyboardDragListenerOptions?: SoundKeyboardDragListenerOptions;
 
   // dragBoundsProperty for DragListener and KeyboardDragListener. Ignored if isMovable: false.
   dragBoundsProperty?: TReadOnlyProperty<Bounds2> | null;
@@ -99,8 +99,8 @@ export default class FELMovableNode extends InteractiveHighlighting( Node ) {
       this.addInputListener( dragListener );
 
       if ( options.hasKeyboardDragListener ) {
-        const keyboardDragListener = new RichKeyboardDragListener(
-          combineOptions<RichKeyboardDragListenerOptions>( {
+        const keyboardDragListener = new SoundKeyboardDragListener(
+          combineOptions<SoundKeyboardDragListenerOptions>( {
             positionProperty: positionProperty,
             dragBoundsProperty: options.dragBoundsProperty,
             tandem: options.tandem.createTandem( 'keyboardDragListener' )

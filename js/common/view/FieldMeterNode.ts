@@ -29,7 +29,7 @@ import StringUtils from '../../../../phetcommon/js/util/StringUtils.js';
 import optionize, { EmptySelfOptions } from '../../../../phet-core/js/optionize.js';
 import PickRequired from '../../../../phet-core/js/types/PickRequired.js';
 import DerivedStringProperty from '../../../../axon/js/DerivedStringProperty.js';
-import { RichKeyboardDragListenerOptions } from '../../../../scenery-phet/js/RichKeyboardDragListener.js';
+import { SoundKeyboardDragListenerOptions } from '../../../../scenery-phet/js/SoundKeyboardDragListener.js';
 
 // Constants to improve readability.
 const BStringProperty = FaradaysElectromagneticLabStrings.symbol.BStringProperty;
@@ -85,7 +85,7 @@ const STRING_DISPLAY_OPTIONS: StringDisplayOptions = {
   }
 };
 
-const KEYBOARD_DRAG_LISTENER_OPTIONS: RichKeyboardDragListenerOptions = {
+const KEYBOARD_DRAG_LISTENER_OPTIONS: SoundKeyboardDragListenerOptions = {
 
   // See https://github.com/phetsims/faradays-electromagnetic-lab/issues/79 for design of drag speeds.
   dragSpeed: 150,

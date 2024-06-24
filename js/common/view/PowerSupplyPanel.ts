@@ -19,7 +19,7 @@ import { InteractiveHighlighting, Node } from '../../../../scenery/js/imports.js
 import Vector2 from '../../../../dot/js/Vector2.js';
 import Vector2Property from '../../../../dot/js/Vector2Property.js';
 import Property from '../../../../axon/js/Property.js';
-import RichKeyboardDragListener from '../../../../scenery-phet/js/RichKeyboardDragListener.js';
+import SoundKeyboardDragListener from '../../../../scenery-phet/js/SoundKeyboardDragListener.js';
 import Bounds2 from '../../../../dot/js/Bounds2.js';
 import isSettingPhetioStateProperty from '../../../../tandem/js/isSettingPhetioStateProperty.js';
 import SoundDragListener from '../../../../scenery-phet/js/SoundDragListener.js';
@@ -109,7 +109,7 @@ export default class PowerSupplyPanel extends InteractiveHighlighting( Panel ) {
     } );
     this.addInputListener( dragListener );
 
-    const keyboardDragListener = new RichKeyboardDragListener( {
+    const keyboardDragListener = new SoundKeyboardDragListener( {
       positionProperty: this.positionProperty,
       dragBoundsProperty: dragBoundsProperty,
       dragSpeed: 600, // See https://github.com/phetsims/faradays-electromagnetic-lab/issues/163#issuecomment-2136265629
