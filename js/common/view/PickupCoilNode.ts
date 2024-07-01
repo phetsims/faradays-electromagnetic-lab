@@ -53,9 +53,6 @@ export default class PickupCoilNode extends FELMovableNode {
       tandem: options.tandem.createTandem( 'coilNode' )
     } );
 
-    const areaNode = new PickupCoilAreaNode( pickupCoil );
-    const samplePointsNode = new PickupCoilSamplePointsNode( pickupCoil );
-
     const lightBulbNode = new FELLightBulbNode( pickupCoil.lightBulb, pickupCoil.currentIndicatorProperty, {
       maxRayLength: options.maxRayLength,
       tandem: options.tandem.createTandem( 'lightBulbNode' )
@@ -81,7 +78,14 @@ export default class PickupCoilNode extends FELMovableNode {
     } );
 
     // This Node's children are the foreground elements only.
-    options.children = [ coilNode, areaNode, samplePointsNode, lightBulbNode, voltmeterNode ];
+    options.children = [ coilNode, lightBulbNode, voltmeterNode ];
+
+    // Render the area model and sample points for the coil.
+    if ( phet.chipper.queryParameters.dev ) {
+      const areaNode = new PickupCoilAreaNode( pickupCoil );
+      const samplePointsNode = new PickupCoilSamplePointsNode( pickupCoil );
+      options.children.push( areaNode, samplePointsNode );
+    }
 
     super( pickupCoil.positionProperty, options );
 
