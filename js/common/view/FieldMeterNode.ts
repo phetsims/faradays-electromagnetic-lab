@@ -173,7 +173,7 @@ export default class FieldMeterNode extends FELMovableNode {
       columns: [
         // Labels
         [
-          new RichText( stringBLabelProperty, LABEL_TEXT_OPTIONS ),
+          new Text( stringBLabelProperty, LABEL_TEXT_OPTIONS ),
           new RichText( stringBxLabelProperty, LABEL_TEXT_OPTIONS ),
           new RichText( stringByLabelProperty, LABEL_TEXT_OPTIONS ),
           new Text( `${MathSymbols.THETA}`, LABEL_TEXT_OPTIONS )
