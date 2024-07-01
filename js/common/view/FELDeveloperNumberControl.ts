@@ -9,7 +9,7 @@
 import NumberControl, { LayoutFunction, NumberControlOptions } from '../../../../scenery-phet/js/NumberControl.js';
 import NumberProperty from '../../../../axon/js/NumberProperty.js';
 import Utils from '../../../../dot/js/Utils.js';
-import { HBox, Node, RichText, VBox } from '../../../../scenery/js/imports.js';
+import { HBox, Node, Text, VBox } from '../../../../scenery/js/imports.js';
 import ResetButton from '../../../../scenery-phet/js/buttons/ResetButton.js';
 import Tandem from '../../../../tandem/js/Tandem.js';
 import PhetFont from '../../../../scenery-phet/js/PhetFont.js';
@@ -48,11 +48,11 @@ export class FELDeveloperNumberControl extends NumberControl {
     const majorTicks = [
       {
         value: range.min,
-        label: new RichText( min, TICK_TEXT_OPTIONS )
+        label: new Text( min, TICK_TEXT_OPTIONS )
       },
       {
         value: range.max,
-        label: new RichText( max, TICK_TEXT_OPTIONS )
+        label: new Text( max, TICK_TEXT_OPTIONS )
       }
     ];
 

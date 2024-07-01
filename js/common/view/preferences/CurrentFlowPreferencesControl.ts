@@ -7,7 +7,7 @@
  * @author Chris Malley (PixelZoom, Inc.)
  */
 
-import { HBox, Node, RichText, Text } from '../../../../../scenery/js/imports.js';
+import { HBox, Node, Text } from '../../../../../scenery/js/imports.js';
 import StringUnionProperty from '../../../../../axon/js/StringUnionProperty.js';
 import TReadOnlyProperty from '../../../../../axon/js/TReadOnlyProperty.js';
 import PreferencesDialog from '../../../../../joist/js/preferences/PreferencesDialog.js';
@@ -83,7 +83,7 @@ class CurrentFlowRadioButtonText extends HBox {
 
   public constructor( stringProperty: TReadOnlyProperty<string>, icon: Node, radioButtonTandem: Tandem ) {
 
-    const text = new RichText( stringProperty, {
+    const text = new Text( stringProperty, {
       font: PreferencesDialog.CONTENT_FONT,
       maxWidth: 100
     } );

@@ -11,7 +11,7 @@
  */
 
 import faradaysElectromagneticLab from '../../faradaysElectromagneticLab.js';
-import { DragListener, GridBox, NodeTranslationOptions, RichText, RichTextOptions, Text, VBox } from '../../../../scenery/js/imports.js';
+import { DragListener, GridBox, NodeTranslationOptions, RichTextOptions, Text, VBox } from '../../../../scenery/js/imports.js';
 import PickupCoil from '../model/PickupCoil.js';
 import PhetFont from '../../../../scenery-phet/js/PhetFont.js';
 import Panel, { PanelOptions } from '../../../../sun/js/Panel.js';
@@ -85,18 +85,18 @@ export default class PickupCoilDebuggerPanel extends Panel {
       columns: [
         // Labels
         [
-          new RichText( `${PHI} =`, LABEL_TEXT_OPTIONS ),
-          new RichText( `${DELTA_PHI} =`, LABEL_TEXT_OPTIONS ),
-          new RichText( 'EMF =', LABEL_TEXT_OPTIONS ),
-          new RichText( 'Max EMF =', LABEL_TEXT_OPTIONS )
+          new Text( `${PHI} =`, LABEL_TEXT_OPTIONS ),
+          new Text( `${DELTA_PHI} =`, LABEL_TEXT_OPTIONS ),
+          new Text( 'EMF =', LABEL_TEXT_OPTIONS ),
+          new Text( 'Max EMF =', LABEL_TEXT_OPTIONS )
         ],
 
         // Values
         [
-          new RichText( fluxStringProperty, VALUE_TEXT_OPTIONS ),
-          new RichText( deltaFluxStringProperty, VALUE_TEXT_OPTIONS ),
-          new RichText( emfStringProperty, VALUE_TEXT_OPTIONS ),
-          new RichText( maxEMFStringProperty, VALUE_TEXT_OPTIONS )
+          new Text( fluxStringProperty, VALUE_TEXT_OPTIONS ),
+          new Text( deltaFluxStringProperty, VALUE_TEXT_OPTIONS ),
+          new Text( emfStringProperty, VALUE_TEXT_OPTIONS ),
+          new Text( maxEMFStringProperty, VALUE_TEXT_OPTIONS )
         ]
       ]
     } );

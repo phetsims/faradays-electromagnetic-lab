@@ -14,7 +14,7 @@ import { combineOptions, optionize4 } from '../../../../phet-core/js/optionize.j
 import FELConstants from '../FELConstants.js';
 import PatternStringProperty from '../../../../axon/js/PatternStringProperty.js';
 import Utils from '../../../../dot/js/Utils.js';
-import { RichText } from '../../../../scenery/js/imports.js';
+import { Text } from '../../../../scenery/js/imports.js';
 import StringUtils from '../../../../phetcommon/js/util/StringUtils.js';
 import NumberProperty from '../../../../axon/js/NumberProperty.js';
 import TReadOnlyProperty from '../../../../axon/js/TReadOnlyProperty.js';
@@ -43,7 +43,7 @@ export default class PercentControl extends NumberControl {
     // Tick mark at min.
     majorTicks.push( {
       value: range.min,
-      label: new RichText( new PatternStringProperty( valuePercentStringProperty, {
+      label: new Text( new PatternStringProperty( valuePercentStringProperty, {
         value: range.min
       } ), FELConstants.TICK_LABEL_OPTIONS )
     } );
@@ -52,7 +52,7 @@ export default class PercentControl extends NumberControl {
     if ( providedOptions.hasCenterTickMark ) {
       majorTicks.push( {
         value: range.min + range.getLength() / 2,
-        label: new RichText( new PatternStringProperty( valuePercentStringProperty, {
+        label: new Text( new PatternStringProperty( valuePercentStringProperty, {
           value: range.getLength() / 2
         } ), FELConstants.TICK_LABEL_OPTIONS )
       } );
@@ -61,7 +61,7 @@ export default class PercentControl extends NumberControl {
     // Tick mark at max.
     majorTicks.push( {
       value: range.max,
-      label: new RichText( new PatternStringProperty( valuePercentStringProperty, {
+      label: new Text( new PatternStringProperty( valuePercentStringProperty, {
         value: range.max
       } ), FELConstants.TICK_LABEL_OPTIONS )
     } );

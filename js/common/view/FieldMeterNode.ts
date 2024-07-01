@@ -12,7 +12,7 @@
 
 import faradaysElectromagneticLab from '../../faradaysElectromagneticLab.js';
 import FieldMeter from '../model/FieldMeter.js';
-import { GridBox, Path, RichText, RichTextOptions, TextOptions } from '../../../../scenery/js/imports.js';
+import { GridBox, Path, RichText, RichTextOptions, Text, TextOptions } from '../../../../scenery/js/imports.js';
 import { Shape } from '../../../../kite/js/imports.js';
 import Utils from '../../../../dot/js/Utils.js';
 import MathSymbols from '../../../../scenery-phet/js/MathSymbols.js';
@@ -26,7 +26,7 @@ import Vector2 from '../../../../dot/js/Vector2.js';
 import Dimension2 from '../../../../dot/js/Dimension2.js';
 import StringDisplay, { StringDisplayOptions } from '../../../../scenery-phet/js/StringDisplay.js';
 import StringUtils from '../../../../phetcommon/js/util/StringUtils.js';
-import optionize, { EmptySelfOptions } from '../../../../phet-core/js/optionize.js';
+import optionize, { combineOptions, EmptySelfOptions } from '../../../../phet-core/js/optionize.js';
 import PickRequired from '../../../../phet-core/js/types/PickRequired.js';
 import DerivedStringProperty from '../../../../axon/js/DerivedStringProperty.js';
 import { SoundKeyboardDragListenerOptions } from '../../../../scenery-phet/js/SoundKeyboardDragListener.js';
@@ -176,7 +176,7 @@ export default class FieldMeterNode extends FELMovableNode {
           new RichText( stringBLabelProperty, LABEL_TEXT_OPTIONS ),
           new RichText( stringBxLabelProperty, LABEL_TEXT_OPTIONS ),
           new RichText( stringByLabelProperty, LABEL_TEXT_OPTIONS ),
-          new RichText( `${MathSymbols.THETA}`, LABEL_TEXT_OPTIONS )
+          new Text( `${MathSymbols.THETA}`, LABEL_TEXT_OPTIONS )
         ],
 
         // Values
@@ -184,7 +184,9 @@ export default class FieldMeterNode extends FELMovableNode {
           new StringDisplay( stringBValueProperty, STRING_DISPLAY_OPTIONS ),
           new StringDisplay( stringBxValueProperty, STRING_DISPLAY_OPTIONS ),
           new StringDisplay( stringByValueProperty, STRING_DISPLAY_OPTIONS ),
-          new StringDisplay( stringThetaValueProperty, STRING_DISPLAY_OPTIONS )
+          new StringDisplay( stringThetaValueProperty, combineOptions<StringDisplayOptions>( {}, STRING_DISPLAY_OPTIONS, {
+            useRichText: false
+          } ) )
         ]
       ]
     } );
