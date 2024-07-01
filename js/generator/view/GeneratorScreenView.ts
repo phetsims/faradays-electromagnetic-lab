@@ -42,11 +42,6 @@ export default class GeneratorScreenView extends FELScreenView {
     const generatorNode = new GeneratorNode( model.generator, this.layoutBounds,
       this.visibleBoundsProperty, tandem.createTandem( 'generatorNode' ) );
 
-    const pickupCoilDebuggerPanel = new PickupCoilDebuggerPanel( model.generator.pickupCoil, {
-      left: this.layoutBounds.left + FELConstants.SCREEN_VIEW_X_MARGIN,
-      bottom: this.layoutBounds.bottom - FELConstants.SCREEN_VIEW_Y_MARGIN
-    } );
-
     // Rendering order, from back to front
     const screenViewRootNode = new Node( {
       children: [
@@ -58,11 +53,18 @@ export default class GeneratorScreenView extends FELScreenView {
         this.fieldMeterNode,
         timeControlNode,
         this.resetAllButton,
-        developerAccordionBox,
-        pickupCoilDebuggerPanel
+        developerAccordionBox
       ]
     } );
     this.addChild( screenViewRootNode );
+
+    if ( phet.chipper.queryParameters.dev ) {
+      const pickupCoilDebuggerPanel = new PickupCoilDebuggerPanel( model.generator.pickupCoil, {
+        left: this.layoutBounds.left + FELConstants.SCREEN_VIEW_X_MARGIN,
+        bottom: this.layoutBounds.bottom - FELConstants.SCREEN_VIEW_Y_MARGIN
+      } );
+      this.addChild( pickupCoilDebuggerPanel );
+    }
 
     // Play Area focus order, see https://github.com/phetsims/faradays-electromagnetic-lab/issues/81
     this.pdomPlayAreaNode.pdomOrder = [
