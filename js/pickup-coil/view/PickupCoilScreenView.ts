@@ -6,14 +6,12 @@
  * @author Chris Malley (PixelZoom, Inc.)
  */
 
-import FELConstants from '../../common/FELConstants.js';
 import faradaysElectromagneticLab from '../../faradaysElectromagneticLab.js';
 import Tandem from '../../../../tandem/js/Tandem.js';
 import BarMagnetNode from '../../common/view/BarMagnetNode.js';
 import { Node } from '../../../../scenery/js/imports.js';
 import PickupCoilScreenModel from '../model/PickupCoilScreenModel.js';
 import PickupCoilDeveloperAccordionBox from './PickupCoilDeveloperAccordionBox.js';
-import PickupCoilDebuggerPanel from '../../common/view/PickupCoilDebuggerPanel.js';
 import PickupCoilNode from '../../common/view/PickupCoilNode.js';
 import PickupCoilPanels from './PickupCoilPanels.js';
 import FELScreenView from '../../common/view/FELScreenView.js';
@@ -38,14 +36,11 @@ export default class PickupCoilScreenView extends FELScreenView {
 
     const rightPanels = new PickupCoilPanels( model, lockToAxisProperty, tandem.createTandem( 'rightPanels' ) );
 
-    const developerAccordionBox = new PickupCoilDeveloperAccordionBox( barMagnet, pickupCoil );
-
     super( {
       magnet: barMagnet,
       compass: model.compass,
       fieldMeter: model.fieldMeter,
       rightPanels: rightPanels,
-      developerAccordionBox: developerAccordionBox,
       resetAll: () => {
         model.reset();
         lockToAxisProperty.reset();
@@ -82,18 +77,14 @@ export default class PickupCoilScreenView extends FELScreenView {
         pickupCoilNode,
         rightPanels,
         this.fieldMeterNode,
-        this.resetAllButton,
-        developerAccordionBox
+        this.resetAllButton
       ]
     } );
     this.addChild( screenViewRootNode );
 
     if ( phet.chipper.queryParameters.dev ) {
-      const pickupCoilDebuggerPanel = new PickupCoilDebuggerPanel( pickupCoil, {
-        left: this.layoutBounds.left + FELConstants.SCREEN_VIEW_X_MARGIN,
-        bottom: this.layoutBounds.bottom - FELConstants.SCREEN_VIEW_Y_MARGIN
-      } );
-      this.addChild( pickupCoilDebuggerPanel );
+      this.addDeveloperAccordionBox( new PickupCoilDeveloperAccordionBox( barMagnet, pickupCoil ) );
+      this.addPickupCoilDebuggerPanel( pickupCoil );
     }
 
     // Play Area focus order, see https://github.com/phetsims/faradays-electromagnetic-lab/issues/81

@@ -6,13 +6,11 @@
  * @author Chris Malley (PixelZoom, Inc.)
  */
 
-import FELConstants from '../../common/FELConstants.js';
 import faradaysElectromagneticLab from '../../faradaysElectromagneticLab.js';
 import GeneratorScreenModel from '../model/GeneratorScreenModel.js';
 import Tandem from '../../../../tandem/js/Tandem.js';
 import { Node } from '../../../../scenery/js/imports.js';
 import GeneratorDeveloperAccordionBox from './GeneratorDeveloperAccordionBox.js';
-import PickupCoilDebuggerPanel from '../../common/view/PickupCoilDebuggerPanel.js';
 import FELTimeControlNode from '../../common/view/FELTimeControlNode.js';
 import GeneratorPanels from './GeneratorPanels.js';
 import FELScreenView from '../../common/view/FELScreenView.js';
@@ -26,15 +24,12 @@ export default class GeneratorScreenView extends FELScreenView {
 
     const timeControlNode = new FELTimeControlNode( model, tandem.createTandem( 'timeControlNode' ) );
 
-    const developerAccordionBox = new GeneratorDeveloperAccordionBox( model.generator );
-
     super( {
       magnet: model.generator.turbine.barMagnet,
       compass: model.compass,
       fieldMeter: model.fieldMeter,
       rightPanels: rightPanels,
       timeControlNode: timeControlNode,
-      developerAccordionBox: developerAccordionBox,
       resetAll: () => model.reset(),
       tandem: tandem
     } );
@@ -52,18 +47,14 @@ export default class GeneratorScreenView extends FELScreenView {
         rightPanels,
         this.fieldMeterNode,
         timeControlNode,
-        this.resetAllButton,
-        developerAccordionBox
+        this.resetAllButton
       ]
     } );
     this.addChild( screenViewRootNode );
 
     if ( phet.chipper.queryParameters.dev ) {
-      const pickupCoilDebuggerPanel = new PickupCoilDebuggerPanel( model.generator.pickupCoil, {
-        left: this.layoutBounds.left + FELConstants.SCREEN_VIEW_X_MARGIN,
-        bottom: this.layoutBounds.bottom - FELConstants.SCREEN_VIEW_Y_MARGIN
-      } );
-      this.addChild( pickupCoilDebuggerPanel );
+      this.addDeveloperAccordionBox( new GeneratorDeveloperAccordionBox( model.generator ) );
+      this.addPickupCoilDebuggerPanel( model.generator.pickupCoil );
     }
 
     // Play Area focus order, see https://github.com/phetsims/faradays-electromagnetic-lab/issues/81

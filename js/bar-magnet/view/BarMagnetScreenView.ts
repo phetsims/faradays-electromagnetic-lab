@@ -38,14 +38,11 @@ export default class BarMagnetScreenView extends FELScreenView {
     const rightPanels = new BarMagnetPanels( model, viewProperties.seeInsideBarMagnetProperty,
       viewProperties.earthVisibleProperty, preferences.addEarthCheckboxProperty, tandem.createTandem( 'rightPanels' ) );
 
-    const developerAccordionBox = new BarMagnetDeveloperAccordionBox( model.barMagnet );
-
     super( {
       magnet: model.barMagnet,
       compass: model.compass,
       fieldMeter: model.fieldMeter,
       rightPanels: rightPanels,
-      developerAccordionBox: developerAccordionBox,
       resetAll: () => {
         model.reset();
         viewProperties.reset();
@@ -76,11 +73,14 @@ export default class BarMagnetScreenView extends FELScreenView {
         earthNode,
         rightPanels,
         this.fieldMeterNode,
-        this.resetAllButton,
-        developerAccordionBox
+        this.resetAllButton
       ]
     } );
     this.addChild( screenViewRootNode );
+
+    if ( phet.chipper.queryParameters.dev ) {
+      this.addDeveloperAccordionBox( new BarMagnetDeveloperAccordionBox( model.barMagnet ) );
+    }
 
     // Debugging tool, to verify that FieldNode is rendering needles in the correct positions. This is sufficient
     // to check in one screen, since FieldNode is instantiated in the FELScreenView base class that is shared by

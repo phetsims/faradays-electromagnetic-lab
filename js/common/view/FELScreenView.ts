@@ -28,6 +28,9 @@ import Property from '../../../../axon/js/Property.js';
 import DerivedProperty from '../../../../axon/js/DerivedProperty.js';
 import isSettingPhetioStateProperty from '../../../../tandem/js/isSettingPhetioStateProperty.js';
 import FELQueryParameters from '../FELQueryParameters.js';
+import FELDeveloperAccordionBox from './FELDeveloperAccordionBox.js';
+import PickupCoil from '../model/PickupCoil.js';
+import PickupCoilDebuggerPanel from './PickupCoilDebuggerPanel.js';
 
 type SelfOptions = {
 
@@ -35,7 +38,6 @@ type SelfOptions = {
   magnet: Magnet;
   compass: Compass;
   fieldMeter: FieldMeter;
-  developerAccordionBox: Node;
 
   // Panels on the right side of the screen.
   // It is the subclass' responsibility to add these to the scene graph and pdomOrder.
@@ -116,13 +118,6 @@ export default class FELScreenView extends ScreenView {
         this.resetAllButton.bottom = visibleBounds.maxY - FELConstants.SCREEN_VIEW_Y_MARGIN;
       } );
 
-    // Developer accordion box at center-top of the visible bounds.
-    Multilink.multilink( [ this.visibleBoundsProperty, options.developerAccordionBox.boundsProperty ],
-      ( visibleBounds, developerAccordionBoxBounds ) => {
-        options.developerAccordionBox.centerX = visibleBounds.centerX + FELConstants.SCREEN_VIEW_X_MARGIN;
-        options.developerAccordionBox.top = visibleBounds.top + FELConstants.SCREEN_VIEW_Y_MARGIN;
-      } );
-
     // Time control at center bottom of the visible bounds.
     if ( options.timeControlNode ) {
       const timeControlNode = options.timeControlNode;
@@ -141,6 +136,29 @@ export default class FELScreenView extends ScreenView {
       this.addChild( new Line( minX, this.layoutBounds.minY, minX, this.layoutBounds.maxY, { stroke: 'yellow' } ) );
       this.addChild( new Line( maxX, this.layoutBounds.minY, maxX, this.layoutBounds.maxY, { stroke: 'yellow' } ) );
     }
+  }
+
+  /**
+   * Adds an accordion box with developer controls, positioned at the top-center of the visible bounds.
+   */
+  protected addDeveloperAccordionBox( accordionBox: FELDeveloperAccordionBox ): void {
+    Multilink.multilink( [ this.visibleBoundsProperty, accordionBox.boundsProperty ],
+      ( visibleBounds, developerAccordionBoxBounds ) => {
+        accordionBox.centerX = visibleBounds.centerX + FELConstants.SCREEN_VIEW_X_MARGIN;
+        accordionBox.top = visibleBounds.top + FELConstants.SCREEN_VIEW_Y_MARGIN;
+      } );
+    this.addChild( accordionBox );
+  }
+
+  /**
+   * Adds a panel that displays debugging info related to the pickup coil, positioned at the bottom-left of the layout bounds.
+   */
+  protected addPickupCoilDebuggerPanel( pickupCoil: PickupCoil ): void {
+    const pickupCoilDebuggerPanel = new PickupCoilDebuggerPanel( pickupCoil, {
+      left: this.layoutBounds.left + FELConstants.SCREEN_VIEW_X_MARGIN,
+      bottom: this.layoutBounds.bottom - FELConstants.SCREEN_VIEW_Y_MARGIN
+    } );
+    this.addChild( pickupCoilDebuggerPanel );
   }
 
   /**

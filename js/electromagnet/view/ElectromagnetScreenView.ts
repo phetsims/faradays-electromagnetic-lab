@@ -31,15 +31,12 @@ export default class ElectromagnetScreenView extends FELScreenView {
 
     const timeControlNode = new FELTimeControlNode( model, tandem.createTandem( 'timeControlNode' ) );
 
-    const developerAccordionBox = new ElectromagnetDeveloperAccordionBox( electromagnet );
-
     super( {
       magnet: electromagnet,
       compass: model.compass,
       fieldMeter: model.fieldMeter,
       rightPanels: rightPanels,
       timeControlNode: timeControlNode,
-      developerAccordionBox: developerAccordionBox,
       resetAll: () => {
         model.reset();
         dcPowerSupplyPanel.reset();
@@ -80,11 +77,14 @@ export default class ElectromagnetScreenView extends FELScreenView {
         rightPanels,
         this.fieldMeterNode,
         timeControlNode,
-        this.resetAllButton,
-        developerAccordionBox
+        this.resetAllButton
       ]
     } );
     this.addChild( screenViewRootNode );
+
+    if ( phet.chipper.queryParameters.dev ) {
+      this.addDeveloperAccordionBox( new ElectromagnetDeveloperAccordionBox( electromagnet ) );
+    }
 
     // Play Area focus order, see https://github.com/phetsims/faradays-electromagnetic-lab/issues/81
     this.pdomPlayAreaNode.pdomOrder = [

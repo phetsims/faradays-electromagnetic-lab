@@ -12,7 +12,6 @@ import TransformerScreenModel from '../model/TransformerScreenModel.js';
 import Tandem from '../../../../tandem/js/Tandem.js';
 import { Node } from '../../../../scenery/js/imports.js';
 import TransformerDeveloperAccordionBox from './TransformerDeveloperAccordionBox.js';
-import PickupCoilDebuggerPanel from '../../common/view/PickupCoilDebuggerPanel.js';
 import FELTimeControlNode from '../../common/view/FELTimeControlNode.js';
 import TransformerPanels from './TransformerPanels.js';
 import FELScreenView from '../../common/view/FELScreenView.js';
@@ -42,15 +41,12 @@ export default class TransformerScreenView extends FELScreenView {
 
     const timeControlNode = new FELTimeControlNode( model, tandem.createTandem( 'timeControlNode' ) );
 
-    const developerAccordionBox = new TransformerDeveloperAccordionBox( model.transformer );
-
     super( {
       magnet: electromagnet,
       compass: model.compass,
       fieldMeter: model.fieldMeter,
       rightPanels: rightPanels,
       timeControlNode: timeControlNode,
-      developerAccordionBox: developerAccordionBox,
       resetAll: () => {
         model.reset();
         lockToAxisProperty.reset();
@@ -98,18 +94,14 @@ export default class TransformerScreenView extends FELScreenView {
         rightPanels,
         this.fieldMeterNode,
         timeControlNode,
-        this.resetAllButton,
-        developerAccordionBox
+        this.resetAllButton
       ]
     } );
     this.addChild( screenViewRootNode );
 
     if ( phet.chipper.queryParameters.dev ) {
-      const pickupCoilDebuggerPanel = new PickupCoilDebuggerPanel( pickupCoil, {
-        left: this.layoutBounds.left + FELConstants.SCREEN_VIEW_X_MARGIN,
-        bottom: this.layoutBounds.bottom - FELConstants.SCREEN_VIEW_Y_MARGIN
-      } );
-      this.addChild( pickupCoilDebuggerPanel );
+      this.addDeveloperAccordionBox( new TransformerDeveloperAccordionBox( model.transformer ) );
+      this.addPickupCoilDebuggerPanel( pickupCoil );
     }
 
     // Play Area focus order, see https://github.com/phetsims/faradays-electromagnetic-lab/issues/81
