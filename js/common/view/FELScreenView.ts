@@ -204,7 +204,7 @@ export default class FELScreenView extends ScreenView {
   }
 
   /**
-   * A listener for lockToAxisProperty that moves magnet and pickup coil to their locked positions.
+   * A listener for lockToAxisProperty that moves the magnet and pickup coil to their locked positions.
    */
   public static lockToAxisListener( lockToAxis: boolean,
                                     magnetPositionProperty: Property<Vector2>,
