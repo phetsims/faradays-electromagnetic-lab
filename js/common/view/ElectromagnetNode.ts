@@ -58,14 +58,17 @@ export default class ElectromagnetNode extends FELMovableNode {
       acPowerSupplyNode.visible = !dcPowerSupplyNode.visible;
     } );
 
-    // Debug: Show the shape used to determine whether a B-field position is inside or outside the electromagnet.
-    const magnetShapeNode = new Path( Shape.bounds( electromagnet.localBounds ), {
-      visibleProperty: electromagnet.shapeVisibleProperty,
-      stroke: 'yellow',
-      pickable: false
-    } );
+    options.children = [ coilNode, dcPowerSupplyNode, acPowerSupplyNode ];
 
-    options.children = [ coilNode, dcPowerSupplyNode, acPowerSupplyNode, magnetShapeNode ];
+    // Render the shape used to determine whether a B-field position is inside or outside the electromagnet.
+    if ( phet.chipper.queryParameters.dev ) {
+      const magnetShapeNode = new Path( Shape.bounds( electromagnet.localBounds ), {
+        visibleProperty: electromagnet.shapeVisibleProperty,
+        stroke: 'yellow',
+        pickable: false
+      } );
+      options.children.push( magnetShapeNode );
+    }
 
     super( electromagnet.positionProperty, options );
 
