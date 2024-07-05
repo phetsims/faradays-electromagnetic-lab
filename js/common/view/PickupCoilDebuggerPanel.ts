@@ -66,12 +66,16 @@ export default class PickupCoilDebuggerPanel extends Panel {
     const emfStringProperty = new DerivedStringProperty( [ pickupCoil.emfProperty ],
       emf => `${Utils.toFixedNumber( emf, 0 ).toLocaleString()}` );
 
-    const maxEMFProperty = new NumberProperty( pickupCoil.emfProperty.value );
+    const maxEMFProperty = new NumberProperty( 0 );
     pickupCoil.emfProperty.link( emf => {
       if ( emf > maxEMFProperty.value ) {
         maxEMFProperty.value = emf;
       }
     } );
+
+    // If pickupCoil.maxEMFProperty is changed via Developer controls, reset the display in this panel.
+    // See https://github.com/phetsims/faradays-electromagnetic-lab/issues/66#issuecomment-2207402239
+    pickupCoil.maxEMFProperty.link( () => maxEMFProperty.reset() );
 
     const maxEMFStringProperty = new DerivedStringProperty( [ maxEMFProperty ],
       maxEMF => `${Utils.toFixedNumber( maxEMF, 0 ).toLocaleString()}` );
