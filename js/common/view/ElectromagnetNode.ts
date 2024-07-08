@@ -22,6 +22,7 @@ import DCPowerSupplyNode from './DCPowerSupplyNode.js';
 import ACPowerSupplyNode from './ACPowerSupplyNode.js';
 import TReadOnlyProperty from '../../../../axon/js/TReadOnlyProperty.js';
 import StrictOmit from '../../../../phet-core/js/types/StrictOmit.js';
+import DerivedProperty from '../../../../axon/js/DerivedProperty.js';
 
 type SelfOptions = {
   lockToAxisProperty?: TReadOnlyProperty<boolean>;
@@ -44,18 +45,17 @@ export default class ElectromagnetNode extends FELMovableNode {
     } );
 
     const dcPowerSupplyNode = new DCPowerSupplyNode( electromagnet.dcPowerSupply, {
+      visibleProperty: new DerivedProperty( [ electromagnet.currentSourceProperty ],
+        currentSource => ( currentSource === electromagnet.dcPowerSupply ) ),
       centerX: coilNode.centerX,
-      bottom: coilNode.top + 5 // overlap end of coil
+      bottom: coilNode.top + 5, // overlap end of coil
+      tandem: options.tandem.createTandem( 'dcPowerSupplyNode' )
     } );
 
     const acPowerSupplyNode = new ACPowerSupplyNode( {
+      visibleProperty: DerivedProperty.not( dcPowerSupplyNode.visibleProperty ),
       centerX: coilNode.centerX,
       bottom: dcPowerSupplyNode.bottom
-    } );
-
-    electromagnet.currentSourceProperty.link( currentSource => {
-      dcPowerSupplyNode.visible = ( currentSource === electromagnet.dcPowerSupply );
-      acPowerSupplyNode.visible = !dcPowerSupplyNode.visible;
     } );
 
     options.children = [ coilNode, dcPowerSupplyNode, acPowerSupplyNode ];

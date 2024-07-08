@@ -22,14 +22,15 @@ import BatteryNode from './BatteryNode.js';
 import DerivedStringProperty from '../../../../axon/js/DerivedStringProperty.js';
 import Dimension2 from '../../../../dot/js/Dimension2.js';
 import optionize, { EmptySelfOptions } from '../../../../phet-core/js/optionize.js';
+import PickRequired from '../../../../phet-core/js/types/PickRequired.js';
 
 type SelfOptions = EmptySelfOptions;
 
-type DCPowerSupplyNodeOptions = SelfOptions & NodeTranslationOptions;
+type DCPowerSupplyNodeOptions = SelfOptions & NodeTranslationOptions & PickRequired<NodeOptions, 'tandem' | 'visibleProperty'>;
 
 export default class DCPowerSupplyNode extends Node {
 
-  public constructor( dcPowerSupply: DCPowerSupply, providedOptions?: DCPowerSupplyNodeOptions ) {
+  public constructor( dcPowerSupply: DCPowerSupply, providedOptions: DCPowerSupplyNodeOptions ) {
 
     const batteryNode = new BatteryNode( {
       size: new Dimension2( 100, 45 ),
@@ -49,7 +50,12 @@ export default class DCPowerSupplyNode extends Node {
     const voltsText = new Text( voltsStringProperty, {
       font: new PhetFont( 12 ),
       fill: FELColors.batteryVoltsColorProperty,
-      maxWidth: 40
+      maxWidth: 40,
+      tandem: providedOptions.tandem.createTandem( 'voltsText' ),
+      phetioVisiblePropertyInstrumented: true,
+      visiblePropertyOptions: {
+        phetioFeatured: true
+      }
     } );
 
     const options = optionize<DCPowerSupplyNodeOptions, SelfOptions, NodeOptions>()( {

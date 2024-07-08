@@ -13,10 +13,11 @@ import FELColors from '../FELColors.js';
 import optionize, { EmptySelfOptions } from '../../../../phet-core/js/optionize.js';
 import ACPowerSupplyPanel from './ACPowerSupplyPanel.js';
 import { Node, NodeOptions, NodeTranslationOptions } from '../../../../scenery/js/imports.js';
+import PickRequired from '../../../../phet-core/js/types/PickRequired.js';
 
 type SelfOptions = EmptySelfOptions;
 
-type ACPowerSupplyNodeOptions = SelfOptions & NodeTranslationOptions;
+type ACPowerSupplyNodeOptions = SelfOptions & NodeTranslationOptions & PickRequired<NodeOptions, 'visibleProperty'>;
 
 export default class ACPowerSupplyNode extends Node {
 
