@@ -82,13 +82,6 @@ export default class ElectromagnetNode extends FELMovableNode {
     } );
 
     // Because backgroundNode is added to the scene graph elsewhere, ensure that it is draggable only if this Node is draggable.
-    Multilink.multilink( [ this.inputEnabledProperty ],
-      inputEnabled => {
-        this.backgroundNode.inputEnabled = inputEnabled;
-        this.cursor = inputEnabled ? 'pointer' : null;
-      } );
-
-    // Because backgroundNode is added to the scene graph elsewhere, ensure that it is draggable only if this Node is draggable.
     this.inputEnabledProperty.link( inputEnabled => {
       this.backgroundNode.inputEnabledProperty.value = inputEnabled;
     } );
