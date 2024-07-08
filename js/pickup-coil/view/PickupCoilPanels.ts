@@ -26,6 +26,7 @@ export default class PickupCoilPanels extends FELPanels {
   public constructor( model: PickupCoilScreenModel, lockToAxisProperty: Property<boolean>, tandem: Tandem ) {
 
     const barMagnetPanel = new BarMagnetPanel( model.barMagnet, model.compass, {
+      hasFlipPolarityButton: false, // to address https://github.com/phetsims/faradays-electromagnetic-lab/issues/180
       tandem: tandem.createTandem( 'barMagnetPanel' )
     } );
 
