@@ -61,7 +61,8 @@ export default class DCPowerSupplyNode extends Node {
     const options = optionize<DCPowerSupplyNodeOptions, SelfOptions, NodeOptions>()( {
 
       // NodeOptions
-      children: [ bracketNode, batteryNode, voltsText ]
+      children: [ bracketNode, batteryNode, voltsText ],
+      phetioFeatured: true
     }, providedOptions );
 
     super( options );
