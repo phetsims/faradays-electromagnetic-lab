@@ -1,5 +1,5 @@
 {
-  "comment": "# faradays-electromagnetic-lab 1.0.0-dev.38 Wed Jul 03 2024 16:00:05 GMT-0600 (Mountain Daylight Time)",
+  "comment": "# faradays-electromagnetic-lab 1.0.0-dev.39 Mon Jul 15 2024 16:45:06 GMT-0600 (Mountain Daylight Time)",
   "assert": {
     "sha": "4eaabfefb0b88b213e98b9c7f32d6c570c3fc122",
     "branch": "main"
@@ -17,7 +17,7 @@
     "branch": "main"
   },
   "chipper": {
-    "sha": "7d20efe9965456447f92df6046326a79f9f9e600",
+    "sha": "98c4f19178de1663f4c0a46e7af56f557d50bc30",
     "branch": "main"
   },
   "dot": {
@@ -25,11 +25,11 @@
     "branch": "main"
   },
   "faradays-electromagnetic-lab": {
-    "sha": "ab868c7852a167f0d17c166114f3b59154ec999f",
+    "sha": "8bc3d59597377f3a4e94e7dac9edd4f44efe00c0",
     "branch": "main"
   },
   "joist": {
-    "sha": "dd68858ddf897461a3d34a0ce39f4e97b83d2c1d",
+    "sha": "88f444b67c333dbc61452e14102ad8ac88e1d2a3",
     "branch": "main"
   },
   "kite": {
@@ -37,11 +37,11 @@
     "branch": "main"
   },
   "perennial-alias": {
-    "sha": "7aea298e04251ec6fc58c3a56877d05f659aba1c",
+    "sha": "245b742616d2f2597069ab90e1705c8f3ed85303",
     "branch": "main"
   },
   "phet-core": {
-    "sha": "61088067db9a12024a9cd8652bf11b222b9da6a6",
+    "sha": "923891320890a15e0f45b3fd328862684a2b5582",
     "branch": "main"
   },
   "phet-io": {
@@ -49,11 +49,11 @@
     "branch": "main"
   },
   "phet-io-sim-specific": {
-    "sha": "61fdc22b966fa4d75126056154a10ae2261fda09",
+    "sha": "4f9bb1ae3aa0a4fa35847a08a88c21960730b1c9",
     "branch": "main"
   },
   "phet-io-wrappers": {
-    "sha": "b38824944a92a8079c33b2d1297751986071209e",
+    "sha": "0e4236d42c8ff1106cad016250ec3417028e0cec",
     "branch": "main"
   },
   "phetcommon": {
@@ -69,15 +69,15 @@
     "branch": "main"
   },
   "scenery": {
-    "sha": "4e2d3340df12a06b8b2bfeb597bfaf65a33be866",
+    "sha": "9bca34c94ab74bf48bd514467f9759591368e776",
     "branch": "main"
   },
   "scenery-phet": {
-    "sha": "74f11211b54233e4355a5694ad1a7c331035cf50",
+    "sha": "f98025196954d44103e7452f8c06725992bd339a",
     "branch": "main"
   },
   "sherpa": {
-    "sha": "f50479637dac8a4259005a65bf933815b398601e",
+    "sha": "d70f67c8574e03eff4b7beaed3f84cea8805b840",
     "branch": "main"
   },
   "studio": {
@@ -85,11 +85,11 @@
     "branch": "main"
   },
   "sun": {
-    "sha": "d66714118c023f905a4a1eb57ee3d87a95f23209",
+    "sha": "177bc5f773ad6b478214617c58f9dde915307ebf",
     "branch": "main"
   },
   "tambo": {
-    "sha": "92b6cd6901f3ed99d89b8dff165aa8002028e31b",
+    "sha": "f11c185e07f91e29268446b8ec3ddea3037fe4b6",
     "branch": "main"
   },
   "tandem": {
