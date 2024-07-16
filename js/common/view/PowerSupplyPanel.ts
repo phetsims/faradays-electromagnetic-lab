@@ -47,7 +47,8 @@ export default class PowerSupplyPanel extends InteractiveHighlighting( Panel ) {
     const visibleProperty = new BooleanProperty( true, {
       tandem: providedOptions.tandem.createTandem( 'visibleProperty' ),
       phetioDocumentation: 'Set this to false to permanently hide this panel. ' +
-                           'Otherwise, visibility depends on which Current Source is selected.'
+                           'Otherwise, visibility depends on which Current Source is selected.',
+      phetioFeatured: true
     } );
 
     const options = optionize4<PowerSupplyPanelOptions, SelfOptions, PanelOptions>()( {}, FELConstants.PANEL_OPTIONS, {
