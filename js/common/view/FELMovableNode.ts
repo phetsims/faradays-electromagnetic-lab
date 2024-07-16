@@ -108,9 +108,6 @@ export default class FELMovableNode extends InteractiveHighlighting( Node ) {
         this.addInputListener( keyboardDragListener );
       }
 
-      // Interrupt interaction when this Node becomes invisible.
-      this.visibleProperty.lazyLink( visible => !visible && this.interruptSubtreeInput() );
-
       // Keep the position inside of drag bounds.
       options.dragBoundsProperty && options.dragBoundsProperty.lazyLink( dragBounds => {
         if ( !isSettingPhetioStateProperty.value ) {

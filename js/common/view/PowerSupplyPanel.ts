@@ -72,9 +72,6 @@ export default class PowerSupplyPanel extends InteractiveHighlighting( Panel ) {
       this.translation = position;
     } );
 
-    // Interrupt interaction when this Node becomes invisible.
-    this.visibleProperty.lazyLink( visible => !visible && this.interruptSubtreeInput() );
-
     this.addLinkedElement( powerSupply );
 
     // Keep the entire panel inside drag bounds.

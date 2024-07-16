@@ -69,9 +69,6 @@ export default class DCPowerSupplyNode extends Node {
 
     this.addLinkedElement( dcPowerSupply );
 
-    // Interrupt interaction when this Node becomes invisible.
-    this.visibleProperty.lazyLink( visible => !visible && this.interruptSubtreeInput() );
-
     // Reflect the battery about the y-axis to change its polarity.
     dcPowerSupply.normalizedCurrentProperty.link( ( normalizedCurrent, previousNormalizedCurrent ) => {
       if ( normalizedCurrent >= 0 && ( previousNormalizedCurrent === null || previousNormalizedCurrent < 0 ) ) {
