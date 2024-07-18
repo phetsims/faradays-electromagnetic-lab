@@ -64,6 +64,12 @@ export default class BarMagnetScreenView extends FELScreenView {
       tandem: tandem.createTandem( 'earthNode' )
     } );
 
+    // If interactivity for earthNode is disabled, also disable pickable, so that things that are behind earthNode
+    // (like the compass) can be grabbed. See https://github.com/phetsims/faradays-electromagnetic-lab/issues/198.
+    earthNode.inputEnabledProperty.link( inputEnabled => {
+      earthNode.pickable = inputEnabled;
+    } );
+
     // Rendering order, from back to front
     const screenViewRootNode = new Node( {
       children: [
