@@ -23,13 +23,12 @@ import Range from '../../../dot/js/Range.js';
 import { PreferencesControlOptions } from '../../../joist/js/preferences/PreferencesControl.js';
 
 // Credits are shared by all sims in this family.
-//TODO https://github.com/phetsims/faradays-electromagnetic-lab/issues/2 fill in credits
 const CREDITS: CreditsData = {
   leadDesign: 'Amy Rouinfar',
   softwareDevelopment: 'Chris Malley (PixelZoom, Inc.)',
   team: 'Wendy Adams, Mike Dubson, Danielle Harlow, Ariel Paul, Archie Paulson, Kathy Perkins, Carl Wieman',
   contributors: '',
-  qualityAssurance: 'Jaron Droder, Clifford Hardin, Nancy Salpepi, Kathryn Woessner',
+  qualityAssurance: 'Jaron Droder, Clifford Hardin, Matthew Moore, Nancy Salpepi, Kathryn Woessner',
   graphicArts: '',
   soundDesign: '',
   thanks: ''
