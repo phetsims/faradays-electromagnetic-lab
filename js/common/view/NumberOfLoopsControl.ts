@@ -8,12 +8,11 @@
 
 import NumberProperty from '../../../../axon/js/NumberProperty.js';
 import faradaysElectromagneticLab from '../../faradaysElectromagneticLab.js';
-import { HBox, KeyboardListener, Text } from '../../../../scenery/js/imports.js';
+import { HBox, Text } from '../../../../scenery/js/imports.js';
 import Tandem from '../../../../tandem/js/Tandem.js';
 import NumberSpinner from '../../../../sun/js/NumberSpinner.js';
 import FaradaysElectromagneticLabStrings from '../../FaradaysElectromagneticLabStrings.js';
 import FELConstants from '../FELConstants.js';
-import sharedSoundPlayers from '../../../../tambo/js/sharedSoundPlayers.js';
 
 export default class NumberOfLoopsControl extends HBox {
 
@@ -39,13 +38,6 @@ export default class NumberOfLoopsControl extends HBox {
       tandem: tandem.createTandem( 'spinner' ),
       phetioVisiblePropertyInstrumented: false // use numberOfLoopsControl.visibleProperty
     } );
-
-    //TODO https://github.com/phetsims/sun/issues/886 Delete this workaround when Home/End sound has been added to NumberSpinner.
-    const pushButtonSoundPlayer = sharedSoundPlayers.get( 'pushButton' );
-    spinner.addInputListener( new KeyboardListener( {
-      keys: [ 'home', 'end' ] as const,
-      fire: () => pushButtonSoundPlayer.play()
-    } ) );
 
     super( {
       isDisposable: false,
