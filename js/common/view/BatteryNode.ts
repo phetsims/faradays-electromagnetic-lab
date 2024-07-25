@@ -54,7 +54,7 @@ export default class BatteryNode extends Node {
       .addColorStop( 0.3, 'rgb( 222, 218, 215 )' )
       .addColorStop( 0.7, 'rgb( 200, 99, 38 )' );
 
-    const positiveEndNode = new Rectangle( 0, 0, 0.3 * options.size.width, positiveEndHeight, {
+    const positiveEndNode = new Rectangle( 0, 0, 0.4 * options.size.width, positiveEndHeight, {
       fill: positiveEndGradient,
       stroke: options.stroke,
       lineWidth: options.lineWidth,
