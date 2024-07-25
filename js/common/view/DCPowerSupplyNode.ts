@@ -48,9 +48,9 @@ export default class DCPowerSupplyNode extends Node {
       units: FaradaysElectromagneticLabStrings.units.VStringProperty
     } );
     const voltsText = new Text( voltsStringProperty, {
-      font: new PhetFont( 12 ),
+      font: new PhetFont( 14 ),
       fill: FELColors.batteryVoltsColorProperty,
-      maxWidth: 40,
+      maxWidth: 28,
       tandem: providedOptions.tandem.createTandem( 'voltsText' ),
       phetioVisiblePropertyInstrumented: true,
       visiblePropertyOptions: {
@@ -86,10 +86,10 @@ export default class DCPowerSupplyNode extends Node {
       [ dcPowerSupply.normalizedCurrentProperty, voltsText.boundsProperty ],
       ( normalizedCurrent, voltsTextBounds ) => {
         if ( normalizedCurrent >= 0 ) {
-          voltsText.right = batteryNode.right - 10;
+          voltsText.right = batteryNode.right - 12;
         }
         else {
-          voltsText.right = batteryNode.left + 35;
+          voltsText.right = batteryNode.left + 42; // right justified in the copper section of the battery
         }
         voltsText.centerY = batteryNode.centerY;
       } );
