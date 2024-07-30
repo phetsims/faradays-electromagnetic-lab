@@ -40,7 +40,8 @@
       "FARADAYS_ELECTROMAGNETIC_LAB/screen.electromagnet",
       "FARADAYS_ELECTROMAGNETIC_LAB/screen.transformer",
       "FARADAYS_ELECTROMAGNETIC_LAB/screen.generator"
-    ]
+    ],
+    "published": true
   },
   "eslintConfig": {
     "extends": "../chipper/eslint/sim_eslintrc.js",
