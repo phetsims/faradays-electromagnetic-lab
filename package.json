@@ -60,6 +60,11 @@
               "ts-nocheck": true
             }
           ]
+        },
+        "parserOptions": {
+          "project": [
+            "../faradays-electromagnetic-lab/tsconfig.json"
+          ]
         }
       }
     ]
