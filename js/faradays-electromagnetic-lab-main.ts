@@ -8,15 +8,15 @@
 
 import simLauncher from '../../joist/js/simLauncher.js';
 import Tandem from '../../tandem/js/Tandem.js';
-import PickupCoilScreen from './pickup-coil/PickupCoilScreen.js';
-import FaradaysElectromagneticLabStrings from './FaradaysElectromagneticLabStrings.js';
-import './common/FELQueryParameters.js';
 import BarMagnetScreen from './bar-magnet/BarMagnetScreen.js';
-import ElectromagnetScreen from './electromagnet/ElectromagnetScreen.js';
-import TransformerScreen from './transformer/TransformerScreen.js';
-import GeneratorScreen from './generator/GeneratorScreen.js';
 import FELSim from './common/FELSim.js';
 import FELPreferences from './common/model/FELPreferences.js';
+import ElectromagnetScreen from './electromagnet/ElectromagnetScreen.js';
+import FaradaysElectromagneticLabStrings from './FaradaysElectromagneticLabStrings.js';
+import './common/FELQueryParameters.js';
+import GeneratorScreen from './generator/GeneratorScreen.js';
+import PickupCoilScreen from './pickup-coil/PickupCoilScreen.js';
+import TransformerScreen from './transformer/TransformerScreen.js';
 
 simLauncher.launch( () => {
   const preferences = new FELPreferences();
