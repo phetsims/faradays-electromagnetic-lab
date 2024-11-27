@@ -7,25 +7,25 @@
  * @author Chris Malley (PixelZoom, Inc.)
  */
 
-import ScreenIcon from '../../../../joist/js/ScreenIcon.js';
-import faradaysElectromagneticLab from '../../faradaysElectromagneticLab.js';
-import BarMagnetNode from './BarMagnetNode.js';
-import FELColors from '../FELColors.js';
-import { HBox, Image, Node } from '../../../../scenery/js/imports.js';
-import waterWheel_png from '../../../images/waterWheel_png.js';
 import NumberProperty from '../../../../axon/js/NumberProperty.js';
-import FELConstants from '../FELConstants.js';
-import Coil from '../model/Coil.js';
-import RangeWithValue from '../../../../dot/js/RangeWithValue.js';
-import Tandem from '../../../../tandem/js/Tandem.js';
-import BarMagnet from '../model/BarMagnet.js';
-import CoilNode from './CoilNode.js';
-import { Shape } from '../../../../kite/js/imports.js';
-import { CurrentFlow } from '../FELQueryParameters.js';
 import Property from '../../../../axon/js/Property.js';
 import Dimension3 from '../../../../dot/js/Dimension3.js';
-import DCPowerSupplyPanel from './DCPowerSupplyPanel.js';
+import RangeWithValue from '../../../../dot/js/RangeWithValue.js';
 import Vector2 from '../../../../dot/js/Vector2.js';
+import ScreenIcon from '../../../../joist/js/ScreenIcon.js';
+import { Shape } from '../../../../kite/js/imports.js';
+import { HBox, Image, Node } from '../../../../scenery/js/imports.js';
+import Tandem from '../../../../tandem/js/Tandem.js';
+import waterWheel_png from '../../../images/waterWheel_png.js';
+import faradaysElectromagneticLab from '../../faradaysElectromagneticLab.js';
+import FELColors from '../FELColors.js';
+import FELConstants from '../FELConstants.js';
+import { CurrentFlow } from '../FELQueryParameters.js';
+import BarMagnet from '../model/BarMagnet.js';
+import Coil from '../model/Coil.js';
+import BarMagnetNode from './BarMagnetNode.js';
+import CoilNode from './CoilNode.js';
+import DCPowerSupplyPanel from './DCPowerSupplyPanel.js';
 
 const FELScreenIconFactory = {
 

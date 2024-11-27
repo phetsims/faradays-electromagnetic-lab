@@ -24,14 +24,14 @@
  * @author Chris Malley (PixelZoom, Inc.)
  */
 
-import faradaysElectromagneticLab from '../../faradaysElectromagneticLab.js';
+import DerivedProperty from '../../../../axon/js/DerivedProperty.js';
 import Range from '../../../../dot/js/Range.js';
 import Utils from '../../../../dot/js/Utils.js';
 import felCompassSaturatedSineLoop_mp3 from '../../../sounds/felCompassSaturatedSineLoop_mp3.js';
+import faradaysElectromagneticLab from '../../faradaysElectromagneticLab.js';
 import FELUtils from '../FELUtils.js';
 import Compass from './Compass.js';
 import FELSonifier from './FELSonifier.js';
-import DerivedProperty from '../../../../axon/js/DerivedProperty.js';
 
 // Pitch varies by 10 semitones. There are 12 semitones per octave.
 const SEMITONES = 10;

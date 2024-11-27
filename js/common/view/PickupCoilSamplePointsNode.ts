@@ -10,10 +10,10 @@
  * @author Chris Malley (PixelZoom, Inc.)
  */
 
+import { Shape } from '../../../../kite/js/imports.js';
+import { Node, Path } from '../../../../scenery/js/imports.js';
 import faradaysElectromagneticLab from '../../faradaysElectromagneticLab.js';
 import PickupCoil from '../model/PickupCoil.js';
-import { Node, Path } from '../../../../scenery/js/imports.js';
-import { Shape } from '../../../../kite/js/imports.js';
 
 export default class PickupCoilSamplePointsNode extends Node {
 

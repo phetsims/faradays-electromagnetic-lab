@@ -8,21 +8,21 @@
  * @author Chris Malley (PixelZoom, Inc.)
  */
 
-import faradaysElectromagneticLab from '../../faradaysElectromagneticLab.js';
-import Property from '../../../../axon/js/Property.js';
 import BooleanProperty from '../../../../axon/js/BooleanProperty.js';
-import ACPowerSupply from './ACPowerSupply.js';
-import DCPowerSupply from './DCPowerSupply.js';
-import CurrentSource from './CurrentSource.js';
 import DerivedProperty from '../../../../axon/js/DerivedProperty.js';
-import NumberIO from '../../../../tandem/js/types/NumberIO.js';
-import CoilMagnet, { CoilMagnetOptions } from './CoilMagnet.js';
-import { EmptySelfOptions } from '../../../../phet-core/js/optionize.js';
-import RangeWithValue from '../../../../dot/js/RangeWithValue.js';
-import Coil from './Coil.js';
-import FELConstants from '../FELConstants.js';
+import Property from '../../../../axon/js/Property.js';
 import TReadOnlyProperty from '../../../../axon/js/TReadOnlyProperty.js';
+import RangeWithValue from '../../../../dot/js/RangeWithValue.js';
+import { EmptySelfOptions } from '../../../../phet-core/js/optionize.js';
+import NumberIO from '../../../../tandem/js/types/NumberIO.js';
+import faradaysElectromagneticLab from '../../faradaysElectromagneticLab.js';
+import FELConstants from '../FELConstants.js';
 import { CurrentFlow } from '../FELQueryParameters.js';
+import ACPowerSupply from './ACPowerSupply.js';
+import Coil from './Coil.js';
+import CoilMagnet, { CoilMagnetOptions } from './CoilMagnet.js';
+import CurrentSource from './CurrentSource.js';
+import DCPowerSupply from './DCPowerSupply.js';
 
 type SelfOptions = EmptySelfOptions;
 

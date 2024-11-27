@@ -9,18 +9,18 @@
  * @author Chris Malley (PixelZoom, Inc.)
  */
 
-import faradaysElectromagneticLab from '../../faradaysElectromagneticLab.js';
-import Compass from '../model/Compass.js';
-import Vector2 from '../../../../dot/js/Vector2.js';
-import { Circle, Node, Path } from '../../../../scenery/js/imports.js';
-import CompassNeedleNode from './CompassNeedleNode.js';
-import { Shape } from '../../../../kite/js/imports.js';
 import Utils from '../../../../dot/js/Utils.js';
-import FELColors from '../FELColors.js';
-import FELMovableNode, { FELMovableNodeOptions } from './FELMovableNode.js';
+import Vector2 from '../../../../dot/js/Vector2.js';
+import { Shape } from '../../../../kite/js/imports.js';
 import optionize, { EmptySelfOptions } from '../../../../phet-core/js/optionize.js';
 import PickRequired from '../../../../phet-core/js/types/PickRequired.js';
 import { SoundKeyboardDragListenerOptions } from '../../../../scenery-phet/js/SoundKeyboardDragListener.js';
+import { Circle, Node, Path } from '../../../../scenery/js/imports.js';
+import faradaysElectromagneticLab from '../../faradaysElectromagneticLab.js';
+import FELColors from '../FELColors.js';
+import Compass from '../model/Compass.js';
+import CompassNeedleNode from './CompassNeedleNode.js';
+import FELMovableNode, { FELMovableNodeOptions } from './FELMovableNode.js';
 
 const NEEDLE_LENGTH = 55;
 const NEEDLE_ANCHOR_RADIUS = 3;

@@ -9,13 +9,13 @@
  * @author Chris Malley (PixelZoom, Inc.)
  */
 
-import faradaysElectromagneticLab from '../../faradaysElectromagneticLab.js';
-import { PathOptions, TPaint } from '../../../../scenery/js/imports.js';
-import QuadraticBezierSpline from './QuadraticBezierSpline.js';
-import optionize from '../../../../phet-core/js/optionize.js';
-import { CoilLayer } from './Coil.js';
 import Vector2 from '../../../../dot/js/Vector2.js';
 import { Shape } from '../../../../kite/js/imports.js';
+import optionize from '../../../../phet-core/js/optionize.js';
+import { PathOptions, TPaint } from '../../../../scenery/js/imports.js';
+import faradaysElectromagneticLab from '../../faradaysElectromagneticLab.js';
+import { CoilLayer } from './Coil.js';
+import QuadraticBezierSpline from './QuadraticBezierSpline.js';
 
 type SelfOptions = {
   stroke: TPaint;

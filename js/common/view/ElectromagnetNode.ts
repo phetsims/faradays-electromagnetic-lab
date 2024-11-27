@@ -9,20 +9,20 @@
  * @author Chris Malley (PixelZoom, Inc.)
  */
 
-import faradaysElectromagneticLab from '../../faradaysElectromagneticLab.js';
-import Electromagnet from '../model/Electromagnet.js';
-import FELMovableNode, { FELMovableNodeOptions } from './FELMovableNode.js';
-import CoilNode from './CoilNode.js';
-import { Node, Path } from '../../../../scenery/js/imports.js';
+import DerivedProperty from '../../../../axon/js/DerivedProperty.js';
+import Multilink from '../../../../axon/js/Multilink.js';
+import TReadOnlyProperty from '../../../../axon/js/TReadOnlyProperty.js';
 import { Shape } from '../../../../kite/js/imports.js';
 import optionize from '../../../../phet-core/js/optionize.js';
 import PickRequired from '../../../../phet-core/js/types/PickRequired.js';
-import Multilink from '../../../../axon/js/Multilink.js';
-import DCPowerSupplyNode from './DCPowerSupplyNode.js';
-import ACPowerSupplyNode from './ACPowerSupplyNode.js';
-import TReadOnlyProperty from '../../../../axon/js/TReadOnlyProperty.js';
 import StrictOmit from '../../../../phet-core/js/types/StrictOmit.js';
-import DerivedProperty from '../../../../axon/js/DerivedProperty.js';
+import { Node, Path } from '../../../../scenery/js/imports.js';
+import faradaysElectromagneticLab from '../../faradaysElectromagneticLab.js';
+import Electromagnet from '../model/Electromagnet.js';
+import ACPowerSupplyNode from './ACPowerSupplyNode.js';
+import CoilNode from './CoilNode.js';
+import DCPowerSupplyNode from './DCPowerSupplyNode.js';
+import FELMovableNode, { FELMovableNodeOptions } from './FELMovableNode.js';
 
 type SelfOptions = {
   lockToAxisProperty?: TReadOnlyProperty<boolean>;

@@ -7,21 +7,21 @@
  * @author Chris Malley (PixelZoom, Inc.)
  */
 
-import faradaysElectromagneticLab from '../../faradaysElectromagneticLab.js';
-import { Image, Node, NodeOptions } from '../../../../scenery/js/imports.js';
-import LightBulb from '../model/LightBulb.js';
-import LightBulbNode from '../../../../scenery-phet/js/LightBulbNode.js';
-import TReadOnlyProperty from '../../../../axon/js/TReadOnlyProperty.js';
 import DerivedProperty from '../../../../axon/js/DerivedProperty.js';
-import lightBulbOff_png from '../../../../scenery-phet/mipmaps/lightBulbOff_png.js';
-import ShadedRectangle from '../../../../scenery-phet/js/ShadedRectangle.js';
+import TReadOnlyProperty from '../../../../axon/js/TReadOnlyProperty.js';
 import Bounds2 from '../../../../dot/js/Bounds2.js';
-import FELColors from '../FELColors.js';
-import BooleanIO from '../../../../tandem/js/types/BooleanIO.js';
 import Vector2 from '../../../../dot/js/Vector2.js';
-import CurrentIndicator from '../model/CurrentIndicator.js';
-import PickRequired from '../../../../phet-core/js/types/PickRequired.js';
 import optionize from '../../../../phet-core/js/optionize.js';
+import PickRequired from '../../../../phet-core/js/types/PickRequired.js';
+import LightBulbNode from '../../../../scenery-phet/js/LightBulbNode.js';
+import ShadedRectangle from '../../../../scenery-phet/js/ShadedRectangle.js';
+import lightBulbOff_png from '../../../../scenery-phet/mipmaps/lightBulbOff_png.js';
+import { Image, Node, NodeOptions } from '../../../../scenery/js/imports.js';
+import BooleanIO from '../../../../tandem/js/types/BooleanIO.js';
+import faradaysElectromagneticLab from '../../faradaysElectromagneticLab.js';
+import FELColors from '../FELColors.js';
+import CurrentIndicator from '../model/CurrentIndicator.js';
+import LightBulb from '../model/LightBulb.js';
 
 type SelfOptions = {
   maxRayLength?: number; // passed to LightBulbNode

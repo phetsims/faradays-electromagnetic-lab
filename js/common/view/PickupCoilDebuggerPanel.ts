@@ -10,17 +10,17 @@
  * @author Chris Malley (PixelZoom, Inc.)
  */
 
-import faradaysElectromagneticLab from '../../faradaysElectromagneticLab.js';
-import { DragListener, GridBox, NodeTranslationOptions, RichTextOptions, Text, VBox } from '../../../../scenery/js/imports.js';
-import PickupCoil from '../model/PickupCoil.js';
-import PhetFont from '../../../../scenery-phet/js/PhetFont.js';
-import Panel, { PanelOptions } from '../../../../sun/js/Panel.js';
-import { EmptySelfOptions, optionize4 } from '../../../../phet-core/js/optionize.js';
-import FELConstants from '../FELConstants.js';
-import Utils from '../../../../dot/js/Utils.js';
-import Tandem from '../../../../tandem/js/Tandem.js';
 import DerivedStringProperty from '../../../../axon/js/DerivedStringProperty.js';
 import NumberProperty from '../../../../axon/js/NumberProperty.js';
+import Utils from '../../../../dot/js/Utils.js';
+import { EmptySelfOptions, optionize4 } from '../../../../phet-core/js/optionize.js';
+import PhetFont from '../../../../scenery-phet/js/PhetFont.js';
+import { DragListener, GridBox, NodeTranslationOptions, RichTextOptions, Text, VBox } from '../../../../scenery/js/imports.js';
+import Panel, { PanelOptions } from '../../../../sun/js/Panel.js';
+import Tandem from '../../../../tandem/js/Tandem.js';
+import faradaysElectromagneticLab from '../../faradaysElectromagneticLab.js';
+import FELConstants from '../FELConstants.js';
+import PickupCoil from '../model/PickupCoil.js';
 
 const PHI = '\u03A6'; // flux
 const DELTA_PHI = `\u2206${PHI}`; // delta flux

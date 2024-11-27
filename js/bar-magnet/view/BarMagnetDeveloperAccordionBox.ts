@@ -7,10 +7,10 @@
  * @author Chris Malley (PixelZoom, Inc.)
  */
 
-import faradaysElectromagneticLab from '../../faradaysElectromagneticLab.js';
 import { VBox } from '../../../../scenery/js/imports.js';
-import FELDeveloperAccordionBox from '../../common/view/FELDeveloperAccordionBox.js';
 import BarMagnet from '../../common/model/BarMagnet.js';
+import FELDeveloperAccordionBox from '../../common/view/FELDeveloperAccordionBox.js';
+import faradaysElectromagneticLab from '../../faradaysElectromagneticLab.js';
 
 export default class BarMagnetDeveloperAccordionBox extends FELDeveloperAccordionBox {
 

@@ -6,13 +6,13 @@
  * @author Chris Malley (PixelZoom, Inc.)
  */
 
-import faradaysElectromagneticLab from '../../faradaysElectromagneticLab.js';
+import { Node } from '../../../../scenery/js/imports.js';
 import Tandem from '../../../../tandem/js/Tandem.js';
-import ToolsPanel from '../../common/view/ToolsPanel.js';
-import PickupCoilPanel from '../../common/view/PickupCoilPanel.js';
 import BarMagnetPanel from '../../common/view/BarMagnetPanel.js';
 import FELPanels from '../../common/view/FELPanels.js';
-import { Node } from '../../../../scenery/js/imports.js';
+import PickupCoilPanel from '../../common/view/PickupCoilPanel.js';
+import ToolsPanel from '../../common/view/ToolsPanel.js';
+import faradaysElectromagneticLab from '../../faradaysElectromagneticLab.js';
 import GeneratorScreenModel from '../model/GeneratorScreenModel.js';
 
 export default class GeneratorPanels extends FELPanels {

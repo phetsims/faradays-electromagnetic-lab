@@ -7,16 +7,16 @@
  */
 
 import Screen, { ScreenOptions } from '../../../joist/js/Screen.js';
-import faradaysElectromagneticLab from '../faradaysElectromagneticLab.js';
-import PickupCoilScreenModel from './model/PickupCoilScreenModel.js';
-import PickupCoilScreenView from './view/PickupCoilScreenView.js';
-import FaradaysElectromagneticLabStrings from '../FaradaysElectromagneticLabStrings.js';
-import Tandem from '../../../tandem/js/Tandem.js';
 import { combineOptions } from '../../../phet-core/js/optionize.js';
+import Tandem from '../../../tandem/js/Tandem.js';
 import FELConstants from '../common/FELConstants.js';
+import FELPreferences from '../common/model/FELPreferences.js';
 import FELKeyboardHelpContent from '../common/view/FELKeyboardHelpContent.js';
 import FELScreenIconFactory from '../common/view/FELScreenIconFactory.js';
-import FELPreferences from '../common/model/FELPreferences.js';
+import faradaysElectromagneticLab from '../faradaysElectromagneticLab.js';
+import FaradaysElectromagneticLabStrings from '../FaradaysElectromagneticLabStrings.js';
+import PickupCoilScreenModel from './model/PickupCoilScreenModel.js';
+import PickupCoilScreenView from './view/PickupCoilScreenView.js';
 
 export default class PickupCoilScreen extends Screen<PickupCoilScreenModel, PickupCoilScreenView> {
 

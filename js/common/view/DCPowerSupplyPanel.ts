@@ -6,27 +6,27 @@
  * @author Chris Malley (PixelZoom, Inc.)
  */
 
-import faradaysElectromagneticLab from '../../faradaysElectromagneticLab.js';
-import FELConstants from '../FELConstants.js';
-import DCPowerSupply from '../model/DCPowerSupply.js';
-import NumberControl, { NumberControlOptions } from '../../../../scenery-phet/js/NumberControl.js';
-import { HBox, Node, Text, VBox } from '../../../../scenery/js/imports.js';
-import Utils from '../../../../dot/js/Utils.js';
-import TReadOnlyProperty from '../../../../axon/js/TReadOnlyProperty.js';
-import CurrentSource from '../model/CurrentSource.js';
-import optionize, { combineOptions, EmptySelfOptions } from '../../../../phet-core/js/optionize.js';
-import StringUtils from '../../../../phetcommon/js/util/StringUtils.js';
-import FaradaysElectromagneticLabStrings from '../../FaradaysElectromagneticLabStrings.js';
-import NumberDisplay from '../../../../scenery-phet/js/NumberDisplay.js';
-import Slider from '../../../../sun/js/Slider.js';
-import ArrowButton from '../../../../sun/js/buttons/ArrowButton.js';
 import PatternStringProperty from '../../../../axon/js/PatternStringProperty.js';
-import PhetFont from '../../../../scenery-phet/js/PhetFont.js';
-import BatteryNode from './BatteryNode.js';
-import FELColors from '../FELColors.js';
-import PowerSupplyPanel, { PowerSupplyPanelOptions } from './PowerSupplyPanel.js';
-import PickRequired from '../../../../phet-core/js/types/PickRequired.js';
+import TReadOnlyProperty from '../../../../axon/js/TReadOnlyProperty.js';
 import Bounds2 from '../../../../dot/js/Bounds2.js';
+import Utils from '../../../../dot/js/Utils.js';
+import optionize, { combineOptions, EmptySelfOptions } from '../../../../phet-core/js/optionize.js';
+import PickRequired from '../../../../phet-core/js/types/PickRequired.js';
+import StringUtils from '../../../../phetcommon/js/util/StringUtils.js';
+import NumberControl, { NumberControlOptions } from '../../../../scenery-phet/js/NumberControl.js';
+import NumberDisplay from '../../../../scenery-phet/js/NumberDisplay.js';
+import PhetFont from '../../../../scenery-phet/js/PhetFont.js';
+import { HBox, Node, Text, VBox } from '../../../../scenery/js/imports.js';
+import ArrowButton from '../../../../sun/js/buttons/ArrowButton.js';
+import Slider from '../../../../sun/js/Slider.js';
+import faradaysElectromagneticLab from '../../faradaysElectromagneticLab.js';
+import FaradaysElectromagneticLabStrings from '../../FaradaysElectromagneticLabStrings.js';
+import FELColors from '../FELColors.js';
+import FELConstants from '../FELConstants.js';
+import CurrentSource from '../model/CurrentSource.js';
+import DCPowerSupply from '../model/DCPowerSupply.js';
+import BatteryNode from './BatteryNode.js';
+import PowerSupplyPanel, { PowerSupplyPanelOptions } from './PowerSupplyPanel.js';
 
 const SLIDER_STEP = 1;
 

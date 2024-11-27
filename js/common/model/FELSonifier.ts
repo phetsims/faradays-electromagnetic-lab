@@ -16,19 +16,19 @@
  * @author Chris Malley (PixelZoom, Inc.)
  */
 
-import Disposable, { DisposableOptions } from '../../../../axon/js/Disposable.js';
-import faradaysElectromagneticLab from '../../faradaysElectromagneticLab.js';
-import TReadOnlyProperty from '../../../../axon/js/TReadOnlyProperty.js';
-import TEmitter, { TEmitterListener } from '../../../../axon/js/TEmitter.js';
-import Property from '../../../../axon/js/Property.js';
-import optionize from '../../../../phet-core/js/optionize.js';
 import BooleanProperty from '../../../../axon/js/BooleanProperty.js';
-import FELUtils from '../FELUtils.js';
-import WrappedAudioBuffer from '../../../../tambo/js/WrappedAudioBuffer.js';
+import Disposable, { DisposableOptions } from '../../../../axon/js/Disposable.js';
+import Property from '../../../../axon/js/Property.js';
+import stepTimer from '../../../../axon/js/stepTimer.js';
+import TEmitter, { TEmitterListener } from '../../../../axon/js/TEmitter.js';
+import TReadOnlyProperty from '../../../../axon/js/TReadOnlyProperty.js';
+import optionize from '../../../../phet-core/js/optionize.js';
+import ResetAllButton from '../../../../scenery-phet/js/buttons/ResetAllButton.js';
 import SoundClip from '../../../../tambo/js/sound-generators/SoundClip.js';
 import soundManager from '../../../../tambo/js/soundManager.js';
-import stepTimer from '../../../../axon/js/stepTimer.js';
-import ResetAllButton from '../../../../scenery-phet/js/buttons/ResetAllButton.js';
+import WrappedAudioBuffer from '../../../../tambo/js/WrappedAudioBuffer.js';
+import faradaysElectromagneticLab from '../../faradaysElectromagneticLab.js';
+import FELUtils from '../FELUtils.js';
 
 const isResettingAllProperty = ResetAllButton.isResettingAllProperty;
 

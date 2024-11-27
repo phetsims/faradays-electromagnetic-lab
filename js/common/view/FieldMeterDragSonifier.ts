@@ -17,18 +17,18 @@
  * @author Chris Malley (PixelZoom, Inc.)
  */
 
-import faradaysElectromagneticLab from '../../faradaysElectromagneticLab.js';
-import { PressListenerEvent, TInputListener } from '../../../../scenery/js/imports.js';
-import Range from '../../../../dot/js/Range.js';
-import Vector2 from '../../../../dot/js/Vector2.js';
-import felFieldMeterLoop_mp3 from '../../../sounds/felFieldMeterLoop_mp3.js';
-import Utils from '../../../../dot/js/Utils.js';
-import FieldNode from './FieldNode.js';
-import FELSonifier from '../model/FELSonifier.js';
+import BooleanProperty from '../../../../axon/js/BooleanProperty.js';
 import DerivedProperty from '../../../../axon/js/DerivedProperty.js';
 import Property from '../../../../axon/js/Property.js';
-import BooleanProperty from '../../../../axon/js/BooleanProperty.js';
 import TReadOnlyProperty from '../../../../axon/js/TReadOnlyProperty.js';
+import Range from '../../../../dot/js/Range.js';
+import Utils from '../../../../dot/js/Utils.js';
+import Vector2 from '../../../../dot/js/Vector2.js';
+import { PressListenerEvent, TInputListener } from '../../../../scenery/js/imports.js';
+import felFieldMeterLoop_mp3 from '../../../sounds/felFieldMeterLoop_mp3.js';
+import faradaysElectromagneticLab from '../../faradaysElectromagneticLab.js';
+import FELSonifier from '../model/FELSonifier.js';
+import FieldNode from './FieldNode.js';
 
 // Pitch varies by 12 semitones. There are 12 semitones per octave.
 const SEMITONES = 12;

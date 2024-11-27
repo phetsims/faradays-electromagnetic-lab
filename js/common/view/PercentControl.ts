@@ -7,18 +7,18 @@
  * @author Chris Malley (PixelZoom, Inc.)
  */
 
-import faradaysElectromagneticLab from '../../faradaysElectromagneticLab.js';
-import NumberControl, { NumberControlOptions, NumberControlSliderOptions } from '../../../../scenery-phet/js/NumberControl.js';
-import FaradaysElectromagneticLabStrings from '../../FaradaysElectromagneticLabStrings.js';
-import { combineOptions, optionize4 } from '../../../../phet-core/js/optionize.js';
-import FELConstants from '../FELConstants.js';
-import PatternStringProperty from '../../../../axon/js/PatternStringProperty.js';
-import Utils from '../../../../dot/js/Utils.js';
-import { Text } from '../../../../scenery/js/imports.js';
-import StringUtils from '../../../../phetcommon/js/util/StringUtils.js';
 import NumberProperty from '../../../../axon/js/NumberProperty.js';
+import PatternStringProperty from '../../../../axon/js/PatternStringProperty.js';
 import TReadOnlyProperty from '../../../../axon/js/TReadOnlyProperty.js';
+import Utils from '../../../../dot/js/Utils.js';
+import { combineOptions, optionize4 } from '../../../../phet-core/js/optionize.js';
 import PickRequired from '../../../../phet-core/js/types/PickRequired.js';
+import StringUtils from '../../../../phetcommon/js/util/StringUtils.js';
+import NumberControl, { NumberControlOptions, NumberControlSliderOptions } from '../../../../scenery-phet/js/NumberControl.js';
+import { Text } from '../../../../scenery/js/imports.js';
+import faradaysElectromagneticLab from '../../faradaysElectromagneticLab.js';
+import FaradaysElectromagneticLabStrings from '../../FaradaysElectromagneticLabStrings.js';
+import FELConstants from '../FELConstants.js';
 
 const valuePercentStringProperty = FaradaysElectromagneticLabStrings.pattern.valuePercentStringProperty;
 const ARROW_STEP = 1; // %

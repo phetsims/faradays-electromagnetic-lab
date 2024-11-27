@@ -8,16 +8,16 @@
  * @author Chris Malley (PixelZoom, Inc.)
  */
 
-import faradaysElectromagneticLab from '../../faradaysElectromagneticLab.js';
-import Vector2 from '../../../../dot/js/Vector2.js';
-import Property from '../../../../axon/js/Property.js';
-import NumberProperty from '../../../../axon/js/NumberProperty.js';
-import Magnet from './Magnet.js';
-import TReadOnlyProperty from '../../../../axon/js/TReadOnlyProperty.js';
-import { EmptySelfOptions } from '../../../../phet-core/js/optionize.js';
 import Multilink from '../../../../axon/js/Multilink.js';
-import FieldMeasurementTool, { FieldMeasurementToolOptions } from './FieldMeasurementTool.js';
+import NumberProperty from '../../../../axon/js/NumberProperty.js';
+import Property from '../../../../axon/js/Property.js';
+import TReadOnlyProperty from '../../../../axon/js/TReadOnlyProperty.js';
+import Vector2 from '../../../../dot/js/Vector2.js';
+import { EmptySelfOptions } from '../../../../phet-core/js/optionize.js';
+import faradaysElectromagneticLab from '../../faradaysElectromagneticLab.js';
 import ConstantDtClock from './ConstantDtClock.js';
+import FieldMeasurementTool, { FieldMeasurementToolOptions } from './FieldMeasurementTool.js';
+import Magnet from './Magnet.js';
 
 type SelfOptions = EmptySelfOptions;
 

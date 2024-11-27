@@ -9,18 +9,18 @@
  * @author Chris Malley (PixelZoom, Inc.)
  */
 
-import { Node, NodeOptions, NodeTranslationOptions } from '../../../../scenery/js/imports.js';
-import Range from '../../../../dot/js/Range.js';
+import AxisLine, { AxisLineOptions } from '../../../../bamboo/js/AxisLine.js';
 import ChartRectangle from '../../../../bamboo/js/ChartRectangle.js';
 import ChartTransform from '../../../../bamboo/js/ChartTransform.js';
-import faradaysElectromagneticLab from '../../faradaysElectromagneticLab.js';
-import Orientation from '../../../../phet-core/js/Orientation.js';
-import AxisLine, { AxisLineOptions } from '../../../../bamboo/js/AxisLine.js';
-import TickMarkSet, { TickMarkSetOptions } from '../../../../bamboo/js/TickMarkSet.js';
-import optionize from '../../../../phet-core/js/optionize.js';
-import Vector2 from '../../../../dot/js/Vector2.js';
 import LinePlot from '../../../../bamboo/js/LinePlot.js';
+import TickMarkSet, { TickMarkSetOptions } from '../../../../bamboo/js/TickMarkSet.js';
 import Dimension2 from '../../../../dot/js/Dimension2.js';
+import Range from '../../../../dot/js/Range.js';
+import Vector2 from '../../../../dot/js/Vector2.js';
+import optionize from '../../../../phet-core/js/optionize.js';
+import Orientation from '../../../../phet-core/js/Orientation.js';
+import { Node, NodeOptions, NodeTranslationOptions } from '../../../../scenery/js/imports.js';
+import faradaysElectromagneticLab from '../../faradaysElectromagneticLab.js';
 import FELColors from '../FELColors.js';
 import ACPowerSupply from '../model/ACPowerSupply.js';
 

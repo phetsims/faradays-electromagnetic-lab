@@ -7,10 +7,10 @@
  */
 
 import NumberProperty from '../../../../axon/js/NumberProperty.js';
-import faradaysElectromagneticLab from '../../faradaysElectromagneticLab.js';
 import { HBox, Text } from '../../../../scenery/js/imports.js';
-import Tandem from '../../../../tandem/js/Tandem.js';
 import NumberSpinner from '../../../../sun/js/NumberSpinner.js';
+import Tandem from '../../../../tandem/js/Tandem.js';
+import faradaysElectromagneticLab from '../../faradaysElectromagneticLab.js';
 import FaradaysElectromagneticLabStrings from '../../FaradaysElectromagneticLabStrings.js';
 import FELConstants from '../FELConstants.js';
 

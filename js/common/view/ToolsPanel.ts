@@ -6,18 +6,18 @@
  * @author Chris Malley (PixelZoom, Inc.)
  */
 
-import faradaysElectromagneticLab from '../../faradaysElectromagneticLab.js';
-import Panel, { PanelOptions } from '../../../../sun/js/Panel.js';
-import { VBox, VBoxOptions } from '../../../../scenery/js/imports.js';
+import Property from '../../../../axon/js/Property.js';
 import { combineOptions, optionize4 } from '../../../../phet-core/js/optionize.js';
+import PickRequired from '../../../../phet-core/js/types/PickRequired.js';
+import { VBox, VBoxOptions } from '../../../../scenery/js/imports.js';
+import Panel, { PanelOptions } from '../../../../sun/js/Panel.js';
 import FELConstants from '../../common/FELConstants.js';
+import faradaysElectromagneticLab from '../../faradaysElectromagneticLab.js';
 import Compass from '../model/Compass.js';
 import FieldMeter from '../model/FieldMeter.js';
-import Property from '../../../../axon/js/Property.js';
-import PickRequired from '../../../../phet-core/js/types/PickRequired.js';
-import LockToAxisCheckbox from './LockToAxisCheckbox.js';
 import CompassCheckbox from './CompassCheckbox.js';
 import FieldMeterCheckbox from './FieldMeterCheckbox.js';
+import LockToAxisCheckbox from './LockToAxisCheckbox.js';
 
 type SelfOptions = {
 

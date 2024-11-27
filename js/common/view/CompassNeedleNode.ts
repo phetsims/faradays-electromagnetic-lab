@@ -8,12 +8,12 @@
  * @author Chris Malley (PixelZoom, Inc.)
  */
 
-import faradaysElectromagneticLab from '../../faradaysElectromagneticLab.js';
 import { Shape } from '../../../../kite/js/imports.js';
-import FELColors from '../FELColors.js';
-import { Node, NodeOptions, Path, TColor } from '../../../../scenery/js/imports.js';
 import optionize from '../../../../phet-core/js/optionize.js';
 import PickOptional from '../../../../phet-core/js/types/PickOptional.js';
+import { Node, NodeOptions, Path, TColor } from '../../../../scenery/js/imports.js';
+import faradaysElectromagneticLab from '../../faradaysElectromagneticLab.js';
+import FELColors from '../FELColors.js';
 
 const NEEDLE_ASPECT_RATIO = 25 / 7; // length:waist
 

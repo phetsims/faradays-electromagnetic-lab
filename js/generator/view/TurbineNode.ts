@@ -9,17 +9,17 @@
  * @author Chris Malley (PixelZoom, Inc.)
  */
 
-import faradaysElectromagneticLab from '../../faradaysElectromagneticLab.js';
-import Turbine from '../model/Turbine.js';
+import TReadOnlyProperty from '../../../../axon/js/TReadOnlyProperty.js';
+import Bounds2 from '../../../../dot/js/Bounds2.js';
+import { Node } from '../../../../scenery/js/imports.js';
 import Tandem from '../../../../tandem/js/Tandem.js';
 import BarMagnetNode from '../../common/view/BarMagnetNode.js';
-import { Node } from '../../../../scenery/js/imports.js';
-import Bounds2 from '../../../../dot/js/Bounds2.js';
+import faradaysElectromagneticLab from '../../faradaysElectromagneticLab.js';
+import Turbine from '../model/Turbine.js';
 import RPMDisplay from './RPMDisplay.js';
-import WaterNode from './WaterNode.js';
-import TReadOnlyProperty from '../../../../axon/js/TReadOnlyProperty.js';
-import WaterWheelNode from './WaterWheelNode.js';
 import WaterFaucetNode from './WaterFaucetNode.js';
+import WaterNode from './WaterNode.js';
+import WaterWheelNode from './WaterWheelNode.js';
 
 export default class TurbineNode extends Node {
 

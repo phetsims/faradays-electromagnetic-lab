@@ -8,18 +8,18 @@
  * @author Chris Malley (PixelZoom, Inc.)
  */
 
-import BarMagnet from '../../common/model/BarMagnet.js';
-import faradaysElectromagneticLab from '../../faradaysElectromagneticLab.js';
-import Range from '../../../../dot/js/Range.js';
-import TReadOnlyProperty from '../../../../axon/js/TReadOnlyProperty.js';
 import DerivedProperty from '../../../../axon/js/DerivedProperty.js';
-import NumberIO from '../../../../tandem/js/types/NumberIO.js';
-import WaterFaucet from './WaterFaucet.js';
-import PhetioObject from '../../../../tandem/js/PhetioObject.js';
-import Vector2 from '../../../../dot/js/Vector2.js';
-import Tandem from '../../../../tandem/js/Tandem.js';
-import ConstantDtClock from '../../common/model/ConstantDtClock.js';
 import NumberProperty from '../../../../axon/js/NumberProperty.js';
+import TReadOnlyProperty from '../../../../axon/js/TReadOnlyProperty.js';
+import Range from '../../../../dot/js/Range.js';
+import Vector2 from '../../../../dot/js/Vector2.js';
+import PhetioObject from '../../../../tandem/js/PhetioObject.js';
+import Tandem from '../../../../tandem/js/Tandem.js';
+import NumberIO from '../../../../tandem/js/types/NumberIO.js';
+import BarMagnet from '../../common/model/BarMagnet.js';
+import ConstantDtClock from '../../common/model/ConstantDtClock.js';
+import faradaysElectromagneticLab from '../../faradaysElectromagneticLab.js';
+import WaterFaucet from './WaterFaucet.js';
 
 const RPM_RANGE = new Range( 0, 60 ); // RPMs
 

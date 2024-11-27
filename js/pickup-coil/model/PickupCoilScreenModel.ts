@@ -9,14 +9,14 @@
  * @author Chris Malley (PixelZoom, Inc.)
  */
 
-import faradaysElectromagneticLab from '../../faradaysElectromagneticLab.js';
-import Tandem from '../../../../tandem/js/Tandem.js';
-import PickupCoil from '../../common/model/PickupCoil.js';
 import Vector2 from '../../../../dot/js/Vector2.js';
+import Tandem from '../../../../tandem/js/Tandem.js';
 import BarMagnet from '../../common/model/BarMagnet.js';
-import KinematicCompass from '../../common/model/KinematicCompass.js';
-import FELScreenModel from '../../common/model/FELScreenModel.js';
 import FELPreferences from '../../common/model/FELPreferences.js';
+import FELScreenModel from '../../common/model/FELScreenModel.js';
+import KinematicCompass from '../../common/model/KinematicCompass.js';
+import PickupCoil from '../../common/model/PickupCoil.js';
+import faradaysElectromagneticLab from '../../faradaysElectromagneticLab.js';
 
 // y position shared by all components, so that they are on the same horizontal axis.
 const Y_POSITION = 375;

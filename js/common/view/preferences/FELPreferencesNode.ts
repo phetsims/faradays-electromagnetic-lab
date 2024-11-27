@@ -7,15 +7,15 @@
  * @author Chris Malley (PixelZoom, Inc.)
  */
 
-import { VBox, VBoxOptions } from '../../../../../scenery/js/imports.js';
-import AddEarthCheckboxPreferencesControl from './AddEarthCheckboxPreferencesControl.js';
-import FELPreferences from '../../model/FELPreferences.js';
-import faradaysElectromagneticLab from '../../../faradaysElectromagneticLab.js';
-import MagneticUnitsPreferencesControl from './MagneticUnitsPreferencesControl.js';
-import EarthHemispherePreferencesControl from './EarthHemispherePreferencesControl.js';
 import PickRequired from '../../../../../phet-core/js/types/PickRequired.js';
-import CurrentFlowPreferencesControl from './CurrentFlowPreferencesControl.js';
+import { VBox, VBoxOptions } from '../../../../../scenery/js/imports.js';
 import Tandem from '../../../../../tandem/js/Tandem.js';
+import faradaysElectromagneticLab from '../../../faradaysElectromagneticLab.js';
+import FELPreferences from '../../model/FELPreferences.js';
+import AddEarthCheckboxPreferencesControl from './AddEarthCheckboxPreferencesControl.js';
+import CurrentFlowPreferencesControl from './CurrentFlowPreferencesControl.js';
+import EarthHemispherePreferencesControl from './EarthHemispherePreferencesControl.js';
+import MagneticUnitsPreferencesControl from './MagneticUnitsPreferencesControl.js';
 
 type SelfOptions = {
 

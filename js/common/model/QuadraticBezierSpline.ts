@@ -15,10 +15,10 @@
  * @author Chris Malley (PixelZoom, Inc.)
  */
 
-import faradaysElectromagneticLab from '../../faradaysElectromagneticLab.js';
+import Disposable from '../../../../axon/js/Disposable.js';
 import Vector2 from '../../../../dot/js/Vector2.js';
 import { Shape } from '../../../../kite/js/imports.js';
-import Disposable from '../../../../axon/js/Disposable.js';
+import faradaysElectromagneticLab from '../../faradaysElectromagneticLab.js';
 
 export default class QuadraticBezierSpline {
 

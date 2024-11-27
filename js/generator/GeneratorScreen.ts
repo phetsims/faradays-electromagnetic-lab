@@ -7,16 +7,16 @@
  */
 
 import Screen, { ScreenOptions } from '../../../joist/js/Screen.js';
-import faradaysElectromagneticLab from '../faradaysElectromagneticLab.js';
-import GeneratorScreenModel from './model/GeneratorScreenModel.js';
-import GeneratorScreenView from './view/GeneratorScreenView.js';
-import FaradaysElectromagneticLabStrings from '../FaradaysElectromagneticLabStrings.js';
-import Tandem from '../../../tandem/js/Tandem.js';
 import { combineOptions } from '../../../phet-core/js/optionize.js';
+import Tandem from '../../../tandem/js/Tandem.js';
 import FELConstants from '../common/FELConstants.js';
-import GeneratorKeyboardHelpContent from './view/GeneratorKeyboardHelpContent.js';
-import FELScreenIconFactory from '../common/view/FELScreenIconFactory.js';
 import FELPreferences from '../common/model/FELPreferences.js';
+import FELScreenIconFactory from '../common/view/FELScreenIconFactory.js';
+import faradaysElectromagneticLab from '../faradaysElectromagneticLab.js';
+import FaradaysElectromagneticLabStrings from '../FaradaysElectromagneticLabStrings.js';
+import GeneratorScreenModel from './model/GeneratorScreenModel.js';
+import GeneratorKeyboardHelpContent from './view/GeneratorKeyboardHelpContent.js';
+import GeneratorScreenView from './view/GeneratorScreenView.js';
 
 export default class GeneratorScreen extends Screen<GeneratorScreenModel, GeneratorScreenView> {
 

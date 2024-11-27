@@ -7,19 +7,19 @@
  * @author Chris Malley (PixelZoom, Inc.)
  */
 
-import { EarthHemisphere, EarthHemisphereValues } from '../../FELQueryParameters.js';
 import StringUnionProperty from '../../../../../axon/js/StringUnionProperty.js';
-import Tandem from '../../../../../tandem/js/Tandem.js';
+import TReadOnlyProperty from '../../../../../axon/js/TReadOnlyProperty.js';
 import PreferencesControl, { PreferencesControlOptions } from '../../../../../joist/js/preferences/PreferencesControl.js';
+import { combineOptions } from '../../../../../phet-core/js/optionize.js';
 import { Image, Text } from '../../../../../scenery/js/imports.js';
-import FELConstants from '../../FELConstants.js';
 import RectangularRadioButtonGroup, { RectangularRadioButtonGroupItem } from '../../../../../sun/js/buttons/RectangularRadioButtonGroup.js';
-import faradaysElectromagneticLab from '../../../faradaysElectromagneticLab.js';
-import FaradaysElectromagneticLabStrings from '../../../FaradaysElectromagneticLabStrings.js';
+import Tandem from '../../../../../tandem/js/Tandem.js';
 import earthEasternHemisphere_svg from '../../../../images/earthEasternHemisphere_svg.js';
 import earthWesternHemisphere_svg from '../../../../images/earthWesternHemisphere_svg.js';
-import { combineOptions } from '../../../../../phet-core/js/optionize.js';
-import TReadOnlyProperty from '../../../../../axon/js/TReadOnlyProperty.js';
+import faradaysElectromagneticLab from '../../../faradaysElectromagneticLab.js';
+import FaradaysElectromagneticLabStrings from '../../../FaradaysElectromagneticLabStrings.js';
+import FELConstants from '../../FELConstants.js';
+import { EarthHemisphere, EarthHemisphereValues } from '../../FELQueryParameters.js';
 
 export default class EarthHemispherePreferencesControl extends PreferencesControl {
 

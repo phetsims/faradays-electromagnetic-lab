@@ -7,22 +7,22 @@
  * @author Chris Malley (PixelZoom, Inc.)
  */
 
-import faradaysElectromagneticLab from '../../faradaysElectromagneticLab.js';
-import { Node, NodeOptions, NodeTranslationOptions, Path, Rectangle, Text } from '../../../../scenery/js/imports.js';
-import DCPowerSupply from '../model/DCPowerSupply.js';
-import Vector2 from '../../../../dot/js/Vector2.js';
-import FaradaysElectromagneticLabStrings from '../../FaradaysElectromagneticLabStrings.js';
-import PatternStringProperty from '../../../../axon/js/PatternStringProperty.js';
-import Multilink from '../../../../axon/js/Multilink.js';
-import PhetFont from '../../../../scenery-phet/js/PhetFont.js';
-import Matrix3 from '../../../../dot/js/Matrix3.js';
-import FELColors from '../FELColors.js';
-import { Shape } from '../../../../kite/js/imports.js';
-import BatteryNode from './BatteryNode.js';
 import DerivedStringProperty from '../../../../axon/js/DerivedStringProperty.js';
+import Multilink from '../../../../axon/js/Multilink.js';
+import PatternStringProperty from '../../../../axon/js/PatternStringProperty.js';
 import Dimension2 from '../../../../dot/js/Dimension2.js';
+import Matrix3 from '../../../../dot/js/Matrix3.js';
+import Vector2 from '../../../../dot/js/Vector2.js';
+import { Shape } from '../../../../kite/js/imports.js';
 import optionize, { EmptySelfOptions } from '../../../../phet-core/js/optionize.js';
 import PickRequired from '../../../../phet-core/js/types/PickRequired.js';
+import PhetFont from '../../../../scenery-phet/js/PhetFont.js';
+import { Node, NodeOptions, NodeTranslationOptions, Path, Rectangle, Text } from '../../../../scenery/js/imports.js';
+import faradaysElectromagneticLab from '../../faradaysElectromagneticLab.js';
+import FaradaysElectromagneticLabStrings from '../../FaradaysElectromagneticLabStrings.js';
+import FELColors from '../FELColors.js';
+import DCPowerSupply from '../model/DCPowerSupply.js';
+import BatteryNode from './BatteryNode.js';
 
 type SelfOptions = EmptySelfOptions;
 

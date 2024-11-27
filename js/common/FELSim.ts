@@ -6,19 +6,19 @@
  * @author Chris Malley (PixelZoom, Inc.)
  */
 
-import faradaysElectromagneticLab from '../faradaysElectromagneticLab.js';
-import Sim from '../../../joist/js/Sim.js';
 import TReadOnlyProperty from '../../../axon/js/TReadOnlyProperty.js';
-import FELConstants from './FELConstants.js';
 import PreferencesModel from '../../../joist/js/preferences/PreferencesModel.js';
-import FELPreferencesNode from './view/preferences/FELPreferencesNode.js';
-import BarMagnetScreen from '../bar-magnet/BarMagnetScreen.js';
-import PickupCoilScreen from '../pickup-coil/PickupCoilScreen.js';
-import ElectromagnetScreen from '../electromagnet/ElectromagnetScreen.js';
-import TransformerScreen from '../transformer/TransformerScreen.js';
-import GeneratorScreen from '../generator/GeneratorScreen.js';
-import FELPreferences from './model/FELPreferences.js';
+import Sim from '../../../joist/js/Sim.js';
 import platform from '../../../phet-core/js/platform.js';
+import BarMagnetScreen from '../bar-magnet/BarMagnetScreen.js';
+import ElectromagnetScreen from '../electromagnet/ElectromagnetScreen.js';
+import faradaysElectromagneticLab from '../faradaysElectromagneticLab.js';
+import GeneratorScreen from '../generator/GeneratorScreen.js';
+import PickupCoilScreen from '../pickup-coil/PickupCoilScreen.js';
+import TransformerScreen from '../transformer/TransformerScreen.js';
+import FELConstants from './FELConstants.js';
+import FELPreferences from './model/FELPreferences.js';
+import FELPreferencesNode from './view/preferences/FELPreferencesNode.js';
 
 type FELScreen = BarMagnetScreen | PickupCoilScreen | ElectromagnetScreen | TransformerScreen | GeneratorScreen;
 

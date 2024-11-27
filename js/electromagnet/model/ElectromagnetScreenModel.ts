@@ -9,13 +9,13 @@
  * @author Chris Malley (PixelZoom, Inc.)
  */
 
-import faradaysElectromagneticLab from '../../faradaysElectromagneticLab.js';
+import Vector2 from '../../../../dot/js/Vector2.js';
 import Tandem from '../../../../tandem/js/Tandem.js';
 import Electromagnet from '../../common/model/Electromagnet.js';
-import Vector2 from '../../../../dot/js/Vector2.js';
-import IncrementalCompass from '../../common/model/IncrementalCompass.js';
-import FELScreenModel from '../../common/model/FELScreenModel.js';
 import FELPreferences from '../../common/model/FELPreferences.js';
+import FELScreenModel from '../../common/model/FELScreenModel.js';
+import IncrementalCompass from '../../common/model/IncrementalCompass.js';
+import faradaysElectromagneticLab from '../../faradaysElectromagneticLab.js';
 
 // y position shared by all components, so that they are on the same horizontal axis.
 const Y_POSITION = 400;

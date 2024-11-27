@@ -6,14 +6,14 @@
  * @author Chris Malley (PixelZoom, Inc.)
  */
 
-import faradaysElectromagneticLab from '../../faradaysElectromagneticLab.js';
-import Tandem from '../../../../tandem/js/Tandem.js';
-import ToolsPanel from '../../common/view/ToolsPanel.js';
-import PickupCoilPanel from '../../common/view/PickupCoilPanel.js';
-import ElectromagnetPanel from '../../common/view/ElectromagnetPanel.js';
 import Property from '../../../../axon/js/Property.js';
-import FELPanels from '../../common/view/FELPanels.js';
 import { Node } from '../../../../scenery/js/imports.js';
+import Tandem from '../../../../tandem/js/Tandem.js';
+import ElectromagnetPanel from '../../common/view/ElectromagnetPanel.js';
+import FELPanels from '../../common/view/FELPanels.js';
+import PickupCoilPanel from '../../common/view/PickupCoilPanel.js';
+import ToolsPanel from '../../common/view/ToolsPanel.js';
+import faradaysElectromagneticLab from '../../faradaysElectromagneticLab.js';
 import TransformerScreenModel from '../model/TransformerScreenModel.js';
 
 export default class TransformerPanels extends FELPanels {

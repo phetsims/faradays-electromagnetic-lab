@@ -12,19 +12,19 @@
  * @author Chris Malley (PixelZoom, Inc.)
  */
 
-import AccordionBox from '../../../../sun/js/AccordionBox.js';
-import faradaysElectromagneticLab from '../../faradaysElectromagneticLab.js';
-import { Node, Text, VBox } from '../../../../scenery/js/imports.js';
-import FELConstants from '../../common/FELConstants.js';
 import BooleanProperty from '../../../../axon/js/BooleanProperty.js';
-import Tandem from '../../../../tandem/js/Tandem.js';
-import Checkbox from '../../../../sun/js/Checkbox.js';
-import Property from '../../../../axon/js/Property.js';
-import PhetFont from '../../../../scenery-phet/js/PhetFont.js';
 import NumberProperty from '../../../../axon/js/NumberProperty.js';
+import Property from '../../../../axon/js/Property.js';
 import NumberControl from '../../../../scenery-phet/js/NumberControl.js';
-import PickupCoil from '../model/PickupCoil.js';
+import PhetFont from '../../../../scenery-phet/js/PhetFont.js';
+import { Node, Text, VBox } from '../../../../scenery/js/imports.js';
+import AccordionBox from '../../../../sun/js/AccordionBox.js';
+import Checkbox from '../../../../sun/js/Checkbox.js';
+import Tandem from '../../../../tandem/js/Tandem.js';
+import FELConstants from '../../common/FELConstants.js';
+import faradaysElectromagneticLab from '../../faradaysElectromagneticLab.js';
 import Electromagnet from '../model/Electromagnet.js';
+import PickupCoil from '../model/PickupCoil.js';
 import { FELDeveloperNumberControl } from './FELDeveloperNumberControl.js';
 
 const VBOX_SPACING = 15;

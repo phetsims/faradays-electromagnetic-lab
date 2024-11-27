@@ -6,14 +6,14 @@
  * @author Chris Malley (PixelZoom, Inc.)
  */
 
-import faradaysElectromagneticLab from '../../faradaysElectromagneticLab.js';
-import ShadedRectangle from '../../../../scenery-phet/js/ShadedRectangle.js';
 import Bounds2 from '../../../../dot/js/Bounds2.js';
-import FELColors from '../FELColors.js';
 import optionize, { EmptySelfOptions } from '../../../../phet-core/js/optionize.js';
-import ACPowerSupplyPanel from './ACPowerSupplyPanel.js';
-import { Node, NodeOptions, NodeTranslationOptions } from '../../../../scenery/js/imports.js';
 import PickRequired from '../../../../phet-core/js/types/PickRequired.js';
+import ShadedRectangle from '../../../../scenery-phet/js/ShadedRectangle.js';
+import { Node, NodeOptions, NodeTranslationOptions } from '../../../../scenery/js/imports.js';
+import faradaysElectromagneticLab from '../../faradaysElectromagneticLab.js';
+import FELColors from '../FELColors.js';
+import ACPowerSupplyPanel from './ACPowerSupplyPanel.js';
 
 type SelfOptions = EmptySelfOptions;
 

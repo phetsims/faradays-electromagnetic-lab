@@ -6,22 +6,22 @@
  * @author Chris Malley (PixelZoom, Inc.)
  */
 
-import faradaysElectromagneticLab from '../../faradaysElectromagneticLab.js';
-import BarMagnet from '../model/BarMagnet.js';
-import Panel, { PanelOptions } from '../../../../sun/js/Panel.js';
-import Checkbox, { CheckboxOptions } from '../../../../sun/js/Checkbox.js';
-import { Node, Text, VBox, VBoxOptions } from '../../../../scenery/js/imports.js';
-import TextPushButton from '../../../../sun/js/buttons/TextPushButton.js';
+import DerivedStringProperty from '../../../../axon/js/DerivedStringProperty.js';
+import Property from '../../../../axon/js/Property.js';
+import TReadOnlyProperty from '../../../../axon/js/TReadOnlyProperty.js';
 import { combineOptions, optionize4 } from '../../../../phet-core/js/optionize.js';
-import FELConstants from '../FELConstants.js';
-import FaradaysElectromagneticLabStrings from '../../FaradaysElectromagneticLabStrings.js';
-import BarMagnetStrengthControl from './BarMagnetStrengthControl.js';
-import Compass from '../model/Compass.js';
 import PickRequired from '../../../../phet-core/js/types/PickRequired.js';
 import StrictOmit from '../../../../phet-core/js/types/StrictOmit.js';
-import Property from '../../../../axon/js/Property.js';
-import DerivedStringProperty from '../../../../axon/js/DerivedStringProperty.js';
-import TReadOnlyProperty from '../../../../axon/js/TReadOnlyProperty.js';
+import { Node, Text, VBox, VBoxOptions } from '../../../../scenery/js/imports.js';
+import TextPushButton from '../../../../sun/js/buttons/TextPushButton.js';
+import Checkbox, { CheckboxOptions } from '../../../../sun/js/Checkbox.js';
+import Panel, { PanelOptions } from '../../../../sun/js/Panel.js';
+import faradaysElectromagneticLab from '../../faradaysElectromagneticLab.js';
+import FaradaysElectromagneticLabStrings from '../../FaradaysElectromagneticLabStrings.js';
+import FELConstants from '../FELConstants.js';
+import BarMagnet from '../model/BarMagnet.js';
+import Compass from '../model/Compass.js';
+import BarMagnetStrengthControl from './BarMagnetStrengthControl.js';
 
 type SelfOptions = {
 

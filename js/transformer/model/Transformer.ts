@@ -7,19 +7,19 @@
  * @author Chris Malley (PixelZoom, Inc.)
  */
 
-import faradaysElectromagneticLab from '../../faradaysElectromagneticLab.js';
+import DerivedProperty from '../../../../axon/js/DerivedProperty.js';
+import TReadOnlyProperty from '../../../../axon/js/TReadOnlyProperty.js';
+import RangeWithValue from '../../../../dot/js/RangeWithValue.js';
+import Vector2 from '../../../../dot/js/Vector2.js';
+import optionize from '../../../../phet-core/js/optionize.js';
+import PickRequired from '../../../../phet-core/js/types/PickRequired.js';
+import isSettingPhetioStateProperty from '../../../../tandem/js/isSettingPhetioStateProperty.js';
 import PhetioObject, { PhetioObjectOptions } from '../../../../tandem/js/PhetioObject.js';
+import { CurrentFlow } from '../../common/FELQueryParameters.js';
+import DCPowerSupply from '../../common/model/DCPowerSupply.js';
 import Electromagnet from '../../common/model/Electromagnet.js';
 import PickupCoil from '../../common/model/PickupCoil.js';
-import Vector2 from '../../../../dot/js/Vector2.js';
-import DerivedProperty from '../../../../axon/js/DerivedProperty.js';
-import DCPowerSupply from '../../common/model/DCPowerSupply.js';
-import RangeWithValue from '../../../../dot/js/RangeWithValue.js';
-import PickRequired from '../../../../phet-core/js/types/PickRequired.js';
-import optionize from '../../../../phet-core/js/optionize.js';
-import isSettingPhetioStateProperty from '../../../../tandem/js/isSettingPhetioStateProperty.js';
-import TReadOnlyProperty from '../../../../axon/js/TReadOnlyProperty.js';
-import { CurrentFlow } from '../../common/FELQueryParameters.js';
+import faradaysElectromagneticLab from '../../faradaysElectromagneticLab.js';
 
 type SelfOptions = {
   electromagnetPosition: Vector2;

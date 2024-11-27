@@ -10,8 +10,8 @@
  * @author Chris Malley (PixelZoom, Inc.)
  */
 
-import faradaysElectromagneticLab from '../../faradaysElectromagneticLab.js';
 import Dimension2 from '../../../../dot/js/Dimension2.js';
+import faradaysElectromagneticLab from '../../faradaysElectromagneticLab.js';
 
 const BarMagnetFieldData = {
 

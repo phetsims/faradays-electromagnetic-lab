@@ -9,16 +9,16 @@
  * @author Chris Malley (PixelZoom, Inc.)
  */
 
-import faradaysElectromagneticLab from '../../faradaysElectromagneticLab.js';
-import { Color, Sprite, SpriteImage, SpriteInstance, SpriteInstanceTransformType, Sprites } from '../../../../scenery/js/imports.js';
-import Vector2 from '../../../../dot/js/Vector2.js';
+import Multilink from '../../../../axon/js/Multilink.js';
 import TReadOnlyProperty from '../../../../axon/js/TReadOnlyProperty.js';
 import Bounds2 from '../../../../dot/js/Bounds2.js';
-import Multilink from '../../../../axon/js/Multilink.js';
-import CompassNeedleNode from './CompassNeedleNode.js';
-import Magnet from '../model/Magnet.js';
-import FELColors from '../FELColors.js';
+import Vector2 from '../../../../dot/js/Vector2.js';
+import { Color, Sprite, SpriteImage, SpriteInstance, SpriteInstanceTransformType, Sprites } from '../../../../scenery/js/imports.js';
 import Tandem from '../../../../tandem/js/Tandem.js';
+import faradaysElectromagneticLab from '../../faradaysElectromagneticLab.js';
+import FELColors from '../FELColors.js';
+import Magnet from '../model/Magnet.js';
+import CompassNeedleNode from './CompassNeedleNode.js';
 
 // Scale up by this much to improve resolution.
 const COMPASS_NEEDLE_RESOLUTION_SCALE = 8;

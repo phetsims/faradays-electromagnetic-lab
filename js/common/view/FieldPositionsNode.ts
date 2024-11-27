@@ -9,12 +9,12 @@
  * @author Chris Malley (PixelZoom, Inc.)
  */
 
-import faradaysElectromagneticLab from '../../faradaysElectromagneticLab.js';
-import { Path } from '../../../../scenery/js/imports.js';
 import TReadOnlyProperty from '../../../../axon/js/TReadOnlyProperty.js';
 import Bounds2 from '../../../../dot/js/Bounds2.js';
-import FieldNode from './FieldNode.js';
 import { Shape } from '../../../../kite/js/imports.js';
+import { Path } from '../../../../scenery/js/imports.js';
+import faradaysElectromagneticLab from '../../faradaysElectromagneticLab.js';
+import FieldNode from './FieldNode.js';
 
 export default class FieldPositionsNode extends Path {
 

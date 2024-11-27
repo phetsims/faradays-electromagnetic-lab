@@ -9,18 +9,18 @@
  * @author Chris Malley (PixelZoom, Inc.)
  */
 
-import faradaysElectromagneticLab from '../../faradaysElectromagneticLab.js';
-import { Color, Sprite, SpriteImage, SpriteInstance, SpriteInstanceTransformType, Sprites } from '../../../../scenery/js/imports.js';
+import Multilink from '../../../../axon/js/Multilink.js';
+import TReadOnlyProperty from '../../../../axon/js/TReadOnlyProperty.js';
+import Bounds2 from '../../../../dot/js/Bounds2.js';
 import Vector2 from '../../../../dot/js/Vector2.js';
+import { Color, Sprite, SpriteImage, SpriteInstance, SpriteInstanceTransformType, Sprites } from '../../../../scenery/js/imports.js';
+import faradaysElectromagneticLab from '../../faradaysElectromagneticLab.js';
 import FELColors from '../FELColors.js';
+import { CurrentFlow } from '../FELQueryParameters.js';
 import ChargedParticle from '../model/ChargedParticle.js';
 import Coil, { CoilLayer } from '../model/Coil.js';
-import Bounds2 from '../../../../dot/js/Bounds2.js';
-import Multilink from '../../../../axon/js/Multilink.js';
 import ElectronNode from './ElectronNode.js';
-import { CurrentFlow } from '../FELQueryParameters.js';
 import PositiveChargeNode from './PositiveChargeNode.js';
-import TReadOnlyProperty from '../../../../axon/js/TReadOnlyProperty.js';
 
 // Scale up by this much when creating Nodes, to improve resolution.
 const RESOLUTION_SCALE = 8;

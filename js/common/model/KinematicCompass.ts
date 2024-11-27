@@ -15,16 +15,16 @@
  * @author Chris Malley (PixelZoom, Inc.)
  */
 
-import Compass, { CompassOptions } from './Compass.js';
-import faradaysElectromagneticLab from '../../faradaysElectromagneticLab.js';
-import Magnet from './Magnet.js';
-import Vector2 from '../../../../dot/js/Vector2.js';
-import Utils from '../../../../dot/js/Utils.js';
-import Property from '../../../../axon/js/Property.js';
 import NumberProperty from '../../../../axon/js/NumberProperty.js';
-import optionize, { EmptySelfOptions } from '../../../../phet-core/js/optionize.js';
+import Property from '../../../../axon/js/Property.js';
 import TReadOnlyProperty from '../../../../axon/js/TReadOnlyProperty.js';
+import Utils from '../../../../dot/js/Utils.js';
+import Vector2 from '../../../../dot/js/Vector2.js';
+import optionize, { EmptySelfOptions } from '../../../../phet-core/js/optionize.js';
+import faradaysElectromagneticLab from '../../faradaysElectromagneticLab.js';
+import Compass, { CompassOptions } from './Compass.js';
 import ConstantDtClock from './ConstantDtClock.js';
+import Magnet from './Magnet.js';
 
 // The maximum field magnitude, in G, for which the compass will exhibit kinematic behavior.
 // Field magnitudes greater than this value cause the compass need to immediately align with the field. This is a

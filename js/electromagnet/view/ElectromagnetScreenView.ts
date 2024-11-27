@@ -6,19 +6,19 @@
  * @author Chris Malley (PixelZoom, Inc.)
  */
 
+import Vector2 from '../../../../dot/js/Vector2.js';
+import { Node } from '../../../../scenery/js/imports.js';
+import Tandem from '../../../../tandem/js/Tandem.js';
+import FELConstants from '../../common/FELConstants.js';
+import ACPowerSupplyPanel from '../../common/view/ACPowerSupplyPanel.js';
+import DCPowerSupplyPanel from '../../common/view/DCPowerSupplyPanel.js';
+import ElectromagnetNode from '../../common/view/ElectromagnetNode.js';
+import FELScreenView from '../../common/view/FELScreenView.js';
+import FELTimeControlNode from '../../common/view/FELTimeControlNode.js';
 import faradaysElectromagneticLab from '../../faradaysElectromagneticLab.js';
 import ElectromagnetScreenModel from '../model/ElectromagnetScreenModel.js';
-import Tandem from '../../../../tandem/js/Tandem.js';
-import { Node } from '../../../../scenery/js/imports.js';
 import ElectromagnetDeveloperAccordionBox from './ElectromagnetDeveloperAccordionBox.js';
-import FELTimeControlNode from '../../common/view/FELTimeControlNode.js';
 import ElectromagnetPanels from './ElectromagnetPanels.js';
-import FELScreenView from '../../common/view/FELScreenView.js';
-import ElectromagnetNode from '../../common/view/ElectromagnetNode.js';
-import FELConstants from '../../common/FELConstants.js';
-import DCPowerSupplyPanel from '../../common/view/DCPowerSupplyPanel.js';
-import ACPowerSupplyPanel from '../../common/view/ACPowerSupplyPanel.js';
-import Vector2 from '../../../../dot/js/Vector2.js';
 
 export default class ElectromagnetScreenView extends FELScreenView {
 

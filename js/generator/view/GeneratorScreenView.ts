@@ -6,15 +6,15 @@
  * @author Chris Malley (PixelZoom, Inc.)
  */
 
+import { Node } from '../../../../scenery/js/imports.js';
+import Tandem from '../../../../tandem/js/Tandem.js';
+import FELScreenView from '../../common/view/FELScreenView.js';
+import FELTimeControlNode from '../../common/view/FELTimeControlNode.js';
 import faradaysElectromagneticLab from '../../faradaysElectromagneticLab.js';
 import GeneratorScreenModel from '../model/GeneratorScreenModel.js';
-import Tandem from '../../../../tandem/js/Tandem.js';
-import { Node } from '../../../../scenery/js/imports.js';
 import GeneratorDeveloperAccordionBox from './GeneratorDeveloperAccordionBox.js';
-import FELTimeControlNode from '../../common/view/FELTimeControlNode.js';
-import GeneratorPanels from './GeneratorPanels.js';
-import FELScreenView from '../../common/view/FELScreenView.js';
 import GeneratorNode from './GeneratorNode.js';
+import GeneratorPanels from './GeneratorPanels.js';
 
 export default class GeneratorScreenView extends FELScreenView {
 

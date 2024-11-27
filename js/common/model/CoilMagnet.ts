@@ -13,15 +13,15 @@
  * @author Chris Malley (PixelZoom, Inc.)
  */
 
-import faradaysElectromagneticLab from '../../faradaysElectromagneticLab.js';
-import Magnet, { MagnetOptions } from './Magnet.js';
 import TReadOnlyProperty from '../../../../axon/js/TReadOnlyProperty.js';
+import Dimension3 from '../../../../dot/js/Dimension3.js';
 import Range from '../../../../dot/js/Range.js';
 import Vector2 from '../../../../dot/js/Vector2.js';
 import optionize, { EmptySelfOptions } from '../../../../phet-core/js/optionize.js';
-import Coil from './Coil.js';
 import StrictOmit from '../../../../phet-core/js/types/StrictOmit.js';
-import Dimension3 from '../../../../dot/js/Dimension3.js';
+import faradaysElectromagneticLab from '../../faradaysElectromagneticLab.js';
+import Coil from './Coil.js';
+import Magnet, { MagnetOptions } from './Magnet.js';
 
 type SelfOptions = EmptySelfOptions;
 

@@ -7,13 +7,13 @@
  * @author Chris Malley (PixelZoom, Inc.)
  */
 
-import faradaysElectromagneticLab from '../../faradaysElectromagneticLab.js';
 import BooleanProperty from '../../../../axon/js/BooleanProperty.js';
-import Tandem from '../../../../tandem/js/Tandem.js';
-import StringUnionProperty from '../../../../axon/js/StringUnionProperty.js';
-import FELQueryParameters, { CurrentFlow, CurrentFlowValues, EarthHemisphere, EarthHemisphereValues, MagneticUnits, MagneticUnitsValues } from '../FELQueryParameters.js';
 import Property from '../../../../axon/js/Property.js';
+import StringUnionProperty from '../../../../axon/js/StringUnionProperty.js';
 import optionize from '../../../../phet-core/js/optionize.js';
+import Tandem from '../../../../tandem/js/Tandem.js';
+import faradaysElectromagneticLab from '../../faradaysElectromagneticLab.js';
+import FELQueryParameters, { CurrentFlow, CurrentFlowValues, EarthHemisphere, EarthHemisphereValues, MagneticUnits, MagneticUnitsValues } from '../FELQueryParameters.js';
 
 type SelfOptions = {
 

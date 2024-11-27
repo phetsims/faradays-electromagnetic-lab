@@ -8,24 +8,24 @@
  * @author Chris Malley (PixelZoom, Inc.)
  */
 
-import faradaysElectromagneticLab from '../../faradaysElectromagneticLab.js';
-import Range from '../../../../dot/js/Range.js';
-import Vector2 from '../../../../dot/js/Vector2.js';
-import Property from '../../../../axon/js/Property.js';
-import NumberProperty from '../../../../axon/js/NumberProperty.js';
-import optionize, { combineOptions } from '../../../../phet-core/js/optionize.js';
 import BooleanProperty from '../../../../axon/js/BooleanProperty.js';
+import NumberProperty from '../../../../axon/js/NumberProperty.js';
+import Property from '../../../../axon/js/Property.js';
 import TReadOnlyProperty from '../../../../axon/js/TReadOnlyProperty.js';
 import Bounds2 from '../../../../dot/js/Bounds2.js';
 import Dimension3 from '../../../../dot/js/Dimension3.js';
+import Range from '../../../../dot/js/Range.js';
 import Utils from '../../../../dot/js/Utils.js';
-import FELQueryParameters from '../FELQueryParameters.js';
-import FELConstants from '../FELConstants.js';
+import Vector2 from '../../../../dot/js/Vector2.js';
 import Vector2Property, { Vector2PropertyOptions } from '../../../../dot/js/Vector2Property.js';
-import PhetioObject, { PhetioObjectOptions } from '../../../../tandem/js/PhetioObject.js';
-import StrictOmit from '../../../../phet-core/js/types/StrictOmit.js';
+import optionize, { combineOptions } from '../../../../phet-core/js/optionize.js';
 import PickOptional from '../../../../phet-core/js/types/PickOptional.js';
 import PickRequired from '../../../../phet-core/js/types/PickRequired.js';
+import StrictOmit from '../../../../phet-core/js/types/StrictOmit.js';
+import PhetioObject, { PhetioObjectOptions } from '../../../../tandem/js/PhetioObject.js';
+import faradaysElectromagneticLab from '../../faradaysElectromagneticLab.js';
+import FELConstants from '../FELConstants.js';
+import FELQueryParameters from '../FELQueryParameters.js';
 
 type SelfOptions = {
 

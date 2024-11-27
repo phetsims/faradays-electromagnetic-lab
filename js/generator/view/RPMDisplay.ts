@@ -6,14 +6,14 @@
  * @author Chris Malley (PixelZoom, Inc.)
  */
 
-import { Circle, Node, NodeOptions, NodeTranslationOptions, Text, VBox } from '../../../../scenery/js/imports.js';
-import TReadOnlyProperty from '../../../../axon/js/TReadOnlyProperty.js';
-import optionize from '../../../../phet-core/js/optionize.js';
 import DerivedStringProperty from '../../../../axon/js/DerivedStringProperty.js';
+import TReadOnlyProperty from '../../../../axon/js/TReadOnlyProperty.js';
 import Utils from '../../../../dot/js/Utils.js';
+import optionize from '../../../../phet-core/js/optionize.js';
 import PhetFont from '../../../../scenery-phet/js/PhetFont.js';
-import faradaysElectromagneticLab from '../../faradaysElectromagneticLab.js';
+import { Circle, Node, NodeOptions, NodeTranslationOptions, Text, VBox } from '../../../../scenery/js/imports.js';
 import FELColors from '../../common/FELColors.js';
+import faradaysElectromagneticLab from '../../faradaysElectromagneticLab.js';
 import FaradaysElectromagneticLabStrings from '../../FaradaysElectromagneticLabStrings.js';
 
 type SelfOptions = {

@@ -6,19 +6,19 @@
  * @author Chris Malley (PixelZoom, Inc.)
  */
 
-import faradaysElectromagneticLab from '../../faradaysElectromagneticLab.js';
-import BarMagnetScreenModel from '../model/BarMagnetScreenModel.js';
-import Tandem from '../../../../tandem/js/Tandem.js';
 import { Node } from '../../../../scenery/js/imports.js';
-import BarMagnetViewProperties from './BarMagnetViewProperties.js';
+import Tandem from '../../../../tandem/js/Tandem.js';
+import FELQueryParameters from '../../common/FELQueryParameters.js';
+import FELPreferences from '../../common/model/FELPreferences.js';
 import BarMagnetNode from '../../common/view/BarMagnetNode.js';
 import EarthNode from '../../common/view/EarthNode.js';
+import FELScreenView from '../../common/view/FELScreenView.js';
+import FieldPositionsNode from '../../common/view/FieldPositionsNode.js';
+import faradaysElectromagneticLab from '../../faradaysElectromagneticLab.js';
+import BarMagnetScreenModel from '../model/BarMagnetScreenModel.js';
 import BarMagnetDeveloperAccordionBox from './BarMagnetDeveloperAccordionBox.js';
 import BarMagnetPanels from './BarMagnetPanels.js';
-import FELScreenView from '../../common/view/FELScreenView.js';
-import FELQueryParameters from '../../common/FELQueryParameters.js';
-import FieldPositionsNode from '../../common/view/FieldPositionsNode.js';
-import FELPreferences from '../../common/model/FELPreferences.js';
+import BarMagnetViewProperties from './BarMagnetViewProperties.js';
 
 export default class BarMagnetScreenView extends FELScreenView {
 

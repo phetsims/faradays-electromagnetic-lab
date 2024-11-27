@@ -7,23 +7,23 @@
  * @author Chris Malley (PixelZoom, Inc.)
  */
 
-import Panel, { PanelOptions } from '../../../../sun/js/Panel.js';
-import faradaysElectromagneticLab from '../../faradaysElectromagneticLab.js';
-import TReadOnlyProperty from '../../../../axon/js/TReadOnlyProperty.js';
-import CurrentSource from '../model/CurrentSource.js';
-import { optionize4 } from '../../../../phet-core/js/optionize.js';
-import FELConstants from '../FELConstants.js';
+import BooleanProperty from '../../../../axon/js/BooleanProperty.js';
 import DerivedProperty from '../../../../axon/js/DerivedProperty.js';
-import PickRequired from '../../../../phet-core/js/types/PickRequired.js';
-import { InteractiveHighlighting, Node } from '../../../../scenery/js/imports.js';
+import Property from '../../../../axon/js/Property.js';
+import TReadOnlyProperty from '../../../../axon/js/TReadOnlyProperty.js';
+import Bounds2 from '../../../../dot/js/Bounds2.js';
 import Vector2 from '../../../../dot/js/Vector2.js';
 import Vector2Property from '../../../../dot/js/Vector2Property.js';
-import Property from '../../../../axon/js/Property.js';
-import SoundKeyboardDragListener from '../../../../scenery-phet/js/SoundKeyboardDragListener.js';
-import Bounds2 from '../../../../dot/js/Bounds2.js';
-import isSettingPhetioStateProperty from '../../../../tandem/js/isSettingPhetioStateProperty.js';
+import { optionize4 } from '../../../../phet-core/js/optionize.js';
+import PickRequired from '../../../../phet-core/js/types/PickRequired.js';
 import SoundDragListener from '../../../../scenery-phet/js/SoundDragListener.js';
-import BooleanProperty from '../../../../axon/js/BooleanProperty.js';
+import SoundKeyboardDragListener from '../../../../scenery-phet/js/SoundKeyboardDragListener.js';
+import { InteractiveHighlighting, Node } from '../../../../scenery/js/imports.js';
+import Panel, { PanelOptions } from '../../../../sun/js/Panel.js';
+import isSettingPhetioStateProperty from '../../../../tandem/js/isSettingPhetioStateProperty.js';
+import faradaysElectromagneticLab from '../../faradaysElectromagneticLab.js';
+import FELConstants from '../FELConstants.js';
+import CurrentSource from '../model/CurrentSource.js';
 
 type SelfOptions = {
   position: Vector2; // initial position of the panel's top-left corner

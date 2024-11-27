@@ -17,27 +17,27 @@
  * @author Chris Malley (PixelZoom, Inc.)
  */
 
-import RangeWithValue from '../../../../dot/js/RangeWithValue.js';
-import Range from '../../../../dot/js/Range.js';
-import faradaysElectromagneticLab from '../../faradaysElectromagneticLab.js';
-import NumberProperty from '../../../../axon/js/NumberProperty.js';
-import TReadOnlyProperty from '../../../../axon/js/TReadOnlyProperty.js';
-import optionize from '../../../../phet-core/js/optionize.js';
-import Property from '../../../../axon/js/Property.js';
 import BooleanProperty from '../../../../axon/js/BooleanProperty.js';
 import DerivedProperty from '../../../../axon/js/DerivedProperty.js';
-import NumberIO from '../../../../tandem/js/types/NumberIO.js';
-import PhetioObject, { PhetioObjectOptions } from '../../../../tandem/js/PhetioObject.js';
-import PickRequired from '../../../../phet-core/js/types/PickRequired.js';
-import Tandem from '../../../../tandem/js/Tandem.js';
-import FELConstants from '../FELConstants.js';
-import CoilSegment from './CoilSegment.js';
-import Vector2 from '../../../../dot/js/Vector2.js';
-import { LinearGradient, TColor } from '../../../../scenery/js/imports.js';
-import FELColors from '../FELColors.js';
-import ChargedParticle from './ChargedParticle.js';
 import Emitter from '../../../../axon/js/Emitter.js';
+import NumberProperty from '../../../../axon/js/NumberProperty.js';
+import Property from '../../../../axon/js/Property.js';
+import TReadOnlyProperty from '../../../../axon/js/TReadOnlyProperty.js';
+import Range from '../../../../dot/js/Range.js';
+import RangeWithValue from '../../../../dot/js/RangeWithValue.js';
+import Vector2 from '../../../../dot/js/Vector2.js';
+import optionize from '../../../../phet-core/js/optionize.js';
+import PickRequired from '../../../../phet-core/js/types/PickRequired.js';
+import { LinearGradient, TColor } from '../../../../scenery/js/imports.js';
+import PhetioObject, { PhetioObjectOptions } from '../../../../tandem/js/PhetioObject.js';
+import Tandem from '../../../../tandem/js/Tandem.js';
+import NumberIO from '../../../../tandem/js/types/NumberIO.js';
+import faradaysElectromagneticLab from '../../faradaysElectromagneticLab.js';
+import FELColors from '../FELColors.js';
+import FELConstants from '../FELConstants.js';
 import { CurrentFlow } from '../FELQueryParameters.js';
+import ChargedParticle from './ChargedParticle.js';
+import CoilSegment from './CoilSegment.js';
 
 // Spacing between the centers of charges in the coil.
 const CHARGE_SPACING = 25;

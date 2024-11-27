@@ -6,17 +6,17 @@
  * @author Chris Malley (PixelZoom, Inc.)
  */
 
-import faradaysElectromagneticLab from '../../faradaysElectromagneticLab.js';
-import Checkbox, { CheckboxOptions } from '../../../../sun/js/Checkbox.js';
-import { Circle, HBox, Node, Text, TextOptions } from '../../../../scenery/js/imports.js';
-import FaradaysElectromagneticLabStrings from '../../FaradaysElectromagneticLabStrings.js';
-import FELConstants from '../FELConstants.js';
-import { combineOptions } from '../../../../phet-core/js/optionize.js';
 import Property from '../../../../axon/js/Property.js';
-import Tandem from '../../../../tandem/js/Tandem.js';
+import { combineOptions } from '../../../../phet-core/js/optionize.js';
 import PhetFont from '../../../../scenery-phet/js/PhetFont.js';
-import CompassNeedleNode from './CompassNeedleNode.js';
+import { Circle, HBox, Node, Text, TextOptions } from '../../../../scenery/js/imports.js';
+import Checkbox, { CheckboxOptions } from '../../../../sun/js/Checkbox.js';
+import Tandem from '../../../../tandem/js/Tandem.js';
+import faradaysElectromagneticLab from '../../faradaysElectromagneticLab.js';
+import FaradaysElectromagneticLabStrings from '../../FaradaysElectromagneticLabStrings.js';
 import FELColors from '../FELColors.js';
+import FELConstants from '../FELConstants.js';
+import CompassNeedleNode from './CompassNeedleNode.js';
 
 // Options for the 'N' and 'S' labels on the icon.
 const NS_TEXT_OPTIONS: TextOptions = {

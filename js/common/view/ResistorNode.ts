@@ -13,9 +13,9 @@
  */
 
 import Dimension2 from '../../../../dot/js/Dimension2.js';
-import { HBox, Line, Node, NodeOptions, NodeTranslationOptions, Rectangle, TPaint } from '../../../../scenery/js/imports.js';
-import PickOptional from '../../../../phet-core/js/types/PickOptional.js';
 import optionize from '../../../../phet-core/js/optionize.js';
+import PickOptional from '../../../../phet-core/js/types/PickOptional.js';
+import { HBox, Line, Node, NodeOptions, NodeTranslationOptions, Rectangle, TPaint } from '../../../../scenery/js/imports.js';
 import faradaysElectromagneticLab from '../../faradaysElectromagneticLab.js';
 
 type SelfOptions = {

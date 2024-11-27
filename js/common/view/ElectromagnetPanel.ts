@@ -6,18 +6,18 @@
  * @author Chris Malley (PixelZoom, Inc.)
  */
 
-import faradaysElectromagneticLab from '../../faradaysElectromagneticLab.js';
-import Panel, { PanelOptions } from '../../../../sun/js/Panel.js';
-import { Node, Text, VBox, VBoxOptions } from '../../../../scenery/js/imports.js';
 import { combineOptions } from '../../../../phet-core/js/optionize.js';
-import FELConstants from '../FELConstants.js';
-import FaradaysElectromagneticLabStrings from '../../FaradaysElectromagneticLabStrings.js';
-import Tandem from '../../../../tandem/js/Tandem.js';
+import { Node, Text, VBox, VBoxOptions } from '../../../../scenery/js/imports.js';
 import Checkbox, { CheckboxOptions } from '../../../../sun/js/Checkbox.js';
-import NumberOfLoopsControl from './NumberOfLoopsControl.js';
+import Panel, { PanelOptions } from '../../../../sun/js/Panel.js';
+import Tandem from '../../../../tandem/js/Tandem.js';
+import faradaysElectromagneticLab from '../../faradaysElectromagneticLab.js';
+import FaradaysElectromagneticLabStrings from '../../FaradaysElectromagneticLabStrings.js';
+import FELConstants from '../FELConstants.js';
 import Electromagnet from '../model/Electromagnet.js';
-import CurrentSourceControl from './CurrentSourceControl.js';
 import CurrentCheckbox from './CurrentCheckbox.js';
+import CurrentSourceControl from './CurrentSourceControl.js';
+import NumberOfLoopsControl from './NumberOfLoopsControl.js';
 
 export default class ElectromagnetPanel extends Panel {
 

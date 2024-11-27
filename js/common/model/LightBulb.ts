@@ -9,16 +9,16 @@
  * @author Chris Malley (PixelZoom, Inc.)
  */
 
-import faradaysElectromagneticLab from '../../faradaysElectromagneticLab.js';
+import BooleanProperty from '../../../../axon/js/BooleanProperty.js';
 import NumberProperty from '../../../../axon/js/NumberProperty.js';
-import Range from '../../../../dot/js/Range.js';
-import PickRequired from '../../../../phet-core/js/types/PickRequired.js';
 import TReadOnlyProperty from '../../../../axon/js/TReadOnlyProperty.js';
-import FELConstants from '../FELConstants.js';
-import CurrentIndicator, { CurrentIndicatorOptions } from './CurrentIndicator.js';
+import Range from '../../../../dot/js/Range.js';
 import Utils from '../../../../dot/js/Utils.js';
 import optionize from '../../../../phet-core/js/optionize.js';
-import BooleanProperty from '../../../../axon/js/BooleanProperty.js';
+import PickRequired from '../../../../phet-core/js/types/PickRequired.js';
+import faradaysElectromagneticLab from '../../faradaysElectromagneticLab.js';
+import FELConstants from '../FELConstants.js';
+import CurrentIndicator, { CurrentIndicatorOptions } from './CurrentIndicator.js';
 
 const BRIGHTNESS_RANGE = new Range( 0, 1 );
 

@@ -6,12 +6,12 @@
  * @author Chris Malley (PixelZoom, Inc.)
  */
 
-import faradaysElectromagneticLab from '../../faradaysElectromagneticLab.js';
+import { Node } from '../../../../scenery/js/imports.js';
 import Tandem from '../../../../tandem/js/Tandem.js';
-import ToolsPanel from '../../common/view/ToolsPanel.js';
 import ElectromagnetPanel from '../../common/view/ElectromagnetPanel.js';
 import FELPanels from '../../common/view/FELPanels.js';
-import { Node } from '../../../../scenery/js/imports.js';
+import ToolsPanel from '../../common/view/ToolsPanel.js';
+import faradaysElectromagneticLab from '../../faradaysElectromagneticLab.js';
 import ElectromagnetScreenModel from '../model/ElectromagnetScreenModel.js';
 
 export default class ElectromagnetPanels extends FELPanels {

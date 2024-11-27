@@ -6,13 +6,13 @@
  * @author Chris Malley (PixelZoom, Inc.)
  */
 
-import faradaysElectromagneticLab from '../../faradaysElectromagneticLab.js';
-import { NodeTranslationOptions, Rectangle, RectangleOptions } from '../../../../scenery/js/imports.js';
-import TReadOnlyProperty from '../../../../axon/js/TReadOnlyProperty.js';
-import optionize, { EmptySelfOptions } from '../../../../phet-core/js/optionize.js';
-import Bounds2 from '../../../../dot/js/Bounds2.js';
 import Multilink from '../../../../axon/js/Multilink.js';
+import TReadOnlyProperty from '../../../../axon/js/TReadOnlyProperty.js';
+import Bounds2 from '../../../../dot/js/Bounds2.js';
+import optionize, { EmptySelfOptions } from '../../../../phet-core/js/optionize.js';
+import { NodeTranslationOptions, Rectangle, RectangleOptions } from '../../../../scenery/js/imports.js';
 import FELColors from '../../common/FELColors.js';
+import faradaysElectromagneticLab from '../../faradaysElectromagneticLab.js';
 
 const MAX_WIDTH = 60; // width of the water stream when flowRatePercentProperty is at its maximum
 

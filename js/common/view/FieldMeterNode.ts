@@ -10,26 +10,26 @@
  * @author Chris Malley (PixelZoom, Inc.)
  */
 
-import faradaysElectromagneticLab from '../../faradaysElectromagneticLab.js';
-import FieldMeter from '../model/FieldMeter.js';
-import { GridBox, Path, RichText, RichTextOptions, Text, TextOptions } from '../../../../scenery/js/imports.js';
-import { Shape } from '../../../../kite/js/imports.js';
-import Utils from '../../../../dot/js/Utils.js';
-import MathSymbols from '../../../../scenery-phet/js/MathSymbols.js';
-import FaradaysElectromagneticLabStrings from '../../FaradaysElectromagneticLabStrings.js';
-import PhetFont from '../../../../scenery-phet/js/PhetFont.js';
-import ShadedRectangle from '../../../../scenery-phet/js/ShadedRectangle.js';
+import DerivedStringProperty from '../../../../axon/js/DerivedStringProperty.js';
 import Bounds2 from '../../../../dot/js/Bounds2.js';
-import FELColors from '../FELColors.js';
-import FELMovableNode, { FELMovableNodeOptions } from './FELMovableNode.js';
-import Vector2 from '../../../../dot/js/Vector2.js';
 import Dimension2 from '../../../../dot/js/Dimension2.js';
-import StringDisplay, { StringDisplayOptions } from '../../../../scenery-phet/js/StringDisplay.js';
-import StringUtils from '../../../../phetcommon/js/util/StringUtils.js';
+import Utils from '../../../../dot/js/Utils.js';
+import Vector2 from '../../../../dot/js/Vector2.js';
+import { Shape } from '../../../../kite/js/imports.js';
 import optionize, { combineOptions, EmptySelfOptions } from '../../../../phet-core/js/optionize.js';
 import PickRequired from '../../../../phet-core/js/types/PickRequired.js';
-import DerivedStringProperty from '../../../../axon/js/DerivedStringProperty.js';
+import StringUtils from '../../../../phetcommon/js/util/StringUtils.js';
+import MathSymbols from '../../../../scenery-phet/js/MathSymbols.js';
+import PhetFont from '../../../../scenery-phet/js/PhetFont.js';
+import ShadedRectangle from '../../../../scenery-phet/js/ShadedRectangle.js';
 import { SoundKeyboardDragListenerOptions } from '../../../../scenery-phet/js/SoundKeyboardDragListener.js';
+import StringDisplay, { StringDisplayOptions } from '../../../../scenery-phet/js/StringDisplay.js';
+import { GridBox, Path, RichText, RichTextOptions, Text, TextOptions } from '../../../../scenery/js/imports.js';
+import faradaysElectromagneticLab from '../../faradaysElectromagneticLab.js';
+import FaradaysElectromagneticLabStrings from '../../FaradaysElectromagneticLabStrings.js';
+import FELColors from '../FELColors.js';
+import FieldMeter from '../model/FieldMeter.js';
+import FELMovableNode, { FELMovableNodeOptions } from './FELMovableNode.js';
 
 // Constants to improve readability.
 const BStringProperty = FaradaysElectromagneticLabStrings.symbol.BStringProperty;

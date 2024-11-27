@@ -7,14 +7,14 @@
  * @author Chris Malley (PixelZoom, Inc.)
  */
 
-import RectangularRadioButtonGroup, { RectangularRadioButtonGroupItem } from '../../../../sun/js/buttons/RectangularRadioButtonGroup.js';
-import faradaysElectromagneticLab from '../../faradaysElectromagneticLab.js';
-import Tandem from '../../../../tandem/js/Tandem.js';
-import FELConstants from '../FELConstants.js';
 import { HBox, RichText } from '../../../../scenery/js/imports.js';
+import RectangularRadioButtonGroup, { RectangularRadioButtonGroupItem } from '../../../../sun/js/buttons/RectangularRadioButtonGroup.js';
+import Tandem from '../../../../tandem/js/Tandem.js';
+import faradaysElectromagneticLab from '../../faradaysElectromagneticLab.js';
 import FaradaysElectromagneticLabStrings from '../../FaradaysElectromagneticLabStrings.js';
-import Electromagnet from '../model/Electromagnet.js';
+import FELConstants from '../FELConstants.js';
 import CurrentSource from '../model/CurrentSource.js';
+import Electromagnet from '../model/Electromagnet.js';
 import ACPowerSupplyPanel from './ACPowerSupplyPanel.js';
 import DCPowerSupplyPanel from './DCPowerSupplyPanel.js';
 

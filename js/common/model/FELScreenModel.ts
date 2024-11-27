@@ -9,24 +9,24 @@
  * @author Chris Malley (PixelZoom, Inc.)
  */
 
-import TModel from '../../../../joist/js/TModel.js';
-import faradaysElectromagneticLab from '../../faradaysElectromagneticLab.js';
-import Property from '../../../../axon/js/Property.js';
 import BooleanProperty, { BooleanPropertyOptions } from '../../../../axon/js/BooleanProperty.js';
-import PickRequired from '../../../../phet-core/js/types/PickRequired.js';
-import { PhetioObjectOptions } from '../../../../tandem/js/PhetioObject.js';
-import optionize, { combineOptions } from '../../../../phet-core/js/optionize.js';
-import FieldMeter, { FieldMeterOptions } from './FieldMeter.js';
-import Vector2 from '../../../../dot/js/Vector2.js';
-import Magnet from './Magnet.js';
-import PickOptional from '../../../../phet-core/js/types/PickOptional.js';
-import StrictOmit from '../../../../phet-core/js/types/StrictOmit.js';
-import TReadOnlyProperty from '../../../../axon/js/TReadOnlyProperty.js';
-import Compass from './Compass.js';
-import Tandem from '../../../../tandem/js/Tandem.js';
-import ConstantDtClock from './ConstantDtClock.js';
 import Disposable from '../../../../axon/js/Disposable.js';
+import Property from '../../../../axon/js/Property.js';
+import TReadOnlyProperty from '../../../../axon/js/TReadOnlyProperty.js';
+import Vector2 from '../../../../dot/js/Vector2.js';
+import TModel from '../../../../joist/js/TModel.js';
+import optionize, { combineOptions } from '../../../../phet-core/js/optionize.js';
+import PickOptional from '../../../../phet-core/js/types/PickOptional.js';
+import PickRequired from '../../../../phet-core/js/types/PickRequired.js';
+import StrictOmit from '../../../../phet-core/js/types/StrictOmit.js';
+import { PhetioObjectOptions } from '../../../../tandem/js/PhetioObject.js';
+import Tandem from '../../../../tandem/js/Tandem.js';
+import faradaysElectromagneticLab from '../../faradaysElectromagneticLab.js';
 import { MagneticUnits } from '../FELQueryParameters.js';
+import Compass from './Compass.js';
+import ConstantDtClock from './ConstantDtClock.js';
+import FieldMeter, { FieldMeterOptions } from './FieldMeter.js';
+import Magnet from './Magnet.js';
 
 const DEFAULT_FIELD_METER_POSITION = new Vector2( 125, 400 );
 

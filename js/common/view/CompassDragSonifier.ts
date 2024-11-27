@@ -18,15 +18,15 @@
  * @author Chris Malley (PixelZoom, Inc.)
  */
 
-import faradaysElectromagneticLab from '../../faradaysElectromagneticLab.js';
-import { PressListenerEvent, TInputListener } from '../../../../scenery/js/imports.js';
-import FELSonifier from '../model/FELSonifier.js';
+import BooleanProperty from '../../../../axon/js/BooleanProperty.js';
 import DerivedProperty from '../../../../axon/js/DerivedProperty.js';
 import Property from '../../../../axon/js/Property.js';
-import BooleanProperty from '../../../../axon/js/BooleanProperty.js';
-import Compass from '../model/Compass.js';
+import { PressListenerEvent, TInputListener } from '../../../../scenery/js/imports.js';
 import felCompassSaturatedSineLoop_mp3 from '../../../sounds/felCompassSaturatedSineLoop_mp3.js';
+import faradaysElectromagneticLab from '../../faradaysElectromagneticLab.js';
+import Compass from '../model/Compass.js';
 import CompassSonifier from '../model/CompassSonifier.js';
+import FELSonifier from '../model/FELSonifier.js';
 
 export default class CompassDragSonifier extends FELSonifier implements TInputListener {
 

@@ -8,31 +8,31 @@
  * @author Chris Malley (PixelZoom, Inc.)
  */
 
-import faradaysElectromagneticLab from '../../faradaysElectromagneticLab.js';
-import optionize, { combineOptions } from '../../../../phet-core/js/optionize.js';
-import Coil, { CoilOptions } from './Coil.js';
-import RangeWithValue from '../../../../dot/js/RangeWithValue.js';
-import Magnet from './Magnet.js';
-import Vector2 from '../../../../dot/js/Vector2.js';
-import Property from '../../../../axon/js/Property.js';
 import BooleanProperty from '../../../../axon/js/BooleanProperty.js';
-import NumberProperty from '../../../../axon/js/NumberProperty.js';
-import Range from '../../../../dot/js/Range.js';
-import TReadOnlyProperty from '../../../../axon/js/TReadOnlyProperty.js';
-import LightBulb, { LightBulbOptions } from './LightBulb.js';
-import Voltmeter, { VoltmeterOptions } from './Voltmeter.js';
-import CurrentIndicator from './CurrentIndicator.js';
-import FELConstants from '../FELConstants.js';
-import StrictOmit from '../../../../phet-core/js/types/StrictOmit.js';
-import PickOptional from '../../../../phet-core/js/types/PickOptional.js';
 import DerivedProperty from '../../../../axon/js/DerivedProperty.js';
-import { CurrentFlow } from '../FELQueryParameters.js';
-import NumberIO from '../../../../tandem/js/types/NumberIO.js';
-import ConstantDtClock from './ConstantDtClock.js';
+import NumberProperty from '../../../../axon/js/NumberProperty.js';
+import Property from '../../../../axon/js/Property.js';
+import TReadOnlyProperty from '../../../../axon/js/TReadOnlyProperty.js';
 import Dimension2 from '../../../../dot/js/Dimension2.js';
-import PhetioObject, { PhetioObjectOptions } from '../../../../tandem/js/PhetioObject.js';
-import PickRequired from '../../../../phet-core/js/types/PickRequired.js';
+import Range from '../../../../dot/js/Range.js';
+import RangeWithValue from '../../../../dot/js/RangeWithValue.js';
+import Vector2 from '../../../../dot/js/Vector2.js';
 import Vector2Property, { Vector2PropertyOptions } from '../../../../dot/js/Vector2Property.js';
+import optionize, { combineOptions } from '../../../../phet-core/js/optionize.js';
+import PickOptional from '../../../../phet-core/js/types/PickOptional.js';
+import PickRequired from '../../../../phet-core/js/types/PickRequired.js';
+import StrictOmit from '../../../../phet-core/js/types/StrictOmit.js';
+import PhetioObject, { PhetioObjectOptions } from '../../../../tandem/js/PhetioObject.js';
+import NumberIO from '../../../../tandem/js/types/NumberIO.js';
+import faradaysElectromagneticLab from '../../faradaysElectromagneticLab.js';
+import FELConstants from '../FELConstants.js';
+import { CurrentFlow } from '../FELQueryParameters.js';
+import Coil, { CoilOptions } from './Coil.js';
+import ConstantDtClock from './ConstantDtClock.js';
+import CurrentIndicator from './CurrentIndicator.js';
+import LightBulb, { LightBulbOptions } from './LightBulb.js';
+import Magnet from './Magnet.js';
+import Voltmeter, { VoltmeterOptions } from './Voltmeter.js';
 
 type SelfOptions = {
   position?: Vector2; // Initial value of positionProperty, unitless

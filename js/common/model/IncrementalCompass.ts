@@ -10,14 +10,14 @@
  * @author Chris Malley (PixelZoom, Inc.)
  */
 
-import Compass, { CompassOptions } from './Compass.js';
-import faradaysElectromagneticLab from '../../faradaysElectromagneticLab.js';
-import Magnet from './Magnet.js';
-import Vector2 from '../../../../dot/js/Vector2.js';
-import Utils from '../../../../dot/js/Utils.js';
-import optionize, { EmptySelfOptions } from '../../../../phet-core/js/optionize.js';
 import TReadOnlyProperty from '../../../../axon/js/TReadOnlyProperty.js';
+import Utils from '../../../../dot/js/Utils.js';
+import Vector2 from '../../../../dot/js/Vector2.js';
+import optionize, { EmptySelfOptions } from '../../../../phet-core/js/optionize.js';
+import faradaysElectromagneticLab from '../../faradaysElectromagneticLab.js';
+import Compass, { CompassOptions } from './Compass.js';
 import ConstantDtClock from './ConstantDtClock.js';
+import Magnet from './Magnet.js';
 
 const MAX_DELTA_ANGLE = Utils.toRadians( 45 );
 

@@ -6,10 +6,10 @@
  * @author Chris Malley (PixelZoom, Inc.)
  */
 
-import { VBox, VBoxOptions } from '../../../../scenery/js/imports.js';
-import faradaysElectromagneticLab from '../../faradaysElectromagneticLab.js';
 import optionize, { EmptySelfOptions } from '../../../../phet-core/js/optionize.js';
 import PickRequired from '../../../../phet-core/js/types/PickRequired.js';
+import { VBox, VBoxOptions } from '../../../../scenery/js/imports.js';
+import faradaysElectromagneticLab from '../../faradaysElectromagneticLab.js';
 
 type SelfOptions = EmptySelfOptions;
 

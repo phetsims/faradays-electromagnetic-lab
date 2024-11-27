@@ -6,18 +6,18 @@
  * @author Chris Malley (PixelZoom, Inc.)
  */
 
-import faradaysElectromagneticLab from '../../faradaysElectromagneticLab.js';
-import Panel, { PanelOptions } from '../../../../sun/js/Panel.js';
-import { Node, Text, VBox, VBoxOptions } from '../../../../scenery/js/imports.js';
 import { combineOptions } from '../../../../phet-core/js/optionize.js';
-import FELConstants from '../FELConstants.js';
-import FaradaysElectromagneticLabStrings from '../../FaradaysElectromagneticLabStrings.js';
+import { Node, Text, VBox, VBoxOptions } from '../../../../scenery/js/imports.js';
+import Panel, { PanelOptions } from '../../../../sun/js/Panel.js';
 import Tandem from '../../../../tandem/js/Tandem.js';
+import faradaysElectromagneticLab from '../../faradaysElectromagneticLab.js';
+import FaradaysElectromagneticLabStrings from '../../FaradaysElectromagneticLabStrings.js';
+import FELConstants from '../FELConstants.js';
 import PickupCoil from '../model/PickupCoil.js';
+import CurrentCheckbox from './CurrentCheckbox.js';
+import CurrentIndicatorControl from './CurrentIndicatorControl.js';
 import LoopAreaControl from './LoopAreaControl.js';
 import NumberOfLoopsControl from './NumberOfLoopsControl.js';
-import CurrentIndicatorControl from './CurrentIndicatorControl.js';
-import CurrentCheckbox from './CurrentCheckbox.js';
 
 export default class PickupCoilPanel extends Panel {
 

@@ -6,18 +6,18 @@
  * @author Chris Malley (PixelZoom, Inc.)
  */
 
-import faradaysElectromagneticLab from '../../faradaysElectromagneticLab.js';
-import Tandem from '../../../../tandem/js/Tandem.js';
-import BarMagnetNode from '../../common/view/BarMagnetNode.js';
+import BooleanProperty from '../../../../axon/js/BooleanProperty.js';
 import { Node } from '../../../../scenery/js/imports.js';
+import Tandem from '../../../../tandem/js/Tandem.js';
+import FELPreferences from '../../common/model/FELPreferences.js';
+import BarMagnetNode from '../../common/view/BarMagnetNode.js';
+import FELScreenView from '../../common/view/FELScreenView.js';
+import PickupCoilAxisNode from '../../common/view/PickupCoilAxisNode.js';
+import PickupCoilNode from '../../common/view/PickupCoilNode.js';
+import faradaysElectromagneticLab from '../../faradaysElectromagneticLab.js';
 import PickupCoilScreenModel from '../model/PickupCoilScreenModel.js';
 import PickupCoilDeveloperAccordionBox from './PickupCoilDeveloperAccordionBox.js';
-import PickupCoilNode from '../../common/view/PickupCoilNode.js';
 import PickupCoilPanels from './PickupCoilPanels.js';
-import FELScreenView from '../../common/view/FELScreenView.js';
-import BooleanProperty from '../../../../axon/js/BooleanProperty.js';
-import PickupCoilAxisNode from '../../common/view/PickupCoilAxisNode.js';
-import FELPreferences from '../../common/model/FELPreferences.js';
 
 export default class PickupCoilScreenView extends FELScreenView {
 

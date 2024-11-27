@@ -7,18 +7,18 @@
  * @author Chris Malley (PixelZoom, Inc.)
  */
 
-import { RichText, Text } from '../../../../../scenery/js/imports.js';
 import StringUnionProperty from '../../../../../axon/js/StringUnionProperty.js';
 import TReadOnlyProperty from '../../../../../axon/js/TReadOnlyProperty.js';
-import PreferencesDialog from '../../../../../joist/js/preferences/PreferencesDialog.js';
-import Tandem from '../../../../../tandem/js/Tandem.js';
 import PreferencesControl, { PreferencesControlOptions } from '../../../../../joist/js/preferences/PreferencesControl.js';
-import FaradaysElectromagneticLabStrings from '../../../FaradaysElectromagneticLabStrings.js';
-import faradaysElectromagneticLab from '../../../faradaysElectromagneticLab.js';
-import AquaRadioButtonGroup, { AquaRadioButtonGroupItem } from '../../../../../sun/js/AquaRadioButtonGroup.js';
-import { MagneticUnits } from '../../FELQueryParameters.js';
-import FELConstants from '../../FELConstants.js';
+import PreferencesDialog from '../../../../../joist/js/preferences/PreferencesDialog.js';
 import { combineOptions } from '../../../../../phet-core/js/optionize.js';
+import { RichText, Text } from '../../../../../scenery/js/imports.js';
+import AquaRadioButtonGroup, { AquaRadioButtonGroupItem } from '../../../../../sun/js/AquaRadioButtonGroup.js';
+import Tandem from '../../../../../tandem/js/Tandem.js';
+import faradaysElectromagneticLab from '../../../faradaysElectromagneticLab.js';
+import FaradaysElectromagneticLabStrings from '../../../FaradaysElectromagneticLabStrings.js';
+import FELConstants from '../../FELConstants.js';
+import { MagneticUnits } from '../../FELQueryParameters.js';
 
 export default class MagneticUnitsPreferencesControl extends PreferencesControl {
 

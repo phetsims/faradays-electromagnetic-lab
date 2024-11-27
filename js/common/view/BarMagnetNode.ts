@@ -7,23 +7,23 @@
  * @author Chris Malley (PixelZoom, Inc.)
  */
 
-import faradaysElectromagneticLab from '../../faradaysElectromagneticLab.js';
-import BarMagnet from '../model/BarMagnet.js';
-import { Node, Text, TextOptions } from '../../../../scenery/js/imports.js';
-import optionize, { combineOptions } from '../../../../phet-core/js/optionize.js';
 import TReadOnlyProperty from '../../../../axon/js/TReadOnlyProperty.js';
-import FieldInsideBarMagnetNode from './FieldInsideBarMagnetNode.js';
-import FELMovableNode, { FELMovableNodeOptions } from './FELMovableNode.js';
-import StrictOmit from '../../../../phet-core/js/types/StrictOmit.js';
-import Vector2 from '../../../../dot/js/Vector2.js';
-import FELColors from '../FELColors.js';
-import PhetFont from '../../../../scenery-phet/js/PhetFont.js';
-import { Shape } from '../../../../kite/js/imports.js';
-import ShadedRectangle from '../../../../scenery-phet/js/ShadedRectangle.js';
 import Bounds2 from '../../../../dot/js/Bounds2.js';
-import FaradaysElectromagneticLabStrings from '../../FaradaysElectromagneticLabStrings.js';
+import Vector2 from '../../../../dot/js/Vector2.js';
+import { Shape } from '../../../../kite/js/imports.js';
+import optionize, { combineOptions } from '../../../../phet-core/js/optionize.js';
 import PickOptional from '../../../../phet-core/js/types/PickOptional.js';
 import PickRequired from '../../../../phet-core/js/types/PickRequired.js';
+import StrictOmit from '../../../../phet-core/js/types/StrictOmit.js';
+import PhetFont from '../../../../scenery-phet/js/PhetFont.js';
+import ShadedRectangle from '../../../../scenery-phet/js/ShadedRectangle.js';
+import { Node, Text, TextOptions } from '../../../../scenery/js/imports.js';
+import faradaysElectromagneticLab from '../../faradaysElectromagneticLab.js';
+import FaradaysElectromagneticLabStrings from '../../FaradaysElectromagneticLabStrings.js';
+import FELColors from '../FELColors.js';
+import BarMagnet from '../model/BarMagnet.js';
+import FELMovableNode, { FELMovableNodeOptions } from './FELMovableNode.js';
+import FieldInsideBarMagnetNode from './FieldInsideBarMagnetNode.js';
 
 const CORNER_RADIUS = 10;
 const FONT = new PhetFont( { size: 30, weight: 'bold' } );

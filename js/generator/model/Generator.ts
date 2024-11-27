@@ -7,18 +7,18 @@
  * @author Chris Malley (PixelZoom, Inc.)
  */
 
-import faradaysElectromagneticLab from '../../faradaysElectromagneticLab.js';
-import PhetioObject, { PhetioObjectOptions } from '../../../../tandem/js/PhetioObject.js';
-import Turbine from './Turbine.js';
-import PickupCoil from '../../common/model/PickupCoil.js';
-import Vector2 from '../../../../dot/js/Vector2.js';
-import Utils from '../../../../dot/js/Utils.js';
-import Multilink from '../../../../axon/js/Multilink.js';
-import PickRequired from '../../../../phet-core/js/types/PickRequired.js';
-import optionize from '../../../../phet-core/js/optionize.js';
 import BooleanProperty from '../../../../axon/js/BooleanProperty.js';
+import Multilink from '../../../../axon/js/Multilink.js';
 import TReadOnlyProperty from '../../../../axon/js/TReadOnlyProperty.js';
+import Utils from '../../../../dot/js/Utils.js';
+import Vector2 from '../../../../dot/js/Vector2.js';
+import optionize from '../../../../phet-core/js/optionize.js';
+import PickRequired from '../../../../phet-core/js/types/PickRequired.js';
+import PhetioObject, { PhetioObjectOptions } from '../../../../tandem/js/PhetioObject.js';
 import { CurrentFlow } from '../../common/FELQueryParameters.js';
+import PickupCoil from '../../common/model/PickupCoil.js';
+import faradaysElectromagneticLab from '../../faradaysElectromagneticLab.js';
+import Turbine from './Turbine.js';
 
 type SelfOptions = {
   turbinePosition: Vector2;

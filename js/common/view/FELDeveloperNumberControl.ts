@@ -6,17 +6,17 @@
  * @author Chris Malley (PixelZoom, Inc.)
  */
 
-import NumberControl, { LayoutFunction, NumberControlOptions } from '../../../../scenery-phet/js/NumberControl.js';
 import NumberProperty from '../../../../axon/js/NumberProperty.js';
-import Utils from '../../../../dot/js/Utils.js';
-import { HBox, Node, Text, VBox } from '../../../../scenery/js/imports.js';
-import ResetButton from '../../../../scenery-phet/js/buttons/ResetButton.js';
-import Tandem from '../../../../tandem/js/Tandem.js';
-import PhetFont from '../../../../scenery-phet/js/PhetFont.js';
 import Dimension2 from '../../../../dot/js/Dimension2.js';
-import faradaysElectromagneticLab from '../../faradaysElectromagneticLab.js';
-import StrictOmit from '../../../../phet-core/js/types/StrictOmit.js';
+import Utils from '../../../../dot/js/Utils.js';
 import { combineOptions } from '../../../../phet-core/js/optionize.js';
+import StrictOmit from '../../../../phet-core/js/types/StrictOmit.js';
+import ResetButton from '../../../../scenery-phet/js/buttons/ResetButton.js';
+import NumberControl, { LayoutFunction, NumberControlOptions } from '../../../../scenery-phet/js/NumberControl.js';
+import PhetFont from '../../../../scenery-phet/js/PhetFont.js';
+import { HBox, Node, Text, VBox } from '../../../../scenery/js/imports.js';
+import Tandem from '../../../../tandem/js/Tandem.js';
+import faradaysElectromagneticLab from '../../faradaysElectromagneticLab.js';
 import FELConstants from '../FELConstants.js';
 
 const TICK_TEXT_OPTIONS = {

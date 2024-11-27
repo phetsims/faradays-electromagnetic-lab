@@ -9,16 +9,16 @@
  * @author Chris Malley (PixelZoom, Inc.)
  */
 
-import Tandem from '../../../../tandem/js/Tandem.js';
-import faradaysElectromagneticLab from '../../faradaysElectromagneticLab.js';
-import CurrentSource from './CurrentSource.js';
-import NumberProperty from '../../../../axon/js/NumberProperty.js';
-import Range from '../../../../dot/js/Range.js';
 import DerivedProperty from '../../../../axon/js/DerivedProperty.js';
-import NumberIO from '../../../../tandem/js/types/NumberIO.js';
-import TReadOnlyProperty from '../../../../axon/js/TReadOnlyProperty.js';
-import ConstantDtClock from './ConstantDtClock.js';
 import Multilink from '../../../../axon/js/Multilink.js';
+import NumberProperty from '../../../../axon/js/NumberProperty.js';
+import TReadOnlyProperty from '../../../../axon/js/TReadOnlyProperty.js';
+import Range from '../../../../dot/js/Range.js';
+import Tandem from '../../../../tandem/js/Tandem.js';
+import NumberIO from '../../../../tandem/js/types/NumberIO.js';
+import faradaysElectromagneticLab from '../../faradaysElectromagneticLab.js';
+import ConstantDtClock from './ConstantDtClock.js';
+import CurrentSource from './CurrentSource.js';
 
 const MAX_VOLTAGE_RANGE = new Range( 0, 110 ); // V
 const MAX_VOLTAGE_PERCENT_RANGE = new Range( 0, 100 ); // %

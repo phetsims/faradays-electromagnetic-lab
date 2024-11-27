@@ -9,19 +9,19 @@
  * @author Chris Malley (PixelZoom, Inc.)
  */
 
-import faradaysElectromagneticLab from '../../faradaysElectromagneticLab.js';
-import Magnet, { MagnetOptions } from './Magnet.js';
-import BarMagnetFieldData from './BarMagnetFieldData.js';
-import Vector2 from '../../../../dot/js/Vector2.js';
-import BarMagnetFieldGrid from './BarMagnetFieldGrid.js';
-import optionize, { EmptySelfOptions } from '../../../../phet-core/js/optionize.js';
-import NumberProperty from '../../../../axon/js/NumberProperty.js';
-import Range from '../../../../dot/js/Range.js';
 import DerivedProperty from '../../../../axon/js/DerivedProperty.js';
-import NumberIO from '../../../../tandem/js/types/NumberIO.js';
-import WithOptional from '../../../../phet-core/js/types/WithOptional.js';
-import FELConstants from '../FELConstants.js';
+import NumberProperty from '../../../../axon/js/NumberProperty.js';
 import Dimension3 from '../../../../dot/js/Dimension3.js';
+import Range from '../../../../dot/js/Range.js';
+import Vector2 from '../../../../dot/js/Vector2.js';
+import optionize, { EmptySelfOptions } from '../../../../phet-core/js/optionize.js';
+import WithOptional from '../../../../phet-core/js/types/WithOptional.js';
+import NumberIO from '../../../../tandem/js/types/NumberIO.js';
+import faradaysElectromagneticLab from '../../faradaysElectromagneticLab.js';
+import FELConstants from '../FELConstants.js';
+import BarMagnetFieldData from './BarMagnetFieldData.js';
+import BarMagnetFieldGrid from './BarMagnetFieldGrid.js';
+import Magnet, { MagnetOptions } from './Magnet.js';
 
 const DEFAULT_SIZE = new Dimension3( 250, 50, 50 );
 const STRENGTH_RANGE = FELConstants.MAGNET_STRENGTH_RANGE; // G

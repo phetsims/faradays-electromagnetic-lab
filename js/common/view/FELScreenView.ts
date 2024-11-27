@@ -7,29 +7,29 @@
  * @author Chris Malley (PixelZoom, Inc.)
  */
 
-import ScreenView, { ScreenViewOptions } from '../../../../joist/js/ScreenView.js';
-import ResetAllButton from '../../../../scenery-phet/js/buttons/ResetAllButton.js';
-import FELConstants from '../../common/FELConstants.js';
-import faradaysElectromagneticLab from '../../faradaysElectromagneticLab.js';
-import { Line, Node } from '../../../../scenery/js/imports.js';
+import DerivedProperty from '../../../../axon/js/DerivedProperty.js';
 import Multilink from '../../../../axon/js/Multilink.js';
-import FieldNode from '../../common/view/FieldNode.js';
-import FieldMeterNode from '../../common/view/FieldMeterNode.js';
+import Property from '../../../../axon/js/Property.js';
+import TReadOnlyProperty from '../../../../axon/js/TReadOnlyProperty.js';
+import Bounds2 from '../../../../dot/js/Bounds2.js';
+import Vector2 from '../../../../dot/js/Vector2.js';
+import ScreenView, { ScreenViewOptions } from '../../../../joist/js/ScreenView.js';
+import optionize from '../../../../phet-core/js/optionize.js';
+import PickRequired from '../../../../phet-core/js/types/PickRequired.js';
+import ResetAllButton from '../../../../scenery-phet/js/buttons/ResetAllButton.js';
+import { Line, Node } from '../../../../scenery/js/imports.js';
+import isSettingPhetioStateProperty from '../../../../tandem/js/isSettingPhetioStateProperty.js';
+import FELConstants from '../../common/FELConstants.js';
 import CompassNode from '../../common/view/CompassNode.js';
-import Magnet from '../model/Magnet.js';
+import FieldMeterNode from '../../common/view/FieldMeterNode.js';
+import FieldNode from '../../common/view/FieldNode.js';
+import faradaysElectromagneticLab from '../../faradaysElectromagneticLab.js';
+import FELQueryParameters from '../FELQueryParameters.js';
 import Compass from '../model/Compass.js';
 import FieldMeter from '../model/FieldMeter.js';
-import PickRequired from '../../../../phet-core/js/types/PickRequired.js';
-import optionize from '../../../../phet-core/js/optionize.js';
-import Vector2 from '../../../../dot/js/Vector2.js';
-import Bounds2 from '../../../../dot/js/Bounds2.js';
-import TReadOnlyProperty from '../../../../axon/js/TReadOnlyProperty.js';
-import Property from '../../../../axon/js/Property.js';
-import DerivedProperty from '../../../../axon/js/DerivedProperty.js';
-import isSettingPhetioStateProperty from '../../../../tandem/js/isSettingPhetioStateProperty.js';
-import FELQueryParameters from '../FELQueryParameters.js';
-import FELDeveloperAccordionBox from './FELDeveloperAccordionBox.js';
+import Magnet from '../model/Magnet.js';
 import PickupCoil from '../model/PickupCoil.js';
+import FELDeveloperAccordionBox from './FELDeveloperAccordionBox.js';
 import PickupCoilDebuggerPanel from './PickupCoilDebuggerPanel.js';
 
 type SelfOptions = {

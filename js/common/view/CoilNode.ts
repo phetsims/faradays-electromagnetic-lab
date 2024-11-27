@@ -14,21 +14,21 @@
  * @author Chris Malley (PixelZoom, Inc.)
  */
 
-import faradaysElectromagneticLab from '../../faradaysElectromagneticLab.js';
-import Coil from '../model/Coil.js';
-import { Node, NodeOptions, Rectangle } from '../../../../scenery/js/imports.js';
-import PickRequired from '../../../../phet-core/js/types/PickRequired.js';
-import optionize, { combineOptions } from '../../../../phet-core/js/optionize.js';
-import Tandem from '../../../../tandem/js/Tandem.js';
-import FELMovableNode, { FELMovableNodeOptions } from './FELMovableNode.js';
+import Property from '../../../../axon/js/Property.js';
 import TReadOnlyProperty from '../../../../axon/js/TReadOnlyProperty.js';
 import Bounds2 from '../../../../dot/js/Bounds2.js';
+import Vector2 from '../../../../dot/js/Vector2.js';
+import optionize, { combineOptions } from '../../../../phet-core/js/optionize.js';
+import platform from '../../../../phet-core/js/platform.js';
+import PickRequired from '../../../../phet-core/js/types/PickRequired.js';
+import { Node, NodeOptions, Rectangle } from '../../../../scenery/js/imports.js';
+import Tandem from '../../../../tandem/js/Tandem.js';
+import faradaysElectromagneticLab from '../../faradaysElectromagneticLab.js';
+import Coil from '../model/Coil.js';
 import CoilSegment from '../model/CoilSegment.js';
 import CoilSegmentNode from './CoilSegmentNode.js';
 import CurrentNode from './CurrentNode.js';
-import Property from '../../../../axon/js/Property.js';
-import Vector2 from '../../../../dot/js/Vector2.js';
-import platform from '../../../../phet-core/js/platform.js';
+import FELMovableNode, { FELMovableNodeOptions } from './FELMovableNode.js';
 
 type SelfOptions = {
   isMovable?: boolean; // Whether the coil is movable.

@@ -6,21 +6,21 @@
  * @author Chris Malley (PixelZoom, Inc.)
  */
 
-import faradaysElectromagneticLab from '../faradaysElectromagneticLab.js';
-import { ScreenOptions } from '../../../joist/js/Screen.js';
-import FELColors from './FELColors.js';
-import { CreditsData } from '../../../joist/js/CreditsNode.js';
-import { PanelOptions } from '../../../sun/js/Panel.js';
-import PhetFont from '../../../scenery-phet/js/PhetFont.js';
-import { CheckboxOptions } from '../../../sun/js/Checkbox.js';
-import { RichTextOptions, Text, TextOptions, VBoxOptions } from '../../../scenery/js/imports.js';
-import NumberControl, { NumberControlOptions } from '../../../scenery-phet/js/NumberControl.js';
 import Dimension2 from '../../../dot/js/Dimension2.js';
+import Range from '../../../dot/js/Range.js';
+import { CreditsData } from '../../../joist/js/CreditsNode.js';
+import { PreferencesControlOptions } from '../../../joist/js/preferences/PreferencesControl.js';
+import { ScreenOptions } from '../../../joist/js/Screen.js';
+import NumberControl, { NumberControlOptions } from '../../../scenery-phet/js/NumberControl.js';
+import PhetFont from '../../../scenery-phet/js/PhetFont.js';
+import { RichTextOptions, Text, TextOptions, VBoxOptions } from '../../../scenery/js/imports.js';
 import { RectangularRadioButtonOptions } from '../../../sun/js/buttons/RectangularRadioButton.js';
+import { CheckboxOptions } from '../../../sun/js/Checkbox.js';
+import { PanelOptions } from '../../../sun/js/Panel.js';
 import { SliderOptions } from '../../../sun/js/Slider.js';
 import Tandem from '../../../tandem/js/Tandem.js';
-import Range from '../../../dot/js/Range.js';
-import { PreferencesControlOptions } from '../../../joist/js/preferences/PreferencesControl.js';
+import faradaysElectromagneticLab from '../faradaysElectromagneticLab.js';
+import FELColors from './FELColors.js';
 
 // Credits are shared by all sims in this family.
 const CREDITS: CreditsData = {

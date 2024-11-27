@@ -7,11 +7,11 @@
  * @author Chris Malley (PixelZoom, Inc.)
  */
 
+import Vector2 from '../../../../dot/js/Vector2.js';
 import { Image, Node } from '../../../../scenery/js/imports.js';
 import waterWheel_png from '../../../images/waterWheel_png.js';
-import Vector2 from '../../../../dot/js/Vector2.js';
-import faradaysElectromagneticLab from '../../faradaysElectromagneticLab.js';
 import BarMagnet from '../../common/model/BarMagnet.js';
+import faradaysElectromagneticLab from '../../faradaysElectromagneticLab.js';
 
 export default class WaterWheelNode extends Node {
 

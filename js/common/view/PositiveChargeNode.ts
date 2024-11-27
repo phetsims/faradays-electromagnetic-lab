@@ -7,13 +7,13 @@
  * @author Chris Malley (PixelZoom, Inc.)
  */
 
-import faradaysElectromagneticLab from '../../faradaysElectromagneticLab.js';
-import { Circle, Node, NodeOptions, TColor } from '../../../../scenery/js/imports.js';
 import Dimension2 from '../../../../dot/js/Dimension2.js';
-import FELColors from '../FELColors.js';
-import PickOptional from '../../../../phet-core/js/types/PickOptional.js';
 import optionize from '../../../../phet-core/js/optionize.js';
+import PickOptional from '../../../../phet-core/js/types/PickOptional.js';
 import PlusNode from '../../../../scenery-phet/js/PlusNode.js';
+import { Circle, Node, NodeOptions, TColor } from '../../../../scenery/js/imports.js';
+import faradaysElectromagneticLab from '../../faradaysElectromagneticLab.js';
+import FELColors from '../FELColors.js';
 import FELConstants from '../FELConstants.js';
 
 const DIAMETER = FELConstants.CHARGED_PARTICLE_DIAMETER;

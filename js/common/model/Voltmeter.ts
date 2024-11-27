@@ -9,17 +9,17 @@
  * @author Chris Malley (PixelZoom, Inc.)
  */
 
-import faradaysElectromagneticLab from '../../faradaysElectromagneticLab.js';
-import Utils from '../../../../dot/js/Utils.js';
-import FELConstants from '../FELConstants.js';
-import TReadOnlyProperty from '../../../../axon/js/TReadOnlyProperty.js';
-import NumberProperty from '../../../../axon/js/NumberProperty.js';
-import CurrentIndicator, { CurrentIndicatorOptions } from './CurrentIndicator.js';
-import Range from '../../../../dot/js/Range.js';
-import ConstantDtClock from './ConstantDtClock.js';
-import PickRequired from '../../../../phet-core/js/types/PickRequired.js';
 import BooleanProperty from '../../../../axon/js/BooleanProperty.js';
+import NumberProperty from '../../../../axon/js/NumberProperty.js';
+import TReadOnlyProperty from '../../../../axon/js/TReadOnlyProperty.js';
+import Range from '../../../../dot/js/Range.js';
+import Utils from '../../../../dot/js/Utils.js';
 import optionize from '../../../../phet-core/js/optionize.js';
+import PickRequired from '../../../../phet-core/js/types/PickRequired.js';
+import faradaysElectromagneticLab from '../../faradaysElectromagneticLab.js';
+import FELConstants from '../FELConstants.js';
+import ConstantDtClock from './ConstantDtClock.js';
+import CurrentIndicator, { CurrentIndicatorOptions } from './CurrentIndicator.js';
 
 // When the angle is this close to zero, move immediately to zero.
 const ZERO_THRESHOLD = Utils.toRadians( 0.5 );

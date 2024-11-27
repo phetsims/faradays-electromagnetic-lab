@@ -9,19 +9,19 @@
  * @author Chris Malley (PixelZoom, Inc.)
  */
 
-import faradaysElectromagneticLab from '../../faradaysElectromagneticLab.js';
-import { Image, Path } from '../../../../scenery/js/imports.js';
-import BarMagnet from '../model/BarMagnet.js';
-import { Shape } from '../../../../kite/js/imports.js';
-import PickRequired from '../../../../phet-core/js/types/PickRequired.js';
-import optionize, { EmptySelfOptions } from '../../../../phet-core/js/optionize.js';
-import FELMovableNode, { FELMovableNodeOptions } from './FELMovableNode.js';
-import Vector2 from '../../../../dot/js/Vector2.js';
-import earthWesternHemisphere_svg from '../../../images/earthWesternHemisphere_svg.js';
-import earthEasternHemisphere_svg from '../../../images/earthEasternHemisphere_svg.js';
 import DerivedProperty from '../../../../axon/js/DerivedProperty.js';
 import TReadOnlyProperty from '../../../../axon/js/TReadOnlyProperty.js';
+import Vector2 from '../../../../dot/js/Vector2.js';
+import { Shape } from '../../../../kite/js/imports.js';
+import optionize, { EmptySelfOptions } from '../../../../phet-core/js/optionize.js';
+import PickRequired from '../../../../phet-core/js/types/PickRequired.js';
+import { Image, Path } from '../../../../scenery/js/imports.js';
+import earthEasternHemisphere_svg from '../../../images/earthEasternHemisphere_svg.js';
+import earthWesternHemisphere_svg from '../../../images/earthWesternHemisphere_svg.js';
+import faradaysElectromagneticLab from '../../faradaysElectromagneticLab.js';
 import { EarthHemisphere } from '../FELQueryParameters.js';
+import BarMagnet from '../model/BarMagnet.js';
+import FELMovableNode, { FELMovableNodeOptions } from './FELMovableNode.js';
 
 type SelfOptions = EmptySelfOptions;
 

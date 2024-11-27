@@ -12,9 +12,9 @@
  * @author Chris Malley (PixelZoom, Inc.)
  */
 
+import PhetColorScheme from '../../../scenery-phet/js/PhetColorScheme.js';
 import { Color, ProfileColorProperty } from '../../../scenery/js/imports.js';
 import faradaysElectromagneticLab from '../faradaysElectromagneticLab.js';
-import PhetColorScheme from '../../../scenery-phet/js/PhetColorScheme.js';
 
 const PANEL_FILL_PROJECTOR = new Color( 222, 234, 255 );
 const BAR_MAGNET_NORTH_COLOR = 'rgb( 219, 30, 34 )';

@@ -12,12 +12,12 @@
  * @author Chris Malley (PixelZoom, Inc.)
  */
 
+import Multilink from '../../../../axon/js/Multilink.js';
+import Dimension2 from '../../../../dot/js/Dimension2.js';
+import { Shape } from '../../../../kite/js/imports.js';
 import { Node, Path } from '../../../../scenery/js/imports.js';
 import faradaysElectromagneticLab from '../../faradaysElectromagneticLab.js';
 import PickupCoil from '../model/PickupCoil.js';
-import { Shape } from '../../../../kite/js/imports.js';
-import Multilink from '../../../../axon/js/Multilink.js';
-import Dimension2 from '../../../../dot/js/Dimension2.js';
 
 export default class PickupCoilAreaNode extends Node {
 

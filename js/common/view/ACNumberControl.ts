@@ -7,22 +7,22 @@
  * @author Chris Malley (PixelZoom, Inc.)
  */
 
-import NumberControl, { NumberControlOptions, NumberControlSliderOptions } from '../../../../scenery-phet/js/NumberControl.js';
 import NumberProperty from '../../../../axon/js/NumberProperty.js';
+import Dimension2 from '../../../../dot/js/Dimension2.js';
+import Utils from '../../../../dot/js/Utils.js';
 import optionize, { combineOptions } from '../../../../phet-core/js/optionize.js';
 import Orientation from '../../../../phet-core/js/Orientation.js';
-import StringUtils from '../../../../phetcommon/js/util/StringUtils.js';
-import FaradaysElectromagneticLabStrings from '../../FaradaysElectromagneticLabStrings.js';
-import Utils from '../../../../dot/js/Utils.js';
-import { HBox, Node, VBox } from '../../../../scenery/js/imports.js';
-import NumberDisplay from '../../../../scenery-phet/js/NumberDisplay.js';
-import Slider from '../../../../sun/js/Slider.js';
-import ArrowButton from '../../../../sun/js/buttons/ArrowButton.js';
-import faradaysElectromagneticLab from '../../faradaysElectromagneticLab.js';
 import PickRequired from '../../../../phet-core/js/types/PickRequired.js';
+import StringUtils from '../../../../phetcommon/js/util/StringUtils.js';
+import NumberControl, { NumberControlOptions, NumberControlSliderOptions } from '../../../../scenery-phet/js/NumberControl.js';
+import NumberDisplay from '../../../../scenery-phet/js/NumberDisplay.js';
 import PhetFont from '../../../../scenery-phet/js/PhetFont.js';
-import Dimension2 from '../../../../dot/js/Dimension2.js';
+import { HBox, Node, VBox } from '../../../../scenery/js/imports.js';
+import ArrowButton from '../../../../sun/js/buttons/ArrowButton.js';
+import Slider from '../../../../sun/js/Slider.js';
 import Tandem from '../../../../tandem/js/Tandem.js';
+import faradaysElectromagneticLab from '../../faradaysElectromagneticLab.js';
+import FaradaysElectromagneticLabStrings from '../../FaradaysElectromagneticLabStrings.js';
 import FELConstants from '../FELConstants.js';
 
 const NUMBER_DISPLAY_FONT = new PhetFont( 12 );

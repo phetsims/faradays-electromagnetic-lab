@@ -6,14 +6,14 @@
  * @author Chris Malley (PixelZoom, Inc.)
  */
 
-import faradaysElectromagneticLab from '../../faradaysElectromagneticLab.js';
-import { Node } from '../../../../scenery/js/imports.js';
-import ElectromagnetNode from '../../common/view/ElectromagnetNode.js';
-import PickupCoilNode from '../../common/view/PickupCoilNode.js';
-import Transformer from '../model/Transformer.js';
 import TReadOnlyProperty from '../../../../axon/js/TReadOnlyProperty.js';
 import Bounds2 from '../../../../dot/js/Bounds2.js';
+import { Node } from '../../../../scenery/js/imports.js';
 import Tandem from '../../../../tandem/js/Tandem.js';
+import ElectromagnetNode from '../../common/view/ElectromagnetNode.js';
+import PickupCoilNode from '../../common/view/PickupCoilNode.js';
+import faradaysElectromagneticLab from '../../faradaysElectromagneticLab.js';
+import Transformer from '../model/Transformer.js';
 
 export default class TransformerNode extends Node {
 

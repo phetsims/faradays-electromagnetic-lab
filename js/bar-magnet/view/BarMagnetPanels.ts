@@ -6,15 +6,15 @@
  * @author Chris Malley (PixelZoom, Inc.)
  */
 
-import faradaysElectromagneticLab from '../../faradaysElectromagneticLab.js';
+import Property from '../../../../axon/js/Property.js';
+import TReadOnlyProperty from '../../../../axon/js/TReadOnlyProperty.js';
+import { Node } from '../../../../scenery/js/imports.js';
 import Tandem from '../../../../tandem/js/Tandem.js';
 import BarMagnetPanel from '../../common/view/BarMagnetPanel.js';
-import ToolsPanel from '../../common/view/ToolsPanel.js';
 import FELPanels from '../../common/view/FELPanels.js';
-import { Node } from '../../../../scenery/js/imports.js';
+import ToolsPanel from '../../common/view/ToolsPanel.js';
+import faradaysElectromagneticLab from '../../faradaysElectromagneticLab.js';
 import BarMagnetScreenModel from '../model/BarMagnetScreenModel.js';
-import TReadOnlyProperty from '../../../../axon/js/TReadOnlyProperty.js';
-import Property from '../../../../axon/js/Property.js';
 
 export default class BarMagnetPanels extends FELPanels {
 

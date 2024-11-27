@@ -7,15 +7,15 @@
  * @author Chris Malley (PixelZoom, Inc.)
  */
 
-import faradaysElectromagneticLab from '../../faradaysElectromagneticLab.js';
-import Checkbox, { CheckboxOptions } from '../../../../sun/js/Checkbox.js';
-import { HBox, Line, Node, Text } from '../../../../scenery/js/imports.js';
-import FaradaysElectromagneticLabStrings from '../../FaradaysElectromagneticLabStrings.js';
-import FELConstants from '../FELConstants.js';
-import { combineOptions } from '../../../../phet-core/js/optionize.js';
 import Property from '../../../../axon/js/Property.js';
+import { combineOptions } from '../../../../phet-core/js/optionize.js';
+import { HBox, Line, Node, Text } from '../../../../scenery/js/imports.js';
+import Checkbox, { CheckboxOptions } from '../../../../sun/js/Checkbox.js';
 import Tandem from '../../../../tandem/js/Tandem.js';
+import faradaysElectromagneticLab from '../../faradaysElectromagneticLab.js';
+import FaradaysElectromagneticLabStrings from '../../FaradaysElectromagneticLabStrings.js';
 import FELColors from '../FELColors.js';
+import FELConstants from '../FELConstants.js';
 
 export default class LockToAxisCheckbox extends Checkbox {
 

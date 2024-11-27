@@ -6,20 +6,20 @@
  * @author Chris Malley (PixelZoom, Inc.)
  */
 
-import faradaysElectromagneticLab from '../../faradaysElectromagneticLab.js';
-import Checkbox, { CheckboxOptions } from '../../../../sun/js/Checkbox.js';
+import DerivedProperty from '../../../../axon/js/DerivedProperty.js';
+import Property from '../../../../axon/js/Property.js';
+import TReadOnlyProperty from '../../../../axon/js/TReadOnlyProperty.js';
+import { combineOptions } from '../../../../phet-core/js/optionize.js';
 import { HBox, Text } from '../../../../scenery/js/imports.js';
+import Checkbox, { CheckboxOptions } from '../../../../sun/js/Checkbox.js';
+import ToggleNode from '../../../../sun/js/ToggleNode.js';
+import Tandem from '../../../../tandem/js/Tandem.js';
+import faradaysElectromagneticLab from '../../faradaysElectromagneticLab.js';
 import FaradaysElectromagneticLabStrings from '../../FaradaysElectromagneticLabStrings.js';
 import FELConstants from '../FELConstants.js';
-import { combineOptions } from '../../../../phet-core/js/optionize.js';
-import Property from '../../../../axon/js/Property.js';
-import Tandem from '../../../../tandem/js/Tandem.js';
-import DerivedProperty from '../../../../axon/js/DerivedProperty.js';
-import ToggleNode from '../../../../sun/js/ToggleNode.js';
 import { CurrentFlow } from '../FELQueryParameters.js';
 import ElectronNode from './ElectronNode.js';
 import PositiveChargeNode from './PositiveChargeNode.js';
-import TReadOnlyProperty from '../../../../axon/js/TReadOnlyProperty.js';
 
 export default class CurrentCheckbox extends Checkbox {
 

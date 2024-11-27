@@ -10,12 +10,12 @@
  * @author Chris Malley (PixelZoom, Inc.)
  */
 
-import { GridBox, GridBoxOptions } from '../../../../scenery/js/imports.js';
-import faradaysElectromagneticLab from '../../faradaysElectromagneticLab.js';
-import CompassNeedleNode from './CompassNeedleNode.js';
 import optionize, { EmptySelfOptions } from '../../../../phet-core/js/optionize.js';
 import PickRequired from '../../../../phet-core/js/types/PickRequired.js';
+import { GridBox, GridBoxOptions } from '../../../../scenery/js/imports.js';
+import faradaysElectromagneticLab from '../../faradaysElectromagneticLab.js';
 import BarMagnet from '../model/BarMagnet.js';
+import CompassNeedleNode from './CompassNeedleNode.js';
 
 const ROWS = 2;
 const COLUMNS = 7; // determined empirically

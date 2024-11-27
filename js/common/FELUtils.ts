@@ -6,8 +6,8 @@
  * @author Chris Malley (PixelZoom, Inc.)
  */
 
-import faradaysElectromagneticLab from '../faradaysElectromagneticLab.js';
 import Utils from '../../../dot/js/Utils.js';
+import faradaysElectromagneticLab from '../faradaysElectromagneticLab.js';
 
 const FELUtils = {
 

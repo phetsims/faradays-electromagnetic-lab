@@ -9,27 +9,27 @@
  * @author Chris Malley (PixelZoom, Inc.)
  */
 
-import faradaysElectromagneticLab from '../../faradaysElectromagneticLab.js';
-import { Circle, Line, Node, NodeOptions, NodeTranslationOptions, Path, PathOptions, ProfileColorProperty, Text, TextOptions } from '../../../../scenery/js/imports.js';
-import Voltmeter from '../model/Voltmeter.js';
-import ShadedRectangle, { ShadedRectangleOptions } from '../../../../scenery-phet/js/ShadedRectangle.js';
-import Bounds2 from '../../../../dot/js/Bounds2.js';
-import { combineOptions } from '../../../../phet-core/js/optionize.js';
-import TReadOnlyProperty from '../../../../axon/js/TReadOnlyProperty.js';
 import DerivedProperty from '../../../../axon/js/DerivedProperty.js';
-import BooleanIO from '../../../../tandem/js/types/BooleanIO.js';
-import FaradaysElectromagneticLabStrings from '../../FaradaysElectromagneticLabStrings.js';
-import PhetFont from '../../../../scenery-phet/js/PhetFont.js';
-import ArrowNode, { ArrowNodeOptions } from '../../../../scenery-phet/js/ArrowNode.js';
-import FELColors from '../FELColors.js';
-import ResistorNode from './ResistorNode.js';
-import { Shape } from '../../../../kite/js/imports.js';
-import MathSymbols from '../../../../scenery-phet/js/MathSymbols.js';
-import Vector2 from '../../../../dot/js/Vector2.js';
-import Tandem from '../../../../tandem/js/Tandem.js';
+import TReadOnlyProperty from '../../../../axon/js/TReadOnlyProperty.js';
+import Bounds2 from '../../../../dot/js/Bounds2.js';
 import Dimension2 from '../../../../dot/js/Dimension2.js';
-import CurrentIndicator from '../model/CurrentIndicator.js';
 import Matrix3 from '../../../../dot/js/Matrix3.js';
+import Vector2 from '../../../../dot/js/Vector2.js';
+import { Shape } from '../../../../kite/js/imports.js';
+import { combineOptions } from '../../../../phet-core/js/optionize.js';
+import ArrowNode, { ArrowNodeOptions } from '../../../../scenery-phet/js/ArrowNode.js';
+import MathSymbols from '../../../../scenery-phet/js/MathSymbols.js';
+import PhetFont from '../../../../scenery-phet/js/PhetFont.js';
+import ShadedRectangle, { ShadedRectangleOptions } from '../../../../scenery-phet/js/ShadedRectangle.js';
+import { Circle, Line, Node, NodeOptions, NodeTranslationOptions, Path, PathOptions, ProfileColorProperty, Text, TextOptions } from '../../../../scenery/js/imports.js';
+import Tandem from '../../../../tandem/js/Tandem.js';
+import BooleanIO from '../../../../tandem/js/types/BooleanIO.js';
+import faradaysElectromagneticLab from '../../faradaysElectromagneticLab.js';
+import FaradaysElectromagneticLabStrings from '../../FaradaysElectromagneticLabStrings.js';
+import FELColors from '../FELColors.js';
+import CurrentIndicator from '../model/CurrentIndicator.js';
+import Voltmeter from '../model/Voltmeter.js';
+import ResistorNode from './ResistorNode.js';
 
 // Body and display area
 const BODY_BOUNDS = new Bounds2( 0, 0, 172, 112 );

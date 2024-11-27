@@ -7,16 +7,16 @@
  * @author Chris Malley (PixelZoom, Inc.)
  */
 
-import RectangularRadioButtonGroup, { RectangularRadioButtonGroupItem } from '../../../../sun/js/buttons/RectangularRadioButtonGroup.js';
-import faradaysElectromagneticLab from '../../faradaysElectromagneticLab.js';
-import Tandem from '../../../../tandem/js/Tandem.js';
-import VoltmeterNode from './VoltmeterNode.js';
-import FELConstants from '../FELConstants.js';
 import { HBox, Text } from '../../../../scenery/js/imports.js';
+import RectangularRadioButtonGroup, { RectangularRadioButtonGroupItem } from '../../../../sun/js/buttons/RectangularRadioButtonGroup.js';
+import Tandem from '../../../../tandem/js/Tandem.js';
+import faradaysElectromagneticLab from '../../faradaysElectromagneticLab.js';
 import FaradaysElectromagneticLabStrings from '../../FaradaysElectromagneticLabStrings.js';
-import FELLightBulbNode from './FELLightBulbNode.js';
+import FELConstants from '../FELConstants.js';
 import CurrentIndicator from '../model/CurrentIndicator.js';
 import PickupCoil from '../model/PickupCoil.js';
+import FELLightBulbNode from './FELLightBulbNode.js';
+import VoltmeterNode from './VoltmeterNode.js';
 
 export default class CurrentIndicatorControl extends HBox {
 

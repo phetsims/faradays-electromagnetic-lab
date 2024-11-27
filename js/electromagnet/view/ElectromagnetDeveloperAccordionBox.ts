@@ -7,10 +7,10 @@
  * @author Chris Malley (PixelZoom, Inc.)
  */
 
-import faradaysElectromagneticLab from '../../faradaysElectromagneticLab.js';
 import { HSeparator, VBox } from '../../../../scenery/js/imports.js';
-import FELDeveloperAccordionBox from '../../common/view/FELDeveloperAccordionBox.js';
 import Electromagnet from '../../common/model/Electromagnet.js';
+import FELDeveloperAccordionBox from '../../common/view/FELDeveloperAccordionBox.js';
+import faradaysElectromagneticLab from '../../faradaysElectromagneticLab.js';
 
 
 export default class ElectromagnetDeveloperAccordionBox extends FELDeveloperAccordionBox {

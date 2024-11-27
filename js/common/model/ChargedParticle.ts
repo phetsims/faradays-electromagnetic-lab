@@ -16,16 +16,16 @@
  * @author Chris Malley (PixelZoom, Inc.)
  */
 
-import faradaysElectromagneticLab from '../../faradaysElectromagneticLab.js';
-import CoilSegment from './CoilSegment.js';
-import Range from '../../../../dot/js/Range.js';
-import Vector2 from '../../../../dot/js/Vector2.js';
 import TReadOnlyProperty from '../../../../axon/js/TReadOnlyProperty.js';
-import FELConstants from '../FELConstants.js';
+import Range from '../../../../dot/js/Range.js';
 import Utils from '../../../../dot/js/Utils.js';
-import ConstantDtClock from './ConstantDtClock.js';
-import { CoilLayer } from './Coil.js';
+import Vector2 from '../../../../dot/js/Vector2.js';
+import faradaysElectromagneticLab from '../../faradaysElectromagneticLab.js';
+import FELConstants from '../FELConstants.js';
 import { CurrentFlow } from '../FELQueryParameters.js';
+import { CoilLayer } from './Coil.js';
+import CoilSegment from './CoilSegment.js';
+import ConstantDtClock from './ConstantDtClock.js';
 
 // Maximum distance along a coil segment that can be traveled in one clock tick.
 const MAX_COIL_SEGMENT_POSITION_DELTA = 0.15;

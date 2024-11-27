@@ -9,24 +9,24 @@
  * @author Chris Malley (PixelZoom, Inc.)
  */
 
-import faradaysElectromagneticLab from '../../faradaysElectromagneticLab.js';
-import { Circle, HBox, Node, Path, Text, VBox } from '../../../../scenery/js/imports.js';
+import TReadOnlyProperty from '../../../../axon/js/TReadOnlyProperty.js';
+import Bounds2 from '../../../../dot/js/Bounds2.js';
+import Dimension2 from '../../../../dot/js/Dimension2.js';
 import Vector2 from '../../../../dot/js/Vector2.js';
 import { Shape } from '../../../../kite/js/imports.js';
-import TReadOnlyProperty from '../../../../axon/js/TReadOnlyProperty.js';
-import CurrentSource from '../model/CurrentSource.js';
-import ACPowerSupply from '../model/ACPowerSupply.js';
-import FELColors from '../FELColors.js';
-import FaradaysElectromagneticLabStrings from '../../FaradaysElectromagneticLabStrings.js';
-import Dimension2 from '../../../../dot/js/Dimension2.js';
-import VoltageChartNode from './VoltageChartNode.js';
-import ACNumberControl from './ACNumberControl.js';
-import PhetFont from '../../../../scenery-phet/js/PhetFont.js';
-import PowerSupplyPanel, { PowerSupplyPanelOptions } from './PowerSupplyPanel.js';
 import optionize, { EmptySelfOptions } from '../../../../phet-core/js/optionize.js';
-import PickRequired from '../../../../phet-core/js/types/PickRequired.js';
 import Orientation from '../../../../phet-core/js/Orientation.js';
-import Bounds2 from '../../../../dot/js/Bounds2.js';
+import PickRequired from '../../../../phet-core/js/types/PickRequired.js';
+import PhetFont from '../../../../scenery-phet/js/PhetFont.js';
+import { Circle, HBox, Node, Path, Text, VBox } from '../../../../scenery/js/imports.js';
+import faradaysElectromagneticLab from '../../faradaysElectromagneticLab.js';
+import FaradaysElectromagneticLabStrings from '../../FaradaysElectromagneticLabStrings.js';
+import FELColors from '../FELColors.js';
+import ACPowerSupply from '../model/ACPowerSupply.js';
+import CurrentSource from '../model/CurrentSource.js';
+import ACNumberControl from './ACNumberControl.js';
+import PowerSupplyPanel, { PowerSupplyPanelOptions } from './PowerSupplyPanel.js';
+import VoltageChartNode from './VoltageChartNode.js';
 
 type SelfOptions = EmptySelfOptions;
 
