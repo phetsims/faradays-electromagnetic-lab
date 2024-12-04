@@ -32,6 +32,7 @@ export default class TransformerScreenView extends FELScreenView {
 
     const lockToAxisProperty = new BooleanProperty( false, {
       tandem: tandem.createTandem( 'lockToAxisProperty' ),
+      phetioFeatured: true,
       phetioDocumentation: 'When true, dragging the magnet or pickup coil is locked to the pickup coil\'s horizontal axis.'
     } );
     lockToAxisProperty.link( lockToAxis =>
