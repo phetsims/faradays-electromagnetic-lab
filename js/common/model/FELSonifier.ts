@@ -22,15 +22,13 @@ import Property from '../../../../axon/js/Property.js';
 import stepTimer from '../../../../axon/js/stepTimer.js';
 import TEmitter, { TEmitterListener } from '../../../../axon/js/TEmitter.js';
 import TReadOnlyProperty from '../../../../axon/js/TReadOnlyProperty.js';
+import isResettingAllProperty from '../../../../scenery-phet/js/isResettingAllProperty.js';
 import optionize from '../../../../phet-core/js/optionize.js';
-import ResetAllButton from '../../../../scenery-phet/js/buttons/ResetAllButton.js';
 import SoundClip from '../../../../tambo/js/sound-generators/SoundClip.js';
 import soundManager from '../../../../tambo/js/soundManager.js';
 import WrappedAudioBuffer from '../../../../tambo/js/WrappedAudioBuffer.js';
 import faradaysElectromagneticLab from '../../faradaysElectromagneticLab.js';
 import FELUtils from '../FELUtils.js';
-
-const isResettingAllProperty = ResetAllButton.isResettingAllProperty;
 
 type SelfOptions = {
 
