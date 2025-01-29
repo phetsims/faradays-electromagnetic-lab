@@ -17,7 +17,7 @@
     "branch": "HEAD"
   },
   "chipper": {
-    "sha": "c6c8dbcbb4d98900c756c7fb0fe8e1b516325fff",
+    "sha": "a4921a1ac22d31eb322ae36af69ab0ef957a1419",
     "branch": "HEAD"
   },
   "dot": {
@@ -25,7 +25,7 @@
     "branch": "HEAD"
   },
   "faradays-electromagnetic-lab": {
-    "sha": "8c297011d7e29c52e70302290b4c3e8821abb455",
+    "sha": "4f9b4282b14ad8ccf0083ff182437cb8ff4cdc2c",
     "branch": "1.0"
   },
   "joist": {
@@ -53,7 +53,7 @@
     "branch": "HEAD"
   },
   "phet-io-wrappers": {
-    "sha": "63e552539446eb640a97f287f693f22a0060c09b",
+    "sha": "d880f4a5f14ad89dcdac80c42aef7e96b2f8ad80",
     "branch": "HEAD"
   },
   "phetcommon": {
