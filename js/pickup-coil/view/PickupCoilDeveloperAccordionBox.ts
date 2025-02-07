@@ -7,7 +7,8 @@
  * @author Chris Malley (PixelZoom, Inc.)
  */
 
-import { HSeparator, VBox } from '../../../../scenery/js/imports.js';
+import HSeparator from '../../../../scenery/js/layout/nodes/HSeparator.js';
+import VBox from '../../../../scenery/js/layout/nodes/VBox.js';
 import BarMagnet from '../../common/model/BarMagnet.js';
 import PickupCoil from '../../common/model/PickupCoil.js';
 import FELDeveloperAccordionBox from '../../common/view/FELDeveloperAccordionBox.js';

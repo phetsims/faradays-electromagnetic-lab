@@ -7,7 +7,9 @@
  */
 
 import { combineOptions } from '../../../../phet-core/js/optionize.js';
-import { Node, Text, VBox, VBoxOptions } from '../../../../scenery/js/imports.js';
+import VBox, { VBoxOptions } from '../../../../scenery/js/layout/nodes/VBox.js';
+import Node from '../../../../scenery/js/nodes/Node.js';
+import Text from '../../../../scenery/js/nodes/Text.js';
 import Panel, { PanelOptions } from '../../../../sun/js/Panel.js';
 import Tandem from '../../../../tandem/js/Tandem.js';
 import faradaysElectromagneticLab from '../../faradaysElectromagneticLab.js';

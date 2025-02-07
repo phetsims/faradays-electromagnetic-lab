@@ -13,7 +13,9 @@ import { PreferencesControlOptions } from '../../../joist/js/preferences/Prefere
 import { ScreenOptions } from '../../../joist/js/Screen.js';
 import NumberControl, { NumberControlOptions } from '../../../scenery-phet/js/NumberControl.js';
 import PhetFont from '../../../scenery-phet/js/PhetFont.js';
-import { RichTextOptions, Text, TextOptions, VBoxOptions } from '../../../scenery/js/imports.js';
+import { VBoxOptions } from '../../../scenery/js/layout/nodes/VBox.js';
+import { RichTextOptions } from '../../../scenery/js/nodes/RichText.js';
+import Text, { TextOptions } from '../../../scenery/js/nodes/Text.js';
 import { RectangularRadioButtonOptions } from '../../../sun/js/buttons/RectangularRadioButton.js';
 import { CheckboxOptions } from '../../../sun/js/Checkbox.js';
 import { PanelOptions } from '../../../sun/js/Panel.js';

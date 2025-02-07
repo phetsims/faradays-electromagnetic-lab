@@ -8,7 +8,7 @@
  */
 
 import PickRequired from '../../../../../phet-core/js/types/PickRequired.js';
-import { VBox, VBoxOptions } from '../../../../../scenery/js/imports.js';
+import VBox, { VBoxOptions } from '../../../../../scenery/js/layout/nodes/VBox.js';
 import Tandem from '../../../../../tandem/js/Tandem.js';
 import faradaysElectromagneticLab from '../../../faradaysElectromagneticLab.js';
 import FELPreferences from '../../model/FELPreferences.js';

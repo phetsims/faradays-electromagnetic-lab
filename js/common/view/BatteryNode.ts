@@ -9,7 +9,10 @@
 import Dimension2 from '../../../../dot/js/Dimension2.js';
 import optionize from '../../../../phet-core/js/optionize.js';
 import PickOptional from '../../../../phet-core/js/types/PickOptional.js';
-import { LinearGradient, Node, NodeOptions, NodeTranslationOptions, Rectangle, TColor } from '../../../../scenery/js/imports.js';
+import Node, { NodeOptions, NodeTranslationOptions } from '../../../../scenery/js/nodes/Node.js';
+import Rectangle from '../../../../scenery/js/nodes/Rectangle.js';
+import LinearGradient from '../../../../scenery/js/util/LinearGradient.js';
+import TColor from '../../../../scenery/js/util/TColor.js';
 import faradaysElectromagneticLab from '../../faradaysElectromagneticLab.js';
 
 const DEFAULT_SIZE = new Dimension2( 165, 85 );

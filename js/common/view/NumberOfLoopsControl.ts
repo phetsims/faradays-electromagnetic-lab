@@ -7,7 +7,8 @@
  */
 
 import NumberProperty from '../../../../axon/js/NumberProperty.js';
-import { HBox, Text } from '../../../../scenery/js/imports.js';
+import HBox from '../../../../scenery/js/layout/nodes/HBox.js';
+import Text from '../../../../scenery/js/nodes/Text.js';
 import NumberSpinner from '../../../../sun/js/NumberSpinner.js';
 import Tandem from '../../../../tandem/js/Tandem.js';
 import faradaysElectromagneticLab from '../../faradaysElectromagneticLab.js';

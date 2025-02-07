@@ -7,7 +7,7 @@
  */
 
 import Vector2 from '../../../../dot/js/Vector2.js';
-import { Node } from '../../../../scenery/js/imports.js';
+import Node from '../../../../scenery/js/nodes/Node.js';
 import Tandem from '../../../../tandem/js/Tandem.js';
 import FELConstants from '../../common/FELConstants.js';
 import ACPowerSupplyPanel from '../../common/view/ACPowerSupplyPanel.js';

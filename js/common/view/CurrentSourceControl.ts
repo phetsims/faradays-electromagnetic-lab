@@ -7,7 +7,8 @@
  * @author Chris Malley (PixelZoom, Inc.)
  */
 
-import { HBox, RichText } from '../../../../scenery/js/imports.js';
+import HBox from '../../../../scenery/js/layout/nodes/HBox.js';
+import RichText from '../../../../scenery/js/nodes/RichText.js';
 import RectangularRadioButtonGroup, { RectangularRadioButtonGroupItem } from '../../../../sun/js/buttons/RectangularRadioButtonGroup.js';
 import Tandem from '../../../../tandem/js/Tandem.js';
 import faradaysElectromagneticLab from '../../faradaysElectromagneticLab.js';

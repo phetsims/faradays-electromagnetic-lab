@@ -10,9 +10,10 @@
  */
 
 import Vector2 from '../../../../dot/js/Vector2.js';
-import { Shape } from '../../../../kite/js/imports.js';
+import Shape from '../../../../kite/js/Shape.js';
 import optionize from '../../../../phet-core/js/optionize.js';
-import { PathOptions, TPaint } from '../../../../scenery/js/imports.js';
+import { PathOptions } from '../../../../scenery/js/nodes/Path.js';
+import TPaint from '../../../../scenery/js/util/TPaint.js';
 import faradaysElectromagneticLab from '../../faradaysElectromagneticLab.js';
 import { CoilLayer } from './Coil.js';
 import QuadraticBezierSpline from './QuadraticBezierSpline.js';

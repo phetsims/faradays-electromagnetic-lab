@@ -6,7 +6,7 @@
  * @author Chris Malley (PixelZoom, Inc.)
  */
 
-import { Path } from '../../../../scenery/js/imports.js';
+import Path from '../../../../scenery/js/nodes/Path.js';
 import faradaysElectromagneticLab from '../../faradaysElectromagneticLab.js';
 import CoilSegment from '../model/CoilSegment.js';
 

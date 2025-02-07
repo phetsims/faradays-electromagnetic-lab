@@ -17,7 +17,7 @@
 
 import Disposable from '../../../../axon/js/Disposable.js';
 import Vector2 from '../../../../dot/js/Vector2.js';
-import { Shape } from '../../../../kite/js/imports.js';
+import Shape from '../../../../kite/js/Shape.js';
 import faradaysElectromagneticLab from '../../faradaysElectromagneticLab.js';
 
 export default class QuadraticBezierSpline {
