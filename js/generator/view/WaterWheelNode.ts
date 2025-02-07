@@ -8,7 +8,8 @@
  */
 
 import Vector2 from '../../../../dot/js/Vector2.js';
-import { Image, Node } from '../../../../scenery/js/imports.js';
+import Image from '../../../../scenery/js/nodes/Image.js';
+import Node from '../../../../scenery/js/nodes/Node.js';
 import waterWheel_png from '../../../images/waterWheel_png.js';
 import BarMagnet from '../../common/model/BarMagnet.js';
 import faradaysElectromagneticLab from '../../faradaysElectromagneticLab.js';

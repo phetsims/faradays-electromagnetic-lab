@@ -7,7 +7,8 @@
  * @author Chris Malley (PixelZoom, Inc.)
  */
 
-import { HSeparator, VBox } from '../../../../scenery/js/imports.js';
+import HSeparator from '../../../../scenery/js/layout/nodes/HSeparator.js';
+import VBox from '../../../../scenery/js/layout/nodes/VBox.js';
 import FELDeveloperAccordionBox from '../../common/view/FELDeveloperAccordionBox.js';
 import faradaysElectromagneticLab from '../../faradaysElectromagneticLab.js';
 import Generator from '../model/Generator.js';

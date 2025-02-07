@@ -6,7 +6,7 @@
  * @author Chris Malley (PixelZoom, Inc.)
  */
 
-import { Node } from '../../../../scenery/js/imports.js';
+import Node from '../../../../scenery/js/nodes/Node.js';
 import Tandem from '../../../../tandem/js/Tandem.js';
 import FELScreenView from '../../common/view/FELScreenView.js';
 import FELTimeControlNode from '../../common/view/FELTimeControlNode.js';
