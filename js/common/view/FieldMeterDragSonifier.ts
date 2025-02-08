@@ -1,4 +1,4 @@
-// Copyright 2024, University of Colorado Boulder
+// Copyright 2024-2025, University of Colorado Boulder
 
 /**
  * FieldMeterDragSonifier is responsible for sonification of a FieldMeterNode view element while it is being dragged.

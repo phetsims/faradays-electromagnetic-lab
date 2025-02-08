@@ -1,4 +1,4 @@
-// Copyright 2024, University of Colorado Boulder
+// Copyright 2024-2025, University of Colorado Boulder
 
 /**
  * FELScreenIconFactory is a collection of functions for creating screen icons. The 'magic numbers' herein were determined

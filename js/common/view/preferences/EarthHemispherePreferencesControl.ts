@@ -1,4 +1,4 @@
-// Copyright 2024, University of Colorado Boulder
+// Copyright 2024-2025, University of Colorado Boulder
 
 /**
  * EarthHemispherePreferencesControl is the control in the Preferences dialog for selecting the Earth image.

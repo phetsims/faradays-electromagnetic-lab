@@ -1,4 +1,4 @@
-// Copyright 2024, University of Colorado Boulder
+// Copyright 2024-2025, University of Colorado Boulder
 
 /**
  * PickupCoilAxisNode is the horizontal axis that runs through the center of the pickup coil, and spans the width of

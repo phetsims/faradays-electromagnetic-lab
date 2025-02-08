@@ -1,4 +1,4 @@
-// Copyright 2024, University of Colorado Boulder
+// Copyright 2024-2025, University of Colorado Boulder
 
 //TODO https://github.com/phetsims/scenery-phet/issues/840 When FaucetNode sound is completed, delete code identified by "TEMPORARY SOUND".
 /**

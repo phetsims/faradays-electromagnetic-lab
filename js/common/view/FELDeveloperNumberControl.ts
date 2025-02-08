@@ -1,4 +1,4 @@
-// Copyright 2024, University of Colorado Boulder
+// Copyright 2024-2025, University of Colorado Boulder
 
 /**
  * FELDeveloperNumberControl is a NumberControl that is specialized for use in FELDeveloperAccordionBox.

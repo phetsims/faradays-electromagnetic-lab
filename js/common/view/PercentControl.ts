@@ -1,4 +1,4 @@
-// Copyright 2024, University of Colorado Boulder
+// Copyright 2024-2025, University of Colorado Boulder
 
 /**
  * PercentControl is a NumberControl that shows its value in % units. It's not at all general, and exists as a base

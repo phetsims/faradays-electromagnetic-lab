@@ -1,4 +1,4 @@
-// Copyright 2024, University of Colorado Boulder
+// Copyright 2024-2025, University of Colorado Boulder
 
 /**
  * PowerSupplyPanel is the base class for ACPowerSupplyPanel and DCPowerSupplyPanel.  It makes the panel draggable,

@@ -1,4 +1,4 @@
-// Copyright 2023-2024, University of Colorado Boulder
+// Copyright 2023-2025, University of Colorado Boulder
 
 /**
  * VoltmeterNode is the visualization of the voltmeter, used as an indicator of current in the pickup coil.

@@ -1,4 +1,4 @@
-// Copyright 2023-2024, University of Colorado Boulder
+// Copyright 2023-2025, University of Colorado Boulder
 
 /**
  * CurrentSourceControl is the control for choosing a current source (aka power supply) for the electromagnet.

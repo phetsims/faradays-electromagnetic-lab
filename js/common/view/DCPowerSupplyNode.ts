@@ -1,4 +1,4 @@
-// Copyright 2023-2024, University of Colorado Boulder
+// Copyright 2023-2025, University of Colorado Boulder
 
 /**
  * DCPowerSupplyNode is the view of the DC power supply attached to the electromagnet. A battery is held in

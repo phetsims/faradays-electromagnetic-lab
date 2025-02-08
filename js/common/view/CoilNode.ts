@@ -1,4 +1,4 @@
-// Copyright 2023-2024, University of Colorado Boulder
+// Copyright 2023-2025, University of Colorado Boulder
 
 /**
  * CoilNode is the visualization of a coil of wire, with current flowing through the coil. The current is represented

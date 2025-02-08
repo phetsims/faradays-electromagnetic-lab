@@ -1,4 +1,4 @@
-// Copyright 2023-2024, University of Colorado Boulder
+// Copyright 2023-2025, University of Colorado Boulder
 
 /**
  * FieldInsideBarMagnetNode is the visualization of the field inside the bar magnet. It is a grid of compass needles

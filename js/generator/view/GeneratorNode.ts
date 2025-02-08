@@ -1,4 +1,4 @@
-// Copyright 2024, University of Colorado Boulder
+// Copyright 2024-2025, University of Colorado Boulder
 
 /**
  * GeneratorNode is the view of the Generator model element, which includes a turbine and pickup coil.

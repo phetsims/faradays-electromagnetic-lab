@@ -1,4 +1,4 @@
-// Copyright 2023-2024, University of Colorado Boulder
+// Copyright 2023-2025, University of Colorado Boulder
 
 /**
  * BarMagnetNode is the view of a bar magnet, with optional visualization of the field inside the magnet.

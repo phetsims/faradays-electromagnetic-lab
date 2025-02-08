@@ -1,4 +1,4 @@
-// Copyright 2024, University of Colorado Boulder
+// Copyright 2024-2025, University of Colorado Boulder
 
 /**
  * FieldPositionsNode is a debugging tool, used to confirm that the needles are properly positioned in the B-field

@@ -1,4 +1,4 @@
-// Copyright 2024, University of Colorado Boulder
+// Copyright 2024-2025, University of Colorado Boulder
 
 /**
  * CurrentCheckbox is the checkbox labeled as 'Electrons' or 'Conventional Current', used to show/hide current in a coil.

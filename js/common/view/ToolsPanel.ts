@@ -1,4 +1,4 @@
-// Copyright 2023-2024, University of Colorado Boulder
+// Copyright 2023-2025, University of Colorado Boulder
 
 /**
  * ToolsPanel is the panel that controls visibility of 'tools': the compass, field meter, and 'Lock to Axis' feature.

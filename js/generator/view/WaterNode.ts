@@ -1,4 +1,4 @@
-// Copyright 2024, University of Colorado Boulder
+// Copyright 2024-2025, University of Colorado Boulder
 
 /**
  * WaterNode is the water that comes out of the faucet in the Generator screen. Its origin is at center top.

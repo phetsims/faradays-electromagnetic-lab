@@ -1,4 +1,4 @@
-// Copyright 2023-2024, University of Colorado Boulder
+// Copyright 2023-2025, University of Colorado Boulder
 
 /**
  * CompassNode is the visualization of a compass, whose orientation matches a magnet's B-field at the compass' position.

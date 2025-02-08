@@ -1,4 +1,4 @@
-// Copyright 2023-2024, University of Colorado Boulder
+// Copyright 2023-2025, University of Colorado Boulder
 
 /**
  * FieldNode is the visualization of a magnet's B-field as a 2D grid of compass needles. It uses scenery's Sprites

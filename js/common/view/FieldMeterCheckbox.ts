@@ -1,4 +1,4 @@
-// Copyright 2024, University of Colorado Boulder
+// Copyright 2024-2025, University of Colorado Boulder
 
 /**
  * FieldMeterCheckbox is the checkbox labeled 'Field Meter', used to show/hide the field meter.

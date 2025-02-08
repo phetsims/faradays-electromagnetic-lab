@@ -1,4 +1,4 @@
-// Copyright 2024, University of Colorado Boulder
+// Copyright 2024-2025, University of Colorado Boulder
 
 /**
  * FELScreenView is the base class for all ScreenViews in this sim.  It creates the UI elements that are common to

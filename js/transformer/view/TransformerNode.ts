@@ -1,4 +1,4 @@
-// Copyright 2024, University of Colorado Boulder
+// Copyright 2024-2025, University of Colorado Boulder
 
 /**
  * TransformerNode is the view of the Transformer model element, which consists of an electromagnet and pickup coil.

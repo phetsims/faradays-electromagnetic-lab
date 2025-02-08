@@ -1,4 +1,4 @@
-// Copyright 2023-2024, University of Colorado Boulder
+// Copyright 2023-2025, University of Colorado Boulder
 
 /**
  * ACPowerSupplyPanel is the view of the AC power supply. It provides sliders for changing the maximum voltage
