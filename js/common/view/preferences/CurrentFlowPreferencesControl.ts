@@ -10,7 +10,7 @@
 import StringUnionProperty from '../../../../../axon/js/StringUnionProperty.js';
 import TReadOnlyProperty from '../../../../../axon/js/TReadOnlyProperty.js';
 import PreferencesControl, { PreferencesControlOptions } from '../../../../../joist/js/preferences/PreferencesControl.js';
-import PreferencesDialog from '../../../../../joist/js/preferences/PreferencesDialog.js';
+import PreferencesDialogConstants from '../../../../../joist/js/preferences/PreferencesDialogConstants.js';
 import { combineOptions } from '../../../../../phet-core/js/optionize.js';
 import HBox from '../../../../../scenery/js/layout/nodes/HBox.js';
 import Node from '../../../../../scenery/js/nodes/Node.js';
@@ -86,7 +86,7 @@ class CurrentFlowRadioButtonText extends HBox {
   public constructor( stringProperty: TReadOnlyProperty<string>, icon: Node, radioButtonTandem: Tandem ) {
 
     const text = new Text( stringProperty, {
-      font: PreferencesDialog.CONTENT_FONT,
+      font: PreferencesDialogConstants.CONTENT_FONT,
       maxWidth: 100
     } );
 

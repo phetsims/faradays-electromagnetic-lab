@@ -10,7 +10,7 @@
 import StringUnionProperty from '../../../../../axon/js/StringUnionProperty.js';
 import TReadOnlyProperty from '../../../../../axon/js/TReadOnlyProperty.js';
 import PreferencesControl, { PreferencesControlOptions } from '../../../../../joist/js/preferences/PreferencesControl.js';
-import PreferencesDialog from '../../../../../joist/js/preferences/PreferencesDialog.js';
+import PreferencesDialogConstants from '../../../../../joist/js/preferences/PreferencesDialogConstants.js';
 import { combineOptions } from '../../../../../phet-core/js/optionize.js';
 import RichText from '../../../../../scenery/js/nodes/RichText.js';
 import Text from '../../../../../scenery/js/nodes/Text.js';
@@ -80,7 +80,7 @@ class MagneticUnitsRadioButtonText extends RichText {
 
   public constructor( stringProperty: TReadOnlyProperty<string>, radioButtonTandem: Tandem ) {
     super( stringProperty, {
-      font: PreferencesDialog.CONTENT_FONT,
+      font: PreferencesDialogConstants.CONTENT_FONT,
       maxWidth: 100,
       tandem: radioButtonTandem.createTandem( 'text' )
     } );
