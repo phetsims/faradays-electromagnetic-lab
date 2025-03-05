@@ -13,11 +13,11 @@
     "branch": "HEAD"
   },
   "brand": {
-    "sha": "0e84d480a4e3e5ce0fc42537467d09e7d3ffb192",
+    "sha": "b8fdb7fb6a0aa724093a66638a92bc54232fcd16",
     "branch": "HEAD"
   },
   "chipper": {
-    "sha": "85ba638ad23464d1bcbf0e8d502ba57cf4a6cb43",
+    "sha": "f2348cfc4968d1a324e58c0c047de55022cfd0dc",
     "branch": "HEAD"
   },
   "dot": {
@@ -25,11 +25,11 @@
     "branch": "HEAD"
   },
   "faradays-electromagnetic-lab": {
-    "sha": "546783bdd95406c1c9846f642d9ed41425cc5285",
+    "sha": "bdad11d2eea3c30a968c2b07f3d11b537a8c83c4",
     "branch": "1.0"
   },
   "joist": {
-    "sha": "32cd20e8bc58d9ed6ec6918448343e5d1b656867",
+    "sha": "fe23539c81b07445c6d16d1d48965fb6c5056a87",
     "branch": "HEAD"
   },
   "kite": {
@@ -53,7 +53,7 @@
     "branch": "HEAD"
   },
   "phet-io-wrappers": {
-    "sha": "d880f4a5f14ad89dcdac80c42aef7e96b2f8ad80",
+    "sha": "f53456d89151ddfb232175784ca62b3757bda5ca",
     "branch": "HEAD"
   },
   "phetcommon": {
