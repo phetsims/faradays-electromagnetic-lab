@@ -8,6 +8,7 @@
  */
 
 import logGlobal from '../../../phet-core/js/logGlobal.js';
+import { QueryStringMachine } from '../../../query-string-machine/js/QueryStringMachineModule.js';
 import faradaysElectromagneticLab from '../faradaysElectromagneticLab.js';
 import FELConstants from './FELConstants.js';
 
