@@ -21,7 +21,7 @@ export type EarthHemisphere = ( typeof EarthHemisphereValues )[number];
 export const CurrentFlowValues = [ 'electron', 'conventional' ] as const;
 export type CurrentFlow = ( typeof CurrentFlowValues )[ number ];
 
-const SCHEMA_MAP = {
+const FELQueryParameters = QueryStringMachine.getAll( {
 
   //----------------------------------------------------------------------------------------------------------------
   // Public-facing query parameters
@@ -97,12 +97,7 @@ const SCHEMA_MAP = {
     defaultValue: null,
     isValidValue: ( array: null | number[] ) => ( array === null ) || ( array.length === 2 )
   }
-} as const;
-
-const FELQueryParameters = QueryStringMachine.getAll( SCHEMA_MAP );
-
-// The schema map is a read-only part of the public API, in case schema details (e.g. validValues) are needed elsewhere.
-FELQueryParameters.SCHEMA_MAP = SCHEMA_MAP;
+} );
 
 faradaysElectromagneticLab.register( 'FELQueryParameters', FELQueryParameters );
 
