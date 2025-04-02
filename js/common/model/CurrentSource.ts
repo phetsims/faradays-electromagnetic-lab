@@ -18,6 +18,7 @@ import TReadOnlyProperty from '../../../../axon/js/TReadOnlyProperty.js';
 import Range from '../../../../dot/js/Range.js';
 import Utils from '../../../../dot/js/Utils.js';
 import optionize, { combineOptions } from '../../../../phet-core/js/optionize.js';
+import IntentionalAny from '../../../../phet-core/js/types/IntentionalAny.js';
 import PickRequired from '../../../../phet-core/js/types/PickRequired.js';
 import StrictOmit from '../../../../phet-core/js/types/StrictOmit.js';
 import PhetioObject, { PhetioObjectOptions } from '../../../../tandem/js/PhetioObject.js';
@@ -89,7 +90,7 @@ export default class CurrentSource extends PhetioObject {
    * exist for the lifetime of the simulation, it implements 'Reference type serialization', as described in the
    * Serialization section of https://github.com/phetsims/phet-io/blob/main/doc/phet-io-instrumentation-technical-guide.md#serialization
    */
-  public static readonly CurrentSourceIO = new IOType( 'CurrentSourceIO', {
+  public static readonly CurrentSourceIO = new IOType<IntentionalAny, IntentionalAny>( 'CurrentSourceIO', {
     valueType: CurrentSource,
     supertype: ReferenceIO( IOType.ObjectIO ),
     documentation: 'A device that acts as the current source for an electromagnet'

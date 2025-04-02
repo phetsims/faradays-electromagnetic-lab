@@ -8,6 +8,7 @@
  */
 
 import optionize, { EmptySelfOptions } from '../../../../phet-core/js/optionize.js';
+import IntentionalAny from '../../../../phet-core/js/types/IntentionalAny.js';
 import PickRequired from '../../../../phet-core/js/types/PickRequired.js';
 import PhetioObject, { PhetioObjectOptions } from '../../../../tandem/js/PhetioObject.js';
 import IOType from '../../../../tandem/js/types/IOType.js';
@@ -39,7 +40,7 @@ export default class CurrentIndicator extends PhetioObject {
    * startup and exist for the lifetime of the simulation, it implements 'Reference type serialization', as described
    * in the Serialization section of https://github.com/phetsims/phet-io/blob/main/doc/phet-io-instrumentation-technical-guide.md#serialization
    */
-  public static readonly CurrentIndicatorIO = new IOType( 'CurrentIndicatorIO', {
+  public static readonly CurrentIndicatorIO = new IOType<IntentionalAny, IntentionalAny>( 'CurrentIndicatorIO', {
     valueType: CurrentIndicator,
     supertype: ReferenceIO( IOType.ObjectIO ),
     documentation: 'A device that indicates the presence of current in the pickup coil'
