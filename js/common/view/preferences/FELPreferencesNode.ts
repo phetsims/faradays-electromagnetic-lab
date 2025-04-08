@@ -7,8 +7,7 @@
  * @author Chris Malley (PixelZoom, Inc.)
  */
 
-import PickRequired from '../../../../../phet-core/js/types/PickRequired.js';
-import VBox, { VBoxOptions } from '../../../../../scenery/js/layout/nodes/VBox.js';
+import VBox from '../../../../../scenery/js/layout/nodes/VBox.js';
 import Tandem from '../../../../../tandem/js/Tandem.js';
 import faradaysElectromagneticLab from '../../../faradaysElectromagneticLab.js';
 import FELPreferences from '../../model/FELPreferences.js';
@@ -16,17 +15,6 @@ import AddEarthCheckboxPreferencesControl from './AddEarthCheckboxPreferencesCon
 import CurrentFlowPreferencesControl from './CurrentFlowPreferencesControl.js';
 import EarthHemispherePreferencesControl from './EarthHemispherePreferencesControl.js';
 import MagneticUnitsPreferencesControl from './MagneticUnitsPreferencesControl.js';
-
-type SelfOptions = {
-
-  // Whether the sim has the feature for changing the convention for current flow.
-  hasCurrentFlowFeature?: boolean;
-
-  // Whether the sim has the feature that shows the alignment of a bar magnet with planet Earth.
-  hasEarthFeature?: boolean;
-};
-
-export type FELPreferencesNodeOptions = SelfOptions & PickRequired<VBoxOptions, 'tandem'>;
 
 export default class FELPreferencesNode extends VBox {
 
