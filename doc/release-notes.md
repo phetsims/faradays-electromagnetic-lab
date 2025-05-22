@@ -35,6 +35,7 @@ For an exemplar, see https://github.com/phetsims/balancing-chemical-equations/bl
 * Dynamic locale: see _Preferences > Localization > Languages_
 * Alternative Input
 * Interactive Highlights
+* Projector Mode
 * UI Sounds
 * PhET-iO
 * TypeScript implementation
