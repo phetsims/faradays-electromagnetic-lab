@@ -280,9 +280,9 @@ The HTML5 version takes a more consistent approach, has no collision detection, 
 
 ## Sound
 
-As of the 1.0 release, UI Sounds are supported, while sonification is not supported.
+As of the 1.0 release, Basic Sound is supported, while sonification is not supported.
 
-`WaterFaucetNode` has a temporary implementation for UI Sounds, intended to be removed when sound design is
+`WaterFaucetNode` has a temporary implementation for Basic Sound, intended to be removed when sound design is
 completed for `FaucetNode`; see [scenery-phet#840](https://github.com/phetsims/scenery-phet/issues/840). 
 
 `FELSonifier` and its subclasses may be ignored. They are experimental sonification code that is not included in 
