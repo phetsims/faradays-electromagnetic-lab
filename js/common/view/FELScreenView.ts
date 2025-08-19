@@ -66,10 +66,7 @@ export default class FELScreenView extends ScreenView {
     const options = optionize<FELScreenViewOptions, SelfOptions, ScreenViewOptions>()( {
 
       // SelfOptions
-      timeControlNode: null,
-
-      // ScreenViewOptions
-      isDisposable: false
+      timeControlNode: null
     }, providedOptions );
 
     super( options );

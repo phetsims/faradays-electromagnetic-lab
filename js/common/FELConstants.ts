@@ -89,7 +89,6 @@ const PANEL_OPTIONS: PanelOptions = {
 };
 
 const SCREEN_OPTIONS: Partial<ScreenOptions> = {
-  isDisposable: false,
   backgroundColorProperty: FELColors.screenBackgroundColorProperty,
   showUnselectedHomeScreenIconFrame: true
 };
