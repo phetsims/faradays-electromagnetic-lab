@@ -1,4 +1,4 @@
-// Copyright 2023-2024, University of Colorado Boulder
+// Copyright 2023-2025, University of Colorado Boulder
 
 /**
  * Transformer is the model of a transformer, consisting of 2 coils. The primary coil (an electromagnet)

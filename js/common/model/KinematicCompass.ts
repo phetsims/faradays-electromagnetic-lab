@@ -1,4 +1,4 @@
-// Copyright 2023-2024, University of Colorado Boulder
+// Copyright 2023-2025, University of Colorado Boulder
 
 /**
  * KinematicCompass rotates the compass needle using the Verlet algorithm to mimic rotational kinematics of a real

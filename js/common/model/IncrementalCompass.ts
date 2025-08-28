@@ -1,4 +1,4 @@
-// Copyright 2023-2024, University of Colorado Boulder
+// Copyright 2023-2025, University of Colorado Boulder
 
 /**
  * IncrementalCompass tracks the B-field exactly, except when the delta angle exceeds some threshold.

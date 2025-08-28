@@ -1,4 +1,4 @@
-// Copyright 2023-2024, University of Colorado Boulder
+// Copyright 2023-2025, University of Colorado Boulder
 
 /**
  * PickupCoil is the model of a pickup coil. Its behavior follows Faraday's Law for electromagnetic induction.

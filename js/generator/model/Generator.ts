@@ -1,4 +1,4 @@
-// Copyright 2023-2024, University of Colorado Boulder
+// Copyright 2023-2025, University of Colorado Boulder
 
 /**
  * Generator is the model of a simple generator. Motion-based power is provided by a turbine, which is rotated by

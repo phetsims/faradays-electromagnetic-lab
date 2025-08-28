@@ -1,4 +1,4 @@
-// Copyright 2023-2024, University of Colorado Boulder
+// Copyright 2023-2025, University of Colorado Boulder
 
 /**
  * LightBulb is the model of the light bulb, as an indicator of current in the pickup coil. Brightness of the light

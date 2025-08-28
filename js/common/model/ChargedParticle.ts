@@ -1,4 +1,4 @@
-// Copyright 2023-2024, University of Colorado Boulder
+// Copyright 2023-2025, University of Colorado Boulder
 
 /**
  * ChargedParticle is the model of a charged particle (aka 'charge') that moves through a coil. The path through the

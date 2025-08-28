@@ -1,4 +1,4 @@
-// Copyright 2024, University of Colorado Boulder
+// Copyright 2024-2025, University of Colorado Boulder
 
 /**
  * FELSonifier is the base class for 'sonifiers' that modulate the playback rate of an audio file. This is a pattern

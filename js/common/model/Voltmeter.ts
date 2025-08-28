@@ -1,4 +1,4 @@
-// Copyright 2023-2024, University of Colorado Boulder
+// Copyright 2023-2025, University of Colorado Boulder
 
 /**
  * Voltmeter is the model of a voltmeter, as an indicator of current in the pickup coil. The meter's needle behaves

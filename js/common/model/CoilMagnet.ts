@@ -1,4 +1,4 @@
-// Copyright 2024, University of Colorado Boulder
+// Copyright 2024-2025, University of Colorado Boulder
 
 /**
  * CoilMagnet is the base class for magnets that are based on a coil.  The shape of the model is a square, and the
