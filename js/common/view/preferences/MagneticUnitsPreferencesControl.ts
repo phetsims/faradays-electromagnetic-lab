@@ -8,7 +8,7 @@
  */
 
 import StringUnionProperty from '../../../../../axon/js/StringUnionProperty.js';
-import TReadOnlyProperty from '../../../../../axon/js/TReadOnlyProperty.js';
+import { TReadOnlyProperty } from '../../../../../axon/js/TReadOnlyProperty.js';
 import PreferencesControl, { PreferencesControlOptions } from '../../../../../joist/js/preferences/PreferencesControl.js';
 import PreferencesDialogConstants from '../../../../../joist/js/preferences/PreferencesDialogConstants.js';
 import { combineOptions } from '../../../../../phet-core/js/optionize.js';

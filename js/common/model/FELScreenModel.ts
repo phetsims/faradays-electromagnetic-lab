@@ -12,7 +12,7 @@
 import BooleanProperty, { BooleanPropertyOptions } from '../../../../axon/js/BooleanProperty.js';
 import Disposable from '../../../../axon/js/Disposable.js';
 import Property from '../../../../axon/js/Property.js';
-import TReadOnlyProperty from '../../../../axon/js/TReadOnlyProperty.js';
+import { TReadOnlyProperty } from '../../../../axon/js/TReadOnlyProperty.js';
 import Vector2 from '../../../../dot/js/Vector2.js';
 import TModel from '../../../../joist/js/TModel.js';
 import optionize, { combineOptions } from '../../../../phet-core/js/optionize.js';
