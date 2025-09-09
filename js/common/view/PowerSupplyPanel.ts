@@ -14,12 +14,13 @@ import { TReadOnlyProperty } from '../../../../axon/js/TReadOnlyProperty.js';
 import Bounds2 from '../../../../dot/js/Bounds2.js';
 import Vector2 from '../../../../dot/js/Vector2.js';
 import Vector2Property from '../../../../dot/js/Vector2Property.js';
-import { optionize4 } from '../../../../phet-core/js/optionize.js';
+import { combineOptions, optionize4 } from '../../../../phet-core/js/optionize.js';
+import AccessibleDraggableOptions from '../../../../scenery-phet/js/accessibility/grab-drag/AccessibleDraggableOptions.js';
 import PickRequired from '../../../../phet-core/js/types/PickRequired.js';
 import SoundDragListener from '../../../../scenery-phet/js/SoundDragListener.js';
 import SoundKeyboardDragListener from '../../../../scenery-phet/js/SoundKeyboardDragListener.js';
 import InteractiveHighlighting from '../../../../scenery/js/accessibility/voicing/InteractiveHighlighting.js';
-import Node from '../../../../scenery/js/nodes/Node.js';
+import Node, { NodeOptions } from '../../../../scenery/js/nodes/Node.js';
 import Panel, { PanelOptions } from '../../../../sun/js/Panel.js';
 import isSettingPhetioStateProperty from '../../../../tandem/js/isSettingPhetioStateProperty.js';
 import faradaysElectromagneticLab from '../../faradaysElectromagneticLab.js';
@@ -52,14 +53,13 @@ export default class PowerSupplyPanel extends InteractiveHighlighting( Panel ) {
       phetioFeatured: true
     } );
 
-    const options = optionize4<PowerSupplyPanelOptions, SelfOptions, PanelOptions>()( {}, FELConstants.PANEL_OPTIONS, {
+    const defaultOptions = combineOptions<NodeOptions>( {}, FELConstants.PANEL_OPTIONS, AccessibleDraggableOptions );
+    const options = optionize4<PowerSupplyPanelOptions, SelfOptions, PanelOptions>()( {}, defaultOptions, {
       visibleProperty: new DerivedProperty( [ currentSourceProperty, visibleProperty ],
         ( currentSource, visible ) => ( currentSource === powerSupply ) && visible ),
       xMargin: 10,
       yMargin: 5,
       cursor: 'pointer',
-      tagName: 'div', // for KeyboardDragListener
-      focusable: true, // for KeyboardDragListener
       groupFocusHighlight: true,
       phetioFeatured: true
     }, providedOptions );

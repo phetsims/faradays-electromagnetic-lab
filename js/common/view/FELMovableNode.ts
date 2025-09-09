@@ -14,6 +14,7 @@ import Vector2 from '../../../../dot/js/Vector2.js';
 import optionize, { combineOptions } from '../../../../phet-core/js/optionize.js';
 import PickOptional from '../../../../phet-core/js/types/PickOptional.js';
 import PickRequired from '../../../../phet-core/js/types/PickRequired.js';
+import AccessibleDraggableOptions from '../../../../scenery-phet/js/accessibility/grab-drag/AccessibleDraggableOptions.js';
 import SoundDragListener, { SoundDragListenerOptions } from '../../../../scenery-phet/js/SoundDragListener.js';
 import SoundKeyboardDragListener, { SoundKeyboardDragListenerOptions } from '../../../../scenery-phet/js/SoundKeyboardDragListener.js';
 import InteractiveHighlighting, { InteractiveHighlightingOptions } from '../../../../scenery/js/accessibility/voicing/InteractiveHighlighting.js';
@@ -51,7 +52,7 @@ export default class FELMovableNode extends InteractiveHighlighting( Node ) {
 
   protected constructor( positionProperty: Property<Vector2>, providedOptions: FELMovableNodeOptions ) {
 
-    const options = optionize<FELMovableNodeOptions, SelfOptions, ParentOptions>()( {
+    let options = optionize<FELMovableNodeOptions, SelfOptions, ParentOptions>()( {
 
       // SelfOptions
       isMovable: true,
@@ -75,8 +76,7 @@ export default class FELMovableNode extends InteractiveHighlighting( Node ) {
       options.phetioInputEnabledPropertyInstrumented = true;
 
       if ( options.hasKeyboardDragListener ) {
-        options.tagName = 'div'; // for KeyboardDragListener
-        options.focusable = true; // for KeyboardDragListener
+        options = combineOptions<typeof options>( {}, AccessibleDraggableOptions, options );
       }
     }
     else {
