@@ -99,7 +99,6 @@ export default class FELScreenView extends ScreenView {
 
     this.resetAllButton = new ResetAllButton( {
       listener: () => {
-        this.interruptSubtreeInput(); // cancel interactions that may be in progress
         options.resetAll();
       },
       tandem: options.tandem.createTandem( 'resetAllButton' )
