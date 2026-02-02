@@ -1,5 +1,5 @@
 {
-  "comment": "# faradays-electromagnetic-lab 1.0.4 Thu Sep 11 2025 11:56:45 GMT-0600 (Mountain Daylight Time)",
+  "comment": "# faradays-electromagnetic-lab 1.0.5-rc.1 Mon Feb 02 2026 17:38:32 GMT-0500 (Eastern Standard Time)",
   "assert": {
     "sha": "4eaabfefb0b88b213e98b9c7f32d6c570c3fc122",
     "branch": "HEAD"
@@ -25,7 +25,7 @@
     "branch": "HEAD"
   },
   "faradays-electromagnetic-lab": {
-    "sha": "d523c7f3e13a0327aa43f99947fd5a25e8a204ea",
+    "sha": "27bdb8231241b9b87eeb6c7de32d94f5462f64d0",
     "branch": "1.0"
   },
   "joist": {
