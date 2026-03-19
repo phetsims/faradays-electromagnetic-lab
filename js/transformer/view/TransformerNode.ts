@@ -12,7 +12,6 @@ import Node from '../../../../scenery/js/nodes/Node.js';
 import Tandem from '../../../../tandem/js/Tandem.js';
 import ElectromagnetNode from '../../common/view/ElectromagnetNode.js';
 import PickupCoilNode from '../../common/view/PickupCoilNode.js';
-import faradaysElectromagneticLab from '../../faradaysElectromagneticLab.js';
 import Transformer from '../model/Transformer.js';
 
 export default class TransformerNode extends Node {
@@ -50,5 +49,3 @@ export default class TransformerNode extends Node {
     this.addLinkedElement( transformer );
   }
 }
-
-faradaysElectromagneticLab.register( 'TransformerNode', TransformerNode );

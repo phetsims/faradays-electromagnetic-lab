@@ -11,7 +11,6 @@ import HBox from '../../../../scenery/js/layout/nodes/HBox.js';
 import Text from '../../../../scenery/js/nodes/Text.js';
 import NumberSpinner from '../../../../sun/js/NumberSpinner.js';
 import Tandem from '../../../../tandem/js/Tandem.js';
-import faradaysElectromagneticLab from '../../faradaysElectromagneticLab.js';
 import FaradaysElectromagneticLabStrings from '../../FaradaysElectromagneticLabStrings.js';
 import FELConstants from '../FELConstants.js';
 
@@ -53,5 +52,3 @@ export default class NumberOfLoopsControl extends HBox {
     } );
   }
 }
-
-faradaysElectromagneticLab.register( 'NumberOfLoopsControl', NumberOfLoopsControl );

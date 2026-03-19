@@ -15,7 +15,6 @@ import DCPowerSupplyPanel from '../../common/view/DCPowerSupplyPanel.js';
 import ElectromagnetNode from '../../common/view/ElectromagnetNode.js';
 import FELScreenView from '../../common/view/FELScreenView.js';
 import FELTimeControlNode from '../../common/view/FELTimeControlNode.js';
-import faradaysElectromagneticLab from '../../faradaysElectromagneticLab.js';
 import ElectromagnetScreenModel from '../model/ElectromagnetScreenModel.js';
 import ElectromagnetDeveloperAccordionBox from './ElectromagnetDeveloperAccordionBox.js';
 import ElectromagnetPanels from './ElectromagnetPanels.js';
@@ -104,5 +103,3 @@ export default class ElectromagnetScreenView extends FELScreenView {
     ];
   }
 }
-
-faradaysElectromagneticLab.register( 'ElectromagnetScreenView', ElectromagnetScreenView );

@@ -20,7 +20,6 @@ import Line from '../../../../scenery/js/nodes/Line.js';
 import Node, { NodeOptions, NodeTranslationOptions } from '../../../../scenery/js/nodes/Node.js';
 import Rectangle from '../../../../scenery/js/nodes/Rectangle.js';
 import TPaint from '../../../../scenery/js/util/TPaint.js';
-import faradaysElectromagneticLab from '../../faradaysElectromagneticLab.js';
 
 type SelfOptions = {
   size: Dimension2;
@@ -92,5 +91,3 @@ export default class ResistorNode extends Node {
     super( options );
   }
 }
-
-faradaysElectromagneticLab.register( 'ResistorNode', ResistorNode );

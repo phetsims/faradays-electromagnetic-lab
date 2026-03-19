@@ -18,7 +18,6 @@ import { SoundKeyboardDragListenerOptions } from '../../../../scenery-phet/js/So
 import Circle from '../../../../scenery/js/nodes/Circle.js';
 import Node from '../../../../scenery/js/nodes/Node.js';
 import Path from '../../../../scenery/js/nodes/Path.js';
-import faradaysElectromagneticLab from '../../faradaysElectromagneticLab.js';
 import FELColors from '../FELColors.js';
 import Compass from '../model/Compass.js';
 import CompassNeedleNode from './CompassNeedleNode.js';
@@ -104,5 +103,3 @@ export default class CompassNode extends FELMovableNode {
     } );
   }
 }
-
-faradaysElectromagneticLab.register( 'CompassNode', CompassNode );

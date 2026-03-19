@@ -27,7 +27,6 @@ import optionize from '../../../../phet-core/js/optionize.js';
 import SoundClip from '../../../../tambo/js/sound-generators/SoundClip.js';
 import soundManager from '../../../../tambo/js/soundManager.js';
 import WrappedAudioBuffer from '../../../../tambo/js/WrappedAudioBuffer.js';
-import faradaysElectromagneticLab from '../../faradaysElectromagneticLab.js';
 import FELUtils from '../FELUtils.js';
 
 type SelfOptions = {
@@ -197,5 +196,3 @@ export default class FELSonifier extends Disposable {
     this.lastChangedTime = null;
   }
 }
-
-faradaysElectromagneticLab.register( 'FELSonifier', FELSonifier );

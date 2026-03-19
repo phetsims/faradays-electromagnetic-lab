@@ -18,7 +18,6 @@ import Text from '../../../../scenery/js/nodes/Text.js';
 import TextPushButton from '../../../../sun/js/buttons/TextPushButton.js';
 import Checkbox, { CheckboxOptions } from '../../../../sun/js/Checkbox.js';
 import Panel, { PanelOptions } from '../../../../sun/js/Panel.js';
-import faradaysElectromagneticLab from '../../faradaysElectromagneticLab.js';
 import FaradaysElectromagneticLabStrings from '../../FaradaysElectromagneticLabStrings.js';
 import FELConstants from '../FELConstants.js';
 import BarMagnet from '../model/BarMagnet.js';
@@ -131,5 +130,3 @@ export default class BarMagnetPanel extends Panel {
     this.addLinkedElement( barMagnet );
   }
 }
-
-faradaysElectromagneticLab.register( 'BarMagnetPanel', BarMagnetPanel );

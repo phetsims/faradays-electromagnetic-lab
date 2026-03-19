@@ -9,7 +9,6 @@
 import optionize, { EmptySelfOptions } from '../../../../phet-core/js/optionize.js';
 import PickRequired from '../../../../phet-core/js/types/PickRequired.js';
 import VBox, { VBoxOptions } from '../../../../scenery/js/layout/nodes/VBox.js';
-import faradaysElectromagneticLab from '../../faradaysElectromagneticLab.js';
 
 type SelfOptions = EmptySelfOptions;
 
@@ -27,5 +26,3 @@ export default class FELPanels extends VBox {
     }, providedOptions ) );
   }
 }
-
-faradaysElectromagneticLab.register( 'FELPanels', FELPanels );

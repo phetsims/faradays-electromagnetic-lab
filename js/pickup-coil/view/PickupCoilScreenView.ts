@@ -14,7 +14,6 @@ import BarMagnetNode from '../../common/view/BarMagnetNode.js';
 import FELScreenView from '../../common/view/FELScreenView.js';
 import PickupCoilAxisNode from '../../common/view/PickupCoilAxisNode.js';
 import PickupCoilNode from '../../common/view/PickupCoilNode.js';
-import faradaysElectromagneticLab from '../../faradaysElectromagneticLab.js';
 import PickupCoilScreenModel from '../model/PickupCoilScreenModel.js';
 import PickupCoilDeveloperAccordionBox from './PickupCoilDeveloperAccordionBox.js';
 import PickupCoilPanels from './PickupCoilPanels.js';
@@ -105,5 +104,3 @@ export default class PickupCoilScreenView extends FELScreenView {
     ];
   }
 }
-
-faradaysElectromagneticLab.register( 'PickupCoilScreenView', PickupCoilScreenView );

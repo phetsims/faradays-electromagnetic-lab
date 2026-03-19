@@ -19,7 +19,6 @@ import Image from '../../../../scenery/js/nodes/Image.js';
 import Path from '../../../../scenery/js/nodes/Path.js';
 import earthEasternHemisphere_svg from '../../../images/earthEasternHemisphere_svg.js';
 import earthWesternHemisphere_svg from '../../../images/earthWesternHemisphere_svg.js';
-import faradaysElectromagneticLab from '../../faradaysElectromagneticLab.js';
 import { EarthHemisphere } from '../FELQueryParameters.js';
 import BarMagnet from '../model/BarMagnet.js';
 import FELMovableNode, { FELMovableNodeOptions } from './FELMovableNode.js';
@@ -62,5 +61,3 @@ export default class EarthNode extends FELMovableNode {
     } );
   }
 }
-
-faradaysElectromagneticLab.register( 'EarthNode', EarthNode );

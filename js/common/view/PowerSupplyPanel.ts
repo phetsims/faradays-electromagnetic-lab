@@ -23,7 +23,6 @@ import InteractiveHighlighting from '../../../../scenery/js/accessibility/voicin
 import Node, { NodeOptions } from '../../../../scenery/js/nodes/Node.js';
 import Panel, { PanelOptions } from '../../../../sun/js/Panel.js';
 import isSettingPhetioStateProperty from '../../../../tandem/js/isSettingPhetioStateProperty.js';
-import faradaysElectromagneticLab from '../../faradaysElectromagneticLab.js';
 import FELConstants from '../FELConstants.js';
 import CurrentSource from '../model/CurrentSource.js';
 
@@ -122,6 +121,3 @@ export default class PowerSupplyPanel extends InteractiveHighlighting( Panel ) {
     this.positionProperty.reset();
   }
 }
-
-
-faradaysElectromagneticLab.register( 'PowerSupplyPanel', PowerSupplyPanel );

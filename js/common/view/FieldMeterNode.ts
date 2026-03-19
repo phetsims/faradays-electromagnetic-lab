@@ -28,7 +28,6 @@ import GridBox from '../../../../scenery/js/layout/nodes/GridBox.js';
 import Path from '../../../../scenery/js/nodes/Path.js';
 import RichText, { RichTextOptions } from '../../../../scenery/js/nodes/RichText.js';
 import Text, { TextOptions } from '../../../../scenery/js/nodes/Text.js';
-import faradaysElectromagneticLab from '../../faradaysElectromagneticLab.js';
 import FaradaysElectromagneticLabStrings from '../../FaradaysElectromagneticLabStrings.js';
 import FELColors from '../FELColors.js';
 import FieldMeter from '../model/FieldMeter.js';
@@ -281,5 +280,3 @@ function toDegreesString( fieldVector: Vector2, valueDegrees: string ): string {
     } );
   }
 }
-
-faradaysElectromagneticLab.register( 'FieldMeterNode', FieldMeterNode );

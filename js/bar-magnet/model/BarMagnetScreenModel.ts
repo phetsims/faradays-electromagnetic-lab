@@ -15,7 +15,6 @@ import BarMagnet from '../../common/model/BarMagnet.js';
 import FELPreferences from '../../common/model/FELPreferences.js';
 import FELScreenModel from '../../common/model/FELScreenModel.js';
 import KinematicCompass from '../../common/model/KinematicCompass.js';
-import faradaysElectromagneticLab from '../../faradaysElectromagneticLab.js';
 
 // Positions are factored out here because we've changed them so many times.
 const BAR_MAGNET_POSITION = new Vector2( 430, 285 );
@@ -54,5 +53,3 @@ export default class BarMagnetScreenModel extends FELScreenModel {
     this.barMagnet.reset();
   }
 }
-
-faradaysElectromagneticLab.register( 'BarMagnetScreenModel', BarMagnetScreenModel );

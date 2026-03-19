@@ -12,7 +12,6 @@ import Node from '../../../../scenery/js/nodes/Node.js';
 import Text from '../../../../scenery/js/nodes/Text.js';
 import Panel, { PanelOptions } from '../../../../sun/js/Panel.js';
 import Tandem from '../../../../tandem/js/Tandem.js';
-import faradaysElectromagneticLab from '../../faradaysElectromagneticLab.js';
 import FaradaysElectromagneticLabStrings from '../../FaradaysElectromagneticLabStrings.js';
 import FELConstants from '../FELConstants.js';
 import PickupCoil from '../model/PickupCoil.js';
@@ -60,5 +59,3 @@ export default class PickupCoilPanel extends Panel {
     this.addLinkedElement( pickupCoil );
   }
 }
-
-faradaysElectromagneticLab.register( 'PickupCoilPanel', PickupCoilPanel );

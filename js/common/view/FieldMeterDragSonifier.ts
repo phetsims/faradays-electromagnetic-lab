@@ -27,7 +27,6 @@ import Vector2 from '../../../../dot/js/Vector2.js';
 import TInputListener from '../../../../scenery/js/input/TInputListener.js';
 import { PressListenerEvent } from '../../../../scenery/js/listeners/PressListener.js';
 import felFieldMeterLoop_mp3 from '../../../sounds/felFieldMeterLoop_mp3.js';
-import faradaysElectromagneticLab from '../../faradaysElectromagneticLab.js';
 import FELSonifier from '../model/FELSonifier.js';
 import FieldNode from './FieldNode.js';
 
@@ -152,5 +151,3 @@ export default class FieldMeterDragSonifier extends FELSonifier implements TInpu
     return playbackRate;
   }
 }
-
-faradaysElectromagneticLab.register( 'FieldMeterDragSonifier', FieldMeterDragSonifier );

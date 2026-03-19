@@ -33,7 +33,6 @@ import TColor from '../../../../scenery/js/util/TColor.js';
 import PhetioObject, { PhetioObjectOptions } from '../../../../tandem/js/PhetioObject.js';
 import Tandem from '../../../../tandem/js/Tandem.js';
 import NumberIO from '../../../../tandem/js/types/NumberIO.js';
-import faradaysElectromagneticLab from '../../faradaysElectromagneticLab.js';
 import FELColors from '../FELColors.js';
 import FELConstants from '../FELConstants.js';
 import { CurrentFlow } from '../FELQueryParameters.js';
@@ -436,5 +435,3 @@ export default class Coil extends PhetioObject {
     return chargedParticles;
   }
 }
-
-faradaysElectromagneticLab.register( 'Coil', Coil );

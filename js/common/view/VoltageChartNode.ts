@@ -20,7 +20,6 @@ import Vector2 from '../../../../dot/js/Vector2.js';
 import optionize from '../../../../phet-core/js/optionize.js';
 import Orientation from '../../../../phet-core/js/Orientation.js';
 import Node, { NodeOptions, NodeTranslationOptions } from '../../../../scenery/js/nodes/Node.js';
-import faradaysElectromagneticLab from '../../faradaysElectromagneticLab.js';
 import FELColors from '../FELColors.js';
 import ACPowerSupply from '../model/ACPowerSupply.js';
 
@@ -146,5 +145,3 @@ export default class VoltageChartNode extends Node {
     acPowerSupply.visibleAngleRangeProperty.link( range => chartTransform.setModelXRange( range ) );
   }
 }
-
-faradaysElectromagneticLab.register( 'VoltageChartNode', VoltageChartNode );

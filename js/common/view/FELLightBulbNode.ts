@@ -19,7 +19,6 @@ import lightBulbOff_png from '../../../../scenery-phet/mipmaps/lightBulbOff_png.
 import Image from '../../../../scenery/js/nodes/Image.js';
 import Node, { NodeOptions } from '../../../../scenery/js/nodes/Node.js';
 import BooleanIO from '../../../../tandem/js/types/BooleanIO.js';
-import faradaysElectromagneticLab from '../../faradaysElectromagneticLab.js';
 import FELColors from '../FELColors.js';
 import CurrentIndicator from '../model/CurrentIndicator.js';
 import LightBulb from '../model/LightBulb.js';
@@ -104,5 +103,3 @@ export default class FELLightBulbNode extends Node {
     } );
   }
 }
-
-faradaysElectromagneticLab.register( 'FELLightBulbNode', FELLightBulbNode );

@@ -23,7 +23,6 @@ import Node from '../../../../scenery/js/nodes/Node.js';
 import ArrowButton from '../../../../sun/js/buttons/ArrowButton.js';
 import Slider from '../../../../sun/js/Slider.js';
 import Tandem from '../../../../tandem/js/Tandem.js';
-import faradaysElectromagneticLab from '../../faradaysElectromagneticLab.js';
 import FaradaysElectromagneticLabStrings from '../../FaradaysElectromagneticLabStrings.js';
 import FELConstants from '../FELConstants.js';
 
@@ -97,5 +96,3 @@ function createHorizontalLayout( titleNode: Node, numberDisplay: NumberDisplay, 
     excludeInvisibleChildrenFromBounds: false
   } );
 }
-
-faradaysElectromagneticLab.register( 'ACNumberControl', ACNumberControl );

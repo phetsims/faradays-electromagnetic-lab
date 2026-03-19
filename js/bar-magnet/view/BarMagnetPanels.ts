@@ -13,7 +13,6 @@ import Tandem from '../../../../tandem/js/Tandem.js';
 import BarMagnetPanel from '../../common/view/BarMagnetPanel.js';
 import FELPanels from '../../common/view/FELPanels.js';
 import ToolsPanel from '../../common/view/ToolsPanel.js';
-import faradaysElectromagneticLab from '../../faradaysElectromagneticLab.js';
 import BarMagnetScreenModel from '../model/BarMagnetScreenModel.js';
 
 export default class BarMagnetPanels extends FELPanels {
@@ -48,5 +47,3 @@ export default class BarMagnetPanels extends FELPanels {
     this.toolsPanel = toolsPanel;
   }
 }
-
-faradaysElectromagneticLab.register( 'BarMagnetPanels', BarMagnetPanels );

@@ -7,7 +7,6 @@
  */
 
 import Path from '../../../../scenery/js/nodes/Path.js';
-import faradaysElectromagneticLab from '../../faradaysElectromagneticLab.js';
 import CoilSegment from '../model/CoilSegment.js';
 
 export default class CoilSegmentNode extends Path {
@@ -23,5 +22,3 @@ export default class CoilSegmentNode extends Path {
     } );
   }
 }
-
-faradaysElectromagneticLab.register( 'CoilSegmentNode', CoilSegmentNode );

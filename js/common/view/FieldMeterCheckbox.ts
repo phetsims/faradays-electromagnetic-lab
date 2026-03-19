@@ -17,7 +17,6 @@ import Node from '../../../../scenery/js/nodes/Node.js';
 import Text from '../../../../scenery/js/nodes/Text.js';
 import Checkbox, { CheckboxOptions } from '../../../../sun/js/Checkbox.js';
 import Tandem from '../../../../tandem/js/Tandem.js';
-import faradaysElectromagneticLab from '../../faradaysElectromagneticLab.js';
 import FaradaysElectromagneticLabStrings from '../../FaradaysElectromagneticLabStrings.js';
 import FELColors from '../FELColors.js';
 import FELConstants from '../FELConstants.js';
@@ -74,5 +73,3 @@ function createIcon(): Node {
     children: [ stem, probe, crosshairs ]
   } );
 }
-
-faradaysElectromagneticLab.register( 'FieldMeterCheckbox', FieldMeterCheckbox );

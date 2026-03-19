@@ -14,7 +14,6 @@ import Bounds2 from '../../../../dot/js/Bounds2.js';
 import Node from '../../../../scenery/js/nodes/Node.js';
 import Tandem from '../../../../tandem/js/Tandem.js';
 import BarMagnetNode from '../../common/view/BarMagnetNode.js';
-import faradaysElectromagneticLab from '../../faradaysElectromagneticLab.js';
 import Turbine from '../model/Turbine.js';
 import RPMDisplay from './RPMDisplay.js';
 import WaterFaucetNode from './WaterFaucetNode.js';
@@ -64,5 +63,3 @@ export default class TurbineNode extends Node {
     this.addLinkedElement( turbine );
   }
 }
-
-faradaysElectromagneticLab.register( 'TurbineNode', TurbineNode );

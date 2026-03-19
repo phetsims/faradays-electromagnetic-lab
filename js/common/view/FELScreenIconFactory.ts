@@ -19,7 +19,6 @@ import Image from '../../../../scenery/js/nodes/Image.js';
 import Node from '../../../../scenery/js/nodes/Node.js';
 import Tandem from '../../../../tandem/js/Tandem.js';
 import waterWheel_png from '../../../images/waterWheel_png.js';
-import faradaysElectromagneticLab from '../../faradaysElectromagneticLab.js';
 import FELColors from '../FELColors.js';
 import FELConstants from '../FELConstants.js';
 import { CurrentFlow } from '../FELQueryParameters.js';
@@ -156,5 +155,4 @@ function createCoilNode( numberOfLoops: number, loopSpacing: number, maxLoopArea
   return node;
 }
 
-faradaysElectromagneticLab.register( 'FELScreenIconFactory', FELScreenIconFactory );
 export default FELScreenIconFactory;

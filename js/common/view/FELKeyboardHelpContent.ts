@@ -10,7 +10,6 @@ import BasicActionsKeyboardHelpSection from '../../../../scenery-phet/js/keyboar
 import MoveDraggableItemsKeyboardHelpSection from '../../../../scenery-phet/js/keyboard/help/MoveDraggableItemsKeyboardHelpSection.js';
 import SliderControlsKeyboardHelpSection from '../../../../scenery-phet/js/keyboard/help/SliderControlsKeyboardHelpSection.js';
 import TwoColumnKeyboardHelpContent from '../../../../scenery-phet/js/keyboard/help/TwoColumnKeyboardHelpContent.js';
-import faradaysElectromagneticLab from '../../faradaysElectromagneticLab.js';
 
 export default class FELKeyboardHelpContent extends TwoColumnKeyboardHelpContent {
 
@@ -40,5 +39,3 @@ export default class FELKeyboardHelpContent extends TwoColumnKeyboardHelpContent
     } );
   }
 }
-
-faradaysElectromagneticLab.register( 'FELKeyboardHelpContent', FELKeyboardHelpContent );

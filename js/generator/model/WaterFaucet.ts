@@ -10,7 +10,6 @@ import NumberProperty from '../../../../axon/js/NumberProperty.js';
 import Range from '../../../../dot/js/Range.js';
 import PhetioObject from '../../../../tandem/js/PhetioObject.js';
 import Tandem from '../../../../tandem/js/Tandem.js';
-import faradaysElectromagneticLab from '../../faradaysElectromagneticLab.js';
 
 export default class WaterFaucet extends PhetioObject {
 
@@ -37,5 +36,3 @@ export default class WaterFaucet extends PhetioObject {
     this.flowRatePercentProperty.reset();
   }
 }
-
-faradaysElectromagneticLab.register( 'WaterFaucet', WaterFaucet );

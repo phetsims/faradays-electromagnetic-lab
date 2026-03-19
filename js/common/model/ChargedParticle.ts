@@ -20,7 +20,6 @@ import { TReadOnlyProperty } from '../../../../axon/js/TReadOnlyProperty.js';
 import Range from '../../../../dot/js/Range.js';
 import Utils from '../../../../dot/js/Utils.js';
 import Vector2 from '../../../../dot/js/Vector2.js';
-import faradaysElectromagneticLab from '../../faradaysElectromagneticLab.js';
 import FELConstants from '../FELConstants.js';
 import { CurrentFlow } from '../FELQueryParameters.js';
 import { CoilLayer } from './Coil.js';
@@ -237,5 +236,3 @@ export default class ChargedParticle {
     }
   }
 }
-
-faradaysElectromagneticLab.register( 'ChargedParticle', ChargedParticle );

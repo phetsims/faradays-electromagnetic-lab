@@ -11,7 +11,6 @@ import Tandem from '../../../../tandem/js/Tandem.js';
 import ElectromagnetPanel from '../../common/view/ElectromagnetPanel.js';
 import FELPanels from '../../common/view/FELPanels.js';
 import ToolsPanel from '../../common/view/ToolsPanel.js';
-import faradaysElectromagneticLab from '../../faradaysElectromagneticLab.js';
 import ElectromagnetScreenModel from '../model/ElectromagnetScreenModel.js';
 
 export default class ElectromagnetPanels extends FELPanels {
@@ -37,5 +36,3 @@ export default class ElectromagnetPanels extends FELPanels {
     this.toolsPanel = toolsPanel;
   }
 }
-
-faradaysElectromagneticLab.register( 'ElectromagnetPanels', ElectromagnetPanels );

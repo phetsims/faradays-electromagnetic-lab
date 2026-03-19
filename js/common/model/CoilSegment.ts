@@ -14,7 +14,6 @@ import Shape from '../../../../kite/js/Shape.js';
 import optionize from '../../../../phet-core/js/optionize.js';
 import { PathOptions } from '../../../../scenery/js/nodes/Path.js';
 import TPaint from '../../../../scenery/js/util/TPaint.js';
-import faradaysElectromagneticLab from '../../faradaysElectromagneticLab.js';
 import { CoilLayer } from './Coil.js';
 import QuadraticBezierSpline from './QuadraticBezierSpline.js';
 
@@ -82,5 +81,3 @@ export default class CoilSegment {
     // Nothing to do currently. But this class is allocated dynamically, so keep this method as a bit of defensive programming.
   }
 }
-
-faradaysElectromagneticLab.register( 'CoilSegment', CoilSegment );

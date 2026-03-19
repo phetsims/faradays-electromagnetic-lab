@@ -19,7 +19,6 @@ import Range from '../../../../dot/js/Range.js';
 import Vector2 from '../../../../dot/js/Vector2.js';
 import optionize, { EmptySelfOptions } from '../../../../phet-core/js/optionize.js';
 import StrictOmit from '../../../../phet-core/js/types/StrictOmit.js';
-import faradaysElectromagneticLab from '../../faradaysElectromagneticLab.js';
 import Coil from './Coil.js';
 import Magnet, { MagnetOptions } from './Magnet.js';
 
@@ -139,5 +138,3 @@ export default class CoilMagnet extends Magnet {
     return returnVector;
   }
 }
-
-faradaysElectromagneticLab.register( 'CoilMagnet', CoilMagnet );

@@ -18,7 +18,6 @@ import PickRequired from '../../../../phet-core/js/types/PickRequired.js';
 import StrictOmit from '../../../../phet-core/js/types/StrictOmit.js';
 import Node from '../../../../scenery/js/nodes/Node.js';
 import Path from '../../../../scenery/js/nodes/Path.js';
-import faradaysElectromagneticLab from '../../faradaysElectromagneticLab.js';
 import Electromagnet from '../model/Electromagnet.js';
 import ACPowerSupplyNode from './ACPowerSupplyNode.js';
 import CoilNode from './CoilNode.js';
@@ -110,5 +109,3 @@ export default class ElectromagnetNode extends FELMovableNode {
     } );
   }
 }
-
-faradaysElectromagneticLab.register( 'ElectromagnetNode', ElectromagnetNode );

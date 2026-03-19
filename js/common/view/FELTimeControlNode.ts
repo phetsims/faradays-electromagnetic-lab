@@ -8,7 +8,6 @@
 
 import TimeControlNode from '../../../../scenery-phet/js/TimeControlNode.js';
 import Tandem from '../../../../tandem/js/Tandem.js';
-import faradaysElectromagneticLab from '../../faradaysElectromagneticLab.js';
 import FELScreenModel from '../model/FELScreenModel.js';
 
 export default class FELTimeControlNode extends TimeControlNode {
@@ -24,5 +23,3 @@ export default class FELTimeControlNode extends TimeControlNode {
     } );
   }
 }
-
-faradaysElectromagneticLab.register( 'FELTimeControlNode', FELTimeControlNode );

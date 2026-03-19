@@ -10,7 +10,6 @@ import Node from '../../../../scenery/js/nodes/Node.js';
 import Tandem from '../../../../tandem/js/Tandem.js';
 import FELScreenView from '../../common/view/FELScreenView.js';
 import FELTimeControlNode from '../../common/view/FELTimeControlNode.js';
-import faradaysElectromagneticLab from '../../faradaysElectromagneticLab.js';
 import GeneratorScreenModel from '../model/GeneratorScreenModel.js';
 import GeneratorDeveloperAccordionBox from './GeneratorDeveloperAccordionBox.js';
 import GeneratorNode from './GeneratorNode.js';
@@ -74,5 +73,3 @@ export default class GeneratorScreenView extends FELScreenView {
     ];
   }
 }
-
-faradaysElectromagneticLab.register( 'GeneratorScreenView', GeneratorScreenView );

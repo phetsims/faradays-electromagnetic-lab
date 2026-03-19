@@ -48,7 +48,6 @@
  */
 
 import Dimension2 from '../../../../dot/js/Dimension2.js';
-import faradaysElectromagneticLab from '../../faradaysElectromagneticLab.js';
 import BarMagnetFieldData from './BarMagnetFieldData.js';
 
 export default class BarMagnetFieldGrid {
@@ -179,5 +178,3 @@ export default class BarMagnetFieldGrid {
     return value;
   }
 }
-
-faradaysElectromagneticLab.register( 'BarMagnetFieldGrid', BarMagnetFieldGrid );

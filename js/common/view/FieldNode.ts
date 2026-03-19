@@ -19,7 +19,6 @@ import Sprite from '../../../../scenery/js/util/Sprite.js';
 import SpriteImage from '../../../../scenery/js/util/SpriteImage.js';
 import SpriteInstance, { SpriteInstanceTransformType } from '../../../../scenery/js/util/SpriteInstance.js';
 import Tandem from '../../../../tandem/js/Tandem.js';
-import faradaysElectromagneticLab from '../../faradaysElectromagneticLab.js';
 import FELColors from '../FELColors.js';
 import Magnet from '../model/Magnet.js';
 import CompassNeedleNode from './CompassNeedleNode.js';
@@ -207,5 +206,3 @@ class CompassNeedleSpriteInstance extends SpriteInstance {
     assert && assert( this.matrix.isFinite(), 'expected matrix to be finite' );
   }
 }
-
-faradaysElectromagneticLab.register( 'FieldNode', FieldNode );

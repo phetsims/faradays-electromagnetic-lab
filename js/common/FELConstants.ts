@@ -21,7 +21,6 @@ import { CheckboxOptions } from '../../../sun/js/Checkbox.js';
 import { PanelOptions } from '../../../sun/js/Panel.js';
 import { SliderOptions } from '../../../sun/js/Slider.js';
 import Tandem from '../../../tandem/js/Tandem.js';
-import faradaysElectromagneticLab from '../faradaysElectromagneticLab.js';
 import FELColors from './FELColors.js';
 
 // Credits are shared by all sims in this family.
@@ -211,5 +210,4 @@ const FELConstants = {
   GRADIENT_FIELD_X_RANGE: new Range( 100, 650 )
 };
 
-faradaysElectromagneticLab.register( 'FELConstants', FELConstants );
 export default FELConstants;

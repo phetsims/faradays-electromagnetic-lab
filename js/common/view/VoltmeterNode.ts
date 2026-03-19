@@ -29,7 +29,6 @@ import Text, { TextOptions } from '../../../../scenery/js/nodes/Text.js';
 import ProfileColorProperty from '../../../../scenery/js/util/ProfileColorProperty.js';
 import Tandem from '../../../../tandem/js/Tandem.js';
 import BooleanIO from '../../../../tandem/js/types/BooleanIO.js';
-import faradaysElectromagneticLab from '../../faradaysElectromagneticLab.js';
 import FaradaysElectromagneticLabStrings from '../../FaradaysElectromagneticLabStrings.js';
 import FELColors from '../FELColors.js';
 import CurrentIndicator from '../model/CurrentIndicator.js';
@@ -292,5 +291,3 @@ class ProbeNode extends Path {
     }, nodeTranslationOptions ) );
   }
 }
-
-faradaysElectromagneticLab.register( 'VoltmeterNode', VoltmeterNode );

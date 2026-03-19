@@ -13,7 +13,6 @@ import FELConstants from '../common/FELConstants.js';
 import FELPreferences from '../common/model/FELPreferences.js';
 import FELKeyboardHelpContent from '../common/view/FELKeyboardHelpContent.js';
 import FELScreenIconFactory from '../common/view/FELScreenIconFactory.js';
-import faradaysElectromagneticLab from '../faradaysElectromagneticLab.js';
 import FaradaysElectromagneticLabStrings from '../FaradaysElectromagneticLabStrings.js';
 import ElectromagnetScreenModel from './model/ElectromagnetScreenModel.js';
 import ElectromagnetScreenView from './view/ElectromagnetScreenView.js';
@@ -33,5 +32,3 @@ export default class ElectromagnetScreen extends Screen<ElectromagnetScreenModel
       ) );
   }
 }
-
-faradaysElectromagneticLab.register( 'ElectromagnetScreen', ElectromagnetScreen );

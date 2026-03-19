@@ -9,7 +9,6 @@
  */
 
 import Tandem from '../../../../tandem/js/Tandem.js';
-import faradaysElectromagneticLab from '../../faradaysElectromagneticLab.js';
 import CurrentSource from './CurrentSource.js';
 
 const MAX_VOLTAGE = 10; // V
@@ -24,5 +23,3 @@ export default class DCPowerSupply extends CurrentSource {
     } );
   }
 }
-
-faradaysElectromagneticLab.register( 'DCPowerSupply', DCPowerSupply );

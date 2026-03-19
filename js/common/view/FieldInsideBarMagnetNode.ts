@@ -13,7 +13,6 @@
 import optionize, { EmptySelfOptions } from '../../../../phet-core/js/optionize.js';
 import PickRequired from '../../../../phet-core/js/types/PickRequired.js';
 import GridBox, { GridBoxOptions } from '../../../../scenery/js/layout/nodes/GridBox.js';
-import faradaysElectromagneticLab from '../../faradaysElectromagneticLab.js';
 import BarMagnet from '../model/BarMagnet.js';
 import CompassNeedleNode from './CompassNeedleNode.js';
 
@@ -46,5 +45,3 @@ export default class FieldInsideBarMagnetNode extends GridBox {
     } );
   }
 }
-
-faradaysElectromagneticLab.register( 'FieldInsideBarMagnetNode', FieldInsideBarMagnetNode );

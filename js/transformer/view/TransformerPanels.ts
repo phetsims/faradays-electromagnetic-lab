@@ -13,7 +13,6 @@ import ElectromagnetPanel from '../../common/view/ElectromagnetPanel.js';
 import FELPanels from '../../common/view/FELPanels.js';
 import PickupCoilPanel from '../../common/view/PickupCoilPanel.js';
 import ToolsPanel from '../../common/view/ToolsPanel.js';
-import faradaysElectromagneticLab from '../../faradaysElectromagneticLab.js';
 import TransformerScreenModel from '../model/TransformerScreenModel.js';
 
 export default class TransformerPanels extends FELPanels {
@@ -44,5 +43,3 @@ export default class TransformerPanels extends FELPanels {
     this.toolsPanel = toolsPanel;
   }
 }
-
-faradaysElectromagneticLab.register( 'TransformerPanels', TransformerPanels );

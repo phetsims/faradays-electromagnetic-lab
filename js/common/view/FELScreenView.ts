@@ -24,7 +24,6 @@ import FELConstants from '../../common/FELConstants.js';
 import CompassNode from '../../common/view/CompassNode.js';
 import FieldMeterNode from '../../common/view/FieldMeterNode.js';
 import FieldNode from '../../common/view/FieldNode.js';
-import faradaysElectromagneticLab from '../../faradaysElectromagneticLab.js';
 import FELQueryParameters from '../FELQueryParameters.js';
 import Compass from '../model/Compass.js';
 import FieldMeter from '../model/FieldMeter.js';
@@ -222,5 +221,3 @@ export default class FELScreenView extends ScreenView {
     }
   }
 }
-
-faradaysElectromagneticLab.register( 'FELScreenView', FELScreenView );

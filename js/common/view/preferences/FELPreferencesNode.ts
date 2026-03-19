@@ -9,7 +9,6 @@
 
 import VBox from '../../../../../scenery/js/layout/nodes/VBox.js';
 import Tandem from '../../../../../tandem/js/Tandem.js';
-import faradaysElectromagneticLab from '../../../faradaysElectromagneticLab.js';
 import FELPreferences from '../../model/FELPreferences.js';
 import AddEarthCheckboxPreferencesControl from './AddEarthCheckboxPreferencesControl.js';
 import CurrentFlowPreferencesControl from './CurrentFlowPreferencesControl.js';
@@ -53,5 +52,3 @@ export default class FELPreferencesNode extends VBox {
     } );
   }
 }
-
-faradaysElectromagneticLab.register( 'FELPreferencesNode', FELPreferencesNode );

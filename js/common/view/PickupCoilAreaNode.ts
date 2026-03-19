@@ -17,7 +17,6 @@ import Dimension2 from '../../../../dot/js/Dimension2.js';
 import Shape from '../../../../kite/js/Shape.js';
 import Node from '../../../../scenery/js/nodes/Node.js';
 import Path from '../../../../scenery/js/nodes/Path.js';
-import faradaysElectromagneticLab from '../../faradaysElectromagneticLab.js';
 import PickupCoil from '../model/PickupCoil.js';
 
 export default class PickupCoilAreaNode extends Node {
@@ -57,5 +56,3 @@ export default class PickupCoilAreaNode extends Node {
       } ) );
   }
 }
-
-faradaysElectromagneticLab.register( 'PickupCoilAreaNode', PickupCoilAreaNode );

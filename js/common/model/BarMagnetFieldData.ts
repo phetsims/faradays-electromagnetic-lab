@@ -11,7 +11,6 @@
  */
 
 import Dimension2 from '../../../../dot/js/Dimension2.js';
-import faradaysElectromagneticLab from '../../faradaysElectromagneticLab.js';
 
 const BarMagnetFieldData = {
 
@@ -554,7 +553,5 @@ const BarMagnetFieldData = {
     [ 0, 1e-007, 1e-007, 2e-007, 2e-007, 3e-007, 4e-007, 4e-007, 5e-007, 5e-007, 6e-007, 7e-007, 7e-007, 8e-007, 8e-007, 9e-007, 9e-007, 1e-006, 1e-006, 1.1e-006, 1.1e-006, 1.2e-006, 1.2e-006, 1.3e-006, 1.3e-006, 1.4e-006, 1.4e-006, 1.5e-006, 1.5e-006, 1.5e-006, 1.6e-006, 1.6e-006, 1.6e-006, 1.7e-006, 1.7e-006, 1.8e-006, 1.8e-006, 1.8e-006, 1.8e-006, 1.9e-006, 1.9e-006, 1.9e-006, 1.9e-006, 2e-006, 2e-006, 2e-006, 2e-006, 2e-006, 2.1e-006, 2.1e-006, 2.1e-006, 2.1e-006, 2.1e-006, 2.1e-006, 2.1e-006, 2.1e-006, 2.1e-006, 2.1e-006, 2.1e-006, 2.2e-006, 2.2e-006 ]
   ]
 };
-
-faradaysElectromagneticLab.register( 'BarMagnetFieldData', BarMagnetFieldData );
 
 export default BarMagnetFieldData;

@@ -7,7 +7,6 @@
  */
 
 import Utils from '../../../dot/js/Utils.js';
-import faradaysElectromagneticLab from '../faradaysElectromagneticLab.js';
 
 const FELUtils = {
 
@@ -40,5 +39,4 @@ const FELUtils = {
   }
 };
 
-faradaysElectromagneticLab.register( 'FELUtils', FELUtils );
 export default FELUtils;

@@ -15,7 +15,6 @@ import RichText from '../../../../../scenery/js/nodes/RichText.js';
 import Text from '../../../../../scenery/js/nodes/Text.js';
 import ToggleSwitch, { ToggleSwitchOptions } from '../../../../../sun/js/ToggleSwitch.js';
 import Tandem from '../../../../../tandem/js/Tandem.js';
-import faradaysElectromagneticLab from '../../../faradaysElectromagneticLab.js';
 import FaradaysElectromagneticLabStrings from '../../../FaradaysElectromagneticLabStrings.js';
 import FELConstants from '../../FELConstants.js';
 
@@ -48,5 +47,3 @@ export default class AddEarthCheckboxPreferencesControl extends PreferencesContr
     } ) );
   }
 }
-
-faradaysElectromagneticLab.register( 'AddEarthCheckboxPreferencesControl', AddEarthCheckboxPreferencesControl );

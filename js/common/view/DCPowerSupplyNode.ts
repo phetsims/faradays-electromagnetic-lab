@@ -21,7 +21,6 @@ import Node, { NodeOptions, NodeTranslationOptions } from '../../../../scenery/j
 import Path from '../../../../scenery/js/nodes/Path.js';
 import Rectangle from '../../../../scenery/js/nodes/Rectangle.js';
 import Text from '../../../../scenery/js/nodes/Text.js';
-import faradaysElectromagneticLab from '../../faradaysElectromagneticLab.js';
 import FaradaysElectromagneticLabStrings from '../../FaradaysElectromagneticLabStrings.js';
 import FELColors from '../FELColors.js';
 import DCPowerSupply from '../model/DCPowerSupply.js';
@@ -146,5 +145,3 @@ class BracketNode extends Node {
     } );
   }
 }
-
-faradaysElectromagneticLab.register( 'DCPowerSupplyNode', DCPowerSupplyNode );

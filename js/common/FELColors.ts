@@ -310,5 +310,4 @@ const FELColors = {
   } )
 };
 
-faradaysElectromagneticLab.register( 'FELColors', FELColors );
 export default FELColors;

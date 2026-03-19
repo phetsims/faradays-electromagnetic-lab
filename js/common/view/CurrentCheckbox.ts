@@ -15,7 +15,6 @@ import Text from '../../../../scenery/js/nodes/Text.js';
 import Checkbox, { CheckboxOptions } from '../../../../sun/js/Checkbox.js';
 import ToggleNode from '../../../../sun/js/ToggleNode.js';
 import Tandem from '../../../../tandem/js/Tandem.js';
-import faradaysElectromagneticLab from '../../faradaysElectromagneticLab.js';
 import FaradaysElectromagneticLabStrings from '../../FaradaysElectromagneticLabStrings.js';
 import FELConstants from '../FELConstants.js';
 import { CurrentFlow } from '../FELQueryParameters.js';
@@ -59,5 +58,3 @@ export default class CurrentCheckbox extends Checkbox {
     super( currentVisibleProperty, content, options );
   }
 }
-
-faradaysElectromagneticLab.register( 'CurrentCheckbox', CurrentCheckbox );

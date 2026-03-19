@@ -16,7 +16,6 @@ import optionize from '../../../../phet-core/js/optionize.js';
 import PickOptional from '../../../../phet-core/js/types/PickOptional.js';
 import PickRequired from '../../../../phet-core/js/types/PickRequired.js';
 import PhetioObject, { PhetioObjectOptions } from '../../../../tandem/js/PhetioObject.js';
-import faradaysElectromagneticLab from '../../faradaysElectromagneticLab.js';
 import Magnet from './Magnet.js';
 
 type SelfOptions = {
@@ -81,5 +80,3 @@ export default class FieldMeasurementTool extends PhetioObject {
     this.visibleProperty.reset();
   }
 }
-
-faradaysElectromagneticLab.register( 'FieldMeasurementTool', FieldMeasurementTool );

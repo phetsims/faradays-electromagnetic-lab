@@ -14,7 +14,6 @@ import BarMagnetNode from '../../common/view/BarMagnetNode.js';
 import EarthNode from '../../common/view/EarthNode.js';
 import FELScreenView from '../../common/view/FELScreenView.js';
 import FieldPositionsNode from '../../common/view/FieldPositionsNode.js';
-import faradaysElectromagneticLab from '../../faradaysElectromagneticLab.js';
 import BarMagnetScreenModel from '../model/BarMagnetScreenModel.js';
 import BarMagnetDeveloperAccordionBox from './BarMagnetDeveloperAccordionBox.js';
 import BarMagnetPanels from './BarMagnetPanels.js';
@@ -111,5 +110,3 @@ export default class BarMagnetScreenView extends FELScreenView {
     ];
   }
 }
-
-faradaysElectromagneticLab.register( 'BarMagnetScreenView', BarMagnetScreenView );

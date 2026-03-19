@@ -17,7 +17,6 @@ import Vector2 from '../../../../dot/js/Vector2.js';
 import optionize, { EmptySelfOptions } from '../../../../phet-core/js/optionize.js';
 import WithOptional from '../../../../phet-core/js/types/WithOptional.js';
 import NumberIO from '../../../../tandem/js/types/NumberIO.js';
-import faradaysElectromagneticLab from '../../faradaysElectromagneticLab.js';
 import FELConstants from '../FELConstants.js';
 import BarMagnetFieldData from './BarMagnetFieldData.js';
 import BarMagnetFieldGrid from './BarMagnetFieldGrid.js';
@@ -133,5 +132,3 @@ export default class BarMagnet extends Magnet {
     return grid;
   }
 }
-
-faradaysElectromagneticLab.register( 'BarMagnet', BarMagnet );

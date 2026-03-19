@@ -16,7 +16,6 @@ import RichText from '../../../../../scenery/js/nodes/RichText.js';
 import Text from '../../../../../scenery/js/nodes/Text.js';
 import AquaRadioButtonGroup, { AquaRadioButtonGroupItem } from '../../../../../sun/js/AquaRadioButtonGroup.js';
 import Tandem from '../../../../../tandem/js/Tandem.js';
-import faradaysElectromagneticLab from '../../../faradaysElectromagneticLab.js';
 import FaradaysElectromagneticLabStrings from '../../../FaradaysElectromagneticLabStrings.js';
 import FELConstants from '../../FELConstants.js';
 import { MagneticUnits } from '../../FELQueryParameters.js';
@@ -86,5 +85,3 @@ class MagneticUnitsRadioButtonText extends RichText {
     } );
   }
 }
-
-faradaysElectromagneticLab.register( 'MagneticUnitsPreferencesControl', MagneticUnitsPreferencesControl );

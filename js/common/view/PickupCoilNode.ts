@@ -17,7 +17,6 @@ import PickOptional from '../../../../phet-core/js/types/PickOptional.js';
 import PickRequired from '../../../../phet-core/js/types/PickRequired.js';
 import StrictOmit from '../../../../phet-core/js/types/StrictOmit.js';
 import Node, { NodeOptions } from '../../../../scenery/js/nodes/Node.js';
-import faradaysElectromagneticLab from '../../faradaysElectromagneticLab.js';
 import PickupCoil from '../model/PickupCoil.js';
 import CoilNode from './CoilNode.js';
 import FELLightBulbNode from './FELLightBulbNode.js';
@@ -126,5 +125,3 @@ export default class PickupCoilNode extends FELMovableNode {
     } );
   }
 }
-
-faradaysElectromagneticLab.register( 'PickupCoilNode', PickupCoilNode );

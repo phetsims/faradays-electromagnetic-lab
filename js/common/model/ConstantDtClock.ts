@@ -16,7 +16,6 @@
 
 import Emitter from '../../../../axon/js/Emitter.js';
 import NumberIO from '../../../../tandem/js/types/NumberIO.js';
-import faradaysElectromagneticLab from '../../faradaysElectromagneticLab.js';
 
 export default class ConstantDtClock {
 
@@ -82,5 +81,3 @@ export default class ConstantDtClock {
     this.emitter.emit( ConstantDtClock.DT );
   }
 }
-
-faradaysElectromagneticLab.register( 'ConstantDtClock', ConstantDtClock );

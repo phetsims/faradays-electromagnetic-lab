@@ -16,7 +16,6 @@ import { TReadOnlyProperty } from '../../../../axon/js/TReadOnlyProperty.js';
 import Range from '../../../../dot/js/Range.js';
 import Tandem from '../../../../tandem/js/Tandem.js';
 import NumberIO from '../../../../tandem/js/types/NumberIO.js';
-import faradaysElectromagneticLab from '../../faradaysElectromagneticLab.js';
 import ConstantDtClock from './ConstantDtClock.js';
 import CurrentSource from './CurrentSource.js';
 
@@ -161,5 +160,3 @@ export default class ACPowerSupply extends CurrentSource {
     this.voltageProperty.value = this.maxVoltageProperty.value * Math.sin( this._angleProperty.value );
   }
 }
-
-faradaysElectromagneticLab.register( 'ACPowerSupply', ACPowerSupply );

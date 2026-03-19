@@ -17,7 +17,6 @@ import RectangularRadioButtonGroup, { RectangularRadioButtonGroupItem } from '..
 import Tandem from '../../../../../tandem/js/Tandem.js';
 import earthEasternHemisphere_svg from '../../../../images/earthEasternHemisphere_svg.js';
 import earthWesternHemisphere_svg from '../../../../images/earthWesternHemisphere_svg.js';
-import faradaysElectromagneticLab from '../../../faradaysElectromagneticLab.js';
 import FaradaysElectromagneticLabStrings from '../../../FaradaysElectromagneticLabStrings.js';
 import FELConstants from '../../FELConstants.js';
 import { EarthHemisphere, EarthHemisphereValues } from '../../FELQueryParameters.js';
@@ -89,5 +88,3 @@ class EarthHemisphereRadioButtonLabel extends Image {
     } );
   }
 }
-
-faradaysElectromagneticLab.register( 'EarthHemispherePreferencesControl', EarthHemispherePreferencesControl );

@@ -16,7 +16,6 @@ import Range from '../../../../dot/js/Range.js';
 import Utils from '../../../../dot/js/Utils.js';
 import optionize from '../../../../phet-core/js/optionize.js';
 import PickRequired from '../../../../phet-core/js/types/PickRequired.js';
-import faradaysElectromagneticLab from '../../faradaysElectromagneticLab.js';
 import FELConstants from '../FELConstants.js';
 import ConstantDtClock from './ConstantDtClock.js';
 import CurrentIndicator, { CurrentIndicatorOptions } from './CurrentIndicator.js';
@@ -132,5 +131,3 @@ export default class Voltmeter extends CurrentIndicator {
     );
   }
 }
-
-faradaysElectromagneticLab.register( 'Voltmeter', Voltmeter );

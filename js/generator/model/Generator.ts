@@ -17,7 +17,6 @@ import PickRequired from '../../../../phet-core/js/types/PickRequired.js';
 import PhetioObject, { PhetioObjectOptions } from '../../../../tandem/js/PhetioObject.js';
 import { CurrentFlow } from '../../common/FELQueryParameters.js';
 import PickupCoil from '../../common/model/PickupCoil.js';
-import faradaysElectromagneticLab from '../../faradaysElectromagneticLab.js';
 import Turbine from './Turbine.js';
 
 type SelfOptions = {
@@ -97,4 +96,3 @@ export default class Generator extends PhetioObject {
     this.pickupCoil.step( dt );
   }
 }
-faradaysElectromagneticLab.register( 'Generator', Generator );

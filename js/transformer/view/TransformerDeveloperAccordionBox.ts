@@ -10,7 +10,6 @@
 import HSeparator from '../../../../scenery/js/layout/nodes/HSeparator.js';
 import VBox from '../../../../scenery/js/layout/nodes/VBox.js';
 import FELDeveloperAccordionBox from '../../common/view/FELDeveloperAccordionBox.js';
-import faradaysElectromagneticLab from '../../faradaysElectromagneticLab.js';
 import Transformer from '../model/Transformer.js';
 
 export default class TransformerDeveloperAccordionBox extends FELDeveloperAccordionBox {
@@ -32,5 +31,3 @@ export default class TransformerDeveloperAccordionBox extends FELDeveloperAccord
     super( content );
   }
 }
-
-faradaysElectromagneticLab.register( 'TransformerDeveloperAccordionBox', TransformerDeveloperAccordionBox );

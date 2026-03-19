@@ -8,7 +8,6 @@
 
 import NumberProperty from '../../../../axon/js/NumberProperty.js';
 import Tandem from '../../../../tandem/js/Tandem.js';
-import faradaysElectromagneticLab from '../../faradaysElectromagneticLab.js';
 import FaradaysElectromagneticLabStrings from '../../FaradaysElectromagneticLabStrings.js';
 import PercentControl from './PercentControl.js';
 
@@ -22,5 +21,3 @@ export default class BarMagnetStrengthControl extends PercentControl {
     } );
   }
 }
-
-faradaysElectromagneticLab.register( 'BarMagnetStrengthControl', BarMagnetStrengthControl );

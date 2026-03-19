@@ -12,7 +12,6 @@ import VBox from '../../../../scenery/js/layout/nodes/VBox.js';
 import BarMagnet from '../../common/model/BarMagnet.js';
 import PickupCoil from '../../common/model/PickupCoil.js';
 import FELDeveloperAccordionBox from '../../common/view/FELDeveloperAccordionBox.js';
-import faradaysElectromagneticLab from '../../faradaysElectromagneticLab.js';
 
 export default class PickupCoilDeveloperAccordionBox extends FELDeveloperAccordionBox {
 
@@ -31,5 +30,3 @@ export default class PickupCoilDeveloperAccordionBox extends FELDeveloperAccordi
     super( content );
   }
 }
-
-faradaysElectromagneticLab.register( 'PickupCoilDeveloperAccordionBox', PickupCoilDeveloperAccordionBox );

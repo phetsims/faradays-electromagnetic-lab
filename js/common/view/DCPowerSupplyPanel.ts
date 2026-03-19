@@ -22,7 +22,6 @@ import Node from '../../../../scenery/js/nodes/Node.js';
 import Text from '../../../../scenery/js/nodes/Text.js';
 import ArrowButton from '../../../../sun/js/buttons/ArrowButton.js';
 import Slider from '../../../../sun/js/Slider.js';
-import faradaysElectromagneticLab from '../../faradaysElectromagneticLab.js';
 import FaradaysElectromagneticLabStrings from '../../FaradaysElectromagneticLabStrings.js';
 import FELColors from '../FELColors.js';
 import FELConstants from '../FELConstants.js';
@@ -145,5 +144,3 @@ function layoutFunction( titleNode: Node, numberDisplay: NumberDisplay, slider: 
     ]
   } );
 }
-
-faradaysElectromagneticLab.register( 'DCPowerSupplyPanel', DCPowerSupplyPanel );

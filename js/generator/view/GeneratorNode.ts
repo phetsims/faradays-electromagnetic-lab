@@ -11,7 +11,6 @@ import Bounds2 from '../../../../dot/js/Bounds2.js';
 import Node from '../../../../scenery/js/nodes/Node.js';
 import Tandem from '../../../../tandem/js/Tandem.js';
 import PickupCoilNode from '../../common/view/PickupCoilNode.js';
-import faradaysElectromagneticLab from '../../faradaysElectromagneticLab.js';
 import Generator from '../model/Generator.js';
 import TurbineNode from './TurbineNode.js';
 
@@ -43,5 +42,3 @@ export default class GeneratorNode extends Node {
     this.addLinkedElement( generator );
   }
 }
-
-faradaysElectromagneticLab.register( 'GeneratorNode', GeneratorNode );

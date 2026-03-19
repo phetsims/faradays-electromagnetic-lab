@@ -24,7 +24,6 @@ import AccordionBox from '../../../../sun/js/AccordionBox.js';
 import Checkbox from '../../../../sun/js/Checkbox.js';
 import Tandem from '../../../../tandem/js/Tandem.js';
 import FELConstants from '../../common/FELConstants.js';
-import faradaysElectromagneticLab from '../../faradaysElectromagneticLab.js';
 import Electromagnet from '../model/Electromagnet.js';
 import PickupCoil from '../model/PickupCoil.js';
 import { FELDeveloperNumberControl } from './FELDeveloperNumberControl.js';
@@ -126,5 +125,3 @@ class FELDeveloperCheckbox extends Checkbox {
     } );
   }
 }
-
-faradaysElectromagneticLab.register( 'FELDeveloperAccordionBox', FELDeveloperAccordionBox );

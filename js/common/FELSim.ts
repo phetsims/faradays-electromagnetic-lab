@@ -12,7 +12,6 @@ import Sim from '../../../joist/js/Sim.js';
 import platform from '../../../phet-core/js/platform.js';
 import BarMagnetScreen from '../bar-magnet/BarMagnetScreen.js';
 import ElectromagnetScreen from '../electromagnet/ElectromagnetScreen.js';
-import faradaysElectromagneticLab from '../faradaysElectromagneticLab.js';
 import GeneratorScreen from '../generator/GeneratorScreen.js';
 import PickupCoilScreen from '../pickup-coil/PickupCoilScreen.js';
 import TransformerScreen from '../transformer/TransformerScreen.js';
@@ -55,5 +54,3 @@ export default class FELSim extends Sim {
     } );
   }
 }
-
-faradaysElectromagneticLab.register( 'FELSim', FELSim );

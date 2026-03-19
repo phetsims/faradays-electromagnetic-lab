@@ -18,7 +18,6 @@ import Color from '../../../../scenery/js/util/Color.js';
 import Sprite from '../../../../scenery/js/util/Sprite.js';
 import SpriteImage from '../../../../scenery/js/util/SpriteImage.js';
 import SpriteInstance, { SpriteInstanceTransformType } from '../../../../scenery/js/util/SpriteInstance.js';
-import faradaysElectromagneticLab from '../../faradaysElectromagneticLab.js';
 import FELColors from '../FELColors.js';
 import { CurrentFlow } from '../FELQueryParameters.js';
 import ChargedParticle from '../model/ChargedParticle.js';
@@ -202,5 +201,3 @@ class ChargedParticleSpriteInstance extends SpriteInstance {
     }
   }
 }
-
-faradaysElectromagneticLab.register( 'CurrentNode', CurrentNode );

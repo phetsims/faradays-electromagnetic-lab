@@ -11,7 +11,6 @@ import HBox from '../../../../scenery/js/layout/nodes/HBox.js';
 import Text from '../../../../scenery/js/nodes/Text.js';
 import RectangularRadioButtonGroup, { RectangularRadioButtonGroupItem } from '../../../../sun/js/buttons/RectangularRadioButtonGroup.js';
 import Tandem from '../../../../tandem/js/Tandem.js';
-import faradaysElectromagneticLab from '../../faradaysElectromagneticLab.js';
 import FaradaysElectromagneticLabStrings from '../../FaradaysElectromagneticLabStrings.js';
 import FELConstants from '../FELConstants.js';
 import CurrentIndicator from '../model/CurrentIndicator.js';
@@ -70,5 +69,3 @@ class CurrentIndicatorRadioButtonGroup extends RectangularRadioButtonGroup<Curre
     } );
   }
 }
-
-faradaysElectromagneticLab.register( 'CurrentIndicatorControl', CurrentIndicatorControl );

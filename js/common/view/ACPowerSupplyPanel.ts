@@ -24,7 +24,6 @@ import Circle from '../../../../scenery/js/nodes/Circle.js';
 import Node from '../../../../scenery/js/nodes/Node.js';
 import Path from '../../../../scenery/js/nodes/Path.js';
 import Text from '../../../../scenery/js/nodes/Text.js';
-import faradaysElectromagneticLab from '../../faradaysElectromagneticLab.js';
 import FaradaysElectromagneticLabStrings from '../../FaradaysElectromagneticLabStrings.js';
 import FELColors from '../FELColors.js';
 import ACPowerSupply from '../model/ACPowerSupply.js';
@@ -145,5 +144,3 @@ function createSineDataSet( xMin: number, xMax: number, period: number, amplitud
   }
   return dataSet;
 }
-
-faradaysElectromagneticLab.register( 'ACPowerSupplyPanel', ACPowerSupplyPanel );

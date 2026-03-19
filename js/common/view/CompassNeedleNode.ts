@@ -14,7 +14,6 @@ import PickOptional from '../../../../phet-core/js/types/PickOptional.js';
 import Node, { NodeOptions } from '../../../../scenery/js/nodes/Node.js';
 import Path from '../../../../scenery/js/nodes/Path.js';
 import TColor from '../../../../scenery/js/util/TColor.js';
-import faradaysElectromagneticLab from '../../faradaysElectromagneticLab.js';
 import FELColors from '../FELColors.js';
 
 const NEEDLE_ASPECT_RATIO = 25 / 7; // length:waist
@@ -73,5 +72,3 @@ export default class CompassNeedleNode extends Node {
     super( options );
   }
 }
-
-faradaysElectromagneticLab.register( 'CompassNeedleNode', CompassNeedleNode );

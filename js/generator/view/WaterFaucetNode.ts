@@ -17,7 +17,6 @@ import DragListener from '../../../../scenery/js/listeners/DragListener.js';
 import { NodeTranslationOptions } from '../../../../scenery/js/nodes/Node.js';
 import ValueChangeSoundPlayer from '../../../../tambo/js/sound-generators/ValueChangeSoundPlayer.js';
 import Tandem from '../../../../tandem/js/Tandem.js';
-import faradaysElectromagneticLab from '../../faradaysElectromagneticLab.js';
 import WaterFaucet from '../model/WaterFaucet.js';
 
 const SOUND_STEP = 10; // %, play sound when flowRatePercentProperty changes by this much.
@@ -81,5 +80,3 @@ export default class WaterFaucetNode extends FaucetNode {
     } ) );
   }
 }
-
-faradaysElectromagneticLab.register( 'WaterFaucetNode', WaterFaucetNode );

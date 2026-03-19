@@ -10,7 +10,6 @@ import DerivedProperty from '../../../../axon/js/DerivedProperty.js';
 import { TReadOnlyProperty } from '../../../../axon/js/TReadOnlyProperty.js';
 import { EmptySelfOptions } from '../../../../phet-core/js/optionize.js';
 import NumberIO from '../../../../tandem/js/types/NumberIO.js';
-import faradaysElectromagneticLab from '../../faradaysElectromagneticLab.js';
 import { MagneticUnits } from '../FELQueryParameters.js';
 import FieldMeasurementTool, { FieldMeasurementToolOptions } from './FieldMeasurementTool.js';
 import Magnet from './Magnet.js';
@@ -53,5 +52,3 @@ export default class FieldMeter extends FieldMeasurementTool {
       } );
   }
 }
-
-faradaysElectromagneticLab.register( 'FieldMeter', FieldMeter );

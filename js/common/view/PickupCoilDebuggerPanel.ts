@@ -23,7 +23,6 @@ import { RichTextOptions } from '../../../../scenery/js/nodes/RichText.js';
 import Text from '../../../../scenery/js/nodes/Text.js';
 import Panel, { PanelOptions } from '../../../../sun/js/Panel.js';
 import Tandem from '../../../../tandem/js/Tandem.js';
-import faradaysElectromagneticLab from '../../faradaysElectromagneticLab.js';
 import FELConstants from '../FELConstants.js';
 import PickupCoil from '../model/PickupCoil.js';
 
@@ -128,5 +127,3 @@ export default class PickupCoilDebuggerPanel extends Panel {
     } ) );
   }
 }
-
-faradaysElectromagneticLab.register( 'PickupCoilDebuggerPanel', PickupCoilDebuggerPanel );

@@ -13,7 +13,6 @@ import Text from '../../../../scenery/js/nodes/Text.js';
 import Checkbox, { CheckboxOptions } from '../../../../sun/js/Checkbox.js';
 import Panel, { PanelOptions } from '../../../../sun/js/Panel.js';
 import Tandem from '../../../../tandem/js/Tandem.js';
-import faradaysElectromagneticLab from '../../faradaysElectromagneticLab.js';
 import FaradaysElectromagneticLabStrings from '../../FaradaysElectromagneticLabStrings.js';
 import FELConstants from '../FELConstants.js';
 import Electromagnet from '../model/Electromagnet.js';
@@ -64,5 +63,3 @@ export default class ElectromagnetPanel extends Panel {
     this.addLinkedElement( electromagnet );
   }
 }
-
-faradaysElectromagneticLab.register( 'ElectromagnetPanel', ElectromagnetPanel );

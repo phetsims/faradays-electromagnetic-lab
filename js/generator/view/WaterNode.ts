@@ -13,7 +13,6 @@ import optionize, { EmptySelfOptions } from '../../../../phet-core/js/optionize.
 import { NodeTranslationOptions } from '../../../../scenery/js/nodes/Node.js';
 import Rectangle, { RectangleOptions } from '../../../../scenery/js/nodes/Rectangle.js';
 import FELColors from '../../common/FELColors.js';
-import faradaysElectromagneticLab from '../../faradaysElectromagneticLab.js';
 
 const MAX_WIDTH = 60; // width of the water stream when flowRatePercentProperty is at its maximum
 
@@ -50,5 +49,3 @@ export default class WaterNode extends Rectangle {
       } );
   }
 }
-
-faradaysElectromagneticLab.register( 'WaterNode', WaterNode );

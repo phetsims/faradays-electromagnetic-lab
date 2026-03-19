@@ -14,7 +14,6 @@ import PlusNode from '../../../../scenery-phet/js/PlusNode.js';
 import Circle from '../../../../scenery/js/nodes/Circle.js';
 import Node, { NodeOptions } from '../../../../scenery/js/nodes/Node.js';
 import TColor from '../../../../scenery/js/util/TColor.js';
-import faradaysElectromagneticLab from '../../faradaysElectromagneticLab.js';
 import FELColors from '../FELColors.js';
 import FELConstants from '../FELConstants.js';
 
@@ -63,5 +62,3 @@ export default class PositiveChargeNode extends Node {
     } );
   }
 }
-
-faradaysElectromagneticLab.register( 'PositiveChargeNode', PositiveChargeNode );

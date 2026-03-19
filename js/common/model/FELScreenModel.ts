@@ -21,7 +21,6 @@ import PickRequired from '../../../../phet-core/js/types/PickRequired.js';
 import StrictOmit from '../../../../phet-core/js/types/StrictOmit.js';
 import { PhetioObjectOptions } from '../../../../tandem/js/PhetioObject.js';
 import Tandem from '../../../../tandem/js/Tandem.js';
-import faradaysElectromagneticLab from '../../faradaysElectromagneticLab.js';
 import { MagneticUnits } from '../FELQueryParameters.js';
 import Compass from './Compass.js';
 import ConstantDtClock from './ConstantDtClock.js';
@@ -101,5 +100,3 @@ export default class FELScreenModel implements TModel {
     Disposable.assertNotDisposable();
   }
 }
-
-faradaysElectromagneticLab.register( 'FELScreenModel', FELScreenModel );

@@ -13,7 +13,6 @@ import PickRequired from '../../../../phet-core/js/types/PickRequired.js';
 import PhetioObject, { PhetioObjectOptions } from '../../../../tandem/js/PhetioObject.js';
 import IOType from '../../../../tandem/js/types/IOType.js';
 import ReferenceIO from '../../../../tandem/js/types/ReferenceIO.js';
-import faradaysElectromagneticLab from '../../faradaysElectromagneticLab.js';
 
 type SelfOptions = EmptySelfOptions;
 
@@ -46,5 +45,3 @@ export default class CurrentIndicator extends PhetioObject {
     documentation: 'A device that indicates the presence of current in the pickup coil'
   } );
 }
-
-faradaysElectromagneticLab.register( 'CurrentIndicator', CurrentIndicator );

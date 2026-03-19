@@ -9,7 +9,6 @@
 
 import logGlobal from '../../../phet-core/js/logGlobal.js';
 import { QueryStringMachine } from '../../../query-string-machine/js/QueryStringMachineModule.js';
-import faradaysElectromagneticLab from '../faradaysElectromagneticLab.js';
 import FELConstants from './FELConstants.js';
 
 export const MagneticUnitsValues = [ 'G', 'T' ] as const;
@@ -98,8 +97,6 @@ const FELQueryParameters = QueryStringMachine.getAll( {
     isValidValue: ( array: null | number[] ) => ( array === null ) || ( array.length === 2 )
   }
 } );
-
-faradaysElectromagneticLab.register( 'FELQueryParameters', FELQueryParameters );
 
 // Log query parameters
 logGlobal( 'phet.chipper.queryParameters' );

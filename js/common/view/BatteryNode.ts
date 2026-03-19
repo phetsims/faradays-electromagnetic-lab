@@ -13,7 +13,6 @@ import Node, { NodeOptions, NodeTranslationOptions } from '../../../../scenery/j
 import Rectangle from '../../../../scenery/js/nodes/Rectangle.js';
 import LinearGradient from '../../../../scenery/js/util/LinearGradient.js';
 import TColor from '../../../../scenery/js/util/TColor.js';
-import faradaysElectromagneticLab from '../../faradaysElectromagneticLab.js';
 
 const DEFAULT_SIZE = new Dimension2( 165, 85 );
 
@@ -84,5 +83,3 @@ export default class BatteryNode extends Node {
     super( options );
   }
 }
-
-faradaysElectromagneticLab.register( 'BatteryNode', BatteryNode );

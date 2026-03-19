@@ -13,7 +13,6 @@ import FELConstants from '../common/FELConstants.js';
 import FELPreferences from '../common/model/FELPreferences.js';
 import FELKeyboardHelpContent from '../common/view/FELKeyboardHelpContent.js';
 import FELScreenIconFactory from '../common/view/FELScreenIconFactory.js';
-import faradaysElectromagneticLab from '../faradaysElectromagneticLab.js';
 import FaradaysElectromagneticLabStrings from '../FaradaysElectromagneticLabStrings.js';
 import TransformerScreenModel from './model/TransformerScreenModel.js';
 import TransformerScreenView from './view/TransformerScreenView.js';
@@ -33,5 +32,3 @@ export default class TransformerScreen extends Screen<TransformerScreenModel, Tr
       ) );
   }
 }
-
-faradaysElectromagneticLab.register( 'TransformerScreen', TransformerScreen );

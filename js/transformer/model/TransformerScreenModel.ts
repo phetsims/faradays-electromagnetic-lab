@@ -14,7 +14,6 @@ import Tandem from '../../../../tandem/js/Tandem.js';
 import FELPreferences from '../../common/model/FELPreferences.js';
 import FELScreenModel from '../../common/model/FELScreenModel.js';
 import IncrementalCompass from '../../common/model/IncrementalCompass.js';
-import faradaysElectromagneticLab from '../../faradaysElectromagneticLab.js';
 import Transformer from './Transformer.js';
 
 // y position shared by all components, so that they are on the same horizontal axis.
@@ -62,5 +61,3 @@ export default class TransformerScreenModel extends FELScreenModel {
     this.transformer.reset();
   }
 }
-
-faradaysElectromagneticLab.register( 'TransformerScreenModel', TransformerScreenModel );

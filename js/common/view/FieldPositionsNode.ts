@@ -13,7 +13,6 @@ import { TReadOnlyProperty } from '../../../../axon/js/TReadOnlyProperty.js';
 import Bounds2 from '../../../../dot/js/Bounds2.js';
 import Shape from '../../../../kite/js/Shape.js';
 import Path from '../../../../scenery/js/nodes/Path.js';
-import faradaysElectromagneticLab from '../../faradaysElectromagneticLab.js';
 import FieldNode from './FieldNode.js';
 
 export default class FieldPositionsNode extends Path {
@@ -42,5 +41,3 @@ export default class FieldPositionsNode extends Path {
     this.shape = shape;
   }
 }
-
-faradaysElectromagneticLab.register( 'FieldPositionsNode', FieldPositionsNode );

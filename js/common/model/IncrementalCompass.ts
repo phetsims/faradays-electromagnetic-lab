@@ -14,7 +14,6 @@ import { TReadOnlyProperty } from '../../../../axon/js/TReadOnlyProperty.js';
 import Utils from '../../../../dot/js/Utils.js';
 import Vector2 from '../../../../dot/js/Vector2.js';
 import optionize, { EmptySelfOptions } from '../../../../phet-core/js/optionize.js';
-import faradaysElectromagneticLab from '../../faradaysElectromagneticLab.js';
 import Compass, { CompassOptions } from './Compass.js';
 import ConstantDtClock from './ConstantDtClock.js';
 import Magnet from './Magnet.js';
@@ -89,5 +88,3 @@ export default class IncrementalCompass extends Compass {
     }
   }
 }
-
-faradaysElectromagneticLab.register( 'IncrementalCompass', IncrementalCompass );

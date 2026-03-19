@@ -19,7 +19,6 @@ import PhetFont from '../../../../scenery-phet/js/PhetFont.js';
 import ShadedRectangle from '../../../../scenery-phet/js/ShadedRectangle.js';
 import Node from '../../../../scenery/js/nodes/Node.js';
 import Text, { TextOptions } from '../../../../scenery/js/nodes/Text.js';
-import faradaysElectromagneticLab from '../../faradaysElectromagneticLab.js';
 import FaradaysElectromagneticLabStrings from '../../FaradaysElectromagneticLabStrings.js';
 import FELColors from '../FELColors.js';
 import BarMagnet from '../model/BarMagnet.js';
@@ -136,5 +135,3 @@ class BarNode extends Node {
     } );
   }
 }
-
-faradaysElectromagneticLab.register( 'BarMagnetNode', BarMagnetNode );

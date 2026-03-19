@@ -20,7 +20,6 @@ import SoundKeyboardDragListener, { SoundKeyboardDragListenerOptions } from '../
 import InteractiveHighlighting, { InteractiveHighlightingOptions } from '../../../../scenery/js/accessibility/voicing/InteractiveHighlighting.js';
 import Node, { NodeOptions } from '../../../../scenery/js/nodes/Node.js';
 import isSettingPhetioStateProperty from '../../../../tandem/js/isSettingPhetioStateProperty.js';
-import faradaysElectromagneticLab from '../../faradaysElectromagneticLab.js';
 
 type SelfOptions = {
 
@@ -120,5 +119,3 @@ export default class FELMovableNode extends InteractiveHighlighting( Node ) {
     }
   }
 }
-
-faradaysElectromagneticLab.register( 'FELMovableNode', FELMovableNode );

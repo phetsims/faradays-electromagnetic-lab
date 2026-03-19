@@ -16,7 +16,6 @@ import DCPowerSupplyPanel from '../../common/view/DCPowerSupplyPanel.js';
 import FELScreenView from '../../common/view/FELScreenView.js';
 import FELTimeControlNode from '../../common/view/FELTimeControlNode.js';
 import PickupCoilAxisNode from '../../common/view/PickupCoilAxisNode.js';
-import faradaysElectromagneticLab from '../../faradaysElectromagneticLab.js';
 import TransformerScreenModel from '../model/TransformerScreenModel.js';
 import TransformerDeveloperAccordionBox from './TransformerDeveloperAccordionBox.js';
 import TransformerNode from './TransformerNode.js';
@@ -125,5 +124,3 @@ export default class TransformerScreenView extends FELScreenView {
     ];
   }
 }
-
-faradaysElectromagneticLab.register( 'TransformerScreenView', TransformerScreenView );

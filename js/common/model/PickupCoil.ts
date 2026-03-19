@@ -24,7 +24,6 @@ import PickRequired from '../../../../phet-core/js/types/PickRequired.js';
 import StrictOmit from '../../../../phet-core/js/types/StrictOmit.js';
 import PhetioObject, { PhetioObjectOptions } from '../../../../tandem/js/PhetioObject.js';
 import NumberIO from '../../../../tandem/js/types/NumberIO.js';
-import faradaysElectromagneticLab from '../../faradaysElectromagneticLab.js';
 import FELConstants from '../FELConstants.js';
 import { CurrentFlow } from '../FELQueryParameters.js';
 import Coil, { CoilOptions } from './Coil.js';
@@ -432,5 +431,3 @@ function createSamplePoints( loopRadius: number, spacing: number ): Vector2[] {
 
   return samplePoints;
 }
-
-faradaysElectromagneticLab.register( 'PickupCoil', PickupCoil );

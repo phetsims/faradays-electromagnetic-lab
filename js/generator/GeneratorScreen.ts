@@ -12,7 +12,6 @@ import Tandem from '../../../tandem/js/Tandem.js';
 import FELConstants from '../common/FELConstants.js';
 import FELPreferences from '../common/model/FELPreferences.js';
 import FELScreenIconFactory from '../common/view/FELScreenIconFactory.js';
-import faradaysElectromagneticLab from '../faradaysElectromagneticLab.js';
 import FaradaysElectromagneticLabStrings from '../FaradaysElectromagneticLabStrings.js';
 import GeneratorScreenModel from './model/GeneratorScreenModel.js';
 import GeneratorKeyboardHelpContent from './view/GeneratorKeyboardHelpContent.js';
@@ -33,5 +32,3 @@ export default class GeneratorScreen extends Screen<GeneratorScreenModel, Genera
       ) );
   }
 }
-
-faradaysElectromagneticLab.register( 'GeneratorScreen', GeneratorScreen );

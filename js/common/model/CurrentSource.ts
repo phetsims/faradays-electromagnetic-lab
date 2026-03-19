@@ -24,7 +24,6 @@ import StrictOmit from '../../../../phet-core/js/types/StrictOmit.js';
 import PhetioObject, { PhetioObjectOptions } from '../../../../tandem/js/PhetioObject.js';
 import IOType from '../../../../tandem/js/types/IOType.js';
 import ReferenceIO from '../../../../tandem/js/types/ReferenceIO.js';
-import faradaysElectromagneticLab from '../../faradaysElectromagneticLab.js';
 import FELConstants from '../FELConstants.js';
 
 type SelfOptions = {
@@ -96,5 +95,3 @@ export default class CurrentSource extends PhetioObject {
     documentation: 'A device that acts as the current source for an electromagnet'
   } );
 }
-
-faradaysElectromagneticLab.register( 'CurrentSource', CurrentSource );

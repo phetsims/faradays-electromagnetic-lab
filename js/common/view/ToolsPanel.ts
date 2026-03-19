@@ -12,7 +12,6 @@ import PickRequired from '../../../../phet-core/js/types/PickRequired.js';
 import VBox, { VBoxOptions } from '../../../../scenery/js/layout/nodes/VBox.js';
 import Panel, { PanelOptions } from '../../../../sun/js/Panel.js';
 import FELConstants from '../../common/FELConstants.js';
-import faradaysElectromagneticLab from '../../faradaysElectromagneticLab.js';
 import Compass from '../model/Compass.js';
 import FieldMeter from '../model/FieldMeter.js';
 import CompassCheckbox from './CompassCheckbox.js';
@@ -59,5 +58,3 @@ export default class ToolsPanel extends Panel {
     super( content, options );
   }
 }
-
-faradaysElectromagneticLab.register( 'ToolsPanel', ToolsPanel );

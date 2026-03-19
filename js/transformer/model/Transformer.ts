@@ -19,7 +19,6 @@ import { CurrentFlow } from '../../common/FELQueryParameters.js';
 import DCPowerSupply from '../../common/model/DCPowerSupply.js';
 import Electromagnet from '../../common/model/Electromagnet.js';
 import PickupCoil from '../../common/model/PickupCoil.js';
-import faradaysElectromagneticLab from '../../faradaysElectromagneticLab.js';
 
 type SelfOptions = {
   electromagnetPosition: Vector2;
@@ -100,5 +99,3 @@ export default class Transformer extends PhetioObject {
     this.pickupCoil.step( dt );
   }
 }
-
-faradaysElectromagneticLab.register( 'Transformer', Transformer );

@@ -19,7 +19,6 @@ import VBox from '../../../../scenery/js/layout/nodes/VBox.js';
 import Node from '../../../../scenery/js/nodes/Node.js';
 import Text from '../../../../scenery/js/nodes/Text.js';
 import Tandem from '../../../../tandem/js/Tandem.js';
-import faradaysElectromagneticLab from '../../faradaysElectromagneticLab.js';
 import FELConstants from '../FELConstants.js';
 
 const TICK_TEXT_OPTIONS = {
@@ -141,5 +140,3 @@ function createLayoutFunction( resetButton: Node ): LayoutFunction {
     } );
   };
 }
-
-faradaysElectromagneticLab.register( 'FELDeveloperNumberControl', FELDeveloperNumberControl );

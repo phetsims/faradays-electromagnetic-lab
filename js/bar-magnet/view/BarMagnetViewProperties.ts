@@ -9,7 +9,6 @@
 import BooleanProperty from '../../../../axon/js/BooleanProperty.js';
 import Property from '../../../../axon/js/Property.js';
 import Tandem from '../../../../tandem/js/Tandem.js';
-import faradaysElectromagneticLab from '../../faradaysElectromagneticLab.js';
 
 export default class BarMagnetViewProperties {
 
@@ -37,5 +36,3 @@ export default class BarMagnetViewProperties {
     this.earthVisibleProperty.reset();
   }
 }
-
-faradaysElectromagneticLab.register( 'BarMagnetViewProperties', BarMagnetViewProperties );

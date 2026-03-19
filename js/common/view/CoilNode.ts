@@ -24,7 +24,6 @@ import PickRequired from '../../../../phet-core/js/types/PickRequired.js';
 import Node, { NodeOptions } from '../../../../scenery/js/nodes/Node.js';
 import Rectangle from '../../../../scenery/js/nodes/Rectangle.js';
 import Tandem from '../../../../tandem/js/Tandem.js';
-import faradaysElectromagneticLab from '../../faradaysElectromagneticLab.js';
 import Coil from '../model/Coil.js';
 import CoilSegment from '../model/CoilSegment.js';
 import CoilSegmentNode from './CoilSegmentNode.js';
@@ -176,5 +175,3 @@ class CoilBackgroundNode extends FELMovableNode {
     }, providedOptions ) );
   }
 }
-
-faradaysElectromagneticLab.register( 'CoilNode', CoilNode );

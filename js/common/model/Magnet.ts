@@ -23,7 +23,6 @@ import PickOptional from '../../../../phet-core/js/types/PickOptional.js';
 import PickRequired from '../../../../phet-core/js/types/PickRequired.js';
 import StrictOmit from '../../../../phet-core/js/types/StrictOmit.js';
 import PhetioObject, { PhetioObjectOptions } from '../../../../tandem/js/PhetioObject.js';
-import faradaysElectromagneticLab from '../../faradaysElectromagneticLab.js';
 import FELConstants from '../FELConstants.js';
 import FELQueryParameters from '../FELQueryParameters.js';
 
@@ -226,5 +225,3 @@ export default abstract class Magnet extends PhetioObject {
     return returnVector;
   }
 }
-
-faradaysElectromagneticLab.register( 'Magnet', Magnet );

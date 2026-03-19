@@ -18,7 +18,6 @@ import Tandem from '../../../../tandem/js/Tandem.js';
 import NumberIO from '../../../../tandem/js/types/NumberIO.js';
 import BarMagnet from '../../common/model/BarMagnet.js';
 import ConstantDtClock from '../../common/model/ConstantDtClock.js';
-import faradaysElectromagneticLab from '../../faradaysElectromagneticLab.js';
 import WaterFaucet from './WaterFaucet.js';
 
 const RPM_RANGE = new Range( 0, 60 ); // RPMs
@@ -110,5 +109,3 @@ export default class Turbine extends PhetioObject {
     }
   }
 }
-
-faradaysElectromagneticLab.register( 'Turbine', Turbine );

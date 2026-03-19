@@ -16,7 +16,6 @@ import Circle from '../../../../scenery/js/nodes/Circle.js';
 import Node, { NodeOptions, NodeTranslationOptions } from '../../../../scenery/js/nodes/Node.js';
 import Text from '../../../../scenery/js/nodes/Text.js';
 import FELColors from '../../common/FELColors.js';
-import faradaysElectromagneticLab from '../../faradaysElectromagneticLab.js';
 import FaradaysElectromagneticLabStrings from '../../FaradaysElectromagneticLabStrings.js';
 
 type SelfOptions = {
@@ -73,5 +72,3 @@ export default class RPMDisplay extends Node {
     super( options );
   }
 }
-
-faradaysElectromagneticLab.register( 'RPMDisplay', RPMDisplay );

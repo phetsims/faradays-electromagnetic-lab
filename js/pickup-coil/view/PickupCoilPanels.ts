@@ -13,7 +13,6 @@ import BarMagnetPanel from '../../common/view/BarMagnetPanel.js';
 import FELPanels from '../../common/view/FELPanels.js';
 import PickupCoilPanel from '../../common/view/PickupCoilPanel.js';
 import ToolsPanel from '../../common/view/ToolsPanel.js';
-import faradaysElectromagneticLab from '../../faradaysElectromagneticLab.js';
 import PickupCoilScreenModel from '../model/PickupCoilScreenModel.js';
 
 export default class PickupCoilPanels extends FELPanels {
@@ -47,5 +46,3 @@ export default class PickupCoilPanels extends FELPanels {
     this.toolsPanel = toolsPanel;
   }
 }
-
-faradaysElectromagneticLab.register( 'PickupCoilPanels', PickupCoilPanels );

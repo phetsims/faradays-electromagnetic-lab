@@ -24,7 +24,6 @@ import Property from '../../../../axon/js/Property.js';
 import TInputListener from '../../../../scenery/js/input/TInputListener.js';
 import { PressListenerEvent } from '../../../../scenery/js/listeners/PressListener.js';
 import felCompassSaturatedSineLoop_mp3 from '../../../sounds/felCompassSaturatedSineLoop_mp3.js';
-import faradaysElectromagneticLab from '../../faradaysElectromagneticLab.js';
 import Compass from '../model/Compass.js';
 import CompassSonifier from '../model/CompassSonifier.js';
 import FELSonifier from '../model/FELSonifier.js';
@@ -70,5 +69,3 @@ export default class CompassDragSonifier extends FELSonifier implements TInputLi
     this.isInteractingProperty.value = false;
   }
 }
-
-faradaysElectromagneticLab.register( 'CompassDragSonifier', CompassDragSonifier );

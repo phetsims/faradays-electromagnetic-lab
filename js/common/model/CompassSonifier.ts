@@ -28,7 +28,6 @@ import DerivedProperty from '../../../../axon/js/DerivedProperty.js';
 import Range from '../../../../dot/js/Range.js';
 import Utils from '../../../../dot/js/Utils.js';
 import felCompassSaturatedSineLoop_mp3 from '../../../sounds/felCompassSaturatedSineLoop_mp3.js';
-import faradaysElectromagneticLab from '../../faradaysElectromagneticLab.js';
 import FELUtils from '../FELUtils.js';
 import Compass from './Compass.js';
 import FELSonifier from './FELSonifier.js';
@@ -88,5 +87,3 @@ export default class CompassSonifier extends FELSonifier {
     return playbackRate;
   }
 }
-
-faradaysElectromagneticLab.register( 'CompassSonifier', CompassSonifier );
