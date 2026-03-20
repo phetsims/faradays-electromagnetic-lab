@@ -17,7 +17,7 @@
     "branch": "HEAD"
   },
   "chipper": {
-    "sha": "ec496c632f18d14572861a7334c0e5451c0d7fc7",
+    "sha": "331cf2e1e01a740f2cda3caed6c47012e7a76f62",
     "branch": "HEAD"
   },
   "dot": {
@@ -25,7 +25,7 @@
     "branch": "HEAD"
   },
   "faradays-electromagnetic-lab": {
-    "sha": "c273c9292c9daf4bcab0fbce6e11ac27bb81d94f",
+    "sha": "6f122eb91a7c02900533cbff6eb210bb0b191558",
     "branch": "1.0"
   },
   "joist": {
