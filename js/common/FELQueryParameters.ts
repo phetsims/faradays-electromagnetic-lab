@@ -101,6 +101,6 @@ const FELQueryParameters = QueryStringMachine.getAll( {
 // Log query parameters
 logGlobal( 'phet.chipper.queryParameters' );
 logGlobal( 'phet.preloads.phetio.queryParameters' );
-logGlobal( 'phet.faradaysElectromagneticLab.FELQueryParameters' );
+phet.log && phet.log( `FELQueryParameters: ${JSON.stringify( FELQueryParameters, null, 2 )}` );
 
 export default FELQueryParameters;
