@@ -25,11 +25,11 @@
     "branch": "HEAD"
   },
   "faradays-electromagnetic-lab": {
-    "sha": "6f122eb91a7c02900533cbff6eb210bb0b191558",
+    "sha": "34d521b598205db16f99156b8a11e45406977f5a",
     "branch": "1.0"
   },
   "joist": {
-    "sha": "b6d90f27a9eabf0c76182d0fc3c52898b1752506",
+    "sha": "a122700ca39c21c9793e44c2dafdb9fafee5879b",
     "branch": "HEAD"
   },
   "kite": {
