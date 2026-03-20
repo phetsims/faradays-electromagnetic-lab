@@ -76,4 +76,6 @@ type StringsType = {
 
 const FaradaysElectromagneticLabStrings = getStringModule( 'FARADAYS_ELECTROMAGNETIC_LAB' ) as StringsType;
 
+faradaysElectromagneticLab.register( 'FaradaysElectromagneticLabStrings', FaradaysElectromagneticLabStrings );
+
 export default FaradaysElectromagneticLabStrings;
