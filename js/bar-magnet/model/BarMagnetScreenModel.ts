@@ -1,4 +1,4 @@
-// Copyright 2023-2024, University of Colorado Boulder
+// Copyright 2023-2026, University of Colorado Boulder
 
 /**
  * BarMagnetScreenModel is the top-level model for the 'Bar Magnet' screen.

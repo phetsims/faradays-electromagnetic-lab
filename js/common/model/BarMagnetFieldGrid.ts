@@ -1,4 +1,4 @@
-// Copyright 2023-2024, University of Colorado Boulder
+// Copyright 2023-2026, University of Colorado Boulder
 
 /**
  * BarMagnetFieldGrid is a grid of precomputed B-field values for BarMagnet. This was ported from the Java version of
