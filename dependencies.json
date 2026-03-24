@@ -25,7 +25,7 @@
     "branch": "HEAD"
   },
   "faradays-electromagnetic-lab": {
-    "sha": "6bf7f42c9f91a095fa27f21b70c184cc74ba9585",
+    "sha": "7b6876dcbf38996622cf8228a50e1d09391fc212",
     "branch": "1.0"
   },
   "joist": {
@@ -69,7 +69,7 @@
     "branch": "HEAD"
   },
   "scenery": {
-    "sha": "bfe2bcb81619b0c2714fddee73e6679996987648",
+    "sha": "edf9843faf86217a7165cc6f3350bbefa164c1f4",
     "branch": "HEAD"
   },
   "scenery-phet": {
