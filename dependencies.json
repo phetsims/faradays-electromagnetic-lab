@@ -25,7 +25,7 @@
     "branch": "HEAD"
   },
   "faradays-electromagnetic-lab": {
-    "sha": "80383325e69421f9ce9fc728a771fe244b81b586",
+    "sha": "2dc4d5f6cd6e894ef4fe3381201c394e5a4e840f",
     "branch": "1.0"
   },
   "joist": {
@@ -53,7 +53,7 @@
     "branch": "HEAD"
   },
   "phet-io-wrappers": {
-    "sha": "f53456d89151ddfb232175784ca62b3757bda5ca",
+    "sha": "14ebf9f3fed971a1fa7dedf78247d35a630f7749",
     "branch": "HEAD"
   },
   "phetcommon": {
