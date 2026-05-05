@@ -13,6 +13,7 @@ import Utils from '../../../../dot/js/Utils.js';
 import optionize, { combineOptions, EmptySelfOptions } from '../../../../phet-core/js/optionize.js';
 import PickRequired from '../../../../phet-core/js/types/PickRequired.js';
 import StringUtils from '../../../../phetcommon/js/util/StringUtils.js';
+import BatteryNode from '../../../../scenery-phet/js/BatteryNode.js';
 import NumberControl, { NumberControlOptions } from '../../../../scenery-phet/js/NumberControl.js';
 import NumberDisplay from '../../../../scenery-phet/js/NumberDisplay.js';
 import PhetFont from '../../../../scenery-phet/js/PhetFont.js';
@@ -27,7 +28,6 @@ import FELColors from '../FELColors.js';
 import FELConstants from '../FELConstants.js';
 import CurrentSource from '../model/CurrentSource.js';
 import DCPowerSupply from '../model/DCPowerSupply.js';
-import BatteryNode from './BatteryNode.js';
 import PowerSupplyPanel, { PowerSupplyPanelOptions } from './PowerSupplyPanel.js';
 
 const SLIDER_STEP = 1;
