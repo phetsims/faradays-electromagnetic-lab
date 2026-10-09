@@ -4,17 +4,17 @@
 
 ## Table of Contents
 
-* [Introduction](https://github.com/phetsims/faradays-electromagnetic-lab/blob/main/doc/implementation-notes.md#introduction)
-* [General Considerations](https://github.com/phetsims/faradays-electromagnetic-lab/blob/main/doc/implementation-notes.md#general-considerations)
-    * [Coordinate Frames](https://github.com/phetsims/faradays-electromagnetic-lab/blob/main/doc/implementation-notes.md#coordinate-frames)
-    * [Query Parameters](https://github.com/phetsims/faradays-electromagnetic-lab/blob/main/doc/implementation-notes.md#query-parameters)
-    * [Memory Management](https://github.com/phetsims/faradays-electromagnetic-lab/blob/main/doc/implementation-notes.md#memory-management)
-    * [Software Design Patterns](https://github.com/phetsims/faradays-electromagnetic-lab/blob/main/doc/implementation-notes.md#software-design-patterns)
-* [Model](https://github.com/phetsims/faradays-electromagnetic-lab/blob/main/doc/implementation-notes.md#model)
-* [View](https://github.com/phetsims/faradays-electromagnetic-lab/blob/main/doc/implementation-notes.md#view)
-* [Sound](https://github.com/phetsims/faradays-electromagnetic-lab/blob/main/doc/implementation-notes.md#sound)
-* [Alternative Input](https://github.com/phetsims/faradays-electromagnetic-lab/blob/main/doc/implementation-notes.md#alternative-input)
-* [PhET-iO](https://github.com/phetsims/faradays-electromagnetic-lab/blob/main/doc/implementation-notes.md#phet-io)
+* [Introduction](implementation-notes.md#introduction)
+* [General Considerations](implementation-notes.md#general-considerations)
+    * [Coordinate Frames](implementation-notes.md#coordinate-frames)
+    * [Query Parameters](implementation-notes.md#query-parameters)
+    * [Memory Management](implementation-notes.md#memory-management)
+    * [Software Design Patterns](implementation-notes.md#software-design-patterns)
+* [Model](implementation-notes.md#model)
+* [View](implementation-notes.md#view)
+* [Sound](implementation-notes.md#sound)
+* [Alternative Input](implementation-notes.md#alternative-input)
+* [PhET-iO](implementation-notes.md#phet-io)
 
 ## Introduction
 
@@ -24,17 +24,17 @@ documentation (source code comments) and external documentation (design document
 
 Before reading this document, please read:
 
-* [model.md](https://github.com/phetsims/faradays-electromagnetic-lab/blob/main/doc/model.md), a high-level description of the
+* [model.md](model.md), a high-level description of the
   simulation model
 
 In addition to this document, you are encouraged to read:
 
-* [PhET Development Overview](https://github.com/phetsims/phet-info/blob/main/doc/phet-development-overview.md)
-* [PhET Software Design Patterns](https://github.com/phetsims/phet-info/blob/main/doc/phet-software-design-patterns.md)
+* [PhET Development Overview](../../phet-info/doc/phet-development-overview.md)
+* [PhET Software Design Patterns](../../phet-info/doc/phet-software-design-patterns.md)
 * [Faraday's Electromagnetic Lab HTML5](https://docs.google.com/document/d/12bQuonZ1hva6zsBQhLQ3pEsiEJmg_rHLyGTY5Ae1J9w/edit?usp=sharing)
 * [Faraday's Electromagnetic Lab PhET-iO Design](https://docs.google.com/document/d/1aDNiWlvI4y-TqvBI7zrV8LHQqNCgQL5XAHmQKorhbAQ/edit?usp=sharing)
 
-This is a port from the 2005 Java version. You may find the legacy documents in [doc/java-version/](https://github.com/phetsims/faradays-electromagnetic-lab/tree/main/doc/java-version) to be helpful.
+This is a port from the 2005 Java version. You may find the legacy documents in [doc/java-version/](java-version) to be helpful.
 
 ## General Considerations
 
@@ -47,7 +47,7 @@ from the Java version, and since changing the model coordinate frame proved to b
 compromise. For history, see [faradays-electromagnetic-lab#19](https://github.com/phetsims/faradays-electromagnetic-lab/issues/19).
 
 This has the following implications for the model, and the presentation of model values in PhET-iO 
-(noted in [examples.md](https://github.com/phetsims/phet-io-sim-specific/blob/main/repos/faradays-electromagnetic-lab/examples.md)):
+(noted in [examples.md](../../phet-io-sim-specific/repos/faradays-electromagnetic-lab/examples.md)):
 
 * Position and distance values are unitless.
 * +x is to the right.
@@ -143,7 +143,7 @@ All stepping in this sim is handled by the model; there is no stepping in the vi
 
 It is not feasible to implement a numerical model of a bar magnet's B-field directly, as it relies on double integrals. 
 So `BarMagnet` is a "Hollywood" model of a bar magnet, based on a static set of field vectors that were 
-generated using MathCAD. See [model.md](https://github.com/phetsims/faradays-electromagnetic-lab/blob/main/doc/model.md#bar-magnet)
+generated using MathCAD. See [model.md](model.md#bar-magnet)
 for a more complete discussion. See also `BarMagnetFieldGrid` and `BarMagnetFieldData`. 
 
 ### Electromagnet 
@@ -153,7 +153,7 @@ The electromagnet is also a "Hollywood" model, based on a coil magnet. See detai
 ### Coil
 
 The same coil implementation (`Coil`) is used for both the pickup coil and the electromagnet coil. The concept of "normalized current"
-is fundamental to understanding the sim model.  It is described in [model.md](https://github.com/phetsims/faradays-electromagnetic-lab/blob/main/doc/model.md#bar-magnet) and in `Coil`.
+is fundamental to understanding the sim model.  It is described in [model.md](model.md#bar-magnet) and in `Coil`.
 
 The most complicated part of the sim may be `Coil.createCoilSegments`. It creates an ordered `CoilSegment[]` that describes the 
 shape of the coil, and the path that charged particles follow as they flow through the coil. So that objects (bar magnet, compass,...) may
@@ -305,6 +305,6 @@ until Description is supported.
 ## PhET-iO
 
 The PhET-iO instrumentation of this sim is relatively straightforward. As described
-in [Memory Management](https://github.com/phetsims/faradays-electromagnetic-lab/blob/main/doc/implementation-notes.md#memory-management),
+in [Memory Management](implementation-notes.md#memory-management),
 everything that needs to be stateful is created at startup, and exists for the lifetime of the sim. 
 So there are no sim-specific uses of `PhetioGroup` or `PhetioCapsule`.
